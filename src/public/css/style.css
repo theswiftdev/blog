@@ -121,7 +121,7 @@ h1 {
 h2 {
     font-size: 2rem;
     line-height: 2.5rem;
-    margin-top: 3rem;;
+    margin-top: 3rem;
 }
 h3 {
     font-size: 1.75rem;
@@ -144,9 +144,9 @@ h6 {
 p {
     color: var(--secondary-text-color);
     margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 ol, ul {
-    margin-top: 1.5rem;
     margin-left: 1rem;
 }
 li {
@@ -315,6 +315,9 @@ a.button:hover {
 #post-header {
     margin-bottom: 2rem;
 }
+#post-header p, footer p {
+    margin-bottom: 0;
+}
 #contents, #share, #book, #author {
     margin: 3rem auto;
 }
@@ -368,7 +371,6 @@ a.button:hover {
 }
 #author p.title {
     margin: 0;
-    
 }
 #author p.bio {
     margin-bottom: 0.5rem;
@@ -397,6 +399,9 @@ a.button:hover {
     background: var(--primary-background-color);
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 4px 10px rgba(0,0,0,0.22);
     overflow: hidden;
+}
+#posts .post h2 {
+    margin-top: 0;
 }
 #posts .post section {
     padding: 1.5rem;

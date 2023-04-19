@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Working with diffable data sources and table views using UIKit - The.Swift.Dev.</title>
+    
+    <meta name="description" content="In this tutorial we're going to build a screen to allow single and multiple selections using diffable data source and a table view.">
+    
+    <meta property="og:title" content="Working with diffable data sources and table views using UIKit - The.Swift.Dev.">
+    <meta property="og:description" content="In this tutorial we're going to build a screen to allow single and multiple selections using diffable data source and a table view.">
+    <meta property="og:url" content="https://theswiftdev.github.io/blog/working-with-diffable-data-sources-and-table-views-using-uikit">
+    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/working-with-diffable-data-sources-and-table-views-using-uikit/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="Working with diffable data sources and table views using UIKit - The.Swift.Dev.">
+    <meta name="twitter:description" content="In this tutorial we're going to build a screen to allow single and multiple selections using diffable data source and a table view.">
+    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/working-with-diffable-data-sources-and-table-views-using-uikit/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.github.io/blog/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2022/03/24">2022/03/24</time>
+            <h1 class="title">Working with diffable data sources and table views using UIKit</h1>
+            <p class="excerpt">In this tutorial we're going to build a screen to allow single and multiple selections using diffable data source and a table view.</p>
+            <div class="meta">
+                <span class="tag">UIKit</span>
+<span class="tag">iOS</span>
+<span class="tag">UITableView</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/working-with-diffable-data-sources-and-table-views-using-uikit/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <h2>Project setup</h2><p>We're going to use a regular storyboard-based Xcode project, since we're working with UIKit.</p><p>We're also going to need a table view, for this purpose we could go with a <a href="https://theswiftdev.com/uitableview-tutorial-in-swift/" target="_blank">traditional setup</a>, but since we're using modern UIKit practices we're going to do things just a bit different this time.</p><p>It's quite unfortunate that we still have to provide our own type-safe reusable extensions for UITableView and UICollectionView classes. Anyway, here's a quick snippet that we'll use. ⬇️</p><pre><code class="language-swift"><span class="keyword">import</span> UIKit
+
+<span class="keyword">extension</span> <span class="type">UITableViewCell</span> {
+    
+    <span class="keyword">static var</span> reuseIdentifier: <span class="type">String</span> {
+        <span class="type">String</span>(describing: <span class="keyword">self</span>)
+    }
+
+    <span class="keyword">var</span> reuseIdentifier: <span class="type">String</span> {
+        <span class="call">type</span>(of: <span class="keyword">self</span>).<span class="property">reuseIdentifier</span>
+    }
+}
+
+<span class="keyword">extension</span> <span class="type">UITableView</span> {
+        
+    <span class="keyword">func</span> register&lt;T: <span class="type">UITableViewCell</span>&gt;(<span class="keyword">_</span> type: <span class="type">T</span>.<span class="type">Type</span>) {
+        <span class="call">register</span>(<span class="type">T</span>.<span class="keyword">self</span>, forCellReuseIdentifier: <span class="type">T</span>.<span class="property">reuseIdentifier</span>)
+    }
+
+    <span class="keyword">func</span> reuse&lt;T: <span class="type">UITableViewCell</span>&gt;(<span class="keyword">_</span> type: <span class="type">T</span>.<span class="type">Type</span>, <span class="keyword">_</span> indexPath: <span class="type">IndexPath</span>) -&gt; <span class="type">T</span> {
+        <span class="call">dequeueReusableCell</span>(withIdentifier: <span class="type">T</span>.<span class="property">reuseIdentifier</span>, for: indexPath) <span class="keyword">as</span>! <span class="type">T</span>
+    }
+}</code></pre><p>I've also created a subclass for UITableView, so I can configure everything inside the initialize function that we're going to need in this tutorial.</p><pre><code class="language-swift"><span class="keyword">import</span> UIKit
+
+<span class="keyword">open class</span> TableView: <span class="type">UITableView</span> {
+
+    <span class="keyword">public init</span>(style: <span class="type">UITableView</span>.<span class="type">Style</span> = .<span class="dotAccess">plain</span>) {
+        <span class="keyword">super</span>.<span class="keyword">init</span>(frame: .<span class="dotAccess">zero</span>, style: style)
+        
+        <span class="call">initialize</span>()
+    }
+
+    <span class="keyword">@available</span>(*, unavailable)
+    <span class="keyword">required public init</span>?(coder: <span class="type">NSCoder</span>) {
+        <span class="call">fatalError</span>(<span class="string">"init(coder:) has not been implemented"</span>)
+    }
+    
+    <span class="keyword">open func</span> initialize() {
+        translatesAutoresizingMaskIntoConstraints = <span class="keyword">false</span>
+        allowsMultipleSelection = <span class="keyword">true</span>
+    }
+    
+    <span class="keyword">func</span> layoutConstraints(in view: <span class="type">UIView</span>) -&gt; [<span class="type">NSLayoutConstraint</span>] {
+        [
+            topAnchor.<span class="call">constraint</span>(equalTo: view.<span class="property">topAnchor</span>),
+            bottomAnchor.<span class="call">constraint</span>(equalTo: view.<span class="property">bottomAnchor</span>),
+            leadingAnchor.<span class="call">constraint</span>(equalTo: view.<span class="property">leadingAnchor</span>),
+            trailingAnchor.<span class="call">constraint</span>(equalTo: view.<span class="property">trailingAnchor</span>),
+        ]
+    }
+}</code></pre><p>We are going to build a settings screen with a single selection and a multiple selection area, so it's nice to have some extensions too that'll help us to manage the selected table view cells. 💡</p><pre><code class="language-swift"><span class="keyword">import</span> UIKit
+
+<span class="keyword">public extension</span> <span class="type">UITableView</span> {
+    
+    <span class="keyword">func</span> select(<span class="keyword">_</span> indexPaths: [<span class="type">IndexPath</span>],
+                animated: <span class="type">Bool</span> = <span class="keyword">true</span>,
+                scrollPosition: <span class="type">UITableView</span>.<span class="type">ScrollPosition</span> = .<span class="dotAccess">none</span>) {
+        <span class="keyword">for</span> indexPath <span class="keyword">in</span> indexPaths {
+            <span class="call">selectRow</span>(at: indexPath, animated: animated, scrollPosition: scrollPosition)
+        }
+    }
+    
+
+    <span class="keyword">func</span> deselect(<span class="keyword">_</span> indexPaths: [<span class="type">IndexPath</span>], animated: <span class="type">Bool</span> = <span class="keyword">true</span>) {
+        <span class="keyword">for</span> indexPath <span class="keyword">in</span> indexPaths {
+            <span class="call">deselectRow</span>(at: indexPath, animated: animated)
+        }
+    }
+    
+    <span class="keyword">func</span> deselectAll(animated: <span class="type">Bool</span> = <span class="keyword">true</span>) {
+        <span class="call">deselect</span>(indexPathsForSelectedRows ?? [], animated: animated)
+    }
+
+    <span class="keyword">func</span> deselectAllInSection(except indexPath: <span class="type">IndexPath</span>) {
+        <span class="keyword">let</span> indexPathsToDeselect = (indexPathsForSelectedRows ?? []).<span class="call">filter</span> {
+            $0.<span class="property">section</span> == indexPath.<span class="property">section</span> &amp;&amp; $0.<span class="property">row</span> != indexPath.<span class="property">row</span>
+        }
+        <span class="call">deselect</span>(indexPathsToDeselect)
+    }
+}</code></pre><p>Now we can focus on creating a custom cell, we are going to use the new cell configuration API, but first we need a model for our custom cell class.</p><pre><code class="language-swift"><span class="keyword">import</span> Foundation
+
+<span class="keyword">protocol</span> CustomCellModel {
+    <span class="keyword">var</span> text: <span class="type">String</span> { <span class="keyword">get</span> }
+    <span class="keyword">var</span> secondaryText: <span class="type">String</span>? { <span class="keyword">get</span> }
+}
+
+<span class="keyword">extension</span> <span class="type">CustomCellModel</span> {
+    <span class="keyword">var</span> secondaryText: <span class="type">String</span>? { <span class="keyword">nil</span> }
+}</code></pre><p>Now we can use this cell model and configure the CustomCell using the model properties. This cell will have two states, if the cell is selected we're going to display a filled check mark icon, otherwise just an empty circle. We also update the labels using the abstract model values. ✅</p><pre><code class="language-swift"><span class="keyword">import</span> UIKit
+
+<span class="keyword">class</span> CustomCell: <span class="type">UITableViewCell</span> {
+
+    <span class="keyword">var</span> model: <span class="type">CustomCellModel</span>?
+
+    <span class="keyword">override func</span> updateConfiguration(using state: <span class="type">UICellConfigurationState</span>) {
+        <span class="keyword">super</span>.<span class="call">updateConfiguration</span>(using: state)
+        
+        <span class="keyword">var</span> contentConfig = <span class="call">defaultContentConfiguration</span>().<span class="call">updated</span>(for: state)
+        contentConfig.<span class="property">text</span> = model?.<span class="property">text</span>
+        contentConfig.<span class="property">secondaryText</span> = model?.<span class="property">secondaryText</span>
+        
+        contentConfig.<span class="property">imageProperties</span>.<span class="property">tintColor</span> = .<span class="dotAccess">systemBlue</span>
+        contentConfig.<span class="property">image</span> = <span class="type">UIImage</span>(systemName: <span class="string">"circle"</span>)
+
+        <span class="keyword">if</span> state.<span class="property">isHighlighted</span> || state.<span class="property">isSelected</span> {
+            contentConfig.<span class="property">image</span> = <span class="type">UIImage</span>(systemName: <span class="string">"checkmark.circle.fill"</span>)
+        }
+        contentConfiguration = contentConfig
+    }
+}</code></pre><p>Inside the ViewController class we can easily setup the newly created table view. Since we're using a storyboard file we can override the init(coder:) method this time, but if you are instantiating the controller programmatically then you could simply create your own init method.</p><p>By the way I also wrapped this view controller inside a navigation controller so I'm display a custom title using the large style by default and there are some missing code pieces that we have to write.</p><pre><code class="language-swift"><span class="keyword">import</span> UIKit
+
+<span class="keyword">class</span> ViewController: <span class="type">UIViewController</span> {
+    
+    <span class="keyword">var</span> tableView: <span class="type">TableView</span>
+    
+    <span class="keyword">required init</span>?(coder: <span class="type">NSCoder</span>) {
+        <span class="keyword">self</span>.<span class="property">tableView</span> = <span class="type">TableView</span>(style: .<span class="dotAccess">insetGrouped</span>)
+
+        <span class="keyword">super</span>.<span class="keyword">init</span>(coder: coder)
+    }
+    
+    <span class="keyword">override func</span> loadView() {
+        <span class="keyword">super</span>.<span class="call">loadView</span>()
+        
+        view.<span class="call">addSubview</span>(tableView)
+
+        <span class="type">NSLayoutConstraint</span>.<span class="call">activate</span>(tableView.<span class="call">layoutConstraints</span>(in: view))
+    }
+
+    <span class="keyword">override func</span> viewDidLoad() {
+        <span class="keyword">super</span>.<span class="call">viewDidLoad</span>()
+        
+        title = <span class="string">"Table view"</span>
+        navigationController?.<span class="property">navigationBar</span>.<span class="property">prefersLargeTitles</span> = <span class="keyword">true</span>
+
+        tableView.<span class="call">register</span>(<span class="type">CustomCell</span>.<span class="keyword">self</span>)
+        tableView.<span class="property">delegate</span> = <span class="keyword">self</span>
+
+    }
+    
+    <span class="keyword">override func</span> viewDidAppear(<span class="keyword">_</span> animated: <span class="type">Bool</span>) {
+        <span class="keyword">super</span>.<span class="call">viewDidAppear</span>(animated)
+        
+        <span class="call">reload</span>()
+    }
+    
+    <span class="keyword">func</span> reload() {
+        <span class="comment">/// coming soon...</span>
+    }
+
+}
+
+<span class="keyword">extension</span> <span class="type">ViewController</span>: <span class="type">UITableViewDelegate</span> {
+
+    <span class="keyword">func</span> tableView(<span class="keyword">_</span> tableView: <span class="type">UITableView</span>, didSelectRowAt indexPath: <span class="type">IndexPath</span>) {
+        <span class="comment">/// coming soon...</span>
+    }
+
+    <span class="keyword">func</span> tableView(<span class="keyword">_</span> tableView: <span class="type">UITableView</span>, didDeselectRowAt indexPath: <span class="type">IndexPath</span>) {
+        <span class="comment">/// coming soon...</span>
+    }
+}</code></pre><p>We don't have to implement the table view data source methods, but we're going to use a diffable data source for that purpose, let me show you how it works.</p><h2>Diffable data source</h2><p>I've already included one example containing a diffable data source, but that was a tutorial for <a href="https://theswiftdev.com/how-to-create-reusable-views-for-modern-collection-views/" target="_blank">creating modern collection views</a>. A diffable data source is literally a data source tied to a view, in our case the <a href="https://developer.apple.com/documentation/uikit/uitableviewdiffabledatasource" target="_blank">UITableViewDiffableDataSource</a> generic class is going to act as a data source object four our table view. The good think about these data sources is that you can easily manipulate the sections and rows inside the table view without the need of working with index paths.</p><p>So the main idea here is that we'd like to display two sections, one with a single selection option for selecting a number, and the second option group is going to contain a multi-selection group with some letters from the alphabet. Here are the data models for the section items.</p><pre><code class="language-swift"><span class="keyword">enum</span> NumberOption: <span class="type">String</span>, <span class="type">CaseIterable</span> {
+    <span class="keyword">case</span> one
+    <span class="keyword">case</span> two
+    <span class="keyword">case</span> three
+}
+
+<span class="keyword">extension</span> <span class="type">NumberOption</span>: <span class="type">CustomCellModel</span> {
+ 
+    <span class="keyword">var</span> text: <span class="type">String</span> { rawValue }
+}
+
+<span class="keyword">enum</span> LetterOption: <span class="type">String</span>, <span class="type">CaseIterable</span> {
+    <span class="keyword">case</span> a
+    <span class="keyword">case</span> b
+    <span class="keyword">case</span> c
+    <span class="keyword">case</span> d
+}
+
+<span class="keyword">extension</span> <span class="type">LetterOption</span>: <span class="type">CustomCellModel</span> {
+ 
+    <span class="keyword">var</span> text: <span class="type">String</span> { rawValue }
+}</code></pre><p>Now we should be able to display these items inside the table view, if we implement the regular data source methods, but since we're going to work with a diffable data source we need some additional models. To eliminate the need of index paths, we can use a Hashable enum to define our sections, we're going to have two sections, one for the numbers and another for the letters. We're going to wrap the corresponding type inside an enum with type-safe case values.</p><pre><code class="language-swift"><span class="keyword">enum</span> Section: <span class="type">Hashable</span> {
+    <span class="keyword">case</span> numbers
+    <span class="keyword">case</span> letters
+}
+
+<span class="keyword">enum</span> SectionItem: <span class="type">Hashable</span> {
+    <span class="keyword">case</span> number(<span class="type">NumberOption</span>)
+    <span class="keyword">case</span> letter(<span class="type">LetterOption</span>)
+}
+
+<span class="keyword">struct</span> SectionData {
+    <span class="keyword">var</span> key: <span class="type">Section</span>
+    <span class="keyword">var</span> values: [<span class="type">SectionItem</span>]
+}</code></pre><p>We're also going to introduce a SectionData helper, this way it's going to be more easy to insert the necessary sections and section items using the data source.</p><pre><code class="language-swift"><span class="keyword">final class</span> DataSource: <span class="type">UITableViewDiffableDataSource</span>&lt;<span class="type">Section</span>, <span class="type">SectionItem</span>&gt; {
+    
+    <span class="keyword">init</span>(<span class="keyword">_</span> tableView: <span class="type">UITableView</span>) {
+        <span class="keyword">super</span>.<span class="keyword">init</span>(tableView: tableView) { tableView, indexPath, itemIdentifier <span class="keyword">in
+            let</span> cell = tableView.<span class="call">reuse</span>(<span class="type">CustomCell</span>.<span class="keyword">self</span>, indexPath)
+            cell.<span class="property">selectionStyle</span> = .<span class="dotAccess">none</span>
+            <span class="keyword">switch</span> itemIdentifier {
+            <span class="keyword">case</span> .<span class="dotAccess">number</span>(<span class="keyword">let</span> model):
+                cell.<span class="property">model</span> = model
+            <span class="keyword">case</span> .<span class="dotAccess">letter</span>(<span class="keyword">let</span> model):
+                cell.<span class="property">model</span> = model
+            }
+            <span class="keyword">return</span> cell
+        }
+    }
+    
+    <span class="keyword">override func</span> tableView(<span class="keyword">_</span> tableView: <span class="type">UITableView</span>, titleForHeaderInSection section: <span class="type">Int</span>) -&gt; <span class="type">String</span>? {
+        <span class="keyword">let</span> id = <span class="call">sectionIdentifier</span>(for: section)
+        <span class="keyword">switch</span> id {
+        <span class="keyword">case</span> .<span class="dotAccess">numbers</span>:
+            <span class="keyword">return</span> <span class="string">"Pick a number"</span>
+        <span class="keyword">case</span> .<span class="dotAccess">letters</span>:
+            <span class="keyword">return</span> <span class="string">"Pick some letters"</span>
+        <span class="keyword">default</span>:
+            <span class="keyword">return nil</span>
+        }
+    }
+
+    <span class="keyword">func</span> reload(<span class="keyword">_</span> data: [<span class="type">SectionData</span>], animated: <span class="type">Bool</span> = <span class="keyword">true</span>) {
+        <span class="keyword">var</span> snapshot = <span class="call">snapshot</span>()
+        snapshot.<span class="call">deleteAllItems</span>()
+        <span class="keyword">for</span> item <span class="keyword">in</span> data {
+            snapshot.<span class="call">appendSections</span>([item.<span class="property">key</span>])
+            snapshot.<span class="call">appendItems</span>(item.<span class="property">values</span>, toSection: item.<span class="property">key</span>)
+        }
+        <span class="call">apply</span>(snapshot, animatingDifferences: animated)
+    }
+}</code></pre><p>We can provide a custom init method for the data source, where we can use the cell provider block to configure our cells with the given item identifier. As you can see the item identifier is actually the SectionItem enum that we created a few minutes ago. We can use a switch to get back the underlying model, and since these models conform to the CustomCellModel protocol we can set the cell.model property. It is also possible to implement the regular titleForHeaderInSection method and we can switch the section id and return a proper label for each section.</p><p>The final method is a helper, I'm using it to reload the data source with the given section items.</p><pre><code class="language-swift"><span class="keyword">import</span> UIKit
+
+<span class="keyword">class</span> ViewController: <span class="type">UIViewController</span> {
+    
+    <span class="keyword">var</span> tableView: <span class="type">TableView</span>
+    <span class="keyword">var</span> dataSource: <span class="type">DataSource</span>
+    
+    <span class="keyword">required init</span>?(coder: <span class="type">NSCoder</span>) {
+        <span class="keyword">self</span>.<span class="property">tableView</span> = <span class="type">TableView</span>(style: .<span class="dotAccess">insetGrouped</span>)
+        <span class="keyword">self</span>.<span class="property">dataSource</span> = <span class="type">DataSource</span>(tableView)
+
+        <span class="keyword">super</span>.<span class="keyword">init</span>(coder: coder)
+    }
+    
+    <span class="keyword">override func</span> loadView() {
+        <span class="keyword">super</span>.<span class="call">loadView</span>()
+        
+        view.<span class="call">addSubview</span>(tableView)
+
+        <span class="type">NSLayoutConstraint</span>.<span class="call">activate</span>(tableView.<span class="call">layoutConstraints</span>(in: view))
+    }
+
+    <span class="keyword">override func</span> viewDidLoad() {
+        <span class="keyword">super</span>.<span class="call">viewDidLoad</span>()
+        
+        title = <span class="string">"Table view"</span>
+        navigationController?.<span class="property">navigationBar</span>.<span class="property">prefersLargeTitles</span> = <span class="keyword">true</span>
+
+        tableView.<span class="call">register</span>(<span class="type">CustomCell</span>.<span class="keyword">self</span>)
+        tableView.<span class="property">delegate</span> = <span class="keyword">self</span>
+
+    }
+    
+    <span class="keyword">override func</span> viewDidAppear(<span class="keyword">_</span> animated: <span class="type">Bool</span>) {
+        <span class="keyword">super</span>.<span class="call">viewDidAppear</span>(animated)
+        
+        <span class="call">reload</span>()
+    }
+    
+    <span class="keyword">func</span> reload() {
+        dataSource.<span class="call">reload</span>([
+            .<span class="keyword">init</span>(key: .<span class="dotAccess">numbers</span>, values: <span class="type">NumberOption</span>.<span class="property">allCases</span>.<span class="call">map</span> { .<span class="call">number</span>($0) }),
+            .<span class="keyword">init</span>(key: .<span class="dotAccess">letters</span>, values: <span class="type">LetterOption</span>.<span class="property">allCases</span>.<span class="call">map</span> { .<span class="call">letter</span>($0) }),
+        ])
+    }
+
+}
+
+<span class="keyword">extension</span> <span class="type">ViewController</span>: <span class="type">UITableViewDelegate</span> {
+
+    <span class="keyword">func</span> tableView(<span class="keyword">_</span> tableView: <span class="type">UITableView</span>, didSelectRowAt indexPath: <span class="type">IndexPath</span>) {
+        <span class="comment">// coming soon...</span>
+    }
+
+    <span class="keyword">func</span> tableView(<span class="keyword">_</span> tableView: <span class="type">UITableView</span>, didDeselectRowAt indexPath: <span class="type">IndexPath</span>) {
+        <span class="comment">// coming soon...</span>
+    }
+}</code></pre><p>So inside the view controller it is possible to render the table view and display both sections, even the cells are selectable by default, but I'd like to show you how to build a generic approach to store and return selected values, of course we could use the indexPathsForSelectedRows property, but I have a little helper tool which will allow single and multiple selection per section. 🤔</p><pre><code class="language-swift"><span class="keyword">struct</span> SelectionOptions&lt;T: <span class="type">Hashable</span>&gt; {
+
+    <span class="keyword">var</span> values: [<span class="type">T</span>]
+    <span class="keyword">var</span> selectedValues: [<span class="type">T</span>]
+    <span class="keyword">var</span> multipleSelection: <span class="type">Bool</span>
+
+    <span class="keyword">init</span>(<span class="keyword">_</span> values: [<span class="type">T</span>], selected: [<span class="type">T</span>] = [], multiple: <span class="type">Bool</span> = <span class="keyword">false</span>) {
+        <span class="keyword">self</span>.<span class="property">values</span> = values
+        <span class="keyword">self</span>.<span class="property">selectedValues</span> = selected
+        <span class="keyword">self</span>.<span class="property">multipleSelection</span> = multiple
+    }
+
+    <span class="keyword">mutating func</span> toggle(<span class="keyword">_</span> value: <span class="type">T</span>) {
+        <span class="keyword">guard</span> multipleSelection <span class="keyword">else</span> {
+            selectedValues = [value]
+            <span class="keyword">return</span>
+        }
+        <span class="keyword">if</span> selectedValues.<span class="call">contains</span>(value) {
+            selectedValues = selectedValues.<span class="call">filter</span> { $0 != value }
+        }
+        <span class="keyword">else</span> {
+            selectedValues.<span class="call">append</span>(value)
+        }
+    }
+}</code></pre><p>By using a generic extension on the UITableViewDiffableDataSource class we can turn the selected item values into index paths, this will help us to make the cells selected when the view loads.</p><pre><code class="language-swift"><span class="keyword">import</span> UIKit
+
+<span class="keyword">extension</span> <span class="type">UITableViewDiffableDataSource</span> {
+
+    <span class="keyword">func</span> selectedIndexPaths&lt;T: <span class="type">Hashable</span>&gt;(<span class="keyword">_</span> selection: <span class="type">SelectionOptions</span>&lt;<span class="type">T</span>&gt;,
+                                         <span class="keyword">_</span> transform: (<span class="type">T</span>) -&gt; <span class="type">ItemIdentifierType</span>) -&gt;  [<span class="type">IndexPath</span>] {
+        selection.<span class="property">values</span>
+            .<span class="call">filter</span> { selection.<span class="property">selectedValues</span>.<span class="call">contains</span>($0) }
+            .<span class="call">map</span> { <span class="call">transform</span>($0) }
+            .<span class="call">compactMap</span> { <span class="call">indexPath</span>(for: $0) }
+    }
+}</code></pre><p>There is only one thing left to do, which is to handle the single and multiple selection using the didSelectRowAt and didDeselectRowAt delegate methods.</p><pre><code class="language-swift"><span class="keyword">import</span> UIKit
+
+<span class="keyword">class</span> ViewController: <span class="type">UIViewController</span> {
+    
+    <span class="keyword">var</span> tableView: <span class="type">TableView</span>
+    <span class="keyword">var</span> dataSource: <span class="type">DataSource</span>
+    
+    <span class="keyword">var</span> singleOptions = <span class="type">SelectionOptions</span>&lt;<span class="type">NumberOption</span>&gt;(<span class="type">NumberOption</span>.<span class="property">allCases</span>, selected: [.<span class="dotAccess">two</span>])
+    <span class="keyword">var</span> multipleOptions = <span class="type">SelectionOptions</span>&lt;<span class="type">LetterOption</span>&gt;(<span class="type">LetterOption</span>.<span class="property">allCases</span>, selected: [.<span class="dotAccess">a</span>, .<span class="dotAccess">c</span>], multiple: <span class="keyword">true</span>)
+
+    <span class="keyword">required init</span>?(coder: <span class="type">NSCoder</span>) {
+        <span class="keyword">self</span>.<span class="property">tableView</span> = <span class="type">TableView</span>(style: .<span class="dotAccess">insetGrouped</span>)
+        <span class="keyword">self</span>.<span class="property">dataSource</span> = <span class="type">DataSource</span>(tableView)
+
+        <span class="keyword">super</span>.<span class="keyword">init</span>(coder: coder)
+    }
+    
+    <span class="keyword">override func</span> loadView() {
+        <span class="keyword">super</span>.<span class="call">loadView</span>()
+        
+        view.<span class="call">addSubview</span>(tableView)
+
+        <span class="type">NSLayoutConstraint</span>.<span class="call">activate</span>(tableView.<span class="call">layoutConstraints</span>(in: view))
+    }
+
+    <span class="keyword">override func</span> viewDidLoad() {
+        <span class="keyword">super</span>.<span class="call">viewDidLoad</span>()
+        
+        title = <span class="string">"Table view"</span>
+        navigationController?.<span class="property">navigationBar</span>.<span class="property">prefersLargeTitles</span> = <span class="keyword">true</span>
+
+        tableView.<span class="call">register</span>(<span class="type">CustomCell</span>.<span class="keyword">self</span>)
+        tableView.<span class="property">delegate</span> = <span class="keyword">self</span>
+
+    }
+    
+    <span class="keyword">override func</span> viewDidAppear(<span class="keyword">_</span> animated: <span class="type">Bool</span>) {
+        <span class="keyword">super</span>.<span class="call">viewDidAppear</span>(animated)
+        
+        <span class="call">reload</span>()
+    }
+    
+    <span class="keyword">func</span> reload() {
+        dataSource.<span class="call">reload</span>([
+            .<span class="keyword">init</span>(key: .<span class="dotAccess">numbers</span>, values: singleOptions.<span class="property">values</span>.<span class="call">map</span> { .<span class="call">number</span>($0) }),
+            .<span class="keyword">init</span>(key: .<span class="dotAccess">letters</span>, values: multipleOptions.<span class="property">values</span>.<span class="call">map</span> { .<span class="call">letter</span>($0) }),
+        ])
+
+        tableView.<span class="call">select</span>(dataSource.<span class="call">selectedIndexPaths</span>(singleOptions) { .<span class="call">number</span>($0) })
+        tableView.<span class="call">select</span>(dataSource.<span class="call">selectedIndexPaths</span>(multipleOptions) { .<span class="call">letter</span>($0) })
+    }
+
+}
+
+<span class="keyword">extension</span> <span class="type">ViewController</span>: <span class="type">UITableViewDelegate</span> {
+
+    <span class="keyword">func</span> tableView(<span class="keyword">_</span> tableView: <span class="type">UITableView</span>, didSelectRowAt indexPath: <span class="type">IndexPath</span>) {
+        <span class="keyword">guard let</span> sectionId = dataSource.<span class="call">sectionIdentifier</span>(for: indexPath.<span class="property">section</span>) <span class="keyword">else</span> {
+            <span class="keyword">return</span>
+        }
+
+        <span class="keyword">switch</span> sectionId {
+        <span class="keyword">case</span> .<span class="dotAccess">numbers</span>:
+            <span class="keyword">guard case let</span> .<span class="call">number</span>(model) = dataSource.<span class="call">itemIdentifier</span>(for: indexPath) <span class="keyword">else</span> {
+                <span class="keyword">return</span>
+            }
+            tableView.<span class="call">deselectAllInSection</span>(except: indexPath)
+            singleOptions.<span class="call">toggle</span>(model)
+            <span class="call">print</span>(singleOptions.<span class="property">selectedValues</span>)
+            
+        <span class="keyword">case</span> .<span class="dotAccess">letters</span>:
+            <span class="keyword">guard case let</span> .<span class="call">letter</span>(model) = dataSource.<span class="call">itemIdentifier</span>(for: indexPath) <span class="keyword">else</span> {
+                <span class="keyword">return</span>
+            }
+            multipleOptions.<span class="call">toggle</span>(model)
+            <span class="call">print</span>(multipleOptions.<span class="property">selectedValues</span>)
+        }
+    }
+
+    <span class="keyword">func</span> tableView(<span class="keyword">_</span> tableView: <span class="type">UITableView</span>, didDeselectRowAt indexPath: <span class="type">IndexPath</span>) {
+        <span class="keyword">guard let</span> sectionId = dataSource.<span class="call">sectionIdentifier</span>(for: indexPath.<span class="property">section</span>) <span class="keyword">else</span> {
+            <span class="keyword">return</span>
+        }
+        <span class="keyword">switch</span> sectionId {
+        <span class="keyword">case</span> .<span class="dotAccess">numbers</span>:
+            tableView.<span class="call">select</span>([indexPath])
+        <span class="keyword">case</span> .<span class="dotAccess">letters</span>:
+            <span class="keyword">guard case let</span> .<span class="call">letter</span>(model) = dataSource.<span class="call">itemIdentifier</span>(for: indexPath) <span class="keyword">else</span> {
+                <span class="keyword">return</span>
+            }
+            multipleOptions.<span class="call">toggle</span>(model)
+            <span class="call">print</span>(multipleOptions.<span class="property">selectedValues</span>)
+        }
+    }
+}</code></pre><p>This is why we've created the selection helper methods in the beginning of the article. It is relatively easy to implement a single and multi-selection section with this technique, but of course these things are even more simple if you can work with SwiftUI.</p><p>Anyway, I hope this tutorial helps for some of you, I still like UIKit a lot and I'm glad that Apple adds new features to it. Diffable data sources are excellent way of configuring table views and collection views, with these little helpers you can build your own settings or picker screens easily. 💪</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/working-with-diffable-data-sources-and-table-views-using-uikit"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/assets/book/vapor.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <p><strong>Third edition is just: $39</strong></p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
+                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

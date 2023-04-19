@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Promises in Swift for beginners - The.Swift.Dev.</title>
+    
+    <meta name="description" content="Everything you ever wanted to know about futures and promises. The beginner's guide about asynchronous programming in Swift.">
+    
+    <meta property="og:title" content="Promises in Swift for beginners - The.Swift.Dev.">
+    <meta property="og:description" content="Everything you ever wanted to know about futures and promises. The beginner's guide about asynchronous programming in Swift.">
+    <meta property="og:url" content="https://theswiftdev.github.io/blog/promises-in-swift-for-beginners">
+    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/promises-in-swift-for-beginners/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="Promises in Swift for beginners - The.Swift.Dev.">
+    <meta name="twitter:description" content="Everything you ever wanted to know about futures and promises. The beginner's guide about asynchronous programming in Swift.">
+    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/promises-in-swift-for-beginners/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.github.io/blog/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2019/05/28">2019/05/28</time>
+            <h1 class="title">Promises in Swift for beginners</h1>
+            <p class="excerpt">Everything you ever wanted to know about futures and promises. The beginner's guide about asynchronous programming in Swift.</p>
+            <div class="meta">
+                <span class="tag">Swift</span>
+<span class="tag">Promises</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/promises-in-swift-for-beginners/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <h2>Sync vs async execution</h2><blockquote><p>Writing asynchronous code is one of the hardest part of building an app.</p></blockquote><p>What exactly is the difference between a synchronous and an asynchronous execution? Well, I already explained this in my <a href="https://theswiftdev.com/2018/07/10/ultimate-grand-central-dispatch-tutorial-in-swift/" target="_blank">Dispatch framework</a> tutorial, but here is a quick recap. A synchronous function usually blocks the current thread and returns some value later on. An asynchronous function will instantly return and passes the result value into a completion handler. You can use the GCD framework to perform tasks sync on async on a given queue. Let me show you a quick example:</p><pre><code class="language-swift"><span class="keyword">func</span> aBlockingFunction() -&gt; <span class="type">String</span> {
+    <span class="call">sleep</span>(.<span class="call">random</span>(in: <span class="number">1</span>...<span class="number">3</span>))
+    <span class="keyword">return</span> <span class="string">"Hello world!"</span>
+}
+
+<span class="keyword">func</span> syncMethod() -&gt; <span class="type">String</span> {
+    <span class="keyword">return</span> <span class="call">aBlockingFunction</span>()
+}
+
+<span class="keyword">func</span> asyncMethod(completion block: <span class="keyword">@escaping</span> ((<span class="type">String</span>) -&gt; <span class="type">Void</span>)) {
+    <span class="type">DispatchQueue</span>.<span class="call">global</span>(qos: .<span class="dotAccess">background</span>).<span class="call">async</span> {
+        <span class="call">block</span>(<span class="call">aBlockingFunction</span>())
+    }
+}
+
+<span class="call">print</span>(<span class="call">syncMethod</span>())
+<span class="call">print</span>(<span class="string">"sync method returned"</span>)
+<span class="call">asyncMethod</span> { value <span class="keyword">in</span>
+    <span class="call">print</span>(value)
+}
+<span class="call">print</span>(<span class="string">"async method returned"</span>)
+
+<span class="comment">// "Hello world!"
+// "sync method returned"
+// "async method returned"
+// "Hello world!"</span></code></pre><p>As you can see the async method runs entirely on a background queue, the function won't block the current thread. This is why the async method can return instantly, so you'll always see the return output before the last hello output. The async method's completion block is stored for later execution, that's the reason why is it possible to call-back and return the string value way after the original function have returned.</p><p>What happens if you don't use a different queue? The completion block will be executed on the current queue, so your function will block it. It's going to be somewhat async-like, but in reality you're just moving the return value into a completion block.</p><pre><code class="language-swift"><span class="keyword">func</span> syncMethod() -&gt; <span class="type">String</span> {
+    <span class="keyword">return</span> <span class="string">"Hello world!"</span>
+}
+
+<span class="keyword">func</span> fakeAsyncMethod(completion block: ((<span class="type">String</span>) -&gt; <span class="type">Void</span>)) {
+    <span class="call">block</span>(<span class="string">"Hello world!"</span>)
+}
+
+<span class="call">print</span>(<span class="call">syncMethod</span>())
+<span class="call">print</span>(<span class="string">"sync method returned"</span>)
+<span class="call">fakeAsyncMethod</span> { value <span class="keyword">in</span>
+    <span class="call">print</span>(value)
+}
+<span class="call">print</span>(<span class="string">"fake async method returned"</span>)</code></pre><p>I don't really want to focus on completion blocks in this article, that could be a standalone post, but if you are still having trouble with the concurrency model or you don't understand how tasks and threading works, you should read do a little research first.</p><h2>Callback hell and the pyramid of doom</h2><p>What's the <a href="https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html" target="_blank">problem</a> with async code? Or what's the result of writing asynchronous code? The short answer is that you have to use completion blocks (callbacks) in order to handle future results.</p><p>The long answer is that managing callbacks sucks. You have to be careful, because in a block you can easily create a retain-cycle, so you have to pass around your variables as weak or unowned references. Also if you have to use multiple async methods, that'll be a pain in the donkey. Sample time! 🐴</p><pre><code class="language-swift"><span class="keyword">struct</span> Todo: <span class="type">Codable</span> {
+    <span class="keyword">let</span> id: <span class="type">Int</span>
+    <span class="keyword">let</span> title: <span class="type">String</span>
+    <span class="keyword">let</span> completed: <span class="type">Bool</span>
+}
+
+<span class="keyword">let</span> url = <span class="type">URL</span>(string: <span class="string">"https://jsonplaceholder.typicode.com/todos"</span>)!
+
+<span class="type">URLSession</span>.<span class="property">shared</span>.<span class="call">dataTask</span>(with: url) { data, response, error <span class="keyword">in
+    if let</span> error = error {
+        <span class="call">fatalError</span>(<span class="string">"Network error: "</span> + error.<span class="property">localizedDescription</span>)
+    }
+    <span class="keyword">guard let</span> response = response <span class="keyword">as</span>? <span class="type">HTTPURLResponse</span> <span class="keyword">else</span> {
+        <span class="call">fatalError</span>(<span class="string">"Not a HTTP response"</span>)
+    }
+    <span class="keyword">guard</span> response.<span class="property">statusCode</span> &lt;= <span class="number">200</span>, response.<span class="property">statusCode</span> &gt; <span class="number">300</span> <span class="keyword">else</span> {
+        <span class="call">fatalError</span>(<span class="string">"Invalid HTTP status code"</span>)
+    }
+    <span class="keyword">guard let</span> data = data <span class="keyword">else</span> {
+        <span class="call">fatalError</span>(<span class="string">"No HTTP data"</span>)
+    }
+
+    <span class="keyword">do</span> {
+        <span class="keyword">let</span> todos = <span class="keyword">try</span> <span class="type">JSONDecoder</span>().<span class="call">decode</span>([<span class="type">Todo</span>].<span class="keyword">self</span>, from: data)
+        <span class="call">print</span>(todos)
+    }
+    <span class="keyword">catch</span> {
+        <span class="call">fatalError</span>(<span class="string">"JSON decoder error: "</span> + error.<span class="property">localizedDescription</span>)
+    }
+}.<span class="call">resume</span>()</code></pre><p>The snippet above is a simple async HTTP data request. As you can see there are lots of optional values involved, plus you have to do some JSON decoding if you want to use your own types. This is just one request, but what if you'd need to get some detailed info from the first element? Let's write a helper! #no 🤫</p><pre><code class="language-swift"><span class="keyword">func</span> request(<span class="keyword">_</span> url: <span class="type">URL</span>, completion: <span class="keyword">@escaping</span> ((<span class="type">Data</span>) -&gt; <span class="type">Void</span>)) {
+    <span class="type">URLSession</span>.<span class="property">shared</span>.<span class="call">dataTask</span>(with: url) { data, response, error <span class="keyword">in
+        if let</span> error = error {
+            <span class="call">fatalError</span>(<span class="string">"Network error: "</span> + error.<span class="property">localizedDescription</span>)
+        }
+        <span class="keyword">guard let</span> response = response <span class="keyword">as</span>? <span class="type">HTTPURLResponse</span> <span class="keyword">else</span> {
+            <span class="call">fatalError</span>(<span class="string">"Not a HTTP response"</span>)
+        }
+        <span class="keyword">guard</span> response.<span class="property">statusCode</span> &lt;= <span class="number">200</span>, response.<span class="property">statusCode</span> &gt; <span class="number">300</span> <span class="keyword">else</span> {
+            <span class="call">fatalError</span>(<span class="string">"Invalid HTTP status code"</span>)
+        }
+        <span class="keyword">guard let</span> data = data <span class="keyword">else</span> {
+            <span class="call">fatalError</span>(<span class="string">"No HTTP data"</span>)
+        }
+        <span class="call">completion</span>(data)
+    }.<span class="call">resume</span>()
+}
+
+<span class="keyword">let</span> url = <span class="type">URL</span>(string: <span class="string">"https://jsonplaceholder.typicode.com/todos"</span>)!
+<span class="call">request</span>(url) { data <span class="keyword">in
+    do</span> {
+        <span class="keyword">let</span> todos = <span class="keyword">try</span> <span class="type">JSONDecoder</span>().<span class="call">decode</span>([<span class="type">Todo</span>].<span class="keyword">self</span>, from: data)
+        <span class="keyword">guard let</span> first = todos.<span class="property">first</span> <span class="keyword">else</span> {
+            <span class="keyword">return</span>
+        }
+        <span class="keyword">let</span> url = <span class="type">URL</span>(string: <span class="string">"https://jsonplaceholder.typicode.com/todos/</span>\(first.<span class="property">id</span>)<span class="string">"</span>)!
+        <span class="call">request</span>(url) { data <span class="keyword">in
+            do</span> {
+                <span class="keyword">let</span> todo = <span class="keyword">try</span> <span class="type">JSONDecoder</span>().<span class="call">decode</span>(<span class="type">Todo</span>.<span class="keyword">self</span>, from: data)
+                <span class="call">print</span>(todo)
+            }
+            <span class="keyword">catch</span> {
+                <span class="call">fatalError</span>(<span class="string">"JSON decoder error: "</span> + error.<span class="property">localizedDescription</span>)
+            }
+        }
+    }
+    <span class="keyword">catch</span> {
+        <span class="call">fatalError</span>(<span class="string">"JSON decoder error: "</span> + error.<span class="property">localizedDescription</span>)
+    }
+}</code></pre><p>See? My problem is that we're slowly moving down the rabbit hole. Now what if we have a 3rd request? Hell no! You have to nest everything one level deeper again, plus you have to pass around the necessary variables eg. a weak or unowned view controller reference because at some point in time you have to update the entire UI based on the outcome. There must be a better way to fix this. 🤔</p><h2>Results vs futures vs promises?</h2><p>The <a href="https://theswiftdev.com/2019/01/28/how-to-use-the-result-type-to-handle-errors-in-swift/" target="_blank">result type</a> was introduced in Swift 5 and it's extremely good for eliminating the optional factor from the equation. This means you don't have to deal with an optional data, and an optional error type, but your result is either one of them.</p><p>Futures are basically representing a value in the future. The underlying value can be for example a result and it should have one of the following states:</p><ul><li>pending - no value yet, waiting for it...</li><li>fulfilled - success, now the result has a value</li><li>rejected - failed with an error</li></ul><p>By definition a futures shouldn't be writeable by the end-user. This means that developers should not be able to create, fulfill or reject one. But if that's the case and we follow the rules, how do we make futures?</p><p>We promise them. You have to create a promise, which is basically a wrapper around a future that can be written (fulfilled, rejected) or transformed as you want. You don't write futures, you make promises. However some frameworks allows you to get back the future value of a promise, but you shouldn't be able to write that future at all.</p><p>Enough theory, are you ready to fall in love with <a href="https://learnappmaking.com/promises-swift-how-to/" target="_blank">promises</a>? ❤️</p><h2>Promises 101 - a beginner's guide</h2><p>Let's refactor the previous example by using my promise framework!</p><pre><code class="language-swift"><span class="keyword">extension</span> <span class="type">URLSession</span> {
+
+    <span class="keyword">enum</span> HTTPError: <span class="type">LocalizedError</span> {
+        <span class="keyword">case</span> invalidResponse
+        <span class="keyword">case</span> invalidStatusCode
+        <span class="keyword">case</span> noData
+    }
+
+    <span class="keyword">func</span> dataTask(url: <span class="type">URL</span>) -&gt; <span class="type">Promise</span>&lt;<span class="type">Data</span>&gt; {
+        <span class="keyword">return</span> <span class="type">Promise</span>&lt;<span class="type">Data</span>&gt; { [<span class="keyword">unowned self</span>] fulfill, reject <span class="keyword">in
+            self</span>.<span class="call">dataTask</span>(with: url) { data, response, error <span class="keyword">in
+                if let</span> error = error {
+                    <span class="call">reject</span>(error)
+                    <span class="keyword">return</span>
+                }
+                <span class="keyword">guard let</span> response = response <span class="keyword">as</span>? <span class="type">HTTPURLResponse</span> <span class="keyword">else</span> {
+                    <span class="call">reject</span>(<span class="type">HTTPError</span>.<span class="property">invalidResponse</span>)
+                    <span class="keyword">return</span>
+                }
+                <span class="keyword">guard</span> response.<span class="property">statusCode</span> &lt;= <span class="number">200</span>, response.<span class="property">statusCode</span> &gt; <span class="number">300</span> <span class="keyword">else</span> {
+                    <span class="call">reject</span>(<span class="type">HTTPError</span>.<span class="property">invalidStatusCode</span>)
+                    <span class="keyword">return</span>
+                }
+                <span class="keyword">guard let</span> data = data <span class="keyword">else</span> {
+                    <span class="call">reject</span>(<span class="type">HTTPError</span>.<span class="property">noData</span>)
+                    <span class="keyword">return</span>
+                }
+                <span class="call">fulfill</span>(data)
+            }.<span class="call">resume</span>()
+        }
+    }
+}
+
+<span class="keyword">enum</span> TodoError: <span class="type">LocalizedError</span> {
+    <span class="keyword">case</span> missing
+}
+
+<span class="keyword">let</span> url = <span class="type">URL</span>(string: <span class="string">"https://jsonplaceholder.typicode.com/todos"</span>)!
+<span class="type">URLSession</span>.<span class="property">shared</span>.<span class="call">dataTask</span>(url: url)
+.<span class="call">thenMap</span> { data <span class="keyword">in
+    return try</span> <span class="type">JSONDecoder</span>().<span class="call">decode</span>([<span class="type">Todo</span>].<span class="keyword">self</span>, from: data)
+}
+.<span class="call">thenMap</span> { todos -&gt; <span class="type">Todo</span> <span class="keyword">in
+    guard let</span> first = todos.<span class="property">first</span> <span class="keyword">else</span> {
+        <span class="keyword">throw</span> <span class="type">TodoError</span>.<span class="property">missing</span>
+    }
+    <span class="keyword">return</span> first
+}
+.<span class="call">then</span> { first <span class="keyword">in
+    let</span> url = <span class="type">URL</span>(string: <span class="string">"https://jsonplaceholder.typicode.com/todos/</span>\(first.<span class="property">id</span>)<span class="string">"</span>)!
+    <span class="keyword">return</span> <span class="type">URLSession</span>.<span class="property">shared</span>.<span class="call">dataTask</span>(url: url)
+}
+.<span class="call">thenMap</span> { data <span class="keyword">in
+    try</span> <span class="type">JSONDecoder</span>().<span class="call">decode</span>(<span class="type">Todo</span>.<span class="keyword">self</span>, from: data)
+}
+.<span class="call">onSuccess</span> { todo <span class="keyword">in</span>
+    <span class="call">print</span>(todo)
+}
+.<span class="call">onFailure</span>(queue: .<span class="dotAccess">main</span>) { error <span class="keyword">in</span>
+    <span class="call">print</span>(error.<span class="property">localizedDescription</span>)
+}</code></pre><p>What just happened here? Well, I made sort of a promisified version of the data task method implemented on the URLSession object as an extension. Of course you can return the HTTP result or just the status code plus the data if you need further info from the network layer. You can use a new response data model or even a tuple. 🤷‍♂️</p><p>Anyway, the more interesting part is the bottom half of the source. As you can see I'm calling the brand new dataTask method which returns a <code>Promise&lt;Data&gt;</code> object. As I mentioned this before a promise can be transformed. Or should I say: chained?</p><p>Chaining promises is the biggest advantage over callbacks. The source code is not looking like a pyramid anymore with crazy indentations and do-try-catch blocks, but more like a chain of actions. In every single step you can transform your previous result value into something else. If you are familiar with some <a href="https://theswiftdev.com/2019/02/05/beginners-guide-to-functional-swift/" target="_blank">functional paradigms</a>, it's going to be really easy to understand the following:</p><ul><li>thenMap is a simple map on a Promise</li><li>then is basically flatMap on a Promise</li><li>onSuccess only gets called if everything was fine in the chain</li><li>onFailure only gets called if some error happened in the chain</li><li>always runs always regardless of the outcome</li></ul><p>If you want to get the main queue, you can simply pass it through a queue parameter, like I did it with the onFailure method, but it works for every single element in the chain. These functions above are just the tip of the iceberg. You can also tap into a chain, validate the result, put a timeout on it or recover from a failed promise.</p><p>There is also a Promises namespace for other useful methods, like zip, which is capable of zipping together 2, 3 or 4 different kind of promises. Just like the Promises.all method the zip function waits until every promise is being completed, then it gives you the result of all the promises in a single block.</p><pre><code class="language-swift"><span class="comment">//executing same promises from the same kind, eg. [Promise&lt;Data&gt;]</span>
+<span class="type">Promises</span>.<span class="call">all</span>(promises)
+.<span class="call">thenMap</span> { arrayOfResults <span class="keyword">in</span>
+    <span class="comment">// e.g. [Data]</span>
+}
+<span class="comment">//zipping together different kind of promises, eg. Proimse&lt;[Todos]&gt;, Promise&lt;Todo&gt;;</span>
+<span class="type">Promises</span>.<span class="call">zip</span>(promise1, promise2)
+.<span class="call">thenMap</span> { result1, result2 <span class="keyword">in</span>
+    <span class="comment">//e.g [Todos], Todo</span>
+}</code></pre><p>It's also worth to mention that there is a first, delay, timeout, race, wait and a retry method under the Promises namespace. Feel free to play around with these as well, sometimes they're extremly useful and powerful too. 💪</p><h2>There are only two problems with promises</h2><p>The first issue is cancellation. You can't simply cancel a running promise. It's doable, but it requires some advanced or some say "hacky" techniques.</p><p>The second one is async / await. If you want to know more about it, you should read the <a href="https://gist.github.com/lattner/31ed37682ef1576b16bca1432ea9f782" target="_blank">concurrency manifesto</a> by Chis Lattner, but since this is a beginner's guide, let's just say that these two keywords can add some syntactic sugar to your code. You won't need the extra (then, thenMap, onSuccess, onFailure) lines anymore, this way you can focus on your code. I really hope that we'll get something like this in Swift 6, so I can throw away my Promise library for good. Oh, by the way, libraries...</p><h2>Promise libraries worth to check</h2><p>My promise implementation is far from perfect, but it's a quite simple one (~450 lines of code) and it serves me really well. This <a href="http://khanlou.com/2016/08/promises-in-swift/" target="_blank">blog post</a> by <a href="https://twitter.com/khanlou" target="_blank">khanlou</a> helped me a lot to understand promises better, you should read it too! 👍</p><p>There are lots of promise libraries on github, but if I had to choose from them (instead my own implementation), I'd definitely go with one of the following ones:</p><ul><li><a href="https://github.com/mxcl/PromiseKit" target="_blank">PromiseKit</a> - The most popular one</li><li><a href="https://github.com/google/promises" target="_blank">Promises</a> by Google - feature rich, quite popular as well</li><li><a href="https://github.com/khanlou/promise" target="_blank">Promise</a> by Khanlou - small, but based on on the JavaScript <a href="https://promisesaplus.com/" target="_blank">Promises/A+</a> spec</li><li><a href="https://github.com/apple/swift-nio" target="_blank">SwiftNIO</a> - not an actual promise library, but it has a beautifully written event loop based promise implementation under the hood</li></ul><p>Pro tip: don't try to make your own Promise framework, because multi-threading is extremely hard, and you don't want to mess around with threads and locks.</p><p>Promises are really addictive. Once you start using them, you can't simply go back and write async code with callbacks anymore. Make a promise today! 😅</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/promises-in-swift-for-beginners"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/assets/book/vapor.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <p><strong>Third edition is just: $39</strong></p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
+                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

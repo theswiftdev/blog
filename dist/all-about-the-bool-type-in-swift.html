@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>All about the Bool type in Swift - The.Swift.Dev.</title>
+    
+    <meta name="description" content="Learn everything about logical types and the Boolean algebra using the Swift programming language and some basic math.">
+    
+    <meta property="og:title" content="All about the Bool type in Swift - The.Swift.Dev.">
+    <meta property="og:description" content="Learn everything about logical types and the Boolean algebra using the Swift programming language and some basic math.">
+    <meta property="og:url" content="https://theswiftdev.github.io/blog/all-about-the-bool-type-in-swift">
+    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/all-about-the-bool-type-in-swift/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="All about the Bool type in Swift - The.Swift.Dev.">
+    <meta name="twitter:description" content="Learn everything about logical types and the Boolean algebra using the Swift programming language and some basic math.">
+    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/all-about-the-bool-type-in-swift/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.github.io/blog/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2021/09/10">2021/09/10</time>
+            <h1 class="title">All about the Bool type in Swift</h1>
+            <p class="excerpt">Learn everything about logical types and the Boolean algebra using the Swift programming language and some basic math.</p>
+            <div class="meta">
+                <span class="tag">Swift</span>
+<span class="tag">Booleans</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/all-about-the-bool-type-in-swift/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <h2>Booleans in the Swift language</h2><p>Computers essentially understand two things: ones and zeros. Of course the whole story it's a bit more complicated, but if we dig down deep enough the underlying data it's going to be either a true or a false value that represents something. 1 means true, 0 means false. 🙃</p><p>In Swift we can express these kind of boolean values by using the <a href="https://developer.apple.com/documentation/swift/bool" target="_blank">Bool data type</a>, which you can create using <code>true</code> or <code>false</code> literals. The Bool type is a struct, that you can create multiple ways.</p><pre><code class="language-swift"><span class="keyword">let</span> thisIsTrue: <span class="type">Bool</span> = <span class="keyword">true
+
+let</span> thisIsFalse = <span class="keyword">false
+
+let</span> foo = <span class="type">Bool</span>(<span class="keyword">true</span>) 
+
+<span class="keyword">let</span> bar = <span class="type">Bool</span>(<span class="string">"false"</span>)!
+
+<span class="keyword">let</span> baz = <span class="type">Bool</span>.<span class="call">random</span>() <span class="comment">// true or false</span></code></pre><p>It is possible to transform these values, there are plenty of logical operators available on the Bool struct, the most common ones are the following:</p><ul><li>NOT: <code>!</code> -&gt; toggle a boolean value</li><li>OR: <code>||</code> -&gt; if one of the conditions are true, it's true</li><li>AND: <code>&amp;&amp;</code> -&gt; if both conditions are true, it's true otherwise false</li></ul><p>All the <a href="https://docs.swift.org/swift-book/LanguageGuide/BasicOperators.html#ID70" target="_blank">comparison operators</a> produce boolean values to indicate whether the statement is true or false. In Swift you can compare most of the basic data types, in this example I'll show you a few number comparison statements, since it's quite a trivial showcase for demoing the bool results. ☺️</p><pre><code class="language-swift"><span class="keyword">var</span> foo = <span class="keyword">true</span>
+foo.<span class="call">toggle</span>()            <span class="comment">// foo is now false</span>
+print(foo)              <span class="comment">// false</span>
+
+print(!foo)             <span class="comment">// true</span>
+print(foo &amp;&amp; <span class="keyword">true</span>)      <span class="comment">// false</span>
+print(foo || <span class="keyword">true</span>)      <span class="comment">// true</span>
+
+print(<span class="number">3</span> == <span class="number">4</span>)           <span class="comment">// false</span>
+print(<span class="number">3</span> != <span class="number">4</span>)           <span class="comment">// true</span>
+print(<span class="number">3</span> &gt; <span class="number">2</span>)            <span class="comment">// true</span>
+print(<span class="number">3</span> &gt;= <span class="number">3</span>)           <span class="comment">// true</span>
+print(<span class="number">3</span> &lt; <span class="number">1</span>)            <span class="comment">// false</span>
+print(<span class="number">3</span> &lt;= <span class="number">4</span>)           <span class="comment">// true
+
+// it works with other built-in types as well...</span>
+<span class="call">print</span>(<span class="string">"foo"</span> == <span class="string">"bar"</span>)   <span class="comment">// false</span>
+print(<span class="number">3.14</span> &lt; <span class="number">5.23</span>)      <span class="comment">// true</span>
+print(<span class="keyword">true</span> != <span class="keyword">false</span>)    <span class="comment">// true</span></code></pre><p>This is quite straightforward so far, but what can you do with a boolean in Swift? Well, turns out there are quite a lot of options. First of all, conditional statements (if, else if, else) usually require a true boolean value to execute the code inside the conditional block.</p><pre><code class="language-swift"><span class="keyword">let</span> foo = <span class="type">Bool</span>.<span class="call">random</span>()
+<span class="comment">/// it the condition is true, perfrom the first if block, otherwise the else</span>
+<span class="keyword">if</span> foo {
+    <span class="call">print</span>(<span class="string">"I was lucky. 🍀"</span>)
+}
+<span class="keyword">else</span> {
+    <span class="call">print</span>(<span class="string">"No luck this time. 🥲"</span>)
+}
+
+<span class="comment">// or</span> 
+
+<span class="call">print</span>(foo ? <span class="string">"I was lucky. 🍀"</span> : <span class="string">"No luck this time. 🥲"</span>)</code></pre><p>You can evaluate multiple conditions by using a logical operator, this way you can create more complex conditions, but it is worth to mention that if you combine them with and operators and the condition is dynamically calculated (e.g. a return of a function call), the entire chain will be called until you reach the very first false condition. This optimization is very handy in most of the cases.</p><pre><code class="language-swift"><span class="keyword">var</span> firstCondition = <span class="keyword">false
+
+func</span> secondCondition() -&gt; <span class="type">Bool</span> {
+    <span class="call">print</span>(<span class="string">"⚠️ This won't be called at all."</span>)
+    <span class="keyword">return true</span>
+}
+
+<span class="keyword">if</span> firstCondition &amp;&amp; <span class="call">secondCondition</span>() {
+    <span class="call">print</span>(<span class="string">"if branch is called"</span>)
+}
+<span class="keyword">else</span> {
+    <span class="call">print</span>(<span class="string">"else branch is called"</span>)
+}</code></pre><p>We also use a Bool value to run a cycle until a specific condition happens. In Swift there are multiple types of loops to execute a blcok of code multiple types. In this case here is an example using the <a href="https://docs.swift.org/swift-book/LanguageGuide/ControlFlow.html#ID124" target="_blank">while loop</a>. While the condition is true, the loop will continue iterating, but if you make it false, the cycle will break. It is possible to have 0 iterations if the initial condition is false. 👌</p><p>The <a href="https://docs.swift.org/swift-book/LanguageGuide/ControlFlow.html#ID124" target="_blank">repeat-while</a> loop is kind of a special form of the while loop, if you are sure that you want to execute your code at least 1 times before evaluating the 'escape' condition you should use this one. Until the condition is true the loop goes on, when it is false, it'll break and it'll exit the cycle. ☝️</p><pre><code class="language-swift"><span class="keyword">var</span> counter = <span class="number">0</span>
+<span class="keyword">var</span> counterIsNotTen = <span class="keyword">true</span>
+<span class="comment">// while the condition is true, perform the code in the block</span>
+<span class="keyword">while</span> counterIsNotTen {
+    counter += <span class="number">1</span>
+    <span class="call">print</span>(counter)
+    counterIsNotTen = counter != <span class="number">10</span>
+}
+
+<span class="comment">// or</span>
+
+<span class="keyword">var</span> counter = <span class="number">0</span>
+<span class="keyword">var</span> counterIsNotTen = <span class="keyword">true</span>
+<span class="comment">// repeat the block while the condition is true</span> 
+<span class="keyword">repeat</span> {
+    counter += <span class="number">1</span>
+    <span class="call">print</span>(counter)
+    counterIsNotTen = counter != <span class="number">10</span>
+} <span class="keyword">while</span> counterIsNotTen</code></pre><p>There are some 'special' functions that require a block that returns a Bool value in order to make something happen. This might sounds complicated at first sight, but it's quite simple if you take a closer look at the example. There is a <a href="https://developer.apple.com/documentation/swift/sequence/3018365-filter" target="_blank">filter</a> method defined on the <a href="https://developer.apple.com/documentation/swift/sequence" target="_blank">Sequence</a> protocol that you can use and provide a custom Bool returning <a href="https://docs.swift.org/swift-book/LanguageGuide/Closures.html" target="_blank">closure</a> to filter elements.</p><p>In our case the sequence is a simple array that contains numbers from 0 until 100. Now the task is to get back only the elements under 50. We could use a for cycle and apply a where condition to collect all the elements into a new array, but fortunately the filter method gives us a better alternative. We pass a closure using the brackets and check if the current element ($0) value is less than 50. If the condition is true, the element will be returned and our bar array will be filled with only those elements that match the condition inside the block / closure.</p><pre><code class="language-swift"><span class="keyword">let</span> foo = <span class="type">Array</span>(<span class="number">0</span>...<span class="number">100</span>)
+
+<span class="keyword">for</span> x <span class="keyword">in</span> foo <span class="keyword">where</span> x &lt; <span class="number">50</span> {
+    <span class="call">print</span>(x)
+}
+
+<span class="keyword">let</span> bar = foo.<span class="call">filter</span> { $0 &lt; <span class="number">50</span> }
+<span class="call">print</span>(bar)</code></pre><p>It is also possible to create a custom object that represents a bool value. There is a really <a href="https://developer.apple.com/swift/blog/?id=8" target="_blank">old blog post</a> about this on the official Apple dev blog, but let me show you how to define such a value using Swift 5. There are just a few changes and I'll ignore the bitwise operators for now, that's going to be a topic of another blog post in the future... 😉</p><pre><code class="language-swift"><span class="keyword">enum</span> MyBool {
+    <span class="keyword">case</span> myTrue
+    <span class="keyword">case</span> myFalse
+    
+    <span class="keyword">init</span>() {
+        <span class="keyword">self</span> = .<span class="dotAccess">myFalse</span>
+    }
+}
+
+<span class="keyword">extension</span> <span class="type">MyBool</span>: <span class="type">Equatable</span> {
+    <span class="keyword">static func</span> == (lhs: <span class="type">Self</span>, rhs: <span class="type">Self</span>) -&gt; <span class="type">Bool</span> {
+        <span class="keyword">switch</span> (lhs, rhs) {
+        <span class="keyword">case</span> (.<span class="dotAccess">myTrue</span>,.myTrue), (.<span class="dotAccess">myFalse</span>,.myFalse):
+            <span class="keyword">return true
+        default</span>:
+            <span class="keyword">return false</span>
+        }
+    }
+}
+
+<span class="keyword">extension</span> <span class="type">MyBool</span>: <span class="type">ExpressibleByBooleanLiteral</span> {
+    <span class="keyword">init</span>(booleanLiteral value: <span class="type">BooleanLiteralType</span>) {
+        <span class="keyword">self</span> = value ? .<span class="dotAccess">myTrue</span> : .<span class="dotAccess">myFalse</span>
+    }
+}
+
+<span class="keyword">extension</span> <span class="type">MyBool</span> {
+    <span class="keyword">var</span> boolValue: <span class="type">Bool</span> {
+        <span class="keyword">switch self</span> {
+        <span class="keyword">case</span> .<span class="dotAccess">myTrue</span>:
+            <span class="keyword">return true
+        case</span> .<span class="dotAccess">myFalse</span>:
+            <span class="keyword">return false</span>
+        }
+    }
+}
+
+<span class="keyword">let</span> foo = <span class="type">MyBool</span>()          <span class="comment">// init with false default</span>
+print(foo)                  <span class="comment">// myFalse</span>
+<span class="call">print</span>(foo.<span class="property">boolValue</span>)        <span class="comment">// false</span>
+print(foo == <span class="keyword">true</span>)          <span class="comment">// .myFalse == .myTrue -&gt; false</span></code></pre><p>Did you know that there is a <a href="https://stackoverflow.com/questions/27304158/type-boolean-does-not-conform-to-protocol-booleantype/27304432#27304432" target="_blank">legacy boolean type</a>, coming from the Objective-C times?</p><h2>Boolean algebra in Swift</h2><p>If it comes to the Bool type in any programming language, I feel like it is necessary to talk a bit about the <a href="https://en.wikipedia.org/wiki/Boolean_algebra" target="_blank">Boolean algebra</a> and truth tables. There are some basic operations that we can perform on Bool values (NOT, AND, OR), we've already talked about these, here is how we can express the corresponding truth tables in Swift (don't worry it's pretty easy). 💪</p><pre><code class="language-swift"><span class="comment">// not   x   is    z</span>
+<span class="call">print</span>(!<span class="keyword">true</span>)    <span class="comment">// false</span>
+print(!<span class="keyword">false</span>)   <span class="comment">// true
+
+//     x   and   y    is     z</span>
+<span class="call">print</span>(<span class="keyword">false</span> &amp;&amp; <span class="keyword">false</span>)   <span class="comment">// false</span>
+print(<span class="keyword">true</span> &amp;&amp; <span class="keyword">false</span>)    <span class="comment">// false</span>
+print(<span class="keyword">false</span> &amp;&amp; <span class="keyword">true</span>)    <span class="comment">// false</span>
+print(<span class="keyword">true</span> &amp;&amp; <span class="keyword">true</span>)     <span class="comment">// true
+
+//      x   or   y    is     z</span>
+<span class="call">print</span>(<span class="keyword">false</span> || <span class="keyword">false</span>)   <span class="comment">// false</span>
+print(<span class="keyword">true</span> || <span class="keyword">false</span>)    <span class="comment">// true</span>
+print(<span class="keyword">false</span> || <span class="keyword">true</span>)    <span class="comment">// true</span>
+print(<span class="keyword">true</span> || <span class="keyword">true</span>)     <span class="comment">// true</span></code></pre><p>We can also visualize the AND and OR operations using set algebra. The AND operation is often called <a href="https://en.wikipedia.org/wiki/Logical_conjunction" target="_blank">conjunction</a> which means the common elements from both sets. The OR operation is called logical <a href="https://en.wikipedia.org/wiki/Logical_disjunction" target="_blank">disjunction</a> and it refers to elements from either sets. Ok, that's enough math for now. 😅</p><p>There are some secondary operations that we still have to talk about, this might involves some more basic math, but I'll try to explain it as simple as possible. Let's start with the exclusive or operation (XOR), which only results in a true result if exactly one of the conditions is true and the other is false. Compared to the OR operation it excludes the possibility of two true values.</p><pre><code class="language-swift"><span class="comment">/// custom XOR operator</span>
+infix operator ⊕
+<span class="keyword">func</span> ⊕(<span class="keyword">_</span> lhs: <span class="type">Bool</span>, <span class="keyword">_</span> rhs: <span class="type">Bool</span>) -&gt; <span class="type">Bool</span> {
+    lhs &amp;&amp; !rhs || !lhs &amp;&amp; rhs
+}
+
+<span class="comment">//      x   xor   y    is     z</span>
+<span class="call">print</span>(<span class="keyword">false</span> ⊕ <span class="keyword">false</span>)     <span class="comment">// false</span>
+print(<span class="keyword">false</span> ⊕ <span class="keyword">true</span>)      <span class="comment">// true</span>
+print(<span class="keyword">true</span> ⊕ <span class="keyword">false</span>)      <span class="comment">// true</span>
+print(<span class="keyword">true</span> ⊕ <span class="keyword">true</span>)       <span class="comment">// false</span></code></pre><p>In Swift you can create <a href="https://docs.swift.org/swift-book/LanguageGuide/AdvancedOperators.html#ID46" target="_blank">custom operator functions</a>, in our case we've assigned the ⊕ symbol as our XOR infix operator and used the equation from Wikipedia to compose the actual implementation of the function body from the basic logical operations.</p><p>Let's do the same for the next secondary operation called: <a href="https://en.wikipedia.org/wiki/Material_conditional" target="_blank">material conditional</a>.</p><pre><code class="language-swift"><span class="comment">/// custom material conditional operation</span>
+infix operator →
+<span class="keyword">func</span> →(<span class="keyword">_</span> lhs: <span class="type">Bool</span>, <span class="keyword">_</span> rhs: <span class="type">Bool</span>) -&gt; <span class="type">Bool</span> {
+    !lhs || rhs
+}
+
+<span class="comment">//      x   →   y    is     z</span>
+<span class="call">print</span>(<span class="keyword">false</span> → <span class="keyword">false</span>)     <span class="comment">// true</span>
+print(<span class="keyword">false</span> → <span class="keyword">true</span>)      <span class="comment">// true</span>
+print(<span class="keyword">true</span> → <span class="keyword">false</span>)      <span class="comment">// false</span>
+print(<span class="keyword">true</span> → <span class="keyword">true</span>)       <span class="comment">// true</span></code></pre><p>I'll not go too much into the details here, you can read all about material implication on the linked Wikipedia article. Our final secondary operation is the <a href="https://en.wikipedia.org/wiki/Logical_equivalence" target="_blank">logical equivalence</a>, here's how it looks like:</p><pre><code class="language-swift"><span class="comment">/// custom logical equivalence operator</span>
+infix operator ≡
+<span class="keyword">func</span> ≡(<span class="keyword">_</span> lhs: <span class="type">Bool</span>, <span class="keyword">_</span> rhs: <span class="type">Bool</span>) -&gt; <span class="type">Bool</span> {
+    lhs &amp;&amp; rhs || !lhs &amp;&amp; !rhs
+}
+
+<span class="comment">//      x   ≡   y    is     z</span>
+<span class="call">print</span>(<span class="keyword">false</span> ≡ <span class="keyword">false</span>)     <span class="comment">// true</span>
+print(<span class="keyword">false</span> ≡ <span class="keyword">true</span>)      <span class="comment">// false</span>
+print(<span class="keyword">true</span> ≡ <span class="keyword">false</span>)      <span class="comment">// false</span>
+print(<span class="keyword">true</span> ≡ <span class="keyword">true</span>)       <span class="comment">// true</span></code></pre><p>Of course we could talk a lot more about laws, completeness and other things, but in most of the cases you don't need the secondary operations, except the XOR, that's quite "popular". As you can see conditions are everywhere and it is possible to do some magical things using boolean values. Anyway, I hope you enjoyed this tutorial about the Bool type in the Swift language. 🤓</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/all-about-the-bool-type-in-swift"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/assets/book/vapor.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <p><strong>Third edition is just: $39</strong></p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
+                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

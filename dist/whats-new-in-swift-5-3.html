@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>What's new in Swift 5.3? - The.Swift.Dev.</title>
+    
+    <meta name="description" content="Swift 5.3 is going to be an exciting new release. This post is a showcase of the latest Swift programming language features.">
+    
+    <meta property="og:title" content="What's new in Swift 5.3? - The.Swift.Dev.">
+    <meta property="og:description" content="Swift 5.3 is going to be an exciting new release. This post is a showcase of the latest Swift programming language features.">
+    <meta property="og:url" content="https://theswiftdev.github.io/blog/whats-new-in-swift-5-3">
+    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/whats-new-in-swift-5-3/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="What's new in Swift 5.3? - The.Swift.Dev.">
+    <meta name="twitter:description" content="Swift 5.3 is going to be an exciting new release. This post is a showcase of the latest Swift programming language features.">
+    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/whats-new-in-swift-5-3/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.github.io/blog/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2020/05/14">2020/05/14</time>
+            <h1 class="title">What's new in Swift 5.3?</h1>
+            <p class="excerpt">Swift 5.3 is going to be an exciting new release. This post is a showcase of the latest Swift programming language features.</p>
+            <div class="meta">
+                <span class="tag">Swift</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/whats-new-in-swift-5-3/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <p>The <a href="https://swift.org/blog/5-3-release-process/" target="_blank">Swift 5.3 release process</a> started in late March, there are lots of new features that are already implemented on the 5.3 branch. If you are curious what are those you can try it out by installing the latest snapshot using <a href="https://github.com/kylef/swiftenv" target="_blank">swiftenv</a> for example, you can grab them from <a href="https://swift.org/download/" target="_blank">swift.org</a>.</p><h2>Package Manager updates</h2><p>Swift Package tools version 5.3 will feature some really great additions.</p><h2>Resources</h2><p>With the implementation of <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0271-package-manager-resources.md" target="_blank">SE-0271</a> the Swift Package Manager can finally bundle resource files alongside code. I believe that this was quite a popular request, since there are some libraries that embed asset files, they were not able to add SPM support, until now.</p><h2>Localized resources</h2><p><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0278-package-manager-localized-resources.md" target="_blank">SE-0278</a> extends the resource support, with this implementation you can declare localized resources for your Swift packages. The description explains well the proposed structure, you should take a look if you are interested in shipping localized files with your package.</p><h2>Binary dependencies</h2><p>The other great thing is that SPM will finally be able to use binary dependencies. <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0272-swiftpm-binary-dependencies.md" target="_blank">SE-0272</a> adds this capability so people who want to ship closed source code can now take advantage of this feature. This will make it possible to have a <code>binaryTarget</code> dependency at a given path or location and you can use the binary as a product in a library or executable.</p><h2>Conditional Target Dependencies</h2><p><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0273-swiftpm-conditional-target-dependencies.md" target="_blank">SE-0273</a> gives us a nice little addition so we can use dependencies based on given platforms. This means that you can use a product for a target when you build for a specific platform.</p><p>These features are great additions to the SPM, hopefully Xcode will benefit from these things as well, and we will see some great new enhancements in the upcoming version of the IDE too.</p><h2>Language features</h2><p>There are many new interesting proposals that got into the 5.3 version.</p><h2>Multiple Trailing Closures</h2><p><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0279-multiple-trailing-closures.md" target="_blank">SE-0279</a> is one of the most debated new proposal. When I first saw it I was not sure about the need of it, why would someone put so much effort to eliminate a few brackets? 🤔</p><pre><code class="language-swift"><span class="keyword">import</span> UIKit
+
+<span class="keyword">class</span> ViewController: <span class="type">UIViewController</span> {
+
+    <span class="keyword">override func</span> viewDidLoad() {
+        <span class="keyword">super</span>.<span class="call">viewDidLoad</span>()
+
+        <span class="comment">// old</span>
+        <span class="type">UIView</span>.<span class="call">animate</span>(withDuration: <span class="number">0.3</span>, animations: {
+          <span class="keyword">self</span>.<span class="property">view</span>.<span class="property">alpha</span> = <span class="number">0</span>
+        }, completion: { <span class="keyword">_ in
+          self</span>.<span class="property">view</span>.<span class="call">removeFromSuperview</span>()
+        })
+        <span class="comment">// still old</span>
+        <span class="type">UIView</span>.<span class="call">animate</span>(withDuration: <span class="number">0.3</span>, animations: {
+          <span class="keyword">self</span>.<span class="property">view</span>.<span class="property">alpha</span> = <span class="number">0</span>
+        }) { <span class="keyword">_ in
+          self</span>.<span class="property">view</span>.<span class="call">removeFromSuperview</span>()
+        }
+
+        <span class="comment">// new</span>
+        <span class="type">UIView</span>.<span class="call">animate</span>(withDuration: <span class="number">0.3</span>) {
+          <span class="keyword">self</span>.<span class="property">view</span>.<span class="property">alpha</span> = <span class="number">0</span>
+        }
+        
+        <span class="type">UIView</span>.<span class="call">animate</span>(withDuration: <span class="number">0.3</span>) {
+            <span class="keyword">self</span>.<span class="property">view</span>.<span class="property">alpha</span> = <span class="number">0</span>
+        } completion: { <span class="keyword">_ in
+            self</span>.<span class="property">view</span>.<span class="call">removeFromSuperview</span>()
+        }
+    }
+}</code></pre><p>As you can see this is mostly a syntactic sugar, but I convinced myself that it is nice to have.</p><h3>Synthesized Comparable conformance for enum types</h3><p>Enum types don't have to explicitly implement the Comparable protocol thanks to <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0266-synthesized-comparable-for-enumerations.md" target="_blank">SE-0266</a>.</p><pre><code class="language-swift"><span class="keyword">enum</span> Membership: <span class="type">Comparable</span> {
+    <span class="keyword">case</span> premium(<span class="type">Int</span>)
+    <span class="keyword">case</span> preferred
+    <span class="keyword">case</span> general
+}
+([.<span class="dotAccess">preferred</span>, .<span class="dotAccess">premium</span>(<span class="number">1</span>), .<span class="dotAccess">general</span>, .<span class="dotAccess">premium</span>(<span class="number">0</span>)] <span class="keyword">as</span> [<span class="type">Membership</span>]).<span class="call">sorted</span>()</code></pre><p>The <code>Comparable</code> protocol is automatically synthesized, just like the <code>Equatable</code> and <code>Hashable</code> conformances for eligible types. Of course you can provide your own implementation if needed.</p><h3>Enum cases as protocol witnesses</h3><p>Swift enums are crazy powerful building blocks and now they just got better. 💪</p><pre><code class="language-swift"><span class="keyword">protocol</span> DecodingError {
+  <span class="keyword">static var</span> fileCorrupted: <span class="type">Self</span> { <span class="keyword">get</span> }
+  <span class="keyword">static func</span> keyNotFound(<span class="keyword">_</span> key: <span class="type">String</span>) -&gt; <span class="type">Self</span>
+}
+
+<span class="keyword">enum</span> JSONDecodingError: <span class="type">DecodingError</span> {
+  <span class="keyword">case</span> fileCorrupted
+  <span class="keyword">case</span> keyNotFound(<span class="keyword">_</span> key: <span class="type">String</span>)
+}</code></pre><p>The main goal of <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0280-enum-cases-as-protocol-witnesses.md" target="_blank">SE-0280</a> to lift an existing restriction, this way enum cases can be protocol witnesses if they provide the same case names and arguments as the protocol requires.</p><h3>Type-Based Program Entry Points</h3><p><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0281-main-attribute.md" target="_blank">SE-0281</a> gives us a new <code>@main</code> attribute that you can use to define entry points for your apps. This is a great addition, you don't have to write the <code>MyApp.main()</code> method anymore, but simply mark the MyApp object with the main attribute instead.</p><pre><code class="language-swift"><span class="keyword">@main
+class</span> AppDelegate: <span class="type">UIResponder</span>, <span class="type">UIApplicationDelegate</span> {
+
+    <span class="keyword">static func</span> main() {
+        <span class="call">print</span>(<span class="string">"App will launch &amp; exit right away."</span>)
+    }
+}</code></pre><p>The <code>UIApplicationMain</code> and <code>NSApplicationMain</code> attributes will be deprecated in favor of <code>@main</code>, I'd bet this is coming with the next major release...</p><h3>Multi-Pattern Catch Clauses</h3><p><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0276-multi-pattern-catch-clauses.md" target="_blank">SE-0276</a> is another syntactic sugar, it's really handy to catch multiple cases at once.</p><pre><code class="language-swift"><span class="keyword">do</span> {
+    <span class="keyword">try</span> <span class="call">performTask</span>()
+}
+<span class="keyword">catch</span> <span class="type">TaskError</span>.<span class="call">someRecoverableError</span> {
+    <span class="call">recover</span>()
+}
+<span class="keyword">catch</span> <span class="type">TaskError</span>.<span class="call">someFailure</span>(<span class="keyword">let</span> msg), <span class="type">TaskError</span>.<span class="call">anotherFailure</span>(<span class="keyword">let</span> msg) {
+    <span class="call">showMessage</span>(msg)
+}</code></pre><p>This eliminates the need of using a switch case in the catch block. ✅</p><h3>Float16</h3><p>Nothing much to say here, <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0277-float16.md" target="_blank">SE-0277</a> adds <code>Float16</code> to the standard library.</p><pre><code class="language-swift"><span class="keyword">let</span> f16: <span class="type">Float16</span> = <span class="number">3.14</span></code></pre><p><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0246-mathable.md" target="_blank">Generic math functions</a> are also coming soon...</p><h3>Self changes</h3><p><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0269-implicit-self-explicit-capture.md" target="_blank">SE-0269</a> aka. Increase availability of implicit self in @escaping closures when reference cycles are unlikely to occur is a nice addition for those who don't like to write self. 🧐</p><pre><code class="language-swift"><span class="comment">//old</span>
+<span class="call">execute</span> {
+    <span class="keyword">let</span> foo = <span class="keyword">self</span>.<span class="call">doFirstThing</span>()
+    <span class="call">performWork</span>(with: <span class="keyword">self</span>.<span class="property">bar</span>)
+    <span class="keyword">self</span>.<span class="call">doSecondThing</span>(with: foo)
+    <span class="keyword">self</span>.<span class="call">cleanup</span>()
+}
+
+<span class="comment">//new</span>
+<span class="call">execute</span> { [<span class="keyword">self</span>] <span class="keyword">in
+    let</span> foo = <span class="call">doFirstThing</span>()
+    <span class="call">performWork</span>(with: bar)
+    <span class="call">doSecondThing</span>(with: foo)
+    <span class="call">cleanup</span>()
+}</code></pre><p>This will allow us to write <code>self</code> in the capture list only and omit it later on inside the block.</p><h3>Refine didSet Semantics</h3><p><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0268-didset-semantics.md" target="_blank">SE-0268</a> is an under the hood improvement to make didSet behavior better &amp; more reliable. 😇</p><pre><code class="language-swift"><span class="keyword">class</span> Foo {
+    <span class="keyword">var</span> bar = <span class="number">0</span> {
+        <span class="keyword">didSet</span> { <span class="call">print</span>(<span class="string">"didSet called"</span>) }
+    }
+
+    <span class="keyword">var</span> baz = <span class="number">0</span> {
+        <span class="keyword">didSet</span> { <span class="call">print</span>(oldValue) }
+    }
+}
+
+<span class="keyword">let</span> foo = <span class="type">Foo</span>()
+<span class="comment">// This will not call the getter to fetch the oldValue</span>
+foo.<span class="property">bar</span> = <span class="number">1</span>
+<span class="comment">// This will call the getter to fetch the oldValue</span>
+foo.<span class="property">baz</span> = <span class="number">2</span></code></pre><p>In a nutshell previously the getter of a property was always called, but from now on it'll be only invoked if we use to the <code>oldValue</code> parameter in our <code>didSet</code> block.</p><h3>Add Collection Operations on Noncontiguous Elements</h3><p><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0270-rangeset-and-collection-operations.md" target="_blank">SE-0270</a> adds a <code>RangeSet</code> type for representing multiple, noncontiguous ranges, as well as a variety of collection operations for creating and working with range sets.</p><pre><code class="language-swift"><span class="keyword">var</span> numbers = <span class="type">Array</span>(<span class="number">1</span>...<span class="number">15</span>)
+
+<span class="comment">// Find the indices of all the even numbers</span>
+<span class="keyword">let</span> indicesOfEvens = numbers.<span class="call">subranges</span>(where: { $0.<span class="call">isMultiple</span>(of: <span class="number">2</span>) })
+
+<span class="comment">// Perform an operation with just the even numbers</span>
+<span class="keyword">let</span> sumOfEvens = numbers[indicesOfEvens].<span class="call">reduce</span>(<span class="number">0</span>, +)
+<span class="comment">// sumOfEvens == 56
+
+// You can gather the even numbers at the beginning</span>
+<span class="keyword">let</span> rangeOfEvens = numbers.<span class="call">moveSubranges</span>(indicesOfEvens, to: numbers.<span class="property">startIndex</span>)
+<span class="comment">// numbers == [2, 4, 6, 8, 10, 12, 14, 1, 3, 5, 7, 9, 11, 13, 15]
+// numbers[rangeOfEvens] == [2, 4, 6, 8, 10, 12, 14]</span></code></pre><p>This proposal also extends the Collection type with some API methods using the RangeSet type, you should take a look if you are working a lot with ranges. 🤓</p><h3>Where clauses on contextually generic declarations</h3><p>With <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0267-where-on-contextually-generic.md" target="_blank">SE-0267</a> you'll be able to implement functions and put a where constraint on them if you are only referencing generic parameters. Consider the following snippet:</p><pre><code class="language-swift"><span class="keyword">protocol</span> P {
+    <span class="keyword">func</span> foo()
+}
+
+<span class="keyword">extension</span> <span class="type">P</span> {
+    <span class="keyword">func</span> foo() <span class="keyword">where</span> <span class="type">Self</span>: <span class="type">Equatable</span> {
+        <span class="call">print</span>(<span class="string">"lol"</span>)
+    }
+}</code></pre><p>This won't compile on older versions, but it'll work like magic after Swift 5.3.</p><p>Add a String Initializer with Access to Uninitialized Storage</p><p><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0263-string-uninitialized-initializer.md" target="_blank">SE-0263</a> adds a new <code>String</code> initializer that allows you to work with an uninitialized buffer.</p><pre><code class="language-swift"><span class="keyword">let</span> myCocoaString = <span class="type">NSString</span>(<span class="string">"The quick brown fox jumps over the lazy dog"</span>) <span class="keyword">as</span> <span class="type">CFString</span>
+<span class="keyword">var</span> myString = <span class="type">String</span>(unsafeUninitializedCapacity: <span class="type">CFStringGetMaximumSizeForEncoding</span>(myCocoaString, ...)) { buffer <span class="keyword">in
+    var</span> initializedCount = <span class="number">0</span>
+    <span class="type">CFStringGetBytes</span>(
+        myCocoaString,
+        buffer,
+        ...,
+        &amp;initializedCount
+    )
+    <span class="keyword">return</span> initializedCount
+}
+<span class="comment">// myString == "The quick brown fox jumps over the lazy dog"</span></code></pre><p>By using this new init method you don't have to mess around with unsafe pointers anymore.</p><h2>Future evolution of Swift</h2><p>Currently there are 6 more accepted proposals on the <a href="https://apple.github.io/swift-evolution/" target="_blank">Swift evolution dashboard</a> and one is under review. Swift 5.3 is going to contain some amazing new features that were long awaited by the community. I'm really happy that the language is evolving in the right direction. 👍</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/whats-new-in-swift-5-3"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/assets/book/vapor.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <p><strong>Third edition is just: $39</strong></p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
+                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

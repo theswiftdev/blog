@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Table joins in Fluent 4 - The.Swift.Dev.</title>
+    
+    <meta name="description" content="In this quick tutorial I'm going to show you how to join and query database models using the Fluent ORM framework in Vapor 4.">
+    
+    <meta property="og:title" content="Table joins in Fluent 4 - The.Swift.Dev.">
+    <meta property="og:description" content="In this quick tutorial I'm going to show you how to join and query database models using the Fluent ORM framework in Vapor 4.">
+    <meta property="og:url" content="https://theswiftdev.github.io/blog/table-joins-in-fluent-4">
+    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/table-joins-in-fluent-4/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="Table joins in Fluent 4 - The.Swift.Dev.">
+    <meta name="twitter:description" content="In this quick tutorial I'm going to show you how to join and query database models using the Fluent ORM framework in Vapor 4.">
+    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/table-joins-in-fluent-4/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.github.io/blog/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2020/06/11">2020/06/11</time>
+            <h1 class="title">Table joins in Fluent 4</h1>
+            <p class="excerpt">In this quick tutorial I'm going to show you how to join and query database models using the Fluent ORM framework in Vapor 4.</p>
+            <div class="meta">
+                <span class="tag">Vapor</span>
+<span class="tag">Fluent</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/table-joins-in-fluent-4/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <h2>Database models</h2><p>Fluent is a <a href="https://theswiftdev.com/get-started-with-the-fluent-orm-framework-in-vapor-4/" target="_blank">Swift ORM framework</a> written for Vapor. You can use models to represent rows in a table, migrations to create the structure for the tables and you can define relations between the models using Swift property wrappers. That's quite a simple way of representing parent, child or sibling connections. You can "eager load" models through these predefined relation properties, which is great, but sometimes you don't want to have static types for the relationships.</p><p>I'm working on a modular CMS and I can't have hardcoded relationship properties inside the models. Why? Well, I want to be able to load modules at runtime, so if module <code>A</code> depends from module <code>B</code> through a relation property then I can't compile module <code>A</code> independently. That's why I dropped most of the cross-module relations, nevertheless I have to write joined queries. 😅</p><h3>Customer model</h3><p>In this example we are going to model a simple Customer-Order-Product relation. Our customer model will have a basic identifier and a name. Consider the following:</p><pre><code class="language-swift"><span class="keyword">final class</span> CustomerModel: <span class="type">Model</span>, <span class="type">Content</span> {
+    <span class="keyword">static let</span> schema = <span class="string">"customers"</span>
+    
+    <span class="keyword">@ID</span>(key: .<span class="dotAccess">id</span>) <span class="keyword">var</span> id: <span class="type">UUID</span>?
+    <span class="keyword">@Field</span>(key: <span class="string">"name"</span>) <span class="keyword">var</span> name: <span class="type">String</span>
+
+    <span class="keyword">init</span>() { }
+
+    <span class="keyword">init</span>(id: <span class="type">UUID</span>? = <span class="keyword">nil</span>, name: <span class="type">String</span>) {
+        <span class="keyword">self</span>.<span class="property">id</span> = id
+        <span class="keyword">self</span>.<span class="property">name</span> = name
+    }
+}</code></pre><p>Nothing special, just a basic Fluent model.</p><h3>Order model</h3><p>Customers will have a one-to-many relationship to the orders. This means that a customer can have multiple orders, but an order will always have exactly one associated customer.</p><pre><code class="language-swift"><span class="keyword">final class</span> OrderModel: <span class="type">Model</span>, <span class="type">Content</span> {
+    <span class="keyword">static let</span> schema = <span class="string">"orders"</span>
+    
+    <span class="keyword">@ID</span>(key: .<span class="dotAccess">id</span>) <span class="keyword">var</span> id: <span class="type">UUID</span>?
+    <span class="keyword">@Field</span>(key: <span class="string">"date"</span>) <span class="keyword">var</span> date: <span class="type">Date</span>
+    <span class="keyword">@Field</span>(key: <span class="string">"customer_id"</span>) <span class="keyword">var</span> customerId: <span class="type">UUID</span>
+
+    <span class="keyword">init</span>() { }
+
+    <span class="keyword">init</span>(id: <span class="type">UUID</span>? = <span class="keyword">nil</span>, date: <span class="type">Date</span>, customerId: <span class="type">UUID</span>) {
+        <span class="keyword">self</span>.<span class="property">id</span> = id
+        <span class="keyword">self</span>.<span class="property">date</span> = date
+        <span class="keyword">self</span>.<span class="property">customerId</span> = customerId
+    }
+}</code></pre><p>We could take advantage of the <code>@Parent</code> and <code>@Child</code> property wrappers, but this time we are going to store a customerId reference as a UUID type. Later on we are going to put a foreign key constraint on this relation to ensure that referenced objects are valid identifiers.</p><h3>Product model</h3><p>The product model, just like the customer model, is totally independent from anything else. 📦</p><pre><code class="language-swift"><span class="keyword">final class</span> ProductModel: <span class="type">Model</span>, <span class="type">Content</span> {
+    <span class="keyword">static let</span> schema = <span class="string">"products"</span>
+    
+    <span class="keyword">@ID</span>(key: .<span class="dotAccess">id</span>) <span class="keyword">var</span> id: <span class="type">UUID</span>?
+    <span class="keyword">@Field</span>(key: <span class="string">"name"</span>) <span class="keyword">var</span> name: <span class="type">String</span>
+
+    <span class="keyword">init</span>() { }
+
+    <span class="keyword">init</span>(id: <span class="type">UUID</span>? = <span class="keyword">nil</span>, name: <span class="type">String</span>) {
+        <span class="keyword">self</span>.<span class="property">id</span> = id
+        <span class="keyword">self</span>.<span class="property">name</span> = name
+    }
+}</code></pre><p>We can create a property with a <code>@Sibling</code> wrapper to express the relationship between the orders and the products, or use joins to query the required data. It really doesn't matter which way we go, we still need a cross table to store the related product and order identifiers.</p><h3>OrderProductModel</h3><p>We can describe a many-to-many relation between two tables using a third table.</p><pre><code class="language-swift"><span class="keyword">final class</span> OrderProductModel: <span class="type">Model</span>, <span class="type">Content</span> {
+    <span class="keyword">static let</span> schema = <span class="string">"order_products"</span>
+    
+    <span class="keyword">@ID</span>(key: .<span class="dotAccess">id</span>) <span class="keyword">var</span> id: <span class="type">UUID</span>?
+    <span class="keyword">@Field</span>(key: <span class="string">"order_id"</span>) <span class="keyword">var</span> orderId: <span class="type">UUID</span>
+    <span class="keyword">@Field</span>(key: <span class="string">"product_id"</span>) <span class="keyword">var</span> productId: <span class="type">UUID</span>
+    <span class="keyword">@Field</span>(key: <span class="string">"quantity"</span>) <span class="keyword">var</span> quantity: <span class="type">Int</span>
+
+    <span class="keyword">init</span>() { }
+
+    <span class="keyword">init</span>(id: <span class="type">UUID</span>? = <span class="keyword">nil</span>, orderId: <span class="type">UUID</span>, productId: <span class="type">UUID</span>, quantity: <span class="type">Int</span>) {
+        <span class="keyword">self</span>.<span class="property">id</span> = id
+        <span class="keyword">self</span>.<span class="property">orderId</span> = orderId
+        <span class="keyword">self</span>.<span class="property">productId</span> = productId
+        <span class="keyword">self</span>.<span class="property">quantity</span> = quantity
+    }
+}</code></pre><p>As you can see we can store extra info on the cross table, in our case we are going to associate quantities to the products on this relation right next to the product identifier.</p><h3>Migrations</h3><p>Fortunately, Fluent gives us a simple way to create the schema for the database tables.</p><pre><code class="language-swift"><span class="keyword">struct</span> InitialMigration: <span class="type">Migration</span> {
+
+    <span class="keyword">func</span> prepare(on db: <span class="type">Database</span>) -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Void</span>&gt; {
+        db.<span class="property">eventLoop</span>.<span class="call">flatten</span>([
+            db.<span class="call">schema</span>(<span class="type">CustomerModel</span>.<span class="property">schema</span>)
+                .<span class="call">id</span>()
+                .<span class="call">field</span>(<span class="string">"name"</span>, .<span class="dotAccess">string</span>, .<span class="dotAccess">required</span>)
+                .<span class="call">create</span>(),
+            db.<span class="call">schema</span>(<span class="type">OrderModel</span>.<span class="property">schema</span>)
+                .<span class="call">id</span>()
+                .<span class="call">field</span>(<span class="string">"date"</span>, .<span class="dotAccess">date</span>, .<span class="dotAccess">required</span>)
+                .<span class="call">field</span>(<span class="string">"customer_id"</span>, .<span class="dotAccess">uuid</span>, .<span class="dotAccess">required</span>)
+                .<span class="call">foreignKey</span>(<span class="string">"customer_id"</span>, references: <span class="type">CustomerModel</span>.<span class="property">schema</span>, .<span class="dotAccess">id</span>, onDelete: .<span class="dotAccess">cascade</span>)
+                .<span class="call">create</span>(),
+            db.<span class="call">schema</span>(<span class="type">ProductModel</span>.<span class="property">schema</span>)
+                .<span class="call">id</span>()
+                .<span class="call">field</span>(<span class="string">"name"</span>, .<span class="dotAccess">string</span>, .<span class="dotAccess">required</span>)
+                .<span class="call">create</span>(),
+            db.<span class="call">schema</span>(<span class="type">OrderProductModel</span>.<span class="property">schema</span>)
+                .<span class="call">id</span>()
+                .<span class="call">field</span>(<span class="string">"order_id"</span>, .<span class="dotAccess">uuid</span>, .<span class="dotAccess">required</span>)
+                .<span class="call">foreignKey</span>(<span class="string">"order_id"</span>, references: <span class="type">OrderModel</span>.<span class="property">schema</span>, .<span class="dotAccess">id</span>, onDelete: .<span class="dotAccess">cascade</span>)
+                .<span class="call">field</span>(<span class="string">"product_id"</span>, .<span class="dotAccess">uuid</span>, .<span class="dotAccess">required</span>)
+                .<span class="call">foreignKey</span>(<span class="string">"product_id"</span>, references: <span class="type">ProductModel</span>.<span class="property">schema</span>, .<span class="dotAccess">id</span>, onDelete: .<span class="dotAccess">cascade</span>)
+                .<span class="call">field</span>(<span class="string">"quantity"</span>, .<span class="dotAccess">int</span>, .<span class="dotAccess">required</span>)
+                .<span class="call">unique</span>(on: <span class="string">"order_id"</span>, <span class="string">"product_id"</span>)
+                .<span class="call">create</span>(),
+        ])
+    }
+
+    <span class="keyword">func</span> revert(on db: <span class="type">Database</span>) -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Void</span>&gt; {
+        db.<span class="property">eventLoop</span>.<span class="call">flatten</span>([
+            db.<span class="call">schema</span>(<span class="type">OrderProductModel</span>.<span class="property">schema</span>).<span class="call">delete</span>(),
+            db.<span class="call">schema</span>(<span class="type">CustomerModel</span>.<span class="property">schema</span>).<span class="call">delete</span>(),
+            db.<span class="call">schema</span>(<span class="type">OrderModel</span>.<span class="property">schema</span>).<span class="call">delete</span>(),
+            db.<span class="call">schema</span>(<span class="type">ProductModel</span>.<span class="property">schema</span>).<span class="call">delete</span>(),
+        ])
+    }
+}</code></pre><p>If you want to avoid invalid data in the tables, you should always use the foreign key and unique constraints. A foreign key can be used to check if the referenced identifier exists in the related table and the unique constraint will make sure that only one row can exists from a given field.</p><h2>Joining database tables using Fluent 4</h2><p>We have to run the <code>InitialMigration</code> script before we start using the database. This can be done by passing a command argument to the backend application or we can achieve the same thing by calling the <code>autoMigrate()</code> method on the application instance.</p><p class="note">For the sake of simplicity I'm going to use the wait method instead of async Futures &amp; Promises, this is fine for demo purposes, but in a real-world server application you should never block the current event loop with the wait method.</p><p>This is one possible setup of our dummy database using an SQLite storage, but of course you can use PostgreSQL, MySQL or even MariaDB through the available Fluent SQL drivers. 🚙</p><pre><code class="language-swift"><span class="keyword">public func</span> configure(<span class="keyword">_</span> app: <span class="type">Application</span>) <span class="keyword">throws</span> {
+
+    app.<span class="property">databases</span>.<span class="call">use</span>(.<span class="call">sqlite</span>(.<span class="call">file</span>(<span class="string">"db.sqlite"</span>)), as: .<span class="dotAccess">sqlite</span>)
+
+    app.<span class="property">migrations</span>.<span class="call">add</span>(<span class="type">InitialMigration</span>())
+
+    <span class="keyword">try</span> app.<span class="call">autoMigrate</span>().<span class="call">wait</span>()
+
+    <span class="keyword">let</span> customers = [
+        <span class="type">CustomerModel</span>(name: <span class="string">"Bender"</span>),
+        <span class="type">CustomerModel</span>(name: <span class="string">"Fry"</span>),
+        <span class="type">CustomerModel</span>(name: <span class="string">"Leela"</span>),
+        <span class="type">CustomerModel</span>(name: <span class="string">"Hermes"</span>),
+        <span class="type">CustomerModel</span>(name: <span class="string">"Zoidberg"</span>),
+    ]
+    <span class="keyword">try</span> customers.<span class="call">create</span>(on: app.<span class="property">db</span>).<span class="call">wait</span>()
+    
+    <span class="keyword">let</span> products = [
+        <span class="type">ProductModel</span>(name: <span class="string">"Hamburger"</span>),
+        <span class="type">ProductModel</span>(name: <span class="string">"Fish"</span>),
+        <span class="type">ProductModel</span>(name: <span class="string">"Pizza"</span>),
+        <span class="type">ProductModel</span>(name: <span class="string">"Beer"</span>),
+    ]
+    <span class="keyword">try</span> products.<span class="call">create</span>(on: app.<span class="property">db</span>).<span class="call">wait</span>()
+
+    <span class="comment">// Bender + pizza &amp; beer</span>
+    <span class="keyword">let</span> order = <span class="type">OrderModel</span>(date: <span class="type">Date</span>(), customerId: customers[<span class="number">0</span>].id!)
+    <span class="keyword">try</span> order.<span class="call">create</span>(on: app.<span class="property">db</span>).<span class="call">wait</span>()
+
+    <span class="keyword">let</span> beerProduct = <span class="type">OrderProductModel</span>(orderId: order.<span class="property">id</span>!, productId: products[<span class="number">3</span>].id!, quantity: <span class="number">6</span>)
+    <span class="keyword">try</span> beerProduct.<span class="call">create</span>(on: app.<span class="property">db</span>).<span class="call">wait</span>()
+    <span class="keyword">let</span> pizzaProduct = <span class="type">OrderProductModel</span>(orderId: order.<span class="property">id</span>!, productId: products[<span class="number">2</span>].id!, quantity: <span class="number">1</span>)
+    <span class="keyword">try</span> pizzaProduct.<span class="call">create</span>(on: app.<span class="property">db</span>).<span class="call">wait</span>()
+}</code></pre><p>We have created 5 customers (Bender, Fry, Leela, Hermes, Zoidberg), 4 products (Hamburger, Fish, Pizza, Beer) and one new order for Bender containing 2 products (6 beers and 1 pizza). 🤖</p><h3>Inner join using one-to-many relations</h3><p>Now the question is: how can we get the customer data based on the order?</p><pre><code class="language-swift"><span class="keyword">let</span> orders = <span class="keyword">try</span> <span class="type">OrderModel</span>
+    .<span class="call">query</span>(on: app.<span class="property">db</span>)
+    .<span class="call">join</span>(<span class="type">CustomerModel</span>.<span class="keyword">self</span>, on: \<span class="type">OrderModel</span>.<span class="property">$customerId</span> == \<span class="type">CustomerModel</span>.<span class="property">$id</span>, method: .<span class="dotAccess">inner</span>)
+    .<span class="call">all</span>()
+    .<span class="call">wait</span>()
+
+<span class="keyword">for</span> order <span class="keyword">in</span> orders {
+    <span class="keyword">let</span> customer = <span class="keyword">try</span> order.<span class="call">joined</span>(<span class="type">CustomerModel</span>.<span class="keyword">self</span>)
+    <span class="call">print</span>(customer.<span class="property">name</span>)
+    <span class="call">print</span>(order.<span class="property">date</span>)
+}</code></pre><p>The answer is pretty simple. We can use an inner join to fetch the customer model through the <code>order.customerId</code> and <code>customer.id</code> relation. When we iterate through the models we can ask for the related model using the joined method.</p><h3>Joins and many to many relations</h3><p>Having a customer is great, but how can I fetch the associated products for the order? We can start the query with the <code>OrderProductModel</code> and use a join using the <code>ProductModel</code> plus we can filter by the order id using the current order.</p><pre><code class="language-swift"><span class="keyword">for</span> order <span class="keyword">in</span> orders {
+    <span class="comment">//...</span>
+
+    <span class="keyword">let</span> orderProducts = <span class="keyword">try</span> <span class="type">OrderProductModel</span>
+        .<span class="call">query</span>(on: app.<span class="property">db</span>)
+        .<span class="call">join</span>(<span class="type">ProductModel</span>.<span class="keyword">self</span>, on: \<span class="type">OrderProductModel</span>.<span class="property">$productId</span> == \<span class="type">ProductModel</span>.<span class="property">$id</span>, method: .<span class="dotAccess">inner</span>)
+        .<span class="call">filter</span>(\.<span class="property">$orderId</span> == order.<span class="property">id</span>!)
+        .<span class="call">all</span>()
+        .<span class="call">wait</span>()
+
+    <span class="keyword">for</span> orderProduct <span class="keyword">in</span> orderProducts {
+        <span class="keyword">let</span> product = <span class="keyword">try</span> orderProduct.<span class="call">joined</span>(<span class="type">ProductModel</span>.<span class="keyword">self</span>)
+        <span class="call">print</span>(product.<span class="property">name</span>)
+        <span class="call">print</span>(orderProduct.<span class="property">quantity</span>)
+    }
+}</code></pre><p>We can request the joined model the same way as we did it for the customer. Again, the very first parameter is the model representation of the joined table, next you define the relation between the tables using the referenced identifiers. As a last parameter you can specify the type of the join.</p><h3>Inner join vs left join</h3><p>There is a great SQL tutorial about joins on <a href="https://www.w3schools.com/sql/sql_join.asp" target="_blank">w3schools.com</a>, I highly recommend reading it. The main difference between an inner join and a left join is that an inner join only returns those records that have matching identifiers in both tables, but a left join will return all the records from the base (left) table even if there are no matches in the joined (right) table.</p><p>There are many different types of SQL joins, but inner and left join are the most common ones. If you want to know more about the other types you should read the linked article. 👍</p><h2>Summary</h2><p>Table joins are really handy, but you have to be careful with them. You should always use proper foreign key and unique constraints. Also consider using indexes on some rows when you work with joins, because it can improve the performance of your queries. Speed can be an important factor, so never load more data from the database than you actually need.</p><p>There is an issue on <a href="https://github.com/vapor/fluent-kit/issues/11" target="_blank">GitHub</a> about the Fluent 4 API, and <a href="https://github.com/vapor/fluent-kit/issues/274" target="_blank">another one</a> about querying specific fields using the <code>.field</code> method. Long story short, joins can be great and we need better docs. 🙉</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/table-joins-in-fluent-4"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/assets/book/vapor.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <p><strong>Third edition is just: $39</strong></p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
+                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

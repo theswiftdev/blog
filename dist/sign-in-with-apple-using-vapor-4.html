@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Sign in with Apple using Vapor 4 - The.Swift.Dev.</title>
+    
+    <meta name="description" content="A complete tutorial for beginners about how to implement the Sign in with Apple authentication service for your website.">
+    
+    <meta property="og:title" content="Sign in with Apple using Vapor 4 - The.Swift.Dev.">
+    <meta property="og:description" content="A complete tutorial for beginners about how to implement the Sign in with Apple authentication service for your website.">
+    <meta property="og:url" content="https://theswiftdev.github.io/blog/sign-in-with-apple-using-vapor-4">
+    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/sign-in-with-apple-using-vapor-4/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="Sign in with Apple using Vapor 4 - The.Swift.Dev.">
+    <meta name="twitter:description" content="A complete tutorial for beginners about how to implement the Sign in with Apple authentication service for your website.">
+    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/sign-in-with-apple-using-vapor-4/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.github.io/blog/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2020/04/30">2020/04/30</time>
+            <h1 class="title">Sign in with Apple using Vapor 4</h1>
+            <p class="excerpt">A complete tutorial for beginners about how to implement the Sign in with Apple authentication service for your website.</p>
+            <div class="meta">
+                <span class="tag">Vapor</span>
+<span class="tag">Sign in with Apple</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/sign-in-with-apple-using-vapor-4/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <h2>Apple developer portal setup</h2><p>In order to make the Sign in with Apple work for your website you'll need a payed developer account. That'll cost you $99 / year if you are an individual developer. You can compare various <a href="https://developer.apple.com/support/compare-memberships/" target="_blank">membership options</a> or just simply <a href="https://developer.apple.com/programs/enroll/" target="_blank">enroll using this link</a>, but you'll need an existing <a href="https://appleid.apple.com/#!&page=signin" target="_blank">Apple ID</a>.</p><p>I assume that you made it so far and you have a working Apple developer account by now. A common misbelief about Sign in with Apple (SiwA) is that you need an existing iOS application publised to the App Store to make it work, but that's not the case. It works without a companion app, however you'll need an application identifier registered in the dev portal.</p><h3>App identifier</h3><p>Select the Identifiers menu item from the list on the left, press the plus (+) button, select the App IDs option and press the Continue button. Fill out the description field and enter a custom bunde indentifier that you'd like to use (e.g. com.mydomain.ios.app). Scroll down the Capabilities list until you find the Sign in With Apple option, mark the checkbox (the Enable as primary App ID should appear right next to an edit button) and press the Continue button on the top right corner. Register the application identifier using the top right button, after you find everything all right.</p><p>You should see the newly created AppID in the list, if not there is a search icon on the right side of the screen. Pick the AppIDs option and the application identifer item should appear. 🔍</p><h3>Service identifier</h3><p>Next we need a service identifier for SiwA. Press the add button again and now select the Services IDs option. Enter a description and fill out the identifier using the same reverse-domain name style. I prefer to use my domain name with a suffix, that can be something like com.example.siwa.service. Press the Continue and the Register buttons, we're almost ready with the configuration part.</p><p>Filter the list of identifiers by Service IDs and click on the newly created one. There is a Configure button, that you should press. Now associate the Primary App ID to this service identifier by selecting the application id that we made previously from the option list. Press the plus button next to the Website URLs text and enter the given domain that you'd like to use (e.g. example.com).</p><p>You'll also have to add at least one Return URL, which is basically a redirect URL that the service can use after an auth request. You should always use HTTPS, but apart from this constraint the redirect URL can be anything (e.g. https://example.com/siwa-redirect). #notrailingslash</p><p>You can add or remove URLs at any time using this screen, thankfully there is a remove option for every domain and redirect URL. Press Next to save the URLs and Done when you are ready with the Sign in with Apple service configuration process.</p><h3>Keys</h3><p>The last thing that we need to create on the dev portal is a private key for client authentication. Select the Keys menu item on the left and press the add new button. Name the key as you want, select the Sign in with Apple option from the list. In the Configure menu select the Primary App ID, it should be connected with the application identifier we made earlier. Click Save to return to the previous screen and press Continue. Review the data and finally press the Register button.</p><p>Now this is your only chance to get the registered private key, if you pressed the done button without downloading it, you will lose the key forever, you have to make a new one, but don't worry too much if you messed it up you can click on the key, press the big red Revoke button to delete it and start the process again. This comes handy if the key gets compromised, so don't share it with anybody else otherwise you'll have to make a new one. 🔑</p><h3>Team &amp; JWK identifier</h3><p>I almost forget that you'll need your team identifier and the JWK identifier for the sign in process. The JWK id can be found under the previously generated key details page. If you click on the name of the key you can view the details. The Key ID is on that page alongside with the revoke button and the Sign in with Apple configuration section where you can get the team identifier too, since the service bundle identifier is prefixed with that. Alternatively you can copy the team id from the very top right corner of the dev portal, it's right next to your name.</p><h2>Implementing Sign in With Apple</h2><p>Before we write a single line of Swift code let me explain a simplified version of the entire process.</p><p>The entire login flow has 3 main components:</p><ul><li>Initiate a web auth request using the SiwA button (start the OAuth flow)</li><li>Validate the returned user identity token using Apple's JWK service</li><li>Exchange the user identity token for an access token</li></ul><p>Some of the tutorials overcomplicate this, but you'll see how easy is to write the entire flow using Vapor 4. We don't even need additional scripts that generate tokens we can do everything in pure Swift, which is good. Lets start a new Vapor project. You'll need the JWT package as well.</p><pre><code class="language-swift"><span class="comment">// swift-tools-version:5.2</span>
+<span class="keyword">import</span> PackageDescription
+
+<span class="keyword">let</span> package = <span class="type">Package</span>(
+    name: <span class="string">"binarybirds"</span>,
+    platforms: [
+       .<span class="call">macOS</span>(.<span class="dotAccess">v10_15</span>)
+    ],
+    dependencies: [
+        .<span class="call">package</span>(url: <span class="string">"https://github.com/vapor/vapor.git"</span>, from: <span class="string">"4.4.0"</span>),
+        .<span class="call">package</span>(url: <span class="string">"https://github.com/vapor/leaf.git"</span>, from: <span class="string">"4.0.0-rc"</span>),
+        .<span class="call">package</span>(url: <span class="string">"https://github.com/vapor/jwt.git"</span>, from: <span class="string">"4.0.0-rc"</span>),
+    ],
+    targets: [
+        .<span class="call">target</span>(name: <span class="string">"App"</span>, dependencies: [
+            .<span class="call">product</span>(name: <span class="string">"Vapor"</span>, package: <span class="string">"vapor"</span>),
+            .<span class="call">product</span>(name: <span class="string">"Leaf"</span>, package: <span class="string">"leaf"</span>),
+            .<span class="call">product</span>(name: <span class="string">"JWT"</span>, package: <span class="string">"jwt"</span>),
+        ]),
+        .<span class="call">target</span>(name: <span class="string">"Run"</span>, dependencies: [<span class="string">"App"</span>]),
+    ]
+)</code></pre><p>If you don't know how to build the project you should <a href="https://theswiftdev.com/beginners-guide-to-server-side-swift-using-vapor-4/" target="_blank">read my beginners guide</a> about Vapor 4.</p><h3>The Sign in with Apple button</h3><p>We're going to use the <a href="https://theswiftdev.com/how-to-create-your-first-website-using-vapor-4-and-leaf/" target="_blank">Leaf template engine</a> to render our views, it's pretty simple to make it work, I'll show you the configuration file in a second. We're going to use just one simple template this time. We can call it index.leaf and save the file into the Resources/Views directory.</p><pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset="utf-8"&gt;
+        &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+        &lt;style&gt;
+            .signin-button {
+                width: 240px;
+                height: 40px;
+            }
+            .signin-button &gt; div &gt; div &gt; svg {
+                width: 100%;
+                height: 100%;
+                color: red;
+            }
+            .signin-button:hover {
+                cursor: pointer;
+            }
+            .signin-button &gt; div {
+                outline: none;
+            }
+      &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"&gt;&lt;/script&gt;
+        &lt;div id="appleid-signin" data-color="black" data-border="false" data-type="sign in" class="signin-button"&gt;&lt;/div&gt;
+        &lt;script type="text/javascript"&gt;
+            AppleID.auth.init({
+                clientId : '#(clientId)',
+                scope : '#(scope)',
+                redirectURI: '#(redirectUrl)',
+                state : '#(state)',
+                usePopup : #(popup),
+            });
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>The <a href="https://developer.apple.com/documentation/sign_in_with_apple/sign_in_with_apple_js" target="_blank">Sign in with Apple JS framework</a> can be used to render the login button on the website. There is a similar thing for iOS called <a href="https://developer.apple.com/documentation/authenticationservices" target="_blank">AuthenticationServices</a>, but this time we're only going to focus on the web. Unfortunately the sign in button is quite buggy so we have to add some extra CSS hack to fix the underlying issues. Come on Apple, why do we have to hack these things? 😅</p><p>Starting the AppleID auth process is really simple you just have to configure a few parameters. The client id is service the bundle identifier that we entered on the developer portal. The scope can be either name or email, but you can use both if you want. The redirect URI is the redirect URL that we registered on the dev portal, and the state should be something unique that you can use to identify the request. Apple will send this state back to you in the response.</p><blockquote><p>Noone talks about the usePopup parameter, so we'll leave it that way too... 🤔</p></blockquote><p>Alternatively you can use meta tags to configure the authorization object, you can read more about this in the <a href="https://developer.apple.com/documentation/sign_in_with_apple/sign_in_with_apple_js/configuring_your_webpage_for_sign_in_with_apple" target="_blank">Configuring your webpage for Sign in with Apple</a> documentation.</p><h3>Vapor configuration</h3><p>It's time to configure our Vapor application so we can render this Leaf template file and use the signing key that we acquired from Apple using the dev portal. We are dealing with some secret info here, so you should never store it in the repository, but you can use Vapor's <a href="https://theswiftdev.com/the-anatomy-of-vapor-commands/" target="_blank">environment</a> for this purpose. I prefer to have an extension for the available environment variables.</p><pre><code class="language-swift"><span class="keyword">extension</span> <span class="type">Environment</span> {
+    <span class="comment">// service bundle identifier</span>
+    <span class="keyword">static var</span> siwaId = <span class="type">Environment</span>.<span class="call">get</span>(<span class="string">"SIWA_ID"</span>)!
+    <span class="comment">// registered redirect url</span>
+    <span class="keyword">static let</span> siwaRedirectUrl = <span class="type">Environment</span>.<span class="call">get</span>(<span class="string">"SIWA_REDIRECT_URL"</span>)!
+    <span class="comment">// team identifier</span>
+    <span class="keyword">static var</span> siwaTeamId = <span class="type">Environment</span>.<span class="call">get</span>(<span class="string">"SIWA_TEAM_ID"</span>)!
+    <span class="comment">// key identifier</span>
+    <span class="keyword">static var</span> siwaJWKId = <span class="type">Environment</span>.<span class="call">get</span>(<span class="string">"SIWA_JWK_ID"</span>)!
+    <span class="comment">// contents of the downloaded key file</span>
+    <span class="keyword">static var</span> siwaKey = <span class="type">Environment</span>.<span class="call">get</span>(<span class="string">"SIWA_KEY"</span>)!
+}</code></pre><p>In Vapor 4 you can setup a custom JWT signer that can sign the payload with the proper keys and other values based on the configuration. This JWT signer can be used to verify the token in the response. It works like magic. JWT &amp; JWTKit is an official Vapor package, there is definitely no need to implement your own solution. In this first example we will just prepare the signer for later use and render the index page so we can initalize the OAuth request using the website.</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+<span class="keyword">import</span> Leaf
+<span class="keyword">import</span> JWT
+
+<span class="keyword">extension</span> <span class="type">JWKIdentifier</span> {
+    <span class="keyword">static let</span> apple = <span class="type">JWKIdentifier</span>(string: <span class="type">Environment</span>.<span class="property">siwaJWKId</span>)
+}
+
+<span class="keyword">extension</span> <span class="type">String</span> {
+    <span class="keyword">var</span> bytes: [<span class="type">UInt8</span>] {
+        <span class="keyword">return</span> .<span class="keyword">init</span>(<span class="keyword">self</span>.<span class="property">utf8</span>)
+    }
+}
+
+<span class="keyword">public func</span> configure(<span class="keyword">_</span> app: <span class="type">Application</span>) <span class="keyword">throws</span> {
+    
+    app.<span class="property">views</span>.<span class="call">use</span>(.<span class="dotAccess">leaf</span>)
+    <span class="comment">//app.leaf.cache.isEnabled = false</span>
+
+    app.<span class="property">middleware</span>.<span class="call">use</span>(<span class="type">SessionsMiddleware</span>(session: app.<span class="property">sessions</span>.<span class="property">driver</span>))
+
+    app.<span class="property">jwt</span>.<span class="property">apple</span>.<span class="property">applicationIdentifier</span> = <span class="type">Environment</span>.<span class="property">siwaId</span>
+    
+    <span class="keyword">let</span> signer = <span class="keyword">try</span> <span class="type">JWTSigner</span>.<span class="call">es256</span>(key: .<span class="dotAccess">private</span><span class="keyword">(</span>pem: <span class="type">Environment</span>.<span class="property">siwaKey</span>.<span class="property">bytes</span>))
+    app.<span class="property">jwt</span>.<span class="property">signers</span>.<span class="call">use</span>(signer, kid: .<span class="dotAccess">apple</span>, isDefault: <span class="keyword">false</span>)
+
+    app.<span class="call">get</span> { req -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">View</span>&gt; <span class="keyword">in
+        struct</span> ViewContext: <span class="type">Encodable</span> {
+            <span class="keyword">var</span> clientId: <span class="type">String</span>
+            <span class="keyword">var</span> scope: <span class="type">String</span> = <span class="string">"name email"</span>
+            <span class="keyword">var</span> redirectUrl: <span class="type">String</span>
+            <span class="keyword">var</span> state: <span class="type">String</span>
+            <span class="keyword">var</span> popup: <span class="type">Bool</span> = <span class="keyword">false</span>
+        }
+
+        <span class="keyword">let</span> state = [<span class="type">UInt8</span>].<span class="call">random</span>(count: <span class="number">16</span>).<span class="property">base64</span>
+        req.<span class="property">session</span>.<span class="property">data</span>[<span class="string">"state"</span>] = state
+        <span class="keyword">let</span> context = <span class="type">ViewContext</span>(clientId: <span class="type">Environment</span>.<span class="property">siwaId</span>,
+                                  redirectUrl: <span class="type">Environment</span>.<span class="property">siwaRedirectUrl</span>,
+                                  state: state)
+        <span class="keyword">return</span> req.<span class="property">view</span>.<span class="call">render</span>(<span class="string">"index"</span>, context)
+    }
+}</code></pre><p>The session middleware is used to transfer a random generated code between the index page and the redirect handler. Now if you run the app and click on the Sign in with Apple button you'll see that the flow starts, but it'll fail after you identified yourself. That's ok, step one is completed. ✅</p><h3>The redirect handler</h3><p>Apple will try to send a POST request with an object that contains the Apple ID token to the registered redirect URI after you've identified yourself using their login box. We can model this response object as an <code>AppleAuthResponse</code> struct in the following way:</p><pre><code class="language-swift"><span class="keyword">import</span> Foundation
+
+<span class="keyword">struct</span> AppleAuthResponse: <span class="type">Decodable</span> {
+
+    <span class="keyword">enum</span> CodingKeys: <span class="type">String</span>, <span class="type">CodingKey</span> {
+        <span class="keyword">case</span> code
+        <span class="keyword">case</span> state
+        <span class="keyword">case</span> idToken = <span class="string">"id_token"</span>
+        <span class="keyword">case</span> user
+    }
+
+    <span class="keyword">let</span> code: <span class="type">String</span>
+    <span class="keyword">let</span> state: <span class="type">String</span>
+    <span class="keyword">let</span> idToken: <span class="type">String</span>
+    <span class="keyword">let</span> user: <span class="type">String</span>
+}</code></pre><p>The authorization code is the first parameter, the state shuld be equal with your state value that you send as a parameter when you press the login button, if they don't match don't trust the response somebody is trying to hack you. The idToken is the Apple ID token, we have to validate that using the JWKS validation endpoint. The user string is the email address of the user.</p><pre><code class="language-swift">app.<span class="call">post</span>(<span class="string">"siwa-redirect"</span>) { req <span class="keyword">in
+    let</span> state = req.<span class="property">session</span>.<span class="property">data</span>[<span class="string">"state"</span>] ?? <span class="string">""</span>
+    <span class="keyword">let</span> auth = <span class="keyword">try</span> req.<span class="property">content</span>.<span class="call">decode</span>(<span class="type">AppleAuthResponse</span>.<span class="keyword">self</span>)
+    <span class="keyword">guard</span> !state.<span class="property">isEmpty</span>, state == auth.<span class="property">state</span> <span class="keyword">else</span> {
+        <span class="keyword">return</span> req.<span class="property">eventLoop</span>.<span class="call">future</span>(<span class="string">"Invalid state"</span>)
+    }
+
+    <span class="keyword">return</span> req.<span class="property">jwt</span>.<span class="property">apple</span>.<span class="call">verify</span>(auth.<span class="property">idToken</span>, applicationIdentifier: <span class="type">Environment</span>.<span class="property">siwaId</span>)
+    .<span class="call">flatMap</span> { token <span class="keyword">in</span>
+        <span class="comment">//...</span>
+    }
+}</code></pre><p>The code above will handle the incoming response. First it'll try to decode the <code>AppleAuthResponse</code> object from the body, next it'll call the Apple verification service using your private key and the idToken value from the response. This validation service returns an <code>AppleIdentityToken</code> object. That's part of the JWTKit package. We've just completed Step 2. ☺️</p><h3>Exchanging the access token</h3><p>The <code>AppleIdentityToken</code> only lives for a short period of time so we have to exchange it for an access token that can be used for much longer. We have to construct a request, we are going to use the following request body to exchange tokens:</p><pre><code class="language-swift"><span class="keyword">struct</span> AppleTokenRequestBody: <span class="type">Encodable</span> {
+    
+    <span class="keyword">enum</span> CodingKeys: <span class="type">String</span>, <span class="type">CodingKey</span> {
+        <span class="keyword">case</span> clientId = <span class="string">"client_id"</span>
+        <span class="keyword">case</span> clientSecret = <span class="string">"client_secret"</span>
+        <span class="keyword">case</span> code
+        <span class="keyword">case</span> grantType = <span class="string">"grant_type"</span>
+        <span class="keyword">case</span> redirectUri = <span class="string">"redirect_uri"</span>
+    }
+    
+    <span class="comment">/// The application identifier for your app.</span>
+    <span class="keyword">let</span> clientId: <span class="type">String</span>
+
+    <span class="comment">/// A secret generated as a JSON Web Token that uses the secret key generated by the WWDR portal.</span>
+    <span class="keyword">let</span> clientSecret: <span class="type">String</span>
+
+    <span class="comment">/// The authorization code received from your application’s user agent. The code is single use only and valid for five minutes.</span>
+    <span class="keyword">let</span> code: <span class="type">String</span>
+    
+    <span class="comment">/// The destination URI the code was originally sent to.</span>
+    <span class="keyword">let</span> redirectUri: <span class="type">String</span>
+    
+    <span class="comment">/// The grant type that determines how the client interacts with the server.</span>
+    <span class="keyword">let</span> grantType: <span class="type">String</span> = <span class="string">"authorization_code"</span>
+}</code></pre><p>We'll also need to generate the client secret, based on the response we are going to make a new <code>AppleAuthToken</code> object for this that can be signed using the already configured JWT service.</p><pre><code class="language-swift"><span class="keyword">struct</span> AppleAuthToken: <span class="type">JWTPayload</span> {
+    <span class="keyword">let</span> iss: <span class="type">String</span>
+    <span class="keyword">let</span> iat = <span class="type">Int</span>(<span class="type">Date</span>().<span class="property">timeIntervalSince1970</span>)
+    <span class="keyword">let</span> exp: <span class="type">Int</span>
+    <span class="keyword">let</span> aud = <span class="string">"https://appleid.apple.com"</span>
+    <span class="keyword">let</span> sub: <span class="type">String</span>
+
+    <span class="keyword">init</span>(clientId: <span class="type">String</span>, teamId: <span class="type">String</span>, expirationSeconds: <span class="type">Int</span> = <span class="number">86400</span> * <span class="number">180</span>) {
+        sub = clientId
+        iss = teamId
+        exp = <span class="keyword">self</span>.<span class="property">iat</span> + expirationSeconds
+    }
+
+    <span class="keyword">func</span> verify(using signer: <span class="type">JWTSigner</span>) <span class="keyword">throws</span> {
+        <span class="keyword">guard</span> iss.<span class="property">count</span> == <span class="number">10</span> <span class="keyword">else</span> {
+            <span class="keyword">throw</span> <span class="type">JWTError</span>.<span class="call">claimVerificationFailure</span>(name: <span class="string">"iss"</span>, reason: <span class="string">"TeamId must be your 10-character Team ID from the developer portal"</span>)
+        }
+
+        <span class="keyword">let</span> lifetime = exp - iat
+        <span class="keyword">guard</span> <span class="number">0</span>...<span class="number">15777000</span> ~= lifetime <span class="keyword">else</span> {
+            <span class="keyword">throw</span> <span class="type">JWTError</span>.<span class="call">claimVerificationFailure</span>(name: <span class="string">"exp"</span>, reason: <span class="string">"Expiration must be between 0 and 15777000"</span>)
+        }
+    }
+}</code></pre><p>Since we have to make a new request we can use the built-in <code>AysncHTTPClient</code> service. I've made a little extension around the <code>HTTPClient</code> object to simplify the request creation process.</p><pre><code class="language-swift"><span class="keyword">extension</span> <span class="type">HTTPClient</span> {
+    <span class="keyword">static func</span> appleAuthTokenRequest(<span class="keyword">_</span> body: <span class="type">AppleTokenRequestBody</span>) <span class="keyword">throws</span> -&gt; <span class="type">HTTPClient</span>.<span class="type">Request</span> {
+        <span class="keyword">var</span> request = <span class="keyword">try</span> <span class="type">HTTPClient</span>.<span class="type">Request</span>(url: <span class="string">"https://appleid.apple.com/auth/token"</span>, method: .<span class="dotAccess">POST</span>)
+        request.<span class="property">headers</span>.<span class="call">add</span>(name: <span class="string">"User-Agent"</span>, value: <span class="string">"Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1090.0 Safari/536.6'"</span>)
+        request.<span class="property">headers</span>.<span class="call">add</span>(name: <span class="string">"Accept"</span>, value: <span class="string">"application/json"</span>)
+        request.<span class="property">headers</span>.<span class="call">add</span>(name: <span class="string">"Content-Type"</span>, value: <span class="string">"application/x-www-form-urlencoded"</span>)
+        request.<span class="property">body</span> = .<span class="call">string</span>(<span class="keyword">try</span> <span class="type">URLEncodedFormEncoder</span>().<span class="call">encode</span>(body))
+        <span class="keyword">return</span> request
+    }
+}</code></pre><p>The funny thing here is if you don't add the <code>User-Agent</code> header the SiwA service will return with an error, the problem was mentioned in <a href="https://developer.okta.com/blog/2019/06/04/what-the-heck-is-sign-in-with-apple" target="_blank">this article</a> also discussed on the Apple Developer Fourms.</p><p>Anyway, let me show you the complete redirect handler. 🤓</p><pre><code class="language-swift">app.<span class="call">post</span>(<span class="string">"siwa-redirect"</span>) { req -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">String</span>&gt; <span class="keyword">in
+    let</span> state = req.<span class="property">session</span>.<span class="property">data</span>[<span class="string">"state"</span>] ?? <span class="string">""</span>
+    <span class="keyword">let</span> auth = <span class="keyword">try</span> req.<span class="property">content</span>.<span class="call">decode</span>(<span class="type">AppleAuthResponse</span>.<span class="keyword">self</span>)
+    <span class="keyword">guard</span> !state.<span class="property">isEmpty</span>, state == auth.<span class="property">state</span> <span class="keyword">else</span> {
+        <span class="keyword">return</span> req.<span class="property">eventLoop</span>.<span class="call">future</span>(<span class="string">"Invalid state"</span>)
+    }
+
+    <span class="keyword">return</span> req.<span class="property">jwt</span>.<span class="property">apple</span>.<span class="call">verify</span>(auth.<span class="property">idToken</span>, applicationIdentifier: <span class="type">Environment</span>.<span class="property">siwaId</span>)
+    .<span class="call">flatMap</span> { token -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">HTTPClient</span>.<span class="type">Response</span>&gt; <span class="keyword">in
+        do</span> {
+            <span class="keyword">let</span> secret = <span class="type">AppleAuthToken</span>(clientId: <span class="type">Environment</span>.<span class="property">siwaId</span>, teamId: <span class="type">Environment</span>.<span class="property">siwaTeamId</span>)
+            <span class="keyword">let</span> secretJwtToken = <span class="keyword">try</span> app.<span class="property">jwt</span>.<span class="property">signers</span>.<span class="call">sign</span>(secret, kid: .<span class="dotAccess">apple</span>)
+
+            <span class="keyword">let</span> body = <span class="type">AppleTokenRequestBody</span>(clientId: <span class="type">Environment</span>.<span class="property">siwaId</span>,
+                                             clientSecret: secretJwtToken,
+                                             code: auth.<span class="property">code</span>,
+                                             redirectUri: <span class="type">Environment</span>.<span class="property">siwaRedirectUrl</span>)
+
+            <span class="keyword">let</span> request = <span class="keyword">try</span> <span class="type">HTTPClient</span>.<span class="call">appleAuthTokenRequest</span>(body)
+            <span class="keyword">return</span> app.<span class="property">http</span>.<span class="property">client</span>.<span class="property">shared</span>.<span class="call">execute</span>(request: request)
+        }
+        <span class="keyword">catch</span> {
+            <span class="keyword">return</span> req.<span class="property">eventLoop</span>.<span class="call">future</span>(error: error)
+        }
+    }
+    .<span class="call">map</span> { response -&gt; <span class="type">String</span> <span class="keyword">in
+        guard var</span> body = response.<span class="property">body</span> <span class="keyword">else</span> {
+            <span class="keyword">return</span> <span class="string">"n/a"</span>
+        }
+        <span class="keyword">return</span> body.<span class="call">readString</span>(length: body.<span class="property">readableBytes</span>) ?? <span class="string">"n/a"</span>
+    }
+}</code></pre><p>As you can see I'm just sending the exchange request and map the final response to a string. From this point it is really easy to implement a decoder, the response is something like this:</p><pre><code class="language-swift"><span class="keyword">struct</span> AppleAccessToken: <span class="type">Decodable</span> {
+
+    <span class="keyword">enum</span> CodingKeys: <span class="type">String</span>, <span class="type">CodingKey</span> {
+        <span class="keyword">case</span> accessToken = <span class="string">"access_token"</span>
+        <span class="keyword">case</span> tokenType = <span class="string">"token_type"</span>
+        <span class="keyword">case</span> expiresIn = <span class="string">"expires_in"</span>
+        <span class="keyword">case</span> refreshToken = <span class="string">"refresh_token"</span>
+        <span class="keyword">case</span> idToken = <span class="string">"id_token"</span>
+    }
+
+    <span class="keyword">let</span> accessToken: <span class="type">String</span>
+    <span class="keyword">let</span> tokenType: <span class="type">String</span>
+    <span class="keyword">let</span> expiresIn: <span class="type">Int</span>
+    <span class="keyword">let</span> refreshToken: <span class="type">String</span>
+    <span class="keyword">let</span> idToken: <span class="type">String</span>
+}</code></pre><p>You can use this response to authenticate your users, but that's up-to-you based on your own business logic &amp; requirements. You can use the same <code>authTokenRequest</code> method to refresh the token, you just have to set the grant type to <code>refresh_token</code> instead of <code>authorization_code</code></p><p>I know that there is still room for improvements, the code is far from perfect, but it's a working proof of concept. The article is getting really long, so maybe this is the right time stop. 😅</p><p>If you are looking for a good place to learn more about SiwA, you should check <a href="https://sarunw.com/tags/sign%20in%20with%20apple/" target="_blank">this link</a>.</p><h2>Conclusion</h2><p>You can have a working Sign in with Apple implementation within an hour if you are using Vapor 4. The hardest part here is that you have to figure out every single little detail by yourself, looking at other people's source code. I'm trying to explain things as easy as possible but hey, I'm still putting together the pieces for myself too.</p><p>This is an extremely fun journey for me. Moving back to the server side after almost a decade of iOS development is a refreshing experience. I can only hope you'll enjoy my upcoming book called Practical Server Side Swift, as much as I enjoy learning and writing about the Vapor. ❤️</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/sign-in-with-apple-using-vapor-4"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/assets/book/vapor.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <p><strong>Third edition is just: $39</strong></p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
+                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

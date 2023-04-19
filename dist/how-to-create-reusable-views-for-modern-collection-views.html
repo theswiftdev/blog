@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>How to create reusable views for modern collection views? - The.Swift.Dev.</title>
+    
+    <meta name="description" content="A quick intro to modern collection views using compositional layout, diffable data source and reusable view components.">
+    
+    <meta property="og:title" content="How to create reusable views for modern collection views? - The.Swift.Dev.">
+    <meta property="og:description" content="A quick intro to modern collection views using compositional layout, diffable data source and reusable view components.">
+    <meta property="og:url" content="https://theswiftdev.github.io/blog/how-to-create-reusable-views-for-modern-collection-views">
+    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/how-to-create-reusable-views-for-modern-collection-views/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="How to create reusable views for modern collection views? - The.Swift.Dev.">
+    <meta name="twitter:description" content="A quick intro to modern collection views using compositional layout, diffable data source and reusable view components.">
+    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/how-to-create-reusable-views-for-modern-collection-views/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.github.io/blog/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2017/10/10">2017/10/10</time>
+            <h1 class="title">How to create reusable views for modern collection views?</h1>
+            <p class="excerpt">A quick intro to modern collection views using compositional layout, diffable data source and reusable view components.</p>
+            <div class="meta">
+                <span class="tag">UIKit</span>
+<span class="tag">iOS</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/how-to-create-reusable-views-for-modern-collection-views/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <h2>Reusable views inside a generic cell</h2><p>We all love to create <a href="https://theswiftdev.com/custom-views-input-forms-and-mistakes/" target="_blank">custom views</a> for building various user interface elements, right? We also love to use collection views to display data using a grid or a list layout. Collection view cells are custom views, but what if you'd like to use the exact same cell as a view?</p><p>Turns out that you can provide your own <a href="https://developer.apple.com/documentation/uikit/uicontentconfiguration" target="_blank">UIContentConfiguration</a>, just like the built-in ones that you can use to setup <a href="https://www.biteinteractive.com/collection-view-content-configuration-in-ios-14/" target="_blank">cells to look like list items</a>. If you take a look at the <a href="https://developer.apple.com/documentation/uikit/views_and_controls/collection_views/implementing_modern_collection_views" target="_blank">modern collection views sample code</a>, which I highly recommend, you'll see how to implement custom content configurations in order to create your own cell types. There are a few things that I don't like about this approach. 😕</p><p>First of all, your view has to conform to the <a href="https://developer.apple.com/documentation/uikit/uicontentview" target="_blank">UIContentView</a> protocol, so you have to handle additional config related stuff inside the view. I prefer the MVVM pattern, so this feels a bit strange. The second thing that you need is a custom cell subclass, where you also have to take care of the configuration updates. What if there was some other way?</p><p>Let's start our setup by creating a new subclass for our future cell object, we're simply going to provide the usual initialize method that I always use for my subclasses. Apple often calls this method configure in their samples, but they're more or less the same. 😅</p><pre><code class="language-swift"><span class="keyword">import</span> UIKit
+
+<span class="keyword">open class</span> CollectionViewCell: <span class="type">UICollectionViewCell</span> {
+        
+    <span class="keyword">@available</span>(*, unavailable)
+    <span class="keyword">private override init</span>(frame: <span class="type">CGRect</span>) {
+        <span class="keyword">super</span>.<span class="keyword">init</span>(frame: frame)
+        
+        <span class="keyword">self</span>.<span class="call">initialize</span>()
+    }
+
+    <span class="keyword">@available</span>(*, unavailable)
+    <span class="keyword">public required init</span>?(coder aDecoder: <span class="type">NSCoder</span>) {
+        <span class="call">fatalError</span>(<span class="string">"init(coder) isn not available"</span>)
+    }
+    
+    <span class="keyword">open func</span> initialize() {
+        
+    }
+
+}</code></pre><p>All right, this is just a basic subclass so we don't have to deal with the init methods anymore. Let's create one more subclass based on this object. The ReusableCell type is going to be a generic type, it's going to have a view property, which is going to be added as a subview to the contentView and we also pin the constraints to the content view.</p><pre><code class="language-swift"><span class="keyword">import</span> UIKit
+
+<span class="keyword">open class</span> ReusableCell&lt;View: <span class="type">UIView</span>&gt;: <span class="type">CollectionViewCell</span> {
+    
+    <span class="keyword">var</span> view: <span class="type">View</span>!
+
+    <span class="keyword">open override func</span> initialize() {
+        <span class="keyword">super</span>.<span class="call">initialize</span>()
+
+        <span class="keyword">let</span> view = <span class="type">View</span>()
+        view.<span class="property">translatesAutoresizingMaskIntoConstraints</span> = <span class="keyword">false</span>
+        contentView.<span class="call">addSubview</span>(view)
+        <span class="keyword">self</span>.<span class="property">view</span> = view
+        
+        <span class="type">NSLayoutConstraint</span>.<span class="call">activate</span>([
+            view.<span class="property">topAnchor</span>.<span class="call">constraint</span>(equalTo: contentView.<span class="property">topAnchor</span>),
+            view.<span class="property">bottomAnchor</span>.<span class="call">constraint</span>(equalTo: contentView.<span class="property">bottomAnchor</span>),
+            view.<span class="property">leadingAnchor</span>.<span class="call">constraint</span>(equalTo: contentView.<span class="property">leadingAnchor</span>),
+            view.<span class="property">trailingAnchor</span>.<span class="call">constraint</span>(equalTo: contentView.<span class="property">trailingAnchor</span>),
+        ])
+    }
+}</code></pre><p>By using this reusable cell type, it's going to be possible to add a custom view to the cell. We just need to create a new custom view, but that's quite an easy task to do. ✅</p><pre><code class="language-swift"><span class="keyword">import</span> UIKit
+
+<span class="keyword">extension</span> <span class="type">UIColor</span> {
+
+    <span class="keyword">static var</span> random: <span class="type">UIColor</span> {
+        .<span class="keyword">init</span>(red: .<span class="call">random</span>(in: <span class="number">0</span>...<span class="number">1</span>),
+              green: .<span class="call">random</span>(in: <span class="number">0</span>...<span class="number">1</span>),
+              blue: .<span class="call">random</span>(in: <span class="number">0</span>...<span class="number">1</span>),
+              alpha: <span class="number">1</span>)
+    }
+}
+
+<span class="keyword">class</span> CustomView: <span class="type">View</span> {
+
+    <span class="keyword">let</span> label = <span class="type">UILabel</span>(frame: .<span class="dotAccess">zero</span>)
+
+    <span class="keyword">override func</span> initialize() {
+        label.<span class="property">translatesAutoresizingMaskIntoConstraints</span> = <span class="keyword">false</span>
+        label.<span class="property">numberOfLines</span> = <span class="number">0</span>
+        <span class="call">addSubview</span>(label)
+        
+        <span class="comment">// If you want to set a fixed height for the cell you can use this constraint...
+        // let fixedHeightConstraint = heightAnchor.constraint(equalToConstant: 120)
+        // fixedHeightConstraint.priority = .defaultHigh</span>
+        backgroundColor = .<span class="dotAccess">random</span>
+
+        <span class="type">NSLayoutConstraint</span>.<span class="call">activate</span>([
+            <span class="comment">// fixedHeightConstraint,</span>
+            label.<span class="property">leadingAnchor</span>.<span class="call">constraint</span>(equalTo: leadingAnchor, constant: <span class="number">8</span>),
+            label.<span class="property">trailingAnchor</span>.<span class="call">constraint</span>(equalTo: trailingAnchor, constant: -<span class="number">8</span>),
+            label.<span class="property">topAnchor</span>.<span class="call">constraint</span>(equalTo: topAnchor, constant: <span class="number">8</span>),
+            label.<span class="property">bottomAnchor</span>.<span class="call">constraint</span>(equalTo: bottomAnchor, constant: -<span class="number">8</span>),
+        ])
+    }
+}</code></pre><p>This custom view has a label, which we can pin to the superview with some extra padding. You can <a href="https://theswiftdev.com/uikit-loadview-vs-viewdidload/" target="_blank">store all your subviews as strong properties</a>, since Apple is going to take care of the deinit, even though the addSubview creates a strong reference, you don't have to worry about it anymore.</p><p>If you want to create a cell that supports dynamic height, you should simply pin the edge layout constraints, but if you'd like to use a fixed height cell you can add your own height anchor constraint with a constant value. You have to set a custom priority for the height constraint this way the auto layout system won't break and it's going to be able to satisfy all the necessary constraints.</p><h2>Compositional layout basics</h2><p>The <a href="https://developer.apple.com/documentation/uikit/uicollectionviewcompositionallayout" target="_blank">UICollectionViewCompositionalLayout</a> class is a highly adaptive and flexible layout tool that you can use to build modern collection view layouts. It has three main components that you can configure to display your custom user interface elements in many different ways.</p><blockquote><p>You combine the components by building up from items into a group, from groups into a section, and finally into a full layout, like in this example of a basic list layout:</p></blockquote><p>There are plenty of great <a href="https://www.zealousweb.com/how-to-use-compositional-layout-in-collection-view/" target="_blank">resources</a> and <a href="https://www.raywenderlich.com/5436806-modern-collection-views-with-compositional-layouts" target="_blank">tutorials</a> about this topic, so I won't get too much into the details now, but we're going to create a simple layout that can display full width (<a href="https://developer.apple.com/documentation/uikit/nscollectionlayoutdimension" target="_blank">fractional layout dimension</a>) items in a full width group, by using and estimated height to support dynamic cell sizes. I suppose this is quite a common use-case for many of us. We can create an extension on the UICollectionViewLayout object to instantiate a new list layout. 🙉</p><pre><code class="language-swift"><span class="keyword">extension</span> <span class="type">UICollectionViewLayout</span> {
+    <span class="keyword">static func</span> createListLayout() -&gt; <span class="type">UICollectionViewLayout</span> {
+        <span class="keyword">let</span> itemSize = <span class="type">NSCollectionLayoutSize</span>(widthDimension: .<span class="call">fractionalWidth</span>(<span class="number">1</span>), heightDimension: .<span class="call">estimated</span>(<span class="number">44</span>))
+        <span class="keyword">let</span> item = <span class="type">NSCollectionLayoutItem</span>(layoutSize: itemSize)
+      
+        <span class="keyword">let</span> groupSize = <span class="type">NSCollectionLayoutSize</span>(widthDimension: .<span class="call">fractionalWidth</span>(<span class="number">1</span>), heightDimension: .<span class="call">estimated</span>(<span class="number">44</span>))
+        <span class="keyword">let</span> group = <span class="type">NSCollectionLayoutGroup</span>.<span class="call">horizontal</span>(layoutSize: groupSize, subitems: [item])
+        <span class="keyword">let</span> section = <span class="type">NSCollectionLayoutSection</span>(group: group)
+
+        <span class="keyword">let</span> layout = <span class="type">UICollectionViewCompositionalLayout</span>(section: section)
+        <span class="keyword">return</span> layout
+    }
+}</code></pre><p>Now it is possible to add a collectionView to our view hierarchy inside the view controller.</p><pre><code class="language-swift"><span class="keyword">class</span> ViewController: <span class="type">UIViewController</span> {
+
+    <span class="keyword">let</span> collectionView = <span class="type">UICollectionView</span>(frame: .<span class="dotAccess">zero</span>, collectionViewLayout: .<span class="call">createListLayout</span>())
+
+    <span class="keyword">override func</span> loadView() {
+        <span class="keyword">super</span>.<span class="call">loadView</span>()
+
+        collectionView.<span class="property">translatesAutoresizingMaskIntoConstraints</span> = <span class="keyword">false</span>
+        view.<span class="call">addSubview</span>(collectionView)
+        <span class="type">NSLayoutConstraint</span>.<span class="call">activate</span>([
+            view.<span class="property">topAnchor</span>.<span class="call">constraint</span>(equalTo: collectionView.<span class="property">topAnchor</span>),
+            view.<span class="property">bottomAnchor</span>.<span class="call">constraint</span>(equalTo: collectionView.<span class="property">bottomAnchor</span>),
+            view.<span class="property">leadingAnchor</span>.<span class="call">constraint</span>(equalTo: collectionView.<span class="property">leadingAnchor</span>),
+            view.<span class="property">trailingAnchor</span>.<span class="call">constraint</span>(equalTo: collectionView.<span class="property">trailingAnchor</span>),
+        ])
+    }
+
+    <span class="keyword">override func</span> viewDidLoad() {
+        <span class="keyword">super</span>.<span class="call">viewDidLoad</span>()
+
+    }
+}</code></pre><p>You can also create your own auto layout helper extensions, or use <a href="http://snapkit.io/" target="_blank">SnapKit</a> to quickly setup your layout constraints. It is relatively easy to work with anchors, you should read my other tutorial about <a href="https://theswiftdev.com/mastering-ios-auto-layout-anchors-programmatically-from-swift/" target="_blank">mastering auto layout anchors</a> if you don't know much about them.</p><h2>Cell registration and diffable data source</h2><p>Apple has a <a href="https://developer.apple.com/documentation/uikit/uicollectionview/cellregistration" target="_blank">new set of APIs</a> to register and dequeue cells for modern collection views. It is worth to mention that almost everything we talk about this tutorials is only available on iOS14+ so if you are planning to support an older version you won't be able to use these features.</p><p>If you want to learn more about the topic, I'd like to recommend an <a href="https://www.donnywals.com/configure-collection-view-cells-with-uicollectionview-cellregistration/" target="_blank">article</a> by Donny Wals and there is a great, but a bit longer <a href="https://www.swiftbysundell.com/articles/building-modern-collection-views-in-swift/" target="_blank">post</a> by John Sundell about modern collection views. I'm using the same helper extension to get a cell provider using a cell registration object, to make the process more simple, plus we're going to need some random sentences, so let's add a few helpers. 💡</p><pre><code class="language-swift"><span class="keyword">extension</span> <span class="type">String</span> {
+    <span class="keyword">static func</span> randomWord() -&gt; <span class="type">String</span> {
+        (<span class="number">0</span>..&lt;<span class="type">Int</span>.<span class="call">random</span>(in: <span class="number">1</span>...<span class="number">10</span>)).<span class="call">map</span> { <span class="keyword">_ in</span> <span class="type">String</span>(format: <span class="string">"%c"</span>, <span class="type">Int</span>.<span class="call">random</span>(in: <span class="number">97</span>..&lt;<span class="number">123</span>)) }.<span class="call">joined</span>(separator: <span class="string">""</span>)
+    }
+
+    <span class="keyword">static func</span> randomSentence() -&gt; <span class="type">String</span> {
+        (<span class="number">0</span>...<span class="number">50</span>).<span class="call">map</span> { <span class="keyword">_ in</span> <span class="call">randomWord</span>() }.<span class="call">joined</span>(separator: <span class="string">" "</span>)
+    }
+}
+
+<span class="keyword">extension</span> <span class="type">UICollectionView</span>.<span class="type">CellRegistration</span> {
+
+    <span class="keyword">var</span> cellProvider: (<span class="type">UICollectionView</span>, <span class="type">IndexPath</span>, <span class="type">Item</span>) -&gt; <span class="type">Cell</span> {
+        { collectionView, indexPath, product <span class="keyword">in</span>
+            collectionView.<span class="call">dequeueConfiguredReusableCell</span>(using: <span class="keyword">self</span>, for: indexPath, item: product)
+        }
+    }
+}</code></pre><p>Now we can use the new <a href="https://developer.apple.com/documentation/uikit/uicollectionviewdiffabledatasource" target="_blank">UICollectionViewDiffableData</a> class to specify our sections and items inside the collection view. You can define your sections as an enum, and in this case we're going to use a String type as our items. There is a <a href="https://www.appcoda.com/diffable-data-source/" target="_blank">great tutorial</a> by AppCoda about diffable data sources.</p><p>Long story short, you should make a new cell configuration where now you can use the ReusableCell with a CustomView, then it is possible to setup the diffable data source with the cellProvider on the cellRegistration object. Finally we can apply an initial snapshot by appending a new section and our items to the snapshot. You can update the data source with the snapshot and the nice thing about is it that you can also animate the changes if you want. 😍</p><pre><code class="language-swift"><span class="keyword">enum</span> Section {
+    <span class="keyword">case</span> `default`
+}
+
+<span class="keyword">class</span> ViewController: <span class="type">UIViewController</span> {
+
+    <span class="keyword">let</span> collectionView = <span class="type">UICollectionView</span>(frame: .<span class="dotAccess">zero</span>, collectionViewLayout: .<span class="call">createListLayout</span>())
+    <span class="keyword">var</span> dataSource: <span class="type">UICollectionViewDiffableDataSource</span>&lt;<span class="type">Section</span>, <span class="type">String</span>&gt;!
+    <span class="keyword">let</span> data: [<span class="type">String</span>] = (<span class="number">0</span>..&lt;<span class="number">10</span>).<span class="call">map</span> { <span class="keyword">_ in</span> <span class="type">String</span>.<span class="call">randomSentence</span>() }
+
+    <span class="keyword">override func</span> loadView() {
+        <span class="keyword">super</span>.<span class="call">loadView</span>()
+
+        collectionView.<span class="property">translatesAutoresizingMaskIntoConstraints</span> = <span class="keyword">false</span>
+        view.<span class="call">addSubview</span>(collectionView)
+        <span class="type">NSLayoutConstraint</span>.<span class="call">activate</span>([
+            view.<span class="property">topAnchor</span>.<span class="call">constraint</span>(equalTo: collectionView.<span class="property">topAnchor</span>),
+            view.<span class="property">bottomAnchor</span>.<span class="call">constraint</span>(equalTo: collectionView.<span class="property">bottomAnchor</span>),
+            view.<span class="property">leadingAnchor</span>.<span class="call">constraint</span>(equalTo: collectionView.<span class="property">leadingAnchor</span>),
+            view.<span class="property">trailingAnchor</span>.<span class="call">constraint</span>(equalTo: collectionView.<span class="property">trailingAnchor</span>),
+        ])
+    }
+
+    <span class="keyword">override func</span> viewDidLoad() {
+        <span class="keyword">super</span>.<span class="call">viewDidLoad</span>()
+
+        collectionView.<span class="property">delegate</span> = <span class="keyword">self</span>
+
+        createDataSource()
+        <span class="call">applyInitialSnapshot</span>()
+    }
+
+    <span class="keyword">func</span> createDataSource() {
+        <span class="keyword">let</span> cellRegistration = <span class="type">UICollectionView</span>.<span class="type">CellRegistration</span>&lt;<span class="type">ReusableCell</span>&lt;<span class="type">CustomView</span>&gt;, <span class="type">String</span>&gt; { cell, indexPath, model <span class="keyword">in</span>
+            cell.<span class="property">view</span>.<span class="property">label</span>.<span class="property">text</span> = model
+        }
+
+        dataSource = <span class="type">UICollectionViewDiffableDataSource</span>&lt;<span class="type">Section</span>, <span class="type">String</span>&gt;(collectionView: collectionView,
+                                                                         cellProvider: cellRegistration.<span class="property">cellProvider</span>)
+    }
+    
+    <span class="keyword">func</span> applyInitialSnapshot() {
+        <span class="keyword">var</span> snapshot = <span class="type">NSDiffableDataSourceSnapshot</span>&lt;<span class="type">Section</span>, <span class="type">String</span>&gt;()
+        snapshot.<span class="call">appendSections</span>([.<span class="dotAccess">default</span>])
+        snapshot.<span class="call">appendItems</span>(data)
+        dataSource.<span class="call">apply</span>(snapshot, animatingDifferences: <span class="keyword">true</span>)
+    }
+}
+
+<span class="keyword">extension</span> <span class="type">ViewController</span>: <span class="type">UICollectionViewDelegate</span> {
+
+    <span class="keyword">func</span> collectionView(<span class="keyword">_</span> collectionView: <span class="type">UICollectionView</span>, didSelectItemAt indexPath: <span class="type">IndexPath</span>) {
+        <span class="keyword">let</span> item = dataSource.<span class="call">itemIdentifier</span>(for: indexPath)
+
+        <span class="call">print</span>(item ?? <span class="string">"n/a"</span>)
+    }
+}</code></pre><p>You still have to implement a delegate method if you'd like to handle cell selection, but fortunately the diffable data source has an itemIdentifier method to look up elements inside the data source.</p><p>As you can see it's pretty easy to come up with a generic cell that can be used to render a custom view inside a collection view. I believe that the "official" cell configuration based approach is a bit more complicated, plus you have to write quite a lot of code if it comes to modern collection views.</p><p>I'm going to update my original collection view framework with these new techniques for sure. The new compositional layout is way more powerful compared to regular flow layouts, diffable data sources are also amazing and the new cell registration API is also nice. I believe that the collection view team at Apple did an amazing job during the years, it's still one of my favorite components if it comes to UIKit development. I highly recommend learning these modern techniques. 👍</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/how-to-create-reusable-views-for-modern-collection-views"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/assets/book/vapor.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <p><strong>Third edition is just: $39</strong></p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
+                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

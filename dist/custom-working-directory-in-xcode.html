@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Custom working directory in Xcode - The.Swift.Dev.</title>
+    
+    <meta name="description" content="Learn how to set a custom working directory in Xcode to solve one of the most common beginner issue when using Vapor.">
+    
+    <meta property="og:title" content="Custom working directory in Xcode - The.Swift.Dev.">
+    <meta property="og:description" content="Learn how to set a custom working directory in Xcode to solve one of the most common beginner issue when using Vapor.">
+    <meta property="og:url" content="https://theswiftdev.github.io/blog/custom-working-directory-in-xcode">
+    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/custom-working-directory-in-xcode/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="Custom working directory in Xcode - The.Swift.Dev.">
+    <meta name="twitter:description" content="Learn how to set a custom working directory in Xcode to solve one of the most common beginner issue when using Vapor.">
+    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/custom-working-directory-in-xcode/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.github.io/blog/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2021/01/07">2021/01/07</time>
+            <h1 class="title">Custom working directory in Xcode</h1>
+            <p class="excerpt">Learn how to set a custom working directory in Xcode to solve one of the most common beginner issue when using Vapor.</p>
+            <div class="meta">
+                <span class="tag">Xcode</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/custom-working-directory-in-xcode/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <h2>What is a custom working directory?</h2><p>When you try to build and run your Vapor application using Xcode you might face the issue that there are some missing files, resources or Leaf templates. Don't worry this is a very common rookie mistake, but what causes this problem exactly? 🤔</p><p>Vapor is using a place called working directory to set the current environment, locate common resources and publicly available files. This working directory usually contains a Resources folder where you can put your Leaf templates and a Public folder which is used by the <a href="https://docs.vapor.codes/4.0/middleware/#file-middleware" target="_blank">FileMiddleware</a>. The server is also trying to search for possible <a href="https://docs.vapor.codes/4.0/environment/" target="_blank">dotenv</a> files to configure environmental variables.</p><p>If you run your backend application without explicitly setting a custom working directory, you should see a warning message in Xcode's console. If you are using <a href="https://github.com/feathercms/feather/" target="_blank">Feather CMS</a>, the app will crash without a custom working directory set, because it is required to provide a working environment. 🙃</p></section><section class="wrapper">
+<figure>
+    <picture>
+        <source srcset="https://theswiftdev.github.io/blog/images/assets/custom-working-directory-in-xcode/images/warning-no-custom-working-directory-set~dark.png" media="(prefers-color-scheme: dark)">
+		<img class="post-image" src="https://theswiftdev.github.io/blog/images/assets/custom-working-directory-in-xcode/images/warning-no-custom-working-directory-set.png" alt="No custom working directory">
+    </picture>
+</figure>
+</section><section class="content-wrapper"><p>If you don't specify this custom work dir, Xcode will try to look for the resources under a random, but uniquely created place somewhere under the <code>DerivedData</code> directory.</p><p>This is the internal build folder for the IDE, it usually creates lots of other "garbage" files into the <code>~/Library/Developer/Xcode/DerivedData</code> directory. In 99% of the cases you can safely delete its contents if you want to perform a 100% clean build. 👍</p><h2>How to set a custom working directory?</h2><p>First of all, open your project in Xcode by double clicking the Package.swift manifest file.</p><p class="warning">Do NOT use the <code>swift package generate-xcodeproj</code> command to generate a project file!!! This is a deprecated Swift Package Manager command, and it's going to be removed soon.</p><p>✅ I repeat: always open SPM projects through the <code>Package.swift</code> file.</p></section><section class="wrapper">
+<figure>
+    <picture>
+        <source srcset="https://theswiftdev.github.io/blog/images/assets/custom-working-directory-in-xcode/images/target~dark.png" media="(prefers-color-scheme: dark)">
+		<img class="post-image" src="https://theswiftdev.github.io/blog/images/assets/custom-working-directory-in-xcode/images/target.png" alt="Target">
+    </picture>
+</figure>
+</section><section class="content-wrapper"><p>Wait until the IDE loads the required Swift packages. After the dependencies are loaded, click on the target next to the stop button. The executable target is marked with a little terminal-like icon. 💡</p></section><section class="wrapper">
+<figure>
+    <picture>
+        <source srcset="https://theswiftdev.github.io/blog/images/assets/custom-working-directory-in-xcode/images/edit-scheme~dark.png" media="(prefers-color-scheme: dark)">
+		<img class="post-image" src="https://theswiftdev.github.io/blog/images/assets/custom-working-directory-in-xcode/images/edit-scheme.png" alt="Edit scheme">
+    </picture>
+</figure>
+</section><section class="content-wrapper"><p>Select the "Edit Scheme..." option from the available menu items, this should open a new modal window on top of Xcode.</p></section><section class="wrapper">
+<figure>
+    <picture>
+        <source srcset="https://theswiftdev.github.io/blog/images/assets/custom-working-directory-in-xcode/images/custom-working-directory~dark.png" media="(prefers-color-scheme: dark)">
+		<img class="post-image" src="https://theswiftdev.github.io/blog/images/assets/custom-working-directory-in-xcode/images/custom-working-directory.png" alt="Custom working directory">
+    </picture>
+</figure>
+</section><section class="content-wrapper"><p>Make sure that the Run configuration is selected on the left side of the pane. Click on the "Options" tab, and then look for the "Working directory" settings. Check the "Use custom working directory:" toggle, this will enable the input field underneath, then finally click on the little folder icon on the top right side (of the input field) and look for your desired directory using the interface. 🔍</p><p>Press the "Choose" button when you are ready. You should see the path of your choice written inside the text field. Make sure that you've selected the right location. Now you can click the "Close" button on the bottom right corner, then you can try to start your server by clicking the run button (play icon or you can press the CMD+R shortcut to run the app). ▶️</p><p>If you did everything right, your Vapor server application should use the custom working directory, you can confirm this by checking the logs in Xcode. The previously mentioned warning should disappear and your backend should be able to load all the necessary resources without further issues. I hope this little guide will help you to avoid this common mistake when using Vapor. 🙏</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/custom-working-directory-in-xcode"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/assets/book/vapor.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <p><strong>Third edition is just: $39</strong></p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
+                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

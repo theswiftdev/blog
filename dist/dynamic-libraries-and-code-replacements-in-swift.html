@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Dynamic libraries and code replacements in Swift - The.Swift.Dev.</title>
+    
+    <meta name="description" content="How to load a dynamic library and use native method swizzling in Swift? This article is all about the magic behind SwiftUI previews.">
+    
+    <meta property="og:title" content="Dynamic libraries and code replacements in Swift - The.Swift.Dev.">
+    <meta property="og:description" content="How to load a dynamic library and use native method swizzling in Swift? This article is all about the magic behind SwiftUI previews.">
+    <meta property="og:url" content="https://theswiftdev.github.io/blog/dynamic-libraries-and-code-replacements-in-swift">
+    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/dynamic-libraries-and-code-replacements-in-swift/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="Dynamic libraries and code replacements in Swift - The.Swift.Dev.">
+    <meta name="twitter:description" content="How to load a dynamic library and use native method swizzling in Swift? This article is all about the magic behind SwiftUI previews.">
+    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/dynamic-libraries-and-code-replacements-in-swift/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.github.io/blog/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2021/05/20">2021/05/20</time>
+            <h1 class="title">Dynamic libraries and code replacements in Swift</h1>
+            <p class="excerpt">How to load a dynamic library and use native method swizzling in Swift? This article is all about the magic behind SwiftUI previews.</p>
+            <div class="meta">
+                <span class="tag">Swift</span>
+<span class="tag">libraries</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/dynamic-libraries-and-code-replacements-in-swift/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <h2>Dynamic library packages</h2><p>I've already published an article about <a href="https://theswiftdev.com/building-static-and-dynamic-swift-libraries-using-the-swift-compiler/" target="_blank">building static and dynamic libraries using the Swift compiler</a>, if you don't know what is a dynamic library or you are simply interested a bit more about how the Swift compiler works, you should definitely take a look at that post first.</p><p>This time we're going to focus a bit more on utilizing the Swift Package Manager to create our dynamic library products. The setup is going to be very similar to the one I've created in the <a href="https://theswiftdev.com/building-and-loading-dynamic-libraries-at-runtime-in-swift/" target="_blank">loading dynamic libraries at runtime</a> article. First we're going to create a shared library using SPM.</p><pre><code class="language-swift"><span class="comment">// swift-tools-version:5.3</span>
+<span class="keyword">import</span> PackageDescription
+
+<span class="keyword">let</span> package = <span class="type">Package</span>(
+    name: <span class="string">"TextUI"</span>,
+    products: [
+        .<span class="call">library</span>(name: <span class="string">"TextUI"</span>, type: .<span class="dotAccess">dynamic</span>, targets: [<span class="string">"TextUI"</span>]),
+    ],
+    dependencies: [
+        
+    ],
+    targets: [
+        .<span class="call">target</span>(name: <span class="string">"TextUI"</span>, swiftSettings: [
+            .<span class="call">unsafeFlags</span>([<span class="string">"-emit-module"</span>, <span class="string">"-emit-library"</span>])
+        ]),
+    ]
+)</code></pre><p>The package manifest is quite simple, although there are a few special things that we had to add. The very first thing is that we defined the product type as a dynamic library. This will ensure that the right .dylib (or .so / .dll) binary will be created when you build the target. 🎯</p><p>The second thing is that we'd like to emit our Swift module info alongside the library, we can tell this to the compiler through some unsafe flags. Don't be afraid, these are actually not so dangerous to use, these flags will be directly passed to the Swift compiler, but that's it.</p><p>Now the source code for our TextUI library is going to be very simple.</p><pre><code class="language-swift"><span class="keyword">public struct</span> TextUI {
+
+    <span class="keyword">public static dynamic func</span> build() -&gt; <span class="type">String</span> {
+        <span class="string">"Hello, World!"</span>
+    }
+}</code></pre><p>It's just a struct with one static function that returns a String value. Pretty simple, except one thing: the dynamic keyword. By adding the dynamic modifier to a function (or method) you tell the compiler that it should use dynamic dispatch to "resolve" the implementation when calling it.</p><p>We're going to take advantage of the dynamic dispatch later on, but before we could move onto that part, we have to build our dynamic library and make it available for others to use. 🔨</p><p>If you run swift build (or run the project via Xcode) it'll build all the required files and place them under the proper build folder. You can also print the build folder by running the <code>swift build -c release --show-bin-path</code> (<code>-c</code> release is for release builds, we're going to build the library using the release configuration for obvious reasons... we're releasing them). If you list the contents of the output directory, you should find the following files there:</p><ul><li>TextUI.swiftdoc</li><li>TextUI.swiftmodule</li><li>TextUI.swiftsourceinfo</li><li>libTextUI.dylib</li><li>libTextUI.dylib.dSYM</li></ul><p>So, what can we do with this build folder and the output files? We're going to need them under a location where the build tools can access the related files, for the sake of simplicity we're going to put everything into the <code>/usr/local/lib</code> folder using a Makefile.</p><pre><code>PRODUCT_NAME := "TextUI"
+DEST_DIR := "/usr/local/lib/"
+BUILD_DIR := $(shell swift build -c release --show-bin-path)
+
+install: clean
+    @swift build -c release
+    @install "$(BUILD_DIR)/lib$(PRODUCT_NAME).dylib" $(DEST_DIR)
+    @cp -R "$(BUILD_DIR)/lib$(PRODUCT_NAME).dylib.dSYM" $(DEST_DIR)
+    @install "$(BUILD_DIR)/$(PRODUCT_NAME).swiftdoc" $(DEST_DIR)
+    @install "$(BUILD_DIR)/$(PRODUCT_NAME).swiftmodule" $(DEST_DIR)
+    @install "$(BUILD_DIR)/$(PRODUCT_NAME).swiftsourceinfo" $(DEST_DIR)
+    @rm ./lib$(PRODUCT_NAME).dylib
+    @rm -r ./lib$(PRODUCT_NAME).dylib.dSYM
+
+uninstall: clean
+    
+    @rm $(DEST_DIR)lib$(PRODUCT_NAME).dylib
+    @rm -r $(DEST_DIR)lib$(PRODUCT_NAME).dylib.dSYM
+    @rm $(DEST_DIR)$(PRODUCT_NAME).swiftdoc
+    @rm $(DEST_DIR)$(PRODUCT_NAME).swiftmodule
+    @rm $(DEST_DIR)$(PRODUCT_NAME).swiftsourceinfo
+
+clean:
+    @swift package clean
+</code></pre><p>Now if you run <code>make</code> or <code>make install</code> all the required files will be placed under the right location. Our dynamic library package is now ready to use. The only question is how do we consume this shared binary library using another Swift Package target? 🤔</p><h2>Linking against shared libraries</h2><p>We're going to build a brand new executable application called TextApp using the Swift Package Manager. This package will use our previously created and installed shared dynamic library.</p><pre><code class="language-swift"><span class="comment">// swift-tools-version:5.3</span>
+<span class="keyword">import</span> PackageDescription
+
+<span class="keyword">let</span> package = <span class="type">Package</span>(
+    name: <span class="string">"TextApp"</span>,
+    targets: [
+        .<span class="call">target</span>(name: <span class="string">"TextApp"</span>, swiftSettings: [
+            .<span class="call">unsafeFlags</span>([<span class="string">"-L"</span>, <span class="string">"/usr/local/lib/"</span>]),
+            .<span class="call">unsafeFlags</span>([<span class="string">"-I"</span>, <span class="string">"/usr/local/lib/"</span>]),
+            .<span class="call">unsafeFlags</span>([<span class="string">"-lTextUI"</span>]),
+        ], linkerSettings: [
+            .<span class="call">unsafeFlags</span>([<span class="string">"-L"</span>, <span class="string">"/usr/local/lib/"</span>]),
+            .<span class="call">unsafeFlags</span>([<span class="string">"-I"</span>, <span class="string">"/usr/local/lib/"</span>]),
+            .<span class="call">unsafeFlags</span>([<span class="string">"-lTextUI"</span>]),
+        ]),
+    ]
+)</code></pre><p>The trick is that we can add some flags to the Swift compiler and the linker, so they'll know that we've prepared some special library and header (<code>modulemap</code>) files under the <code>/usr/local/lib/</code> folder. We'd also like to link the <code>TextUI</code> framework with our application, in order to do this we have to pass the name of the module as a flag. I've already explained these flags (<code>-L</code>, <code>-I</code>, <code>-l</code>) in my previous posts so I suppose you're familiar with them, if not please read the linked articles. 🤓</p><pre><code class="language-swift"><span class="keyword">import</span> TextUI
+
+<span class="call">print</span>(<span class="type">TextUI</span>.<span class="call">build</span>())</code></pre><p>Our <code>main.swift</code> file is pretty straightforward, we just print the result of the build method, the default implementation should return the famous "Hello, World!" text.</p><p>Are you ready to replace the build function using native method swizzling in Swift?</p><h2>Dynamic method replacement</h2><p>After publishing my original <a href="https://theswiftdev.com/building-and-loading-dynamic-libraries-at-runtime-in-swift/" target="_blank">plugin system related article</a>, I've got an email from one of my readers. First of all thank you for letting me know about the <code>@_dynamicReplacement</code> attribute Corey. 🙏</p><p>The thing is that Swift supports dynamic method swizzling out of the box, although it is through a private attribute (starts with an underscore), which means it is not ready for public use yet (yeah... just like <code>@_exported</code>, <code>@_functionBuilder</code> and the others), but eventually it will be finalized.</p><p>You can read the original <a href="https://forums.swift.org/t/dynamic-method-replacement/16619" target="_blank">dynamic method replacement pitch</a> on the Swift forums, there's also this <a href="https://gist.github.com/alemar11/d2ed3a90dd437267b156f8f33996e8af" target="_blank">great little snippet</a> that contains a minimal showcase about the <code>@_dynamicReplacement</code> attribute.</p><p>Long story short, you can use this attribute to override a custom dynamic method with your own implementation (even if it comes from a dynamically loaded library). In our case we've already prepared a dynamic build method, so if we try we can override that the following snippet.</p><pre><code class="language-swift"><span class="keyword">import</span> TextUI
+
+<span class="keyword">extension</span> <span class="type">TextUI</span> {
+
+    <span class="keyword">@_dynamicReplacement</span>(for: <span class="call">build</span>())
+    <span class="keyword">static func</span> _customBuild() -&gt; <span class="type">String</span> {
+        <span class="string">"It just works."</span>
+    }
+}
+
+<span class="call">print</span>(<span class="type">TextUI</span>.<span class="call">build</span>()) <span class="comment">// It just works.</span></code></pre><p>If you alter the <code>main.swift</code> file and run the project you should see that even we're calling the build method, it is going to be dispatched dynamically and our <code>_customBuild()</code> method will be called under the hood, hence the new return value.</p><p>It works like a charm, but can we make this even more dynamic? Is it possible to build one more dynamic library and load that at runtime, then replace the original build implementation with the dynamically loaded lib code? The answer is yes, let me show you how to do this. 🤩</p><pre><code class="language-swift"><span class="comment">// swift-tools-version:5.3</span>
+<span class="keyword">import</span> PackageDescription
+
+<span class="keyword">let</span> package = <span class="type">Package</span>(
+    name: <span class="string">"TextView"</span>,
+    products: [
+        .<span class="call">library</span>(name: <span class="string">"TextView"</span>, type: .<span class="dotAccess">dynamic</span>, targets: [<span class="string">"TextView"</span>]),
+    ],
+    targets: [
+        .<span class="call">target</span>(name: <span class="string">"TextView"</span>, swiftSettings: [
+            .<span class="call">unsafeFlags</span>([<span class="string">"-L"</span>, <span class="string">"/usr/local/lib/"</span>]),
+            .<span class="call">unsafeFlags</span>([<span class="string">"-I"</span>, <span class="string">"/usr/local/lib/"</span>]),
+            .<span class="call">unsafeFlags</span>([<span class="string">"-lTextUI"</span>]),
+        ], linkerSettings: [
+            .<span class="call">unsafeFlags</span>([<span class="string">"-L"</span>, <span class="string">"/usr/local/lib/"</span>]),
+            .<span class="call">unsafeFlags</span>([<span class="string">"-I"</span>, <span class="string">"/usr/local/lib/"</span>]),
+            .<span class="call">unsafeFlags</span>([<span class="string">"-lTextUI"</span>]),
+        ]),
+    ]
+)</code></pre><p>Same SPM pattern, we've just created a dynamic library and we've used the TextUI as a shared library so we can place our TextUI extension into this library instead of the TextApp target.</p><p>So far we've created 3 separated Swift packages shared the <code>TextUI</code> module between the TextApp and the TextView packages as a pre-built dynamic library (using unsafe build flags). Now we're going to extend the TextUI struct inside our TextView package and build it as a dynamic library.</p><pre><code class="language-swift"><span class="keyword">import</span> TextUI
+
+<span class="keyword">extension</span> <span class="type">TextUI</span> {
+
+    <span class="keyword">@_dynamicReplacement</span>(for: <span class="call">build</span>())
+    <span class="keyword">static func</span> _customBuild() -&gt; <span class="type">String</span> {
+        <span class="string">"It just works."</span>
+    }
+}</code></pre><p>We can use a similar makefile (to the previous one) or simply run the swift build -c release command and copy the <code>libTextView.dylib</code> file from the build directory by hand.</p><blockquote><p>If you run this code using Linux or Windows, the dynamic library file will be called <code>libTextView.so</code> under Linux and <code>libTextView.dll</code> on Windows.</p></blockquote><p>So just place this file under your home directory we're going to need the full path to access it using the TextApp's main file. We're going to use the <code>dlopen</code> call to load the <code>dylib</code>, this will replace our build method, then we close it using <code>dlclose</code> (on the supported platforms, more on this later...).</p><pre><code class="language-swift"><span class="keyword">import</span> Foundation
+<span class="keyword">import</span> TextUI
+
+<span class="call">print</span>(<span class="type">TextUI</span>.<span class="call">build</span>())
+
+<span class="keyword">let</span> dylibPath = <span class="string">"/Users/tib/libTextView.dylib"</span>
+<span class="keyword">guard let</span> dylibReference = <span class="call">dlopen</span>(dylibPath, <span class="type">RTLD_LAZY</span>) <span class="keyword">else</span> {
+    <span class="keyword">if let</span> err = <span class="call">dlerror</span>() {
+        <span class="call">fatalError</span>(<span class="type">String</span>(format: <span class="string">"dlopen error - %s"</span>, err))
+    }
+    <span class="keyword">else</span> {
+        <span class="call">fatalError</span>(<span class="string">"unknown dlopen error"</span>)
+    }
+}
+<span class="keyword">defer</span> {
+    <span class="call">dlclose</span>(dylibReference)
+}
+
+
+<span class="call">print</span>(<span class="type">TextUI</span>.<span class="call">build</span>())
+
+<span class="comment">// Output:
+//
+// Hello, World!
+// It just works.</span></code></pre><p>The great thing about this approach is that you don't have to mess around with additional <code>dlsym</code> calls and unsafe C pointers. There is also a nice and detailed <a href="https://tech.guardsquare.com/posts/swift-native-method-swizzling/" target="_blank">article</a> about Swift and native method swizzling, this focuses a bit more on the emitted replacements code, but I found it a very great read.</p><p>Unfortunately there is one more thing that we have to talk about...</p><h2>Drawbacks &amp; conclusion</h2><p>Dynamic method replacement works nice, this approach is behind SwiftUI live previews (or <code>dlsym</code> with some pointer magic, but who knows this for sure..). Anyway, everything looks great, until you start involving Swift classes under macOS. What's wrong with classes?</p><p>Turns out that the Objective-C runtime gets involved under macOS if you compile a native Swift class. Just compile the following example source and take a look at it using the nm tool.</p><pre><code>// a.swift
+class A {}
+
+// swiftc a.swift -emit-library
+// nm liba.dylib|grep -i objc
+</code></pre><p>Under macOS the output of <code>nm</code> will contain traces of the Objective-C runtime and that is more than enough to cause some troubles during the <code>dylib</code> close process. Turns out if your library contains the ObjC runtime you won't be able to actually close the <code>dylib</code>, no matter what. ⚠️</p><blockquote><p>Prior to Mac OS X 10.5, only bundles could be unloaded. Starting in Mac OS X 10.5, dynamic libraries may also be unloaded. There are a couple of cases in which a dynamic library will never be unloaded: 1) the main executable links against it, 2) an API that does not support unloading (e.g. NSAddImage()) was used to load it or some other dynamic library that depends on it, 3) the dynamic library is in dyld's shared cache.</p></blockquote><p>If you take a look at <code>man 3 dlclose</code> you can get a few more hints about the reasons, plus you can also check the <a href="https://opensource.apple.com/source/objc4/" target="_blank">source code</a> of the Objective-C runtime, if you want to see more details.</p><p>Anyway I thought this should be mentioned, because it can cause some trouble (only on macOS), but everything works just great under Linux, so if you are planning to use this approach on the server side, then I'd say it'll work just fine. It's not safe, but it should work. 😈</p><p>Oh, I almost forget the hot-reload functionality. Well, you can add a directory or file watcher that can <a href="https://github.com/eonil/FSEvents" target="_blank">monitor</a> your source codes and if something changes you can re-build the TextView dynamic library then load the <code>dylib</code> again and call the build method if needed. It's relatively easy after you've tackled the <code>dylib</code> part, once you figure out the smaller details, it works like magic. 🥳</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/dynamic-libraries-and-code-replacements-in-swift"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/assets/book/vapor.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <p><strong>Third edition is just: $39</strong></p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
+                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

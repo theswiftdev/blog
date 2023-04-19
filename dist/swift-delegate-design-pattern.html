@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Swift delegate design pattern - The.Swift.Dev.</title>
+    
+    <meta name="description" content="The delegate design pattern is a relatively easy way to communicate between two objects through a common interface, protocol in Swift.">
+    
+    <meta property="og:title" content="Swift delegate design pattern - The.Swift.Dev.">
+    <meta property="og:description" content="The delegate design pattern is a relatively easy way to communicate between two objects through a common interface, protocol in Swift.">
+    <meta property="og:url" content="https://theswiftdev.github.io/blog/swift-delegate-design-pattern">
+    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/swift-delegate-design-pattern/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="Swift delegate design pattern - The.Swift.Dev.">
+    <meta name="twitter:description" content="The delegate design pattern is a relatively easy way to communicate between two objects through a common interface, protocol in Swift.">
+    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/swift-delegate-design-pattern/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.github.io/blog/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2018/06/27">2018/06/27</time>
+            <h1 class="title">Swift delegate design pattern</h1>
+            <p class="excerpt">The delegate design pattern is a relatively easy way to communicate between two objects through a common interface, protocol in Swift.</p>
+            <div class="meta">
+                <span class="tag">Swift</span>
+<span class="tag">iOS</span>
+<span class="tag">design patterns</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/swift-delegate-design-pattern/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <h2>Implementing delegation in Swift</h2><p>You'll need a delegate protocol, a <a href="https://blog.bobthedeveloper.io/the-meaning-of-delegate-in-swift-347eaa9674d" target="_blank">delegator</a> who actually delegates out the tasks and a delegate object that implements the delegate protocol and does the actual work that was requested by the "boss". Let's translate this into human.</p><blockquote><p>The client reports a bug. The project manager creates an issue and tells one of the developers to fix the problem asap.</p></blockquote><p>See? That's <a href="http://www.andrewcbancroft.com/2015/03/26/what-is-delegation-a-swift-developers-guide/" target="_blank">delegation</a>. At some point an event happened, so the delegator (manager) utilized an external resource (a developer) using a common interface (issue describing the problem for both party) to do achieve something (fix the 🐛).</p><p>To demonstrate <a href="https://www.andrewcbancroft.com/2015/04/08/how-delegation-works-a-swift-developer-guide/" target="_blank">how delegation works</a> in real life I made a pretty simple example. I'm going to use a similar approach (because Xcode playgrounds are still freezing every 1-5 minutes) like I did for <a href="https://theswiftdev.com/2018/06/13/swift-command-design-pattern/" target="_blank">the command pattern</a>, but the purpose of this one is going to be almost entirely different, because we're talking about delegation. 😅</p><pre><code class="language-swift">#!/usr/bin/env swift
+
+<span class="keyword">import</span> Foundation
+
+
+<span class="keyword">protocol</span> InputDelegate {
+
+    <span class="keyword">var</span> shouldContinueListening: <span class="type">Bool</span> { <span class="keyword">get</span> }
+
+    <span class="keyword">func</span> didStartListening()
+    <span class="keyword">func</span> didReceive(input: <span class="type">String</span>)
+}
+
+
+<span class="keyword">class</span> InputHandler {
+
+    <span class="keyword">var</span> delegate: <span class="type">InputDelegate</span>?
+
+    <span class="keyword">func</span> listen() {
+        <span class="keyword">self</span>.<span class="property">delegate</span>?.<span class="call">didStartListening</span>()
+
+        <span class="keyword">repeat</span> {
+            <span class="keyword">guard let</span> input = <span class="call">readLine</span>() <span class="keyword">else</span> {
+                <span class="keyword">continue</span>
+            }
+            <span class="keyword">self</span>.<span class="property">delegate</span>?.<span class="call">didReceive</span>(input: input)
+        }
+        <span class="keyword">while self</span>.<span class="property">delegate</span>?.<span class="property">shouldContinueListening</span> ?? <span class="keyword">false</span>
+    }
+}
+
+
+<span class="keyword">struct</span> InputReceiver: <span class="type">InputDelegate</span> {
+
+    <span class="keyword">var</span> shouldContinueListening: <span class="type">Bool</span> {
+        <span class="keyword">return true</span>
+    }
+
+    <span class="keyword">func</span> didStartListening() {
+        <span class="call">print</span>(<span class="string">"👻 Please be nice and say \"hi\", if you want to leave just tell me \"bye\":"</span>)
+    }
+
+    <span class="keyword">func</span> didReceive(input: <span class="type">String</span>) {
+        <span class="keyword">switch</span> input {
+        <span class="keyword">case</span> <span class="string">"hi"</span>:
+            <span class="call">print</span>(<span class="string">"🌎 Hello world!"</span>)
+        <span class="keyword">case</span> <span class="string">"bye"</span>:
+            <span class="call">print</span>(<span class="string">"👋 Bye!"</span>)
+            <span class="call">exit</span>(<span class="number">0</span>)
+        <span class="keyword">default</span>:
+            <span class="call">print</span>(<span class="string">"🔍 Command not found! Please try again:"</span>)
+        }
+    }
+}
+
+<span class="keyword">let</span> inputHandler = <span class="type">InputHandler</span>()
+<span class="keyword">let</span> inputReceiver = <span class="type">InputReceiver</span>()
+inputHandler.<span class="property">delegate</span> = inputReceiver
+inputHandler.<span class="call">listen</span>()</code></pre><p>This is how you can create your own <a href="https://www.appcoda.com/swift-delegate/" target="_blank">delegate pattern in Swift</a>. You can imagine that Apple is doing the same thing under the hood, with <code>UICollectionViewDataSource</code>, <code>UICollectionViewDelegate</code> etc. You only have to implement the delegate, they'll provide the protocol and the delegator. 🤔</p><h2>Weak properties, delegates and classes</h2><p>Memory management is a very important thing so it's worth to mention that all the class delegates should be weak properties, or you'll create a really bad retain cycle. 😱</p><pre><code class="language-swift"><span class="keyword">protocol</span> InputDelegate: <span class="keyword">class</span> { <span class="comment">/*...*/</span> }
+
+<span class="keyword">class</span> InputHandler {
+
+    <span class="keyword">weak var</span> delegate: <span class="type">InputDelegate</span>?
+
+    <span class="comment">/*...*/</span>
+}
+
+<span class="keyword">class</span> InputReceiver: <span class="type">InputDelegate</span> {
+    <span class="comment">/*...*/</span>
+}</code></pre><p>Here is the altered Swift code snippet, but now using a class as the delegate. You just have to change your protocol a little bit and the property inside the delegator. Always use weak delegate variables if you are going to assign a class as a delegate. ⚠️</p><p>As you can see delegation is pretty easy, but it can be dangerous. It helps decoupling by providing a common interface that can be used by anyone who implements the delegate (sometimes data source) protocol. There are really amazing articles about delegates, if you'd like to know more about this pattern, you should check them out.</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/swift-delegate-design-pattern"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/assets/book/vapor.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <p><strong>Third edition is just: $39</strong></p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
+                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>How to use middlewares in Vapor 4? - The.Swift.Dev.</title>
+    
+    <meta name="description" content="Learn how to create middlewares for a Vapor based server side Swift application to handle common routing functionalities.">
+    
+    <meta property="og:title" content="How to use middlewares in Vapor 4? - The.Swift.Dev.">
+    <meta property="og:description" content="Learn how to create middlewares for a Vapor based server side Swift application to handle common routing functionalities.">
+    <meta property="og:url" content="https://theswiftdev.github.io/blog/how-to-use-middlewares-in-vapor-4">
+    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/how-to-use-middlewares-in-vapor-4/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="How to use middlewares in Vapor 4? - The.Swift.Dev.">
+    <meta name="twitter:description" content="Learn how to create middlewares for a Vapor based server side Swift application to handle common routing functionalities.">
+    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/how-to-use-middlewares-in-vapor-4/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.github.io/blog/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2020/03/17">2020/03/17</time>
+            <h1 class="title">How to use middlewares in Vapor 4?</h1>
+            <p class="excerpt">Learn how to create middlewares for a Vapor based server side Swift application to handle common routing functionalities.</p>
+            <div class="meta">
+                <span class="tag">Vapor</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/how-to-use-middlewares-in-vapor-4/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <h2>What is a middleware?</h2><p>A <a href="https://docs.vapor.codes/4.0/routing/#middleware" target="_blank">middleware</a> is basically a function that will be executed every time before the request handler. This way you can hook up special functionalities, such as altering the request before your handler gets the chance to respond to it. Let me show you a real-world example real quick.</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+
+<span class="keyword">final class</span> ExtendPathMiddleware: <span class="type">Middleware</span> {
+
+    <span class="keyword">public func</span> respond(to request: <span class="type">Request</span>, chainingTo next: <span class="type">Responder</span>) -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Response</span>&gt; {
+        <span class="keyword">if</span> !request.<span class="property">url</span>.<span class="property">path</span>.<span class="call">hasSuffix</span>(<span class="string">"/"</span>) {
+            <span class="keyword">let</span> response = request.<span class="call">redirect</span>(to: request.<span class="property">url</span>.<span class="property">path</span> + <span class="string">"/"</span>, type: .<span class="dotAccess">permanent</span>)
+            <span class="keyword">return</span> request.<span class="property">eventLoop</span>.<span class="call">makeSucceededFuture</span>(response)
+        }
+        <span class="keyword">return</span> next.<span class="call">respond</span>(to: request)
+    }
+}</code></pre><p>I'm using this middleware to always extend my paths with a trailing slash character. Just try to delete the last char from the URL here on my site &amp; press enter, you'll be redirected to the original path with a "/" suffix, since the middleware is doing its job. 👨‍💻</p><p>A middleware function has two input parameters. The first one is the <code>Request</code> object that you can check or even alter its properties. The second one is the next reference in the <code>Responder</code> chain, so you can respond as usual (with your route handlers) if the middleware has nothing to do with the incoming request. You should always call the <code>next.respond(to: request)</code> method.</p><h2>Using a middleware</h2><p>In order to use the middleware from above you have to register it first. It is possible to use a middleware globally, you can hook up your middleware using the <code>app.middleware.use(_)</code> method. This way the registered middleware will be applided for every single route in your Vapor server.</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+
+<span class="keyword">public func</span> configure(<span class="keyword">_</span> app: <span class="type">Application</span>) <span class="keyword">throws</span> {
+    <span class="comment">// ...</span>
+    app.<span class="property">middleware</span>.<span class="call">use</span>(<span class="type">ExtendPathMiddleware</span>())
+}</code></pre><p>The other option is to apply a middleware to specific subset of routes.</p><pre><code class="language-swift"><span class="keyword">let</span> middlewareRoutes = app.<span class="call">grouped</span>(<span class="type">ExtendPathMiddleware</span>())
+middlewareRoutes.<span class="call">get</span>(<span class="string">"hello"</span>) { req <span class="keyword">in
+    return</span> <span class="string">"hello"</span>
+}</code></pre><p>You can read more about routing in the <a href="https://docs.vapor.codes/4.0/routing/" target="_blank">official Vapor 4 docs</a>. I also prefer to have a dedicated router class for my modules (I'm using kind of a VIPER architecture on the server side). 😜</p><pre><code class="language-swift"><span class="keyword">final class</span> MyRouter: <span class="type">RouteCollection</span> {
+
+    <span class="keyword">func</span> boot(routes: <span class="type">RoutesBuilder</span>) <span class="keyword">throws</span> {
+        routes.<span class="call">grouped</span>(<span class="type">ExtendPathMiddleware</span>()).<span class="call">get</span>(<span class="string">"hello"</span>, use: <span class="keyword">self</span>.<span class="property">hello</span>)
+    }
+    
+    <span class="keyword">func</span> hello(req: <span class="type">Request</span>) -&gt; <span class="type">String</span> {
+        <span class="keyword">return</span> <span class="string">"hello"</span>
+    }
+}
+<span class="comment">// config</span>
+<span class="keyword">try</span> app.<span class="property">routes</span>.<span class="call">register</span>(collection: routes)</code></pre><p>That's how I utilize middlewares in my Vapor apps. Honestly I don't have that much custom middlewares, but the ones I implemented helps me a lot to solve common problems.</p><h2>Built-in middlewares</h2><p>There are some useful middlewares built right into Vapor.</p><h3>File middleware</h3><p>The <code>FileMiddleware</code> allows you to serve static assets from a given folder. This comes handy if you are using Vapor without an nginx server, so you can serve images, stylesheets, javascript files with the client (browser). You can setup the middleware like this:</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+
+<span class="keyword">public func</span> configure(<span class="keyword">_</span> app: <span class="type">Application</span>) <span class="keyword">throws</span> {
+    <span class="comment">// ...</span>
+
+    app.<span class="property">middleware</span>.<span class="call">use</span>(<span class="type">FileMiddleware</span>(publicDirectory: app.<span class="property">directory</span>.<span class="property">publicDirectory</span>))
+}</code></pre><p>You can configure the path of your resources by passing the <code>publicDirectory</code> input parameter.</p><h3>CORS middleware</h3><p>In short, <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing" target="_blank">CORS</a> allows you to share resources between multiple domains.</p><blockquote><p>Cross-origin resource sharing (CORS) is a mechanism that allows restricted resources on a web page to be requested from another domain outside the domain from which the first resource was served.</p></blockquote><p>This comes handy if you are <a href="https://theswiftdev.com/how-to-create-your-first-website-using-vapor-4-and-leaf/" target="_blank">developing frontend apps by using Leaf &amp; Vapor</a>. This middleware will replace or add the necessary CORS headerss to the response. You can use the default config or initialize a custom one, here is the Swift code for using the CORS middleware:</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+
+<span class="keyword">public func</span> configure(<span class="keyword">_</span> app: <span class="type">Application</span>) <span class="keyword">throws</span> {
+    <span class="comment">// ...
+    
+    // using default configuration</span>
+    app.<span class="property">middleware</span>.<span class="call">use</span>(<span class="type">CORSMiddleware</span>(configuration: .<span class="call">default</span>()))
+    
+    <span class="comment">// using custom configuration</span>
+    app.<span class="property">middleware</span>.<span class="call">use</span>(<span class="type">CORSMiddleware</span>(configuration: .<span class="keyword">init</span>(
+        allowedOrigin: .<span class="dotAccess">originBased</span>,
+        allowedMethods: [.<span class="type">GET</span>, .<span class="dotAccess">POST</span>, .<span class="dotAccess">PUT</span>, .<span class="dotAccess">OPTIONS</span>, .<span class="dotAccess">DELETE</span>, .<span class="dotAccess">PATCH</span>],
+        allowedHeaders: [.<span class="dotAccess">accept</span>, .<span class="dotAccess">authorization</span>, .<span class="dotAccess">contentType</span>, .<span class="dotAccess">origin</span>, .<span class="dotAccess">xRequestedWith</span>]
+    )))
+}</code></pre><p>If you want to learn more about how these middlewares work you should option+click on the name of the middleware in Xcode. This way you can browse the source files directly. 🔍</p><h3>Error middleware</h3><p>Route handlers can throw erros. You can catch those by using the <code>ErrorMiddlware</code> and turn them into proper HTTP responses if necessary. Here is how to setup the middleware:</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+
+<span class="keyword">public func</span> configure(<span class="keyword">_</span> app: <span class="type">Application</span>) <span class="keyword">throws</span> {
+    <span class="comment">// ...
+    // using the default error handler</span>
+    app.<span class="property">middleware</span>.<span class="call">use</span>(<span class="type">ErrorMiddleware</span>.<span class="call">default</span>(environment: app.<span class="property">environment</span>))
+    
+    <span class="comment">// using a custom error handler</span>
+    app.<span class="property">middleware</span>.<span class="call">use</span>(<span class="type">ErrorMiddleware</span> { req, error -&gt; <span class="type">Response</span> <span class="keyword">in</span>
+        <span class="comment">// implement custom response...</span>
+        .<span class="keyword">init</span>(status: .<span class="dotAccess">internalServerError</span>, version: req.<span class="property">version</span>, headers: .<span class="keyword">init</span>(), body: .<span class="dotAccess">empty</span>)
+    })
+}</code></pre><p>If you are developing an API service, this middleware is kind of an essential component. 💥</p><h3>Auth related middlewares</h3><p>The <code>Authenticator</code> protocol conforms to the <code>Middleware</code> protocol, so we can register anything that implements any of the Authenticator protocols. You can read more about how the auth layer works in Vapor 4 from my <a href="https://theswiftdev.com/all-about-authentication-in-vapor-4/" target="_blank">authentication tutorial</a>.</p><p>The <code>Authenticatable</code> protocol has two static methods, they returns middlewares too. The first one is the guard middleware, which will throw an error if the user is not logged in. The second one is the redirect middleware, that redirects unauthenticated requests to the supplied path.</p><pre><code class="language-swift"><span class="comment">// The UserModelAuthenticator is an Authenticator</span>
+app.<span class="property">routes</span>.<span class="call">grouped</span>(<span class="type">UserModelAuthenticator</span>())
+
+<span class="comment">// The UserModel object is Authenticatable</span>
+app.<span class="property">routes</span>.<span class="call">grouped</span>([
+    <span class="type">UserModel</span>.<span class="call">guardMiddleware</span>(),
+    <span class="type">UserModel</span>.<span class="call">redirectMiddleware</span>(path: <span class="string">"/"</span>),
+])</code></pre><p>Multiple middlewares can be registered at once using an array.</p><h2>Middlewares vs route handlers</h2><p>Sometimes it's useful to write a middleware, but in other cases a simple route handler can be more than enough. I'm not against middlewares at all, but you should consider which approach is the best for your needs. I usually go with simple handlers and blocks in 95% of the cases.</p><p>Middlwares are good for solving global problems, for example if you want to add a new header to every request it's safe to use a middleware. Checking user permission levels? Not necessary, but yeah if you want to simplify things a middleware could work here as well. 🤔</p><h2>Fun fact</h2><p>This URL: <code>https://www.google.com/////search?????client=safari&amp;&amp;&amp;&amp;&amp;q=swift+vapor</code> still works, despite the fact that it contains 5 slashes, question marks and ampersands. I don't know why, but most of the websites are not checking for duplicates. Try with other domains as well.</p><p>If you want to learn how to build a custom middleware I think it's a good practice to solve this issue. Write one that removes the unnecessary characters and redirects to the "right" URL.</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/how-to-use-middlewares-in-vapor-4"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/assets/book/vapor.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <p><strong>Third edition is just: $39</strong></p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
+                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

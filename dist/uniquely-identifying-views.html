@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Uniquely identifying views - The.Swift.Dev.</title>
+    
+    <meta name="description" content="Learn how to use string based UIView identifiers instead of tags. If you are tired of tagging views, check out these alternative solutions.">
+    
+    <meta property="og:title" content="Uniquely identifying views - The.Swift.Dev.">
+    <meta property="og:description" content="Learn how to use string based UIView identifiers instead of tags. If you are tired of tagging views, check out these alternative solutions.">
+    <meta property="og:url" content="https://theswiftdev.github.io/blog/uniquely-identifying-views">
+    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/uniquely-identifying-views/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="Uniquely identifying views - The.Swift.Dev.">
+    <meta name="twitter:description" content="Learn how to use string based UIView identifiers instead of tags. If you are tired of tagging views, check out these alternative solutions.">
+    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/uniquely-identifying-views/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.github.io/blog/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2019/04/02">2019/04/02</time>
+            <h1 class="title">Uniquely identifying views</h1>
+            <p class="excerpt">Learn how to use string based UIView identifiers instead of tags. If you are tired of tagging views, check out these alternative solutions.</p>
+            <div class="meta">
+                <span class="tag">UIKit</span>
+<span class="tag">iOS</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/uniquely-identifying-views/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <h2>First approach: accessibility to the rescue!</h2><p>Long story short, I was quite tired of tagging views with stupid number values, so I looked for a better alternative solution to fix my problem. As it turned out, there is a property called <code>accessibilityIdentifier</code> that can do the job.</p><pre><code class="language-swift"><span class="keyword">extension</span> <span class="type">UIView</span> {
+
+    <span class="keyword">var</span> id: <span class="type">String</span>? {
+        <span class="keyword">get</span> {
+            <span class="keyword">return self</span>.<span class="property">accessibilityIdentifier</span>
+        }
+        <span class="keyword">set</span> {
+            <span class="keyword">self</span>.<span class="property">accessibilityIdentifier</span> = newValue
+        }
+    }
+
+    <span class="keyword">func</span> view(withId id: <span class="type">String</span>) -&gt; <span class="type">UIView</span>? {
+        <span class="keyword">if self</span>.<span class="property">id</span> == id {
+            <span class="keyword">return self</span>
+        }
+        <span class="keyword">for</span> view <span class="keyword">in self</span>.<span class="property">subviews</span> {
+            <span class="keyword">if let</span> view = view.<span class="call">view</span>(withId: id) {
+                <span class="keyword">return</span> view
+            }
+        }
+        <span class="keyword">return nil</span>
+    }
+}</code></pre><p>I made a simple extension around the UIView class, so now I can use a proper string value to uniquely identify any view object in the view hierarchy. It's quite a nice solution, now I can name my views in a really nice way. As a gratis storing the name under the accessibilityIdentifier will benefit your UI tests. 😉</p><h2>Second approach: using enums</h2><p>The main idea is to have an Int based enum for every view identifier, so basically you can use the tag property to store the enum's rawValue. It's still not so nice as the one above, but it's way more safe than relying on pure integers. 😬</p><pre><code class="language-swift"><span class="keyword">enum</span> ViewIdentifier: <span class="type">Int</span> {
+    <span class="keyword">case</span> submitButton
+}
+
+<span class="keyword">extension</span> <span class="type">UIView</span> {
+
+    <span class="keyword">var</span> identifier: <span class="type">ViewIdentifier</span>? {
+        <span class="keyword">set</span> {
+            <span class="keyword">if let</span> value = newValue {
+                <span class="keyword">self</span>.<span class="property">tag</span> = value.<span class="property">rawValue</span>
+            }
+        }
+        <span class="keyword">get</span> {
+            <span class="keyword">return</span> <span class="type">ViewIdentifier</span>(rawValue: <span class="keyword">self</span>.<span class="property">tag</span>)
+        }
+    }
+
+    <span class="keyword">func</span> view(withId id: <span class="type">ViewIdentifier</span>) -&gt; <span class="type">UIView</span>? {
+        <span class="keyword">return self</span>.<span class="call">viewWithTag</span>(id.<span class="property">rawValue</span>)
+    }
+}</code></pre><p>Honestly I just came up with the second approach right after I copy &amp; pasted the first snippet to this article, but what the heck, maybe someone else will like it. 😂</p><p>If you have a better solution for this problem, feel free to share it with me.</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/uniquely-identifying-views"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/assets/book/vapor.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <p><strong>Third edition is just: $39</strong></p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
+                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

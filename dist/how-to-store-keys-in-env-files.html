@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>How to store keys in env files? - The.Swift.Dev.</title>
+    
+    <meta name="description" content="In this tutorial I'll show you how to save and load secret keys as base64 encoded strings using dotenv files in Vapor 4.">
+    
+    <meta property="og:title" content="How to store keys in env files? - The.Swift.Dev.">
+    <meta property="og:description" content="In this tutorial I'll show you how to save and load secret keys as base64 encoded strings using dotenv files in Vapor 4.">
+    <meta property="og:url" content="https://theswiftdev.github.io/blog/how-to-store-keys-in-env-files">
+    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/how-to-store-keys-in-env-files/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="How to store keys in env files? - The.Swift.Dev.">
+    <meta name="twitter:description" content="In this tutorial I'll show you how to save and load secret keys as base64 encoded strings using dotenv files in Vapor 4.">
+    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/how-to-store-keys-in-env-files/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.github.io/blog/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2020/06/30">2020/06/30</time>
+            <h1 class="title">How to store keys in env files?</h1>
+            <p class="excerpt">In this tutorial I'll show you how to save and load secret keys as base64 encoded strings using dotenv files in Vapor 4.</p>
+            <div class="meta">
+                <span class="tag">Vapor</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/how-to-store-keys-in-env-files/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <h2>Using the Environment in Vapor 4</h2><p>Just like many popular server side frameworks, your Vapor based backend application can load a file called <code>.env</code>. It is possible to store key-value based (secret) configuration values inside this file. When you run the app, one of the following file will be loaded, based on the current environment:</p><ul><li>Production (<code>.env</code>)</li><li>Development (<code>.env.development</code>)</li><li>Testing (<code>.env.testing</code>)</li></ul><p>When you execute your tests the <code>.env.testing</code> file will be used. If you start the app using the <code>serve</code> Vapor <a href="https://theswiftdev.com/the-anatomy-of-vapor-commands/" target="_blank">command</a> you can also change the environment using the <code>--env</code> or <code>-e</code> flag. The available options are production and development, and the corresponding <code>.env</code> file will be loaded. It is possible to create a custom environment, you can read more about this in the <a href="https://docs.vapor.codes/4.0/environment/" target="_blank">official Vapor docs</a>. The .env file usually contains one key and value per line, now the problem starts when you want to store a multiline secret key in the file. So what can we do about this? 🤔</p><h2>Base64 encoded secret keys</h2><p>Yes, we can encode the secret key using a base64 encoding. No, I don't want to copy my secrets into an <a href="https://www.base64encode.org/" target="_blank">online base64 encoder</a>, because there is a pretty simple shell command that I can use.</p><pre><code class="language-sh">echo "&lt;my-secret-key&gt;" | base64
+</code></pre><p>If you don't like unix commands, we can always put together a little Swift script and use an extension on the String type to encode keys. Just save the snippet from below into a base64.swift file, put your key into the key section, give the file some executable permission &amp; run it using the <code>chmod o+x &amp;&amp; ./base64.swift</code> one-liner command and voilá...</p><pre><code class="language-swift">#! /usr/bin/swift
+
+<span class="keyword">import</span> Foundation
+
+<span class="keyword">extension</span> <span class="type">String</span> {
+
+    <span class="keyword">func</span> base64Encoded() -&gt; <span class="type">String</span>? {
+        <span class="keyword">return</span> <span class="call">data</span>(using: .<span class="dotAccess">utf8</span>)?.<span class="call">base64EncodedString</span>()
+    }
+}
+
+<span class="keyword">let</span> key = <span class="string">"""
+    &lt;my-secret-key-comes-here&gt;
+"""</span>
+
+<span class="call">print</span>(key.<span class="call">base64Encoded</span>()!)</code></pre><p>You can copy &amp; paste the encoded value of the secret key into your own <code>.env.*</code> file, replace the asterix symbol with your current environment of course, before you do it. 🙈</p><pre><code class="language-sh">//e.g. .env.development
+SECRET_KEY="&lt;base64-encoded-secret-key&gt;"
+</code></pre><p>Now we just have to decode this key somehow, before we can start using it...</p><h2>Decoding the secret key</h2><p>You can implement a base64 decoder as a String extension with just a few lines of Swift code.</p><pre><code class="language-swift"><span class="keyword">import</span> Foundation
+
+<span class="keyword">extension</span> <span class="type">String</span> {
+
+    <span class="keyword">func</span> base64Decoded() -&gt; <span class="type">String</span>? {
+        <span class="keyword">guard let</span> data = <span class="type">Data</span>(base64Encoded: <span class="keyword">self</span>) <span class="keyword">else</span> { <span class="keyword">return nil</span> }
+        <span class="keyword">return</span> <span class="type">String</span>(data: data, encoding: .<span class="dotAccess">utf8</span>)
+    }
+}</code></pre><p>Now in my projects I like to extend the <code>Environment</code> object and place all my custom variables there as static constants, this way I can access them in a really convenient way, plus if something goes wrong (usually when I don't re-create the <code>.env</code> file after a <code>git reset</code> or I don't have all the variables present in the dotenv file) the app will crash because of the forced unwraps, and I'll know for sure that something is wrong with my environment. It's a crash for my own safety. 💥</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+
+<span class="keyword">extension</span> <span class="type">Environment</span> {
+    <span class="keyword">static let</span> secretKey = <span class="type">Self</span>.<span class="call">get</span>(<span class="string">"SECRET_KEY"</span>)!.<span class="call">base64Decoded</span>()!
+}
+
+<span class="comment">// usage:</span>
+<span class="type">Environment</span>.<span class="property">secretKey</span></code></pre><p>I think this approach is very useful. Of course you should place the <code>.env.*</code> pattern into your <code>.gitignore</code> file, otherwise if you place some secrets into the dotenv file and you push that into the remote... well, everyone else will know your keys, passwords, etc. You don't want that, right? ⚠️</p><p>Feel free to use this method when you have to implement a <a href="https://theswiftdev.com/sign-in-with-apple-using-vapor-4/" target="_blank">Sign in With Apple</a> workflow, or a Apple Push Notification service (APNs). In those cases you'll definitely have to pass one ore more secret keys to your Vapor based backend application. That's it for now, thanks for reading.</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/how-to-store-keys-in-env-files"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/assets/book/vapor.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <p><strong>Third edition is just: $39</strong></p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
+                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

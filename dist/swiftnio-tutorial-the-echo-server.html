@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>SwiftNIO tutorial - The echo server - The.Swift.Dev.</title>
+    
+    <meta name="description" content="This is a beginner's guide to learn the basics of the SwiftNIO network app framework by building a basic TCP echo server.">
+    
+    <meta property="og:title" content="SwiftNIO tutorial - The echo server - The.Swift.Dev.">
+    <meta property="og:description" content="This is a beginner's guide to learn the basics of the SwiftNIO network app framework by building a basic TCP echo server.">
+    <meta property="og:url" content="https://theswiftdev.github.io/blog/swiftnio-tutorial-the-echo-server">
+    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/swiftnio-tutorial-the-echo-server/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="SwiftNIO tutorial - The echo server - The.Swift.Dev.">
+    <meta name="twitter:description" content="This is a beginner's guide to learn the basics of the SwiftNIO network app framework by building a basic TCP echo server.">
+    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/swiftnio-tutorial-the-echo-server/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.github.io/blog/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2023/01/26">2023/01/26</time>
+            <h1 class="title">SwiftNIO tutorial - The echo server</h1>
+            <p class="excerpt">This is a beginner's guide to learn the basics of the SwiftNIO network app framework by building a basic TCP echo server.</p>
+            <div class="meta">
+                <span class="tag">Swift</span>
+<span class="tag">SwiftNIO</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/swiftnio-tutorial-the-echo-server/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <h2>Intoducing SwiftNIO</h2><p>If you used a high level web framework, such as <a href="https://www.vapor.codes/" target="_blank">Vapor</a>, in the past, you might had some interaction with event loops or promises. Well, these fundamental building blocks are part of a low level network framework, called <a href="https://github.com/apple/swift-nio" target="_blank">SwiftNIO</a>, which I'm going to talk about in this tutorial.</p><p>Don't worry if you haven't heard about event loops or non-blocking IO just yet, I'll try to explain everything in this guide, so hopefully you'll understand everything even if you are a complete beginner to this topic. Let's start with some basics about networks and computers.</p><h2>Let's talk about TCP/IP</h2><p>It all started on January 1st, 1983. The <a href="https://www.usg.edu/galileo/skills/unit07/internet07_02.phtml" target="_blank">internet was born</a> (as some say) and people started to officially use the <a href="https://en.wikipedia.org/wiki/Internet_protocol_suite" target="_blank">internet protocol suite</a> (TCP/IP) to communicate between devices. If you don't know much about <a href="https://www.guru99.com/tcp-ip-model.html" target="_blank">TCP/IP</a> and you are curious about the underlying parts, you can read a few other articles, but in a nutshell this model allows us to talk with remote computers easily. 💬</p><p>Let's say that you have two machines, connected by the network. How do they communicate with each other? Well, just like when you send a regular letter, first you have to specify the address of the recipient. In order to send a message to another computer, you have to know its digital address too. This digital address is called <a href="https://en.wikipedia.org/wiki/IP_address" target="_blank">IP address</a> and it looks like this: 127.0.0.1.</p><p>So you've got the address, but sometimes this is not enough, because a building can have multiple apartments and you have to specify the exact letterbox in order to reach the actual person. This can happen with computers too, the letterbox is called port number and the full address of the target can be created by combining the IP address and the port number (we call this full address as a <a href="https://en.wikipedia.org/wiki/Network_socket" target="_blank">network socket</a> address or simply socket, e.g. 127.0.0.1:80). 💌</p><p>After you've specified the exact address, you'll need someone to actually deliver the letter containing your message. The postal delivery service can transfer your letter, there are two ways to send it over to the recipient. The first solution is to simply send it without knowing much about the delivery status, the digital version of this approach is called <a href="https://en.wikipedia.org/wiki/User_Datagram_Protocol" target="_blank">User Datagram Protocol</a> (UDP).</p><p>The other (more reliable) method is to get a receipt about the delivery, this way you can make sure that the letter actually arrived and the recipient got it. Although, the postman can open your letter and alter your message, but it'll be still delivered and you'll get a notification about this. When you communicate through the network, this method is called <a href="https://en.wikipedia.org/wiki/Transmission_Control_Protocol" target="_blank">Transmission Control Protocol</a> (TCP).</p><p>Ok, that's more than enough network theory, I know it's a high level abstraction and not entirely accurate, but hopefully you'll get the basic idea. Now let's talk about what happens inside the machine and how we can place an actual digital letterbox in front of the imaginary house. 📪</p><h2>The basic building blocks of SwiftNIO</h2><p>What do you do if you expect a letter? Apart from the excitement, most people constantly check their mailboxes to see if it's already there or not. They are listening for the noises of the postman, just like computer programs listen on a given port to check if some data arrived or not. 🤓</p><p>What happens if a letter arrives? First of all you have to go and get it out from the mailbox. In order to get it you have to walk through the hallway or down the stairs or you can ask someone else to deliver the letter for you. Anyway, should get the letter somehow first, then based on the envelope you can perform an action. If it looks like a spam, you'll throw it away, but if it's an important letter you'll most likely open it, read the contents and send back an answer as soon as possible. Let's stick with this analogy, and let me explain this again, but this time using SwiftNIO terms.</p><h3>Channel</h3><p>A <a href="https://swiftpackageindex.com/apple/swift-nio/main/documentation/niocore/channel" target="_blank">Channel</a> connects the underlying network socket with the application's code. The channel's responsibility is to handle inbound and outbound events, happening through the socket (or file descriptor). In other words, it's the channel that connects the mailbox with you, you should imagine it as the hallway to the mailbox, literally the messages are going travel to you via a channel. 📨</p><h3>ChannelPipeline</h3><p>The ChannelPipeline describes a set of actions about how to handle the letters. One possible version is to make a decision based on the envelope, you'll throw it away if it looks like a spam, or open it if it looks like a formal letter, it's also an action if you respond to the letter. Actions are called as channel handlers in SwiftNIO. In short: a pipeline is a predefined sequence of handlers.</p><h3>ChannelHandler</h3><p>The <a href="https://swiftpackageindex.com/apple/swift-nio/main/documentation/niocore/channelhandler" target="_blank">ChannelHandler</a> is the action that you can perform when you open the letter. The channel handler has an input and an output type, which you can use to read the message using the input and respond to it using the output. Okay, just two more important terms, bear with me for a second, I'm going to show you some real examples afterwards. 🐻</p><h3>EventLoop</h3><p>The <a href="https://swiftpackageindex.com/apple/swift-nio/main/documentation/niocore/eventloop" target="_blank">EventLoop</a> works just like a <a href="https://developer.apple.com/documentation/foundation/runloop" target="_blank">run loop</a> or a <a href="https://developer.apple.com/documentation/dispatch/dispatchqueue" target="_blank">dispatch queue</a>. What does this mean?</p><blockquote><p>The event loop is an object that waits for events (usually I/O related events, such as "data received") to happen and then fires some kind of callback when they do.</p></blockquote><p>The modern CPUs have a limited number of cores, apps will most likely associate one thread (of execution) per core. Switching between thread contexts is also inefficient. What happens when an event has to wait for something and a thread becomes available for other tasks? In SwiftNIO the event loop will receive the incoming message, process it, and if it has to wait for something (like a file or database read) it'll execute some other tasks in the meantime. When the IO operation finishes it'll switch back to the task and it'll call back to your code when it's time. Or something like this, but the main takeaway here is that your channel handler is always going to be associated with exactly one event loop, this means actions will be executed using the same context.</p><h3>EventLoopGroup</h3><p>The <a href="https://swiftpackageindex.com/apple/swift-nio/main/documentation/niocore/eventloopgroup" target="_blank">EventLoopGroup</a> manages threads and event loops. The <a href="https://swiftpackageindex.com/apple/swift-nio/main/documentation/nioposix/multithreadedeventloopgroup" target="_blank">MultiThreadedEventLoopGroup</a> is going to balance out client over the available threads (event loops) this way the application is going to be efficient and every thread will handle just about the same amount of clients.</p><h3>Other components</h3><p>There are some other SwiftNIO components, we could talk more about <a href="https://swiftpackageindex.com/apple/swift-nio/main/documentation/niocore/eventloopfuture" target="_blank">Futures</a>, <a href="https://swiftpackageindex.com/apple/swift-nio/main/documentation/niocore/eventlooppromise" target="_blank">Promises</a> and the <a href="https://swiftpackageindex.com/apple/swift-nio/main/documentation/niocore/bytebuffer" target="_blank">ByteBuffer</a> type, but I suppose this was more than enough theory for now, so I'm not going to dive into these kind of objects, but spare them for upcoming articles. 😇</p><h2>Building an echo server using SwiftNIO</h2><p>You can start by creating a new executable Swift package, using the <a href="https://theswiftdev.com/swift-package-manager-tutorial/" target="_blank">Swift Package Manager</a>. Next you have to add SwiftNIO as a package dependency inside the Package.swift file.</p><pre><code class="language-swift"><span class="comment">// swift-tools-version:5.7</span>
+<span class="keyword">import</span> PackageDescription
+
+<span class="keyword">let</span> package = <span class="type">Package</span>(
+    name: <span class="string">"echo-server"</span>,
+    platforms: [
+       .<span class="call">macOS</span>(.<span class="dotAccess">v10_15</span>),
+    ],
+    dependencies: [
+        .<span class="call">package</span>(
+            url: <span class="string">"https://github.com/apple/swift-nio"</span>,
+            from: <span class="string">"2.0.0"</span>
+        ),
+    ],
+    targets: [
+        .<span class="call">executableTarget</span>(
+            name: <span class="string">"Server"</span>,
+            dependencies: [
+                .<span class="call">product</span>(
+                    name: <span class="string">"NIO"</span>,
+                    package: <span class="string">"swift-nio"</span>
+                )
+            ]
+        ),
+    ]
+)</code></pre><p>The next step is to alter the main project file, we can easily create the SwiftNIO based TCP server by using the ServerBootstrap object. First we have to instantiate a MultiThreadedEventLoopGroup with a number of threads, using the CPU cores in the system.</p><p>Then we configure the server by adding some channel options. You don't have to know much about these just yet, the interesting part is inside the <code>childChannelInitializer</code> block. We create the actual channel pipeline there. Our pipeline will consist of two handlers, the first one is the built-in <code>BackPressureHandler</code>, the second one is going to be our custom made EchoHandler object.</p><p>If you are interested in the available <code>ChannelOptions</code>, you can take a look at the NIO source code, it also contains some very good docs about these things. The final step is to bind the server bootstrap object to a given host and port, and wait for incoming connections. 🧐</p><pre><code class="language-swift"><span class="keyword">import</span> NIO
+
+<span class="keyword">@main
+public struct</span> Server {
+    
+    <span class="keyword">public static func</span> main() <span class="keyword">throws</span> {
+        <span class="keyword">let</span> eventLoopGroup = <span class="type">MultiThreadedEventLoopGroup</span>(
+            numberOfThreads: <span class="type">System</span>.<span class="property">coreCount</span>
+        )
+
+        <span class="keyword">defer</span> {
+            <span class="keyword">try</span>! eventLoopGroup.<span class="call">syncShutdownGracefully</span>()
+        }
+
+        <span class="keyword">let</span> serverBootstrap = <span class="type">ServerBootstrap</span>(
+            group: eventLoopGroup
+        )
+        .<span class="call">serverChannelOption</span>(
+            <span class="type">ChannelOptions</span>.<span class="property">backlog</span>,
+            value: <span class="number">256</span>
+        )
+        .<span class="call">serverChannelOption</span>(
+            <span class="type">ChannelOptions</span>.<span class="call">socketOption</span>(.<span class="dotAccess">so_reuseaddr</span>),
+            value: <span class="number">1</span>
+        )
+        .<span class="call">childChannelInitializer</span> { channel <span class="keyword">in</span>
+            channel.<span class="property">pipeline</span>.<span class="call">addHandlers</span>([
+                <span class="type">BackPressureHandler</span>(),
+                <span class="type">EchoHandler</span>(),
+            ])
+        }
+        .<span class="call">childChannelOption</span>(
+            <span class="type">ChannelOptions</span>.<span class="call">socketOption</span>(.<span class="dotAccess">so_reuseaddr</span>),
+            value: <span class="number">1</span>
+        )
+        .<span class="call">childChannelOption</span>(
+            <span class="type">ChannelOptions</span>.<span class="property">maxMessagesPerRead</span>,
+            value: <span class="number">16</span>
+        )
+        .<span class="call">childChannelOption</span>(
+            <span class="type">ChannelOptions</span>.<span class="property">recvAllocator</span>,
+            value: <span class="type">AdaptiveRecvByteBufferAllocator</span>()
+        )
+
+        <span class="keyword">let</span> defaultHost = <span class="string">"127.0.0.1"</span> <span class="comment">// or ::1 for IPv6</span>
+        <span class="keyword">let</span> defaultPort = <span class="number">8888</span>
+
+        <span class="keyword">let</span> channel = <span class="keyword">try</span> serverBootstrap.<span class="call">bind</span>(
+            host: defaultHost,
+            port: defaultPort
+        )
+        .<span class="call">wait</span>()
+
+        <span class="call">print</span>(<span class="string">"Server started and listening on</span> \(channel.<span class="property">localAddress</span>!)<span class="string">"</span>)
+        <span class="keyword">try</span> channel.<span class="property">closeFuture</span>.<span class="call">wait</span>()
+        <span class="call">print</span>(<span class="string">"Server closed"</span>)
+    }
+}</code></pre><p>As I mentioned this, in order to handle an event happening on the channel we have can create a custom <code>ChannelInboundHandler</code> object. Inside the channelRead function it is possible to unwrap the inbound data into a ByteBuffer object and write the input message onto the output as a wrapped NIOAny object.</p><p>Challenge: write a server that can print colorful messages. Hint: <a href="https://rderik.com/blog/understanding-swiftnio-by-building-a-text-modifying-server/" target="_blank">building a text modifying server</a>.</p><pre><code class="language-swift"><span class="keyword">import</span> NIO
+
+<span class="keyword">final class</span> EchoHandler: <span class="type">ChannelInboundHandler</span> {
+
+    <span class="keyword">typealias</span> InboundIn = <span class="type">ByteBuffer</span>
+    <span class="keyword">typealias</span> OutboundOut = <span class="type">ByteBuffer</span>
+
+    <span class="keyword">func</span> channelRead(
+        context: <span class="type">ChannelHandlerContext</span>,
+        data: <span class="type">NIOAny</span>
+    ) {
+        <span class="keyword">let</span> input = <span class="keyword">self</span>.<span class="call">unwrapInboundIn</span>(data)
+        <span class="keyword">guard
+            let</span> message = input.<span class="call">getString</span>(at: <span class="number">0</span>, length: input.<span class="property">readableBytes</span>)
+        <span class="keyword">else</span> {
+            <span class="keyword">return</span>
+        }
+        
+        <span class="keyword">var</span> buff = context.<span class="property">channel</span>.<span class="property">allocator</span>.<span class="call">buffer</span>(capacity: message.<span class="property">count</span>)
+        buff.<span class="call">writeString</span>(message)
+        context.<span class="call">write</span>(<span class="call">wrapOutboundOut</span>(buff), promise: <span class="keyword">nil</span>)
+    }
+
+
+    <span class="keyword">func</span> channelReadComplete(
+        context: <span class="type">ChannelHandlerContext</span>
+    ) {
+        context.<span class="call">flush</span>()
+    }
+
+    <span class="keyword">func</span> errorCaught(
+        context: <span class="type">ChannelHandlerContext</span>,
+        error: <span class="type">Error</span>
+    ) {
+        <span class="call">print</span>(error)
+
+        context.<span class="call">close</span>(promise: <span class="keyword">nil</span>)
+    }
+}</code></pre><p>If you run the app and connect to it using the <code>telnet 127.0.0.1 8888</code> command you can enter some text and the server will echo it back to you. Keep in mind that this is a very simple TCP server, without HTTP, but it is possible to write <a href="https://www.alwaysrightinstitute.com/microexpress-nio2/" target="_blank">express-like HTTP servers</a>, <a href="https://www.kodeco.com/8016626-swiftnio-tutorial-practical-guide-for-asynchronous-problems" target="_blank">JSON API servers</a>, even <a href="https://www.youtube.com/watch?v=_BGx5THJpvE" target="_blank">a game backend</a> and many other cool and crazy performant stuff using SwiftNIO. I hope this tutorial will help you to get started with SwiftNIO, I'm also learning a lot about the framework lately, so please forgive me (or even correct me) if I missed / messed up something. 😅</p><p>So again: SwiftNIO a (low-level) non-blocking event-driven network application framework for high performance protocol servers &amp; clients. It's like <a href="https://netty.io/" target="_blank">Netty</a>, but written for Swift.</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/swiftnio-tutorial-the-echo-server"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/assets/book/vapor.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <p><strong>Third edition is just: $39</strong></p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
+                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

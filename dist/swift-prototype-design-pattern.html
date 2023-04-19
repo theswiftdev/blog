@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Swift prototype design pattern - The.Swift.Dev.</title>
+    
+    <meta name="description" content="The prototype design pattern is used to create clones of a base object, so let's see some practical examples written in Swift.">
+    
+    <meta property="og:title" content="Swift prototype design pattern - The.Swift.Dev.">
+    <meta property="og:description" content="The prototype design pattern is used to create clones of a base object, so let's see some practical examples written in Swift.">
+    <meta property="og:url" content="https://theswiftdev.github.io/blog/swift-prototype-design-pattern">
+    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/swift-prototype-design-pattern/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="Swift prototype design pattern - The.Swift.Dev.">
+    <meta name="twitter:description" content="The prototype design pattern is used to create clones of a base object, so let's see some practical examples written in Swift.">
+    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/swift-prototype-design-pattern/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.github.io/blog/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2018/06/08">2018/06/08</time>
+            <h1 class="title">Swift prototype design pattern</h1>
+            <p class="excerpt">The prototype design pattern is used to create clones of a base object, so let's see some practical examples written in Swift.</p>
+            <div class="meta">
+                <span class="tag">Swift</span>
+<span class="tag">iOS</span>
+<span class="tag">design patterns</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/swift-prototype-design-pattern/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <p><a href="https://en.wikipedia.org/wiki/Prototype_pattern" target="_blank">This</a> is also a creational design pattern, it is useful when you have a very basic configuration for an object and you'd like to give (clone) those predefined values to another one. Basically you're making clones from a <a href="https://medium.com/jeremy-codes/prototype-pattern-in-swift-1b50517d1075" target="_blank">prototype</a> objects. 😊😊😊</p><p>This approach has some benefits, one is for example that you don't have to subclass, but you can configure clones individually. This also means that you can remove a bunch of boilerplate (configuration) code if you are going to use prototypes. 🤔</p><pre><code class="language-swift"><span class="keyword">class</span> Paragraph {
+
+    <span class="keyword">var</span> font: <span class="type">UIFont</span>
+    <span class="keyword">var</span> color: <span class="type">UIColor</span>
+    <span class="keyword">var</span> text: <span class="type">String</span>
+
+    <span class="keyword">init</span>(font: <span class="type">UIFont</span> = <span class="type">UIFont</span>.<span class="call">systemFont</span>(ofSize: <span class="number">12</span>),
+         color: <span class="type">UIColor</span> = .<span class="dotAccess">darkText</span>,
+         text: <span class="type">String</span> = <span class="string">""</span>) {
+
+        <span class="keyword">self</span>.<span class="property">font</span> = font
+        <span class="keyword">self</span>.<span class="property">color</span> = color
+        <span class="keyword">self</span>.<span class="property">text</span> = text
+    }
+
+    <span class="keyword">func</span> clone() -&gt; <span class="type">Paragraph</span> {
+        <span class="keyword">return</span> <span class="type">Paragraph</span>(font: <span class="keyword">self</span>.<span class="property">font</span>, color: <span class="keyword">self</span>.<span class="property">color</span>, text: <span class="keyword">self</span>.<span class="property">text</span>)
+    }
+}
+
+<span class="keyword">let</span> base = <span class="type">Paragraph</span>()
+
+<span class="keyword">let</span> title = base.<span class="call">clone</span>()
+title.<span class="property">font</span> = <span class="type">UIFont</span>.<span class="call">systemFont</span>(ofSize: <span class="number">18</span>)
+title.<span class="property">text</span> = <span class="string">"This is the title"</span>
+
+<span class="keyword">let</span> first = base.<span class="call">clone</span>()
+first.<span class="property">text</span> = <span class="string">"This is the first paragraph"</span>
+
+<span class="keyword">let</span> second = base.<span class="call">clone</span>()
+second.<span class="property">text</span> = <span class="string">"This is the second paragraph"</span></code></pre><p>As you can see the implementation is just a few lines of code. You only need a default initializer and a clone method. Everything will be pre-configured for the prototype object in the init method and you can make your clones using the clone method, but that's pretty obvious at this point... 🤐</p><p>Let's take a look at one more example:</p><pre><code class="language-swift"><span class="keyword">class</span> Paragraph {
+
+    <span class="keyword">var</span> font: <span class="type">UIFont</span>
+    <span class="keyword">var</span> color: <span class="type">UIColor</span>
+    <span class="keyword">var</span> text: <span class="type">String</span>
+
+    <span class="keyword">init</span>(font: <span class="type">UIFont</span> = <span class="type">UIFont</span>.<span class="call">systemFont</span>(ofSize: <span class="number">12</span>),
+         color: <span class="type">UIColor</span> = .<span class="dotAccess">darkText</span>,
+         text: <span class="type">String</span> = <span class="string">""</span>) {
+
+        <span class="keyword">self</span>.<span class="property">font</span> = font
+        <span class="keyword">self</span>.<span class="property">color</span> = color
+        <span class="keyword">self</span>.<span class="property">text</span> = text
+    }
+
+    <span class="keyword">func</span> clone() -&gt; <span class="type">Paragraph</span> {
+        <span class="keyword">return</span> <span class="type">Paragraph</span>(font: <span class="keyword">self</span>.<span class="property">font</span>, color: <span class="keyword">self</span>.<span class="property">color</span>, text: <span class="keyword">self</span>.<span class="property">text</span>)
+    }
+}
+
+<span class="keyword">let</span> base = <span class="type">Paragraph</span>()
+
+<span class="keyword">let</span> title = base.<span class="call">clone</span>()
+title.<span class="property">font</span> = <span class="type">UIFont</span>.<span class="call">systemFont</span>(ofSize: <span class="number">18</span>)
+title.<span class="property">text</span> = <span class="string">"This is the title"</span>
+
+<span class="keyword">let</span> first = base.<span class="call">clone</span>()
+first.<span class="property">text</span> = <span class="string">"This is the first paragraph"</span>
+
+<span class="keyword">let</span> second = base.<span class="call">clone</span>()
+second.<span class="property">text</span> = <span class="string">"This is the second paragraph"</span></code></pre><p>The prototype design pattern is also <a href="https://stackoverflow.com/questions/13887704/whats-the-point-of-the-prototype-design-pattern" target="_blank">helpful</a> if you are planning to have snapshots of a given state. For example in a drawing app, you could have a shape class as a proto, you can start adding paths to it, and at some point at time you could create a snapshot from it. You can continue to work on the new object, but this will give you the ability to return to a saved state at any point of time in the future. 🎉</p><p>That's it about the prototype design pattern in Swift, in a nuthsell. 🐿</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/swift-prototype-design-pattern"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/assets/book/vapor.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <p><strong>Third edition is just: $39</strong></p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
+                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

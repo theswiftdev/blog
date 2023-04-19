@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Mastering the VIPER architecture - The.Swift.Dev.</title>
+    
+    <meta name="description" content="Learn how to master the VIPER architectural design pattern, with some protocol oriented programming techniques using Swift.">
+    
+    <meta property="og:title" content="Mastering the VIPER architecture - The.Swift.Dev.">
+    <meta property="og:description" content="Learn how to master the VIPER architectural design pattern, with some protocol oriented programming techniques using Swift.">
+    <meta property="og:url" content="https://theswiftdev.github.io/blog/mastering-the-viper-architecture">
+    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/mastering-the-viper-architecture/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="Mastering the VIPER architecture - The.Swift.Dev.">
+    <meta name="twitter:description" content="Learn how to master the VIPER architectural design pattern, with some protocol oriented programming techniques using Swift.">
+    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/mastering-the-viper-architecture/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.github.io/blog/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2019/03/19">2019/03/19</time>
+            <h1 class="title">Mastering the VIPER architecture</h1>
+            <p class="excerpt">Learn how to master the VIPER architectural design pattern, with some protocol oriented programming techniques using Swift.</p>
+            <div class="meta">
+                <span class="tag">UIKit</span>
+<span class="tag">iOS</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/mastering-the-viper-architecture/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <p>After writing <a href="https://theswiftdev.com/2019/03/11/viper-best-practices-for-ios-developers/" target="_blank">my best practices article about VIPER</a>, I've made a few changes to the codebase. I was playing with these ideas in my mind already, but never had enough time to implement them properly. Let's me show you the changes...</p><h2>VIPER protocols</h2><p>My generic issue was that I wanted to have a <a href="https://github.com/CoreKit/VIPER" target="_blank">common interface</a> for every single module component. That's why I created simple protocols for the following:</p><ul><li>View</li><li>Interactor</li><li>Presenter</li><li>Entity</li><li>Router</li><li>Module</li></ul><p>This way for example my router objects are implementing the Router protocol, so if I make an extension on it, every single one will have that particular functionality. It's a pretty small, but very pleasant addition that makes my modules way more powerful than they were before. Honestly speaking I should have had this from the very beginning, but anyway from now on it's gona be like this. 😬</p><p>This move implied to organize my VIPER protocols into a custom framework, so I made one, with these components. You can find it on <a href="https://github.com/CoreKit/VIPER" target="_blank">GitHub</a>, it's a really basic one, feel free to use it, you just have to import VIPER in your project.</p><h2>Module protocols</h2><p>Since I was using VIPER it had this great urge to implement a custom module for presenting system default alert messages on iOS. You know <a href="https://developer.apple.com/documentation/uikit/uialertcontroller" target="_blank">UIAlertController</a> is the one I'm talking about. Actually <a href="https://github.com/Ragnalorn" target="_blank">Robi</a> (my <a href="https://www.youtube.com/watch?v=voxtdphvP5k" target="_blank">true metal</a> friend) suggested a surprisingly nice general solution for the problem. His idea sounded like this:</p><blockquote><p>Why don't we create a protocol for the router, so we could implement this on every other router, also we could simply call show(alert:) on them?</p></blockquote><p>I loved this approach, so we've built it. Turned out, it's freakin awesome. So we introduced a new protocol for the module router, implemented a default protocol extension and voilà routers are now capable of presenting error messages.</p><p>Note that you can use the same pattern for lots of other (similar) things as well. The basic implementation looks like this one below, I hope you get the idea. 💡</p><pre><code class="language-swift"><span class="keyword">import</span> VIPER
+
+<span class="keyword">class</span> AlertModule: <span class="type">Module</span> {
+    <span class="comment">/* ... */</span>
+}
+
+<span class="keyword">protocol</span> AlertModuleRouter: <span class="keyword">class</span> {
+
+    <span class="keyword">func</span> show(alert: <span class="type">AlertEntity</span>)
+}
+
+<span class="keyword">extension</span> <span class="type">AlertModuleRouter</span> <span class="keyword">where</span> <span class="type">Self</span>: <span class="type">Router</span> {
+
+    <span class="keyword">func</span> show(alert: <span class="type">AlertEntity</span>) {
+        <span class="comment">/* ... */</span>
+    }
+}
+
+<span class="comment">// MARK: - other module</span>
+
+<span class="keyword">protocol</span> MyModuleRouter: <span class="type">Router</span>, <span class="type">AlertModuleRouter</span> {
+
+    <span class="comment">// show(alert:) is now available from this router too</span>
+}</code></pre><p>Of course this technique can work for other VIPER components as well, it's quite easy to implment and the protocol oriented approach gives us a huge win. 🏆</p><h2>Presenter to presenter interactions</h2><p>I also changed my mind about the place of the delegate implementations participating in the module communication flow. In my last article I told you that I'm storing the delegate on the router, but later on I realized that delegation is mostly related to business logic, so I simply moved them to the presenter layer. Sorry about this. 🤷‍♂️</p><pre><code class="language-swift"><span class="keyword">import</span> VIPER
+
+<span class="keyword">protocol</span> AModulePresenterDelegate {
+    <span class="keyword">func</span> didDoSomething()
+}
+
+<span class="keyword">class</span> AModule: <span class="type">Module</span> {
+
+    <span class="keyword">func</span> build(with delegate: <span class="type">AModulePresenterDelegate</span>? = <span class="keyword">nil</span>) -&gt; <span class="type">UIViewController</span> {
+        <span class="comment">// insert classic viper stuff here</span>
+
+        presenter.<span class="property">delegate</span> = delegate
+
+        <span class="comment">/* ... */</span>
+
+        <span class="keyword">return</span> view
+    }
+}
+
+<span class="keyword">class</span> AModulePresenter: <span class="type">Presenter</span> {
+
+    <span class="keyword">func</span> someAction() {
+        <span class="keyword">self</span>.<span class="property">delegate</span>?.<span class="call">didDoSomething</span>()
+        <span class="keyword">self</span>.<span class="property">router</span>?.<span class="call">dismiss</span>()
+    }
+}
+
+<span class="comment">// MARK: - other module</span>
+
+<span class="keyword">class</span> BModulePresenter: <span class="type">Presenter</span>, <span class="type">AModulePresenterDelegate</span> {
+
+    <span class="keyword">func</span> didDoSomething() {
+        <span class="call">print</span>(<span class="string">"Hello from module A!"</span>)
+    }
+}</code></pre><p>This way you can skip the entire router layer, plus all the business related logic will be implemented in the presenter layer, which should be the only way to go. 🤪</p><h2>Entities are here to stay</h2><p>Apart from the service layer sometimes it's quite useful to have an entity wrapper with some additional metadata for the model objects. That's why I also made an Entity protocol, and started to use it in my modules. For example a web view module that can open a link can have a WebViewEntity with a title and a content URL property. 😅</p><pre><code class="language-swift"><span class="keyword">import</span> VIPER
+
+<span class="keyword">struct</span> AlertEntity: <span class="type">Entity</span> {
+    <span class="keyword">let</span> title: <span class="type">String</span>
+    <span class="keyword">let</span> message: <span class="type">String</span>
+}</code></pre><p>The sample alert module from above can use an AlertEntity with some properties that can define the title, message or the buttons. This way you don't really have to think about where to put those objects, because those are the real VIPER entities.</p><h2>IO protocols</h2><p>This is a WIP (work-in-progress) idea that I'd like to try out, but the basic concept is somewhat like that I want to separate input and output protocols for VIPER module layers. Also this IO differentiation can be reflected on the service layers too (maybe the whole object "mess" from the service layer is going to be used as IO entities in the future), by mess I mean that there can be way too many objects in the Service/Objects directory, so this means that those could be also grouped by modules (aka. entities).</p><p>Anyway, I'm thinking of something like RequestEntity, ResponseEntity for service communication, and for the VIPER layer communication I could imagine two separate protocols, e.g. PresenterInput, PresenterOutput. We'll see, but at first sight, it's seems like quite an over-engineered thing (hahaha, says the VIPER advocate 😂).</p><h2>VIPER vs [put your architecture name here]</h2><p>No! Please don't think that x is better than y. Architectures and design patterns are simple tools that can be utilized to make your life more easy. If you don't like x, you should try y, but you should not blame x, just because that's your personal opinion.</p><p>My current favorite architecture is VIPER, so what? Maybe in a year or two I'll go crazy in love with reactive programming. Does it really matters? I don't think so. I've learned and tried so many things during the past, that I can't even remember. 🧠</p><p>I'm also constantly trying to figure out new things, as you can see this whole <a href="https://theswiftdev.com/2018/03/12/the-ultimate-viper-architecture-tutorial/" target="_blank">series of articles about VIPER</a> is the result of my learning progress &amp; experiences. If you really want to master something, you should practice, research and try a lot, and most importantly be proud of your successes and stay humble at the same time. 🙏</p><p>That's it about the VIPER architecture for a while. I hope you enjoyed reading the whole series. If you have any questions, feel free to ask me through Twitter. 💭</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/mastering-the-viper-architecture"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/assets/book/vapor.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <p><strong>Third edition is just: $39</strong></p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
+                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

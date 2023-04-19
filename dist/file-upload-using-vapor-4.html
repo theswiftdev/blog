@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>File upload using Vapor 4 - The.Swift.Dev.</title>
+    
+    <meta name="description" content="Learn how to implement a basic HTML file upload form using the Leaf template engine and Vapor, all written in Swift of course.">
+    
+    <meta property="og:title" content="File upload using Vapor 4 - The.Swift.Dev.">
+    <meta property="og:description" content="Learn how to implement a basic HTML file upload form using the Leaf template engine and Vapor, all written in Swift of course.">
+    <meta property="og:url" content="https://theswiftdev.github.io/blog/file-upload-using-vapor-4">
+    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/file-upload-using-vapor-4/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="File upload using Vapor 4 - The.Swift.Dev.">
+    <meta name="twitter:description" content="Learn how to implement a basic HTML file upload form using the Leaf template engine and Vapor, all written in Swift of course.">
+    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/file-upload-using-vapor-4/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.github.io/blog/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2020/12/10">2020/12/10</time>
+            <h1 class="title">File upload using Vapor 4</h1>
+            <p class="excerpt">Learn how to implement a basic HTML file upload form using the Leaf template engine and Vapor, all written in Swift of course.</p>
+            <div class="meta">
+                <span class="tag">Vapor</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/file-upload-using-vapor-4/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <h2>Building a file upload form</h2><p>Let's start with a basic Vapor project, we're going to use Leaf (the Tau release) for rendering our HTML files. You should note that Tau was an experimental release, the changes were reverted from the final 4.0.0 Leaf release, but you can still use Tau if you pin the exact version in your manifest file. Tau will be published later on in a standalone repository... 🤫</p><pre><code class="language-swift"><span class="comment">// swift-tools-version:5.3</span>
+<span class="keyword">import</span> PackageDescription
+
+<span class="keyword">let</span> package = <span class="type">Package</span>(
+    name: <span class="string">"myProject"</span>,
+    platforms: [
+       .<span class="call">macOS</span>(.<span class="dotAccess">v10_15</span>)
+    ],
+    dependencies: [
+        .<span class="call">package</span>(url: <span class="string">"https://github.com/vapor/vapor"</span>, from: <span class="string">"4.35.0"</span>),
+        .<span class="call">package</span>(url: <span class="string">"https://github.com/vapor/leaf"</span>, .<span class="dotAccess">exact</span>(<span class="string">"4.0.0-tau.1"</span>)),
+        .<span class="call">package</span>(url: <span class="string">"https://github.com/vapor/leaf-kit"</span>, .<span class="dotAccess">exact</span>(<span class="string">"1.0.0-tau.1.1"</span>)),
+    ],
+    targets: [
+        .<span class="call">target</span>(
+            name: <span class="string">"App"</span>,
+            dependencies: [
+                .<span class="call">product</span>(name: <span class="string">"Leaf"</span>, package: <span class="string">"leaf"</span>),
+                .<span class="call">product</span>(name: <span class="string">"LeafKit"</span>, package: <span class="string">"leaf-kit"</span>),
+                .<span class="call">product</span>(name: <span class="string">"Vapor"</span>, package: <span class="string">"vapor"</span>),
+            ],
+            swiftSettings: [
+                .<span class="call">unsafeFlags</span>([<span class="string">"-cross-module-optimization"</span>], .<span class="dotAccess">when</span>(configuration: .<span class="dotAccess">release</span>))
+            ]
+        ),
+        .<span class="call">target</span>(name: <span class="string">"Run"</span>, dependencies: [.<span class="call">target</span>(name: <span class="string">"App"</span>)]),
+        .<span class="call">testTarget</span>(name: <span class="string">"AppTests"</span>, dependencies: [
+            .<span class="call">target</span>(name: <span class="string">"App"</span>),
+            .<span class="call">product</span>(name: <span class="string">"XCTVapor"</span>, package: <span class="string">"vapor"</span>),
+        ])
+    ]
+)</code></pre><p>Now if you open the project with Xcode, don't forget to setup a custom working directory first, because we're going to create templates and Leaf will look for those view files under the current working directory by default. We are going to build a very simple <code>index.leaf</code> file, you can place it into the <code>Resources/Views</code> directory.</p><pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+    &lt;title&gt;File upload example&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;File upload example&lt;/h1&gt;
+
+    &lt;form action="/upload" method="post" enctype="multipart/form-data"&gt;
+        &lt;input type="file" name="file"&gt;&lt;br&gt;&lt;br&gt;
+        &lt;input type="submit" value="Submit"&gt;
+    &lt;/form&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>As you can see, it's a standard file upload form, when you want to upload files using the browser you always have to use the <code>multipart/form-data</code> encryption type. The browser will pack every field in the form (including the file data with the original file name and some meta info) using a special format and the server application can parse the contents of this. Fortunately Vapor has built-in support for easy decoding multipart form data values. We are going to use the POST /upload route to save the file, let's setup the router first so we can render our main page and we are going to prepare our upload path as well, but we will respond with a dummy message for now.</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+<span class="keyword">import</span> Leaf
+
+<span class="keyword">public func</span> configure(<span class="keyword">_</span> app: <span class="type">Application</span>) <span class="keyword">throws</span> {
+
+    <span class="comment">/// config max upload file size</span>
+    app.<span class="property">routes</span>.<span class="property">defaultMaxBodySize</span> = <span class="string">"10mb"</span>
+    
+    <span class="comment">/// setup public file middleware (for hosting our uploaded files)</span>
+    app.<span class="property">middleware</span>.<span class="call">use</span>(<span class="type">FileMiddleware</span>(publicDirectory: app.<span class="property">directory</span>.<span class="property">publicDirectory</span>))
+    
+    <span class="comment">/// setup Leaf template engine</span>
+    <span class="type">LeafRenderer</span>.<span class="type">Option</span>.<span class="property">caching</span> = .<span class="dotAccess">bypass</span>
+    app.<span class="property">views</span>.<span class="call">use</span>(.<span class="dotAccess">leaf</span>)
+
+    <span class="comment">/// index route</span>
+    app.<span class="call">get</span> { req <span class="keyword">in</span>
+        req.<span class="property">leaf</span>.<span class="call">render</span>(template: <span class="string">"index"</span>)
+    }
+    
+    <span class="comment">/// upload handler</span>
+    app.<span class="call">post</span>(<span class="string">"upload"</span>) { req <span class="keyword">in</span>
+        <span class="string">"Upload file..."</span>
+    }
+}</code></pre><p>You can put the snippet above into your configure.swift file then you can try to build and run your server and visit <code>http://localhost:8080</code>, then try to upload any file. It won't actually upload the file, but at least we are prepared to write our server side Swift code to process the incoming form data. ⬆️</p><h2>File upload handler in Vapor</h2><p>Now that we have a working uploader form we should parse the incoming data, get the contents of the file and place it under our Public directory. You can actually move the file anywhere on your server, but for this example we are going to use the Public directory so we can simply test if everthing works by using the <code>FileMiddleware</code>. If you don't know, the file middleware serves everything (publicly available) that is located inside your Public folder. Let's code.</p><pre><code class="language-swift">app.<span class="call">post</span>(<span class="string">"upload"</span>) { req -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">String</span>&gt; <span class="keyword">in
+    struct</span> Input: <span class="type">Content</span> {
+        <span class="keyword">var</span> file: <span class="type">File</span>
+    }
+    <span class="keyword">let</span> input = <span class="keyword">try</span> req.<span class="property">content</span>.<span class="call">decode</span>(<span class="type">Input</span>.<span class="keyword">self</span>)
+    
+    <span class="keyword">let</span> path = app.<span class="property">directory</span>.<span class="property">publicDirectory</span> + input.<span class="property">file</span>.<span class="property">filename</span>
+    
+    <span class="keyword">return</span> req.<span class="property">application</span>.<span class="property">fileio</span>.<span class="call">openFile</span>(path: path,
+                                           mode: .<span class="dotAccess">write</span>,
+                                           flags: .<span class="call">allowFileCreation</span>(posixMode: 0x744),
+                                           eventLoop: req.<span class="property">eventLoop</span>)
+        .<span class="call">flatMap</span> { handle <span class="keyword">in</span>
+            req.<span class="property">application</span>.<span class="property">fileio</span>.<span class="call">write</span>(fileHandle: handle,
+                                         buffer: input.<span class="property">file</span>.<span class="property">data</span>,
+                                         eventLoop: req.<span class="property">eventLoop</span>)
+                .<span class="call">flatMapThrowing</span> { <span class="keyword">_ in
+                    try</span> handle.<span class="call">close</span>()
+                    <span class="keyword">return</span> input.<span class="property">file</span>.<span class="property">filename</span>
+                }
+        }
+}</code></pre><p>So, let me explain what just happened here. First we define a new Input type that will contain our file data. There is a File type in Vapor that helps us decoding multipart file upload forms. We can use the content of the request and decode this type. We gave the file name to the file input form previously in our leaf template, but of course you can change it, but if you do so you also have to align the property name inside the Input struct.</p><p>After we have an input (please note that we don't validate the submitted request yet) we can start uploading our file. We ask for the location of the public directory, we append the incoming file name (to keep the original name, but you can generate a new name for the uploaded file as well) and we use the non-blocking file I/O API to create a file handler and write the contents of the file into the disk. The fileio API is part of <a href="https://github.com/apple/swift-nio" target="_blank">SwiftNIO</a>, which is great because it's a non-blocking API, so our server will be more performant if we use this instead of the regular <code>FileManager</code> from the Foundation framework. After we opened the file, we write the file data (which is a <code>ByteBuffer</code> object, bad naming...) and finally we close the opened file handler and return the uploaded file name as a future string. If you haven't heard about futures and promises you should read about them, because they are everywhere on the server side Swift world. Can't wait for async / awake support, right? 😅</p><p>We will enhance the upload result page just a little bit. Create a new <code>result.leaf</code> file inside the views directory.</p><pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+    &lt;title&gt;File uploaded&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;File uploaded&lt;/h1&gt;
+
+    #if(isImage):
+        &lt;img src="#(fileUrl)" width="256px"&gt;&lt;br&gt;&lt;br&gt;
+    #else:
+    &lt;a href="#(fileUrl)" target="_blank"&gt;Show me!&lt;/a&gt;&lt;br&gt;&lt;br&gt;
+    #endif
+    
+    &lt;a href="/"&gt;Upload new one&lt;/a&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>So we're going to check if the uploaded file has an image extension and pass an <code>isImage</code> parameter to the template engine, so we can display it if we can assume that the file is an image, otherwise we're going to render a simple link to view the file. Inside the post upload handler method we are going to add a date prefix to the uploaded file so we will be able to upload multiple files even with the same name.</p><pre><code class="language-swift">app.<span class="call">post</span>(<span class="string">"upload"</span>) { req -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">View</span>&gt; <span class="keyword">in
+    struct</span> Input: <span class="type">Content</span> {
+        <span class="keyword">var</span> file: <span class="type">File</span>
+    }
+    <span class="keyword">let</span> input = <span class="keyword">try</span> req.<span class="property">content</span>.<span class="call">decode</span>(<span class="type">Input</span>.<span class="keyword">self</span>)
+
+    <span class="keyword">guard</span> input.<span class="property">file</span>.<span class="property">data</span>.<span class="property">readableBytes</span> &gt; <span class="number">0</span> <span class="keyword">else</span> {
+        <span class="keyword">throw</span> <span class="type">Abort</span>(.<span class="dotAccess">badRequest</span>)
+    }
+
+    <span class="keyword">let</span> formatter = <span class="type">DateFormatter</span>()
+    formatter.<span class="property">dateFormat</span> = <span class="string">"y-m-d-HH-MM-SS-"</span>
+    <span class="keyword">let</span> prefix = formatter.<span class="call">string</span>(from: .<span class="keyword">init</span>())
+    <span class="keyword">let</span> fileName = prefix + input.<span class="property">file</span>.<span class="property">filename</span>
+    <span class="keyword">let</span> path = app.<span class="property">directory</span>.<span class="property">publicDirectory</span> + fileName
+    <span class="keyword">let</span> isImage = [<span class="string">"png"</span>, <span class="string">"jpeg"</span>, <span class="string">"jpg"</span>, <span class="string">"gif"</span>].<span class="call">contains</span>(input.<span class="property">file</span>.<span class="property">extension</span>?.<span class="call">lowercased</span>())
+
+    <span class="keyword">return</span> req.<span class="property">application</span>.<span class="property">fileio</span>.<span class="call">openFile</span>(path: path,
+                                           mode: .<span class="dotAccess">write</span>,
+                                           flags: .<span class="call">allowFileCreation</span>(posixMode: 0x744),
+                                           eventLoop: req.<span class="property">eventLoop</span>)
+        .<span class="call">flatMap</span> { handle <span class="keyword">in</span>
+            req.<span class="property">application</span>.<span class="property">fileio</span>.<span class="call">write</span>(fileHandle: handle,
+                                         buffer: input.<span class="property">file</span>.<span class="property">data</span>,
+                                         eventLoop: req.<span class="property">eventLoop</span>)
+                .<span class="call">flatMapThrowing</span> { <span class="keyword">_ in
+                    try</span> handle.<span class="call">close</span>()
+                }
+                .<span class="call">flatMap</span> {
+                    req.<span class="property">leaf</span>.<span class="call">render</span>(template: <span class="string">"result"</span>, context: [
+                        <span class="string">"fileUrl"</span>: .<span class="call">string</span>(fileName),
+                        <span class="string">"isImage"</span>: .<span class="call">bool</span>(isImage),
+                    ])
+                }
+        }
+}</code></pre><p>If you run this example you should be able to view the image or the file straight from the result page.</p><h2>Multiple file upload using Vapor</h2><p>By the way, you can also upload multiple files at once if you add the multiple attribute to the HTML file input field and use the <code>files[]</code> value as name.</p><pre><code class="language-html">&lt;input type="file" name="files[]" multiple&gt;&lt;br&gt;&lt;br&gt;
+</code></pre><p>To support this we have to alter our upload method, don't worry it's not that complicated as it looks at first sight. 😜</p><pre><code class="language-swift">app.<span class="call">post</span>(<span class="string">"upload"</span>) { req -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">View</span>&gt; <span class="keyword">in
+    struct</span> Input: <span class="type">Content</span> {
+        <span class="keyword">var</span> files: [<span class="type">File</span>]
+    }
+    <span class="keyword">let</span> input = <span class="keyword">try</span> req.<span class="property">content</span>.<span class="call">decode</span>(<span class="type">Input</span>.<span class="keyword">self</span>)
+
+    <span class="keyword">let</span> formatter = <span class="type">DateFormatter</span>()
+    formatter.<span class="property">dateFormat</span> = <span class="string">"y-m-d-HH-MM-SS-"</span>
+    <span class="keyword">let</span> prefix = formatter.<span class="call">string</span>(from: .<span class="keyword">init</span>())
+    
+    <span class="keyword">struct</span> UploadedFile: <span class="type">LeafDataRepresentable</span> {
+        <span class="keyword">let</span> url: <span class="type">String</span>
+        <span class="keyword">let</span> isImage: <span class="type">Bool</span>
+        
+        <span class="keyword">var</span> leafData: <span class="type">LeafData</span> {
+            .<span class="call">dictionary</span>([
+                <span class="string">"url"</span>: url,
+                <span class="string">"isImage"</span>: isImage,
+            ])
+        }
+    }
+    
+    <span class="keyword">let</span> uploadFutures = input.<span class="property">files</span>
+        .<span class="call">filter</span> { $0.<span class="property">data</span>.<span class="property">readableBytes</span> &gt; <span class="number">0</span> }
+        .<span class="call">map</span> { file -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">UploadedFile</span>&gt; <span class="keyword">in
+            let</span> fileName = prefix + file.<span class="property">filename</span>
+            <span class="keyword">let</span> path = app.<span class="property">directory</span>.<span class="property">publicDirectory</span> + fileName
+            <span class="keyword">let</span> isImage = [<span class="string">"png"</span>, <span class="string">"jpeg"</span>, <span class="string">"jpg"</span>, <span class="string">"gif"</span>].<span class="call">contains</span>(file.<span class="property">extension</span>?.<span class="call">lowercased</span>())
+            
+            <span class="keyword">return</span> req.<span class="property">application</span>.<span class="property">fileio</span>.<span class="call">openFile</span>(path: path,
+                                                   mode: .<span class="dotAccess">write</span>,
+                                                   flags: .<span class="call">allowFileCreation</span>(posixMode: 0x744),
+                                                   eventLoop: req.<span class="property">eventLoop</span>)
+                .<span class="call">flatMap</span> { handle <span class="keyword">in</span>
+                    req.<span class="property">application</span>.<span class="property">fileio</span>.<span class="call">write</span>(fileHandle: handle,
+                                                 buffer: file.<span class="property">data</span>,
+                                                 eventLoop: req.<span class="property">eventLoop</span>)
+                        .<span class="call">flatMapThrowing</span> { <span class="keyword">_ in
+                            try</span> handle.<span class="call">close</span>()
+                            <span class="keyword">return</span> <span class="type">UploadedFile</span>(url: fileName, isImage: isImage)
+                        }
+                    
+                }
+        }
+
+    <span class="keyword">return</span> req.<span class="property">eventLoop</span>.<span class="call">flatten</span>(uploadFutures).<span class="call">flatMap</span> { files <span class="keyword">in</span>
+        req.<span class="property">leaf</span>.<span class="call">render</span>(template: <span class="string">"result"</span>, context: [
+            <span class="string">"files"</span>: .<span class="call">array</span>(files.<span class="call">map</span>(\.<span class="property">leafData</span>))
+        ])
+    }
+}</code></pre><p>The trick is that we have to parse the input as an array of files and turn every possible upload into a future upload operation. We can filter the upload candidates by readable byte size, then we map the files into futures and return an <code>UploadedFile</code> result with the proper file URL and is image flag. This structure is a LeafDataRepresentable object, because we want to pass it as a context variable to our result template. We also have to change that view once again.</p><pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+    &lt;title&gt;Files uploaded&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Files uploaded&lt;/h1&gt;
+
+    #for(file in files):
+        #if(file.isImage):
+        &lt;img src="#(file.url)" width="256px"&gt;&lt;br&gt;&lt;br&gt;
+        #else:
+        &lt;a href="#(file.url)" target="_blank"&gt;#(file.url)&lt;/a&gt;&lt;br&gt;&lt;br&gt;
+        #endif
+    #endfor
+    
+    &lt;a href="/"&gt;Upload new files&lt;/a&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>Well, I know this is a dead simple implementation, but it's great if you want to practice or learn how to implement file uploads using server side Swift and the Vapor framework. You can also upload files directly to a cloud service using this technique, there is a library called Liquid, which is similar to Fluent, but for file storages. Currently you can use <a href="https://github.com/binarybirds/liquid/" target="_blank">Liquid</a> to upload files to the <a href="https://github.com/binarybirds/liquid-local-driver" target="_blank">local storage</a> or you can use an <a href="https://github.com/BinaryBirds/liquid-aws-s3-driver" target="_blank">AWS S3</a> bucket or you can write your own driver using <a href="https://github.com/BinaryBirds/liquid-kit" target="_blank">LiquidKit</a>. The API is pretty simple to use, after you configure the driver you can upload files with just a few lines of code.</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/file-upload-using-vapor-4"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/assets/book/vapor.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <p><strong>Third edition is just: $39</strong></p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
+                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

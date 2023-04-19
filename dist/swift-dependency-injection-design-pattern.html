@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Swift dependency injection design pattern - The.Swift.Dev.</title>
+    
+    <meta name="description" content="Want to learn the Dependency Injection pattern using Swift? This tutorial will show you how to write loosely coupled code using DI.">
+    
+    <meta property="og:title" content="Swift dependency injection design pattern - The.Swift.Dev.">
+    <meta property="og:description" content="Want to learn the Dependency Injection pattern using Swift? This tutorial will show you how to write loosely coupled code using DI.">
+    <meta property="og:url" content="https://theswiftdev.github.io/blog/swift-dependency-injection-design-pattern">
+    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/swift-dependency-injection-design-pattern/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="Swift dependency injection design pattern - The.Swift.Dev.">
+    <meta name="twitter:description" content="Want to learn the Dependency Injection pattern using Swift? This tutorial will show you how to write loosely coupled code using DI.">
+    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/swift-dependency-injection-design-pattern/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.github.io/blog/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2018/07/17">2018/07/17</time>
+            <h1 class="title">Swift dependency injection design pattern</h1>
+            <p class="excerpt">Want to learn the Dependency Injection pattern using Swift? This tutorial will show you how to write loosely coupled code using DI.</p>
+            <div class="meta">
+                <span class="tag">Swift</span>
+<span class="tag">iOS</span>
+<span class="tag">design patterns</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/swift-dependency-injection-design-pattern/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <p>First of all I really like this little quote by James Shore:</p><blockquote><p>Dependency injection means giving an object its instance variables. Really. That's it.</p></blockquote><p>In my opinion the whole story is just a little bit more complicated, but if you tear down the problem to the roots, you'll realize that implementing the <a href="http://ilya.puchka.me/dependency-injection-in-swift/" target="_blank">DI pattern</a> can be as simple as giving an object instance variables. No kidding, it's really a no-brainer, but many developers are over complicating it and using injections at the wrong places. 💉</p><p>Learning <a href="https://clean-swift.com/advanced-dependency-injection/" target="_blank">DI</a> is not about the implementation details, it's all about how are you going to use the pattern. There are four little variations of dependency injection, let's go through them by using real world examples that'll help you to get an idea about when to use dependency injection. Now grab your keyboards! 💻</p><h2>Dependency Injection basics</h2><p>As I mentioned before DI is a fancy term for a simple concept, you don't really need external libraries or frameworks to start using it. Let's imagine that you have two separate objects. Object A wants to use object B. Say hello to your first dependency.</p><p>If you hardcode object B into object A that's not going to be good, because from that point A can not be used without B. Now scale this up to a ~100 object level. If you don't do something with this problem you'll have a nice bowl of spaghetti. 🍝</p><p>So the main goal is to create independent objects as much as possible or some say loosely coupled code, to improve reusability and testability. Separation of concerns and decoupling are right terms to use here too, because in most of the cases you should literally separate logical functionalities into standalone objects. 🤐</p><p>So in theory both objects should do just one specific thing, and the dependency between them is usually realized through a common descriptor (protocol), without hardcoding the exact instances. Using <a href="http://www.jamesshore.com/Blog/Dependency-Injection-Demystified.html" target="_blank">dependency injection</a> for this purpose will improve your code quality, because dependencies can be replaced without changing the other object's implementation. That's good for mocking, testing, reusing <a href="https://cocoacasts.com/nuts-and-bolts-of-dependency-injection-in-swift" target="_blank">etc</a>. 😎</p><h2>How to do DI in Swift?</h2><p>Swift is an amazing programming language, with excellent support for both protocol and object oriented principles. It also has great functional capabilities, but let's ignore that for now. Dependency injection can be done in <a href="https://www.swiftbysundell.com/posts/different-flavors-of-dependency-injection-in-swift" target="_blank">multiple ways</a>, but in this tutorial I'll focus on just a few basic ones without any external dependency injection. 😂</p><p>Well, let's start with a protocol, but that's just because Swift is not exposing the <code>Encoder</code> for the public, but we'll need something like that for the demos.</p><pre><code class="language-swift"><span class="keyword">protocol</span> Encoder {
+    <span class="keyword">func</span> encode&lt;T&gt;(<span class="keyword">_</span> value: <span class="type">T</span>) <span class="keyword">throws</span> -&gt; <span class="type">Data</span> <span class="keyword">where</span> <span class="type">T</span>: <span class="type">Encodable</span>
+}
+<span class="keyword">extension</span> <span class="type">JSONEncoder</span>: <span class="type">Encoder</span> { }
+<span class="keyword">extension</span> <span class="type">PropertyListEncoder</span>: <span class="type">Encoder</span> { }</code></pre><p>Property list and JSON encoders already implement this method we'll only need to extend our objects to comply for our brand new protocol.</p><h2>Constructor injection</h2><p>The most common form of dependency injection is constructor injection or initializer-based injection. The idea is that you pass your dependency through the initializer and store that object inside a (private read-only / immutable) property variable. The main benefit here is that your object will have every dependency - by the time it's being created - in order to work properly. 🔨</p><pre><code class="language-swift"><span class="keyword">class</span> Post: <span class="type">Encodable</span> {
+
+    <span class="keyword">var</span> title: <span class="type">String</span>
+    <span class="keyword">var</span> content: <span class="type">String</span>
+
+    <span class="keyword">private var</span> encoder: <span class="type">Encoder</span>
+
+    <span class="keyword">private enum</span> CodingKeys: <span class="type">String</span>, <span class="type">CodingKey</span> {
+        <span class="keyword">case</span> title
+        <span class="keyword">case</span> content
+    }
+
+    <span class="keyword">init</span>(title: <span class="type">String</span>, content: <span class="type">String</span>, encoder: <span class="type">Encoder</span>) {
+        <span class="keyword">self</span>.<span class="property">title</span> = title
+        <span class="keyword">self</span>.<span class="property">content</span> = content
+        <span class="keyword">self</span>.<span class="property">encoder</span> = encoder
+    }
+
+    <span class="keyword">func</span> encoded() <span class="keyword">throws</span> -&gt; <span class="type">Data</span> {
+        <span class="keyword">return try self</span>.<span class="property">encoder</span>.<span class="call">encode</span>(<span class="keyword">self</span>)
+    }
+}
+
+<span class="keyword">let</span> post = <span class="type">Post</span>(title: <span class="string">"Hello DI!"</span>, content: <span class="string">"Constructor injection"</span>, encoder: <span class="type">JSONEncoder</span>())
+
+<span class="keyword">if let</span> data = <span class="keyword">try</span>? post.<span class="call">encoded</span>(), <span class="keyword">let</span> encoded = <span class="type">String</span>(data: data, encoding: .<span class="dotAccess">utf8</span>) {
+    <span class="call">print</span>(encoded)
+}</code></pre><p>You can also give a default value for the encoder in the constructor, but you should fear the <strong>bastard injection anti-pattern</strong>! That means if the default value comes from another module, your code will be tightly coupled with that one. So think twice! 🤔</p><h2>Property injection</h2><p>Sometimes initializer injection is hard to do, because your class have to inherit from a system class. This makes the process really hard if you have to work with views or controllers. A good solution for this situation is to use a property-based injection design pattern. Maybe you can't have full control over initialization, but you can always control your properties. The only disadvantage is that you have to check if that property is already presented (being set) or not, before you do anything with it. 🤫</p><pre><code class="language-swift"><span class="keyword">class</span> Post: <span class="type">Encodable</span> {
+
+    <span class="keyword">var</span> title: <span class="type">String</span>
+    <span class="keyword">var</span> content: <span class="type">String</span>
+
+    <span class="keyword">var</span> encoder: <span class="type">Encoder</span>?
+
+    <span class="keyword">private enum</span> CodingKeys: <span class="type">String</span>, <span class="type">CodingKey</span> {
+        <span class="keyword">case</span> title
+        <span class="keyword">case</span> content
+    }
+
+    <span class="keyword">init</span>(title: <span class="type">String</span>, content: <span class="type">String</span>) {
+        <span class="keyword">self</span>.<span class="property">title</span> = title
+        <span class="keyword">self</span>.<span class="property">content</span> = content
+    }
+
+    <span class="keyword">func</span> encoded() <span class="keyword">throws</span> -&gt; <span class="type">Data</span> {
+        <span class="keyword">guard let</span> encoder = <span class="keyword">self</span>.<span class="property">encoder</span> <span class="keyword">else</span> {
+            <span class="call">fatalError</span>(<span class="string">"Encoding is only supported with a valid encoder object."</span>)
+        }
+        <span class="keyword">return try</span> encoder.<span class="call">encode</span>(<span class="keyword">self</span>)
+    }
+}
+
+<span class="keyword">let</span> post = <span class="type">Post</span>(title: <span class="string">"Hello DI!"</span>, content: <span class="string">"Property injection"</span>)
+post.<span class="property">encoder</span> = <span class="type">JSONEncoder</span>()
+
+<span class="keyword">if let</span> data = <span class="keyword">try</span>? post.<span class="call">encoded</span>(), <span class="keyword">let</span> encoded = <span class="type">String</span>(data: data, encoding: .<span class="dotAccess">utf8</span>) {
+    <span class="call">print</span>(encoded)
+}</code></pre><p>There are lots of property injection patterns in iOS frameworks, <a href="https://theswiftdev.com/2018/06/27/swift-delegate-design-pattern/" target="_blank">delegate patterns</a> are often implemented like this. Also another great benefit is that these properties can be mutable ones, so you can replace them on-the-fly. ✈️</p><h2>Method injection</h2><p>If you need a dependency only once, you don't really need to store it as an object variable. Instead of an initializer argument or an exposed mutable property, you can simply pass around your dependency as a method parameter, this technique is called method injection or some say parameter-based injection. 👍</p><pre><code class="language-swift"><span class="keyword">class</span> Post: <span class="type">Encodable</span> {
+
+    <span class="keyword">var</span> title: <span class="type">String</span>
+    <span class="keyword">var</span> content: <span class="type">String</span>
+
+    <span class="keyword">init</span>(title: <span class="type">String</span>, content: <span class="type">String</span>) {
+        <span class="keyword">self</span>.<span class="property">title</span> = title
+        <span class="keyword">self</span>.<span class="property">content</span> = content
+    }
+
+    <span class="keyword">func</span> encode(using encoder: <span class="type">Encoder</span>) <span class="keyword">throws</span> -&gt; <span class="type">Data</span> {
+        <span class="keyword">return try</span> encoder.<span class="call">encode</span>(<span class="keyword">self</span>)
+    }
+}
+
+<span class="keyword">let</span> post = <span class="type">Post</span>(title: <span class="string">"Hello DI!"</span>, content: <span class="string">"Method injection"</span>)
+
+<span class="keyword">if let</span> data = <span class="keyword">try</span>? post.<span class="call">encode</span>(using: <span class="type">JSONEncoder</span>()), <span class="keyword">let</span> encoded = <span class="type">String</span>(data: data, encoding: .<span class="dotAccess">utf8</span>) {
+    <span class="call">print</span>(encoded)
+}</code></pre><p>Your dependency can vary each time this method gets called, it's not required to keep a reference from the dependency, so it's just going to be used in a local method scope.</p><h2>Ambient context</h2><p>Our last pattern is quite a dangerous one. It should be used only for universal dependencies that are being shared alongside multiple object instances. Logging, analytics or a caching mechanism is a good example for this. 🚧</p><pre><code class="language-swift"><span class="keyword">class</span> Post: <span class="type">Encodable</span> {
+
+    <span class="keyword">var</span> title: <span class="type">String</span>
+    <span class="keyword">var</span> content: <span class="type">String</span>
+
+    <span class="keyword">init</span>(title: <span class="type">String</span>, content: <span class="type">String</span>) {
+        <span class="keyword">self</span>.<span class="property">title</span> = title
+        <span class="keyword">self</span>.<span class="property">content</span> = content
+    }
+
+    <span class="keyword">func</span> encoded() <span class="keyword">throws</span> -&gt; <span class="type">Data</span> {
+        <span class="keyword">return try</span> <span class="type">Post</span>.<span class="property">encoder</span>.<span class="call">encode</span>(<span class="keyword">self</span>)
+    }
+
+
+    <span class="keyword">private static var</span> _encoder: <span class="type">Encoder</span> = <span class="type">PropertyListEncoder</span>()
+
+    <span class="keyword">static func</span> setEncoder(<span class="keyword">_</span> encoder: <span class="type">Encoder</span>) {
+        <span class="keyword">self</span>.<span class="property">_encoder</span> = encoder
+    }
+
+    <span class="keyword">static var</span> encoder: <span class="type">Encoder</span> {
+        <span class="keyword">return</span> <span class="type">Post</span>.<span class="property">_encoder</span>
+    }
+}
+
+<span class="keyword">let</span> post = <span class="type">Post</span>(title: <span class="string">"Hello DI!"</span>, content: <span class="string">"Ambient context"</span>)
+<span class="type">Post</span>.<span class="call">setEncoder</span>(<span class="type">JSONEncoder</span>())
+
+<span class="keyword">if let</span> data = <span class="keyword">try</span>? post.<span class="call">encoded</span>(), <span class="keyword">let</span> encoded = <span class="type">String</span>(data: data, encoding: .<span class="dotAccess">utf8</span>) {
+    <span class="call">print</span>(encoded)
+}</code></pre><p>Ambient context has some disadvantages. It might fits well in case of cross-cutting concerns, but it creates implicit dependencies and represents a global mutable state. It's not highly recommended, you should consider the other dependency injection patterns first, but sometimes it can be a right fit for you.</p><p>That's all about dependency injection patterns in a nutshell. If you are looking for more, you should read the following sources, because they're all amazing. Especially the first one by <a href="https://twitter.com/ilyapuchka" target="_blank">Ilya Puchka</a>, that's highly recommended. 😉</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/swift-dependency-injection-design-pattern"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/assets/book/vapor.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <p><strong>Third edition is just: $39</strong></p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
+                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

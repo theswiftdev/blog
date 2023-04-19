@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>How to build macOS apps using only the Swift Package Manager? - The.Swift.Dev.</title>
+    
+    <meta name="description" content="In this article we're going to create a macOS application without ever touching an Xcode project file, but only working with SPM.">
+    
+    <meta property="og:title" content="How to build macOS apps using only the Swift Package Manager? - The.Swift.Dev.">
+    <meta property="og:description" content="In this article we're going to create a macOS application without ever touching an Xcode project file, but only working with SPM.">
+    <meta property="og:url" content="https://theswiftdev.github.io/blog/how-to-build-macos-apps-using-only-the-swift-package-manager">
+    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/how-to-build-macos-apps-using-only-the-swift-package-manager/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="How to build macOS apps using only the Swift Package Manager? - The.Swift.Dev.">
+    <meta name="twitter:description" content="In this article we're going to create a macOS application without ever touching an Xcode project file, but only working with SPM.">
+    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/how-to-build-macos-apps-using-only-the-swift-package-manager/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.github.io/blog/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2020/10/26">2020/10/26</time>
+            <h1 class="title">How to build macOS apps using only the Swift Package Manager?</h1>
+            <p class="excerpt">In this article we're going to create a macOS application without ever touching an Xcode project file, but only working with SPM.</p>
+            <div class="meta">
+                <span class="tag">Swift</span>
+<span class="tag">macOS</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/how-to-build-macos-apps-using-only-the-swift-package-manager/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <h2>Swift scripts and macOS apps</h2><p>Swift compiler 101, you can create, build and run a Swift file using the <code>swiftc</code> command. Consider the most simple Swift program that we can all imagine in a <code>main.swift</code> file:</p><pre><code class="language-swift"><span class="call">print</span>(<span class="string">"Hello world!"</span>)</code></pre><p>In Swift if we want to print something, we don't even have to import the Foundation framework, we can simply compile and run this piece of code by running the following:</p><pre><code class="language-sh">swiftc main.swift   # compile main.swift
+chmod +x main       # add the executable permission
+./main          # run the binary
+</code></pre><p>The good news that we can take this one step further by auto-invoking the Swift compiler under the hood with a <a href="https://en.wikipedia.org/wiki/Shebang_(Unix" target="_blank">shebang</a>).</p><pre><code class="language-swift">#! /usr/bin/swift
+
+<span class="call">print</span>(<span class="string">"Hello world!"</span>)</code></pre><p>Now if you simply run the <code>./main.swift</code> file it'll print out the famous "Hello world!" text. 👋</p><p>Thanks to the program-loader mechanism and of course the Swift interpreter we can skip an extra step and run our single-source Swift code as easy as a regular shell script. The good news is that we can import all sort of system frameworks that are part of the Swift toolchain. With the help of Foundation we can build quite useful or completely useless command line utilities.</p><pre><code class="language-swift">#!/usr/bin/env swift
+
+<span class="keyword">import</span> Foundation
+<span class="keyword">import</span> Dispatch
+
+<span class="keyword">guard</span> <span class="type">CommandLine</span>.<span class="property">arguments</span>.<span class="property">count</span> == <span class="number">2</span> <span class="keyword">else</span> {
+    <span class="call">fatalError</span>(<span class="string">"Invalid arguments"</span>)
+}
+<span class="keyword">let</span> urlString =  <span class="type">CommandLine</span>.<span class="property">arguments</span>[<span class="number">1</span>]
+<span class="keyword">guard let</span> url = <span class="type">URL</span>(string: urlString) <span class="keyword">else</span> {
+    <span class="call">fatalError</span>(<span class="string">"Invalid URL"</span>)   
+}
+
+<span class="keyword">struct</span> Todo: <span class="type">Codable</span> {
+    <span class="keyword">let</span> title: <span class="type">String</span>
+    <span class="keyword">let</span> completed: <span class="type">Bool</span>
+}
+
+<span class="keyword">let</span> task = <span class="type">URLSession</span>.<span class="property">shared</span>.<span class="call">dataTask</span>(with: url) { data, response, error <span class="keyword">in 
+    if let</span> error = error {
+        <span class="call">fatalError</span>(<span class="string">"Error:</span> \(error.<span class="property">localizedDescription</span>)<span class="string">"</span>)
+    }
+    <span class="keyword">guard let</span> response = response <span class="keyword">as</span>? <span class="type">HTTPURLResponse</span>, response.<span class="property">statusCode</span> == <span class="number">200</span> <span class="keyword">else</span> {
+        <span class="call">fatalError</span>(<span class="string">"Error: invalid HTTP response code"</span>)
+    }
+    <span class="keyword">guard let</span> data = data <span class="keyword">else</span> {
+        <span class="call">fatalError</span>(<span class="string">"Error: missing response data"</span>)
+    }
+
+    <span class="keyword">do</span> {
+        <span class="keyword">let</span> decoder = <span class="type">JSONDecoder</span>()
+        <span class="keyword">let</span> todos = <span class="keyword">try</span> decoder.<span class="call">decode</span>([<span class="type">Todo</span>].<span class="keyword">self</span>, from: data)
+        <span class="call">print</span>(<span class="string">"List of todos:"</span>)
+        <span class="call">print</span>(todos.<span class="call">map</span> { <span class="string">" - ["</span> + ($0.<span class="property">completed</span> ? <span class="string">"✅"</span> : <span class="string">"❌"</span>) + <span class="string">"]</span> \($0.<span class="property">title</span>)<span class="string">"</span> }.<span class="call">joined</span>(separator: <span class="string">"\n"</span>))
+        <span class="call">exit</span>(<span class="number">0</span>)
+    }
+    <span class="keyword">catch</span> {
+        <span class="call">fatalError</span>(<span class="string">"Error:</span> \(error.<span class="property">localizedDescription</span>)<span class="string">"</span>)
+    }
+}
+task.<span class="call">resume</span>()
+<span class="call">dispatchMain</span>()</code></pre><p>If you call this example with a URL that can return a list of todos it'll print a nice list of the items.</p><pre><code class="language-sh">./main.swift https://jsonplaceholder.typicode.com/todos
+</code></pre><p>Yes, you can say that this script is completely useless, but in my opinion it's an amazing demo app, since it covers how to check command line arguments (<code>CommandLine.arguments</code>), it also shows you how to wait (<code>dispatchMain</code>) for an async task, such as a HTTP call through the network using the <a href="https://theswiftdev.com/urlsession-and-the-combine-framework/" target="_blank">URLSession API</a> to finish and exit using the right method when something fails (<code>fatalError</code>) or if you reach the end of execution (<code>exit(0)</code>). Just a few lines of code, but it contains so much info.</p><p class="note">Have you noticed the new shebang? If you have multiple Swift versions installed on your system, you can use the <a href="https://unix.stackexchange.com/questions/29608/why-is-it-better-to-use-usr-bin-env-name-instead-of-path-to-name-as-my/29620#29620" target="_blank">env shebang</a> to go with the first one that's available in your PATH.</p><p>It's not just Foundation, but you can import AppKit or even SwiftUI. Well, not under Linux of course, since those frameworks are only available for macOS plus you will need Xcode installed on your system, since some stuff in Swift the toolchain is still tied to the IDE, but why? 😢</p><p>Anyway, back to the topic, here's the boilerplate code for a macOS application Swift script that can be started from the Terminal with one simple <code>./main.swift</code> command and nothing more.</p><pre><code class="language-swift">#!/usr/bin/env swift
+
+<span class="keyword">import</span> AppKit
+<span class="keyword">import</span> SwiftUI
+
+<span class="keyword">@available</span>(macOS <span class="number">10.15</span>, *)
+<span class="keyword">struct</span> HelloView: <span class="type">View</span> {
+    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> {
+        <span class="type">Text</span>(<span class="string">"Hello world!"</span>)
+    }
+}
+
+<span class="keyword">@available</span>(macOS <span class="number">10.15</span>, *)
+<span class="keyword">class</span> WindowDelegate: <span class="type">NSObject</span>, <span class="type">NSWindowDelegate</span> {
+
+    <span class="keyword">func</span> windowWillClose(<span class="keyword">_</span> notification: <span class="type">Notification</span>) {
+        <span class="type">NSApplication</span>.<span class="property">shared</span>.<span class="call">terminate</span>(<span class="number">0</span>)
+    }
+}
+
+
+<span class="keyword">@available</span>(macOS <span class="number">10.15</span>, *)
+<span class="keyword">class</span> AppDelegate: <span class="type">NSObject</span>, <span class="type">NSApplicationDelegate</span> {
+    <span class="keyword">let</span> window = <span class="type">NSWindow</span>()
+    <span class="keyword">let</span> windowDelegate = <span class="type">WindowDelegate</span>()
+
+    <span class="keyword">func</span> applicationDidFinishLaunching(<span class="keyword">_</span> notification: <span class="type">Notification</span>) {
+        <span class="keyword">let</span> appMenu = <span class="type">NSMenuItem</span>()
+        appMenu.<span class="property">submenu</span> = <span class="type">NSMenu</span>()
+        appMenu.<span class="property">submenu</span>?.<span class="call">addItem</span>(<span class="type">NSMenuItem</span>(title: <span class="string">"Quit"</span>, action: <span class="keyword">#selector</span>(<span class="type">NSApplication</span>.<span class="call">terminate</span>(<span class="keyword">_</span>:)), keyEquivalent: <span class="string">"q"</span>))
+        <span class="keyword">let</span> mainMenu = <span class="type">NSMenu</span>(title: <span class="string">"My Swift Script"</span>)
+        mainMenu.<span class="call">addItem</span>(appMenu)
+        <span class="type">NSApplication</span>.<span class="property">shared</span>.<span class="property">mainMenu</span> = mainMenu
+        
+        <span class="keyword">let</span> size = <span class="type">CGSize</span>(width: <span class="number">480</span>, height: <span class="number">270</span>)
+        window.<span class="call">setContentSize</span>(size)
+        window.<span class="property">styleMask</span> = [.<span class="dotAccess">closable</span>, .<span class="dotAccess">miniaturizable</span>, .<span class="dotAccess">resizable</span>, .<span class="dotAccess">titled</span>]
+        window.<span class="property">delegate</span> = windowDelegate
+        window.<span class="property">title</span> = <span class="string">"My Swift Script"</span>
+
+        <span class="keyword">let</span> view = <span class="type">NSHostingView</span>(rootView: <span class="type">HelloView</span>())
+        view.<span class="property">frame</span> = <span class="type">CGRect</span>(origin: .<span class="dotAccess">zero</span>, size: size)
+        view.<span class="property">autoresizingMask</span> = [.<span class="dotAccess">height</span>, .<span class="dotAccess">width</span>]
+        window.<span class="property">contentView</span>!.<span class="call">addSubview</span>(view)
+        window.<span class="call">center</span>()
+        window.<span class="call">makeKeyAndOrderFront</span>(window)
+        
+        <span class="type">NSApp</span>.<span class="call">setActivationPolicy</span>(.<span class="dotAccess">regular</span>)
+        <span class="type">NSApp</span>.<span class="call">activate</span>(ignoringOtherApps: <span class="keyword">true</span>)
+    }
+}
+
+<span class="keyword">let</span> app = <span class="type">NSApplication</span>.<span class="property">shared</span>
+<span class="keyword">let</span> delegate = <span class="type">AppDelegate</span>()
+app.<span class="property">delegate</span> = delegate
+app.<span class="call">run</span>()</code></pre><p>Special thanks goes to <a href="https://github.com/karwa" target="_blank">karwa</a> for the <a href="https://gist.github.com/karwa/5207e232ac9ec53f0276252ab5e3ee07" target="_blank">original gist</a>. Also if you are into Storyboard-less macOS app development, you should definitely take a look at <a href="https://kicsipixel.github.io/2020/nostoryboard/" target="_blank">this article</a> by <a href="https://twitter.com/kicsipixel" target="_blank">@kicsipixel</a>. These resources helped me a lot to put together what I needed. I still had to extend the gist with a proper menu setup and the activation policy, but now this version acts like a real-world macOS application that works like a charm. There is only one issue here... the script file is getting crowded. 🙈</p><h2>Swift Package Manager and macOS apps</h2><p>So, if we follow the same logic, that means we can build an executable package that can invoke AppKit related stuff using the Swift Package Manager. Easy as a pie. 🥧</p><pre><code class="language-sh">mkdir MyApp
+cd MyApp 
+swift package init --type=executable
+</code></pre><p>Now we can separate the components into standalone files, we can also remove the availability checking, since we're going to add a platform constraint using our <code>Package.swift</code> manifest file. If you don't know much about how the Swift Package Manager works, please read <a href="https://theswiftdev.com/swift-package-manager-tutorial/" target="_blank">my SPM tutorial</a>, or if you are simply curious about the structure of a Package.swift file, you can read my article about the <a href="https://theswiftdev.com/the-swift-package-manifest-file/" target="_blank">Swift Package manifest file</a>. Let's start with the manifest updates.</p><pre><code class="language-swift"><span class="comment">// swift-tools-version:5.3</span>
+<span class="keyword">import</span> PackageDescription
+
+<span class="keyword">let</span> package = <span class="type">Package</span>(
+    name: <span class="string">"MyApp"</span>,
+    platforms: [
+        .<span class="call">macOS</span>(.<span class="dotAccess">v10_15</span>)
+    ],
+    dependencies: [
+        <span class="comment">// .package(url: /* package url */, from: "1.0.0"),</span>
+    ],
+    targets: [
+        .<span class="call">target</span>(name: <span class="string">"MyApp"</span>, dependencies: []),
+        .<span class="call">testTarget</span>(name: <span class="string">"MyAppTests"</span>, dependencies: [<span class="string">"MyApp"</span>]),
+    ]
+)</code></pre><p>Now we can place the HelloView struct into a new HelloView.swift file.</p><pre><code class="language-swift"><span class="keyword">import</span> SwiftUI
+
+<span class="keyword">struct</span> HelloView: <span class="type">View</span> {
+    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> {
+        <span class="type">Text</span>(<span class="string">"Hello world!"</span>)
+    }
+}</code></pre><p>The window delegate can have its own place inside a WindowDelegate.swift file.</p><pre><code class="language-swift"><span class="keyword">import</span> AppKit
+
+<span class="keyword">class</span> WindowDelegate: <span class="type">NSObject</span>, <span class="type">NSWindowDelegate</span> {
+
+    <span class="keyword">func</span> windowWillClose(<span class="keyword">_</span> notification: <span class="type">Notification</span>) {
+        <span class="type">NSApplication</span>.<span class="property">shared</span>.<span class="call">terminate</span>(<span class="number">0</span>)
+    }
+}</code></pre><p>We can apply the same thing to the AppDelegate class.</p><pre><code class="language-swift"><span class="keyword">import</span> AppKit
+<span class="keyword">import</span> SwiftUI
+
+<span class="keyword">class</span> AppDelegate: <span class="type">NSObject</span>, <span class="type">NSApplicationDelegate</span> {
+    <span class="keyword">let</span> window = <span class="type">NSWindow</span>()
+    <span class="keyword">let</span> windowDelegate = <span class="type">WindowDelegate</span>()
+
+    <span class="keyword">func</span> applicationDidFinishLaunching(<span class="keyword">_</span> notification: <span class="type">Notification</span>) {
+        <span class="keyword">let</span> appMenu = <span class="type">NSMenuItem</span>()
+        appMenu.<span class="property">submenu</span> = <span class="type">NSMenu</span>()
+        appMenu.<span class="property">submenu</span>?.<span class="call">addItem</span>(<span class="type">NSMenuItem</span>(title: <span class="string">"Quit"</span>, action: <span class="keyword">#selector</span>(<span class="type">NSApplication</span>.<span class="call">terminate</span>(<span class="keyword">_</span>:)), keyEquivalent: <span class="string">"q"</span>))
+        <span class="keyword">let</span> mainMenu = <span class="type">NSMenu</span>(title: <span class="string">"My Swift Script"</span>)
+        mainMenu.<span class="call">addItem</span>(appMenu)
+        <span class="type">NSApplication</span>.<span class="property">shared</span>.<span class="property">mainMenu</span> = mainMenu
+        
+        <span class="keyword">let</span> size = <span class="type">CGSize</span>(width: <span class="number">480</span>, height: <span class="number">270</span>)
+        window.<span class="call">setContentSize</span>(size)
+        window.<span class="property">styleMask</span> = [.<span class="dotAccess">closable</span>, .<span class="dotAccess">miniaturizable</span>, .<span class="dotAccess">resizable</span>, .<span class="dotAccess">titled</span>]
+        window.<span class="property">delegate</span> = windowDelegate
+        window.<span class="property">title</span> = <span class="string">"My Swift Script"</span>
+
+        <span class="keyword">let</span> view = <span class="type">NSHostingView</span>(rootView: <span class="type">HelloView</span>())
+        view.<span class="property">frame</span> = <span class="type">CGRect</span>(origin: .<span class="dotAccess">zero</span>, size: size)
+        view.<span class="property">autoresizingMask</span> = [.<span class="dotAccess">height</span>, .<span class="dotAccess">width</span>]
+        window.<span class="property">contentView</span>!.<span class="call">addSubview</span>(view)
+        window.<span class="call">center</span>()
+        window.<span class="call">makeKeyAndOrderFront</span>(window)
+        
+        <span class="type">NSApp</span>.<span class="call">setActivationPolicy</span>(.<span class="dotAccess">regular</span>)
+        <span class="type">NSApp</span>.<span class="call">activate</span>(ignoringOtherApps: <span class="keyword">true</span>)
+    }
+}</code></pre><p>Finally we can update the main.swift file and initiate everything that needs to be done.</p><pre><code class="language-swift"><span class="keyword">import</span> AppKit
+
+<span class="keyword">let</span> app = <span class="type">NSApplication</span>.<span class="property">shared</span>
+<span class="keyword">let</span> delegate = <span class="type">AppDelegate</span>()
+app.<span class="property">delegate</span> = delegate
+app.<span class="call">run</span>()</code></pre><p>The good news is that this approach works, so you can develop, build and run apps locally, but unfortunately you can't submit them to the Mac App Store, since the final application package won't look like a real macOS bundle. The binary is not code signed, plus you'll need a real macOS target in Xcode to submit the application. Then why bother with this approach?</p><p>Well, just because it is fun and I can even avoid using Xcode with the help of <a href="https://github.com/apple/sourcekit-lsp" target="_blank">SourceKit-LSP</a> and some <a href="https://github.com/apple/sourcekit-lsp/tree/main/Editors" target="_blank">Editor configuration</a>. The best part is that SourceKit-LSP is now <a href="https://vercantez.com/posts/Writing-Swift-in-Sublime/" target="_blank">part of Xcode</a>, so you don't have to install anything special, just configure your favorite IDE and start coding.</p><p>You can also <a href="https://developer.apple.com/documentation/swift_packages/bundling_resources_with_a_swift_package" target="_blank">bundle resources</a>, since this feature is available from Swift 5.3, and use them through the <code>Bundle.module</code> variable if needed. I already tried this, works pretty well, and it is so much fun to develop apps for the mac without the extra overhead that Xcode comes with. 🥳</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/how-to-build-macos-apps-using-only-the-swift-package-manager"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/assets/book/vapor.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <p><strong>Third edition is just: $39</strong></p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
+                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

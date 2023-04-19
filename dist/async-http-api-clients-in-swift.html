@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Async HTTP API clients in Swift - The.Swift.Dev.</title>
+    
+    <meta name="description" content="Learn how to communicate with API endpoints using the brand new SwiftHttp library, including async / await support.">
+    
+    <meta property="og:title" content="Async HTTP API clients in Swift - The.Swift.Dev.">
+    <meta property="og:description" content="Learn how to communicate with API endpoints using the brand new SwiftHttp library, including async / await support.">
+    <meta property="og:url" content="https://theswiftdev.github.io/blog/async-http-api-clients-in-swift">
+    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/async-http-api-clients-in-swift/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="Async HTTP API clients in Swift - The.Swift.Dev.">
+    <meta name="twitter:description" content="Learn how to communicate with API endpoints using the brand new SwiftHttp library, including async / await support.">
+    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/async-http-api-clients-in-swift/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.github.io/blog/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2022/03/18">2022/03/18</time>
+            <h1 class="title">Async HTTP API clients in Swift</h1>
+            <p class="excerpt">Learn how to communicate with API endpoints using the brand new SwiftHttp library, including async / await support.</p>
+            <div class="meta">
+                <span class="tag">Swift</span>
+<span class="tag">networking</span>
+<span class="tag">HTTP</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/async-http-api-clients-in-swift/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <h2>Introducing SwiftHttp</h2><p>An awesome <a href="https://github.com/binarybirds/swift-http/" target="_blank">Swift HTTP library</a> to rapidly create communication layers with API endpoints. The library tries to separate the client request logic from the request building and response handling. That's the main reason why it has a HttpClient protocol which can be used to perform data, download and upload tasks. You can implement your own HttpClient, but SwiftHttp comes with a built-in UrlSessionHttpClient based on <a href="https://developer.apple.com/documentation/foundation/urlsession" target="_blank">Foundation networking</a>.</p><p>So the client is responsible for executing the requests, but we still have to describe the request itself somehow. This is where the HttpRawRequest object comes into play. You can easily create a base HttpUrl and perform a request using the HttpRawRequest object. When working with a raw request you can specify additional header fields and a raw body data object too. 💪</p><pre><code class="language-swift"><span class="keyword">let</span> url = <span class="type">HttpUrl</span>(scheme: <span class="string">"https"</span>,
+                  host: <span class="string">"jsonplaceholder.typicode.com"</span>,
+                  port: <span class="number">80</span>,
+                  path: [<span class="string">"todos"</span>],
+                  resource: <span class="keyword">nil</span>,
+                  query: [:],
+                  fragment: <span class="keyword">nil</span>)
+
+<span class="keyword">let</span> req = <span class="type">HttpRawRequest</span>(url: url, method: .<span class="dotAccess">get</span>, headers: [:], body: <span class="keyword">nil</span>)
+
+<span class="comment">/// execute the request using the client</span>
+<span class="keyword">let</span> client = <span class="type">UrlSessionHttpClient</span>(session: .<span class="dotAccess">shared</span>, log: <span class="keyword">true</span>)
+<span class="keyword">let</span> response = <span class="keyword">try await</span> client.<span class="call">dataTask</span>(req)
+
+<span class="comment">/// use the response data</span>
+<span class="keyword">let</span> todos = <span class="keyword">try</span> <span class="type">JSONDecoder</span>().<span class="call">decode</span>([<span class="type">Todo</span>].<span class="keyword">self</span>, from: response.<span class="property">data</span>)
+<span class="comment">// response.statusCode == .ok
+// response.headers -&gt; response headers as a dictionary</span></code></pre><p>The HTTP client can perform network calls using <a href="https://theswiftdev.com/introduction-to-asyncawait-in-swift/" target="_blank">the new async / await Swift concurrency API</a>. It is possible to cancel a network request by wrapping it into a <a href="https://theswiftdev.com/swift-structured-concurrency-tutorial/" target="_blank">structured concurrency Task</a>.</p><pre><code class="language-swift"><span class="keyword">let</span> task = <span class="type">Task</span> {
+    <span class="keyword">let</span> api = <span class="type">TodoApi</span>()
+    <span class="keyword">_</span> = <span class="keyword">try await</span> api.<span class="call">list</span>()
+}
+
+<span class="type">DispatchQueue</span>.<span class="call">global</span>().<span class="call">asyncAfter</span>(deadline: .<span class="call">now</span>() + .<span class="call">milliseconds</span>(<span class="number">10</span>)) {
+    task.<span class="call">cancel</span>()
+}
+
+<span class="keyword">do</span> {
+    <span class="keyword">let _</span> = <span class="keyword">try await</span> task.<span class="property">value</span>
+}
+<span class="keyword">catch</span> {
+    <span class="keyword">if</span> (error <span class="keyword">as</span>? <span class="type">URLError</span>)?.<span class="property">code</span> == .<span class="dotAccess">cancelled</span> {
+        <span class="call">print</span>(<span class="string">"cancelled"</span>)
+    }
+}</code></pre><p>This is a neat tick, you can also check the reason inside the catch block, if it is an URLError with a .cancelled code then the request was cancelled, otherwise it must be some sort of network error.</p><p>So this is how you can use the client to perform or cancel a network task, but usually you don't want to work with raw data, but encodable and decodable objects. When you work with such objects, you might want to validate the response headers and send additional headers to inform the server about the type of the body data. Just think about the <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type" target="_blank">Content-Type</a> / <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept" target="_blank">Accept</a> header fields. 🤔</p><p>So we might want to send additional headers alongside the request, plus it'd be nice to validate the status code and response headers before we try to parse the data. This seems like a flow of common operations, first we encode the data, set the additional header fields, and when the response arrives we validate the status code and the header fields, finally we try to decode the data object. This is a typical use case and SwiftHttp calls this workflow as a pipeline.</p><p>There are 4 types of built-in HTTP pipelines:</p><ul><li>Raw - Send a raw data request, return a raw data response</li><li>Encodable - Send an encodable object, return a raw data response</li><li>Decodable - Send a raw data request, return a decodable object</li><li>Codable - Send an encodable object, return a decodable object</li></ul><p>We can use a HttpRawPipeline and execute our request using a client as an executor.</p><pre><code class="language-swift"><span class="keyword">let</span> baseUrl = <span class="type">HttpUrl</span>(host: <span class="string">"jsonplaceholder.typicode.com"</span>)
+<span class="keyword">let</span> client = <span class="type">UrlSessionHttpClient</span>(session: .<span class="dotAccess">shared</span>, log: <span class="keyword">true</span>)
+
+<span class="keyword">let</span> pipeline = <span class="type">HttpRawPipeline</span>(url: baseUrl.<span class="call">path</span>(<span class="string">"todos"</span>), method: .<span class="dotAccess">get</span>)
+
+<span class="keyword">let</span> response = <span class="keyword">try await</span> pipeline.<span class="call">execute</span>(client.<span class="property">dataTask</span>)
+<span class="keyword">let</span> todos = <span class="keyword">try</span> <span class="type">JSONDecoder</span>().<span class="call">decode</span>([<span class="type">Todo</span>].<span class="keyword">self</span>, from: response.<span class="property">data</span>)
+<span class="call">print</span>(response.<span class="property">statusCode</span>)
+<span class="call">print</span>(todos.<span class="property">count</span>)</code></pre><p>In this case we were using the dataTask function, but if you expect the response to be a huge file, you might want to consider using a downloadTask, or if you're uploading a large amount of data when sending the request, you should choose the uploadTask function. 💡</p><p>So in this case we had to manually decode the Todo object from the raw HTTP response data, but we can use the decodable pipeline to make things even more simple.</p><pre><code class="language-swift"><span class="keyword">let</span> baseUrl = <span class="type">HttpUrl</span>(host: <span class="string">"jsonplaceholder.typicode.com"</span>)
+<span class="keyword">let</span> client = <span class="type">UrlSessionHttpClient</span>(session: .<span class="dotAccess">shared</span>, log: <span class="keyword">true</span>)
+
+
+<span class="keyword">let</span> pipeline = <span class="type">HttpDecodablePipeline</span>&lt;[<span class="type">Todo</span>]&gt;(url: baseUrl.<span class="call">path</span>(<span class="string">"todos"</span>),
+                                             method: .<span class="dotAccess">get</span>,
+                                             decoder: .<span class="call">json</span>(<span class="type">JSONDecoder</span>(), validators: [
+                                                <span class="type">HttpStatusCodeValidator</span>(.<span class="dotAccess">ok</span>),
+                                                <span class="type">HttpHeaderValidator</span>(.<span class="call">key</span>(.<span class="dotAccess">contentType</span>)) {
+                                                    $0.<span class="call">contains</span>(<span class="string">"application/json"</span>)
+                                                },
+                                             ]))
+
+<span class="keyword">let</span> todos = <span class="keyword">try await</span> pipeline.<span class="call">execute</span>(client.<span class="property">dataTask</span>)
+<span class="call">print</span>(todos.<span class="property">count</span>)</code></pre><p>As you can see, in this case the instead of returning the response, the pipeline can perform additional validation and the decoding using the provided decoder and validators. You can create your own validators, there is a HttpResponseValidator protocol for this purpose.</p><p>The encodable pipeline works like the same, you can specify the encoder, you can provide the encodable object and you'll get back a HttpResponse instance.</p><pre><code class="language-swift"><span class="keyword">let</span> client = <span class="type">UrlSessionHttpClient</span>(session: .<span class="dotAccess">shared</span>, log: <span class="keyword">true</span>)
+        
+<span class="keyword">let</span> todo = <span class="type">Todo</span>(id: <span class="number">1</span>, title: <span class="string">"lorem ipsum"</span>, completed: <span class="keyword">false</span>)
+
+<span class="keyword">let</span> pipeline = <span class="type">HttpEncodablePipeline</span>(url: baseUrl.<span class="call">path</span>(<span class="string">"todos"</span>),
+                                     method: .<span class="dotAccess">post</span>,
+                                     body: todo,
+                                     encoder: .<span class="call">json</span>())
+
+<span class="keyword">let</span> response = <span class="keyword">try await</span> pipeline.<span class="call">execute</span>(client.<span class="property">dataTask</span>)
+
+<span class="call">print</span>(response.<span class="property">statusCode</span> == .<span class="dotAccess">created</span>)</code></pre><p>The codable pipeline is a combination of the encodable and decodable pipeline. 🙃</p><pre><code class="language-swift"><span class="keyword">let</span> baseUrl = <span class="type">HttpUrl</span>(host: <span class="string">"jsonplaceholder.typicode.com"</span>)
+<span class="keyword">let</span> client = <span class="type">UrlSessionHttpClient</span>(session: .<span class="dotAccess">shared</span>, log: <span class="keyword">true</span>)
+
+<span class="keyword">let</span> todo = <span class="type">Todo</span>(id: <span class="number">1</span>, title: <span class="string">"lorem ipsum"</span>, completed: <span class="keyword">false</span>)
+
+<span class="keyword">let</span> pipeline = <span class="type">HttpCodablePipeline</span>&lt;<span class="type">Todo</span>, <span class="type">Todo</span>&gt;(url: baseUrl.<span class="call">path</span>(<span class="string">"todos"</span>, <span class="type">String</span>(<span class="number">1</span>)),
+                                               method: .<span class="dotAccess">put</span>,
+                                               body: todo,
+                                               encoder: .<span class="call">json</span>(),
+                                               decoder: .<span class="call">json</span>())
+
+<span class="keyword">let</span> todo = <span class="keyword">try await</span> pipeline.<span class="call">execute</span>(client.<span class="property">dataTask</span>)
+<span class="call">print</span>(todo.<span class="property">title</span>)</code></pre><p>As you can see this is quite a common pattern, and when we're communicating with a REST API, we're going to perform more or less the exact same network calls for every single endpoint. SwiftHttp has a pipeline collection protocol that you can use to perform requests without the need of explicitly setting up these pipelines. Here's an example:</p><pre><code class="language-swift"><span class="keyword">import</span> SwiftHttp
+
+<span class="keyword">struct</span> Todo: <span class="type">Codable</span> {
+    <span class="keyword">let</span> id: <span class="type">Int</span>
+    <span class="keyword">let</span> title: <span class="type">String</span>
+    <span class="keyword">let</span> completed: <span class="type">Bool</span>
+}
+
+<span class="keyword">struct</span> TodoApi: <span class="type">HttpCodablePipelineCollection</span> {
+
+    <span class="keyword">let</span> client: <span class="type">HttpClient</span> = <span class="type">UrlSessionHttpClient</span>(log: <span class="keyword">true</span>)
+    <span class="keyword">let</span> apiBaseUrl = <span class="type">HttpUrl</span>(host: <span class="string">"jsonplaceholder.typicode.com"</span>)
+
+    
+    <span class="keyword">func</span> list() <span class="keyword">async throws</span> -&gt; [<span class="type">Todo</span>] {
+        <span class="keyword">try await</span> <span class="call">decodableRequest</span>(executor: client.<span class="property">dataTask</span>,
+                                   url: apiBaseUrl.<span class="call">path</span>(<span class="string">"todos"</span>),
+                                   method: .<span class="dotAccess">get</span>)
+    }    
+}
+
+<span class="keyword">let</span> todos = <span class="keyword">try await</span> api.<span class="call">list</span>()</code></pre><p>When using a HttpCodablePipelineCollection you can perform an encodable, decodable or codable request using an executor object. This will reduce the boilerplate code needed to perform a request and everything is going to be type safe thanks to the generic protocol oriented networking layer. You can setup as many pipeline collections as you need, it is possible to use a shared client or you can create a dedicated client for each.</p><p>By the way, if something goes wrong with the request, or one of the validators fail, you can always check for the errors using a do-try-catch block. 😅</p><pre><code class="language-swift"><span class="keyword">do</span> {
+    <span class="keyword">_</span> = <span class="keyword">try await</span> api.<span class="call">list</span>()
+}
+<span class="keyword">catch</span> <span class="type">HttpError</span>.<span class="call">invalidStatusCode</span>(<span class="keyword">let</span> res) {
+    <span class="comment">// decode custom error message, if the status code was invalid</span>
+    <span class="keyword">let</span> decoder = <span class="type">HttpResponseDecoder</span>&lt;<span class="type">CustomError</span>&gt;(decoder: <span class="type">JSONDecoder</span>())
+    <span class="keyword">do</span> {
+        <span class="keyword">let</span> error = <span class="keyword">try</span> decoder.<span class="call">decode</span>(res.<span class="property">data</span>)
+        <span class="call">print</span>(res.<span class="property">statusCode</span>, error)
+    }
+    <span class="keyword">catch</span> {
+        <span class="call">print</span>(error.<span class="property">localizedDescription</span>)
+    }
+}
+<span class="keyword">catch</span> {
+    <span class="call">print</span>(error.<span class="property">localizedDescription</span>)
+}</code></pre><p>That's how SwiftHttp works in a nutshell, of course you can setup custom encoders and decoders, but that's another topic. If you are interested in the project, feel free to give it a star on <a href="https://github.com/BinaryBirds/swift-http" target="_blank">GitHub</a>. We're going to use it in the future quite a lot both on the client and server side. ⭐️⭐️⭐️</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/async-http-api-clients-in-swift"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/assets/book/vapor.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <p><strong>Third edition is just: $39</strong></p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
+                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

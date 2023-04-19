@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Swift adapter design pattern - The.Swift.Dev.</title>
+    
+    <meta name="description" content="Turn an incompatible object into a target interface or class by using a real world example and the adapter design pattern in Swift.">
+    
+    <meta property="og:title" content="Swift adapter design pattern - The.Swift.Dev.">
+    <meta property="og:description" content="Turn an incompatible object into a target interface or class by using a real world example and the adapter design pattern in Swift.">
+    <meta property="og:url" content="https://theswiftdev.github.io/blog/swift-adapter-design-pattern">
+    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/swift-adapter-design-pattern/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="Swift adapter design pattern - The.Swift.Dev.">
+    <meta name="twitter:description" content="Turn an incompatible object into a target interface or class by using a real world example and the adapter design pattern in Swift.">
+    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/swift-adapter-design-pattern/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.github.io/blog/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2018/07/29">2018/07/29</time>
+            <h1 class="title">Swift adapter design pattern</h1>
+            <p class="excerpt">Turn an incompatible object into a target interface or class by using a real world example and the adapter design pattern in Swift.</p>
+            <div class="meta">
+                <span class="tag">Swift</span>
+<span class="tag">iOS</span>
+<span class="tag">Design patterns</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/swift-adapter-design-pattern/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <p>Fist of all let me emphasize that, this is the real world representation of what we're going to build in this little Swift adapter pattern tutorial: </section><section class="wrapper">
+<figure>
+    <picture>
+        <source srcset="https://theswiftdev.github.io/blog/images/assets/swift-adapter-design-pattern/images/usb-adapter~dark.jpg" media="(prefers-color-scheme: dark)">
+		<img class="post-image" src="https://theswiftdev.github.io/blog/images/assets/swift-adapter-design-pattern/images/usb-adapter.jpg" alt="Picture of a USB Adapter">
+    </picture>
+</figure>
+</section><section class="content-wrapper"></p><p><a href="https://en.wikipedia.org/wiki/Adapter_pattern" target="_blank">Adapter</a> is a structural design pattern that allows objects with incompatible interfaces to work together. In other words, it transforms the interface of an object to adapt it to a different object.</p><p>So adapter can transform one thing into another, sometimes it's called wrapper, because it wraps the object and provides a new interface around it. It's like a software dongle for specific interfaces or legacy classes. (Dongle haters: it's time to leave the past behind!) 😂</p><h2>Adapter design pattern implementation</h2><p>Creating an <a href="https://medium.com/swiftworld/swift-world-design-patterns-adapter-3e09fc6fd100" target="_blank">adapter in Swift</a> is actually a super easy task to do. You just need to make a new object, "box" the old one into it and implement the required interface on your new class or struct. In other words, a wrapper object will be our adapter to implement the target interface by wrapping an other adaptee object. So again:</p><h3>Adaptee</h3><p>The object we are adapting to a specific target (e.g. old-school USB-A port).</p><h3>Adapter</h3><p>An object that wraps the original one and produces the new requirements specified by some target interface (this does the actual work, aka. the little dongle above).</p><h3>Target</h3><p>It is the object we want to use adaptee with (our USB-C socket).</p><h2>How to use the adapter pattern in Swift?</h2><p>You can use an adapter if you want to integrate a third-party library in your code, but it's interface doesn't match with your requirements. For example you can create a wrapper around an entire SDK or backend API endpoints in order to create a common denominator. 👽</p><p>In my example, I'm going to wrap an EKEvent object with an adapter class to implement a brand new protocol. 📆</p><pre><code class="language-swift"><span class="keyword">import</span> Foundation
+<span class="keyword">import</span> EventKit
+
+<span class="comment">// our target protocol</span>
+<span class="keyword">protocol</span> Event {
+    <span class="keyword">var</span> title: <span class="type">String</span> { <span class="keyword">get</span> }
+    <span class="keyword">var</span> startDate: <span class="type">String</span> { <span class="keyword">get</span> }
+    <span class="keyword">var</span> endDate: <span class="type">String</span> { <span class="keyword">get</span> }
+}
+
+<span class="comment">// adapter (wrapper class)</span>
+<span class="keyword">class</span> EventAdapter {
+
+    <span class="keyword">private lazy var</span> dateFormatter: <span class="type">DateFormatter</span> = {
+        <span class="keyword">let</span> dateFormatter = <span class="type">DateFormatter</span>()
+        dateFormatter.<span class="property">dateFormat</span> = <span class="string">"yyyy. MM. dd. HH:mm"</span>
+        <span class="keyword">return</span> dateFormatter
+    }()
+
+    <span class="keyword">private var</span> event: <span class="type">EKEvent</span>
+
+    <span class="keyword">init</span>(event: <span class="type">EKEvent</span>) {
+        <span class="keyword">self</span>.<span class="property">event</span> = event
+    }
+}
+
+<span class="comment">// actual adapter implementation</span>
+<span class="keyword">extension</span> <span class="type">EventAdapter</span>: <span class="type">Event</span> {
+
+    <span class="keyword">var</span> title: <span class="type">String</span> {
+        <span class="keyword">return self</span>.<span class="property">event</span>.<span class="property">title</span>
+    }
+    <span class="keyword">var</span> startDate: <span class="type">String</span> {
+        <span class="keyword">return self</span>.<span class="property">dateFormatter</span>.<span class="call">string</span>(from: event.<span class="property">startDate</span>)
+    }
+    <span class="keyword">var</span> endDate: <span class="type">String</span> {
+        <span class="keyword">return self</span>.<span class="property">dateFormatter</span>.<span class="call">string</span>(from: event.<span class="property">endDate</span>)
+    }
+}
+
+<span class="comment">// let's create an EKEvent adaptee instance</span>
+<span class="keyword">let</span> dateFormatter = <span class="type">DateFormatter</span>()
+dateFormatter.<span class="property">dateFormat</span> = <span class="string">"MM/dd/yyyy HH:mm"</span>
+
+<span class="keyword">let</span> calendarEvent = <span class="type">EKEvent</span>(eventStore: <span class="type">EKEventStore</span>())
+calendarEvent.<span class="property">title</span> = <span class="string">"Adapter tutorial deadline"</span>
+calendarEvent.<span class="property">startDate</span> = dateFormatter.<span class="call">date</span>(from: <span class="string">"07/30/2018 10:00"</span>)
+calendarEvent.<span class="property">endDate</span> = dateFormatter.<span class="call">date</span>(from: <span class="string">"07/30/2018 11:00"</span>)
+
+<span class="comment">// now we can use the adapter class as an Event protocol, instead of an EKEvent</span>
+<span class="keyword">let</span> adapter = <span class="type">EventAdapter</span>(event: calendarEvent)
+<span class="comment">// adapter.title
+// adapter.startDate
+// adapter.endDate</span></code></pre><p>Another use case is when you have to use several existing final classes or structs but they lack some functionality and you want to build a new target interface on top of them. Sometimes it's a good choice to implement an wrapper to handle this messy situation. 🤷‍♂️</p><p>That's all about the adapter <a href="https://rubygarage.org/blog/swift-design-patterns" target="_blank">design pattern</a>. Usually it's really easy to implement it in Swift - or in any other programming language - but it's super useful and sometimes unavoidable.</p><p>Kids, remember: don't go too hard on dongles! 😉 #himym</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/swift-adapter-design-pattern"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/assets/book/vapor.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <p><strong>Third edition is just: $39</strong></p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
+                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Asynchronous validation for Vapor - The.Swift.Dev.</title>
+    
+    <meta name="description" content="Learn how to validate input data using an async technique. Unified request validation API for your server side Swift app.">
+    
+    <meta property="og:title" content="Asynchronous validation for Vapor - The.Swift.Dev.">
+    <meta property="og:description" content="Learn how to validate input data using an async technique. Unified request validation API for your server side Swift app.">
+    <meta property="og:url" content="https://theswiftdev.github.io/blog/asynchronous-validation-for-vapor">
+    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/asynchronous-validation-for-vapor/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="Asynchronous validation for Vapor - The.Swift.Dev.">
+    <meta name="twitter:description" content="Learn how to validate input data using an async technique. Unified request validation API for your server side Swift app.">
+    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/asynchronous-validation-for-vapor/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.github.io/blog/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2017/10/10">2017/10/10</time>
+            <h1 class="title">Asynchronous validation for Vapor</h1>
+            <p class="excerpt">Learn how to validate input data using an async technique. Unified request validation API for your server side Swift app.</p>
+            <div class="meta">
+                <span class="tag">UIKit</span>
+<span class="tag">iOS</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/asynchronous-validation-for-vapor/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <h2>Vapor's validation API</h2><p>The very first thing I'd like to show you is an issue that I have with the current <a href="https://docs.vapor.codes/4.0/validation/" target="_blank">validation</a> API for the Vapor framework. I always wanted to use it, because I really like the validator functions but unfortunately the API lacks quite a lot of features that are crucial for my needs.</p><p>If we take a look at our previously created <a href="https://theswiftdev.com/declarative-unit-tests-for-vapor/" target="_blank">Todo example</a> code, you might remember that we've only put some validation on the create API endpoint. That's not very safe, we should fix this. I'm going to show you how to validate endpoints using the built-in API, to see what's the issue with it. 🥲</p><p>In order to demonstrate the problems, we're going to add a new Tag model to our Todo items.</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+<span class="keyword">import</span> Fluent
+
+<span class="keyword">final class</span> TagModel: <span class="type">Model</span> {
+
+    <span class="keyword">static let</span> schema = <span class="string">"tags"</span>
+    <span class="keyword">static let</span> idParamKey = <span class="string">"tagId"</span>
+   
+    <span class="keyword">struct</span> FieldKeys {
+        <span class="keyword">static let</span> name: <span class="type">FieldKey</span> = <span class="string">"name"</span>
+        <span class="keyword">static let</span> todoId: <span class="type">FieldKey</span> = <span class="string">"todo_id"</span>
+    }
+    
+    <span class="keyword">@ID</span>(key: .<span class="dotAccess">id</span>) <span class="keyword">var</span> id: <span class="type">UUID</span>?
+    <span class="keyword">@Field</span>(key: <span class="type">FieldKeys</span>.<span class="property">name</span>) <span class="keyword">var</span> name: <span class="type">String</span>
+    <span class="keyword">@Parent</span>(key: <span class="type">FieldKeys</span>.<span class="property">todoId</span>) <span class="keyword">var</span> todo: <span class="type">TodoModel</span>
+    
+    <span class="keyword">init</span>() { }
+    
+    <span class="keyword">init</span>(id: <span class="type">UUID</span>? = <span class="keyword">nil</span>, name: <span class="type">String</span>, todoId: <span class="type">UUID</span>) {
+        <span class="keyword">self</span>.<span class="property">id</span> = id
+        <span class="keyword">self</span>.<span class="property">name</span> = name
+        <span class="keyword">self</span>.<span class="property">$todo</span>.<span class="property">id</span> = todoId
+    }
+}</code></pre><p>So the main idea is that we're going to be able to tag our todo items and save the todoId reference for each tag. This is not going to be a global tagging solution, but more like a simple tag system for demo purposes. The relation will be automatically validated on the database level (if the db driver supports it), since we're going to put a foreign key constraint on the todoId field in the migration.</p><pre><code class="language-swift"><span class="keyword">import</span> Fluent
+
+<span class="keyword">struct</span> TagMigration: <span class="type">Migration</span> {
+
+    <span class="keyword">func</span> prepare(on db: <span class="type">Database</span>) -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Void</span>&gt; {
+        db.<span class="call">schema</span>(<span class="type">TagModel</span>.<span class="property">schema</span>)
+            .<span class="call">id</span>()
+            .<span class="call">field</span>(<span class="type">TagModel</span>.<span class="type">FieldKeys</span>.<span class="property">name</span>, .<span class="dotAccess">string</span>, .<span class="dotAccess">required</span>)
+            .<span class="call">field</span>(<span class="type">TagModel</span>.<span class="type">FieldKeys</span>.<span class="property">todoId</span>, .<span class="dotAccess">uuid</span>, .<span class="dotAccess">required</span>)
+            .<span class="call">foreignKey</span>(<span class="type">TagModel</span>.<span class="type">FieldKeys</span>.<span class="property">todoId</span>, references: <span class="type">TodoModel</span>.<span class="property">schema</span>, .<span class="dotAccess">id</span>)
+            .<span class="call">create</span>()
+    }
+
+    <span class="keyword">func</span> revert(on db: <span class="type">Database</span>) -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Void</span>&gt; {
+        db.<span class="call">schema</span>(<span class="type">TagModel</span>.<span class="property">schema</span>).<span class="call">delete</span>()
+    }
+}</code></pre><p>It is important to mention this again: NOT every single database supports foreign key validation out of the box. This is why it will be extremely important to validate our input data. If we let users to put random todoId values into the database that can lead to data corruption and other problems.</p><p>Now that we have our database model &amp; migration, here's how the API objects will look like. You can put these into the TodoApi target, since these DTOs could be shared with a client side library. 📲</p><pre><code class="language-swift"><span class="keyword">import</span> Foundation
+
+<span class="keyword">public struct</span> TagListObject: <span class="type">Codable</span> {
+    
+    <span class="keyword">public let</span> id: <span class="type">UUID</span>
+    <span class="keyword">public let</span> name: <span class="type">String</span>
+
+    <span class="keyword">public init</span>(id: <span class="type">UUID</span>, name: <span class="type">String</span>) {
+        <span class="keyword">self</span>.<span class="property">id</span> = id
+        <span class="keyword">self</span>.<span class="property">name</span> = name
+    }
+}
+
+<span class="keyword">public struct</span> TagGetObject: <span class="type">Codable</span> {
+    
+    <span class="keyword">public let</span> id: <span class="type">UUID</span>
+    <span class="keyword">public let</span> name: <span class="type">String</span>
+    <span class="keyword">public let</span> todoId: <span class="type">UUID</span>
+    
+    <span class="keyword">public init</span>(id: <span class="type">UUID</span>, name: <span class="type">String</span>, todoId: <span class="type">UUID</span>) {
+        <span class="keyword">self</span>.<span class="property">id</span> = id
+        <span class="keyword">self</span>.<span class="property">name</span> = name
+        <span class="keyword">self</span>.<span class="property">todoId</span> = todoId
+        
+    }
+}
+
+<span class="keyword">public struct</span> TagCreateObject: <span class="type">Codable</span> {
+
+    <span class="keyword">public let</span> name: <span class="type">String</span>
+    <span class="keyword">public let</span> todoId: <span class="type">UUID</span>
+    
+    <span class="keyword">public init</span>(name: <span class="type">String</span>, todoId: <span class="type">UUID</span>) {
+        <span class="keyword">self</span>.<span class="property">name</span> = name
+        <span class="keyword">self</span>.<span class="property">todoId</span> = todoId
+    }
+}
+
+<span class="keyword">public struct</span> TagUpdateObject: <span class="type">Codable</span> {
+    
+    <span class="keyword">public let</span> name: <span class="type">String</span>
+    <span class="keyword">public let</span> todoId: <span class="type">UUID</span>
+    
+    <span class="keyword">public init</span>(name: <span class="type">String</span>, todoId: <span class="type">UUID</span>) {
+        <span class="keyword">self</span>.<span class="property">name</span> = name
+        <span class="keyword">self</span>.<span class="property">todoId</span> = todoId
+    }
+}
+
+<span class="keyword">public struct</span> TagPatchObject: <span class="type">Codable</span> {
+
+    <span class="keyword">public let</span> name: <span class="type">String</span>?
+    <span class="keyword">public let</span> todoId: <span class="type">UUID</span>?
+    
+    <span class="keyword">public init</span>(name: <span class="type">String</span>?, todoId: <span class="type">UUID</span>?) {
+        <span class="keyword">self</span>.<span class="property">name</span> = name
+        <span class="keyword">self</span>.<span class="property">todoId</span> = todoId
+    }
+}</code></pre><p>Next we extend our <code>TagModel</code> to support CRUD operations, if you followed my first tutorial about <a href="https://theswiftdev.com/how-to-design-type-safe-restful-apis-using-swift-and-vapor/" target="_blank">how to build a REST API using Vapor</a>, this should be very familiar, if not please read it first. 🙏</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+<span class="keyword">import</span> TodoApi
+
+<span class="keyword">extension</span> <span class="type">TagListObject</span>: <span class="type">Content</span> {}
+<span class="keyword">extension</span> <span class="type">TagGetObject</span>: <span class="type">Content</span> {}
+<span class="keyword">extension</span> <span class="type">TagCreateObject</span>: <span class="type">Content</span> {}
+<span class="keyword">extension</span> <span class="type">TagUpdateObject</span>: <span class="type">Content</span> {}
+<span class="keyword">extension</span> <span class="type">TagPatchObject</span>: <span class="type">Content</span> {}
+
+<span class="keyword">extension</span> <span class="type">TagModel</span> {
+    
+    <span class="keyword">func</span> mapList() -&gt; <span class="type">TagListObject</span> {
+        .<span class="keyword">init</span>(id: id!, name: name)
+    }
+
+    <span class="keyword">func</span> mapGet() -&gt; <span class="type">TagGetObject</span> {
+        .<span class="keyword">init</span>(id: id!, name: name, todoId: <span class="property">$todo</span>.<span class="property">id</span>)
+    }
+    
+    <span class="keyword">func</span> create(<span class="keyword">_</span> input: <span class="type">TagCreateObject</span>) {
+        name = input.<span class="property">name
+        $todo</span>.<span class="property">id</span> = input.<span class="property">todoId</span>
+    }
+        
+    <span class="keyword">func</span> update(<span class="keyword">_</span> input: <span class="type">TagUpdateObject</span>) {
+        name = input.<span class="property">name
+        $todo</span>.<span class="property">id</span> = input.<span class="property">todoId</span>
+    }
+    
+    <span class="keyword">func</span> patch(<span class="keyword">_</span> input: <span class="type">TagPatchObject</span>) {
+        name = input.<span class="property">name</span> ?? name
+        <span class="property">$todo</span>.<span class="property">id</span> = input.<span class="property">todoId</span> ?? <span class="property">$todo</span>.<span class="property">id</span>
+    }
+}</code></pre><p>The tag controller is going to look very similar to the todo controller, for now we won't validate anything, the following snippet is all about having a sample code that we can fine tune later on.</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+<span class="keyword">import</span> Fluent
+<span class="keyword">import</span> TodoApi
+
+<span class="keyword">struct</span> TagController {
+
+    <span class="keyword">private func</span> getTagIdParam(<span class="keyword">_</span> req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">UUID</span> {
+        <span class="keyword">guard let</span> rawId = req.<span class="property">parameters</span>.<span class="call">get</span>(<span class="type">TagModel</span>.<span class="property">idParamKey</span>), <span class="keyword">let</span> id = <span class="type">UUID</span>(rawId) <span class="keyword">else</span> {
+            <span class="keyword">throw</span> <span class="type">Abort</span>(.<span class="dotAccess">badRequest</span>, reason: <span class="string">"Invalid parameter `</span>\(<span class="type">TagModel</span>.<span class="property">idParamKey</span>)<span class="string">`"</span>)
+        }
+        <span class="keyword">return</span> id
+    }
+
+    <span class="keyword">private func</span> findTagByIdParam(<span class="keyword">_</span> req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">TagModel</span>&gt; {
+        <span class="type">TagModel</span>
+            .<span class="call">find</span>(<span class="keyword">try</span> <span class="call">getTagIdParam</span>(req), on: req.<span class="property">db</span>)
+            .<span class="call">unwrap</span>(or: <span class="type">Abort</span>(.<span class="dotAccess">notFound</span>))
+    }
+
+    <span class="comment">// MARK: - endpoints</span>
+    
+    <span class="keyword">func</span> list(req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Page</span>&lt;<span class="type">TagListObject</span>&gt;&gt; {
+        <span class="type">TagModel</span>.<span class="call">query</span>(on: req.<span class="property">db</span>).<span class="call">paginate</span>(for: req).<span class="property">map</span> { $0.<span class="property">map</span> { $0.<span class="call">mapList</span>() } }
+    }
+    
+    <span class="keyword">func</span> get(req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">TagGetObject</span>&gt; {
+        <span class="keyword">try</span> <span class="call">findTagByIdParam</span>(req).<span class="call">map</span> { $0.<span class="call">mapGet</span>() }
+    }
+
+    <span class="keyword">func</span> create(req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Response</span>&gt; {
+        <span class="keyword">let</span> input = <span class="keyword">try</span> req.<span class="property">content</span>.<span class="call">decode</span>(<span class="type">TagCreateObject</span>.<span class="keyword">self</span>)
+
+        <span class="keyword">let</span> tag = <span class="type">TagModel</span>()
+        tag.<span class="call">create</span>(input)
+        <span class="keyword">return</span> tag
+            .<span class="call">create</span>(on: req.<span class="property">db</span>)
+            .<span class="call">map</span> { tag.<span class="call">mapGet</span>() }
+            .<span class="call">encodeResponse</span>(status: .<span class="dotAccess">created</span>, for: req)
+    }
+    
+    <span class="keyword">func</span> update(req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">TagGetObject</span>&gt; {
+        <span class="keyword">let</span> input = <span class="keyword">try</span> req.<span class="property">content</span>.<span class="call">decode</span>(<span class="type">TagUpdateObject</span>.<span class="keyword">self</span>)
+
+        <span class="keyword">return try</span> <span class="call">findTagByIdParam</span>(req)
+            .<span class="call">flatMap</span> { tag <span class="keyword">in</span>
+                tag.<span class="call">update</span>(input)
+                <span class="keyword">return</span> tag.<span class="call">update</span>(on: req.<span class="property">db</span>).<span class="call">map</span> { tag.<span class="call">mapGet</span>() }
+            }
+    }
+    
+    <span class="keyword">func</span> patch(req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">TagGetObject</span>&gt; {
+        <span class="keyword">let</span> input = <span class="keyword">try</span> req.<span class="property">content</span>.<span class="call">decode</span>(<span class="type">TagPatchObject</span>.<span class="keyword">self</span>)
+
+        <span class="keyword">return try</span> <span class="call">findTagByIdParam</span>(req)
+            .<span class="call">flatMap</span> { tag <span class="keyword">in</span>
+                tag.<span class="call">patch</span>(input)
+                <span class="keyword">return</span> tag.<span class="call">update</span>(on: req.<span class="property">db</span>).<span class="call">map</span> { tag.<span class="call">mapGet</span>() }
+            }
+    }
+
+    <span class="keyword">func</span> delete(req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">HTTPStatus</span>&gt; {
+        <span class="keyword">try</span> <span class="call">findTagByIdParam</span>(req)
+            .<span class="call">flatMap</span> { $0.<span class="call">delete</span>(on: req.<span class="property">db</span>) }
+            .<span class="call">map</span> { .<span class="dotAccess">ok</span> }
+    }
+}</code></pre><p>Of course we could use a <a href="https://theswiftdev.com/a-generic-crud-solution-for-vapor-4/" target="_blank">generic CRUD controller</a> class that could highly reduce the amount of code required to create similar controllers, but that's a different topic. So we just have to register these newly created functions using a router.</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+
+<span class="keyword">struct</span> TagRouter: <span class="type">RouteCollection</span> {
+
+    <span class="keyword">func</span> boot(routes: <span class="type">RoutesBuilder</span>) <span class="keyword">throws</span> {
+
+        <span class="keyword">let</span> tagController = <span class="type">TagController</span>()
+        
+        <span class="keyword">let</span> id = <span class="type">PathComponent</span>(stringLiteral: <span class="string">":"</span> + <span class="type">TagModel</span>.<span class="property">idParamKey</span>)
+        <span class="keyword">let</span> tagRoutes = routes.<span class="call">grouped</span>(<span class="string">"tags"</span>)
+        
+        tagRoutes.<span class="call">get</span>(use: tagController.<span class="property">list</span>)
+        tagRoutes.<span class="call">post</span>(use: tagController.<span class="property">create</span>)
+        
+        tagRoutes.<span class="call">get</span>(id, use: tagController.<span class="property">get</span>)
+        tagRoutes.<span class="call">put</span>(id, use: tagController.<span class="property">update</span>)
+        tagRoutes.<span class="call">patch</span>(id, use: tagController.<span class="property">patch</span>)
+        tagRoutes.<span class="call">delete</span>(id, use: tagController.<span class="property">delete</span>)
+    }
+}</code></pre><p>Also a few more changes in the <code>configure.swift</code> file, since we'd like to take advantage of the Tag functionality we have to register the migration and the new routes using the TagRouter.</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+<span class="keyword">import</span> Fluent
+<span class="keyword">import</span> FluentSQLiteDriver
+
+<span class="keyword">public func</span> configure(<span class="keyword">_</span> app: <span class="type">Application</span>) <span class="keyword">throws</span> {
+
+    <span class="keyword">if</span> app.<span class="property">environment</span> == .<span class="dotAccess">testing</span> {
+        app.<span class="property">databases</span>.<span class="call">use</span>(.<span class="call">sqlite</span>(.<span class="dotAccess">memory</span>), as: .<span class="dotAccess">sqlite</span>, isDefault: <span class="keyword">true</span>)
+    }
+    <span class="keyword">else</span> {
+        app.<span class="property">databases</span>.<span class="call">use</span>(.<span class="call">sqlite</span>(.<span class="call">file</span>(<span class="string">"Resources/db.sqlite"</span>)), as: .<span class="dotAccess">sqlite</span>)
+    }
+
+    app.<span class="property">http</span>.<span class="property">server</span>.<span class="property">configuration</span>.<span class="property">hostname</span> = <span class="string">"192.168.8.103"</span>
+    app.<span class="property">migrations</span>.<span class="call">add</span>(<span class="type">TodoMigration</span>())
+    app.<span class="property">migrations</span>.<span class="call">add</span>(<span class="type">TagMigration</span>())
+    <span class="keyword">try</span> app.<span class="call">autoMigrate</span>().<span class="call">wait</span>()
+
+    <span class="keyword">try</span> <span class="type">TodoRouter</span>().<span class="call">boot</span>(routes: app.<span class="property">routes</span>)
+    <span class="keyword">try</span> <span class="type">TagRouter</span>().<span class="call">boot</span>(routes: app.<span class="property">routes</span>)
+}</code></pre><p>One more thing, before we start validating our tags, we have to put a new <code>@Children(for: \.$todo) var tags: [TagModel]</code> property into our <code>TodoModel</code>, so it's going to be way more easy to fetch tags.</p><p>If you run the server and try to create a new tag using cURL and a fake UUID, the database query will fail if the db supports foreign keys.</p><pre><code class="language-sh">curl -X POST "http://127.0.0.1:8080/tags/" \
+    -H 'Content-Type: application/json' \
+    -d '{"name": "test", "todoId": "94234a4a-b749-4a2a-97d0-3ebd1046dbac"}'
+</code></pre><p>This is not ideal, we should protect our database from invalid data. Well, first of all we don't want to allow empty or too long names, so we should validate this field as well, this can be done using the validation API from the Vapor framework, let me show you how.</p><pre><code class="language-swift"><span class="comment">// TagModel+Api.swift</span>
+<span class="keyword">extension</span> <span class="type">TagCreateObject</span>: <span class="type">Validatable</span> {
+    <span class="keyword">public static func</span> validations(<span class="keyword">_</span> validations: <span class="keyword">inout</span> <span class="type">Validations</span>) {
+        validations.<span class="call">add</span>(<span class="string">"title"</span>, as: <span class="type">String</span>.<span class="keyword">self</span>, is: !.empty)
+        validations.<span class="call">add</span>(<span class="string">"title"</span>, as: <span class="type">String</span>.<span class="keyword">self</span>, is: .<span class="call">count</span>(...<span class="number">100</span>) &amp;&amp; .<span class="dotAccess">alphanumeric</span>)
+    }
+}
+<span class="comment">// TagController.swift</span>
+<span class="keyword">func</span> create(req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Response</span>&gt; {
+    <span class="keyword">try</span> <span class="type">TagCreateObject</span>.<span class="call">validate</span>(content: req)
+    <span class="keyword">let</span> input = <span class="keyword">try</span> req.<span class="property">content</span>.<span class="call">decode</span>(<span class="type">TagCreateObject</span>.<span class="keyword">self</span>)
+
+    <span class="keyword">let</span> tag = <span class="type">TagModel</span>()
+    tag.<span class="call">create</span>(input)
+    <span class="keyword">return</span> tag
+        .<span class="call">create</span>(on: req.<span class="property">db</span>)
+        .<span class="call">map</span> { tag.<span class="call">mapGet</span>() }
+        .<span class="call">encodeResponse</span>(status: .<span class="dotAccess">created</span>, for: req)
+}
+<span class="comment">/* 
+curl -X POST "http://127.0.0.1:8080/tags/" \
+    -H 'Content-Type: application/json' \
+    -d '{"name": "", "todoId": "94234a4a-b749-4a2a-97d0-3ebd1046dbac"}'
+
+{"error":true,"reason":"name is empty"}
+
+/// some other cases:
+name: 123
+{"error":true,"reason":"name is not a(n) String, name is not a(n) String"}
+name: ?
+{"error":true,"reason":"name contains '?' (allowed: A-Z, a-z, 0-9)"}
+name: very-lenghty-string
+{"error":true,"reason":"name is greater than maximum of 100 character(s)"}
+*/</span></code></pre><p>Ok, it looks great, but this solution lacks a few things:</p><ul><li>You can't provide custom error messages</li><li>The detail is always a concatenated result string (if there are multiple errors)</li><li>You can't get the error message for a given key (e.g. "title": "Title is required")</li><li>Validation happens synchronously (you can't validate based on a db query)</li></ul><p>This is very unfortunate, because Vapor has really nice validator functions. You can validate characters (<code>.ascii</code>, <code>.alphanumeric</code>, <code>.characterSet(_:)</code>), various length and range requirements (<code>.empty</code>, <code>.count(_:)</code>, <code>.range(_)</code>), collections (<code>.in(_:)</code>), check null inputs, validate emails and URLs. We should try to validate the todo identifier based on the available todos in the database.</p><p>It is possible to validate todoId's by running a query with the input id and see if there is an existing record in our database. If there is no such todo, we won't allow the creation (or update / patch) operation. The problem is that we have to put this logic into the controller. 😕</p><pre><code class="language-swift"><span class="keyword">func</span> create(req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Response</span>&gt; {
+    <span class="keyword">try</span> <span class="type">TagCreateObject</span>.<span class="call">validate</span>(content: req)
+    <span class="keyword">let</span> input = <span class="keyword">try</span> req.<span class="property">content</span>.<span class="call">decode</span>(<span class="type">TagCreateObject</span>.<span class="keyword">self</span>)
+    <span class="keyword">return</span> <span class="type">TodoModel</span>.<span class="call">find</span>(input.<span class="property">todoId</span>, on: req.<span class="property">db</span>)
+        .<span class="call">unwrap</span>(or: <span class="type">Abort</span>(.<span class="dotAccess">badRequest</span>, reason: <span class="string">"Invalid todo identifier"</span>))
+        .<span class="call">flatMap</span> { <span class="keyword">_ in
+            let</span> tag = <span class="type">TagModel</span>()
+            tag.<span class="call">create</span>(input)
+            <span class="keyword">return</span> tag
+                .<span class="call">create</span>(on: req.<span class="property">db</span>)
+                .<span class="call">map</span> { tag.<span class="call">mapGet</span>() }
+                .<span class="call">encodeResponse</span>(status: .<span class="dotAccess">created</span>, for: req)
+        }
+}</code></pre><p>This will do the job, but isn't it strange that we are doing validation in two separate places?</p><p>My other problem is that using the validatable protocol means that you can't really pass parameters for these validators, so even if you asynchronously fetch some required data and somehow you move the logic inside the validator, the whole process is going to feel like a very hacky solution. 🤐</p><p>Honestly, am I missing something here? Is this really how the validation system works in the most popular web framework? It's quite unbelievable. There must be a better way... 🤔</p><p>Async input validation This method that I'm going to show you is already available in Feather CMS, I believe it's quite an advanced system compared to Vapor's validation API. I'll show you how I created it, first we start with a protocol that'll contain the basic stuff needed for validation &amp; result management.</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+
+<span class="keyword">public protocol</span> AsyncValidator {
+    
+    <span class="keyword">var</span> key: <span class="type">String</span> { <span class="keyword">get</span> }
+    <span class="keyword">var</span> message: <span class="type">String</span> { <span class="keyword">get</span> }
+
+    <span class="keyword">func</span> validate(<span class="keyword">_</span> req: <span class="type">Request</span>) -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">ValidationErrorDetail</span>?&gt;
+}
+
+<span class="keyword">public extension</span> <span class="type">AsyncValidator</span> {
+
+    <span class="keyword">var</span> error: <span class="type">ValidationErrorDetail</span> {
+        .<span class="keyword">init</span>(key: key, message: message)
+    }
+}</code></pre><p>This is a quite simple protocol that we're going to be the base of our asynchronous validation flow. The key will be used to just like the same way as Vapor uses validation keys, it's basically an input key for a given data object and we're going to use this key with an appropriate error message to display detailed validation errors (as an output content).</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+
+<span class="keyword">public struct</span> ValidationErrorDetail: <span class="type">Codable</span> {
+
+    <span class="keyword">public var</span> key: <span class="type">String</span>
+    <span class="keyword">public var</span> message: <span class="type">String</span>
+    
+    <span class="keyword">public init</span>(key: <span class="type">String</span>, message: <span class="type">String</span>) {
+        <span class="keyword">self</span>.<span class="property">key</span> = key
+        <span class="keyword">self</span>.<span class="property">message</span> = message
+    }
+}
+
+<span class="keyword">extension</span> <span class="type">ValidationErrorDetail</span>: <span class="type">Content</span> {}</code></pre><p>So the idea is that we're going to create multiple validation handlers based on this AsyncValidator protocol and get the final result based on the evaluated validators. The validation method can look like magic at first sight, but it's just calling the async validator methods if a given key is already invalidated then it'll skip other validations for that (for obvious reasons), and based on the individual validator results we create a final array including the validation error detail objects. 🤓</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+
+<span class="keyword">public struct</span> RequestValidator {
+
+    <span class="keyword">public var</span> validators: [<span class="type">AsyncValidator</span>]
+    
+    <span class="keyword">public init</span>(<span class="keyword">_</span> validators: [<span class="type">AsyncValidator</span>] = []) {
+        <span class="keyword">self</span>.<span class="property">validators</span> = validators
+    }
+    
+    <span class="comment">/// this is magic, don't touch it</span>
+    <span class="keyword">public func</span> validate(<span class="keyword">_</span> req: <span class="type">Request</span>, message: <span class="type">String</span>? = <span class="keyword">nil</span>) -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Void</span>&gt; {
+        <span class="keyword">let</span> initial: <span class="type">EventLoopFuture</span>&lt;[<span class="type">ValidationErrorDetail</span>]&gt; = req.<span class="property">eventLoop</span>.<span class="call">future</span>([])
+        <span class="keyword">return</span> validators.<span class="call">reduce</span>(initial) { res, next -&gt; <span class="type">EventLoopFuture</span>&lt;[<span class="type">ValidationErrorDetail</span>]&gt; <span class="keyword">in
+            return</span> res.<span class="call">flatMap</span> { arr -&gt; <span class="type">EventLoopFuture</span>&lt;[<span class="type">ValidationErrorDetail</span>]&gt; <span class="keyword">in
+                if</span> arr.<span class="call">contains</span>(where: { $0.<span class="property">key</span> == next.<span class="property">key</span> }) {
+                    <span class="keyword">return</span> req.<span class="property">eventLoop</span>.<span class="call">future</span>(arr)
+                }
+                <span class="keyword">return</span> next.<span class="call">validate</span>(req).<span class="call">map</span> { result <span class="keyword">in
+                    if let</span> result = result {
+                        <span class="keyword">return</span> arr + [result]
+                    }
+                    <span class="keyword">return</span> arr
+                }
+            }
+        }
+        .<span class="call">flatMapThrowing</span> { details <span class="keyword">in
+            guard</span> details.<span class="property">isEmpty</span> <span class="keyword">else</span> {
+                <span class="keyword">throw</span> <span class="type">Abort</span>(.<span class="dotAccess">badRequest</span>, reason: details.<span class="call">map</span>(\.<span class="property">message</span>).<span class="call">joined</span>(separator: <span class="string">", "</span>))
+            }
+        }
+    }
+
+    <span class="keyword">public func</span> isValid(<span class="keyword">_</span> req: <span class="type">Request</span>) -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Bool</span>&gt; {
+        <span class="keyword">return</span> <span class="call">validate</span>(req).<span class="call">map</span> { <span class="keyword">true</span> }.<span class="call">recover</span> { <span class="keyword">_ in false</span> }
+    }
+}</code></pre><p>Don't wrap your head too much about this code, I'll show you how to use it right away, but before we could perform a validation using our new tools, we need something that implements the AsyncValidator protocol and we can actually initialize. I have something that I really like in Feather, because it can perform both sync &amp; async validations, of course you can come up with more simple validators, but this is a nice generic solution for most of the cases.</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+
+<span class="keyword">public struct</span> KeyedContentValidator&lt;T: <span class="type">Codable</span>&gt;: <span class="type">AsyncValidator</span> {
+
+    <span class="keyword">public let</span> key: <span class="type">String</span>
+    <span class="keyword">public let</span> message: <span class="type">String</span>
+    <span class="keyword">public let</span> optional: <span class="type">Bool</span>
+
+    <span class="keyword">public let</span> validation: ((<span class="type">T</span>) -&gt; <span class="type">Bool</span>)?
+    <span class="keyword">public let</span> asyncValidation: ((<span class="type">T</span>, <span class="type">Request</span>) -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Bool</span>&gt;)?
+    
+    <span class="keyword">public init</span>(<span class="keyword">_</span> key: <span class="type">String</span>,
+                <span class="keyword">_</span> message: <span class="type">String</span>,
+                optional: <span class="type">Bool</span> = <span class="keyword">false</span>,
+                <span class="keyword">_</span> validation: ((<span class="type">T</span>) -&gt; <span class="type">Bool</span>)? = <span class="keyword">nil</span>,
+                <span class="keyword">_</span> asyncValidation: ((<span class="type">T</span>, <span class="type">Request</span>) -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Bool</span>&gt;)? = <span class="keyword">nil</span>) {
+        <span class="keyword">self</span>.<span class="property">key</span> = key
+        <span class="keyword">self</span>.<span class="property">message</span> = message
+        <span class="keyword">self</span>.<span class="property">optional</span> = optional
+        <span class="keyword">self</span>.<span class="property">validation</span> = validation
+        <span class="keyword">self</span>.<span class="property">asyncValidation</span> = asyncValidation
+    }
+    
+    <span class="keyword">public func</span> validate(<span class="keyword">_</span> req: <span class="type">Request</span>) -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">ValidationErrorDetail</span>?&gt; {
+        <span class="keyword">let</span> optionalValue = <span class="keyword">try</span>? req.<span class="property">content</span>.<span class="call">get</span>(<span class="type">T</span>.<span class="keyword">self</span>, at: key)
+
+        <span class="keyword">if let</span> value = optionalValue {
+            <span class="keyword">if let</span> validation = validation {
+                <span class="keyword">return</span> req.<span class="property">eventLoop</span>.<span class="call">future</span>(<span class="call">validation</span>(value) ? <span class="keyword">nil</span> : error)
+            }
+            <span class="keyword">if let</span> asyncValidation = asyncValidation {
+                <span class="keyword">return</span> <span class="call">asyncValidation</span>(value, req).<span class="call">map</span> { $0 ? <span class="keyword">nil</span> : error }
+            }
+            <span class="keyword">return</span> req.<span class="property">eventLoop</span>.<span class="call">future</span>(<span class="keyword">nil</span>)
+        }
+        <span class="keyword">else</span> {
+            <span class="keyword">if</span> optional {
+                <span class="keyword">return</span> req.<span class="property">eventLoop</span>.<span class="call">future</span>(<span class="keyword">nil</span>)
+            }
+            <span class="keyword">return</span> req.<span class="property">eventLoop</span>.<span class="call">future</span>(error)
+        }
+    }
+}</code></pre><p>The main idea here is that we can pass either a sync or an async validation block alongside the key, message and optional arguments and we perform our validation based on these inputs.</p><p>First we try to decode the generic Codable value, if the value was optional and it is missing we can simply ignore the validators and return, otherwise we should try to call the sync validator or the async validator. Please note that the sync validator is just a convenience tool, because if you don't need async calls it's more easy to return with a bool value instead of an <code>EventLoopFuture&lt;Bool&gt;</code>.</p><p>So, this is how you can validate anything using these new server side Swift validator components.</p><pre><code class="language-swift"><span class="keyword">func</span> create(req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Response</span>&gt; {
+    <span class="keyword">let</span> validator = <span class="type">RequestValidator</span>.<span class="keyword">init</span>([
+        <span class="type">KeyedContentValidator</span>&lt;<span class="type">String</span>&gt;.<span class="keyword">init</span>(<span class="string">"name"</span>, <span class="string">"Name is required"</span>) { !$0.<span class="property">isEmpty</span> },
+        <span class="type">KeyedContentValidator</span>&lt;<span class="type">UUID</span>&gt;.<span class="keyword">init</span>(<span class="string">"todoId"</span>, <span class="string">"Todo identifier must be valid"</span>, <span class="keyword">nil</span>) { value, req <span class="keyword">in</span>
+            <span class="type">TodoModel</span>.<span class="call">query</span>(on: req.<span class="property">db</span>).<span class="call">filter</span>(\.<span class="property">$id</span> == value).<span class="call">count</span>().<span class="call">map</span> {
+                $0 == <span class="number">1</span>
+            }
+        },
+    ])
+    <span class="keyword">return</span> validator.<span class="call">validate</span>(req).<span class="call">flatMap</span> {
+        <span class="keyword">do</span> {
+            <span class="keyword">let</span> input = <span class="keyword">try</span> req.<span class="property">content</span>.<span class="call">decode</span>(<span class="type">TagCreateObject</span>.<span class="keyword">self</span>)
+            <span class="keyword">let</span> tag = <span class="type">TagModel</span>()
+            tag.<span class="call">create</span>(input)
+            <span class="keyword">return</span> tag
+                .<span class="call">create</span>(on: req.<span class="property">db</span>)
+                .<span class="call">map</span> { tag.<span class="call">mapGet</span>() }
+                .<span class="call">encodeResponse</span>(status: .<span class="dotAccess">created</span>, for: req)
+        }
+        <span class="keyword">catch</span> {
+            <span class="keyword">return</span> req.<span class="property">eventLoop</span>.<span class="call">future</span>(error: <span class="type">Abort</span>(.<span class="dotAccess">badRequest</span>, reason: error.<span class="property">localizedDescription</span>))
+        }
+    }
+}</code></pre><p>This seems like a bit more code at first sight, but remember that previously we moved out our validator into a separate method. We can do the exact same thing here and return an array of AsyncValidator objects. Also a "real throwing flatMap EventLoopFuture" extension method could help us greatly to remove unnecessary do-try-catch statements from our code.</p><p>Anyway, I'll leave this up for you, but it's easy to reuse the same validation for all the CRUD endpoints, for patch requests you can set the optional flag to true and that's it. 💡</p><p>I still want to show you one more thing, because I don't like the current JSON output of the invalid calls. We're going to build a custom error middleware with a custom context object to display more details about what went wrong during the request. We need a validation error content for this.</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+
+<span class="keyword">public struct</span> ValidationError: <span class="type">Codable</span> {
+
+    <span class="keyword">public let</span> message: <span class="type">String</span>?
+    <span class="keyword">public let</span> details: [<span class="type">ValidationErrorDetail</span>]
+    
+    <span class="keyword">public init</span>(message: <span class="type">String</span>?, details: [<span class="type">ValidationErrorDetail</span>]) {
+        <span class="keyword">self</span>.<span class="property">message</span> = message
+        <span class="keyword">self</span>.<span class="property">details</span> = details
+    }
+}
+
+<span class="keyword">extension</span> <span class="type">ValidationError</span>: <span class="type">Content</span> {}</code></pre><p>This is the format that we'd like to use when something goes wrong. Now it'd be nice to support custom error codes while keeping the throwing nature of errors, so for this reason we'll define a new ValidationAbort that's going to contain everything we'll need for the new error middleware.</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+
+<span class="keyword">public struct</span> ValidationAbort: <span class="type">AbortError</span> {
+
+    <span class="keyword">public var</span> abort: <span class="type">Abort</span>
+    <span class="keyword">public var</span> message: <span class="type">String</span>?
+    <span class="keyword">public var</span> details: [<span class="type">ValidationErrorDetail</span>]
+
+    <span class="keyword">public var</span> reason: <span class="type">String</span> { abort.<span class="property">reason</span> }
+    <span class="keyword">public var</span> status: <span class="type">HTTPStatus</span> { abort.<span class="property">status</span> }
+    
+    <span class="keyword">public init</span>(abort: <span class="type">Abort</span>, message: <span class="type">String</span>? = <span class="keyword">nil</span>, details: [<span class="type">ValidationErrorDetail</span>]) {
+        <span class="keyword">self</span>.<span class="property">abort</span> = abort
+        <span class="keyword">self</span>.<span class="property">message</span> = message
+        <span class="keyword">self</span>.<span class="property">details</span> = details
+    }
+}</code></pre><p>This will allow us to throw ValidationAbort objects with a custom Abort &amp; detailed error description. The Abort object is used to set the proper HTTP response code and headers when building the response object inside the middleware. The middleware is very similar to the built-in error middleware, except that it can return more details about the given validation issues.</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+
+<span class="keyword">public struct</span> ValidationErrorMiddleware: <span class="type">Middleware</span> {
+
+    <span class="keyword">public let</span> environment: <span class="type">Environment</span>
+    
+    <span class="keyword">public init</span>(environment: <span class="type">Environment</span>) {
+        <span class="keyword">self</span>.<span class="property">environment</span> = environment
+    }
+
+    <span class="keyword">public func</span> respond(to request: <span class="type">Request</span>, chainingTo next: <span class="type">Responder</span>) -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Response</span>&gt; {
+        <span class="keyword">return</span> next.<span class="call">respond</span>(to: request).<span class="call">flatMapErrorThrowing</span> { error <span class="keyword">in
+            let</span> status: <span class="type">HTTPResponseStatus</span>
+            <span class="keyword">let</span> headers: <span class="type">HTTPHeaders</span>
+            <span class="keyword">let</span> message: <span class="type">String</span>?
+            <span class="keyword">let</span> details: [<span class="type">ValidationErrorDetail</span>]
+
+            <span class="keyword">switch</span> error {
+            <span class="keyword">case let</span> abort <span class="keyword">as</span> <span class="type">ValidationAbort</span>:
+                status = abort.<span class="property">abort</span>.<span class="property">status</span>
+                headers = abort.<span class="property">abort</span>.<span class="property">headers</span>
+                message = abort.<span class="property">message</span> ?? abort.<span class="property">reason</span>
+                details = abort.<span class="property">details</span>
+            <span class="keyword">case let</span> abort <span class="keyword">as</span> <span class="type">Abort</span>:
+                status = abort.<span class="property">status</span>
+                headers = abort.<span class="property">headers</span>
+                message = abort.<span class="property">reason</span>
+                details = []
+            <span class="keyword">default</span>:
+                status = .<span class="dotAccess">internalServerError</span>
+                headers = [:]
+                message = environment.<span class="property">isRelease</span> ? <span class="string">"Something went wrong."</span> : error.<span class="property">localizedDescription</span>
+                details = []
+            }
+
+            request.<span class="property">logger</span>.<span class="call">report</span>(error: error)
+
+            <span class="keyword">let</span> response = <span class="type">Response</span>(status: status, headers: headers)
+
+            <span class="keyword">do</span> {
+                response.<span class="property">body</span> = <span class="keyword">try</span> .<span class="keyword">init</span>(data: <span class="type">JSONEncoder</span>().<span class="call">encode</span>(<span class="type">ValidationError</span>(message: message, details: details)))
+                response.<span class="property">headers</span>.<span class="call">replaceOrAdd</span>(name: .<span class="dotAccess">contentType</span>, value: <span class="string">"application/json; charset=utf-8"</span>)
+            }
+            <span class="keyword">catch</span> {
+                response.<span class="property">body</span> = .<span class="keyword">init</span>(string: <span class="string">"Oops:</span> \(error)<span class="string">"</span>)
+                response.<span class="property">headers</span>.<span class="call">replaceOrAdd</span>(name: .<span class="dotAccess">contentType</span>, value: <span class="string">"text/plain; charset=utf-8"</span>)
+            }
+            <span class="keyword">return</span> response
+        }
+    }
+}</code></pre><p>Based on the given environment we can report the details or hide the internal issues, this is totally up-to-you, for me this approach works the best, because I can always parse the problematic keys and display error messages inside the client apps based on this response.</p><p>We just have to alter one line in the RequestValidator &amp; register our newly created middleware for better error reporting. Here's the updated request validator:</p><pre><code class="language-swift"><span class="comment">// RequestValidator.swift
+// (simply change the throwed object in the flatMapThrowing block)</span>
+.<span class="call">flatMapThrowing</span> { details <span class="keyword">in
+    guard</span> details.<span class="property">isEmpty</span> <span class="keyword">else</span> {
+        <span class="keyword">throw</span> <span class="type">ValidationAbort</span>(abort: <span class="type">Abort</span>(.<span class="dotAccess">badRequest</span>, reason: message), details: details)
+    }
+}
+
+<span class="comment">// configure.swift</span>
+app.<span class="property">middleware</span>.<span class="call">use</span>(<span class="type">ValidationErrorMiddleware</span>(environment: app.<span class="property">environment</span>))</code></pre><p>Now if you run the same invalid cURL request, you should get a way better error response.</p><pre><code class="language-sh">curl -i -X POST "http://192.168.8.103:8080/tags/" \
+    -H 'Content-Type: application/json' \
+    -d '{"name": "eee", "todoId": "94234a4a-b749-4a2a-97d0-3ebd1046dbac"}'
+
+# HTTP/1.1 400 Bad Request
+# content-length: 72
+# content-type: application/json; charset=utf-8
+# connection: keep-alive
+# date: Wed, 12 May 2021 14:52:47 GMT
+#
+# {"details":[{"key":"todoId","message":"Todo identifier must be valid"}]}
+</code></pre><p>You can even add a custom message for the request validator when you call the validate function, that'll be available under the message key inside the output.</p><p>As you can see this is quite a nice way to deal with errors and unify the flow of the entire validation chain. I'm not saying that Vapor did a bad job with the official validation APIs, but there's definitely room for improvements. I really love the wide variety of the <a href="https://docs.vapor.codes/4.0/validation/#validators" target="_blank">available validators</a>, but on the other hand I freakin' miss this async validation logic from the core framework. ❤️💩</p><p>Another nice thing about this approach is that you can define validator extensions and greatly simplify the amount of Swift code required to perform server side validation.</p><p>I know I'm not the only one with these issues, and I really hope that this little tutorial will help you create better (and more safe) backend apps using Vapor. I can only say that feel free to improve the validation related code for this Todo project, that's a good practice for sure. Hopefully it won't be too hard to add more validation logic based on the provided examples. 😉</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/asynchronous-validation-for-vapor"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/assets/book/vapor.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <p><strong>Third edition is just: $39</strong></p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
+                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

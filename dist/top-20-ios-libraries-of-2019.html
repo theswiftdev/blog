@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Top 20 iOS libraries written in Swift - The.Swift.Dev.</title>
+    
+    <meta name="description" content="I gathered the best open source Swift frameworks on github that will help you to speed up mobile application development in 2019.">
+    
+    <meta property="og:title" content="Top 20 iOS libraries written in Swift - The.Swift.Dev.">
+    <meta property="og:description" content="I gathered the best open source Swift frameworks on github that will help you to speed up mobile application development in 2019.">
+    <meta property="og:url" content="https://theswiftdev.github.io/blog/top-20-ios-libraries-of-2019">
+    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/top-20-ios-libraries-of-2019/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="Top 20 iOS libraries written in Swift - The.Swift.Dev.">
+    <meta name="twitter:description" content="I gathered the best open source Swift frameworks on github that will help you to speed up mobile application development in 2019.">
+    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/top-20-ios-libraries-of-2019/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.github.io/blog/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2017/10/10">2017/10/10</time>
+            <h1 class="title">Top 20 iOS libraries written in Swift</h1>
+            <p class="excerpt">I gathered the best open source Swift frameworks on github that will help you to speed up mobile application development in 2019.</p>
+            <div class="meta">
+                <span class="tag">UIKit</span>
+<span class="tag">iOS</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/top-20-ios-libraries-of-2019/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <p>Sometimes it's just better to use a 3rd-party framework instead of reinventing the wheel, but there are some important questions that you should ask first:</p><ul><li>do I really need a library?</li><li>what should I use?</li><li>is it going to be supported?</li><li>what if it's buggy? 🐛</li></ul><p>Adding a dependency to your project can also lead to a <a href="https://en.wikipedia.org/wiki/Technical_debt" target="_blank">technical debt</a>. Don't be lazy, learn the underlying technology first (or at least read about it or ask someone who actually knows about it) and if you're sure that the framework is a good choice, then give it a chance. In this list I've tried to collect future proof, trusted and well-known iOS libraries used by most of the developer community. ⭐️</p><h2>Selection criteria:</h2><ul><li>the framework has to be written in Swift</li><li>the library should not be design specific (there is <a href="https://www.cocoacontrols.com/" target="_blank">cocoacontrols</a> for that)</li><li>it should be a runtime framework not a toolkit (aka. import XY)</li><li>should have some package manager support (Carthage, CocoaPods, SPM)</li><li>it has to support the latest major version of Swift</li><li>must have at least 1000 stars on GitHub</li></ul><h2>🌎 Network related libraries</h2><p>Connecting to...</p><h3><a href="https://github.com/Alamofire/Alamofire" target="_blank">Alamofire</a></h3><p>Alamofire is an HTTP networking library written in Swift.</p><h3><a href="https://github.com/onevcat/Kingfisher" target="_blank">Kingfisher</a></h3><p>Kingfisher is a powerful, pure-Swift library for downloading and caching images from the web. It provides you a chance to use a pure-Swift way to work with remote images in your next app.</p><h3><a href="https://github.com/daltoniam/Starscream" target="_blank">Starscream</a></h3><p>Starscream is a conforming WebSocket (<a href="http://tools.ietf.org/html/rfc6455" target="_blank">RFC 6455</a>) client library in Swift.</p><h2>📦 Server side Swift</h2><p>Listening...</p><h3><a href="https://github.com/vapor/vapor" target="_blank">Vapor</a></h3><p>Vapor is a web framework for Swift. It provides a beautifully expressive and easy to use foundation for your next website, API, or cloud project.</p><h3><a href="https://github.com/apple/swift-nio" target="_blank">SwiftNIO</a></h3><p>SwiftNIO is a cross-platform asynchronous event-driven network application framework for rapid development of maintainable high performance protocol servers &amp; clients.</p><h2>🔨 Reactive Programming</h2><p>Streams, observers, etc...</p><h3><a href="https://github.com/ReactiveCocoa/ReactiveCocoa" target="_blank">ReactiveCocoa</a></h3><p>ReactiveSwift offers composable, declarative and flexible primitives that are built around the grand concept of streams of values over time. These primitives can be used to uniformly represent common Cocoa and generic programming patterns that are fundamentally an act of observation.</p><h3><a href="https://github.com/ReactiveX/RxSwift" target="_blank">RxSwift</a></h3><p>Rx is a <a href="https://youtu.be/looJcaeboBY" target="_blank">generic abstraction of computation</a> expressed through <code>Observable&lt;Element&gt;</code> interface. This is a Swift version of <a href="https://github.com/Reactive-Extensions/Rx.NET" target="_blank">Rx</a>.</p><h2>🦋 Animation</h2><p>UIView.animated...</p><h3><a href="https://github.com/HeroTransitions/Hero" target="_blank">Hero</a></h3><p>Hero is a library for building iOS view controller transitions. It provides a declarative layer on top of the UIKit's cumbersome transition APIs—making custom transitions an easy task for developers.</p><h3><a href="https://github.com/MengTo/Spring" target="_blank">Spring</a></h3><p>A library to simplify iOS animations in Swift.</p><h2>📐 Auto layout helpers</h2><p>Anchors vs...</p><h3><a href="https://github.com/SnapKit/SnapKit" target="_blank">SnapKit</a></h3><p>SnapKit is a DSL to make Auto Layout easy on both iOS and OS X.</p><h3><a href="https://github.com/roberthein/TinyConstraints" target="_blank">TinyConstraints</a></h3><p>TinyConstraints is the syntactic sugar that makes Auto Layout sweeter for human use.</p><h2>❌ Testing</h2><p>TDD FTW...</p><h3><a href="https://github.com/Quick/Quick" target="_blank">Quick</a></h3><p>Quick is a behavior-driven development framework for Swift and Objective-C. Inspired by <a href="https://github.com/rspec/rspec" target="_blank">RSpec</a>, <a href="https://github.com/specta/specta" target="_blank">Specta</a>, and <a href="https://github.com/onsi/ginkgo" target="_blank">Ginkgo</a>.</p><h3><a href="https://github.com/Quick/Nimble" target="_blank">Nimble</a></h3><p>Use Nimble to express the expected outcomes of Swift or Objective-C expressions. Inspired by <a href="https://github.com/pivotal/cedar" target="_blank">Cedar</a>.</p><h2>⚙️ Utilities</h2><p>Did I miss something?</p><h3><a href="https://github.com/mxcl/PromiseKit" target="_blank">PromiseKit</a></h3><p>PromiseKit is a thoughtful and complete implementation of promises for any platform that has a swiftc.</p><h3><a href="https://github.com/krzyzanowskim/CryptoSwift" target="_blank">CryptoSwift</a></h3><p>CryptoSwift is a growing collection of standard and secure cryptographic algorithms implemented in Swift.</p><h3><a href="https://github.com/malcommac/SwiftDate" target="_blank">SwiftDate</a></h3><p>SwiftDate is the definitive toolchain to manipulate and display dates and time zones on all Apple platform and even on Linux and Swift Server Side frameworks like Vapor or Kitura.</p><h3><a href="https://github.com/SwiftyBeaver/SwiftyBeaver" target="_blank">SwiftyBeaver</a></h3><p>Convenient logging during development &amp; release in Swift 2, 3 &amp; 4</p><h3><a href="https://github.com/Swinject/Swinject" target="_blank">Swinject</a></h3><p>Swinject is a lightweight <a href="https://en.wikipedia.org/wiki/Dependency_injection" target="_blank">dependency injection</a> framework for Swift.</p><h3><a href="https://github.com/SwiftyJSON/SwiftyJSON" target="_blank">SwiftyJSON</a></h3><p>SwiftyJSON makes it easy to deal with JSON data in Swift.</p><p>If you are looking for more Swift libraries you can always explore the top Swift repositories on <a href="https://github.com/topics/swift" target="_blank">GitHub</a>, and please remember: always connect your dependencies through a package manager. 😉</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/top-20-ios-libraries-of-2019"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/assets/book/vapor.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <p><strong>Third edition is just: $39</strong></p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
+                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

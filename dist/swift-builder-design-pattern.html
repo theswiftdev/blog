@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Swift builder design pattern - The.Swift.Dev.</title>
+    
+    <meta name="description" content="Learn how to implement the builder pattern in Swift to hide the complexity of creating objects with lots of individual properties.">
+    
+    <meta property="og:title" content="Swift builder design pattern - The.Swift.Dev.">
+    <meta property="og:description" content="Learn how to implement the builder pattern in Swift to hide the complexity of creating objects with lots of individual properties.">
+    <meta property="og:url" content="https://theswiftdev.github.io/blog/swift-builder-design-pattern">
+    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/swift-builder-design-pattern/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="Swift builder design pattern - The.Swift.Dev.">
+    <meta name="twitter:description" content="Learn how to implement the builder pattern in Swift to hide the complexity of creating objects with lots of individual properties.">
+    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/swift-builder-design-pattern/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.github.io/blog/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2018/05/24">2018/05/24</time>
+            <h1 class="title">Swift builder design pattern</h1>
+            <p class="excerpt">Learn how to implement the builder pattern in Swift to hide the complexity of creating objects with lots of individual properties.</p>
+            <div class="meta">
+                <span class="tag">Swift</span>
+<span class="tag">iOS</span>
+<span class="tag">design patterns</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/swift-builder-design-pattern/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <h2>How does the builder pattern work?</h2><p>The <a href="https://en.wikipedia.org/wiki/Builder_pattern" target="_blank">builder pattern</a> can be implemented in multiple ways, but that really doesn't matters if you understand the main goal of the pattern:</p><p>The intent of the <a href="https://medium.com/jeremy-codes/the-builder-pattern-eef3351bcae9" target="_blank">Builder</a> design pattern is to separate the construction of a complex object from its representation.</p><p>So if you have an object with lots of properties, you want to hide the complexity of the initialization process, you could write a builder and construct the object through that. It can be as simple as a build method or an external class that controls the entire construction process. It all depends on the given environment. 🏗</p><p>That's enough theory for now, let's see the <a href="https://medium.com/swift-programming/the-builder-pattern-in-swift-770d9cc1ac41" target="_blank">builder pattern</a> in action using dummy, but real-world examples and the powerful Swift programming language! 💪</p><h2>Simple emitter builder</h2><p>I believe that SKEmitterNode is quite a nice example. If you want to create custom emitters and set properties programmatically - usually for a SpriteKit game - an emitter <a href="https://www.swiftbysundell.com/posts/using-the-builder-pattern-in-swift" target="_blank">builder</a> class like this could be a reasonable solution. 👾</p><pre><code class="language-swift"><span class="keyword">class</span> EmitterBuilder {
+
+    <span class="keyword">func</span> build() -&gt; <span class="type">SKEmitterNode</span> {
+        <span class="keyword">let</span> emitter = <span class="type">SKEmitterNode</span>()
+        emitter.<span class="property">particleTexture</span> = <span class="type">SKTexture</span>(imageNamed: <span class="string">"MyTexture"</span>)
+        emitter.<span class="property">particleBirthRate</span> = <span class="number">100</span>
+        emitter.<span class="property">particleLifetime</span> = <span class="number">60</span>
+        emitter.<span class="property">particlePositionRange</span> = <span class="type">CGVector</span>(dx: <span class="number">100</span>, dy: <span class="number">100</span>)
+        emitter.<span class="property">particleSpeed</span> = <span class="number">10</span>
+        emitter.<span class="property">particleColor</span> = .<span class="dotAccess">red</span>
+        emitter.<span class="property">particleColorBlendFactor</span> = <span class="number">1</span>
+        <span class="keyword">return</span> emitter
+    }
+}
+
+<span class="type">EmitterBuilder</span>().<span class="call">build</span>()</code></pre><h2>Simple theme builder</h2><p>Let's move away from gaming and imagine that you are making a theme engine for your UIKit application which has many custom fonts, colors, etc. a <a href="https://sourcemaking.com/design_patterns/builder" target="_blank">builder</a> could be useful to construct standalone themes. 🔨</p><pre><code class="language-swift"><span class="keyword">struct</span> Theme {
+    <span class="keyword">let</span> textColor: <span class="type">UIColor</span>?
+    <span class="keyword">let</span> backgroundColor: <span class="type">UIColor</span>?
+}
+
+<span class="keyword">class</span> ThemeBuilder {
+
+    <span class="keyword">enum</span> Style {
+        <span class="keyword">case</span> light
+        <span class="keyword">case</span> dark
+    }
+
+    <span class="keyword">func</span> build(<span class="keyword">_</span> style: <span class="type">Style</span>) -&gt; <span class="type">Theme</span> {
+        <span class="keyword">switch</span> style {
+        <span class="keyword">case</span> .<span class="dotAccess">light</span>:
+            <span class="keyword">return</span> <span class="type">Theme</span>(textColor: .<span class="dotAccess">black</span>, backgroundColor: .<span class="dotAccess">white</span>)
+        <span class="keyword">case</span> .<span class="dotAccess">dark</span>:
+            <span class="keyword">return</span> <span class="type">Theme</span>(textColor: .<span class="dotAccess">white</span>, backgroundColor: .<span class="dotAccess">black</span>)
+        }
+    }
+}
+
+<span class="keyword">let</span> builder = <span class="type">ThemeBuilder</span>()
+<span class="keyword">let</span> light = builder.<span class="call">build</span>(.<span class="dotAccess">light</span>)
+<span class="keyword">let</span> dark = builder.<span class="call">build</span>(.<span class="dotAccess">dark</span>)
+<span class="string">"Chained"</span> <span class="type">URL</span> builder
+<span class="type">With</span> this approach you can configure your object through various methods and every single one of them will <span class="keyword">return</span> the same builder object. <span class="type">This</span> way you can chain the configuration and <span class="keyword">as</span> a last step build the <span class="keyword">final</span> product. ⛓
+
+<span class="keyword">class</span> URLBuilder {
+
+    <span class="keyword">private var</span> components: <span class="type">URLComponents</span>
+
+    <span class="keyword">init</span>() {
+        <span class="keyword">self</span>.<span class="property">components</span> = <span class="type">URLComponents</span>()
+    }
+
+    <span class="keyword">func</span> set(scheme: <span class="type">String</span>) -&gt; <span class="type">URLBuilder</span> {
+        <span class="keyword">self</span>.<span class="property">components</span>.<span class="property">scheme</span> = scheme
+        <span class="keyword">return self</span>
+    }
+
+    <span class="keyword">func</span> set(host: <span class="type">String</span>) -&gt; <span class="type">URLBuilder</span> {
+        <span class="keyword">self</span>.<span class="property">components</span>.<span class="property">host</span> = host
+        <span class="keyword">return self</span>
+    }
+
+    <span class="keyword">func</span> set(port: <span class="type">Int</span>) -&gt; <span class="type">URLBuilder</span> {
+        <span class="keyword">self</span>.<span class="property">components</span>.<span class="property">port</span> = port
+        <span class="keyword">return self</span>
+    }
+
+    <span class="keyword">func</span> set(path: <span class="type">String</span>) -&gt; <span class="type">URLBuilder</span> {
+        <span class="keyword">var</span> path = path
+        <span class="keyword">if</span> !path.<span class="call">hasPrefix</span>(<span class="string">"/"</span>) {
+            path = <span class="string">"/"</span> + path
+        }
+        <span class="keyword">self</span>.<span class="property">components</span>.<span class="property">path</span> = path
+        <span class="keyword">return self</span>
+    }
+
+    <span class="keyword">func</span> addQueryItem(name: <span class="type">String</span>, value: <span class="type">String</span>) -&gt; <span class="type">URLBuilder</span>  {
+        <span class="keyword">if self</span>.<span class="property">components</span>.<span class="property">queryItems</span> == <span class="keyword">nil</span> {
+            <span class="keyword">self</span>.<span class="property">components</span>.<span class="property">queryItems</span> = []
+        }
+        <span class="keyword">self</span>.<span class="property">components</span>.<span class="property">queryItems</span>?.<span class="call">append</span>(<span class="type">URLQueryItem</span>(name: name, value: value))
+        <span class="keyword">return self</span>
+    }
+
+    <span class="keyword">func</span> build() -&gt; <span class="type">URL</span>? {
+        <span class="keyword">return self</span>.<span class="property">components</span>.<span class="property">url</span>
+    }
+}
+
+<span class="keyword">let</span> url = <span class="type">URLBuilder</span>()
+    .<span class="call">set</span>(scheme: <span class="string">"https"</span>)
+    .<span class="call">set</span>(host: <span class="string">"localhost"</span>)
+    .<span class="call">set</span>(path: <span class="string">"api/v1"</span>)
+    .<span class="call">addQueryItem</span>(name: <span class="string">"sort"</span>, value: <span class="string">"name"</span>)
+    .<span class="call">addQueryItem</span>(name: <span class="string">"order"</span>, value: <span class="string">"asc"</span>)
+    .<span class="call">build</span>()</code></pre><h2>The builder pattern with a director</h2><p>Let's meet the director object. As it seems like this little thing decouples the builder from the exact configuration part. So for instance you can make a game with circles, but later on if you change your mind and you'd like to use squares, that's relatively easy. You just have to create a new builder, and everything else can be the same. 🎬</p><pre><code class="language-swift"><span class="keyword">protocol</span> NodeBuilder {
+    <span class="keyword">var</span> name: <span class="type">String</span> { <span class="keyword">get set</span> }
+    <span class="keyword">var</span> color: <span class="type">SKColor</span> { <span class="keyword">get set</span> }
+    <span class="keyword">var</span> size: <span class="type">CGFloat</span> { <span class="keyword">get set</span> }
+
+    <span class="keyword">func</span> build() -&gt; <span class="type">SKShapeNode</span>
+}
+
+<span class="keyword">protocol</span> NodeDirector {
+    <span class="keyword">var</span> builder: <span class="type">NodeBuilder</span> { <span class="keyword">get set</span> }
+
+    <span class="keyword">func</span> build() -&gt; <span class="type">SKShapeNode</span>
+}
+
+<span class="keyword">class</span> CircleNodeBuilder: <span class="type">NodeBuilder</span> {
+    <span class="keyword">var</span> name: <span class="type">String</span> = <span class="string">""</span>
+    <span class="keyword">var</span> color: <span class="type">SKColor</span> = .<span class="dotAccess">clear</span>
+    <span class="keyword">var</span> size: <span class="type">CGFloat</span> = <span class="number">0</span>
+
+    <span class="keyword">func</span> build() -&gt; <span class="type">SKShapeNode</span> {
+        <span class="keyword">let</span> node = <span class="type">SKShapeNode</span>(circleOfRadius: <span class="keyword">self</span>.<span class="property">size</span>)
+        node.<span class="property">name</span> = <span class="keyword">self</span>.<span class="property">name</span>
+        node.<span class="property">fillColor</span> = <span class="keyword">self</span>.<span class="property">color</span>
+        <span class="keyword">return</span> node
+    }
+}
+
+<span class="keyword">class</span> PlayerNodeDirector: <span class="type">NodeDirector</span> {
+
+    <span class="keyword">var</span> builder: <span class="type">NodeBuilder</span>
+
+    <span class="keyword">init</span>(builder: <span class="type">NodeBuilder</span>) {
+        <span class="keyword">self</span>.<span class="property">builder</span> = builder
+    }
+
+    <span class="keyword">func</span> build() -&gt; <span class="type">SKShapeNode</span> {
+        <span class="keyword">self</span>.<span class="property">builder</span>.<span class="property">name</span> = <span class="string">"Hello"</span>
+        <span class="keyword">self</span>.<span class="property">builder</span>.<span class="property">size</span> = <span class="number">32</span>
+        <span class="keyword">self</span>.<span class="property">builder</span>.<span class="property">color</span> = .<span class="dotAccess">red</span>
+        <span class="keyword">return self</span>.<span class="property">builder</span>.<span class="call">build</span>()
+    }
+}
+
+<span class="keyword">let</span> builder = <span class="type">CircleNodeBuilder</span>()
+<span class="keyword">let</span> director = <span class="type">PlayerNodeDirector</span>(builder: builder)
+<span class="keyword">let</span> player = director.<span class="call">build</span>()</code></pre><h2>Block based builders</h2><p>A more swifty approach can be the use of blocks instead of builder classes to configure objects. Of course we could argue on if this is still a builder pattern or not... 😛</p><pre><code>extension UILabel {
+
+    static func build(block: ((UILabel) -&gt; Void)) -&gt; UILabel {
+        let label = UILabel(frame: .zero)
+        block(label)
+        return label
+    }
+}
+
+let label = UILabel.build { label in
+    label.translatesAutoresizingMaskIntoConstraints = false
+    label.text = "Hello wold!"
+    label.font = UIFont.systemFont(ofSize: 12)
+}
+</code></pre><p>Please note that the builder implementation can vary on the specific use case. Sometimes a builder is combined with factories. As far as I can see almost everyone interpreted it in a different way, but I don't think that's a problem. Design patterns are well-made guidelines, but sometimes you have to cross the line.</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/swift-builder-design-pattern"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/assets/book/vapor.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <p><strong>Third edition is just: $39</strong></p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
+                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

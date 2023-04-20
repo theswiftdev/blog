@@ -1,566 +1,566 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>https://theswiftdev.github.io/blog/encoding-and-decoding-data-using-the-hummingbird-framework</loc>
+        <loc>https://theswiftdev.com/about</loc>
+        <lastmod>2023-04-20</lastmod>
+    </url>
+    <url>
+        <loc>https://theswiftdev.com/encoding-and-decoding-data-using-the-hummingbird-framework</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/hummingbird-routing-and-requests</loc>
+        <loc>https://theswiftdev.com/hummingbird-routing-and-requests</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/beginners-guide-to-server-side-swift-using-the-hummingbird-framework</loc>
+        <loc>https://theswiftdev.com/beginners-guide-to-server-side-swift-using-the-hummingbird-framework</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/running-and-testing-async-vapor-commands</loc>
+        <loc>https://theswiftdev.com/running-and-testing-async-vapor-commands</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/running-tasks-in-parallel</loc>
+        <loc>https://theswiftdev.com/running-tasks-in-parallel</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/the-abstract-vapor-service-factory-design-pattern</loc>
+        <loc>https://theswiftdev.com/the-abstract-vapor-service-factory-design-pattern</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/swiftnio-tutorial-the-echo-server</loc>
+        <loc>https://theswiftdev.com/swiftnio-tutorial-the-echo-server</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/easy-multipart-file-upload-for-swift</loc>
+        <loc>https://theswiftdev.com/easy-multipart-file-upload-for-swift</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/utilizing-makefiles-for-swift-projects</loc>
+        <loc>https://theswiftdev.com/utilizing-makefiles-for-swift-projects</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/lenses-and-prisms-in-swift</loc>
+        <loc>https://theswiftdev.com/lenses-and-prisms-in-swift</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/beginners-guide-to-modern-generic-programming-in-swift</loc>
+        <loc>https://theswiftdev.com/beginners-guide-to-modern-generic-programming-in-swift</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/introduction-to-spm-artifact-bundles</loc>
+        <loc>https://theswiftdev.com/introduction-to-spm-artifact-bundles</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/beginners-guide-to-swift-package-manager-command-plugins</loc>
+        <loc>https://theswiftdev.com/beginners-guide-to-swift-package-manager-command-plugins</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/swift-visitor-design-pattern</loc>
+        <loc>https://theswiftdev.com/swift-visitor-design-pattern</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/swift-delegate-design-pattern</loc>
+        <loc>https://theswiftdev.com/swift-delegate-design-pattern</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/swift-dependency-injection-design-pattern</loc>
+        <loc>https://theswiftdev.com/swift-dependency-injection-design-pattern</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/iterator-design-pattern-in-swift</loc>
+        <loc>https://theswiftdev.com/iterator-design-pattern-in-swift</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/swift-facade-design-pattern</loc>
+        <loc>https://theswiftdev.com/swift-facade-design-pattern</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/swift-object-pool-design-pattern</loc>
+        <loc>https://theswiftdev.com/swift-object-pool-design-pattern</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/lazy-initialization-in-swift</loc>
+        <loc>https://theswiftdev.com/lazy-initialization-in-swift</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/swift-init-patterns</loc>
+        <loc>https://theswiftdev.com/swift-init-patterns</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/modules-and-hooks-in-swift</loc>
+        <loc>https://theswiftdev.com/modules-and-hooks-in-swift</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/event-driven-generic-hooks-for-swift</loc>
+        <loc>https://theswiftdev.com/event-driven-generic-hooks-for-swift</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/swift-command-design-pattern</loc>
+        <loc>https://theswiftdev.com/swift-command-design-pattern</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/swift-prototype-design-pattern</loc>
+        <loc>https://theswiftdev.com/swift-prototype-design-pattern</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/comparing-factory-design-patterns</loc>
+        <loc>https://theswiftdev.com/comparing-factory-design-patterns</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/working-with-diffable-data-sources-and-table-views-using-uikit</loc>
+        <loc>https://theswiftdev.com/working-with-diffable-data-sources-and-table-views-using-uikit</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/async-http-api-clients-in-swift</loc>
+        <loc>https://theswiftdev.com/async-http-api-clients-in-swift</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/beginners-guide-to-swift-arrays</loc>
+        <loc>https://theswiftdev.com/beginners-guide-to-swift-arrays</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/the-repository-pattern-for-vapor-4</loc>
+        <loc>https://theswiftdev.com/the-repository-pattern-for-vapor-4</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/how-to-use-a-swift-library-in-c</loc>
+        <loc>https://theswiftdev.com/how-to-use-a-swift-library-in-c</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/10-little-uikit-tips-you-should-know</loc>
+        <loc>https://theswiftdev.com/10-little-uikit-tips-you-should-know</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/how-to-create-reusable-views-for-modern-collection-views</loc>
+        <loc>https://theswiftdev.com/how-to-create-reusable-views-for-modern-collection-views</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/uikit-loadview-vs-viewdidload</loc>
+        <loc>https://theswiftdev.com/uikit-loadview-vs-viewdidload</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/how-to-create-a-swift-package-collection</loc>
+        <loc>https://theswiftdev.com/how-to-create-a-swift-package-collection</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/progressive-web-apps-on-ios</loc>
+        <loc>https://theswiftdev.com/progressive-web-apps-on-ios</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/how-to-write-html-in-swift</loc>
+        <loc>https://theswiftdev.com/how-to-write-html-in-swift</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/the-future-of-server-side-swift</loc>
+        <loc>https://theswiftdev.com/the-future-of-server-side-swift</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/building-a-global-storage-for-vapor</loc>
+        <loc>https://theswiftdev.com/building-a-global-storage-for-vapor</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/result-builders-in-swift</loc>
+        <loc>https://theswiftdev.com/result-builders-in-swift</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/building-tree-data-structures-in-swift</loc>
+        <loc>https://theswiftdev.com/building-tree-data-structures-in-swift</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/practical-guide-to-binary-operations-using-the-uint8-type-in-swift</loc>
+        <loc>https://theswiftdev.com/practical-guide-to-binary-operations-using-the-uint8-type-in-swift</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/all-about-the-bool-type-in-swift</loc>
+        <loc>https://theswiftdev.com/all-about-the-bool-type-in-swift</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/how-to-build-better-command-line-apps-and-tools-using-swift</loc>
+        <loc>https://theswiftdev.com/how-to-build-better-command-line-apps-and-tools-using-swift</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/swift-structured-concurrency-tutorial</loc>
+        <loc>https://theswiftdev.com/swift-structured-concurrency-tutorial</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/swift-actors-tutorial-a-beginners-guide-to-thread-safe-concurrency</loc>
+        <loc>https://theswiftdev.com/swift-actors-tutorial-a-beginners-guide-to-thread-safe-concurrency</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/beginners-guide-to-the-asyncawait-concurrency-api-in-vapor-fluent</loc>
+        <loc>https://theswiftdev.com/beginners-guide-to-the-asyncawait-concurrency-api-in-vapor-fluent</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/introduction-to-asyncawait-in-swift</loc>
+        <loc>https://theswiftdev.com/introduction-to-asyncawait-in-swift</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/dynamic-libraries-and-code-replacements-in-swift</loc>
+        <loc>https://theswiftdev.com/dynamic-libraries-and-code-replacements-in-swift</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/asynchronous-validation-for-vapor</loc>
+        <loc>https://theswiftdev.com/asynchronous-validation-for-vapor</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/declarative-unit-tests-for-vapor</loc>
+        <loc>https://theswiftdev.com/declarative-unit-tests-for-vapor</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/how-to-design-type-safe-restful-apis-using-swift-and-vapor</loc>
+        <loc>https://theswiftdev.com/how-to-design-type-safe-restful-apis-using-swift-and-vapor</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/unsafe-memory-pointers-in-swift</loc>
+        <loc>https://theswiftdev.com/unsafe-memory-pointers-in-swift</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/memory-layout-in-swift</loc>
+        <loc>https://theswiftdev.com/memory-layout-in-swift</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/how-to-use-c-libraries-in-swift</loc>
+        <loc>https://theswiftdev.com/how-to-use-c-libraries-in-swift</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/building-static-and-dynamic-swift-libraries-using-the-swift-compiler</loc>
+        <loc>https://theswiftdev.com/building-static-and-dynamic-swift-libraries-using-the-swift-compiler</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/the-swift-compiler-for-beginners</loc>
+        <loc>https://theswiftdev.com/the-swift-compiler-for-beginners</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/custom-working-directory-in-xcode</loc>
+        <loc>https://theswiftdev.com/custom-working-directory-in-xcode</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/file-upload-api-server-in-vapor-4</loc>
+        <loc>https://theswiftdev.com/file-upload-api-server-in-vapor-4</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/ajax-calls-using-vapor-4</loc>
+        <loc>https://theswiftdev.com/ajax-calls-using-vapor-4</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/file-upload-using-vapor-4</loc>
+        <loc>https://theswiftdev.com/file-upload-using-vapor-4</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/getting-started-with-swiftio</loc>
+        <loc>https://theswiftdev.com/getting-started-with-swiftio</loc>
         <lastmod>2023-04-19</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/how-to-build-macos-apps-using-only-the-swift-package-manager</loc>
+        <loc>https://theswiftdev.com/how-to-build-macos-apps-using-only-the-swift-package-manager</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/how-to-define-strings-use-escaping-sequences-and-interpolations</loc>
+        <loc>https://theswiftdev.com/how-to-define-strings-use-escaping-sequences-and-interpolations</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/logging-for-beginners-in-swift</loc>
+        <loc>https://theswiftdev.com/logging-for-beginners-in-swift</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/swift-on-the-server-in-2020</loc>
+        <loc>https://theswiftdev.com/swift-on-the-server-in-2020</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/10-short-advices-that-will-make-you-a-better-vapor-developer-right-away</loc>
+        <loc>https://theswiftdev.com/10-short-advices-that-will-make-you-a-better-vapor-developer-right-away</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/how-to-store-keys-in-env-files</loc>
+        <loc>https://theswiftdev.com/how-to-store-keys-in-env-files</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/table-joins-in-fluent-4</loc>
+        <loc>https://theswiftdev.com/table-joins-in-fluent-4</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/websockets-for-beginners-using-vapor-4-and-vanilla-javascript</loc>
+        <loc>https://theswiftdev.com/websockets-for-beginners-using-vapor-4-and-vanilla-javascript</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/building-and-loading-dynamic-libraries-at-runtime-in-swift</loc>
+        <loc>https://theswiftdev.com/building-and-loading-dynamic-libraries-at-runtime-in-swift</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/whats-new-in-swift-5-3</loc>
+        <loc>https://theswiftdev.com/whats-new-in-swift-5-3</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/sign-in-with-apple-using-vapor-4</loc>
+        <loc>https://theswiftdev.com/sign-in-with-apple-using-vapor-4</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/the-swift-package-manifest-file</loc>
+        <loc>https://theswiftdev.com/the-swift-package-manifest-file</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/server-side-swift-projects-inside-docker-using-vapor-4</loc>
+        <loc>https://theswiftdev.com/server-side-swift-projects-inside-docker-using-vapor-4</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/all-about-authentication-in-vapor-4</loc>
+        <loc>https://theswiftdev.com/all-about-authentication-in-vapor-4</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/a-generic-crud-solution-for-vapor-4</loc>
+        <loc>https://theswiftdev.com/a-generic-crud-solution-for-vapor-4</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/the-anatomy-of-vapor-commands</loc>
+        <loc>https://theswiftdev.com/the-anatomy-of-vapor-commands</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/how-to-use-middlewares-in-vapor-4</loc>
+        <loc>https://theswiftdev.com/how-to-use-middlewares-in-vapor-4</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/how-to-write-swift-scripts-using-the-new-command-api-in-vapor-4</loc>
+        <loc>https://theswiftdev.com/how-to-write-swift-scripts-using-the-new-command-api-in-vapor-4</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/get-started-with-the-fluent-orm-framework-in-vapor-4</loc>
+        <loc>https://theswiftdev.com/get-started-with-the-fluent-orm-framework-in-vapor-4</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/how-to-set-up-pgsql-for-fluent-4</loc>
+        <loc>https://theswiftdev.com/how-to-set-up-pgsql-for-fluent-4</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/how-to-create-your-first-website-using-vapor-4-and-leaf</loc>
+        <loc>https://theswiftdev.com/how-to-create-your-first-website-using-vapor-4-and-leaf</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/how-to-download-files-with-urlsession-using-combine-publishers-and-subscribers</loc>
+        <loc>https://theswiftdev.com/how-to-download-files-with-urlsession-using-combine-publishers-and-subscribers</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/beginners-guide-to-server-side-swift-using-vapor-4</loc>
+        <loc>https://theswiftdev.com/beginners-guide-to-server-side-swift-using-vapor-4</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/what-are-the-best-practices-to-learn-ios-swift-in-2020</loc>
+        <loc>https://theswiftdev.com/what-are-the-best-practices-to-learn-ios-swift-in-2020</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/the-ultimate-combine-framework-tutorial-in-swift</loc>
+        <loc>https://theswiftdev.com/the-ultimate-combine-framework-tutorial-in-swift</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/custom-views-input-forms-and-mistakes</loc>
+        <loc>https://theswiftdev.com/custom-views-input-forms-and-mistakes</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/a-simple-http2-server-using-vapor-4</loc>
+        <loc>https://theswiftdev.com/a-simple-http2-server-using-vapor-4</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/how-to-write-services-for-viper</loc>
+        <loc>https://theswiftdev.com/how-to-write-services-for-viper</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/how-to-build-swiftui-apps-using-viper</loc>
+        <loc>https://theswiftdev.com/how-to-build-swiftui-apps-using-viper</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/picking-and-playing-videos-in-swift</loc>
+        <loc>https://theswiftdev.com/picking-and-playing-videos-in-swift</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/whats-new-in-vapor-4</loc>
+        <loc>https://theswiftdev.com/whats-new-in-vapor-4</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/urlsession-and-the-combine-framework</loc>
+        <loc>https://theswiftdev.com/urlsession-and-the-combine-framework</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/promises-in-swift-for-beginners</loc>
+        <loc>https://theswiftdev.com/promises-in-swift-for-beginners</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/building-input-forms-for-ios-apps</loc>
+        <loc>https://theswiftdev.com/building-input-forms-for-ios-apps</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/uniquely-identifying-views</loc>
+        <loc>https://theswiftdev.com/uniquely-identifying-views</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/mastering-the-viper-architecture</loc>
+        <loc>https://theswiftdev.com/mastering-the-viper-architecture</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/top-20-ios-libraries-of-2019</loc>
+        <loc>https://theswiftdev.com/top-20-ios-libraries-of-2019</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/beginners-guide-to-functional-swift</loc>
+        <loc>https://theswiftdev.com/beginners-guide-to-functional-swift</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/swift-abstract-factory-design-pattern</loc>
+        <loc>https://theswiftdev.com/swift-abstract-factory-design-pattern</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/viper-best-practices-for-ios-developers</loc>
+        <loc>https://theswiftdev.com/viper-best-practices-for-ios-developers</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/styling-by-subclassing</loc>
+        <loc>https://theswiftdev.com/styling-by-subclassing</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/picking-images-with-uiimagepickercontroller-in-swift-5</loc>
+        <loc>https://theswiftdev.com/picking-images-with-uiimagepickercontroller-in-swift-5</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/how-to-use-the-result-type-to-handle-errors-in-swift</loc>
+        <loc>https://theswiftdev.com/how-to-use-the-result-type-to-handle-errors-in-swift</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/all-about-the-swift-package-manager-and-the-swift-toolchain</loc>
+        <loc>https://theswiftdev.com/all-about-the-swift-package-manager-and-the-swift-toolchain</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/uitableview-tutorial-in-swift</loc>
+        <loc>https://theswiftdev.com/uitableview-tutorial-in-swift</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/swift-5-and-abi-stability</loc>
+        <loc>https://theswiftdev.com/swift-5-and-abi-stability</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/custom-uiview-subclass-from-a-xib-file</loc>
+        <loc>https://theswiftdev.com/custom-uiview-subclass-from-a-xib-file</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/swift-adapter-design-pattern</loc>
+        <loc>https://theswiftdev.com/swift-adapter-design-pattern</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/ultimate-grand-central-dispatch-tutorial-in-swift</loc>
+        <loc>https://theswiftdev.com/ultimate-grand-central-dispatch-tutorial-in-swift</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/swift-factory-method-design-pattern</loc>
+        <loc>https://theswiftdev.com/swift-factory-method-design-pattern</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/swift-simple-factory-design-pattern</loc>
+        <loc>https://theswiftdev.com/swift-simple-factory-design-pattern</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/swift-static-factory-design-pattern</loc>
+        <loc>https://theswiftdev.com/swift-static-factory-design-pattern</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/swift-builder-design-pattern</loc>
+        <loc>https://theswiftdev.com/swift-builder-design-pattern</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/swift-singleton-design-pattern</loc>
+        <loc>https://theswiftdev.com/swift-singleton-design-pattern</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/everything-about-public-and-private-swift-attributes</loc>
+        <loc>https://theswiftdev.com/everything-about-public-and-private-swift-attributes</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/how-to-parse-json-in-swift-using-codable-protocol/</loc>
+        <loc>https://theswiftdev.com/how-to-parse-json-in-swift-using-codable-protocol/</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/deep-dive-into-swift-frameworks</loc>
+        <loc>https://theswiftdev.com/deep-dive-into-swift-frameworks</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/how-to-call-c-code-from-swift</loc>
+        <loc>https://theswiftdev.com/how-to-call-c-code-from-swift</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/swift-package-manager-tutorial</loc>
+        <loc>https://theswiftdev.com/swift-package-manager-tutorial</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/how-to-make-a-swift-framework</loc>
+        <loc>https://theswiftdev.com/how-to-make-a-swift-framework</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/swift-enum-all-values</loc>
+        <loc>https://theswiftdev.com/swift-enum-all-values</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/uikit-init-patterns</loc>
+        <loc>https://theswiftdev.com/uikit-init-patterns</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/generating-random-numbers-in-swift</loc>
+        <loc>https://theswiftdev.com/generating-random-numbers-in-swift</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/uicollectionview-data-source-and-delegates-programmatically</loc>
+        <loc>https://theswiftdev.com/uicollectionview-data-source-and-delegates-programmatically</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/mastering-ios-auto-layout-anchors-programmatically-from-swift</loc>
+        <loc>https://theswiftdev.com/mastering-ios-auto-layout-anchors-programmatically-from-swift</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/how-to-use-icloud-drive-documents</loc>
+        <loc>https://theswiftdev.com/how-to-use-icloud-drive-documents</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/uicolor-best-practices-in-swift</loc>
+        <loc>https://theswiftdev.com/uicolor-best-practices-in-swift</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/ios-custom-transition-tutorial-in-swift</loc>
+        <loc>https://theswiftdev.com/ios-custom-transition-tutorial-in-swift</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/ultimate-uicollectionview-guide-with-ios-examples-written-in-swift</loc>
+        <loc>https://theswiftdev.com/ultimate-uicollectionview-guide-with-ios-examples-written-in-swift</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/the-ultimate-viper-architecture-tutorial</loc>
+        <loc>https://theswiftdev.com/the-ultimate-viper-architecture-tutorial</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/networking-examples-for-appleos</loc>
+        <loc>https://theswiftdev.com/networking-examples-for-appleos</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/uicollectionview-cells-with-circular-images-plus-rotation-support</loc>
+        <loc>https://theswiftdev.com/uicollectionview-cells-with-circular-images-plus-rotation-support</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/self-sizing-cells-with-rotation-support</loc>
+        <loc>https://theswiftdev.com/self-sizing-cells-with-rotation-support</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/ios-auto-layout-tutorial-programmatically</loc>
+        <loc>https://theswiftdev.com/ios-auto-layout-tutorial-programmatically</loc>
         <lastmod>2023-04-18</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/how-to-launch-a-macos-app-at-login</loc>
+        <loc>https://theswiftdev.com/how-to-launch-a-macos-app-at-login</loc>
         <lastmod>2023-04-17</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/awesome-native-xcode-extensions</loc>
+        <loc>https://theswiftdev.com/awesome-native-xcode-extensions</loc>
         <lastmod>2023-04-17</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/conventions-for-xcode</loc>
+        <loc>https://theswiftdev.com/conventions-for-xcode</loc>
         <lastmod>2023-04-17</lastmod>
     </url>
     <url>
-        <loc>https://theswiftdev.github.io/blog/about</loc>
-        <lastmod>2023-04-17</lastmod>
-    </url>
-    <url>
-        <loc>https://theswiftdev.github.io/blog/clockkit-complications-cheat-sheet</loc>
+        <loc>https://theswiftdev.com/clockkit-complications-cheat-sheet</loc>
         <lastmod>2023-04-17</lastmod>
     </url>
 </urlset>

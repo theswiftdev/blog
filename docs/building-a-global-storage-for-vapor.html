@@ -10,33 +10,33 @@
     
     <meta property="og:title" content="Building a global storage for Vapor - The.Swift.Dev.">
     <meta property="og:description" content="This tutorial is about a shared global storage that you can implement using a common design pattern in Vapor 4.">
-    <meta property="og:url" content="https://theswiftdev.github.io/blog/building-a-global-storage-for-vapor">
-    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/building-a-global-storage-for-vapor/cover.jpg">
+    <meta property="og:url" content="https://theswiftdev.com/building-a-global-storage-for-vapor">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/building-a-global-storage-for-vapor/cover.jpg">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@tiborbodecs">
     <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="Building a global storage for Vapor - The.Swift.Dev.">
     <meta name="twitter:description" content="This tutorial is about a shared global storage that you can implement using a common design pattern in Vapor 4.">
-    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/building-a-global-storage-for-vapor/cover.jpg">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/building-a-global-storage-for-vapor/cover.jpg">
     
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
     
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
     
 </head>
 
@@ -45,10 +45,10 @@
         📖
     </a>
     <header id="page-header">
-        <a href="https://theswiftdev.github.io/blog/">
+        <a href="https://theswiftdev.com/">
             <img 
                 id="logo-image"
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -69,7 +69,7 @@
             </div>
         </section>
         <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/building-a-global-storage-for-vapor/cover.jpg">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/building-a-global-storage-for-vapor/cover.jpg">
         </section>
     </header>
 
@@ -209,7 +209,7 @@
         }
         <span class="keyword">return try await</span> next.<span class="call">respond</span>(to: req)
     }
-}</code></pre><p>After I've run several more tests using <a href="https://github.com/wg/wrk" target="_blank">wrk</a> I was able to confirm that the solution works. I had no issues with threads and the app had no memory leaks. It was a relief, but still I'm not sure if this is the best way to handle my problem or not. Anyway I wanted to share this with you because I believe that there is not enough information about thread safety.</p><p>The introduction of <a href="https://theswiftdev.com/beginners-guide-to-the-asyncawait-concurrency-api-in-vapor-fluent/" target="_blank">async / await in Vapor</a> will solve many concurrency problems, but we're going to have some new ones as well. I really hope that Vapor 5 will be a huge improvement over v4, people are already throwing in ideas and they are having discussions about the future of Vapor on discord. This is just the beginning of the async / await era both for Swift and Vapor, but it's great to see that finally we're going to be able to get rid of <a href="https://docs.vapor.codes/4.0/fluent/transaction/#asyncawait" target="_blank">EventLoopFutures</a>. 🥳</p>
+}</code></pre><p>After I've run several more tests using <a href="https://github.com/wg/wrk" target="_blank">wrk</a> I was able to confirm that the solution works. I had no issues with threads and the app had no memory leaks. It was a relief, but still I'm not sure if this is the best way to handle my problem or not. Anyway I wanted to share this with you because I believe that there is not enough information about thread safety.</p><p>The introduction of <a href="https://theswiftdev.com/beginners-guide-to-the-asyncawait-concurrency-api-in-vapor-fluent/">async / await in Vapor</a> will solve many concurrency problems, but we're going to have some new ones as well. I really hope that Vapor 5 will be a huge improvement over v4, people are already throwing in ideas and they are having discussions about the future of Vapor on discord. This is just the beginning of the async / await era both for Swift and Vapor, but it's great to see that finally we're going to be able to get rid of <a href="https://docs.vapor.codes/4.0/fluent/transaction/#asyncawait" target="_blank">EventLoopFutures</a>. 🥳</p>
         </section>
     </div>
 
@@ -218,7 +218,7 @@
 <section id="share" class="content-wrapper">
     <p>
     <a
-        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/building-a-global-storage-for-vapor"
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/building-a-global-storage-for-vapor"
         target="_blank"
     >
         Share this article on Twitter
@@ -234,7 +234,6 @@
         <div class="column right">
             <h3>Get the Practical Server Side Swift book</h3>
             <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <p><strong>Third edition is just: $39</strong></p>
             <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
         </div>
     </div>
@@ -243,7 +242,7 @@
 <section id="author" class="content-wrapper">
     <img 
         id="author-image"
-        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
         alt="Picture of Tibor Bödecs" 
         title="Tibor Bödecs"
     >
@@ -264,7 +263,7 @@
     <footer>
         <section class="content-wrapper">
             <img 
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -272,9 +271,9 @@
             <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
             
             <p> 
-                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
-                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
             </p>
             
             <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>

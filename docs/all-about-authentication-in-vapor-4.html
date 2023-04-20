@@ -10,33 +10,33 @@
     
     <meta property="og:title" content="All about authentication in Vapor 4 - The.Swift.Dev.">
     <meta property="og:description" content="Learn how to implement a user login mechanism with various auth methods using sessions, JWTs, written in Swift only.">
-    <meta property="og:url" content="https://theswiftdev.github.io/blog/all-about-authentication-in-vapor-4">
-    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/all-about-authentication-in-vapor-4/cover.jpg">
+    <meta property="og:url" content="https://theswiftdev.com/all-about-authentication-in-vapor-4">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/all-about-authentication-in-vapor-4/cover.jpg">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@tiborbodecs">
     <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="All about authentication in Vapor 4 - The.Swift.Dev.">
     <meta name="twitter:description" content="Learn how to implement a user login mechanism with various auth methods using sessions, JWTs, written in Swift only.">
-    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/all-about-authentication-in-vapor-4/cover.jpg">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/all-about-authentication-in-vapor-4/cover.jpg">
     
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
     
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
     
 </head>
 
@@ -45,10 +45,10 @@
         📖
     </a>
     <header id="page-header">
-        <a href="https://theswiftdev.github.io/blog/">
+        <a href="https://theswiftdev.com/">
             <img 
                 id="logo-image"
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -69,7 +69,7 @@
             </div>
         </section>
         <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/all-about-authentication-in-vapor-4/cover.jpg">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/all-about-authentication-in-vapor-4/cover.jpg">
         </section>
     </header>
 
@@ -103,7 +103,7 @@
         <span class="keyword">self</span>.<span class="property">email</span> = email
         <span class="keyword">self</span>.<span class="property">password</span> = password
     }
-}</code></pre><p>If you don't understand the code above, please read my <a href="https://theswiftdev.com/a-tutorial-for-beginners-about-the-fluent-postgresql-driver-in-vapor-4/" target="_blank">comprehensive tutorial about Fluent</a>, for now I'll skip the migration part, so you have to write that on your own to make things work. ⚠️</p><p>Now that we have a model, it's time to convert an incoming request to an authenticated model using an authenticator object. Let's begin with the most simple one:</p><h3>RequestAuthenticator</h3><p>This comes handy if you have a custom authentication logic and you need the entire request object. Implementing the protocol is relatively straightforward. Imagine that some dumb-ass manager wants to authenticate users using the <a href="https://en.wikipedia.org/wiki/Fragment_identifier" target="_blank">fragment identifier</a> from the URL.</p><p>Not the smartest way of creating a safe authentication layer, but let's make him happy with a nice solution. Again, if you can guess the user identifier and you pass it as a fragment, you're signed in. (e.g. <code>http://localhost:8080/sign-in#</code>). If a user exists in the database with the provided UUID then we'll authenticate it (yes without providing a password 🤦‍♂️), otherwise we'll respond with an error code.</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+}</code></pre><p>If you don't understand the code above, please read my <a href="https://theswiftdev.com/a-tutorial-for-beginners-about-the-fluent-postgresql-driver-in-vapor-4/">comprehensive tutorial about Fluent</a>, for now I'll skip the migration part, so you have to write that on your own to make things work. ⚠️</p><p>Now that we have a model, it's time to convert an incoming request to an authenticated model using an authenticator object. Let's begin with the most simple one:</p><h3>RequestAuthenticator</h3><p>This comes handy if you have a custom authentication logic and you need the entire request object. Implementing the protocol is relatively straightforward. Imagine that some dumb-ass manager wants to authenticate users using the <a href="https://en.wikipedia.org/wiki/Fragment_identifier" target="_blank">fragment identifier</a> from the URL.</p><p>Not the smartest way of creating a safe authentication layer, but let's make him happy with a nice solution. Again, if you can guess the user identifier and you pass it as a fragment, you're signed in. (e.g. <code>http://localhost:8080/sign-in#</code>). If a user exists in the database with the provided UUID then we'll authenticate it (yes without providing a password 🤦‍♂️), otherwise we'll respond with an error code.</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
 <span class="keyword">import</span> Fluent
 
 <span class="keyword">extension</span> <span class="type">UserModel</span>: <span class="type">Authenticatable</span> {}
@@ -119,7 +119,7 @@
             }
         }
     }
-}</code></pre><p>Firstly, we create a <code>typealias</code> for the associated User type as our <code>UserModel</code>. It is a generic protocol, that's why you need the <code>typealias</code>.</p><blockquote><p>Inside the authenticator implementation you should look up the given user based on the incoming data, and if everything is valid you can simply call the <code>req.auth.login([user])</code> method, this will authenticate the user. You should return a <code>Void</code> future from these authenticator protocol methods, but please don't throw user related errors or use failed futures in this case. You should only supposed to forward database related errors or similar. If the authenticator can't log in the user, just don't call the login method, it's that simple.</p></blockquote><p>The second and final step is to write our authentication logic, in the auth method. You'll get the request as an input, and you have to return a future with the authenticated user or <code>nil</code> if the authentication was unsuccesful. Pretty easy, fragment is available through the request, and you can look up the entity using Fluent. That's it, we're ready. 😅</p><p class="warning">The fragment URL part is never going to be available on the server side at all. 💡</p><p>How do we use this authenticator? Well the Authenticator protocol itself extends the <a href="https://theswiftdev.com/how-to-use-middlewares-in-vapor-4/" target="_blank">Middleware</a> protocol, so we can register it right away as a group member. You can use a middleware to alter incoming requests before the next request handler will be called. This definition fits perfectly for the authenticators so it makes sense that they are defined as middlewares.</p><p>We'll need one more (guard) middleware that's coming from the <code>Authenticatable</code> protocol to respond with an error to unauthenticated requests.</p><pre><code class="language-swift"><span class="keyword">func</span> routes(<span class="keyword">_</span> app: <span class="type">Application</span>) <span class="keyword">throws</span> {
+}</code></pre><p>Firstly, we create a <code>typealias</code> for the associated User type as our <code>UserModel</code>. It is a generic protocol, that's why you need the <code>typealias</code>.</p><blockquote><p>Inside the authenticator implementation you should look up the given user based on the incoming data, and if everything is valid you can simply call the <code>req.auth.login([user])</code> method, this will authenticate the user. You should return a <code>Void</code> future from these authenticator protocol methods, but please don't throw user related errors or use failed futures in this case. You should only supposed to forward database related errors or similar. If the authenticator can't log in the user, just don't call the login method, it's that simple.</p></blockquote><p>The second and final step is to write our authentication logic, in the auth method. You'll get the request as an input, and you have to return a future with the authenticated user or <code>nil</code> if the authentication was unsuccesful. Pretty easy, fragment is available through the request, and you can look up the entity using Fluent. That's it, we're ready. 😅</p><p class="warning">The fragment URL part is never going to be available on the server side at all. 💡</p><p>How do we use this authenticator? Well the Authenticator protocol itself extends the <a href="https://theswiftdev.com/how-to-use-middlewares-in-vapor-4/">Middleware</a> protocol, so we can register it right away as a group member. You can use a middleware to alter incoming requests before the next request handler will be called. This definition fits perfectly for the authenticators so it makes sense that they are defined as middlewares.</p><p>We'll need one more (guard) middleware that's coming from the <code>Authenticatable</code> protocol to respond with an error to unauthenticated requests.</p><pre><code class="language-swift"><span class="keyword">func</span> routes(<span class="keyword">_</span> app: <span class="type">Application</span>) <span class="keyword">throws</span> {
     
     app.<span class="call">grouped</span>(<span class="type">UserModelFragmentAuthenticator</span>(),
                 <span class="type">UserModel</span>.<span class="call">guardMiddleware</span>())
@@ -415,7 +415,7 @@ openssl rsa -in jwtRS256.key -pubout -outform PEM -out jwtRS256.key.pub
 <section id="share" class="content-wrapper">
     <p>
     <a
-        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/all-about-authentication-in-vapor-4"
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/all-about-authentication-in-vapor-4"
         target="_blank"
     >
         Share this article on Twitter
@@ -431,7 +431,6 @@ openssl rsa -in jwtRS256.key -pubout -outform PEM -out jwtRS256.key.pub
         <div class="column right">
             <h3>Get the Practical Server Side Swift book</h3>
             <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <p><strong>Third edition is just: $39</strong></p>
             <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
         </div>
     </div>
@@ -440,7 +439,7 @@ openssl rsa -in jwtRS256.key -pubout -outform PEM -out jwtRS256.key.pub
 <section id="author" class="content-wrapper">
     <img 
         id="author-image"
-        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
         alt="Picture of Tibor Bödecs" 
         title="Tibor Bödecs"
     >
@@ -461,7 +460,7 @@ openssl rsa -in jwtRS256.key -pubout -outform PEM -out jwtRS256.key.pub
     <footer>
         <section class="content-wrapper">
             <img 
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -469,9 +468,9 @@ openssl rsa -in jwtRS256.key -pubout -outform PEM -out jwtRS256.key.pub
             <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
             
             <p> 
-                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
-                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
             </p>
             
             <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>

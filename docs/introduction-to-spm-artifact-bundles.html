@@ -10,33 +10,33 @@
     
     <meta property="og:title" content="Introduction to SPM artifact bundles - The.Swift.Dev.">
     <meta property="og:description" content="In this tutorial I'm going to show you how to use the new binary target related artifact bundle using the Swift package manager.">
-    <meta property="og:url" content="https://theswiftdev.github.io/blog/introduction-to-spm-artifact-bundles">
-    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/introduction-to-spm-artifact-bundles/cover.jpg">
+    <meta property="og:url" content="https://theswiftdev.com/introduction-to-spm-artifact-bundles">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/introduction-to-spm-artifact-bundles/cover.jpg">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@tiborbodecs">
     <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="Introduction to SPM artifact bundles - The.Swift.Dev.">
     <meta name="twitter:description" content="In this tutorial I'm going to show you how to use the new binary target related artifact bundle using the Swift package manager.">
-    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/introduction-to-spm-artifact-bundles/cover.jpg">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/introduction-to-spm-artifact-bundles/cover.jpg">
     
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
     
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
     
 </head>
 
@@ -45,10 +45,10 @@
         📖
     </a>
     <header id="page-header">
-        <a href="https://theswiftdev.github.io/blog/">
+        <a href="https://theswiftdev.com/">
             <img 
                 id="logo-image"
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -69,13 +69,13 @@
             </div>
         </section>
         <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/introduction-to-spm-artifact-bundles/cover.jpg">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/introduction-to-spm-artifact-bundles/cover.jpg">
         </section>
     </header>
 
     <div id="contents">
         <section class="content-wrapper">
-            <h2>Binary targets and modern Swift packages</h2><p>Swift 5.6 introduced quite a lot of new features for the Swift Package Manager infrastructure. We were already able to define binary targets, and use <a href="https://developer.apple.com/documentation/swift_packages/distributing_binary_frameworks_as_swift_packages" target="_blank">xcframeworks as binary target dependencies</a> for our apps. They work great if you are targeting Apple platforms, but unfortunately the xcframework format is not compatible with Linux distributions, not to mention the Windows operating system.</p><p>This is where artifact bundles can help. If you are developing apps for multiple platforms you can now create an artifact bundle, place all the compatible variants into this new structure and SPM can choose the right one based on your architecture. 💪</p><p>Before we actually dive in to our main topic, I'm going to quickly show you how to create an xcframework and ship it as a binary target via SPM.</p><h2>XCFrameworks and SPM</h2><p>Before the introduction of the new format we had to mess around with FAT binaries to support multiple platforms. I have a <a href="https://theswiftdev.com/deep-dive-into-swift-frameworks/" target="_blank">deep dive article</a> about frameworks and tools that you can use to construct a FAT binary, but I no longer recommend it since <a href="https://www.rightpoint.com/rplabs/2021/01/why-xcframeworks-matter/" target="_blank">XCFrameworks are here to stay</a>. 🔨</p><p>In order to build an XCFramework, you have to use Xcode and a process is very simple. You just have to select the Framework type under the iOS tab when you create a new project. Feel free to name it, add your Swift source code and that's it.</p><p>You can build this project using the command line for multiple platforms via the following script.</p><pre><code class="language-sh"># build for iOS devices
+            <h2>Binary targets and modern Swift packages</h2><p>Swift 5.6 introduced quite a lot of new features for the Swift Package Manager infrastructure. We were already able to define binary targets, and use <a href="https://developer.apple.com/documentation/swift_packages/distributing_binary_frameworks_as_swift_packages" target="_blank">xcframeworks as binary target dependencies</a> for our apps. They work great if you are targeting Apple platforms, but unfortunately the xcframework format is not compatible with Linux distributions, not to mention the Windows operating system.</p><p>This is where artifact bundles can help. If you are developing apps for multiple platforms you can now create an artifact bundle, place all the compatible variants into this new structure and SPM can choose the right one based on your architecture. 💪</p><p>Before we actually dive in to our main topic, I'm going to quickly show you how to create an xcframework and ship it as a binary target via SPM.</p><h2>XCFrameworks and SPM</h2><p>Before the introduction of the new format we had to mess around with FAT binaries to support multiple platforms. I have a <a href="https://theswiftdev.com/deep-dive-into-swift-frameworks/">deep dive article</a> about frameworks and tools that you can use to construct a FAT binary, but I no longer recommend it since <a href="https://www.rightpoint.com/rplabs/2021/01/why-xcframeworks-matter/" target="_blank">XCFrameworks are here to stay</a>. 🔨</p><p>In order to build an XCFramework, you have to use Xcode and a process is very simple. You just have to select the Framework type under the iOS tab when you create a new project. Feel free to name it, add your Swift source code and that's it.</p><p>You can build this project using the command line for multiple platforms via the following script.</p><pre><code class="language-sh"># build for iOS devices
 xcodebuild archive \
   -scheme MySDK \
   -sdk iphoneos \
@@ -182,7 +182,7 @@ swift package hello
 <section id="share" class="content-wrapper">
     <p>
     <a
-        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/introduction-to-spm-artifact-bundles"
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/introduction-to-spm-artifact-bundles"
         target="_blank"
     >
         Share this article on Twitter
@@ -198,7 +198,6 @@ swift package hello
         <div class="column right">
             <h3>Get the Practical Server Side Swift book</h3>
             <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <p><strong>Third edition is just: $39</strong></p>
             <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
         </div>
     </div>
@@ -207,7 +206,7 @@ swift package hello
 <section id="author" class="content-wrapper">
     <img 
         id="author-image"
-        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
         alt="Picture of Tibor Bödecs" 
         title="Tibor Bödecs"
     >
@@ -228,7 +227,7 @@ swift package hello
     <footer>
         <section class="content-wrapper">
             <img 
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -236,9 +235,9 @@ swift package hello
             <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
             
             <p> 
-                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
-                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
             </p>
             
             <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>

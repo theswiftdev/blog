@@ -10,33 +10,33 @@
     
     <meta property="og:title" content="Promises in Swift for beginners - The.Swift.Dev.">
     <meta property="og:description" content="Everything you ever wanted to know about futures and promises. The beginner's guide about asynchronous programming in Swift.">
-    <meta property="og:url" content="https://theswiftdev.github.io/blog/promises-in-swift-for-beginners">
-    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/promises-in-swift-for-beginners/cover.jpg">
+    <meta property="og:url" content="https://theswiftdev.com/promises-in-swift-for-beginners">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/promises-in-swift-for-beginners/cover.jpg">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@tiborbodecs">
     <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="Promises in Swift for beginners - The.Swift.Dev.">
     <meta name="twitter:description" content="Everything you ever wanted to know about futures and promises. The beginner's guide about asynchronous programming in Swift.">
-    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/promises-in-swift-for-beginners/cover.jpg">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/promises-in-swift-for-beginners/cover.jpg">
     
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
     
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
     
 </head>
 
@@ -45,10 +45,10 @@
         📖
     </a>
     <header id="page-header">
-        <a href="https://theswiftdev.github.io/blog/">
+        <a href="https://theswiftdev.com/">
             <img 
                 id="logo-image"
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -69,13 +69,13 @@
             </div>
         </section>
         <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/promises-in-swift-for-beginners/cover.jpg">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/promises-in-swift-for-beginners/cover.jpg">
         </section>
     </header>
 
     <div id="contents">
         <section class="content-wrapper">
-            <h2>Sync vs async execution</h2><blockquote><p>Writing asynchronous code is one of the hardest part of building an app.</p></blockquote><p>What exactly is the difference between a synchronous and an asynchronous execution? Well, I already explained this in my <a href="https://theswiftdev.com/2018/07/10/ultimate-grand-central-dispatch-tutorial-in-swift/" target="_blank">Dispatch framework</a> tutorial, but here is a quick recap. A synchronous function usually blocks the current thread and returns some value later on. An asynchronous function will instantly return and passes the result value into a completion handler. You can use the GCD framework to perform tasks sync on async on a given queue. Let me show you a quick example:</p><pre><code class="language-swift"><span class="keyword">func</span> aBlockingFunction() -&gt; <span class="type">String</span> {
+            <h2>Sync vs async execution</h2><blockquote><p>Writing asynchronous code is one of the hardest part of building an app.</p></blockquote><p>What exactly is the difference between a synchronous and an asynchronous execution? Well, I already explained this in my <a href="https://theswiftdev.com/2018/07/10/ultimate-grand-central-dispatch-tutorial-in-swift/">Dispatch framework</a> tutorial, but here is a quick recap. A synchronous function usually blocks the current thread and returns some value later on. An asynchronous function will instantly return and passes the result value into a completion handler. You can use the GCD framework to perform tasks sync on async on a given queue. Let me show you a quick example:</p><pre><code class="language-swift"><span class="keyword">func</span> aBlockingFunction() -&gt; <span class="type">String</span> {
     <span class="call">sleep</span>(.<span class="call">random</span>(in: <span class="number">1</span>...<span class="number">3</span>))
     <span class="keyword">return</span> <span class="string">"Hello world!"</span>
 }
@@ -181,7 +181,7 @@
     <span class="keyword">catch</span> {
         <span class="call">fatalError</span>(<span class="string">"JSON decoder error: "</span> + error.<span class="property">localizedDescription</span>)
     }
-}</code></pre><p>See? My problem is that we're slowly moving down the rabbit hole. Now what if we have a 3rd request? Hell no! You have to nest everything one level deeper again, plus you have to pass around the necessary variables eg. a weak or unowned view controller reference because at some point in time you have to update the entire UI based on the outcome. There must be a better way to fix this. 🤔</p><h2>Results vs futures vs promises?</h2><p>The <a href="https://theswiftdev.com/2019/01/28/how-to-use-the-result-type-to-handle-errors-in-swift/" target="_blank">result type</a> was introduced in Swift 5 and it's extremely good for eliminating the optional factor from the equation. This means you don't have to deal with an optional data, and an optional error type, but your result is either one of them.</p><p>Futures are basically representing a value in the future. The underlying value can be for example a result and it should have one of the following states:</p><ul><li>pending - no value yet, waiting for it...</li><li>fulfilled - success, now the result has a value</li><li>rejected - failed with an error</li></ul><p>By definition a futures shouldn't be writeable by the end-user. This means that developers should not be able to create, fulfill or reject one. But if that's the case and we follow the rules, how do we make futures?</p><p>We promise them. You have to create a promise, which is basically a wrapper around a future that can be written (fulfilled, rejected) or transformed as you want. You don't write futures, you make promises. However some frameworks allows you to get back the future value of a promise, but you shouldn't be able to write that future at all.</p><p>Enough theory, are you ready to fall in love with <a href="https://learnappmaking.com/promises-swift-how-to/" target="_blank">promises</a>? ❤️</p><h2>Promises 101 - a beginner's guide</h2><p>Let's refactor the previous example by using my promise framework!</p><pre><code class="language-swift"><span class="keyword">extension</span> <span class="type">URLSession</span> {
+}</code></pre><p>See? My problem is that we're slowly moving down the rabbit hole. Now what if we have a 3rd request? Hell no! You have to nest everything one level deeper again, plus you have to pass around the necessary variables eg. a weak or unowned view controller reference because at some point in time you have to update the entire UI based on the outcome. There must be a better way to fix this. 🤔</p><h2>Results vs futures vs promises?</h2><p>The <a href="https://theswiftdev.com/2019/01/28/how-to-use-the-result-type-to-handle-errors-in-swift/">result type</a> was introduced in Swift 5 and it's extremely good for eliminating the optional factor from the equation. This means you don't have to deal with an optional data, and an optional error type, but your result is either one of them.</p><p>Futures are basically representing a value in the future. The underlying value can be for example a result and it should have one of the following states:</p><ul><li>pending - no value yet, waiting for it...</li><li>fulfilled - success, now the result has a value</li><li>rejected - failed with an error</li></ul><p>By definition a futures shouldn't be writeable by the end-user. This means that developers should not be able to create, fulfill or reject one. But if that's the case and we follow the rules, how do we make futures?</p><p>We promise them. You have to create a promise, which is basically a wrapper around a future that can be written (fulfilled, rejected) or transformed as you want. You don't write futures, you make promises. However some frameworks allows you to get back the future value of a promise, but you shouldn't be able to write that future at all.</p><p>Enough theory, are you ready to fall in love with <a href="https://learnappmaking.com/promises-swift-how-to/" target="_blank">promises</a>? ❤️</p><h2>Promises 101 - a beginner's guide</h2><p>Let's refactor the previous example by using my promise framework!</p><pre><code class="language-swift"><span class="keyword">extension</span> <span class="type">URLSession</span> {
 
     <span class="keyword">enum</span> HTTPError: <span class="type">LocalizedError</span> {
         <span class="keyword">case</span> invalidResponse
@@ -241,7 +241,7 @@
 }
 .<span class="call">onFailure</span>(queue: .<span class="dotAccess">main</span>) { error <span class="keyword">in</span>
     <span class="call">print</span>(error.<span class="property">localizedDescription</span>)
-}</code></pre><p>What just happened here? Well, I made sort of a promisified version of the data task method implemented on the URLSession object as an extension. Of course you can return the HTTP result or just the status code plus the data if you need further info from the network layer. You can use a new response data model or even a tuple. 🤷‍♂️</p><p>Anyway, the more interesting part is the bottom half of the source. As you can see I'm calling the brand new dataTask method which returns a <code>Promise&lt;Data&gt;</code> object. As I mentioned this before a promise can be transformed. Or should I say: chained?</p><p>Chaining promises is the biggest advantage over callbacks. The source code is not looking like a pyramid anymore with crazy indentations and do-try-catch blocks, but more like a chain of actions. In every single step you can transform your previous result value into something else. If you are familiar with some <a href="https://theswiftdev.com/2019/02/05/beginners-guide-to-functional-swift/" target="_blank">functional paradigms</a>, it's going to be really easy to understand the following:</p><ul><li>thenMap is a simple map on a Promise</li><li>then is basically flatMap on a Promise</li><li>onSuccess only gets called if everything was fine in the chain</li><li>onFailure only gets called if some error happened in the chain</li><li>always runs always regardless of the outcome</li></ul><p>If you want to get the main queue, you can simply pass it through a queue parameter, like I did it with the onFailure method, but it works for every single element in the chain. These functions above are just the tip of the iceberg. You can also tap into a chain, validate the result, put a timeout on it or recover from a failed promise.</p><p>There is also a Promises namespace for other useful methods, like zip, which is capable of zipping together 2, 3 or 4 different kind of promises. Just like the Promises.all method the zip function waits until every promise is being completed, then it gives you the result of all the promises in a single block.</p><pre><code class="language-swift"><span class="comment">//executing same promises from the same kind, eg. [Promise&lt;Data&gt;]</span>
+}</code></pre><p>What just happened here? Well, I made sort of a promisified version of the data task method implemented on the URLSession object as an extension. Of course you can return the HTTP result or just the status code plus the data if you need further info from the network layer. You can use a new response data model or even a tuple. 🤷‍♂️</p><p>Anyway, the more interesting part is the bottom half of the source. As you can see I'm calling the brand new dataTask method which returns a <code>Promise&lt;Data&gt;</code> object. As I mentioned this before a promise can be transformed. Or should I say: chained?</p><p>Chaining promises is the biggest advantage over callbacks. The source code is not looking like a pyramid anymore with crazy indentations and do-try-catch blocks, but more like a chain of actions. In every single step you can transform your previous result value into something else. If you are familiar with some <a href="https://theswiftdev.com/2019/02/05/beginners-guide-to-functional-swift/">functional paradigms</a>, it's going to be really easy to understand the following:</p><ul><li>thenMap is a simple map on a Promise</li><li>then is basically flatMap on a Promise</li><li>onSuccess only gets called if everything was fine in the chain</li><li>onFailure only gets called if some error happened in the chain</li><li>always runs always regardless of the outcome</li></ul><p>If you want to get the main queue, you can simply pass it through a queue parameter, like I did it with the onFailure method, but it works for every single element in the chain. These functions above are just the tip of the iceberg. You can also tap into a chain, validate the result, put a timeout on it or recover from a failed promise.</p><p>There is also a Promises namespace for other useful methods, like zip, which is capable of zipping together 2, 3 or 4 different kind of promises. Just like the Promises.all method the zip function waits until every promise is being completed, then it gives you the result of all the promises in a single block.</p><pre><code class="language-swift"><span class="comment">//executing same promises from the same kind, eg. [Promise&lt;Data&gt;]</span>
 <span class="type">Promises</span>.<span class="call">all</span>(promises)
 .<span class="call">thenMap</span> { arrayOfResults <span class="keyword">in</span>
     <span class="comment">// e.g. [Data]</span>
@@ -259,7 +259,7 @@
 <section id="share" class="content-wrapper">
     <p>
     <a
-        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/promises-in-swift-for-beginners"
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/promises-in-swift-for-beginners"
         target="_blank"
     >
         Share this article on Twitter
@@ -275,7 +275,6 @@
         <div class="column right">
             <h3>Get the Practical Server Side Swift book</h3>
             <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <p><strong>Third edition is just: $39</strong></p>
             <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
         </div>
     </div>
@@ -284,7 +283,7 @@
 <section id="author" class="content-wrapper">
     <img 
         id="author-image"
-        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
         alt="Picture of Tibor Bödecs" 
         title="Tibor Bödecs"
     >
@@ -305,7 +304,7 @@
     <footer>
         <section class="content-wrapper">
             <img 
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -313,9 +312,9 @@
             <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
             
             <p> 
-                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
-                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
             </p>
             
             <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>

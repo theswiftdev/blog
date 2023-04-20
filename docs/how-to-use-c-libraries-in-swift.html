@@ -10,33 +10,33 @@
     
     <meta property="og:title" content="How to use C libraries in Swift? - The.Swift.Dev.">
     <meta property="og:description" content="Learn how to use system libraries and call C code from Swift. Interoperability between the Swift language and C for beginners.">
-    <meta property="og:url" content="https://theswiftdev.github.io/blog/how-to-use-c-libraries-in-swift">
-    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/how-to-use-c-libraries-in-swift/cover.jpg">
+    <meta property="og:url" content="https://theswiftdev.com/how-to-use-c-libraries-in-swift">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/how-to-use-c-libraries-in-swift/cover.jpg">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@tiborbodecs">
     <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="How to use C libraries in Swift? - The.Swift.Dev.">
     <meta name="twitter:description" content="Learn how to use system libraries and call C code from Swift. Interoperability between the Swift language and C for beginners.">
-    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/how-to-use-c-libraries-in-swift/cover.jpg">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/how-to-use-c-libraries-in-swift/cover.jpg">
     
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
     
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
     
 </head>
 
@@ -45,10 +45,10 @@
         📖
     </a>
     <header id="page-header">
-        <a href="https://theswiftdev.github.io/blog/">
+        <a href="https://theswiftdev.com/">
             <img 
                 id="logo-image"
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -69,13 +69,13 @@
             </div>
         </section>
         <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/how-to-use-c-libraries-in-swift/cover.jpg">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/how-to-use-c-libraries-in-swift/cover.jpg">
         </section>
     </header>
 
     <div id="contents">
         <section class="content-wrapper">
-            <h2>Building a custom C library using SPM</h2><p>You can use the Swift Package Manager to create C family based source files (C, C++, Objective-C and Objective-C++) and ship them as standalone components. If you don't know much about the Swift Package Manager, you should read my comprehensive <a href="https://theswiftdev.com/swift-package-manager-tutorial/" target="_blank">tutorial about how SPM works</a>. 📦</p><p>The only thing that you need to setup a library is a standard <code>Package.swift</code> manifest file with a slightly altered directory structure to support header files. Let's make a <code>MyPoint</code> library.</p><pre><code class="language-swift"><span class="comment">// swift-tools-version:5.3</span>
+            <h2>Building a custom C library using SPM</h2><p>You can use the Swift Package Manager to create C family based source files (C, C++, Objective-C and Objective-C++) and ship them as standalone components. If you don't know much about the Swift Package Manager, you should read my comprehensive <a href="https://theswiftdev.com/swift-package-manager-tutorial/">tutorial about how SPM works</a>. 📦</p><p>The only thing that you need to setup a library is a standard <code>Package.swift</code> manifest file with a slightly altered directory structure to support header files. Let's make a <code>MyPoint</code> library.</p><pre><code class="language-swift"><span class="comment">// swift-tools-version:5.3</span>
 <span class="keyword">import</span> PackageDescription
 
 <span class="keyword">let</span> package = <span class="type">Package</span>(
@@ -200,7 +200,7 @@ CURLcode curl_easy_setopt_pointer(CURL *handle, CURLoption option, void* param) 
 <section id="share" class="content-wrapper">
     <p>
     <a
-        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/how-to-use-c-libraries-in-swift"
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/how-to-use-c-libraries-in-swift"
         target="_blank"
     >
         Share this article on Twitter
@@ -216,7 +216,6 @@ CURLcode curl_easy_setopt_pointer(CURL *handle, CURLoption option, void* param) 
         <div class="column right">
             <h3>Get the Practical Server Side Swift book</h3>
             <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <p><strong>Third edition is just: $39</strong></p>
             <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
         </div>
     </div>
@@ -225,7 +224,7 @@ CURLcode curl_easy_setopt_pointer(CURL *handle, CURLoption option, void* param) 
 <section id="author" class="content-wrapper">
     <img 
         id="author-image"
-        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
         alt="Picture of Tibor Bödecs" 
         title="Tibor Bödecs"
     >
@@ -246,7 +245,7 @@ CURLcode curl_easy_setopt_pointer(CURL *handle, CURLoption option, void* param) 
     <footer>
         <section class="content-wrapper">
             <img 
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -254,9 +253,9 @@ CURLcode curl_easy_setopt_pointer(CURL *handle, CURLoption option, void* param) 
             <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
             
             <p> 
-                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
-                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
             </p>
             
             <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>

@@ -10,33 +10,33 @@
     
     <meta property="og:title" content="Running and testing async Vapor commands - The.Swift.Dev.">
     <meta property="og:description" content="In this article I'll show you how to build asynchronous Vapor commands and how to test them using ConsoleKit.">
-    <meta property="og:url" content="https://theswiftdev.github.io/blog/running-and-testing-async-vapor-commands">
-    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/running-and-testing-async-vapor-commands/cover.jpg">
+    <meta property="og:url" content="https://theswiftdev.com/running-and-testing-async-vapor-commands">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/running-and-testing-async-vapor-commands/cover.jpg">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@tiborbodecs">
     <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="Running and testing async Vapor commands - The.Swift.Dev.">
     <meta name="twitter:description" content="In this article I'll show you how to build asynchronous Vapor commands and how to test them using ConsoleKit.">
-    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/running-and-testing-async-vapor-commands/cover.jpg">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/running-and-testing-async-vapor-commands/cover.jpg">
     
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
     
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
     
 </head>
 
@@ -45,10 +45,10 @@
         📖
     </a>
     <header id="page-header">
-        <a href="https://theswiftdev.github.io/blog/">
+        <a href="https://theswiftdev.com/">
             <img 
                 id="logo-image"
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -68,7 +68,7 @@
             </div>
         </section>
         <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/running-and-testing-async-vapor-commands/cover.jpg">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/running-and-testing-async-vapor-commands/cover.jpg">
         </section>
     </header>
 
@@ -132,7 +132,7 @@
     )
 
     <span class="keyword">try</span> <span class="call">routes</span>(app)
-}</code></pre><p>As you can see it's a <a href="https://docs.vapor.codes/basics/async/?h=async#working-with-old-and-new-apis" target="_blank">pretty neat trick</a>, it's also mentioned on <a href="https://github.com/vapor/console-kit/issues/171" target="_blank">GitHub</a>, but hopefully we don't need this workaround for too long and proper async command support will arrive in Vapor 4.x.</p><h2>Unit testing Vapor commands</h2><p>This topic has literally zero documentation, so I thought it would be nice to tell you a bit about how to unit test <a href="https://theswiftdev.com/how-to-write-swift-scripts-using-the-new-command-api-in-vapor-4/" target="_blank">scripts created via ConsoleKit</a>. First of all we need a TestConsole that we can use to collect the output of our commands. This is a shameless ripoff from <a href="https://github.com/vapor/console-kit/blob/main/Tests/ConsoleKitTests/Utilities.swift#L97" target="_blank">ConsoleKit</a>. 😅</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+}</code></pre><p>As you can see it's a <a href="https://docs.vapor.codes/basics/async/?h=async#working-with-old-and-new-apis" target="_blank">pretty neat trick</a>, it's also mentioned on <a href="https://github.com/vapor/console-kit/issues/171" target="_blank">GitHub</a>, but hopefully we don't need this workaround for too long and proper async command support will arrive in Vapor 4.x.</p><h2>Unit testing Vapor commands</h2><p>This topic has literally zero documentation, so I thought it would be nice to tell you a bit about how to unit test <a href="https://theswiftdev.com/how-to-write-swift-scripts-using-the-new-command-api-in-vapor-4/">scripts created via ConsoleKit</a>. First of all we need a TestConsole that we can use to collect the output of our commands. This is a shameless ripoff from <a href="https://github.com/vapor/console-kit/blob/main/Tests/ConsoleKitTests/Utilities.swift#L97" target="_blank">ConsoleKit</a>. 😅</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
 
 <span class="keyword">final class</span> TestConsole: <span class="type">Console</span> {
 
@@ -207,7 +207,7 @@
 <section id="share" class="content-wrapper">
     <p>
     <a
-        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/running-and-testing-async-vapor-commands"
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/running-and-testing-async-vapor-commands"
         target="_blank"
     >
         Share this article on Twitter
@@ -223,7 +223,6 @@
         <div class="column right">
             <h3>Get the Practical Server Side Swift book</h3>
             <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <p><strong>Third edition is just: $39</strong></p>
             <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
         </div>
     </div>
@@ -232,7 +231,7 @@
 <section id="author" class="content-wrapper">
     <img 
         id="author-image"
-        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
         alt="Picture of Tibor Bödecs" 
         title="Tibor Bödecs"
     >
@@ -253,7 +252,7 @@
     <footer>
         <section class="content-wrapper">
             <img 
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -261,9 +260,9 @@
             <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
             
             <p> 
-                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
-                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
             </p>
             
             <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>

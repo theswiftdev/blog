@@ -10,33 +10,33 @@
     
     <meta property="og:title" content="UIKit - loadView vs viewDidLoad - The.Swift.Dev.">
     <meta property="og:description" content="When to use these methods? Common questions and answers about the iOS view hierarchy including memory management.">
-    <meta property="og:url" content="https://theswiftdev.github.io/blog/uikit-loadview-vs-viewdidload">
-    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/uikit-loadview-vs-viewdidload/cover.jpg">
+    <meta property="og:url" content="https://theswiftdev.com/uikit-loadview-vs-viewdidload">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/uikit-loadview-vs-viewdidload/cover.jpg">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@tiborbodecs">
     <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="UIKit - loadView vs viewDidLoad - The.Swift.Dev.">
     <meta name="twitter:description" content="When to use these methods? Common questions and answers about the iOS view hierarchy including memory management.">
-    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/uikit-loadview-vs-viewdidload/cover.jpg">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/uikit-loadview-vs-viewdidload/cover.jpg">
     
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
     
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
     
 </head>
 
@@ -45,10 +45,10 @@
         📖
     </a>
     <header id="page-header">
-        <a href="https://theswiftdev.github.io/blog/">
+        <a href="https://theswiftdev.com/">
             <img 
                 id="logo-image"
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -69,7 +69,7 @@
             </div>
         </section>
         <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/uikit-loadview-vs-viewdidload/cover.jpg">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/uikit-loadview-vs-viewdidload/cover.jpg">
         </section>
     </header>
 
@@ -89,7 +89,7 @@
         foo.<span class="call">removeFromSuperview</span>()
         foo.<span class="property">text</span> = <span class="string">"crash"</span>
     }
-}</code></pre><p>Actually you can go wrong with unwrapped weak pointers, because if you remove your view from the view hiearchy at some point in time before the view controller deallocation then your weak pointer will be nil. In this case there won't be any more strong references and your view will be deallocated right away, so if it's an implicitly unwrapped optional, then we have a trouble. Your app will crash if you try to access the property, because it's going to have a nil value.</p><p>So yes you can use implicitly unwrapped optional variables to store subviews, but only if you are sure that you are not going to remove it from the hiearchy. This also means that you don't trust Apple's view management system, which is fine, there can be bugs, but honestly this is quite a crucial feature and it has been around for a decade by now. 🙃</p><p>The other alternative is to use a regular weak optional variable, but in that case you'll always have to check if it's nil or not, which is going to be a pain in the ass, but at least you're going to be safe for sure. Personal opinion: it won't worth the effort at all and I never stored views like this.</p><h3>Strong subviews</h3><p>My recommendation is to trust Apple and define your subviews as strong properties. Okay, this can also be problematic if you have other strong references to the same stuff, but in general if the view controller has the only reference to that given subview you should be totally fine.</p><p>Since it's a strong property you also have to initialize the view, but that's not a big deal. You can always initialize a view with a .zero frame and that's it. Alternatively you can create a <a href="https://theswiftdev.com/styling-by-subclassing/" target="_blank">subclass</a> with a regular <code>init()</code> method, that's even better, becuase you are going to <a href="https://theswiftdev.com/mastering-ios-auto-layout-anchors-programmatically-from-swift/" target="_blank">use auto layout</a> for sure and this way can set the <code>translatesAutoresizingMaskIntoConstraints</code> property in one go.</p><pre><code class="language-swift"><span class="keyword">import</span> UIKit
+}</code></pre><p>Actually you can go wrong with unwrapped weak pointers, because if you remove your view from the view hiearchy at some point in time before the view controller deallocation then your weak pointer will be nil. In this case there won't be any more strong references and your view will be deallocated right away, so if it's an implicitly unwrapped optional, then we have a trouble. Your app will crash if you try to access the property, because it's going to have a nil value.</p><p>So yes you can use implicitly unwrapped optional variables to store subviews, but only if you are sure that you are not going to remove it from the hiearchy. This also means that you don't trust Apple's view management system, which is fine, there can be bugs, but honestly this is quite a crucial feature and it has been around for a decade by now. 🙃</p><p>The other alternative is to use a regular weak optional variable, but in that case you'll always have to check if it's nil or not, which is going to be a pain in the ass, but at least you're going to be safe for sure. Personal opinion: it won't worth the effort at all and I never stored views like this.</p><h3>Strong subviews</h3><p>My recommendation is to trust Apple and define your subviews as strong properties. Okay, this can also be problematic if you have other strong references to the same stuff, but in general if the view controller has the only reference to that given subview you should be totally fine.</p><p>Since it's a strong property you also have to initialize the view, but that's not a big deal. You can always initialize a view with a .zero frame and that's it. Alternatively you can create a <a href="https://theswiftdev.com/styling-by-subclassing/">subclass</a> with a regular <code>init()</code> method, that's even better, becuase you are going to <a href="https://theswiftdev.com/mastering-ios-auto-layout-anchors-programmatically-from-swift/">use auto layout</a> for sure and this way can set the <code>translatesAutoresizingMaskIntoConstraints</code> property in one go.</p><pre><code class="language-swift"><span class="keyword">import</span> UIKit
 
 <span class="keyword">class</span> Label: <span class="type">UILabel</span> {
     
@@ -152,7 +152,7 @@
             foo.<span class="property">heightAnchor</span>.<span class="call">constraint</span>(equalToConstant: <span class="number">44</span>),
         ])
     }
-}</code></pre><p>This way I can be sure that every single view is ready by the time the <a href="https://developer.apple.com/documentation/uikit/uiviewcontroller/1621495-viewdidload" target="_blank">viewDidLoad</a> method is called. It is possible to configure views inside the loadView method too, but I prefer to keep the hierarchy setup there and I place everything else inside the viewDidLoad function. I mean controller related stuff only, like setting up navigation bar buttons and things like this.</p><p>As I mentioned this in my <a href="https://theswiftdev.com/10-little-uikit-tips-you-should-know/" target="_blank">previous article</a>, I prefer to use subclasses to configure my views, I also move layout constraints there (as a function that returns them based on some parameters) to keep the view controller clean. Inside the viewDidLoad method I can perform additional user interface related actions, but that's it I don't use it for adding or styling views anymore.</p><h2>Conclusion</h2><p>Based on my current knowledge, here is what I recommend for modern UIKit developers:</p><ul><li>Define your subviews as <code>strong</code> properties</li><li>Always check for leaks, implement <code>deinit</code>, use breakpoints or instruments</li><li>Use <code>weak</code> / <code>unowned</code> references if you have to break retain cycles</li><li>Add views to the hierarchy in the <code>loadView</code> method</li><li>Use subclasses for styling views, make them reusable</li><li>Define layout constraint getters on the view subclass, activate them inside <code>loadView</code></li><li>Perform remaining UI related operations in the <code>viewDidLoad</code> function</li></ul><p>That's it. I'm not saying this is the perfect approach, but for me it's definitely the way to go forward with UIKit. I know for sure that many people are still working with the framework and it is here to stay for a long time. I hope these tips will help you to understand UIKit just a little bit better. ☺️</p>
+}</code></pre><p>This way I can be sure that every single view is ready by the time the <a href="https://developer.apple.com/documentation/uikit/uiviewcontroller/1621495-viewdidload" target="_blank">viewDidLoad</a> method is called. It is possible to configure views inside the loadView method too, but I prefer to keep the hierarchy setup there and I place everything else inside the viewDidLoad function. I mean controller related stuff only, like setting up navigation bar buttons and things like this.</p><p>As I mentioned this in my <a href="https://theswiftdev.com/10-little-uikit-tips-you-should-know/">previous article</a>, I prefer to use subclasses to configure my views, I also move layout constraints there (as a function that returns them based on some parameters) to keep the view controller clean. Inside the viewDidLoad method I can perform additional user interface related actions, but that's it I don't use it for adding or styling views anymore.</p><h2>Conclusion</h2><p>Based on my current knowledge, here is what I recommend for modern UIKit developers:</p><ul><li>Define your subviews as <code>strong</code> properties</li><li>Always check for leaks, implement <code>deinit</code>, use breakpoints or instruments</li><li>Use <code>weak</code> / <code>unowned</code> references if you have to break retain cycles</li><li>Add views to the hierarchy in the <code>loadView</code> method</li><li>Use subclasses for styling views, make them reusable</li><li>Define layout constraint getters on the view subclass, activate them inside <code>loadView</code></li><li>Perform remaining UI related operations in the <code>viewDidLoad</code> function</li></ul><p>That's it. I'm not saying this is the perfect approach, but for me it's definitely the way to go forward with UIKit. I know for sure that many people are still working with the framework and it is here to stay for a long time. I hope these tips will help you to understand UIKit just a little bit better. ☺️</p>
         </section>
     </div>
 
@@ -161,7 +161,7 @@
 <section id="share" class="content-wrapper">
     <p>
     <a
-        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/uikit-loadview-vs-viewdidload"
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/uikit-loadview-vs-viewdidload"
         target="_blank"
     >
         Share this article on Twitter
@@ -177,7 +177,6 @@
         <div class="column right">
             <h3>Get the Practical Server Side Swift book</h3>
             <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <p><strong>Third edition is just: $39</strong></p>
             <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
         </div>
     </div>
@@ -186,7 +185,7 @@
 <section id="author" class="content-wrapper">
     <img 
         id="author-image"
-        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
         alt="Picture of Tibor Bödecs" 
         title="Tibor Bödecs"
     >
@@ -207,7 +206,7 @@
     <footer>
         <section class="content-wrapper">
             <img 
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -215,9 +214,9 @@
             <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
             
             <p> 
-                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
-                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
             </p>
             
             <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>

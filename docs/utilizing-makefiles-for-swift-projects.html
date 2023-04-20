@@ -10,33 +10,33 @@
     
     <meta property="og:title" content="Utilizing Makefiles for Swift projects - The.Swift.Dev.">
     <meta property="og:description" content="In this tutorial I'll show you how to use Makefiles for server-side Swift projects to help running utility tasks in a more simple way.">
-    <meta property="og:url" content="https://theswiftdev.github.io/blog/utilizing-makefiles-for-swift-projects">
-    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/utilizing-makefiles-for-swift-projects/cover.jpg">
+    <meta property="og:url" content="https://theswiftdev.com/utilizing-makefiles-for-swift-projects">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/utilizing-makefiles-for-swift-projects/cover.jpg">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@tiborbodecs">
     <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="Utilizing Makefiles for Swift projects - The.Swift.Dev.">
     <meta name="twitter:description" content="In this tutorial I'll show you how to use Makefiles for server-side Swift projects to help running utility tasks in a more simple way.">
-    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/utilizing-makefiles-for-swift-projects/cover.jpg">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/utilizing-makefiles-for-swift-projects/cover.jpg">
     
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
     
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
     
 </head>
 
@@ -45,10 +45,10 @@
         📖
     </a>
     <header id="page-header">
-        <a href="https://theswiftdev.github.io/blog/">
+        <a href="https://theswiftdev.com/">
             <img 
                 id="logo-image"
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -69,13 +69,13 @@
             </div>
         </section>
         <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/utilizing-makefiles-for-swift-projects/cover.jpg">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/utilizing-makefiles-for-swift-projects/cover.jpg">
         </section>
     </header>
 
     <div id="contents">
         <section class="content-wrapper">
-            <p><a href="https://en.wikipedia.org/wiki/Make_(software" target="_blank">Make</a>) is a build automation software that you can use to automatically run various commands. If you want to run something, you have to specify your commands (more precisely: build targets) through Makefiles. In this quick tutorial I'll show you some of my best practices for Swift projects. 😉</p><p>Usually I create a Makefile for my server-side Swift projects and place some of the most used <a href="https://theswiftdev.com/swift-package-manager-tutorial/" target="_blank">Swift Package Manager</a> commands there.</p><pre><code># My Makefile - for server side Swift projects
+            <p><a href="https://en.wikipedia.org/wiki/Make_(software" target="_blank">Make</a>) is a build automation software that you can use to automatically run various commands. If you want to run something, you have to specify your commands (more precisely: build targets) through Makefiles. In this quick tutorial I'll show you some of my best practices for Swift projects. 😉</p><p>Usually I create a Makefile for my server-side Swift projects and place some of the most used <a href="https://theswiftdev.com/swift-package-manager-tutorial/">Swift Package Manager</a> commands there.</p><pre><code># My Makefile - for server side Swift projects
 
 build:
     swift build
@@ -106,7 +106,7 @@ restart: stop start
 
 reset: stop
     rm -f ./Resources/db.sqlite
-</code></pre><p>By using the &amp; at the end of the start command the server will run in the background, and using the @ character before the lsof command will silence the output of the make command (By default the make command will echo out your commands as well).</p><p>Since everything should work under Linux as well I often use Docker to run the app in a container. I have <a href="https://theswiftdev.com/server-side-swift-projects-inside-docker-using-vapor-4/" target="_blank">a Docker cheat-sheet</a>, but I'm also a lazy developer, so I made a few helpers in the Makefile.</p><pre><code>#
+</code></pre><p>By using the &amp; at the end of the start command the server will run in the background, and using the @ character before the lsof command will silence the output of the make command (By default the make command will echo out your commands as well).</p><p>Since everything should work under Linux as well I often use Docker to run the app in a container. I have <a href="https://theswiftdev.com/server-side-swift-projects-inside-docker-using-vapor-4/">a Docker cheat-sheet</a>, but I'm also a lazy developer, so I made a few helpers in the Makefile.</p><pre><code>#
 # Dockerfile:
 # ----------------------------------------
 #
@@ -127,7 +127,7 @@ docker-run:
         -e "PS1=\u@\w: " \
         -it my-app-image \
         --rm
-</code></pre><p>First you have to build the image for the Swift application, for this purpose you also have to create a Dockerfile next to the Makefile, but afterwards you can create a disposable docker instance from it by using the make docker-run command. 🐳</p><p>There are two more topics I'd like to talk about. The first one is related to <a href="https://theswiftdev.com/code-coverage-for-swift-package-manager-based-apps/" target="_blank">code coverage generation</a> for Swift package manager based apps. Here is what I have in my Makefile to support this:</p><pre><code>test-with-coverage:
+</code></pre><p>First you have to build the image for the Swift application, for this purpose you also have to create a Dockerfile next to the Makefile, but afterwards you can create a disposable docker instance from it by using the make docker-run command. 🐳</p><p>There are two more topics I'd like to talk about. The first one is related to <a href="https://theswiftdev.com/code-coverage-for-swift-package-manager-based-apps/">code coverage generation</a> for Swift package manager based apps. Here is what I have in my Makefile to support this:</p><pre><code>test-with-coverage:
     swift test --parallel --enable-code-coverage
 
 # 
@@ -157,7 +157,7 @@ docs-generate-static:
         --hosting-base-path "MyLibrary" \
         --target MyLibrary \
         --output-path ./docs
-</code></pre><p>Of course you can add more targets to your Makefile to automate your workflow as needed. These are just a few common practices that I'm currently using for my server-side Swift projects. iOS developers can also take advantage of Makefiles, there are some quite lenghty <a href="https://theswiftdev.com/deep-dive-into-swift-frameworks/" target="_blank">xcodebuild related commands</a> that you can simplify a lot by using a Makefile. 💪</p>
+</code></pre><p>Of course you can add more targets to your Makefile to automate your workflow as needed. These are just a few common practices that I'm currently using for my server-side Swift projects. iOS developers can also take advantage of Makefiles, there are some quite lenghty <a href="https://theswiftdev.com/deep-dive-into-swift-frameworks/">xcodebuild related commands</a> that you can simplify a lot by using a Makefile. 💪</p>
         </section>
     </div>
 
@@ -166,7 +166,7 @@ docs-generate-static:
 <section id="share" class="content-wrapper">
     <p>
     <a
-        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/utilizing-makefiles-for-swift-projects"
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/utilizing-makefiles-for-swift-projects"
         target="_blank"
     >
         Share this article on Twitter
@@ -182,7 +182,6 @@ docs-generate-static:
         <div class="column right">
             <h3>Get the Practical Server Side Swift book</h3>
             <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <p><strong>Third edition is just: $39</strong></p>
             <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
         </div>
     </div>
@@ -191,7 +190,7 @@ docs-generate-static:
 <section id="author" class="content-wrapper">
     <img 
         id="author-image"
-        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
         alt="Picture of Tibor Bödecs" 
         title="Tibor Bödecs"
     >
@@ -212,7 +211,7 @@ docs-generate-static:
     <footer>
         <section class="content-wrapper">
             <img 
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -220,9 +219,9 @@ docs-generate-static:
             <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
             
             <p> 
-                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
-                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
             </p>
             
             <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>

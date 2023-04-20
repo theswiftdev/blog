@@ -10,33 +10,33 @@
     
     <meta property="og:title" content="The Swift package manifest file - The.Swift.Dev.">
     <meta property="og:description" content="This article is a complete Swift Package Manager cheatsheet for the package manifest file, using the latest Swift 5.2 tools version.">
-    <meta property="og:url" content="https://theswiftdev.github.io/blog/the-swift-package-manifest-file">
-    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/the-swift-package-manifest-file/cover.jpg">
+    <meta property="og:url" content="https://theswiftdev.com/the-swift-package-manifest-file">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/the-swift-package-manifest-file/cover.jpg">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@tiborbodecs">
     <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="The Swift package manifest file - The.Swift.Dev.">
     <meta name="twitter:description" content="This article is a complete Swift Package Manager cheatsheet for the package manifest file, using the latest Swift 5.2 tools version.">
-    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/the-swift-package-manifest-file/cover.jpg">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/the-swift-package-manifest-file/cover.jpg">
     
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
     
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
     
 </head>
 
@@ -45,10 +45,10 @@
         📖
     </a>
     <header id="page-header">
-        <a href="https://theswiftdev.github.io/blog/">
+        <a href="https://theswiftdev.com/">
             <img 
                 id="logo-image"
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -69,13 +69,13 @@
             </div>
         </section>
         <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/the-swift-package-manifest-file/cover.jpg">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/the-swift-package-manifest-file/cover.jpg">
         </section>
     </header>
 
     <div id="contents">
         <section class="content-wrapper">
-            <p class="note">If you want to learn <a href="https://theswiftdev.com/swift-package-manager-tutorial/" target="_blank">how to use the Swift Package Manager</a> you should read my other article, because that is more like an introduction for those who have never worked with SPM yet.</p><h2>Package types</h2><p>There are multiple package types that you can create with the <code>swift package init</code> command. You can specify the <code>--type</code> flag with the following values: empty, library, executable, system-module, manifest. You can also define a custom package name through the <code>--name</code> flag.</p><ul><li>The empty package will create the default file structure without the sample code files.</li><li>The library type will create a reusable library product template.</li><li>The executable type will create a Swift application with an executable product definition in the package and a <code>main.swift</code> file as a starting point.</li><li>The system-module type will create a wrapper around a system provided package, such as libxml, we'll talk about this later on.</li><li>The manifest type will only create a <code>Package.swift</code> file without anything else.</li></ul><h2>The Package manifest file</h2><p>Every single SPM project has this special file inside of it called <code>Package.swift</code>. I already wrote a post about <a href="https://theswiftdev.com/all-about-the-swift-package-manager-and-the-swift-toolchain/" target="_blank">how the package manager and the Swift toolchain works</a> behind the scenes, this time we're going to focus only on the manifest file itself. Let's get started. 📦</p><p>Every single Package.swift file begins with a special comment line where you have to define the version of the used Swift tools. The latest version is quite different from the older ones.</p><pre><code class="language-swift"><span class="comment">// swift-tools-version:5.2</span></code></pre><p>Next you have to import the PackageDescription framework in order to define your Swift package. This framework contains the package manifest structure as Swift objects.</p><pre><code class="language-swift"><span class="keyword">import</span> PackageDescription</code></pre><p>That's it now you are ready to describe the package itself. Oh by the way you can change the version of the used tools, you can read more about this in the Package Manager <a href="https://github.com/apple/swift-package-manager/blob/master/Documentation/Usage.md" target="_blank">usage</a> docs.</p><h2>Package</h2><p>A package is just a bunch of Swift (or other) files. The manifest file is the description of what and how to build from those sources. Every single package should have a name, but this is not enough to actually generate something from it. You can only have exactly one package definition inside the file. This is the shortest and most useless one that you can create. 🙈</p><pre><code class="language-swift"><span class="keyword">let</span> package = <span class="type">Package</span>(name: <span class="string">"myPackage"</span>)</code></pre><p>The package name is going to be used when you are importing packages as dependencies, so name your pacages carefully. If you choose a reserved name by a system framework there can be issues with linking. If there's a conflict you have to use static linking instead of dynamic. If you generate a project via the <code>swift package generate-xcodeproj</code> command that project will try to link everything dynamically, but if you open the <code>Package.swift</code> file using Xcode 11, the dependencies will be linked statically if this was not set explicitly in the product definition section.</p><h2>Platform</h2><p>A platform is basically an operating system with a given version that you can support.</p><pre><code class="language-swift"><span class="keyword">let</span> package = <span class="type">Package</span>(
+            <p class="note">If you want to learn <a href="https://theswiftdev.com/swift-package-manager-tutorial/">how to use the Swift Package Manager</a> you should read my other article, because that is more like an introduction for those who have never worked with SPM yet.</p><h2>Package types</h2><p>There are multiple package types that you can create with the <code>swift package init</code> command. You can specify the <code>--type</code> flag with the following values: empty, library, executable, system-module, manifest. You can also define a custom package name through the <code>--name</code> flag.</p><ul><li>The empty package will create the default file structure without the sample code files.</li><li>The library type will create a reusable library product template.</li><li>The executable type will create a Swift application with an executable product definition in the package and a <code>main.swift</code> file as a starting point.</li><li>The system-module type will create a wrapper around a system provided package, such as libxml, we'll talk about this later on.</li><li>The manifest type will only create a <code>Package.swift</code> file without anything else.</li></ul><h2>The Package manifest file</h2><p>Every single SPM project has this special file inside of it called <code>Package.swift</code>. I already wrote a post about <a href="https://theswiftdev.com/all-about-the-swift-package-manager-and-the-swift-toolchain/">how the package manager and the Swift toolchain works</a> behind the scenes, this time we're going to focus only on the manifest file itself. Let's get started. 📦</p><p>Every single Package.swift file begins with a special comment line where you have to define the version of the used Swift tools. The latest version is quite different from the older ones.</p><pre><code class="language-swift"><span class="comment">// swift-tools-version:5.2</span></code></pre><p>Next you have to import the PackageDescription framework in order to define your Swift package. This framework contains the package manifest structure as Swift objects.</p><pre><code class="language-swift"><span class="keyword">import</span> PackageDescription</code></pre><p>That's it now you are ready to describe the package itself. Oh by the way you can change the version of the used tools, you can read more about this in the Package Manager <a href="https://github.com/apple/swift-package-manager/blob/master/Documentation/Usage.md" target="_blank">usage</a> docs.</p><h2>Package</h2><p>A package is just a bunch of Swift (or other) files. The manifest file is the description of what and how to build from those sources. Every single package should have a name, but this is not enough to actually generate something from it. You can only have exactly one package definition inside the file. This is the shortest and most useless one that you can create. 🙈</p><pre><code class="language-swift"><span class="keyword">let</span> package = <span class="type">Package</span>(name: <span class="string">"myPackage"</span>)</code></pre><p>The package name is going to be used when you are importing packages as dependencies, so name your pacages carefully. If you choose a reserved name by a system framework there can be issues with linking. If there's a conflict you have to use static linking instead of dynamic. If you generate a project via the <code>swift package generate-xcodeproj</code> command that project will try to link everything dynamically, but if you open the <code>Package.swift</code> file using Xcode 11, the dependencies will be linked statically if this was not set explicitly in the product definition section.</p><h2>Platform</h2><p>A platform is basically an operating system with a given version that you can support.</p><pre><code class="language-swift"><span class="keyword">let</span> package = <span class="type">Package</span>(
     name: <span class="string">"myPackage"</span>,
     platforms: [
         .<span class="call">iOS</span>(.<span class="dotAccess">v13</span>),         <span class="comment">//.v8 - .v13</span>
@@ -140,7 +140,7 @@
             .<span class="call">linkedLibrary</span>(<span class="string">"library"</span>, .<span class="dotAccess">when</span>(platforms: [.<span class="dotAccess">macOS</span>], configuration: .<span class="dotAccess">release</span>)),
             .<span class="call">unsafeFlags</span>([<span class="string">"-L example"</span>]),
             .<span class="call">unsafeFlags</span>([<span class="string">"-L example"</span>], .<span class="dotAccess">when</span>(platforms: [.<span class="dotAccess">linux</span>], configuration: .<span class="dotAccess">release</span>)),
-        ]),</code></pre><p>As you can see you can define preprocessor macros for every single language. You can use the safe cases for basic stuff, but there is an unsafeFlags case for the reckless ones. The nice thing is that you can support a platform condition filter including build configuration to every single settings as the last param.</p><p>Available platforms are:</p><ul><li><code>.iOS</code></li><li><code>.macOS</code></li><li><code>.watchOS</code></li><li><code>.tvOS</code></li><li><code>.android</code></li><li><code>.linux</code></li><li><code>.windows </code></li></ul><p>The build configuration can be <code>.debug</code> or <code>.release</code></p><h2>Test targets</h2><p>Test targets are used to define test suites. They can be used to <a href="https://theswiftdev.com/the-ultimate-guide-to-unit-and-ui-testing-for-beginners-in-swift/" target="_blank">unit test</a> other targets using the <a href="https://github.com/apple/swift-corelibs-xctest" target="_blank">XCTest</a> framework. They look like exactly the same as regular targets.</p><pre><code class="language-swift">.<span class="call">testTarget</span>(name: <span class="type">String</span>,
+        ]),</code></pre><p>As you can see you can define preprocessor macros for every single language. You can use the safe cases for basic stuff, but there is an unsafeFlags case for the reckless ones. The nice thing is that you can support a platform condition filter including build configuration to every single settings as the last param.</p><p>Available platforms are:</p><ul><li><code>.iOS</code></li><li><code>.macOS</code></li><li><code>.watchOS</code></li><li><code>.tvOS</code></li><li><code>.android</code></li><li><code>.linux</code></li><li><code>.windows </code></li></ul><p>The build configuration can be <code>.debug</code> or <code>.release</code></p><h2>Test targets</h2><p>Test targets are used to define test suites. They can be used to <a href="https://theswiftdev.com/the-ultimate-guide-to-unit-and-ui-testing-for-beginners-in-swift/">unit test</a> other targets using the <a href="https://github.com/apple/swift-corelibs-xctest" target="_blank">XCTest</a> framework. They look like exactly the same as regular targets.</p><pre><code class="language-swift">.<span class="call">testTarget</span>(name: <span class="type">String</span>,
     dependencies: [<span class="type">Target</span>.<span class="type">Dependency</span>],
     path: <span class="type">String</span>?,
     exclude: [<span class="type">String</span>],
@@ -206,7 +206,7 @@ cxxLanguageStandard: .<span class="dotAccess">gnucxx11</span>)</code></pre><p>Yo
 <section id="share" class="content-wrapper">
     <p>
     <a
-        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/the-swift-package-manifest-file"
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/the-swift-package-manifest-file"
         target="_blank"
     >
         Share this article on Twitter
@@ -222,7 +222,6 @@ cxxLanguageStandard: .<span class="dotAccess">gnucxx11</span>)</code></pre><p>Yo
         <div class="column right">
             <h3>Get the Practical Server Side Swift book</h3>
             <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <p><strong>Third edition is just: $39</strong></p>
             <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
         </div>
     </div>
@@ -231,7 +230,7 @@ cxxLanguageStandard: .<span class="dotAccess">gnucxx11</span>)</code></pre><p>Yo
 <section id="author" class="content-wrapper">
     <img 
         id="author-image"
-        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
         alt="Picture of Tibor Bödecs" 
         title="Tibor Bödecs"
     >
@@ -252,7 +251,7 @@ cxxLanguageStandard: .<span class="dotAccess">gnucxx11</span>)</code></pre><p>Yo
     <footer>
         <section class="content-wrapper">
             <img 
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -260,9 +259,9 @@ cxxLanguageStandard: .<span class="dotAccess">gnucxx11</span>)</code></pre><p>Yo
             <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
             
             <p> 
-                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
-                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
             </p>
             
             <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>

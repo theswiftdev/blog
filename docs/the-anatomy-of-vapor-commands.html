@@ -10,33 +10,33 @@
     
     <meta property="og:title" content="The anatomy of Vapor commands - The.Swift.Dev.">
     <meta property="og:description" content="Learn how to build and run your existing Vapor apps using various command line arguments, flags and environments.">
-    <meta property="og:url" content="https://theswiftdev.github.io/blog/the-anatomy-of-vapor-commands">
-    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/the-anatomy-of-vapor-commands/cover.jpg">
+    <meta property="og:url" content="https://theswiftdev.com/the-anatomy-of-vapor-commands">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/the-anatomy-of-vapor-commands/cover.jpg">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@tiborbodecs">
     <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="The anatomy of Vapor commands - The.Swift.Dev.">
     <meta name="twitter:description" content="Learn how to build and run your existing Vapor apps using various command line arguments, flags and environments.">
-    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/the-anatomy-of-vapor-commands/cover.jpg">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/the-anatomy-of-vapor-commands/cover.jpg">
     
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
     
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
     
 </head>
 
@@ -45,10 +45,10 @@
         📖
     </a>
     <header id="page-header">
-        <a href="https://theswiftdev.github.io/blog/">
+        <a href="https://theswiftdev.com/">
             <img 
                 id="logo-image"
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -68,7 +68,7 @@
             </div>
         </section>
         <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/the-anatomy-of-vapor-commands/cover.jpg">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/the-anatomy-of-vapor-commands/cover.jpg">
         </section>
     </header>
 
@@ -88,7 +88,7 @@ swift run Run serve --hostname "localhost" --port 8080
 swift run Run serve -h "localhost" -p 8080
 swift run Run serve --bind "localhost:8080"
 swift run Run serve -b "localhost:8080"
-</code></pre><p>You should know that this is the default command, so if you simply run your app without any arguments, the serve command will be executed behind the scenes. 💀</p><h2>Migrate</h2><p>When you <a href="https://theswiftdev.com/a-tutorial-for-beginners-about-the-fluent-postgresql-driver-in-vapor-4/" target="_blank">work with databases using Fluent</a>, you need a schema first. You can only populate the database with actual data after the main structure exists. This process is called migration. You'll also have to migrate your database if you change something in your Fluent code (for example you introduce a new field for a model). You can perform a migration by running:</p><pre><code class="language-sh"># run Fluent migrations
+</code></pre><p>You should know that this is the default command, so if you simply run your app without any arguments, the serve command will be executed behind the scenes. 💀</p><h2>Migrate</h2><p>When you <a href="https://theswiftdev.com/a-tutorial-for-beginners-about-the-fluent-postgresql-driver-in-vapor-4/">work with databases using Fluent</a>, you need a schema first. You can only populate the database with actual data after the main structure exists. This process is called migration. You'll also have to migrate your database if you change something in your Fluent code (for example you introduce a new field for a model). You can perform a migration by running:</p><pre><code class="language-sh"># run Fluent migrations
 swift run Run migrate
 
 # run migrations without the confirmation
@@ -136,7 +136,7 @@ swift run Run routes
 # +--------+----------------+
 </code></pre><p>If you need more info about how routing works in Vapor 4, you should check the <a href="https://docs.vapor.codes/4.0/routing/#viewing-routes" target="_blank">official docs</a>.</p><h2>Boot</h2><p>Honestly: I've never used the boot command before, but it's there. 🤷‍♂️</p><pre><code class="language-sh"># boots the app providers &amp; exists
 swift run Run boot
-</code></pre><p>Can somebody tell me a use case for this?</p><h2>Custom commands</h2><p>It is possible to write your custom commands <a href="https://theswiftdev.com/how-to-write-swift-scripts-using-the-new-command-api-in-vapor-4/" target="_blank">using the brand new Command API</a> in Vapor 4. If you are interested in writing Swift scripts, you should continue reading the linked article. 📚</p><p>There are lots of other Swift compiler flags (e.g. <code>-Xswiftc -g</code> to make <code>Backtrace.print()</code> work) that you can use during the build process. If you are interested in those please let me know and maybe I'll make an article about it in the not so distant future.</p>
+</code></pre><p>Can somebody tell me a use case for this?</p><h2>Custom commands</h2><p>It is possible to write your custom commands <a href="https://theswiftdev.com/how-to-write-swift-scripts-using-the-new-command-api-in-vapor-4/">using the brand new Command API</a> in Vapor 4. If you are interested in writing Swift scripts, you should continue reading the linked article. 📚</p><p>There are lots of other Swift compiler flags (e.g. <code>-Xswiftc -g</code> to make <code>Backtrace.print()</code> work) that you can use during the build process. If you are interested in those please let me know and maybe I'll make an article about it in the not so distant future.</p>
         </section>
     </div>
 
@@ -145,7 +145,7 @@ swift run Run boot
 <section id="share" class="content-wrapper">
     <p>
     <a
-        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/the-anatomy-of-vapor-commands"
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/the-anatomy-of-vapor-commands"
         target="_blank"
     >
         Share this article on Twitter
@@ -161,7 +161,6 @@ swift run Run boot
         <div class="column right">
             <h3>Get the Practical Server Side Swift book</h3>
             <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <p><strong>Third edition is just: $39</strong></p>
             <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
         </div>
     </div>
@@ -170,7 +169,7 @@ swift run Run boot
 <section id="author" class="content-wrapper">
     <img 
         id="author-image"
-        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
         alt="Picture of Tibor Bödecs" 
         title="Tibor Bödecs"
     >
@@ -191,7 +190,7 @@ swift run Run boot
     <footer>
         <section class="content-wrapper">
             <img 
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -199,9 +198,9 @@ swift run Run boot
             <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
             
             <p> 
-                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
-                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
             </p>
             
             <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>

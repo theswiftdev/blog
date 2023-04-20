@@ -10,33 +10,33 @@
     
     <meta property="og:title" content="How to call C code from Swift - The.Swift.Dev.">
     <meta property="og:description" content="Interacting with C libraries from the Swift language is really amazing, from this post can learn the most of C interoperability.">
-    <meta property="og:url" content="https://theswiftdev.github.io/blog/how-to-call-c-code-from-swift">
-    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/how-to-call-c-code-from-swift/cover.jpg">
+    <meta property="og:url" content="https://theswiftdev.com/how-to-call-c-code-from-swift">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/how-to-call-c-code-from-swift/cover.jpg">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@tiborbodecs">
     <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="How to call C code from Swift - The.Swift.Dev.">
     <meta name="twitter:description" content="Interacting with C libraries from the Swift language is really amazing, from this post can learn the most of C interoperability.">
-    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/how-to-call-c-code-from-swift/cover.jpg">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/how-to-call-c-code-from-swift/cover.jpg">
     
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
     
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
     
 </head>
 
@@ -45,10 +45,10 @@
         📖
     </a>
     <header id="page-header">
-        <a href="https://theswiftdev.github.io/blog/">
+        <a href="https://theswiftdev.com/">
             <img 
                 id="logo-image"
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -71,13 +71,13 @@
             </div>
         </section>
         <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/how-to-call-c-code-from-swift/cover.jpg">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/how-to-call-c-code-from-swift/cover.jpg">
         </section>
     </header>
 
     <div id="contents">
         <section class="content-wrapper">
-            <p class="warning">From Swift 4 there is native support for <a href="https://www.hackingwithswift.com/articles/87/how-to-wrap-a-c-library-in-swift" target="_blank">wrapping C libraries in Swift</a> system module packages. This means that you can easily ship your own system modules, you just have to learn <a href="https://theswiftdev.com/2017/11/09/swift-package-manager-tutorial/" target="_blank">how to use the Swift Package Manager</a>.😅</p><h2>Bridging header inside Xcode</h2><p>Let's fire up Xcode and start a brand new single view app iOS project. Fill out the required fields, and of course choose the Swift language. Next, add a new file and choose the <a href="https://developer.apple.com/documentation/swift/c_interoperability" target="_blank">C file</a> template.</p><p>After you enter the name and check the also create header file box, Xcode will ask you about the Objective-C bridging header file. Just create it. The name of this file is tricky, because it also supports other <a href="https://developer.apple.com/library/content/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithCAPIs.html" target="_blank">C family</a> languages, like <a href="https://dzone.com/articles/using-a-c-library-in-swift" target="_blank">pure C</a> or C++, <a href="http://ankit.im/swift/2016/05/21/creating-objc-cpp-packages-with-swift-package-manager/" target="_blank">Objective-C</a> and plus-plus. 😉</p><p>Let's create a public header for the <a href="https://www.sitepoint.com/using-legacy-c-apis-swift/" target="_blank">C code</a> (<code>factorial.h</code>):</p><pre><code>#ifndef factorial_h
+            <p class="warning">From Swift 4 there is native support for <a href="https://www.hackingwithswift.com/articles/87/how-to-wrap-a-c-library-in-swift" target="_blank">wrapping C libraries in Swift</a> system module packages. This means that you can easily ship your own system modules, you just have to learn <a href="https://theswiftdev.com/2017/11/09/swift-package-manager-tutorial/">how to use the Swift Package Manager</a>.😅</p><h2>Bridging header inside Xcode</h2><p>Let's fire up Xcode and start a brand new single view app iOS project. Fill out the required fields, and of course choose the Swift language. Next, add a new file and choose the <a href="https://developer.apple.com/documentation/swift/c_interoperability" target="_blank">C file</a> template.</p><p>After you enter the name and check the also create header file box, Xcode will ask you about the Objective-C bridging header file. Just create it. The name of this file is tricky, because it also supports other <a href="https://developer.apple.com/library/content/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithCAPIs.html" target="_blank">C family</a> languages, like <a href="https://dzone.com/articles/using-a-c-library-in-swift" target="_blank">pure C</a> or C++, <a href="http://ankit.im/swift/2016/05/21/creating-objc-cpp-packages-with-swift-package-manager/" target="_blank">Objective-C</a> and plus-plus. 😉</p><p>Let's create a public header for the <a href="https://www.sitepoint.com/using-legacy-c-apis-swift/" target="_blank">C code</a> (<code>factorial.h</code>):</p><pre><code>#ifndef factorial_h
 #define factorial_h
 
 #include &lt;stdio.h&gt;
@@ -94,7 +94,7 @@ long factorial(int n) {
 </code></pre><p>Inside the bridging header, simply import the C header file:</p><pre><code>#include "factorial.h"
 </code></pre><p>Somewhere inside a Swift file you can use the factorial method:</p><pre><code>print("Hello \(factorial(5))!")
 // it actually prints out "Hello 120!" ;)
-</code></pre><p>Compile and run. 🔨 It just works. 🌟 Magic! 🌟</p><p>You can do the exact same thing to use Objective-C classes inside your Swift projects. Apple has great docs about this technique, you should read that if you want to know more about <a href="https://developer.apple.com/library/content/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html" target="_blank">mix and match</a>.</p><h2>Shipping C code with SPM</h2><p>The real fun begins when you start using the Swift Package Manager to build <a href="https://spin.atomicobject.com/2015/02/23/c-libraries-swift/" target="_blank">C family based sources</a>. From Swift 3.0 you can <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0038-swiftpm-c-language-targets.md" target="_blank">build C language targets with SPM</a>. If you don't know how to use the SPM tool, you should read my <a href="https://theswiftdev.com/2017/11/09/swift-package-manager-tutorial/" target="_blank">comprehensive tutorial about the Swift Package Manager</a> first.</p><p>The only thing that you'll need to do this is a proper directory structure (plus you'll need the package description file), and the package manager will take care all the rest. Here is everything what you need to build the factorial example with SPM.</p><pre><code class="language-swift"><span class="comment">// swift-tools-version:4.0</span>
+</code></pre><p>Compile and run. 🔨 It just works. 🌟 Magic! 🌟</p><p>You can do the exact same thing to use Objective-C classes inside your Swift projects. Apple has great docs about this technique, you should read that if you want to know more about <a href="https://developer.apple.com/library/content/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html" target="_blank">mix and match</a>.</p><h2>Shipping C code with SPM</h2><p>The real fun begins when you start using the Swift Package Manager to build <a href="https://spin.atomicobject.com/2015/02/23/c-libraries-swift/" target="_blank">C family based sources</a>. From Swift 3.0 you can <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0038-swiftpm-c-language-targets.md" target="_blank">build C language targets with SPM</a>. If you don't know how to use the SPM tool, you should read my <a href="https://theswiftdev.com/2017/11/09/swift-package-manager-tutorial/">comprehensive tutorial about the Swift Package Manager</a> first.</p><p>The only thing that you'll need to do this is a proper directory structure (plus you'll need the package description file), and the package manager will take care all the rest. Here is everything what you need to build the factorial example with SPM.</p><pre><code class="language-swift"><span class="comment">// swift-tools-version:4.0</span>
 
 <span class="keyword">import</span> PackageDescription
 
@@ -154,7 +154,7 @@ long factorial(int n) {
 <section id="share" class="content-wrapper">
     <p>
     <a
-        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/how-to-call-c-code-from-swift"
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/how-to-call-c-code-from-swift"
         target="_blank"
     >
         Share this article on Twitter
@@ -170,7 +170,6 @@ long factorial(int n) {
         <div class="column right">
             <h3>Get the Practical Server Side Swift book</h3>
             <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <p><strong>Third edition is just: $39</strong></p>
             <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
         </div>
     </div>
@@ -179,7 +178,7 @@ long factorial(int n) {
 <section id="author" class="content-wrapper">
     <img 
         id="author-image"
-        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
         alt="Picture of Tibor Bödecs" 
         title="Tibor Bödecs"
     >
@@ -200,7 +199,7 @@ long factorial(int n) {
     <footer>
         <section class="content-wrapper">
             <img 
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -208,9 +207,9 @@ long factorial(int n) {
             <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
             
             <p> 
-                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
-                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
             </p>
             
             <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>

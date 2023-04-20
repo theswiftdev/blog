@@ -10,33 +10,33 @@
     
     <meta property="og:title" content="Event-driven generic hooks for Swift - The.Swift.Dev.">
     <meta property="og:description" content="In this article I am going to show you how to implement a basic event processing system for your modular Swift application.">
-    <meta property="og:url" content="https://theswiftdev.github.io/blog/event-driven-generic-hooks-for-swift">
-    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/event-driven-generic-hooks-for-swift/cover.jpg">
+    <meta property="og:url" content="https://theswiftdev.com/event-driven-generic-hooks-for-swift">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/event-driven-generic-hooks-for-swift/cover.jpg">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@tiborbodecs">
     <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="Event-driven generic hooks for Swift - The.Swift.Dev.">
     <meta name="twitter:description" content="In this article I am going to show you how to implement a basic event processing system for your modular Swift application.">
-    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/event-driven-generic-hooks-for-swift/cover.jpg">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/event-driven-generic-hooks-for-swift/cover.jpg">
     
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
     
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
     
 </head>
 
@@ -45,10 +45,10 @@
         📖
     </a>
     <header id="page-header">
-        <a href="https://theswiftdev.github.io/blog/">
+        <a href="https://theswiftdev.com/">
             <img 
                 id="logo-image"
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -70,7 +70,7 @@
             </div>
         </section>
         <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/event-driven-generic-hooks-for-swift/cover.jpg">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/event-driven-generic-hooks-for-swift/cover.jpg">
         </section>
     </header>
 
@@ -113,7 +113,7 @@ app.<span class="call">run</span>()</code></pre><p>It shows us the basics of the
 
 <span class="keyword">let</span> provider = <span class="type">MyNameProvider</span>()
 <span class="keyword">let</span> app = <span class="type">App</span>(provider: provider)
-app.<span class="call">run</span>()</code></pre><p>Oh no, this just made our entire codebase a bit harder to understand, also didn't really solved anything, because we still can't compile our application without the MyNameProvider dependency. That class must be part of the package no matter how many protocols we create. Of course we could move the NameProvider protocol into a standalone <a href="https://theswiftdev.com/swift-package-manager-tutorial/" target="_blank">Swift package</a>, then we could create another package for the protocol implementation that relies on that one, then use both as a dependency when we build our application, but hey isn't this getting a little bit complicated? 🤔</p><p>What did we gain here? First of all we overcomplicated a really simple thing. On the other hand, we eliminated an actual dependency from the App struct itself. That's a great thing, because now we could create a mock name provider and test our application instance with that, we can <a href="https://theswiftdev.com/swift-dependency-injection-design-pattern/" target="_blank">inject any kind of Swift object</a> into the app that conforms to the NameProvider protocol.</p><p>Can we change the provider at runtime? Well, yes, that's also possible we could define the provider as a variable and alter its value later on, but there's one thing that we can't solve with this approach.</p><p><strong>We can't move out the provider reference from the application itself.</strong> 😳</p><h2>Event-driven architecture</h2><p>The EDA design pattern allows us to create loosely coupled software components and services without forming an actual dependency between the participants. Consider the following alternative:</p><pre><code class="language-swift"><span class="keyword">struct</span> MyNameProvider {
+app.<span class="call">run</span>()</code></pre><p>Oh no, this just made our entire codebase a bit harder to understand, also didn't really solved anything, because we still can't compile our application without the MyNameProvider dependency. That class must be part of the package no matter how many protocols we create. Of course we could move the NameProvider protocol into a standalone <a href="https://theswiftdev.com/swift-package-manager-tutorial/">Swift package</a>, then we could create another package for the protocol implementation that relies on that one, then use both as a dependency when we build our application, but hey isn't this getting a little bit complicated? 🤔</p><p>What did we gain here? First of all we overcomplicated a really simple thing. On the other hand, we eliminated an actual dependency from the App struct itself. That's a great thing, because now we could create a mock name provider and test our application instance with that, we can <a href="https://theswiftdev.com/swift-dependency-injection-design-pattern/">inject any kind of Swift object</a> into the app that conforms to the NameProvider protocol.</p><p>Can we change the provider at runtime? Well, yes, that's also possible we could define the provider as a variable and alter its value later on, but there's one thing that we can't solve with this approach.</p><p><strong>We can't move out the provider reference from the application itself.</strong> 😳</p><h2>Event-driven architecture</h2><p>The EDA design pattern allows us to create loosely coupled software components and services without forming an actual dependency between the participants. Consider the following alternative:</p><pre><code class="language-swift"><span class="keyword">struct</span> MyNameProvider {
     <span class="keyword">func</span> getName(<span class="keyword">_</span>: <span class="type">HookArguments</span>) -&gt; <span class="type">String</span> { <span class="string">"John Doe"</span> }
 }
 
@@ -190,7 +190,7 @@ app.<span class="call">run</span>()</code></pre><p>Don't try to compile this yet
     <span class="keyword">public func</span> invokeAll&lt;ReturnType&gt;(<span class="keyword">_</span> name: <span class="type">String</span>, args: <span class="type">HookArguments</span> = [:]) -&gt; [<span class="type">ReturnType</span>] {
         pointers.<span class="call">filter</span> { $0.<span class="property">name</span> == name &amp;&amp; $0.<span class="property">returnType</span> == <span class="type">ReturnType</span>.<span class="keyword">self</span> }.compactMap { $0.<span class="property">pointer</span>.<span class="call">invoke</span>(args) <span class="keyword">as</span>? <span class="type">ReturnType</span> }
     }
-}</code></pre><p>I know, this seems like quite complicated at first sight, but when you start playing around with these methods it'll all make sense. I'm still not sure about the naming conventions, for example the HookStorage is also a global event storage so maybe it'd be better to call it something related to the event term. If you have a better idea, feel free to <a href="https://twitter.com/tiborbodecs" target="_blank">tweet me</a>.</p><p>Oh, I almost forgot that I wanted to show you how to register an anonymous hook function. 😅</p><pre><code class="language-swift">hooks.<span class="call">register</span>(<span class="string">"name-event"</span>) { <span class="keyword">_ in</span> <span class="string">"John Doe"</span> }</code></pre><p>That's it you don't event have to write the return type, the Swift compiler this time is smart enough to figure out the final function signature. This magic only works with one-liners I suppose... ✨</p><p>This article was a follow-up on <a href="https://theswiftdev.com/modules-and-hooks-in-swift/" target="_blank">the modules and hooks in Swift</a>, also heavily inspired by the my old Entropy framework, Drupal and the <a href="https://www.sitepoint.com/wordpress-hook-system/" target="_blank">Wordpress</a> hook systems. The code implementation idea comes from the <a href="https://github.com/vapor/vapor/tree/master/Sources/Vapor/Routing" target="_blank">Vapor's routing abstraction</a>, but it's slightly changed to match my needs.</p><p>The event-driven design approach is a very nice architecture and I really hope that we'll see the long term benefit of using this pattern inside <a href="https://github.com/binarybirds/feather/" target="_blank">Feather</a>. I can't wait to tell you more about it... 🪶</p>
+}</code></pre><p>I know, this seems like quite complicated at first sight, but when you start playing around with these methods it'll all make sense. I'm still not sure about the naming conventions, for example the HookStorage is also a global event storage so maybe it'd be better to call it something related to the event term. If you have a better idea, feel free to <a href="https://twitter.com/tiborbodecs" target="_blank">tweet me</a>.</p><p>Oh, I almost forgot that I wanted to show you how to register an anonymous hook function. 😅</p><pre><code class="language-swift">hooks.<span class="call">register</span>(<span class="string">"name-event"</span>) { <span class="keyword">_ in</span> <span class="string">"John Doe"</span> }</code></pre><p>That's it you don't event have to write the return type, the Swift compiler this time is smart enough to figure out the final function signature. This magic only works with one-liners I suppose... ✨</p><p>This article was a follow-up on <a href="https://theswiftdev.com/modules-and-hooks-in-swift/">the modules and hooks in Swift</a>, also heavily inspired by the my old Entropy framework, Drupal and the <a href="https://www.sitepoint.com/wordpress-hook-system/" target="_blank">Wordpress</a> hook systems. The code implementation idea comes from the <a href="https://github.com/vapor/vapor/tree/master/Sources/Vapor/Routing" target="_blank">Vapor's routing abstraction</a>, but it's slightly changed to match my needs.</p><p>The event-driven design approach is a very nice architecture and I really hope that we'll see the long term benefit of using this pattern inside <a href="https://github.com/binarybirds/feather/" target="_blank">Feather</a>. I can't wait to tell you more about it... 🪶</p>
         </section>
     </div>
 
@@ -199,7 +199,7 @@ app.<span class="call">run</span>()</code></pre><p>Don't try to compile this yet
 <section id="share" class="content-wrapper">
     <p>
     <a
-        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/event-driven-generic-hooks-for-swift"
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/event-driven-generic-hooks-for-swift"
         target="_blank"
     >
         Share this article on Twitter
@@ -215,7 +215,6 @@ app.<span class="call">run</span>()</code></pre><p>Don't try to compile this yet
         <div class="column right">
             <h3>Get the Practical Server Side Swift book</h3>
             <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <p><strong>Third edition is just: $39</strong></p>
             <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
         </div>
     </div>
@@ -224,7 +223,7 @@ app.<span class="call">run</span>()</code></pre><p>Don't try to compile this yet
 <section id="author" class="content-wrapper">
     <img 
         id="author-image"
-        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
         alt="Picture of Tibor Bödecs" 
         title="Tibor Bödecs"
     >
@@ -245,7 +244,7 @@ app.<span class="call">run</span>()</code></pre><p>Don't try to compile this yet
     <footer>
         <section class="content-wrapper">
             <img 
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -253,9 +252,9 @@ app.<span class="call">run</span>()</code></pre><p>Don't try to compile this yet
             <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
             
             <p> 
-                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
-                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
             </p>
             
             <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>

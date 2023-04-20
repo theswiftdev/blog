@@ -10,33 +10,33 @@
     
     <meta property="og:title" content="How to launch a macOS app at login? - The.Swift.Dev.">
     <meta property="og:description" content="In this tutorial I'll show you how to launch a completely sandboxed macOS application on system startup written in Swift.">
-    <meta property="og:url" content="https://theswiftdev.github.io/blog/how-to-launch-a-macos-app-at-login">
-    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/how-to-launch-a-macos-app-at-login/cover.jpg">
+    <meta property="og:url" content="https://theswiftdev.com/how-to-launch-a-macos-app-at-login">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/how-to-launch-a-macos-app-at-login/cover.jpg">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@tiborbodecs">
     <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="How to launch a macOS app at login? - The.Swift.Dev.">
     <meta name="twitter:description" content="In this tutorial I'll show you how to launch a completely sandboxed macOS application on system startup written in Swift.">
-    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/how-to-launch-a-macos-app-at-login/cover.jpg">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/how-to-launch-a-macos-app-at-login/cover.jpg">
     
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
     
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
     
 </head>
 
@@ -45,10 +45,10 @@
         📖
     </a>
     <header id="page-header">
-        <a href="https://theswiftdev.github.io/blog/">
+        <a href="https://theswiftdev.com/">
             <img 
                 id="logo-image"
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -69,7 +69,7 @@
             </div>
         </section>
         <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/how-to-launch-a-macos-app-at-login/cover.jpg">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/how-to-launch-a-macos-app-at-login/cover.jpg">
         </section>
     </header>
 
@@ -78,25 +78,25 @@
             <p class="warning">Update: you should simply add the <a href="https://github.com/sindresorhus/LaunchAtLogin" target="_blank">LaunchAtLogin</a> library to your project. It'll take care of everything and it has some other cool utility features.</p><h2>Project setup</h2><p>Let's start this tutorial by creating a new Xcode project with a macOS app template. Name it for example MainApplication, use storyboards and of course select Swift as the default language, we don't need tests for this project at all.</p><p>Now that we have the main application target, there is this nice little function available called <code>SMLoginItemSetEnabled</code>. With that function you can register an application bundle identifier to auto start when the user logs in, but you can not register your own app identifier. Sounds crazy, huh? 😜</p><p>You can register a bundle identifier embedded into your main application to get auto-launched by the system. To do this you will have to create a new launcher application which will be launched later by your main application.</p><p>You also have to code sign your application with your Developer ID, otherwise it won't start after you log in to macOS. <a href="http://blog.timschroeder.net/2012/07/03/the-launch-at-login-sandbox-project/" target="_blank">Sandboxing</a> is a crucial part of the process, so make sure that you follow every instruction carefully.</p><h2>Targets &amp; configurations</h2><p>Create a new target inside your current project. Name this new target for example LauncherApplication. Enable sandbox and code signing for both targets (main and launcher apps) under the Signing &amp; Capabilities tab. For the LauncherApplication target in the build settings set skip install to yes.</p></section><section class="wrapper">
 <figure>
     <picture>
-        <img class="post-image" src="https://theswiftdev.github.io/blog/images/assets/how-to-launch-a-macos-app-at-login/images/skip-install.png" alt="Skip install">
+        <img class="post-image" src="https://theswiftdev.com/images/assets/how-to-launch-a-macos-app-at-login/images/skip-install.png" alt="Skip install">
     </picture>
 </figure>
 </section><section class="content-wrapper"><p>For the launcher app add a new entry to the Info.plist file: Application is background only with the value: yes. This will set your application as a background app, we don't really need user interface for a launcher tool, right?</p></section><section class="wrapper">
 <figure>
     <picture>
-        <img class="post-image" src="https://theswiftdev.github.io/blog/images/assets/how-to-launch-a-macos-app-at-login/images/background-only.png" alt="Background only">
+        <img class="post-image" src="https://theswiftdev.com/images/assets/how-to-launch-a-macos-app-at-login/images/background-only.png" alt="Background only">
     </picture>
 </figure>
 </section><section class="content-wrapper"><p>Add a new copy file build phase to your main application target to copy your launcher application into the bundle. The destination should be wrapper and the subpath should be <code>Contents/Library/LoginItems</code>.</p></section><section class="wrapper">
 <figure>
     <picture>
-        <img class="post-image" src="https://theswiftdev.github.io/blog/images/assets/how-to-launch-a-macos-app-at-login/images/copy-files.png" alt="Copy files">
+        <img class="post-image" src="https://theswiftdev.com/images/assets/how-to-launch-a-macos-app-at-login/images/copy-files.png" alt="Copy files">
     </picture>
 </figure>
 </section><section class="content-wrapper"><p>Link the <code>ServiceManagement.framework</code> to your main application and double check that the launcher app is embedded into your main application.</p></section><section class="wrapper">
 <figure>
     <picture>
-        <img class="post-image" src="https://theswiftdev.github.io/blog/images/assets/how-to-launch-a-macos-app-at-login/images/frameworks.png" alt="Frameworks">
+        <img class="post-image" src="https://theswiftdev.com/images/assets/how-to-launch-a-macos-app-at-login/images/frameworks.png" alt="Frameworks">
     </picture>
 </figure>
 </section><section class="content-wrapper"><p>From the <code>LauncherApplication</code>'s storyboard file delete your window and your view controller, also you can remove the <code>ViewController.swift</code> file from this target. This is a background app after all, so we don't need these stupid things to lay around.</p><h2>Creating the launcher programmatically</h2><p>Somewhere in your main application you have to register your launcher application's identifier. When your main application starts you have to kill the launcher application if it's still running. You can do this by sending a notification to that specific app with the <code>NSDistributedNotificationCenter</code> class.</p><pre><code class="language-swift"><span class="keyword">import</span> Cocoa
@@ -186,7 +186,7 @@ class</span> AppDelegate: <span class="type">NSObject</span> {
 <section id="share" class="content-wrapper">
     <p>
     <a
-        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/how-to-launch-a-macos-app-at-login"
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/how-to-launch-a-macos-app-at-login"
         target="_blank"
     >
         Share this article on Twitter
@@ -202,7 +202,6 @@ class</span> AppDelegate: <span class="type">NSObject</span> {
         <div class="column right">
             <h3>Get the Practical Server Side Swift book</h3>
             <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <p><strong>Third edition is just: $39</strong></p>
             <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
         </div>
     </div>
@@ -211,7 +210,7 @@ class</span> AppDelegate: <span class="type">NSObject</span> {
 <section id="author" class="content-wrapper">
     <img 
         id="author-image"
-        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
         alt="Picture of Tibor Bödecs" 
         title="Tibor Bödecs"
     >
@@ -232,7 +231,7 @@ class</span> AppDelegate: <span class="type">NSObject</span> {
     <footer>
         <section class="content-wrapper">
             <img 
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -240,9 +239,9 @@ class</span> AppDelegate: <span class="type">NSObject</span> {
             <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
             
             <p> 
-                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
-                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
             </p>
             
             <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>

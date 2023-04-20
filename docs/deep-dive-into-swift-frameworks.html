@@ -10,33 +10,33 @@
     
     <meta property="og:title" content="Deep dive into Swift frameworks - The.Swift.Dev.">
     <meta property="og:description" content="Learn everything about Swift modules, libraries, packages, closed source frameworks, command line tools and more.">
-    <meta property="og:url" content="https://theswiftdev.github.io/blog/deep-dive-into-swift-frameworks">
-    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/deep-dive-into-swift-frameworks/cover.jpg">
+    <meta property="og:url" content="https://theswiftdev.com/deep-dive-into-swift-frameworks">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/deep-dive-into-swift-frameworks/cover.jpg">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@tiborbodecs">
     <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="Deep dive into Swift frameworks - The.Swift.Dev.">
     <meta name="twitter:description" content="Learn everything about Swift modules, libraries, packages, closed source frameworks, command line tools and more.">
-    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/deep-dive-into-swift-frameworks/cover.jpg">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/deep-dive-into-swift-frameworks/cover.jpg">
     
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
     
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
     
 </head>
 
@@ -45,10 +45,10 @@
         📖
     </a>
     <header id="page-header">
-        <a href="https://theswiftdev.github.io/blog/">
+        <a href="https://theswiftdev.com/">
             <img 
                 id="logo-image"
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -70,25 +70,25 @@
             </div>
         </section>
         <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/deep-dive-into-swift-frameworks/cover.jpg">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/deep-dive-into-swift-frameworks/cover.jpg">
         </section>
     </header>
 
     <div id="contents">
         <section class="content-wrapper">
-            <h2>Basic definitions</h2><p>First of all you should have a clear understanding about the basic terms. If you already know what's the difference between a module, package, <a href="http://www.knowstack.com/framework-vs-library-cocoa-ios/" target="_blank">library or framework</a> you can skip this section. However if you still have some mixed feelings about these things, please read ahead, you won't regret it. 😉</p><h3>Package</h3><p>A package consists of Swift source files and a manifest file.</p><p>A package is a collection of Swift source files. If you are using Swift Package Manager you also have to provide a manifest file in order to make a real package. If you want to learn more about this tool, you should check my <a href="https://theswiftdev.com/2017/11/09/swift-package-manager-tutorial/" target="_blank">Swift Package Manager tutorial</a>.</p><p>Example: this is your package:</p><pre><code>Sources
+            <h2>Basic definitions</h2><p>First of all you should have a clear understanding about the basic terms. If you already know what's the difference between a module, package, <a href="http://www.knowstack.com/framework-vs-library-cocoa-ios/" target="_blank">library or framework</a> you can skip this section. However if you still have some mixed feelings about these things, please read ahead, you won't regret it. 😉</p><h3>Package</h3><p>A package consists of Swift source files and a manifest file.</p><p>A package is a collection of Swift source files. If you are using Swift Package Manager you also have to provide a manifest file in order to make a real package. If you want to learn more about this tool, you should check my <a href="https://theswiftdev.com/2017/11/09/swift-package-manager-tutorial/">Swift Package Manager tutorial</a>.</p><p>Example: this is your package:</p><pre><code>Sources
     my-source-file.swift
 Package.swift
 </code></pre><p>You can also check out the open sourced <a href="https://github.com/apple/swift-corelibs-foundation" target="_blank">swift-corelibs-foundation</a> package by Apple, which is used to build the Foundation framework for Swift.</p><h3>Library</h3><p>Library is a packaged collection of <a href="http://nickdesaulniers.github.io/blog/2016/08/13/object-files-and-symbols/" target="_blank">object files</a> that program can <a href="http://dn.embarcadero.com/article/29930" target="_blank">link against</a>.</p><p>So a library is a bunch of compiled code. You can create <a href="https://pewpewthespells.com/blog/static_and_dynamic_libraries.html" target="_blank">two kinds of libraries</a>:</p><ul><li>static</li><li>dynamic</li></ul><p>From a really simple perspective the only difference between them is the method of "integrating" aka. linking them into your project. Before I tell you more about this process, first we should talk about <a href="https://www.mikeash.com/pyblog/friday-qa-2011-12-02-object-file-inspection-tools.html" target="_blank">object files</a>.</p><h3>Mach-O file format</h3><p>To create programs, developers convert source code to object files. The object files are then packaged into executable code or static libraries.</p><p>When you're compiling the source files you are basically making object files, using the <a href="https://lowlevelbits.org/parsing-mach-o-files/" target="_blank">Mach-O</a> (MachObject) file format. <a href="https://developer.apple.com/library/content/documentation/DeveloperTools/Conceptual/MachOTopics/1-Articles/building_files.html" target="_blank">These files</a> are the core building blocks of your applications, frameworks, and libraries (both dynamic and static).</p><h3>Linking libraries</h3><p>Linking refers to the creation of a single executable file from multiple object files.</p><p>In other words:</p><p>After the compiler has created all the object files, another program is called to bundle them into an executable program file. That program is called a linker and the process of bundling them into the executable is called linking.</p><p>Linking is just combining all your object files into an executable and resolving all the externals, so the system will be able to call all the functions inside the binary.</p><h3>Static linking</h3><p>The source code of the library is literally going to be copied into the application's source. This will result in a big executable, it'll take more time to load, so the binary will have a slower startup time. Oh, did I mention that if you are trying to link the same library more than once, the process will fail because of duplicated symbols?</p></section><section class="wrapper">
 <figure>
     <picture>
-        <img class="post-image" src="https://theswiftdev.github.io/blog/images/assets/deep-dive-into-swift-frameworks/images/static-linking.png" alt="Static linking">
+        <img class="post-image" src="https://theswiftdev.com/images/assets/deep-dive-into-swift-frameworks/images/static-linking.png" alt="Static linking">
     </picture>
 </figure>
 </section><section class="content-wrapper"><p>This method has advantages as well, for example the executable will always contain the correct version of the library, and only those parts will be copied into the main application that are really used, so you don't have to load the whole stuff, but it seems like dynamic linking is going to be better in some cases.</p><h3>Dynamic linking</h3><p>Dynamic libraries are not embedded into the source of the binary, they are loaded at runtime. This means that apps can be smaller and startup time can significantly be faster because of the lightweight binary files. As a gratis dynamic libraries can be shared with multiple executables so they can have lower memory footprints. That's why sometimes they're being referred as shared libraries.</p></section><section class="wrapper">
 <figure>
     <picture>
-        <img class="post-image" src="https://theswiftdev.github.io/blog/images/assets/deep-dive-into-swift-frameworks/images/dynamic-linking.png" alt="Dynamic linking">
+        <img class="post-image" src="https://theswiftdev.com/images/assets/deep-dive-into-swift-frameworks/images/dynamic-linking.png" alt="Dynamic linking">
     </picture>
 </figure>
 </section><section class="content-wrapper"><p>Of course if the dynamic library is not available - or it's available but their version is incompatible - your application won't run or it'll crash. On the other hand this can be an advantage, because the author of the dynamic library can ship fixes and your app can benefit from these, without recompilation.</p><blockquote><p>Fortunately system libraries like UIKit are always available, so you don't have to worry too much about this issue...</p></blockquote><h3>Framework</h3><p>A framework is a hierarchical directory that encapsulates shared resources, such as a dynamic shared library, nib files, image files, localized strings, header files, and reference documentation in a single package.</p><p>So let's make this simple: frameworks are <a href="https://speakerdeck.com/marius/static-vs-dynamic-linking" target="_blank">static or dynamic</a> libraries packed into a bundle with some extra assets, meta description for versioning and more. UIKit is a framework which needs image assets to display some of the UI elements, also it has a version description, by the way the version of UIKit is the same as the version of iOS.</p><h3>Module</h3><p>Swift organizes code into <a href="https://gist.github.com/briancroom/5d0f1b966fa9ef0ae4950e97f9d76f77" target="_blank">modules</a>. Each module specifies a namespace and enforces access controls on which parts of that code can be used outside of the module.</p><p>With the <a href="https://stackoverflow.com/questions/18947516/import-vs-import-ios-7" target="_blank">import keyword</a> you are literally importing external modules into your sorce. In Swift you are always using frameworks as modules, but let's go back in time for a while to understand why we needed modules at all.</p><pre><code class="language-swift"><span class="keyword">import</span> UIKit
@@ -162,7 +162,7 @@ fi
 </code></pre><h3>Usage</h3><p>You just have to embed your brand new framework into the project that you'd like to use and set some <a href="http://www.dribin.org/dave/blog/archives/2009/11/15/rpath/" target="_blank">paths</a>. That's it. Almost...</p></section><section class="wrapper">
 <figure>
     <picture>
-        <img class="post-image" src="https://theswiftdev.github.io/blog/images/assets/deep-dive-into-swift-frameworks/images/build-settings.png" alt="Build settings">
+        <img class="post-image" src="https://theswiftdev.com/images/assets/deep-dive-into-swift-frameworks/images/build-settings.png" alt="Build settings">
     </picture>
 </figure>
 </section><section class="content-wrapper"><h3>Shipping to the App Store</h3><p>There is only one issue with fat architectures. They contain slices for the simulator as well. If you want to submit your app to the app store, you have to cut off the simulator related codebase from the framework. The reason behind this is that no actual real device requires this chunk of code, so why submit it, right?</p><pre><code>APP_PATH="${TARGET_BUILD_DIR}/${WRAPPER_NAME}"
@@ -201,7 +201,7 @@ done
 <section id="share" class="content-wrapper">
     <p>
     <a
-        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/deep-dive-into-swift-frameworks"
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/deep-dive-into-swift-frameworks"
         target="_blank"
     >
         Share this article on Twitter
@@ -217,7 +217,6 @@ done
         <div class="column right">
             <h3>Get the Practical Server Side Swift book</h3>
             <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <p><strong>Third edition is just: $39</strong></p>
             <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
         </div>
     </div>
@@ -226,7 +225,7 @@ done
 <section id="author" class="content-wrapper">
     <img 
         id="author-image"
-        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
         alt="Picture of Tibor Bödecs" 
         title="Tibor Bödecs"
     >
@@ -247,7 +246,7 @@ done
     <footer>
         <section class="content-wrapper">
             <img 
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -255,9 +254,9 @@ done
             <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
             
             <p> 
-                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
-                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
             </p>
             
             <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>

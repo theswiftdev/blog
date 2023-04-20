@@ -10,33 +10,33 @@
     
     <meta property="og:title" content="How to use middlewares in Vapor 4? - The.Swift.Dev.">
     <meta property="og:description" content="Learn how to create middlewares for a Vapor based server side Swift application to handle common routing functionalities.">
-    <meta property="og:url" content="https://theswiftdev.github.io/blog/how-to-use-middlewares-in-vapor-4">
-    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/how-to-use-middlewares-in-vapor-4/cover.jpg">
+    <meta property="og:url" content="https://theswiftdev.com/how-to-use-middlewares-in-vapor-4">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/how-to-use-middlewares-in-vapor-4/cover.jpg">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@tiborbodecs">
     <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="How to use middlewares in Vapor 4? - The.Swift.Dev.">
     <meta name="twitter:description" content="Learn how to create middlewares for a Vapor based server side Swift application to handle common routing functionalities.">
-    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/how-to-use-middlewares-in-vapor-4/cover.jpg">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/how-to-use-middlewares-in-vapor-4/cover.jpg">
     
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
     
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
     
 </head>
 
@@ -45,10 +45,10 @@
         📖
     </a>
     <header id="page-header">
-        <a href="https://theswiftdev.github.io/blog/">
+        <a href="https://theswiftdev.com/">
             <img 
                 id="logo-image"
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -68,7 +68,7 @@
             </div>
         </section>
         <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/how-to-use-middlewares-in-vapor-4/cover.jpg">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/how-to-use-middlewares-in-vapor-4/cover.jpg">
         </section>
     </header>
 
@@ -110,7 +110,7 @@ middlewareRoutes.<span class="call">get</span>(<span class="string">"hello"</spa
     <span class="comment">// ...</span>
 
     app.<span class="property">middleware</span>.<span class="call">use</span>(<span class="type">FileMiddleware</span>(publicDirectory: app.<span class="property">directory</span>.<span class="property">publicDirectory</span>))
-}</code></pre><p>You can configure the path of your resources by passing the <code>publicDirectory</code> input parameter.</p><h3>CORS middleware</h3><p>In short, <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing" target="_blank">CORS</a> allows you to share resources between multiple domains.</p><blockquote><p>Cross-origin resource sharing (CORS) is a mechanism that allows restricted resources on a web page to be requested from another domain outside the domain from which the first resource was served.</p></blockquote><p>This comes handy if you are <a href="https://theswiftdev.com/how-to-create-your-first-website-using-vapor-4-and-leaf/" target="_blank">developing frontend apps by using Leaf &amp; Vapor</a>. This middleware will replace or add the necessary CORS headerss to the response. You can use the default config or initialize a custom one, here is the Swift code for using the CORS middleware:</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+}</code></pre><p>You can configure the path of your resources by passing the <code>publicDirectory</code> input parameter.</p><h3>CORS middleware</h3><p>In short, <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing" target="_blank">CORS</a> allows you to share resources between multiple domains.</p><blockquote><p>Cross-origin resource sharing (CORS) is a mechanism that allows restricted resources on a web page to be requested from another domain outside the domain from which the first resource was served.</p></blockquote><p>This comes handy if you are <a href="https://theswiftdev.com/how-to-create-your-first-website-using-vapor-4-and-leaf/">developing frontend apps by using Leaf &amp; Vapor</a>. This middleware will replace or add the necessary CORS headerss to the response. You can use the default config or initialize a custom one, here is the Swift code for using the CORS middleware:</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
 
 <span class="keyword">public func</span> configure(<span class="keyword">_</span> app: <span class="type">Application</span>) <span class="keyword">throws</span> {
     <span class="comment">// ...
@@ -136,7 +136,7 @@ middlewareRoutes.<span class="call">get</span>(<span class="string">"hello"</spa
         <span class="comment">// implement custom response...</span>
         .<span class="keyword">init</span>(status: .<span class="dotAccess">internalServerError</span>, version: req.<span class="property">version</span>, headers: .<span class="keyword">init</span>(), body: .<span class="dotAccess">empty</span>)
     })
-}</code></pre><p>If you are developing an API service, this middleware is kind of an essential component. 💥</p><h3>Auth related middlewares</h3><p>The <code>Authenticator</code> protocol conforms to the <code>Middleware</code> protocol, so we can register anything that implements any of the Authenticator protocols. You can read more about how the auth layer works in Vapor 4 from my <a href="https://theswiftdev.com/all-about-authentication-in-vapor-4/" target="_blank">authentication tutorial</a>.</p><p>The <code>Authenticatable</code> protocol has two static methods, they returns middlewares too. The first one is the guard middleware, which will throw an error if the user is not logged in. The second one is the redirect middleware, that redirects unauthenticated requests to the supplied path.</p><pre><code class="language-swift"><span class="comment">// The UserModelAuthenticator is an Authenticator</span>
+}</code></pre><p>If you are developing an API service, this middleware is kind of an essential component. 💥</p><h3>Auth related middlewares</h3><p>The <code>Authenticator</code> protocol conforms to the <code>Middleware</code> protocol, so we can register anything that implements any of the Authenticator protocols. You can read more about how the auth layer works in Vapor 4 from my <a href="https://theswiftdev.com/all-about-authentication-in-vapor-4/">authentication tutorial</a>.</p><p>The <code>Authenticatable</code> protocol has two static methods, they returns middlewares too. The first one is the guard middleware, which will throw an error if the user is not logged in. The second one is the redirect middleware, that redirects unauthenticated requests to the supplied path.</p><pre><code class="language-swift"><span class="comment">// The UserModelAuthenticator is an Authenticator</span>
 app.<span class="property">routes</span>.<span class="call">grouped</span>(<span class="type">UserModelAuthenticator</span>())
 
 <span class="comment">// The UserModel object is Authenticatable</span>
@@ -152,7 +152,7 @@ app.<span class="property">routes</span>.<span class="call">grouped</span>([
 <section id="share" class="content-wrapper">
     <p>
     <a
-        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/how-to-use-middlewares-in-vapor-4"
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/how-to-use-middlewares-in-vapor-4"
         target="_blank"
     >
         Share this article on Twitter
@@ -168,7 +168,6 @@ app.<span class="property">routes</span>.<span class="call">grouped</span>([
         <div class="column right">
             <h3>Get the Practical Server Side Swift book</h3>
             <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <p><strong>Third edition is just: $39</strong></p>
             <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
         </div>
     </div>
@@ -177,7 +176,7 @@ app.<span class="property">routes</span>.<span class="call">grouped</span>([
 <section id="author" class="content-wrapper">
     <img 
         id="author-image"
-        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
         alt="Picture of Tibor Bödecs" 
         title="Tibor Bödecs"
     >
@@ -198,7 +197,7 @@ app.<span class="property">routes</span>.<span class="call">grouped</span>([
     <footer>
         <section class="content-wrapper">
             <img 
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -206,9 +205,9 @@ app.<span class="property">routes</span>.<span class="call">grouped</span>([
             <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
             
             <p> 
-                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
-                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
             </p>
             
             <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>

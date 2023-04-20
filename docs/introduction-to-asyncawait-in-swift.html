@@ -10,33 +10,33 @@
     
     <meta property="og:title" content="Introduction to async/await in Swift - The.Swift.Dev.">
     <meta property="og:description" content="Beginners guide to the new async/await API's in Swift 5.5. Interacting with sync code, structured concurrency, async let.">
-    <meta property="og:url" content="https://theswiftdev.github.io/blog/introduction-to-asyncawait-in-swift">
-    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/introduction-to-asyncawait-in-swift/cover.jpg">
+    <meta property="og:url" content="https://theswiftdev.com/introduction-to-asyncawait-in-swift">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/introduction-to-asyncawait-in-swift/cover.jpg">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@tiborbodecs">
     <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="Introduction to async/await in Swift - The.Swift.Dev.">
     <meta name="twitter:description" content="Beginners guide to the new async/await API's in Swift 5.5. Interacting with sync code, structured concurrency, async let.">
-    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/introduction-to-asyncawait-in-swift/cover.jpg">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/introduction-to-asyncawait-in-swift/cover.jpg">
     
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
     
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
     
 </head>
 
@@ -45,10 +45,10 @@
         📖
     </a>
     <header id="page-header">
-        <a href="https://theswiftdev.github.io/blog/">
+        <a href="https://theswiftdev.com/">
             <img 
                 id="logo-image"
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -69,13 +69,13 @@
             </div>
         </section>
         <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/introduction-to-asyncawait-in-swift/cover.jpg">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/introduction-to-asyncawait-in-swift/cover.jpg">
         </section>
     </header>
 
     <div id="contents">
         <section class="content-wrapper">
-            <h2>The main project</h2><p>Swift 5.5 contains a lot of new features, most of them is all about "a better concurrency model" for the language. The very first step into this new asynchronous world is a proper <a href="https://github.com/apple/swift-evolution/blob/main/proposals/0296-async-await.md" target="_blank">async/await</a> system.</p><p>Of course you can still use regular completion blocks or <a href="https://theswiftdev.com/ultimate-grand-central-dispatch-tutorial-in-swift/" target="_blank">the Dispatch framework</a> to write async code, but seems like the future of Swift involves a native approach to handle concurrent tasks even better. There is combine as well, but that's only available for Apple platforms, so yeah... 🥲</p><p>Let me show you how to convert your old callback &amp; result type based Swift code into a shiny new async/await supported API. First we are going to create our experimental async SPM project.</p><pre><code class="language-swift"><span class="comment">// swift-tools-version:5.4</span>
+            <h2>The main project</h2><p>Swift 5.5 contains a lot of new features, most of them is all about "a better concurrency model" for the language. The very first step into this new asynchronous world is a proper <a href="https://github.com/apple/swift-evolution/blob/main/proposals/0296-async-await.md" target="_blank">async/await</a> system.</p><p>Of course you can still use regular completion blocks or <a href="https://theswiftdev.com/ultimate-grand-central-dispatch-tutorial-in-swift/">the Dispatch framework</a> to write async code, but seems like the future of Swift involves a native approach to handle concurrent tasks even better. There is combine as well, but that's only available for Apple platforms, so yeah... 🥲</p><p>Let me show you how to convert your old callback &amp; result type based Swift code into a shiny new async/await supported API. First we are going to create our experimental async SPM project.</p><pre><code class="language-swift"><span class="comment">// swift-tools-version:5.4</span>
 <span class="keyword">import</span> PackageDescription
 
 <span class="keyword">let</span> package = <span class="type">Package</span>(
@@ -104,7 +104,7 @@ struct</span> MyProgram {
     <span class="keyword">static func</span> main() {
         <span class="call">print</span>(<span class="string">"Hello, world!"</span>)
     }
-}</code></pre><p>Now that we have a clean main entry point, we should add some standard URLSession related functionality that we are going to replace with new async/await calls as we refactor the code.</p><p>We're going call our usual sample todo service and validate our HTTP response. To get more specific details of a possible error, we can use a simple <code>HTTP.Error</code> object, and of course because the dataTask API returns immediately we have to use the <code>dispatchMain()</code> call to wait for the asynchronous HTTP call. Finally we simply switch the <a href="https://theswiftdev.com/how-to-use-the-result-type-to-handle-errors-in-swift/" target="_blank">result type</a> and exit if needed. ⏳</p><pre><code class="language-swift"><span class="keyword">import</span> Foundation
+}</code></pre><p>Now that we have a clean main entry point, we should add some standard URLSession related functionality that we are going to replace with new async/await calls as we refactor the code.</p><p>We're going call our usual sample todo service and validate our HTTP response. To get more specific details of a possible error, we can use a simple <code>HTTP.Error</code> object, and of course because the dataTask API returns immediately we have to use the <code>dispatchMain()</code> call to wait for the asynchronous HTTP call. Finally we simply switch the <a href="https://theswiftdev.com/how-to-use-the-result-type-to-handle-errors-in-swift/">result type</a> and exit if needed. ⏳</p><pre><code class="language-swift"><span class="keyword">import</span> Foundation
 
 <span class="keyword">enum</span> HTTP {
     <span class="keyword">enum</span> Error: <span class="type">LocalizedError</span> {
@@ -164,7 +164,7 @@ struct</span> MyProgram {
         }
         <span class="call">dispatchMain</span>()
     }
-}</code></pre><p>If you remember I already showed you <a href="https://theswiftdev.com/urlsession-and-the-combine-framework/" target="_blank">the Combine version of this URLSession data task</a> call a while back, but as I mentioned this Combine is not only available for iOS, macOS, tvOS and watchOS.</p><h2>Async/await and unsafe continuation</h2><p>So how do we convert our existing code into an async variant? Well, the good news is that there is a method called <code>withUnsafeContinuation</code> that you can use to wrap existing completion block based calls to produce async versions of your functions. The quick and dirty solution is this:</p><pre><code class="language-swift"><span class="keyword">import</span> Foundation
+}</code></pre><p>If you remember I already showed you <a href="https://theswiftdev.com/urlsession-and-the-combine-framework/">the Combine version of this URLSession data task</a> call a while back, but as I mentioned this Combine is not only available for iOS, macOS, tvOS and watchOS.</p><h2>Async/await and unsafe continuation</h2><p>So how do we convert our existing code into an async variant? Well, the good news is that there is a method called <code>withUnsafeContinuation</code> that you can use to wrap existing completion block based calls to produce async versions of your functions. The quick and dirty solution is this:</p><pre><code class="language-swift"><span class="keyword">import</span> Foundation
 
 <span class="comment">// ...</span> 
 
@@ -293,7 +293,7 @@ Program ended with exit code: 0
 <section id="share" class="content-wrapper">
     <p>
     <a
-        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/introduction-to-asyncawait-in-swift"
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/introduction-to-asyncawait-in-swift"
         target="_blank"
     >
         Share this article on Twitter
@@ -309,7 +309,6 @@ Program ended with exit code: 0
         <div class="column right">
             <h3>Get the Practical Server Side Swift book</h3>
             <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <p><strong>Third edition is just: $39</strong></p>
             <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
         </div>
     </div>
@@ -318,7 +317,7 @@ Program ended with exit code: 0
 <section id="author" class="content-wrapper">
     <img 
         id="author-image"
-        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
         alt="Picture of Tibor Bödecs" 
         title="Tibor Bödecs"
     >
@@ -339,7 +338,7 @@ Program ended with exit code: 0
     <footer>
         <section class="content-wrapper">
             <img 
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -347,9 +346,9 @@ Program ended with exit code: 0
             <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
             
             <p> 
-                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
-                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
             </p>
             
             <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>

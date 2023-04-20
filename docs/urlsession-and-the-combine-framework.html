@@ -10,33 +10,33 @@
     
     <meta property="og:title" content="URLSession and the Combine framework - The.Swift.Dev.">
     <meta property="og:description" content="Learn how to make HTTP requests and parse the response using the brand new Combine framework with foundation networking.">
-    <meta property="og:url" content="https://theswiftdev.github.io/blog/urlsession-and-the-combine-framework">
-    <meta property="og:image" content="https://theswiftdev.github.io/blog/images/assets/urlsession-and-the-combine-framework/cover.jpg">
+    <meta property="og:url" content="https://theswiftdev.com/urlsession-and-the-combine-framework">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/urlsession-and-the-combine-framework/cover.jpg">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@tiborbodecs">
     <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="URLSession and the Combine framework - The.Swift.Dev.">
     <meta name="twitter:description" content="Learn how to make HTTP requests and parse the response using the brand new Combine framework with foundation networking.">
-    <meta name="twitter:image" content="https://theswiftdev.github.io/blog/images/assets/urlsession-and-the-combine-framework/cover.jpg">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/urlsession-and-the-combine-framework/cover.jpg">
     
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.github.io/blog/css/syntax.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
     
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.github.io/blog/images/icons/icon.svg">
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.github.io/blog/images/icons/icon-320.png" type="image/png">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.github.io/blog/images/icons/apple-touch-icon-180x180.png">
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
     
 </head>
 
@@ -45,10 +45,10 @@
         📖
     </a>
     <header id="page-header">
-        <a href="https://theswiftdev.github.io/blog/">
+        <a href="https://theswiftdev.com/">
             <img 
                 id="logo-image"
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -69,7 +69,7 @@
             </div>
         </section>
         <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.github.io/blog/images/assets/urlsession-and-the-combine-framework/cover.jpg">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/urlsession-and-the-combine-framework/cover.jpg">
         </section>
     </header>
 
@@ -94,7 +94,7 @@
     <span class="keyword">let</span> title: <span class="type">String</span>
     <span class="keyword">let</span> completed: <span class="type">Bool</span>
     <span class="keyword">let</span> userId: <span class="type">Int</span>
-}</code></pre><p>Nothing special so far, just some basic Codable elements, and a simple error, because hell yeah, we want to show some error if something fails. ❌</p><h2>The traditional way</h2><p>Doing an HTTP request in Swift is pretty easy, you can use the built-in shared <a href="https://developer.apple.com/documentation/foundation/urlsession" target="_blank">URLSession</a> with a simple data task, and voilá there's your response. Of course you might want to check for valid status code and if everything is fine, you can <a href="https://theswiftdev.com/2018/01/29/how-to-parse-json-in-swift-using-codable-protocol/" target="_blank">parse your response JSON</a> by using the <a href="https://developer.apple.com/documentation/foundation/jsondecoder" target="_blank">JSONDecoder</a> object from Foundation.</p><pre><code class="language-swift"><span class="comment">//somewhere in viewDidLoad</span>
+}</code></pre><p>Nothing special so far, just some basic Codable elements, and a simple error, because hell yeah, we want to show some error if something fails. ❌</p><h2>The traditional way</h2><p>Doing an HTTP request in Swift is pretty easy, you can use the built-in shared <a href="https://developer.apple.com/documentation/foundation/urlsession" target="_blank">URLSession</a> with a simple data task, and voilá there's your response. Of course you might want to check for valid status code and if everything is fine, you can <a href="https://theswiftdev.com/2018/01/29/how-to-parse-json-in-swift-using-codable-protocol/">parse your response JSON</a> by using the <a href="https://developer.apple.com/documentation/foundation/jsondecoder" target="_blank">JSONDecoder</a> object from Foundation.</p><pre><code class="language-swift"><span class="comment">//somewhere in viewDidLoad</span>
 <span class="keyword">let</span> url = <span class="type">URL</span>(string: <span class="string">"https://jsonplaceholder.typicode.com/posts"</span>)!
 
 <span class="keyword">let</span> task = <span class="type">URLSession</span>.<span class="property">shared</span>.<span class="call">dataTask</span>(with: url) { data, response, error <span class="keyword">in
@@ -222,7 +222,7 @@ task.<span class="call">resume</span>()</code></pre><p>Don't forget to resume yo
         .<span class="call">map</span> { $0.<span class="property">data</span> }
         .<span class="call">decode</span>(type: <span class="type">Post</span>.<span class="keyword">self</span>, decoder: <span class="type">JSONDecoder</span>())
         .<span class="call">eraseToAnyPublisher</span>()
-}</code></pre><p>The trick here is that you can flatMap a publisher into another.</p><h2>Conclusion</h2><p>Combine is an amazing framework, it can do a lot, but it definitely has some learning curve. Sadly you can only use it if you are targeting iOS13 or above (this means that you have one whole year to learn every single bit of the framework) so think twice before adopting this new technology.</p><p>You should also note that currently there is no <a href="https://theswiftdev.com/2020/01/28/how-to-download-files-with-urlsession-using-combine-publishers-and-subscribers/" target="_blank">upload and download task publisher</a>, but you can make your very own solution until Apple officially releases something. Fingers crossed. 🤞</p><p>I really love how Apple implemented some concepts of reactive programming, I can't wait for Combine to arrive as an open source package with Linux support as well. ❤️</p>
+}</code></pre><p>The trick here is that you can flatMap a publisher into another.</p><h2>Conclusion</h2><p>Combine is an amazing framework, it can do a lot, but it definitely has some learning curve. Sadly you can only use it if you are targeting iOS13 or above (this means that you have one whole year to learn every single bit of the framework) so think twice before adopting this new technology.</p><p>You should also note that currently there is no <a href="https://theswiftdev.com/2020/01/28/how-to-download-files-with-urlsession-using-combine-publishers-and-subscribers/">upload and download task publisher</a>, but you can make your very own solution until Apple officially releases something. Fingers crossed. 🤞</p><p>I really love how Apple implemented some concepts of reactive programming, I can't wait for Combine to arrive as an open source package with Linux support as well. ❤️</p>
         </section>
     </div>
 
@@ -231,7 +231,7 @@ task.<span class="call">resume</span>()</code></pre><p>Don't forget to resume yo
 <section id="share" class="content-wrapper">
     <p>
     <a
-        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.github.io/blog/urlsession-and-the-combine-framework"
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/urlsession-and-the-combine-framework"
         target="_blank"
     >
         Share this article on Twitter
@@ -247,7 +247,6 @@ task.<span class="call">resume</span>()</code></pre><p>Don't forget to resume yo
         <div class="column right">
             <h3>Get the Practical Server Side Swift book</h3>
             <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <p><strong>Third edition is just: $39</strong></p>
             <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
         </div>
     </div>
@@ -256,7 +255,7 @@ task.<span class="call">resume</span>()</code></pre><p>Don't forget to resume yo
 <section id="author" class="content-wrapper">
     <img 
         id="author-image"
-        src="https://theswiftdev.github.io/blog/images/profiles/tiborbodecs.jpg"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
         alt="Picture of Tibor Bödecs" 
         title="Tibor Bödecs"
     >
@@ -277,7 +276,7 @@ task.<span class="call">resume</span>()</code></pre><p>Don't forget to resume yo
     <footer>
         <section class="content-wrapper">
             <img 
-                src="https://theswiftdev.github.io/blog/images/icons/icon-320.png"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
                 alt="Logo of The.Swift.Dev." 
                 title="The.Swift.Dev."
             >
@@ -285,9 +284,9 @@ task.<span class="call">resume</span>()</code></pre><p>Don't forget to resume yo
             <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
             
             <p> 
-                <a href="https://theswiftdev.github.io/blog/">Home</a> ·
-                <a href="https://theswiftdev.github.io/blog/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.github.io/blog/sitemap.xml" target="_blank">Sitemap</a>
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
             </p>
             
             <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>

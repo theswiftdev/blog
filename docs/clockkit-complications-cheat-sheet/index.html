@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>ClockKit complications cheatsheet - The.Swift.Dev.</title>
+    
+    <meta name="description" content="ClockKit families and templates, there are so many of them. It's a little bit time consuming if you are looking for the right one.">
+    
+    <meta property="og:title" content="ClockKit complications cheatsheet - The.Swift.Dev.">
+    <meta property="og:description" content="ClockKit families and templates, there are so many of them. It's a little bit time consuming if you are looking for the right one.">
+    <meta property="og:url" content="https://theswiftdev.com/clockkit-complications-cheat-sheet/">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/clockkit-complications-cheat-sheet/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="ClockKit complications cheatsheet - The.Swift.Dev.">
+    <meta name="twitter:description" content="ClockKit families and templates, there are so many of them. It's a little bit time consuming if you are looking for the right one.">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/clockkit-complications-cheat-sheet/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.com/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2016/04/28">2016/04/28</time>
+            <h1 class="title">ClockKit complications cheatsheet</h1>
+            <p class="excerpt">ClockKit families and templates, there are so many of them. It's a little bit time consuming if you are looking for the right one.</p>
+            <div class="meta">
+                <span class="tag">watchOS</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/clockkit-complications-cheat-sheet/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <p>The official ClockKit documentation on Apple's site is well written, but it lacks a generic overview of all the existing complications. I've created a little cheatsheet for you to simplify the searching process for the right complication style.</p><p>This cheatsheet supports watchOS 5. In order to get the template name you just have to add up the names in the proper order. Usually left to right, top to bottom. Don't worry you'll get it. 😅</p><p>Swift sample code is below the cheatsheet, please scroll! 👇</p></section><section class="wrapper">
+<figure>
+    <picture>
+        <img class="post-image" src="https://theswiftdev.com/images/assets/clockkit-complications-cheat-sheet/images/clockkit-cheatsheet.jpg" alt="ClockKit cheatsheet">
+    </picture>
+</figure>
+</section><section class="content-wrapper"><p>Feel free to right click and download the cheatsheet image.</p><p>ClockKit code sample in Swift This little snippet contains all the ClockKit complication families and templates. 😎</p><pre><code class="language-swift"><span class="keyword">import</span> ClockKit
+
+<span class="keyword">class</span> ComplicationDataSource: <span class="type">NSObject</span>, <span class="type">CLKComplicationDataSource</span> {
+
+    <span class="keyword">func</span> getSupportedTimeTravelDirections(
+        for complication: <span class="type">CLKComplication</span>,
+        withHandler handler: <span class="keyword">@escaping</span> (<span class="type">CLKComplicationTimeTravelDirections</span>
+    ) -&gt; <span class="type">Void</span>) {
+        <span class="call">handler</span>([.<span class="dotAccess">forward</span>, .<span class="dotAccess">backward</span>])
+    }
+
+    <span class="keyword">func</span> getCurrentTimelineEntry(
+        for complication: <span class="type">CLKComplication</span>,
+        withHandler handler: <span class="keyword">@escaping</span> (<span class="type">CLKComplicationTimelineEntry</span>?) -&gt; <span class="type">Void</span>
+    ) {
+        <span class="keyword">let</span> date = <span class="type">Date</span>()
+        <span class="keyword">var</span> template: <span class="type">CLKComplicationTemplate</span>!
+
+        <span class="keyword">switch</span> complication.<span class="property">family</span> {
+        <span class="keyword">case</span> .<span class="dotAccess">circularSmall</span>:
+            template = <span class="type">CLKComplicationTemplateCircularSmallStackText</span>()
+            template = <span class="type">CLKComplicationTemplateCircularSmallStackImage</span>()
+
+            template = <span class="type">CLKComplicationTemplateCircularSmallSimpleText</span>()
+            template = <span class="type">CLKComplicationTemplateCircularSmallSimpleImage</span>()
+
+            template = <span class="type">CLKComplicationTemplateCircularSmallRingText</span>()
+            template = <span class="type">CLKComplicationTemplateCircularSmallRingImage</span>()
+
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> .<span class="dotAccess">extraLarge</span>:
+            template = <span class="type">CLKComplicationTemplateExtraLargeStackText</span>()
+            template = <span class="type">CLKComplicationTemplateExtraLargeStackImage</span>()
+
+            template = <span class="type">CLKComplicationTemplateExtraLargeSimpleText</span>()
+            template = <span class="type">CLKComplicationTemplateExtraLargeSimpleImage</span>()
+
+            template = <span class="type">CLKComplicationTemplateExtraLargeRingText</span>()
+            template = <span class="type">CLKComplicationTemplateExtraLargeRingImage</span>()
+
+            template = <span class="type">CLKComplicationTemplateExtraLargeColumnsText</span>()
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> .<span class="dotAccess">modularSmall</span>:
+            template = <span class="type">CLKComplicationTemplateModularSmallStackText</span>()
+            template = <span class="type">CLKComplicationTemplateModularSmallStackImage</span>()
+
+            template = <span class="type">CLKComplicationTemplateModularSmallSimpleText</span>()
+            template = <span class="type">CLKComplicationTemplateModularSmallSimpleImage</span>()
+
+            template = <span class="type">CLKComplicationTemplateModularSmallRingText</span>()
+            template = <span class="type">CLKComplicationTemplateModularSmallRingImage</span>()
+
+            template = <span class="type">CLKComplicationTemplateModularSmallColumnsText</span>()
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> .<span class="dotAccess">modularLarge</span>:
+            template = <span class="type">CLKComplicationTemplateModularLargeTable</span>()
+            template = <span class="type">CLKComplicationTemplateModularLargeColumns</span>()
+            template = <span class="type">CLKComplicationTemplateModularLargeTallBody</span>()
+            template = <span class="type">CLKComplicationTemplateModularLargeStandardBody</span>()
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> .<span class="dotAccess">utilitarianSmall</span>:
+            template = <span class="type">CLKComplicationTemplateUtilitarianSmallFlat</span>()
+            template = <span class="type">CLKComplicationTemplateUtilitarianSmallSquare</span>()
+            template = <span class="type">CLKComplicationTemplateUtilitarianSmallRingText</span>()
+            template = <span class="type">CLKComplicationTemplateUtilitarianSmallRingImage</span>()
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> .<span class="dotAccess">utilitarianSmallFlat</span>:
+            template = <span class="type">CLKComplicationTemplateUtilitarianSmallFlat</span>()
+        <span class="keyword">case</span> .<span class="dotAccess">utilitarianLarge</span>:
+            template = <span class="type">CLKComplicationTemplateUtilitarianLargeFlat</span>()
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> .<span class="dotAccess">graphicCorner</span>:
+            template = <span class="type">CLKComplicationTemplateGraphicCornerCircularImage</span>()
+            template = <span class="type">CLKComplicationTemplateGraphicCornerGaugeText</span>()
+            template = <span class="type">CLKComplicationTemplateGraphicCornerGaugeImage</span>()
+            template = <span class="type">CLKComplicationTemplateGraphicCornerStackText</span>()
+            template = <span class="type">CLKComplicationTemplateGraphicCornerTextImage</span>()
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> .<span class="dotAccess">graphicCircular</span>:
+            template = <span class="type">CLKComplicationTemplateGraphicCircularImage</span>()
+            template = <span class="type">CLKComplicationTemplateGraphicCircularOpenGaugeImage</span>()
+            template = <span class="type">CLKComplicationTemplateGraphicCircularOpenGaugeRangeText</span>()
+            template = <span class="type">CLKComplicationTemplateGraphicCircularOpenGaugeSimpleText</span>()
+            template = <span class="type">CLKComplicationTemplateGraphicCircularClosedGaugeText</span>()
+            template = <span class="type">CLKComplicationTemplateGraphicCircularClosedGaugeImage</span>()
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> .<span class="dotAccess">graphicBezel</span>:
+            template = <span class="type">CLKComplicationTemplateGraphicBezelCircularText</span>()
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> .<span class="dotAccess">graphicRectangular</span>:
+            template = <span class="type">CLKComplicationTemplateGraphicRectangularLargeImage</span>()
+            template = <span class="type">CLKComplicationTemplateGraphicRectangularStandardBody</span>()
+            template = <span class="type">CLKComplicationTemplateGraphicRectangularTextGauge</span>()
+            <span class="keyword">break</span>;
+        }
+        <span class="keyword">let</span> entry = <span class="type">CLKComplicationTimelineEntry</span>(
+            date: date, 
+            complicationTemplate: template
+        )
+        <span class="call">handler</span>(entry)
+    }
+}</code></pre><p>That's it for now. Time is over. ⏰</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/clockkit-complications-cheat-sheet/"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.com/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

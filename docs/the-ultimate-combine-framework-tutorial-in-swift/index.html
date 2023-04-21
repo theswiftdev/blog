@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>The ultimate Combine framework tutorial in Swift - The.Swift.Dev.</title>
+    
+    <meta name="description" content="Get started with the brand new declarative Combine framework in practice using Swift. I'll teach you all the goodies from zero to hero.">
+    
+    <meta property="og:title" content="The ultimate Combine framework tutorial in Swift - The.Swift.Dev.">
+    <meta property="og:description" content="Get started with the brand new declarative Combine framework in practice using Swift. I'll teach you all the goodies from zero to hero.">
+    <meta property="og:url" content="https://theswiftdev.com/the-ultimate-combine-framework-tutorial-in-swift/">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/the-ultimate-combine-framework-tutorial-in-swift/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="The ultimate Combine framework tutorial in Swift - The.Swift.Dev.">
+    <meta name="twitter:description" content="Get started with the brand new declarative Combine framework in practice using Swift. I'll teach you all the goodies from zero to hero.">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/the-ultimate-combine-framework-tutorial-in-swift/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.com/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2017/10/10">2017/10/10</time>
+            <h1 class="title">The ultimate Combine framework tutorial in Swift</h1>
+            <p class="excerpt">Get started with the brand new declarative Combine framework in practice using Swift. I'll teach you all the goodies from zero to hero.</p>
+            <div class="meta">
+                <span class="tag">UIKit</span>
+<span class="tag">iOS</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/the-ultimate-combine-framework-tutorial-in-swift/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <h2>What is Combine?</h2><blockquote><p>Customize handling of asynchronous events by combining event-processing operators. - <a href="https://developer.apple.com/documentation/combine/" target="_blank">Apple's Combine Framework</a></p></blockquote><p>In other words, it allows you to write functional reactive code in a declarative way using Swift. Functional reactive programming (<a href="https://en.wikipedia.org/wiki/Functional_reactive_programming" target="_blank">FRP</a>) is a special paradigm used to deal with asynchronous code. It's a special kind of <a href="https://theswiftdev.com/2019/02/05/beginners-guide-to-functional-swift/">functional programming</a>, where you are working with async streams of values. So basically you can process and transform values over time using functional methods like <code>map</code>, <code>flatMap</code>, etc. <a href="https://www.vadimbulavin.com/swift-combine-framework-tutorial-getting-started/" target="_blank">Combine</a> is the "native" Swift implementation of this programming paradigm, made by Apple.</p><h2>Publishers, Operators, Subscribers</h2><p>I already made <a href="https://theswiftdev.com/2019/08/15/urlsession-and-the-combine-framework/">a brief networking example of using Combine</a>, which is good if you're just looking for a simple code snippet to simplify your URLSession requests. Allow me to grab one example and paste it here again, I'll show you why... 🤔</p><pre><code class="language-swift"><span class="keyword">private var</span> cancellable: <span class="type">AnyCancellable</span>?
+<span class="comment">//...</span>
+<span class="keyword">self</span>.<span class="property">cancellable</span> = <span class="type">URLSession</span>.<span class="property">shared</span>.<span class="call">dataTaskPublisher</span>(for: url)
+.<span class="call">map</span> { $0.<span class="property">data</span> }
+.<span class="call">decode</span>(type: [<span class="type">Post</span>].<span class="keyword">self</span>, decoder: <span class="type">JSONDecoder</span>())
+.<span class="call">replaceError</span>(with: [])
+.<span class="call">eraseToAnyPublisher</span>()
+.<span class="call">sink</span>(receiveValue: { posts <span class="keyword">in</span>
+    <span class="call">print</span>(posts.<span class="property">count</span>)
+})
+<span class="comment">//...</span>
+<span class="keyword">self</span>.<span class="property">cancellable</span>?.<span class="call">cancel</span>()</code></pre><p>The most important thing here is the new dataTaskPublisher method. It creates Publisher that can send (aka. publish) sequences of values over time.</p><p>Moving forward to the next few lines we can see examples of various Operator functions (<code>map</code>, <code>decode</code>, <code>replaceError</code>, <code>ereaseToAnyPublisher</code>). They are special functional methods and they always return a Publisher. By using operators you can chain a bunch of publishers together, this gives us that nice declarative syntax that I mentioned before. Functional programming is awesome! 😎</p><p>The final member of the Combine family is the Subscriber. Since we can publish all sort of things, we can assume that on the other end of the publisher chain, there will be some sort of object that's going to use our final result. Staying with our current example, the sink method is a built-in function that can connect a publisher to a subscriber. You'll learn the other one later on... hint: assign.</p><h2>Benefits of using the Combine framework</h2><p>I believe that <a href="https://engineering.q42.nl/swift-combine-framework/" target="_blank">Combine</a> is a huge leap forward and everyone should learn it. My only concern is that you can only use it if you are targeting iOS 13 or above, but this will fade away (in a blink) with time, just like it was with collection and stack views.</p><blockquote><p>Do you remember iOS 6? Yeah, next up: iOS 14!!!</p></blockquote><p>Anyway, there are a bunch of goodies that Combine will bring you:</p><ul><li>Simplified asynchronous code - no more callback hells</li><li>Declarative syntax - easier to read and maintain code</li><li>Composable components - composition over inheritance &amp; reusability</li><li>Multi-platform - except on Linux, we're good with <a href="https://github.com/apple/swift-nio" target="_blank">SwiftNIO</a>'s approach</li><li>Cancellation support - it was always an issue with <a href="https://theswiftdev.com/2019/05/28/promises-in-swift-for-beginners/">Promises</a></li><li>Multithreading - you don't have to worry about it (that much)</li><li>Built-in memory management - no more bags to carry on</li></ul><p>This is the future of aysnc programming on Apple plaftorms, and it's brighter than it was ever before. This is one of the biggest updates since the completely revamped <a href="https://theswiftdev.com/2018/07/10/ultimate-grand-central-dispatch-tutorial-in-swift/">GCD framework API in Swift</a>. Oh, by the way you might ask the question...</p><h2>GCD vs Combine vs Rx vs Promises</h2><p>My advice is to stay with your current favorite solution for about one year (but only if you are happy with it). Learn Combine and be prepared to flip the switch, if the time comes, but if you are just starting a new project and you can go with iOS13+ then I suggest to go with Combine only. You will see how amazing it is to work with this framework, so I if you are still not convinced, it's time to...</p><h2>Learn Combine by example</h2><p>Since there are some great articles &amp; books about <a href="https://heckj.github.io/swiftui-notes/" target="_blank">using Combine</a>, I decided to gather only those practical examples and patterns here that I use on a regular basis.</p><h3>Built-in publishers</h3><p>There are just a few built-in publishers in the Foundation framework, but I think the number will grow rapidly. These are the ones that I used mostly to simplify my code:</p><h3>Timer</h3><p>You can use Combine to get periodic time updates through a publisher:</p><pre><code class="language-swift"><span class="keyword">var</span> cancellable: <span class="type">AnyCancellable</span>?
+
+<span class="comment">// start automatically</span>
+cancellable = <span class="type">Timer</span>.<span class="call">publish</span>(every: <span class="number">1</span>, on: .<span class="dotAccess">main</span>, in: .<span class="dotAccess">default</span>)
+.<span class="call">autoconnect</span>()
+.<span class="call">sink</span> {
+    <span class="call">print</span>($0)
+}
+
+<span class="comment">// start manually</span>
+<span class="keyword">let</span> timerPublisher = <span class="type">Timer</span>.<span class="call">publish</span>(every: <span class="number">1.0</span>, on: <span class="type">RunLoop</span>.<span class="property">main</span>, in: .<span class="dotAccess">default</span>)
+cancellable = timerPublisher
+.<span class="call">sink</span> {
+    <span class="call">print</span>($0)
+}
+
+<span class="comment">// start publishing time</span>
+<span class="keyword">let</span> cancellableTimerPublisher = timerPublisher.<span class="call">connect</span>()
+<span class="comment">// stop publishing time
+//cancellableTimerPublisher.cancel()
+
+// cancel subscription
+//cancellable?.cancel()</span></code></pre><p>You can start &amp; stop the publisher any time you need by using the connect method.</p><p class="note">Combine has built-in support for cancellation. Both the sink and the assign methods are returning an object that you can store for later and you can call the cancel method on that AnyCancellable object to stop execution.</p><h3>NotificationCenter</h3><p>You can also subscribe to notifications by using publishers.</p><pre><code class="language-swift"><span class="keyword">extension</span> <span class="type">Notification</span>.<span class="type">Name</span> {
+    <span class="keyword">static let</span> example = <span class="type">Notification</span>.<span class="type">Name</span>(<span class="string">"example"</span>)
+}
+
+<span class="keyword">class</span> ViewController: <span class="type">UIViewController</span> {
+
+    <span class="keyword">var</span> cancellable: <span class="type">AnyCancellable</span>?
+
+    <span class="keyword">override func</span> viewDidLoad() {
+        <span class="keyword">super</span>.<span class="call">viewDidLoad</span>()
+
+        <span class="keyword">self</span>.<span class="property">cancellable</span> = <span class="type">NotificationCenter</span>.<span class="type">Publisher</span>(center: .<span class="dotAccess">default</span>, name: .<span class="dotAccess">example</span>, object: <span class="keyword">nil</span>)
+        .<span class="call">sink</span> { notification <span class="keyword">in</span>
+            <span class="call">print</span>(notification)
+        }
+
+        <span class="comment">//post notification</span>
+        <span class="type">NotificationCenter</span>.<span class="property">default</span>.<span class="call">post</span>(name: .<span class="dotAccess">example</span>, object: <span class="keyword">nil</span>)
+    }
+}</code></pre><p>If you save the cancellable object as a stored property you can retain the subscription until you call the cancel method. Make sure you don't make extra retain cycles, so if you need self inside the sink block, always use aweak or unowned reference.</p><h3>URLSession</h3><p>I'm not going to repeat myself here again, because I already made a complete tutorial about <a href="https://theswiftdev.com/2019/08/15/urlsession-and-the-combine-framework/">how to use URLSession with the Combine framework</a>, so please click the link if you want to learn more about it.</p><p>That's it about built-in publishers, let's take a look at...</p><h3>Published variables</h3><p><a href="https://nshipster.com/propertywrapper/" target="_blank">Property Wrappers</a> are a brand new feature available from Swift 5.1. Combine comes with one new wrapper called <code>@Published</code>, which can be used to attach a Publisher to a single property. If you mark the property as <code>@Published</code>, you can subscribe to value changes and you can also use these variables as bindings.</p><pre><code class="language-swift"><span class="keyword">import</span> UIKit
+<span class="keyword">import</span> Combine
+
+<span class="keyword">class</span> ViewController: <span class="type">UIViewController</span> {
+
+    <span class="keyword">@IBOutlet weak var</span> textLabel: <span class="type">UILabel</span>!
+    <span class="keyword">@IBOutlet weak var</span> actionButton: <span class="type">UIButton</span>!
+
+    <span class="keyword">@Published var</span> labelValue: <span class="type">String</span>? = <span class="string">"Click the button!"</span>
+
+    <span class="keyword">var</span> cancellable: <span class="type">AnyCancellable</span>?
+
+    <span class="keyword">override func</span> viewDidLoad() {
+        <span class="keyword">super</span>.<span class="call">viewDidLoad</span>()
+
+        <span class="keyword">self</span>.<span class="property">cancellable</span> = <span class="keyword">self</span>.<span class="property">$labelValue</span>.<span class="call">receive</span>(on: <span class="type">DispatchQueue</span>.<span class="property">main</span>)
+                                           .<span class="call">assign</span>(to: \.<span class="property">text</span>, on: <span class="keyword">self</span>.<span class="property">textLabel</span>)
+
+    }
+
+    <span class="keyword">@IBAction func</span> actionButtonTouched(<span class="keyword">_</span> sender: <span class="type">UIButton</span>) {
+        <span class="keyword">self</span>.<span class="property">labelValue</span> = <span class="string">"Hello World!"</span>
+    }
+}</code></pre><p>By using the <code>$</code> sign and the assign function we can create a binding and subscribe to value changes, so if the labelValue property changes, it'll be assigned to the text property of the textLabel variable. In other words, the actual text of the label will be updated on the user interface. Also you only want to get updates on the main queue, since we're doing UI related stuff. You can use the receive operator for this.</p><h3>Custom publishers</h3><p>Creating a custom publisher is not so hard that you might think, but honestly I never had to make one for myself yet. Still there are some really nice use-cases where building a custom publisher is the right way to go. <a href="https://twitter.com/twannl" target="_blank">Antoine v.d. SwiftLee</a> has a great tutorial about <a href="https://www.avanderlee.com/swift/custom-combine-publisher/" target="_blank">how to create a custom combine publisher</a> to extend UIKit, you should definitely check that out if you want to learn more about custom publishers.</p><h3>Subjects</h3><p>A subject can be used to transfer values between publishers and subscribers.</p><pre><code class="language-swift"><span class="keyword">let</span> subject = <span class="type">PassthroughSubject</span>&lt;<span class="type">String</span>, <span class="type">Never</span>&gt;()
+
+<span class="keyword">let</span> anyCancellable = subject
+.<span class="call">sink</span> { value <span class="keyword">in</span>
+    <span class="call">print</span>(value)
+}
+
+<span class="comment">// sending values to the subject</span>
+subject.<span class="call">send</span>(<span class="string">"Hello"</span>)
+
+<span class="comment">// subscribe a subject to a publisher</span>
+<span class="keyword">let</span> publisher = <span class="type">Just</span>(<span class="string">"world!"</span>)
+publisher.<span class="call">subscribe</span>(subject)
+
+anyCancellable.<span class="call">cancel</span>()
+
+
+<span class="comment">// sending errors</span>
+<span class="keyword">enum</span> SubjectError: <span class="type">LocalizedError</span> {
+    <span class="keyword">case</span> unknown
+}
+<span class="keyword">let</span> errorSubject = <span class="type">PassthroughSubject</span>&lt;<span class="type">String</span>, <span class="type">Error</span>&gt;()
+errorSubject.<span class="call">send</span>(completion: .<span class="call">failure</span>(<span class="type">SubjectError</span>.<span class="property">unknown</span>))</code></pre><p>You can send values or errors to the subject manually or you can subscribe a publisher to a subject. They are extremely useful if you'd like to make a Combine-like interface for a traditional delegate pattern based API. Consider the following example as a very basic starting point, but I hope you'll get the idea. 💡</p><pre><code class="language-swift"><span class="keyword">class</span> LocationPublisher: <span class="type">NSObject</span> {
+
+    <span class="keyword">let</span> subject = <span class="type">PassthroughSubject</span>&lt;[<span class="type">CLLocation</span>], <span class="type">Error</span>&gt;()
+
+    <span class="comment">//...</span>
+}
+
+<span class="keyword">extension</span> <span class="type">LocationPublisher</span>: <span class="type">CLLocationManagerDelegate</span> {
+
+    <span class="keyword">func</span> locationManager(<span class="keyword">_</span> manager: <span class="type">CLLocationManager</span>, didUpdateLocations locations: [<span class="type">CLLocation</span>]) {
+        <span class="keyword">self</span>.<span class="property">subject</span>.<span class="call">send</span>(locations)
+    }
+
+    <span class="keyword">func</span> locationManager(<span class="keyword">_</span> manager: <span class="type">CLLocationManager</span>, didFailWithError error: <span class="type">Error</span>) {
+        <span class="keyword">self</span>.<span class="property">subject</span>.<span class="call">send</span>(completion: .<span class="call">failure</span>(error))
+    }
+}</code></pre><h3>Futures and promises</h3><p>I already have <a href="https://theswiftdev.com/2019/05/28/promises-in-swift-for-beginners/">a tutorial for beginners about promises in Swift</a>, if you need to understand the reasoning behind these types, please read that article first.</p><p>Combine has it's own future / promise implementation, which is surprisingly well-made. I use them very often if I have an async callback block, I usually transform that function into a promisified version (returning a publisher), by using a future.</p><pre><code class="language-swift"><span class="keyword">func</span> asyncMethod(completion: ((<span class="type">String</span>) -&gt; <span class="type">Void</span>)) {
+    <span class="comment">//...</span>
+}
+
+<span class="keyword">func</span> promisifiedAsyncMethod() -&gt; <span class="type">AnyPublisher</span>&lt;<span class="type">String</span>, <span class="type">Never</span>&gt; {
+    <span class="type">Future</span>&lt;<span class="type">String</span>, <span class="type">Never</span>&gt; { promise <span class="keyword">in</span>
+        <span class="call">asyncMethod</span> { value <span class="keyword">in</span>
+            <span class="call">promise</span>(.<span class="call">success</span>(value))
+        }
+    }
+    .<span class="call">eraseToAnyPublisher</span>()
+}</code></pre><h3>Just</h3><p><code>Just</code> is made from a generic <a href="https://theswiftdev.com/2019/01/28/how-to-use-the-result-type-to-handle-errors-in-swift/">result type</a> and a <code>Never</code> failure type. It just provides you a single value, then it will terminate. It's quite useful if you want to fallback to a default value, or you just want to return a value.</p><pre><code class="language-swift"><span class="keyword">let</span> just = <span class="type">Just</span>&lt;<span class="type">String</span>&gt;(<span class="string">"just a value"</span>)
+
+just.<span class="call">sink</span>(receiveCompletion: { <span class="keyword">_ in</span>
+
+}) { value <span class="keyword">in</span>
+    <span class="call">print</span>(value)
+}</code></pre><h3>Schedulers</h3><p>You can add a delay to a publisher by using a scheduler, for example if you'd like to add a 1 second delay, you can use the following snippet:</p><pre><code class="language-swift"><span class="keyword">return</span> <span class="type">Future</span>&lt;<span class="type">String</span>, <span class="type">Error</span>&gt; { promise <span class="keyword">in</span>
+    <span class="call">promise</span>(.<span class="call">success</span>(<span class="string">"example"</span>))
+}
+.<span class="call">delay</span>(for: .<span class="keyword">init</span>(<span class="number">1</span>), scheduler: <span class="type">RunLoop</span>.<span class="property">main</span>)
+.<span class="call">eraseToAnyPublisher</span>()</code></pre><h3>Error handling</h3><p>As I mentioned before the <code>Never</code> type is indicates no errors, but what happens if a publisher returns an actual error? Well, you can catch that error, or you can transform the error type into something else by using the <code>mapError</code> operator.</p><pre><code class="language-swift"><span class="comment">// error handling in sink</span>
+errorPublisher
+.<span class="call">sink</span>(receiveCompletion: { completion <span class="keyword">in
+    switch</span> completion {
+    <span class="keyword">case</span> .<span class="dotAccess">finished</span>:
+        <span class="keyword">break
+    case</span> .<span class="dotAccess">failure</span>(<span class="keyword">let</span> error):
+        <span class="call">fatalError</span>(error.<span class="property">localizedDescription</span>)
+    }
+}, receiveValue: { value <span class="keyword">in</span>
+    <span class="call">print</span>(value)
+})
+
+
+<span class="comment">// mapError, catch</span>
+<span class="keyword">_</span> = <span class="type">Future</span>&lt;<span class="type">String</span>, <span class="type">Error</span>&gt; { promise <span class="keyword">in</span>
+    <span class="call">promise</span>(.<span class="call">failure</span>(<span class="type">NSError</span>(domain: <span class="string">""</span>, code: <span class="number">0</span>, userInfo: <span class="keyword">nil</span>)))
+}
+.<span class="call">mapError</span> { error <span class="keyword">in</span>
+    <span class="comment">//transform the error if needed</span>
+    <span class="keyword">return</span> error
+}
+.<span class="call">catch</span> { error <span class="keyword">in</span>
+    <span class="type">Just</span>(<span class="string">"fallback"</span>)
+}
+.<span class="call">sink</span>(receiveCompletion: { <span class="keyword">_ in</span>
+
+}, receiveValue: { value <span class="keyword">in</span>
+    <span class="call">print</span>(value)
+})</code></pre><p>Of course this is just the tip of the iceberg, you can assert errors and many more, but I hardly use them on a daily basis. Usually I handle my errors in the sink block.</p><h3>Debugging</h3><p>You can use the <code>handleEvents</code> operator to observe emitted events, the other option is to put breakpoints into your chain. There are a few helper methods in order to do this, you should read this <a href="https://www.avanderlee.com/swift/combine-swift/" target="_blank">article about debugging Combine</a> if you want to know more. 👍</p><pre><code class="language-swift"><span class="comment">// handle events</span>
+.<span class="call">handleEvents</span>(receiveSubscription: { subscription <span class="keyword">in</span>
+
+}, receiveOutput: { output <span class="keyword">in</span>
+
+}, receiveCompletion: { completion <span class="keyword">in</span>
+
+}, receiveCancel: {
+
+}, receiveRequest: { request <span class="keyword">in</span>
+
+})
+
+<span class="comment">// breakpoints</span>
+.<span class="call">breakpoint</span>()
+
+.<span class="call">breakpoint</span>(receiveSubscription: { subscription <span class="keyword">in
+    true</span>
+}, receiveOutput: { output <span class="keyword">in
+    true</span>
+}, receiveCompletion: { completion <span class="keyword">in
+    true</span>
+})
+
+.<span class="call">breakpointOnError</span>()</code></pre><h3>Groups and dependencies</h3><p>I have examples for both cases in my other <a href="https://theswiftdev.com/2019/08/15/urlsession-and-the-combine-framework/">article about Combine &amp; URLSession</a>, so please go and read that if you'd like to learn how to zip together two publishers.</p><h2>Conclusion</h2><p>Combine is a really nice framework, you should definitively learn it eventually. It's also a good opportunity to refactor your legacy / callback-based code into a nice modern declarative one. You can simply transform all your old-school delegates into publishers by using subjects. Futures and promises can help you to move away from callback blocks and prefer publishers instead. There are plenty of <a href="https://heckj.github.io/swiftui-notes/" target="_blank">good resources about Combine</a> around the web, also the official documentation is real good. 📖</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/the-ultimate-combine-framework-tutorial-in-swift/"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.com/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

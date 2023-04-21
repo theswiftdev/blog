@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>File upload API server in Vapor 4 - The.Swift.Dev.</title>
+    
+    <meta name="description" content="Learn how to build a very simple file upload API server using Vapor 4 and URLSession upload task on the client side.">
+    
+    <meta property="og:title" content="File upload API server in Vapor 4 - The.Swift.Dev.">
+    <meta property="og:description" content="Learn how to build a very simple file upload API server using Vapor 4 and URLSession upload task on the client side.">
+    <meta property="og:url" content="https://theswiftdev.com/file-upload-api-server-in-vapor-4/">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/file-upload-api-server-in-vapor-4/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="File upload API server in Vapor 4 - The.Swift.Dev.">
+    <meta name="twitter:description" content="Learn how to build a very simple file upload API server using Vapor 4 and URLSession upload task on the client side.">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/file-upload-api-server-in-vapor-4/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.com/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2020/12/30">2020/12/30</time>
+            <h1 class="title">File upload API server in Vapor 4</h1>
+            <p class="excerpt">Learn how to build a very simple file upload API server using Vapor 4 and URLSession upload task on the client side.</p>
+            <div class="meta">
+                <span class="tag">Vapor</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/file-upload-api-server-in-vapor-4/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <h2>A simple file upload server written in Swift</h2><p>For this simple file upload tutorial we'll only use the Vapor Swift package as a dependency. 📦</p><pre><code class="language-swift"><span class="comment">// swift-tools-version:5.3</span>
+<span class="keyword">import</span> PackageDescription
+
+<span class="keyword">let</span> package = <span class="type">Package</span>(
+    name: <span class="string">"myProject"</span>,
+    platforms: [
+       .<span class="call">macOS</span>(.<span class="dotAccess">v10_15</span>)
+    ],
+    dependencies: [
+        .<span class="call">package</span>(url: <span class="string">"https://github.com/vapor/vapor"</span>, from: <span class="string">"4.35.0"</span>),
+    ],
+    targets: [
+        .<span class="call">target</span>(
+            name: <span class="string">"App"</span>,
+            dependencies: [
+                .<span class="call">product</span>(name: <span class="string">"Vapor"</span>, package: <span class="string">"vapor"</span>),
+            ],
+            swiftSettings: [
+                .<span class="call">unsafeFlags</span>([<span class="string">"-cross-module-optimization"</span>], .<span class="dotAccess">when</span>(configuration: .<span class="dotAccess">release</span>))
+            ]
+        ),
+        .<span class="call">target</span>(name: <span class="string">"Run"</span>, dependencies: [.<span class="call">target</span>(name: <span class="string">"App"</span>)]),
+        .<span class="call">testTarget</span>(name: <span class="string">"AppTests"</span>, dependencies: [
+            .<span class="call">target</span>(name: <span class="string">"App"</span>),
+            .<span class="call">product</span>(name: <span class="string">"XCTVapor"</span>, package: <span class="string">"vapor"</span>),
+        ])
+    ]
+)</code></pre><p>You can setup the project with the required files using the <a href="https://github.com/vapor/toolbox" target="_blank">Vapor toolbox</a>, alternatively you can create everything by hand using the Swift Package Manager, long story short, we just need a starter Vapor project without additional dependencies. Now if you open the Package.swift file using Xcode, we can setup our routes by altering the <code>configure.swift</code> file.</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+
+<span class="keyword">public func</span> configure(<span class="keyword">_</span> app: <span class="type">Application</span>) <span class="keyword">throws</span> {
+
+    <span class="comment">/// enable file middleware</span>
+    app.<span class="property">middleware</span>.<span class="call">use</span>(<span class="type">FileMiddleware</span>(publicDirectory: app.<span class="property">directory</span>.<span class="property">publicDirectory</span>))
+
+    <span class="comment">/// set max body size</span>
+    app.<span class="property">routes</span>.<span class="property">defaultMaxBodySize</span> = <span class="string">"10mb"</span>
+
+    <span class="comment">/// setup the upload handler</span>
+    app.<span class="call">post</span>(<span class="string">"upload"</span>) { req -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">String</span>&gt; <span class="keyword">in
+        let</span> key = <span class="keyword">try</span> req.<span class="property">query</span>.<span class="call">get</span>(<span class="type">String</span>.<span class="keyword">self</span>, at: <span class="string">"key"</span>)
+        <span class="keyword">let</span> path = req.<span class="property">application</span>.<span class="property">directory</span>.<span class="property">publicDirectory</span> + key
+        <span class="keyword">return</span> req.<span class="property">body</span>.<span class="call">collect</span>()
+            .<span class="call">unwrap</span>(or: <span class="type">Abort</span>(.<span class="dotAccess">noContent</span>))
+            .<span class="call">flatMap</span> { req.<span class="property">fileio</span>.<span class="call">writeFile</span>($0, at: path) }
+            .<span class="call">map</span> { key }
+    }
+}</code></pre><p>First we use the <code>FileMiddleware</code>, this will allow us to server files using the Public directory inside our project folder. If you don't have a directory named Public, please create one, since the file upload server will need that. Don't forget to give proper <a href="https://en.wikipedia.org/wiki/File-system_permissions" target="_blank">file system permissions</a> if necessary, otherwise we won't be able to write our data inside the directory. 📁</p><p>The next thing that we set is the default maximum body size. This property can limit the amount of data that our server can accept, you don't really want to use this method for large files because uploaded files will be stored in the system memory before we write them to the disk.</p><p>If you want to upload large files to the server you should consider streaming the file instead of collecting the file data from the HTTP body. The streaming setup will require a bit more work, but it's not that complicated, if you are interested in that solution, you should read the <a href="https://docs.vapor.codes/4.0/files/" target="_blank">Files API</a> and the <a href="https://docs.vapor.codes/4.0/routing/#body-streaming" target="_blank">body streaming</a> section using official Vapor docs site.</p><p>This time we just want a dead simple file upload API endpoint, that collects the incoming data using the HTTP body into a byte buffer object, then we simply write this buffer using the fileio to the disk, using the given key from the URL query parameters. If everything was done without errors, we can return the key for the uploaded file.</p><p>File upload tasks using the URLSession API The Foundation frameworks gives us a nice API layer for common networking tasks. We can use the URLSession uploadTask method to send a new URLRequest with a data object to a given server, but IMHO this API is quite strange, because the URLRequest object already has a httpBody property, but you have to explicitly pass a "from: Data?" argument when you construct the task. But why? 🤔</p><pre><code class="language-swift"><span class="keyword">import</span> Foundation
+
+<span class="keyword">extension</span> <span class="type">URLSession</span> {
+
+    <span class="keyword">func</span> uploadTask(with request: <span class="type">URLRequest</span>, completionHandler: <span class="keyword">@escaping</span> (<span class="type">Data</span>?, <span class="type">URLResponse</span>?, <span class="type">Error</span>?) -&gt; <span class="type">Void</span>) -&gt; <span class="type">URLSessionUploadTask</span> {
+        <span class="call">uploadTask</span>(with: request, from: request.<span class="property">httpBody</span>, completionHandler: completionHandler)
+    }
+}</code></pre><p>Anyway, I made a little extension method, so when I create the URLRequest I can set the httpBody property of it and safely pass it before the completion block and use the contents as the from parameter. Very strange API design choice from Apple... 🤐</p><p>We can put this little snippet into a simple executable Swift package (or of course we can create an entire application) to test our upload server. In our case I'll place everything into a <code>main.swift</code> file.</p><pre><code class="language-swift"><span class="keyword">import</span> Foundation
+<span class="keyword">import</span> Dispatch
+
+<span class="keyword">extension</span> <span class="type">URLSession</span> {
+
+    <span class="keyword">func</span> uploadTask(with request: <span class="type">URLRequest</span>, completionHandler: <span class="keyword">@escaping</span> (<span class="type">Data</span>?, <span class="type">URLResponse</span>?, <span class="type">Error</span>?) -&gt; <span class="type">Void</span>) -&gt; <span class="type">URLSessionUploadTask</span> {
+        <span class="call">uploadTask</span>(with: request, from: request.<span class="property">httpBody</span>, completionHandler: completionHandler)
+    }
+}
+
+
+<span class="keyword">let</span> fileData = <span class="keyword">try</span> <span class="type">Data</span>(contentsOf: <span class="type">URL</span>(fileURLWithPath: <span class="string">"/Users/[user]]/[file].png"</span>))
+<span class="keyword">var</span> request = <span class="type">URLRequest</span>(url: <span class="type">URL</span>(string: <span class="string">"http://localhost:8080/upload?key=</span>\(<span class="type">UUID</span>().<span class="property">uuidString</span>)<span class="string">.png"</span>)!)
+request.<span class="property">httpMethod</span> = <span class="string">"POST"</span>
+request.<span class="property">httpBody</span> = fileData
+
+<span class="keyword">let</span> task = <span class="type">URLSession</span>.<span class="property">shared</span>.<span class="call">uploadTask</span>(with: request) { data, response, error <span class="keyword">in
+    guard</span> error == <span class="keyword">nil else</span> {
+        <span class="call">fatalError</span>(error!.localizedDescription)
+    }
+    <span class="keyword">guard let</span> response = response <span class="keyword">as</span>? <span class="type">HTTPURLResponse</span> <span class="keyword">else</span> {
+        <span class="call">fatalError</span>(<span class="string">"Invalid response"</span>)
+    }
+    <span class="keyword">guard</span> response.<span class="property">statusCode</span> == <span class="number">200</span> <span class="keyword">else</span> {
+        <span class="call">fatalError</span>(<span class="string">"HTTP status error:</span> \(response.<span class="property">statusCode</span>)<span class="string">"</span>)
+    }
+    <span class="keyword">guard let</span> data = data, <span class="keyword">let</span> result = <span class="type">String</span>(data: data, encoding: .<span class="dotAccess">utf8</span>) <span class="keyword">else</span> {
+        <span class="call">fatalError</span>(<span class="string">"Invalid or missing HTTP data"</span>)
+    }
+    <span class="call">print</span>(result)
+    <span class="call">exit</span>(<span class="number">0</span>)
+}
+
+task.<span class="call">resume</span>()
+<span class="call">dispatchMain</span>()</code></pre><p>The above example uses the <code>Dispatch</code> framework to wait until the asynchronous file upload finishes. You should change the location (and the extension) of the file if necessary before you run this script. Since we defined the upload route as a POST endpoint, we have to set the <code>httpMethod</code> property to match this, also we store the file data in the httpBody variable before we create our task. The upload URL should contain a key, that the server can use as a name for the file. You can add more properties of course or use header values to check if the user has proper authorization to perform the upload operation. Then we call the upload task extension method on the shared URLSession property. The nice thing about uploadTask is that you can run them on the background if needed, this is quite handy if it comes to iOS development. 📱</p><p>Inside the completion handler we have to check for a few things. First of all if there was an error, the upload must have failed, so we call the fatalError method to break execution. If the response was not a valid HTTP response, or the status code was not ok (200) we also stop. Finally we want to retrieve the key from the response body so we check the data object and convert it to a UTF8 string if possible. Now we can use the key combined with the domain of the server to access the uploaded file, this time I just printed out the result, but hey, this is just a demo, in a real world application you might want to return a JSON response with additional data. 😅</p><h2>Vanilla JavaScript file uploader</h2><p>One more thing... you can use Leaf and some Vanilla JavaScript to upload files using the newly created upload endpoint. Actually it's really easy to implement a new endpoint and render a Leaf template that does the magic. You'll need some basic HTML and a few lines of JS code to submit the contents of the file as an array buffer. This is a basic example.</p><pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+    &lt;title&gt;File upload&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+      &lt;h1&gt;File upload&lt;/h1&gt;
+      &lt;input type="file" id="file" name="file" accept="image/*" /&gt;&lt;br&gt;&lt;br&gt;
+      &lt;img id="preview" src="https://theswiftdev.com/images/logos/logo.png" width="256px"&gt;
+      &lt;script&gt;
+        document.getElementById('file').addEventListener("change", uploadImage);
+
+        function uploadImage() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/upload?key=test.png", true);
+            xhr.onreadystatechange = function() {
+                if(xhr.readyState == 4 &amp;&amp; xhr.status == 200) {
+                    document.getElementById('preview').src = "/" + this.responseText;
+                }
+            };
+
+            var file = document.getElementById('file').files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function() {
+                    xhr.send(reader.result);
+                }
+                reader.readAsArrayBuffer(file);
+            }
+        }
+      &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>As you can see it's a standard <code>XHR</code> request combined with the <a href="https://developer.mozilla.org/en-US/docs/Web/API/FileReader" target="_blank">FileReader</a> JavaScript API. We use the FileReader to convert our input to a binary data, this way our server can write it to the file system in the expected format. In most cases people are using a multipart-encoded form to access files on the server, but when you have to work with an API you can also transfer raw file data. If you want to learn more about XHR requests and AJAX calls, you should read my previous <a href="https://theswiftdev.com/ajax-calls-using-vapor-4/">article</a>.</p><p>I also have a <a href="https://theswiftdev.com/file-upload-using-vapor-4/">post</a> about different file upload methods using standard HTML forms and a Vapor 4 server as a backend. I hope you'll find the right solution that you need for your application. 👍</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/file-upload-api-server-in-vapor-4/"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.com/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

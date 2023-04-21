@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Easy multipart file upload for Swift - The.Swift.Dev.</title>
+    
+    <meta name="description" content="Let me show you how to create HTTP requests using multipart (form data) body without a third party library. Simple solution.">
+    
+    <meta property="og:title" content="Easy multipart file upload for Swift - The.Swift.Dev.">
+    <meta property="og:description" content="Let me show you how to create HTTP requests using multipart (form data) body without a third party library. Simple solution.">
+    <meta property="og:url" content="https://theswiftdev.com/easy-multipart-file-upload-for-swift/">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/easy-multipart-file-upload-for-swift/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="Easy multipart file upload for Swift - The.Swift.Dev.">
+    <meta name="twitter:description" content="Let me show you how to create HTTP requests using multipart (form data) body without a third party library. Simple solution.">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/easy-multipart-file-upload-for-swift/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.com/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2023/01/17">2023/01/17</time>
+            <h1 class="title">Easy multipart file upload for Swift</h1>
+            <p class="excerpt">Let me show you how to create HTTP requests using multipart (form data) body without a third party library. Simple solution.</p>
+            <div class="meta">
+                <span class="tag">Swift</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/easy-multipart-file-upload-for-swift/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <p>I believe that you've already heard about the famous multipart-data upload technique that everyone loves to upload files and submit form data, but if not, hopefully this article will help you a little bit to understand these things better.</p><p>Let's start with some theory. Don't worry, it's just one link, <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST" target="_blank">about the multipart/form-data content type specification</a>. To quickly summarize it first I'd like to tell you a few words about how the HTTP layer works. In a nutshell, you send some data with some headers (think about it as a key-value user info object) to a given URL using a method and as a response you'll get back a status code, some headers and maybe some sort of response data too. 🥜</p><ul><li>HTTP request = Method + URL + Headers + Body (request data)</li><li>HTTP response = Status code + Headers + Body (response data)</li></ul><p>The request method &amp; URL is pretty straightforward, the interesting part is when you specify the <code>Content-Type</code> HTTP header, in our case the <code>multipart/form-data;boundary="xxx"</code> value means, that we're going to send a request body using multiple parts and we're going to use the "xxx" boundary string as a separator between the parts. Oh, by the way each part can have it's own type and name, we'll use the <code>Content-Disposition: form-data; name="field1"</code> line to let the server know about these fields, before we actually send the actual content value.</p><p>That's more than enough theory for now, let me snow you how we can implement all of this using Swift 5. First of all, we would like to be able to append string values to a Data object, so we're going to extend <a href="https://developer.apple.com/documentation/foundation/data" target="_blank">Data type</a> with an 'append string using encoding' method:</p><pre><code class="language-swift"><span class="keyword">import</span> Foundation
+
+<span class="keyword">public extension</span> <span class="type">Data</span> {
+
+    <span class="keyword">mutating func</span> append(
+        <span class="keyword">_</span> string: <span class="type">String</span>,
+        encoding: <span class="type">String</span>.<span class="type">Encoding</span> = .<span class="dotAccess">utf8</span>
+    ) {
+        <span class="keyword">guard let</span> data = string.<span class="call">data</span>(using: encoding) <span class="keyword">else</span> {
+            <span class="keyword">return</span>
+        }
+        <span class="call">append</span>(data)
+    }
+}</code></pre><p>Next, we need something that can construct the HTTP multipart body data, for this purpose we're going to build a <code>MultipartRequest</code> object. We can set the boundary when we init this object and we're going to append the parts needed to construct the HTTP body data.</p><p>The private methods will help to assemble everything, we simply append string values to the private data object that holds our data structure. The public API only consists of two add functions that you can use to append a key-value based form field or an entire file using its data. 👍</p><pre><code class="language-swift"><span class="keyword">public struct</span> MultipartRequest {
+    
+    <span class="keyword">public let</span> boundary: <span class="type">String</span>
+    
+    <span class="keyword">private let</span> separator: <span class="type">String</span> = <span class="string">"\r\n"</span>
+    <span class="keyword">private var</span> data: <span class="type">Data</span>
+
+    <span class="keyword">public init</span>(boundary: <span class="type">String</span> = <span class="type">UUID</span>().<span class="property">uuidString</span>) {
+        <span class="keyword">self</span>.<span class="property">boundary</span> = boundary
+        <span class="keyword">self</span>.<span class="property">data</span> = .<span class="keyword">init</span>()
+    }
+    
+    <span class="keyword">private mutating func</span> appendBoundarySeparator() {
+        data.<span class="call">append</span>(<span class="string">"--</span>\(boundary)\(separator)<span class="string">"</span>)
+    }
+    
+    <span class="keyword">private mutating func</span> appendSeparator() {
+        data.<span class="call">append</span>(separator)
+    }
+
+    <span class="keyword">private func</span> disposition(<span class="keyword">_</span> key: <span class="type">String</span>) -&gt; <span class="type">String</span> {
+        <span class="string">"Content-Disposition: form-data; name=\"</span>\(key)<span class="string">\""</span>
+    }
+
+    <span class="keyword">public mutating func</span> add(
+        key: <span class="type">String</span>,
+        value: <span class="type">String</span>
+    ) {
+        <span class="call">appendBoundarySeparator</span>()
+        data.<span class="call">append</span>(<span class="call">disposition</span>(key) + separator)
+        <span class="call">appendSeparator</span>()
+        data.<span class="call">append</span>(value + separator)
+    }
+
+    <span class="keyword">public mutating func</span> add(
+        key: <span class="type">String</span>,
+        fileName: <span class="type">String</span>,
+        fileMimeType: <span class="type">String</span>,
+        fileData: <span class="type">Data</span>
+    ) {
+        <span class="call">appendBoundarySeparator</span>()
+        data.<span class="call">append</span>(<span class="call">disposition</span>(key) + <span class="string">"; filename=\"</span>\(fileName)<span class="string">\"" + separator)</span>
+        data.<span class="call">append</span>(<span class="string">"Content-Type:</span> \(fileMimeType)<span class="string">"</span> + separator + separator)
+        data.<span class="call">append</span>(fileData)
+        <span class="call">appendSeparator</span>()
+    }
+
+    <span class="keyword">public var</span> httpContentTypeHeadeValue: <span class="type">String</span> {
+        <span class="string">"multipart/form-data; boundary=</span>\(boundary)<span class="string">"</span>
+    }
+
+    <span class="keyword">public var</span> httpBody: <span class="type">Data</span> {
+        <span class="keyword">var</span> bodyData = data
+        bodyData.<span class="call">append</span>(<span class="string">"--</span>\(boundary)<span class="string">--"</span>)
+        <span class="keyword">return</span> bodyData
+    }
+}</code></pre><p>The last remaining two public variables are helpers to easily get back the HTTP related content type header value using the proper boundary and the complete data object that you should to send to the server. Here's how you can construct the HTTP <a href="https://developer.apple.com/documentation/foundation/urlrequest" target="_blank">URLRequest</a> using the multipart struct.</p><pre><code class="language-swift"><span class="keyword">var</span> multipart = <span class="type">MultipartRequest</span>()
+<span class="keyword">for</span> field <span class="keyword">in</span> [
+    <span class="string">"firstName"</span>: <span class="string">"John"</span>,
+    <span class="string">"lastName"</span>: <span class="string">"Doe"</span>
+] {
+    multipart.<span class="call">add</span>(key: field.<span class="property">key</span>, value: field.<span class="property">value</span>)
+}
+
+multipart.<span class="call">add</span>(
+    key: <span class="string">"file"</span>,
+    fileName: <span class="string">"pic.jpg"</span>,
+    fileMimeType: <span class="string">"image/png"</span>,
+    fileData: <span class="string">"fake-image-data"</span>.<span class="call">data</span>(using: .<span class="dotAccess">utf8</span>)!
+)
+
+<span class="comment">/// Create a regular HTTP URL request &amp; use multipart components</span>
+<span class="keyword">let</span> url = <span class="type">URL</span>(string: <span class="string">"https://httpbin.org/post"</span>)!
+<span class="keyword">var</span> request = <span class="type">URLRequest</span>(url: url)
+request.<span class="property">httpMethod</span> = <span class="string">"POST"</span>
+request.<span class="call">setValue</span>(multipart.<span class="property">httpContentTypeHeadeValue</span>, forHTTPHeaderField: <span class="string">"Content-Type"</span>)
+request.<span class="property">httpBody</span> = multipart.<span class="property">httpBody</span>
+
+<span class="comment">/// Fire the request using URL sesson or anything else...</span>
+<span class="keyword">let</span> (data, response) = <span class="keyword">try await</span> <span class="type">URLSession</span>.<span class="property">shared</span>.<span class="call">data</span>(for: request)
+
+<span class="call">print</span>((response <span class="keyword">as</span>! <span class="type">HTTPURLResponse</span>).<span class="property">statusCode</span>)
+<span class="call">print</span>(<span class="type">String</span>(data: data, encoding: .<span class="dotAccess">utf8</span>)!)</code></pre><p>As you can see it's relatively straightforward, you just add the form fields and the files that you want to upload, and get back the HTTP related values using the helper API. I hope this article will help you to simulate form submissions using multipart requests without hassle. 😊</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/easy-multipart-file-upload-for-swift/"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.com/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

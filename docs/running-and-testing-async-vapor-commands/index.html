@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Running and testing async Vapor commands - The.Swift.Dev.</title>
+    
+    <meta name="description" content="In this article I'll show you how to build asynchronous Vapor commands and how to test them using ConsoleKit.">
+    
+    <meta property="og:title" content="Running and testing async Vapor commands - The.Swift.Dev.">
+    <meta property="og:description" content="In this article I'll show you how to build asynchronous Vapor commands and how to test them using ConsoleKit.">
+    <meta property="og:url" content="https://theswiftdev.com/running-and-testing-async-vapor-commands/">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/running-and-testing-async-vapor-commands/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="Running and testing async Vapor commands - The.Swift.Dev.">
+    <meta name="twitter:description" content="In this article I'll show you how to build asynchronous Vapor commands and how to test them using ConsoleKit.">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/running-and-testing-async-vapor-commands/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.com/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2023/02/23">2023/02/23</time>
+            <h1 class="title">Running and testing async Vapor commands</h1>
+            <p class="excerpt">In this article I'll show you how to build asynchronous Vapor commands and how to test them using ConsoleKit.</p>
+            <div class="meta">
+                <span class="tag">Vapor</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/running-and-testing-async-vapor-commands/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <h2>How to run async commands in Vapor?</h2><p>The async / await feature is relatively new in Swift and some framework authors haven't converted everything to take advantage of these new keywords. Currently, this is the situation with the <a href="https://docs.vapor.codes/advanced/commands/?h=commands" target="_blank">Command API</a> in Vapor 4. You can already define async commands, but there's no way to register them using the Vapor framework. Fortunately, there is a relatively straightforward workaround that you can use if you want to execute commands using an asynchronous context. 🔀</p><p>First we're going to define a helper protocol and create an asyncRun function. We are going to extend the original Command protocol and provide a default implementation for the run method.</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+
+<span class="keyword">public protocol</span> AsyncCommand: <span class="type">Command</span> {
+    
+    <span class="keyword">func</span> asyncRun(
+        using context: <span class="type">CommandContext</span>,
+        signature: <span class="type">Signature</span>
+    ) <span class="keyword">async throws</span>
+}
+
+<span class="keyword">public extension</span> <span class="type">AsyncCommand</span> {
+
+    <span class="keyword">func</span> run(
+        using context: <span class="type">CommandContext</span>,
+        signature: <span class="type">Signature</span>
+    ) <span class="keyword">throws</span> {
+        <span class="keyword">let</span> promise = context
+            .<span class="dotAccess">application</span>
+            .<span class="dotAccess">eventLoopGroup</span>
+            .<span class="call">next</span>()
+            .<span class="call">makePromise</span>(of: <span class="type">Void</span>.<span class="keyword">self</span>)
+        
+        promise.<span class="call">completeWithTask</span> {
+            <span class="keyword">try await</span> <span class="call">asyncRun</span>(
+                using: context,
+                signature: signature
+            )
+        }
+        <span class="keyword">try</span> promise.<span class="property">futureResult</span>.<span class="call">wait</span>()
+    }
+}</code></pre><p>This way you should be able to create a new async command and you should implement the asyncRun method if you want to call some asynchronous Swift code.</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+
+<span class="keyword">final class</span> MyAsyncCommand: <span class="type">AsyncCommand</span> {
+    
+    <span class="keyword">static let</span> name = <span class="string">"async"</span>
+    
+    <span class="keyword">let</span> help = <span class="string">"This command run asynchronously."</span>
+
+    <span class="keyword">struct</span> Signature: <span class="type">CommandSignature</span> {}
+
+    <span class="keyword">func</span> asyncRun(
+        using context: <span class="type">CommandContext</span>,
+        signature: <span class="type">Signature</span>
+    ) <span class="keyword">async throws</span> {
+        context.<span class="property">console</span>.<span class="call">info</span>(<span class="string">"This is async."</span>)
+    }
+}</code></pre><p>It is possible to register the command using the configure method, you can try this out by running the swift run Run async snippet if you are using the standard Vapor template. 💧</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+
+<span class="keyword">public func</span> configure(
+    <span class="keyword">_</span> app: <span class="type">Application</span>
+) <span class="keyword">throws</span> {
+
+    app.<span class="property">commands</span>.<span class="call">use</span>(
+        <span class="type">MyAsyncCommand</span>(),
+        as: <span class="type">MyAsyncCommand</span>.<span class="property">name</span>
+    )
+
+    <span class="keyword">try</span> <span class="call">routes</span>(app)
+}</code></pre><p>As you can see it's a <a href="https://docs.vapor.codes/basics/async/?h=async#working-with-old-and-new-apis" target="_blank">pretty neat trick</a>, it's also mentioned on <a href="https://github.com/vapor/console-kit/issues/171" target="_blank">GitHub</a>, but hopefully we don't need this workaround for too long and proper async command support will arrive in Vapor 4.x.</p><h2>Unit testing Vapor commands</h2><p>This topic has literally zero documentation, so I thought it would be nice to tell you a bit about how to unit test <a href="https://theswiftdev.com/how-to-write-swift-scripts-using-the-new-command-api-in-vapor-4/">scripts created via ConsoleKit</a>. First of all we need a TestConsole that we can use to collect the output of our commands. This is a shameless ripoff from <a href="https://github.com/vapor/console-kit/blob/main/Tests/ConsoleKitTests/Utilities.swift#L97" target="_blank">ConsoleKit</a>. 😅</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+
+<span class="keyword">final class</span> TestConsole: <span class="type">Console</span> {
+
+    <span class="keyword">var</span> testInputQueue: [<span class="type">String</span>]
+    <span class="keyword">var</span> testOutputQueue: [<span class="type">String</span>]
+    <span class="keyword">var</span> userInfo: [<span class="type">AnyHashable</span> : <span class="type">Any</span>]
+
+    <span class="keyword">init</span>() {
+        <span class="keyword">self</span>.<span class="property">testInputQueue</span> = []
+        <span class="keyword">self</span>.<span class="property">testOutputQueue</span> = []
+        <span class="keyword">self</span>.<span class="property">userInfo</span> = [:]
+    }
+
+    <span class="keyword">func</span> input(isSecure: <span class="type">Bool</span>) -&gt; <span class="type">String</span> {
+        testInputQueue.<span class="call">popLast</span>() ?? <span class="string">""</span>
+    }
+
+    <span class="keyword">func</span> output(<span class="keyword">_</span> text: <span class="type">ConsoleText</span>, newLine: <span class="type">Bool</span>) {
+        <span class="keyword">let</span> line = text.<span class="property">description</span> + (newLine ? <span class="string">"\n"</span> : <span class="string">""</span>)
+        testOutputQueue.<span class="call">insert</span>(line, at: <span class="number">0</span>)
+    }
+
+    <span class="keyword">func</span> report(error: <span class="type">String</span>, newLine: <span class="type">Bool</span>) {
+        <span class="comment">//</span>
+    }
+
+    <span class="keyword">func</span> clear(<span class="keyword">_</span> type: <span class="type">ConsoleClear</span>) {
+        <span class="comment">//</span>
+    }
+
+    <span class="keyword">var</span> size: (width: <span class="type">Int</span>, height: <span class="type">Int</span>) {
+        (<span class="number">0</span>, <span class="number">0</span>)
+    }
+}</code></pre><p>Now inside the test suite, you should create a new application instance using the test environment and configure it for testing purposes. Then you should initiate the command that you'd like to test and run it using the test console. You just have to create a new context and a proper input with the necessary arguments and the <code>console.run</code> function will take care of everything else.</p><pre><code class="language-swift"><span class="keyword">@testable import</span> App
+<span class="keyword">import</span> XCTVapor
+
+<span class="keyword">final class</span> AppTests: <span class="type">XCTestCase</span> {
+    
+    <span class="keyword">func</span> testCommand() <span class="keyword">throws</span> {
+        <span class="keyword">let</span> app = <span class="type">Application</span>(.<span class="dotAccess">testing</span>)
+        <span class="keyword">defer</span> { app.<span class="call">shutdown</span>() }
+        <span class="keyword">try</span> <span class="call">configure</span>(app)
+        
+        <span class="keyword">let</span> command = <span class="type">MyAsyncCommand</span>()
+        <span class="keyword">let</span> arguments = [<span class="string">"async"</span>]
+        
+        <span class="keyword">let</span> console = <span class="type">TestConsole</span>()
+        <span class="keyword">let</span> input = <span class="type">CommandInput</span>(arguments: arguments)
+        <span class="keyword">var</span> context = <span class="type">CommandContext</span>(
+            console: console,
+            input: input
+        )
+        context.<span class="property">application</span> = app
+        
+        <span class="keyword">try</span> console.<span class="call">run</span>(command, with: context)
+
+        <span class="keyword">let</span> output = console
+            .<span class="dotAccess">testOutputQueue</span>
+            .<span class="call">map</span> { $0.<span class="call">trimmingCharacters</span>(in: .<span class="dotAccess">whitespacesAndNewlines</span>) }
+        
+        <span class="keyword">let</span> expectation = [
+            <span class="string">"This is async."</span>
+        ]
+        <span class="call">XCTAssertEqual</span>(output, expectation)
+    }
+}</code></pre><p>The nice thing about this solution is that the ConsoleKit framework will automatically parse the arguments, options and the flags. You can provide these as standalone array elements using the input arguments array (e.g. <code>["arg1", "--option1", "value1", "--flag1"]</code>).</p><p>It is possible to test command groups, you just have to add the specific command name as the first argument that you'd like to run from the group and you can simply check the output through the test console if you are looking for the actual command results. 💪</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/running-and-testing-async-vapor-commands/"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.com/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

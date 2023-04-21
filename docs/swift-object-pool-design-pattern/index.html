@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Swift object pool design pattern - The.Swift.Dev.</title>
+    
+    <meta name="description" content="In this quick tutorial I'll explain & show you how to implement the object pool design pattern using the Swift programming language.">
+    
+    <meta property="og:title" content="Swift object pool design pattern - The.Swift.Dev.">
+    <meta property="og:description" content="In this quick tutorial I'll explain & show you how to implement the object pool design pattern using the Swift programming language.">
+    <meta property="og:url" content="https://theswiftdev.com/swift-object-pool-design-pattern/">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/swift-object-pool-design-pattern/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="Swift object pool design pattern - The.Swift.Dev.">
+    <meta name="twitter:description" content="In this quick tutorial I'll explain & show you how to implement the object pool design pattern using the Swift programming language.">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/swift-object-pool-design-pattern/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.com/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2018/12/09">2018/12/09</time>
+            <h1 class="title">Swift object pool design pattern</h1>
+            <p class="excerpt">In this quick tutorial I'll explain & show you how to implement the object pool design pattern using the Swift programming language.</p>
+            <div class="meta">
+                <span class="tag">Swift</span>
+<span class="tag">iOS</span>
+<span class="tag">design patterns</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/swift-object-pool-design-pattern/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <h2>A generic object pool in Swift</h2><p>The <a href="https://en.wikipedia.org/wiki/Object_pool_pattern" target="_blank">object pool</a> pattern is a creational design pattern. The main idea behind it is that first you create a set of objects (a pool), then you acquire &amp; release objects from the pool, instead of constantly creating and releasing them. 👍</p><p>Why? Performance improvements. For example the <a href="https://theswiftdev.com/2018/07/10/ultimate-grand-central-dispatch-tutorial-in-swift/">Dispatch framework</a> uses an <a href="http://audreyli.me/2015/07/14/a-design-pattern-story-in-swift-chapter-16-object-pool/" target="_blank">object pool</a> pattern to give pre-created queues for the developers, because creating a queue (with an associated thread) is an relatively expensive operation.</p><p>Another use case of the <a href="https://medium.com/@sawomirkowalski/design-patterns-object-pool-e8269fd45e10" target="_blank">object pool</a> pattern is workers. For example you have to download hundreds of images from the web, but you'd like to download only 5 simultaneously you can do it with a pool of 5 worker objects. Probably it's going to be a lot cheaper to allocate a small number of workers (that'll actually do the download task), than create a new one for every single image download request. 🖼</p><p>What about the downsides of this pattern? There are some. For example if you have workers in your pool, they might contain states or sensitive user data. You have to be very careful with them aka. reset everything. Also if you are running in a multi-threaded environment you have to make your pool <strong>thread-safe</strong>.</p><p>Here is a simple generic thread-safe <a href="https://github.com/reswifq/pool" target="_blank">object pool</a> class:</p><pre><code class="language-swift"><span class="keyword">import</span> Foundation
+
+<span class="keyword">class</span> Pool&lt;T&gt; {
+
+    <span class="keyword">private let</span> lockQueue = <span class="type">DispatchQueue</span>(label: <span class="string">"pool.lock.queue"</span>)
+    <span class="keyword">private let</span> semaphore: <span class="type">DispatchSemaphore</span>
+    <span class="keyword">private var</span> items = [<span class="type">T</span>]()
+
+    <span class="keyword">init</span>(<span class="keyword">_</span> items: [<span class="type">T</span>]) {
+        <span class="keyword">self</span>.<span class="property">semaphore</span> = <span class="type">DispatchSemaphore</span>(value: items.<span class="property">count</span>)
+        <span class="keyword">self</span>.<span class="property">items</span>.<span class="call">reserveCapacity</span>(items.<span class="property">count</span>)
+        <span class="keyword">self</span>.<span class="property">items</span>.<span class="call">append</span>(contentsOf: items)
+    }
+
+    <span class="keyword">func</span> acquire() -&gt; <span class="type">T</span>? {
+        <span class="keyword">if self</span>.<span class="property">semaphore</span>.<span class="call">wait</span>(timeout: .<span class="dotAccess">distantFuture</span>) == .<span class="dotAccess">success</span>, !<span class="keyword">self</span>.<span class="property">items</span>.<span class="property">isEmpty</span> {
+            <span class="keyword">return self</span>.<span class="property">lockQueue</span>.<span class="call">sync</span> {
+                <span class="keyword">return self</span>.<span class="property">items</span>.<span class="call">remove</span>(at: <span class="number">0</span>)
+            }
+        }
+        <span class="keyword">return nil</span>
+    }
+
+    <span class="keyword">func</span> release(<span class="keyword">_</span> item: <span class="type">T</span>) {
+        <span class="keyword">self</span>.<span class="property">lockQueue</span>.<span class="call">sync</span> {
+            <span class="keyword">self</span>.<span class="property">items</span>.<span class="call">append</span>(item)
+            <span class="keyword">self</span>.<span class="property">semaphore</span>.<span class="call">signal</span>()
+        }
+    }
+}
+
+
+<span class="keyword">let</span> pool = <span class="type">Pool</span>&lt;<span class="type">String</span>&gt;([<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>])
+
+<span class="keyword">let</span> a = pool.<span class="call">acquire</span>()
+<span class="call">print</span>(<span class="string">"</span>\(a ?? "n/a") <span class="string">acquired"</span>)
+<span class="keyword">let</span> b = pool.<span class="call">acquire</span>()
+<span class="call">print</span>(<span class="string">"</span>\(b ?? "n/a") <span class="string">acquired"</span>)
+<span class="keyword">let</span> c = pool.<span class="call">acquire</span>()
+<span class="call">print</span>(<span class="string">"</span>\(c ?? "n/a") <span class="string">acquired"</span>)
+
+<span class="type">DispatchQueue</span>.<span class="call">global</span>(qos: .<span class="dotAccess">default</span>).<span class="call">asyncAfter</span>(deadline: .<span class="call">now</span>() + .<span class="call">seconds</span>(<span class="number">2</span>)) {
+    <span class="keyword">if let</span> item = b {
+        pool.<span class="call">release</span>(item)
+    }
+}
+
+<span class="call">print</span>(<span class="string">"No more resource in the pool, blocking thread until..."</span>)
+<span class="keyword">let</span> x = pool.<span class="call">acquire</span>()
+<span class="call">print</span>(<span class="string">"</span>\(x ?? "n/a") <span class="string">acquired again"</span>)</code></pre><p>As you can see the implementation is just a few lines. You have the thread safe array of the generic pool items, a dispatch semaphore that'll block if there are no objects available in the pool, and two methods in order to actually use the object pool.</p><p>In the sample you can see that if there are no more objects left in the pool, the current queue will be blocked until a resource is being freed &amp; ready to use. So watch out &amp; don't block the main thread accidentally! 😉</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/swift-object-pool-design-pattern/"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.com/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

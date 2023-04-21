@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>How to parse JSON in Swift using Codable protocol? - The.Swift.Dev.</title>
+    
+    <meta name="description" content="In this Swift tutorial, I'd like to give you an example about getting and parsing JSON data using URLSession and Codable protocol.">
+    
+    <meta property="og:title" content="How to parse JSON in Swift using Codable protocol? - The.Swift.Dev.">
+    <meta property="og:description" content="In this Swift tutorial, I'd like to give you an example about getting and parsing JSON data using URLSession and Codable protocol.">
+    <meta property="og:url" content="https://theswiftdev.com/how-to-parse-json-in-swift-using-codable-protocol//">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/how-to-parse-json-in-swift-using-codable-protocol//cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="How to parse JSON in Swift using Codable protocol? - The.Swift.Dev.">
+    <meta name="twitter:description" content="In this Swift tutorial, I'd like to give you an example about getting and parsing JSON data using URLSession and Codable protocol.">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/how-to-parse-json-in-swift-using-codable-protocol//cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.com/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2018/01/29">2018/01/29</time>
+            <h1 class="title">How to parse JSON in Swift using Codable protocol?</h1>
+            <p class="excerpt">In this Swift tutorial, I'd like to give you an example about getting and parsing JSON data using URLSession and Codable protocol.</p>
+            <div class="meta">
+                <span class="tag">Swift</span>
+<span class="tag">JSON</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/how-to-parse-json-in-swift-using-codable-protocol//cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <h2>Dependencies</h2><p>First of all just a few words about dependencies. From Swift 4 you don't need any dependency to <a href="https://benscheirman.com/2017/06/swift-json/" target="_blank">parse JSON data</a>, because there are <a href="https://developer.apple.com/documentation/swift/codable" target="_blank">built-in protocols</a> to take care of everything. If you are still using some kind of 3rd-party you should definitely ditch it for the sake of simplicity. By the way before you add any external dependency into your project, please think twice. 🤔</p><h2>Networking</h2><p>If your task is simply to load some kind of JSON document through HTTP from around the web, - surprise - you won't need <a href="https://github.com/Alamofire/Alamofire" target="_blank">Alamofire</a> at all. You can use the built-in <a href="https://developer.apple.com/documentation/foundation/urlsession" target="_blank">URLSession</a> class to make the request, and get back everything that you'll need. The Foundation networking stack is already a complex and very useful stack, don't make things even more complicated with extra layers.</p><h2>JSON parsing</h2><p>Now, after the short intro, let's dive in and get some real fake JSON data from the <a href="https://jsonplaceholder.typicode.com/" target="_blank">JSONPlaceholder</a> web service. I'm going to place the whole thing right here, you can select it, copy and paste into a Swift playground file.</p><pre><code class="language-swift"><span class="keyword">import</span> Foundation
+<span class="keyword">import</span> PlaygroundSupport
+
+<span class="type">PlaygroundPage</span>.<span class="property">current</span>.<span class="property">needsIndefiniteExecution</span> = <span class="keyword">true
+
+struct</span> Post: <span class="type">Codable</span> {
+
+    <span class="keyword">enum</span> CodingKeys: <span class="type">String</span>, <span class="type">CodingKey</span> {
+        <span class="keyword">case</span> id
+        <span class="keyword">case</span> title
+        <span class="keyword">case</span> body
+        <span class="keyword">case</span> userIdentifier = <span class="string">"userId"</span>
+    }
+
+    <span class="keyword">let</span> id: <span class="type">Int</span>
+    <span class="keyword">let</span> title: <span class="type">String</span>
+    <span class="keyword">let</span> body: <span class="type">String</span>
+    <span class="keyword">let</span> userIdentifier: <span class="type">Int</span>
+}
+
+<span class="keyword">let</span> url = <span class="type">URL</span>(string: <span class="string">"https://jsonplaceholder.typicode.com/posts"</span>)!
+
+<span class="type">URLSession</span>.<span class="property">shared</span>.<span class="call">dataTask</span>(with: url) { data, response, error <span class="keyword">in
+    if let</span> error = error {
+        <span class="call">print</span>(<span class="string">"Error:</span> \(error.<span class="property">localizedDescription</span>)<span class="string">"</span>)
+        <span class="type">PlaygroundPage</span>.<span class="property">current</span>.<span class="call">finishExecution</span>()
+    }
+    <span class="keyword">guard 
+        let</span> httpResponse = response <span class="keyword">as</span>? <span class="type">HTTPURLResponse</span>, 
+        httpResponse.<span class="property">statusCode</span> == <span class="number">200</span> 
+    <span class="keyword">else</span> {
+        <span class="call">print</span>(<span class="string">"Error: invalid HTTP response code"</span>)
+        <span class="type">PlaygroundPage</span>.<span class="property">current</span>.<span class="call">finishExecution</span>()
+    }
+    <span class="keyword">guard let</span> data = data <span class="keyword">else</span> {
+        <span class="call">print</span>(<span class="string">"Error: missing data"</span>)
+        <span class="type">PlaygroundPage</span>.<span class="property">current</span>.<span class="call">finishExecution</span>()
+    }
+
+    <span class="comment">// feel free to uncomment this for debugging data
+    // print(String(data: data, encoding: .utf8))</span>
+
+    <span class="keyword">do</span> {
+        <span class="keyword">let</span> decoder = <span class="type">JSONDecoder</span>()
+        <span class="keyword">let</span> posts = <span class="keyword">try</span> decoder.<span class="call">decode</span>([<span class="type">Post</span>].<span class="keyword">self</span>, from: data)
+
+        <span class="call">print</span>(posts.<span class="call">map</span> { $0.<span class="property">title</span> })
+        <span class="type">PlaygroundPage</span>.<span class="property">current</span>.<span class="call">finishExecution</span>()
+    }
+    <span class="keyword">catch</span> {
+        <span class="call">print</span>(<span class="string">"Error:</span> \(error.<span class="property">localizedDescription</span>)<span class="string">"</span>)
+        <span class="type">PlaygroundPage</span>.<span class="property">current</span>.<span class="call">finishExecution</span>()
+    }
+}.<span class="call">resume</span>()</code></pre><p>As you can see downloading and <a href="https://developer.apple.com/swift/blog/?id=37" target="_blank">parsing JSON</a> from the web is a really easy task. This whole code snippet is around 50 lines of code. Of course it's just a proof of concept, but it works and you don't need any dependency. It's pure Swift and <a href="https://github.com/apple/swift/blob/master/stdlib/public/SDK/Foundation/JSONEncoder.swift" target="_blank">Foundation</a>.</p><p class="note">To <a href="http://roadfiresoftware.com/2015/08/save-your-future-self-from-broken-apps/" target="_blank">save</a> some typing, you can also generate the final objects directly from the JSON structure with these <a href="https://gitlab.com/theswiftdev/awesome-xcode-extensions" target="_blank">amazing Xcode extensions</a>.</p><p>The <code>Codable</code> protocol - which is actually a compound <code>typealias</code> from <code>Encodable &amp; Decodable</code> protocols - makes the process of parsing JSON data in Swift magical. 💫</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/how-to-parse-json-in-swift-using-codable-protocol//"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.com/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

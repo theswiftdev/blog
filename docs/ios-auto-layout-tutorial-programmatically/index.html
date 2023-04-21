@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>iOS Auto Layout tutorial programmatically - The.Swift.Dev.</title>
+    
+    <meta name="description" content="In this great iOS Auto Layout tutorial I'll teach you how to support rotation, use constraints, work with layers, animate corner radius.">
+    
+    <meta property="og:title" content="iOS Auto Layout tutorial programmatically - The.Swift.Dev.">
+    <meta property="og:description" content="In this great iOS Auto Layout tutorial I'll teach you how to support rotation, use constraints, work with layers, animate corner radius.">
+    <meta property="og:url" content="https://theswiftdev.com/ios-auto-layout-tutorial-programmatically/">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/ios-auto-layout-tutorial-programmatically/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="iOS Auto Layout tutorial programmatically - The.Swift.Dev.">
+    <meta name="twitter:description" content="In this great iOS Auto Layout tutorial I'll teach you how to support rotation, use constraints, work with layers, animate corner radius.">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/ios-auto-layout-tutorial-programmatically/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.com/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2017/10/31">2017/10/31</time>
+            <h1 class="title">iOS Auto Layout tutorial programmatically</h1>
+            <p class="excerpt">In this great iOS Auto Layout tutorial I'll teach you how to support rotation, use constraints, work with layers, animate corner radius.</p>
+            <div class="meta">
+                <span class="tag">iOS</span>
+<span class="tag">UIKit</span>
+<span class="tag">Swift</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/ios-auto-layout-tutorial-programmatically/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <h2>Rotation support</h2><p>If your application is going to support multiple device orientations, you should implement the following methods inside your view controller.</p><pre><code class="language-swift"><span class="keyword">class</span> ViewController: <span class="type">UIViewController</span> {
+
+    <span class="keyword">override var</span> shouldAutorotate: <span class="type">Bool</span> {
+        <span class="keyword">return false</span>
+    }
+
+    <span class="keyword">override var</span> supportedInterfaceOrientations: <span class="type">UIInterfaceOrientationMask</span> {
+        <span class="keyword">return</span> .<span class="dotAccess">portrait</span>
+    }
+
+    <span class="keyword">override var</span> preferredInterfaceOrientationForPresentation: <span class="type">UIInterfaceOrientation</span> {
+        <span class="keyword">return</span> .<span class="dotAccess">portrait</span>
+    }
+}</code></pre><p>Obviously you can change the return values to support not just portrait, but landscape mode as well. This is quite easy, however if your controller is embedded inside a navigation or a tab bar controller the rotation stops working. In this case, you have to subclass the UINavigationController, and you have to return the correct values from the top view controller.</p><pre><code class="language-swift"><span class="keyword">class</span> NavigationController: <span class="type">UINavigationController</span> {
+
+    <span class="keyword">override var</span> shouldAutorotate: <span class="type">Bool</span> {
+        <span class="keyword">if let</span> shouldRotate = topViewController?.<span class="property">shouldAutorotate</span> {
+            <span class="keyword">return</span> shouldRotate
+        }
+        <span class="keyword">return super</span>.<span class="property">shouldAutorotate</span>
+    }
+
+    <span class="keyword">override var</span> supportedInterfaceOrientations: <span class="type">UIInterfaceOrientationMask</span> {
+        <span class="keyword">if let</span> orientation = topViewController?.<span class="property">supportedInterfaceOrientations</span> {
+            <span class="keyword">return</span> orientation
+        }
+        <span class="keyword">return super</span>.<span class="property">supportedInterfaceOrientations</span>
+    }
+
+    <span class="keyword">override var</span> preferredInterfaceOrientationForPresentation: <span class="type">UIInterfaceOrientation</span> {
+        <span class="keyword">if let</span> orientation = topViewController?.<span class="property">preferredInterfaceOrientationForPresentation</span> {
+            <span class="keyword">return</span> orientation
+        }
+        <span class="keyword">return super</span>.<span class="property">preferredInterfaceOrientationForPresentation</span>
+    }
+}</code></pre><p>The same logic applies if you have a UITabBarController, but instead of the top view controller, you have to use the selectedIndex, and return the properties based on the selected view controller.</p><pre><code class="language-swift"><span class="keyword">class</span> TabBarController: <span class="type">UITabBarController</span> {
+
+    <span class="keyword">override var</span> shouldAutorotate: <span class="type">Bool</span> {
+        <span class="keyword">if let</span> viewController = viewControllers?[selectedIndex] {
+            <span class="keyword">return</span> viewController.<span class="property">shouldAutorotate</span>
+        }
+        <span class="keyword">return super</span>.<span class="property">shouldAutorotate</span>
+    }
+
+    <span class="keyword">override var</span> supportedInterfaceOrientations: <span class="type">UIInterfaceOrientationMask</span> {
+        <span class="keyword">if let</span> viewController = viewControllers?[selectedIndex] {
+            <span class="keyword">return</span> viewController.<span class="property">supportedInterfaceOrientations</span>
+        }
+        <span class="keyword">return super</span>.<span class="property">supportedInterfaceOrientations</span>
+    }
+
+    <span class="keyword">override var</span> preferredInterfaceOrientationForPresentation: <span class="type">UIInterfaceOrientation</span> {
+        <span class="keyword">if  let</span> viewController = viewControllers?[selectedIndex] {
+            <span class="keyword">return</span> viewController.<span class="property">preferredInterfaceOrientationForPresentation</span>
+        }
+        <span class="keyword">return super</span>.<span class="property">preferredInterfaceOrientationForPresentation</span>
+    }
+}</code></pre><p>This way your embedded controller can control the supported orientations. Oh, by the way you can use this method to change the status bar style.</p><h2>Constraints</h2><p>In order to <a href="https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/" target="_blank">understand constraints</a> and the current state of the <a href="https://www.raywenderlich.com/160527/auto-layout-tutorial-ios-11-getting-started" target="_blank">Auto Layout engine</a>, we should go back to in time and start the story from the beginning.</p><h3>Springs and struts</h3><p>Remember the first iPhone? One screen to rule them all! <code>320x480</code>, no constraints, no adaptivity, just frames and bounds. Positioning views on a fixed size canvas is absolutely a no-brainer, here is an example.</p><pre><code class="language-swift"><span class="keyword">class</span> ViewController: <span class="type">UIViewController</span> {
+
+    <span class="keyword">weak var</span> square: <span class="type">UIView</span>!
+
+    <span class="keyword">var</span> squareFrame: <span class="type">CGRect</span> {
+        <span class="keyword">let</span> midX = view.<span class="property">bounds</span>.<span class="property">midX</span>
+        <span class="keyword">let</span> midY = view.<span class="property">bounds</span>.<span class="property">midY</span>
+        <span class="keyword">let</span> size: <span class="type">CGFloat</span> = <span class="number">64</span>
+        <span class="keyword">return</span> <span class="type">CGRect</span>(
+            x: midX-size/<span class="number">2</span>, 
+            y: midY-size/<span class="number">2</span>, 
+            width: size, 
+            height: size
+        )
+    }
+
+    <span class="keyword">override func</span> loadView() {
+        <span class="keyword">super</span>.<span class="call">loadView</span>()
+
+        <span class="keyword">let</span> square = <span class="type">UIView</span>()
+        view.<span class="call">addSubview</span>(square)
+        square = square
+    }
+
+    <span class="keyword">override func</span> viewDidLoad() {
+        <span class="keyword">super</span>.<span class="call">viewDidLoad</span>()
+
+        square.<span class="property">backgroundColor</span> = .<span class="dotAccess">yellow</span>
+    }
+
+    <span class="keyword">override func</span> viewDidLayoutSubviews() {
+        <span class="keyword">super</span>.<span class="call">viewDidLayoutSubviews</span>()
+
+        square.<span class="property">frame</span> = squareFrame
+    }
+}</code></pre><p>With the <code>viewDidLayoutSubviews</code> method it's super convenient to support rotation, I just have to re-calculate the frame of the view every time if the bounding rectangle changes. You might think hey, this is easy, but what happens if you have to support lots of device sizes?</p><blockquote><p>Do the math!</p></blockquote><p>For one single object it's so easy to make the calculations, but usually you have more than one view on screen. Those views can have relations to each other, and a simple math trick can lead you to a complete chaos of frame calculations, do you even like mathematics? There must be a better way!</p><h2>Auto Layout</h2><p>With iOS6 Apple brought us the holy grail of layout technologies. It was the perfect successor of the previous system. Everyone adopted it fast, that's why Apple engineers completely removed frame based layout APIs in the next release... <code>#justkidding</code></p><p>Apart from the joke, it was the beginning of a new era, more and more devices were born, and with Auto Layout constraints it was super easy to maintain views. Now we should refactor the previous example with layout constraints.</p><pre><code class="language-swift"><span class="keyword">class</span> ViewController: <span class="type">UIViewController</span> {
+
+    <span class="keyword">weak var</span> square: <span class="type">UIView</span>!
+
+    <span class="keyword">override func</span> loadView() {
+        <span class="keyword">super</span>.<span class="call">loadView</span>()
+
+        <span class="keyword">let</span> square = <span class="type">UIView</span>()
+        view.<span class="call">addSubview</span>(square)
+        square.<span class="property">translatesAutoresizingMaskIntoConstraints</span> = <span class="keyword">false</span>
+        view.<span class="call">addConstraints</span>([
+            <span class="type">NSLayoutConstraint</span>(
+                item: square, 
+                attribute: .<span class="dotAccess">width</span>, 
+                relatedBy: .<span class="dotAccess">equal</span>, 
+                toItem: <span class="keyword">nil</span>, 
+                attribute: .<span class="dotAccess">width</span>, 
+                multiplier: <span class="number">1.0</span>, 
+                constant: <span class="number">64</span>
+            ),
+            <span class="type">NSLayoutConstraint</span>(
+                item: square, 
+                attribute: .<span class="dotAccess">height</span>, 
+                relatedBy: .<span class="dotAccess">equal</span>, 
+                toItem: <span class="keyword">nil</span>, 
+                attribute: .<span class="dotAccess">height</span>, 
+                multiplier: <span class="number">1.0</span>, 
+                constant: <span class="number">64</span>
+            ),
+            <span class="type">NSLayoutConstraint</span>(
+                item: square,
+                 attribute: .<span class="dotAccess">centerX</span>, 
+                 relatedBy: .<span class="dotAccess">equal</span>, 
+                 toItem: view, 
+                 attribute: .<span class="dotAccess">centerX</span>, 
+                 multiplier: <span class="number">1.0</span>, 
+                 constant: <span class="number">0</span>
+            ),
+            <span class="type">NSLayoutConstraint</span>(
+                item: square, 
+                attribute: .<span class="dotAccess">centerY</span>, 
+                relatedBy: .<span class="dotAccess">equal</span>, 
+                toItem: view, 
+                attribute: .<span class="dotAccess">centerY</span>,
+                multiplier: <span class="number">1.0</span>, 
+                constant: <span class="number">0</span>
+            ),
+        ])
+        <span class="keyword">self</span>.<span class="property">square</span> = square
+    }
+
+    <span class="keyword">override func</span> viewDidLoad() {
+        <span class="keyword">super</span>.<span class="call">viewDidLoad</span>()
+
+        square.<span class="property">backgroundColor</span> = .<span class="dotAccess">yellow</span>
+    }
+}</code></pre><p>As you can see we don't need to manually calculate the frame of the view, however creating constraints programmatically is not so convenient. That's why Apple made the constraint <a href="https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/VisualFormatLanguage.html" target="_blank">Visual Format Language</a>.</p><blockquote><p>VFL = WTF?</p></blockquote><p>Actually this VFL is so bad that I don't even want to demo it, but anyway...</p><pre><code class="language-swift"><span class="keyword">class</span> ViewController: <span class="type">UIViewController</span> {
+
+    <span class="keyword">weak var</span> square: <span class="type">UIView</span>!
+
+    <span class="keyword">override func</span> loadView() {
+        <span class="keyword">super</span>.<span class="call">loadView</span>()
+
+        <span class="keyword">let</span> square = <span class="type">UIView</span>()
+        view.<span class="call">addSubview</span>(square)
+        square.<span class="property">translatesAutoresizingMaskIntoConstraints</span> = <span class="keyword">false
+
+        let</span> views: [<span class="type">String</span>:<span class="type">Any</span>] = [
+            <span class="string">"view"</span>: view, 
+            <span class="string">"subview"</span>: square
+        ]
+        <span class="keyword">let</span> vertical = <span class="type">NSLayoutConstraint</span>.<span class="call">constraints</span>(
+            withVisualFormat: <span class="string">"V:[view]-(&lt;=1)-[subview(==64)]"</span>, 
+            options: .<span class="dotAccess">alignAllCenterX</span>, 
+            metrics: <span class="keyword">nil</span>, 
+            views: views
+        )
+
+        <span class="keyword">let</span> horizontal = <span class="type">NSLayoutConstraint</span>.<span class="call">constraints</span>(
+            withVisualFormat: <span class="string">"H:[view]-(&lt;=1)-[subview(==64)]"</span>,
+            options: .<span class="dotAccess">alignAllCenterY</span>, 
+            metrics: <span class="keyword">nil</span>, 
+            views: views
+        )
+        view.<span class="call">addConstraints</span>(vertical)
+        view.<span class="call">addConstraints</span>(horizontal)
+        <span class="keyword">self</span>.<span class="property">square</span> = square
+    }
+
+    <span class="keyword">override func</span> viewDidLoad() {
+        <span class="keyword">super</span>.<span class="call">viewDidLoad</span>()
+
+        square.<span class="property">backgroundColor</span> = .<span class="dotAccess">yellow</span>
+    }
+}</code></pre><p>God forbid the engineer who invented this black magic. 😅</p><p>So as you can see we definitely have a problem with constraints. Creating all your constraints sucks, at least it's going to cost many many lines of code. Of course you can use the magical interface builder, but where's the fun if you just drag lines?</p><p>Creating constraints programmatically is no better than calculating frames, it will lead you to the same level of complexity or even worse, this is why so many 3rd party frameworks came alive and eventually Apple issued the problem as well.</p><p class="note">I have an amazing article about <a href="https://theswiftdev.com/2018/06/14/mastering-ios-auto-layout-anchors-programmatically-from-swift/">mastering Auto Layout anchors</a>, I highly recommend reading it if you want to get familiar with anchors. 📖</p><h3>Anchors</h3><p><a href="https://useyourloaf.com/blog/pain-free-constraints-with-layout-anchors" target="_blank">Anchors</a> were born because Auto Layout had some construction flaws.</p><blockquote><p>The NSLayoutAnchor class is a factory class for creating NSLayoutConstraint objects using a fluent API. Use these constraints to programmatically define your layout using Auto Layout.</p></blockquote><pre><code class="language-swift"><span class="keyword">class</span> ViewController: <span class="type">UIViewController</span> {
+
+    <span class="keyword">weak var</span> square: <span class="type">UIView</span>!
+
+    <span class="keyword">override func</span> loadView() {
+        <span class="keyword">super</span>.<span class="call">loadView</span>()
+
+        <span class="keyword">let</span> square = <span class="type">UIView</span>()
+        view.<span class="call">addSubview</span>(square)
+        square.<span class="property">translatesAutoresizingMaskIntoConstraints</span> = <span class="keyword">false</span>
+        <span class="type">NSLayoutConstraint</span>.<span class="call">activate</span>([
+            square.<span class="property">widthAnchor</span>.<span class="call">constraint</span>(equalToConstant: <span class="number">64</span>),
+            square.<span class="property">heightAnchor</span>.<span class="call">constraint</span>(equalToConstant: <span class="number">64</span>),
+            square.<span class="property">centerXAnchor</span>.<span class="call">constraint</span>(equalTo: view.<span class="property">centerXAnchor</span>),
+            square.<span class="property">centerYAnchor</span>.<span class="call">constraint</span>(equalTo: view.<span class="property">centerYAnchor</span>),
+        ])
+        <span class="keyword">self</span>.<span class="property">square</span> = square
+    }
+
+    <span class="keyword">override func</span> viewDidLoad() {
+        <span class="keyword">super</span>.<span class="call">viewDidLoad</span>()
+
+        square.<span class="property">backgroundColor</span> = .<span class="dotAccess">yellow</span>
+    }
+}</code></pre><p>See, totally rocks! Anchors are the best way of using for Auto Layout constraints.</p><h2>Adaptive layout</h2><p>If you look at the current state of built-in apps provided by Apple, you can see that only some of them are responsive / adaptive. In general, apps that using collection views are more easy to adapt for bigger screens, or different device orientations.</p><p>Always use collection views, except if it's just one view on the center of the screen, you should <a href="https://theswiftdev.com/2018/04/17/ultimate-uicollectionview-guide-with-ios-examples-written-in-swift/">build up your user interfaces using collection views</a>. It will give you reusability, lower memory overhead, scrolling and many more benefits. You don't even have to calculate the stupid index paths if you are using my <a href="https://github.com/corekit/collectionview" target="_blank">CollectionView micro framework</a>.</p><h2>Auto Layout with layers</h2><p><a href="https://digitalleaves.com/ultimate-guide-autolayout/" target="_blank">Auto Layout</a> is great, but sometimes you have to work with layers directly. Now in this situation, you still have to do some calculations. You can easily override the bounds property and update frames in the didSet block if you are dealing with a view subclass.</p><pre><code class="language-swift"><span class="keyword">override var</span> bounds: <span class="type">CGRect</span> {
+    <span class="keyword">didSet</span> {
+        gradientLayer.<span class="property">frame</span> = bounds
+    }
+}</code></pre><p>Another option is to override the <code>viewDidLayoutSubviews</code> method inside the view controller, and set the frame of the layer based on the new bounds.</p><pre><code class="language-swift"><span class="keyword">override func</span> viewDidLayoutSubviews() {
+    <span class="keyword">super</span>.<span class="call">viewDidLayoutSubviews</span>()
+
+    gradientView.<span class="property">gradientLayer</span>.<span class="property">frame</span> = gradientView.<span class="property">bounds</span>
+}</code></pre><p>You can also use plain old Key-Value Observing to observe an objet's bounds property and update the frame of the layer according to that.</p><pre><code class="language-swift"><span class="comment">// somewhere in the init method</span>
+<span class="call">addObserver</span>(
+    <span class="keyword">self</span>, 
+    forKeyPath: <span class="string">"bounds"</span>, 
+    options: .<span class="dotAccess">new</span>, 
+    context: <span class="keyword">nil</span>
+)
+
+<span class="keyword">override func</span> observeValue(
+    forKeyPath keyPath: <span class="type">String</span>?, 
+    of object: <span class="type">Any</span>?, 
+    change: [<span class="type">NSKeyValueChangeKey</span> : <span class="type">Any</span>]?, 
+    context: <span class="type">UnsafeMutableRawPointer</span>?
+) {
+    <span class="keyword">guard</span> keyPath == <span class="string">"bounds"</span> <span class="keyword">else</span> {
+        <span class="keyword">return super</span>.<span class="call">observeValue</span>(
+            forKeyPath: keyPath, 
+            of: object, 
+            change: change, 
+            context: context
+        )
+    }
+    gradientLayer.<span class="property">frame</span> = bounds
+}
+
+<span class="keyword">deinit</span> {
+    <span class="call">removeObserver</span>(<span class="keyword">self</span>, forKeyPath: <span class="string">"bounds"</span>)
+}</code></pre><h2>Animating corner radius</h2><p>First of all if you want to animate a view while using constraint based layouts, you have to do something like this.</p><pre><code class="language-swift">widthConstraint.<span class="property">constant</span> = <span class="number">64</span>
+<span class="type">UIView</span>.<span class="call">animate</span>(withDuration: <span class="number">0.5</span>, animations: {
+    view.<span class="call">layoutIfNeeded</span>()
+}, completion: <span class="keyword">nil</span>)</code></pre><p>Now if you want to animate the corner radius of a view, you can always use the traditional way, and set the cornerRadius property of the layer on a bounds change.</p><p>But, we've got this fancy new UIViewPropertyAnimator API since iOS 10.</p><pre><code class="language-swift"><span class="keyword">self</span>.<span class="property">imageView</span>.<span class="property">layer</span>.<span class="property">cornerRadius</span> = <span class="number">16</span>
+<span class="type">UIViewPropertyAnimator</span>(duration: <span class="number">2.5</span>, curve: .<span class="dotAccess">easeInOut</span>) {
+    <span class="keyword">self</span>.<span class="property">imageView</span>.<span class="property">layer</span>.<span class="property">cornerRadius</span> = <span class="number">32</span>
+}.<span class="call">startAnimation</span>()</code></pre><p>It's pretty simple, you can even apply a cornerMask to round just some of the corners. The layer based layout examples are inside the provided source code for the article alongside with a complete sample for each Auto Layout technique. You can download or clone it from the <a href="https://github.com/theswiftdev/tutorials" target="_blank">The.Swift.Dev tutorials repository</a>.</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/ios-auto-layout-tutorial-programmatically/"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.com/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

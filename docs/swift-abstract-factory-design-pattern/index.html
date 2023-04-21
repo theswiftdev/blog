@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Swift abstract factory design pattern - The.Swift.Dev.</title>
+    
+    <meta name="description" content="Let's combine factory method with simple factory voilá: here is the abstract factory design pattern written in Swift language!">
+    
+    <meta property="og:title" content="Swift abstract factory design pattern - The.Swift.Dev.">
+    <meta property="og:description" content="Let's combine factory method with simple factory voilá: here is the abstract factory design pattern written in Swift language!">
+    <meta property="og:url" content="https://theswiftdev.com/swift-abstract-factory-design-pattern/">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/swift-abstract-factory-design-pattern/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="Swift abstract factory design pattern - The.Swift.Dev.">
+    <meta name="twitter:description" content="Let's combine factory method with simple factory voilá: here is the abstract factory design pattern written in Swift language!">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/swift-abstract-factory-design-pattern/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.com/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2018/06/03">2018/06/03</time>
+            <h1 class="title">Swift abstract factory design pattern</h1>
+            <p class="excerpt">Let's combine factory method with simple factory voilá: here is the abstract factory design pattern written in Swift language!</p>
+            <div class="meta">
+                <span class="tag">Swift</span>
+<span class="tag">iOS</span>
+<span class="tag">design patterns</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/swift-abstract-factory-design-pattern/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <h2>Abstract factory in Swift</h2><p>The <a href="https://en.wikipedia.org/wiki/Abstract_factory_pattern" target="_blank">abstract factory</a> pattern provides a way to encapsulate a group of individual factories that have a common theme without specifying their concrete classes.</p><p>So <a href="https://medium.com/jeremy-codes/the-abstract-factory-8bbfffc2f77c" target="_blank">abstract factory</a> is there for you to create families of related objects. The implementation usually combines simple factory &amp; <a href="https://stackoverflow.com/questions/5739611/differences-between-abstract-factory-pattern-and-factory-method" target="_blank">factory method</a> principles. Individual objects are created through factory methods, while the whole thing is wrapped in an "abstract" simple factory. Now check the code! 😅</p><pre><code class="language-swift"><span class="comment">// service protocols</span>
+<span class="keyword">protocol</span> ServiceFactory {
+    <span class="keyword">func</span> create() -&gt; <span class="type">Service</span>
+}
+
+<span class="keyword">protocol</span> Service {
+    <span class="keyword">var</span> url: <span class="type">URL</span> { <span class="keyword">get</span> }
+}
+
+<span class="comment">// staging</span>
+<span class="keyword">class</span> StagingService: <span class="type">Service</span> {
+    <span class="keyword">var</span> url: <span class="type">URL</span> { <span class="keyword">return</span> <span class="type">URL</span>(string: <span class="string">"https://dev.localhost/"</span>)! }
+}
+
+<span class="keyword">class</span> StagingServiceFactory: <span class="type">ServiceFactory</span> {
+    <span class="keyword">func</span> create() -&gt; <span class="type">Service</span> {
+        <span class="keyword">return</span> <span class="type">StagingService</span>()
+    }
+}
+
+<span class="comment">// production</span>
+<span class="keyword">class</span> ProductionService: <span class="type">Service</span> {
+    <span class="keyword">var</span> url: <span class="type">URL</span> { <span class="keyword">return</span> <span class="type">URL</span>(string: <span class="string">"https://live.localhost/"</span>)! }
+}
+
+<span class="keyword">class</span> ProductionServiceFactory: <span class="type">ServiceFactory</span> {
+    <span class="keyword">func</span> create() -&gt; <span class="type">Service</span> {
+        <span class="keyword">return</span> <span class="type">ProductionService</span>()
+    }
+}
+
+<span class="comment">// abstract factory</span>
+<span class="keyword">class</span> AppServiceFactory: <span class="type">ServiceFactory</span> {
+
+    <span class="keyword">enum</span> Environment {
+        <span class="keyword">case</span> production
+        <span class="keyword">case</span> staging
+    }
+
+    <span class="keyword">var</span> env: <span class="type">Environment</span>
+
+    <span class="keyword">init</span>(env: <span class="type">Environment</span>) {
+        <span class="keyword">self</span>.<span class="property">env</span> = env
+    }
+
+    <span class="keyword">func</span> create() -&gt; <span class="type">Service</span> {
+        <span class="keyword">switch self</span>.<span class="property">env</span> {
+        <span class="keyword">case</span> .<span class="dotAccess">production</span>:
+            <span class="keyword">return</span> <span class="type">ProductionServiceFactory</span>().<span class="call">create</span>()
+        <span class="keyword">case</span> .<span class="dotAccess">staging</span>:
+            <span class="keyword">return</span> <span class="type">StagingServiceFactory</span>().<span class="call">create</span>()
+        }
+    }
+}
+
+<span class="keyword">let</span> factory = <span class="type">AppServiceFactory</span>(env: .<span class="dotAccess">production</span>)
+<span class="keyword">let</span> service = factory.<span class="call">create</span>()
+<span class="call">print</span>(service.<span class="property">url</span>)</code></pre><p>As you can see using an abstract factory will influence the whole application logic, while factory methods have effects only on local parts. Implementation can vary for example you could also create a standalone protocol for the abstract factory, but in this example I wanted to keep things as simple as I could.</p><p>Abstract factories are often used to achieve object independence. For example if you have multiple different SQL database connectors (PostgreSQL, MySQL, etc.) written in Swift with a common interface, you could easily switch between them anytime using this pattern. Same logic could be applied for anything with a similar scenario. 🤔</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/swift-abstract-factory-design-pattern/"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.com/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

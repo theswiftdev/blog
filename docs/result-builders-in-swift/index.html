@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Result builders in Swift - The.Swift.Dev.</title>
+    
+    <meta name="description" content="If you want to make a result builder in Swift, this article will help you to deal with the most common cases when creating a DSL.">
+    
+    <meta property="og:title" content="Result builders in Swift - The.Swift.Dev.">
+    <meta property="og:description" content="If you want to make a result builder in Swift, this article will help you to deal with the most common cases when creating a DSL.">
+    <meta property="og:url" content="https://theswiftdev.com/result-builders-in-swift/">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/result-builders-in-swift/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="Result builders in Swift - The.Swift.Dev.">
+    <meta name="twitter:description" content="If you want to make a result builder in Swift, this article will help you to deal with the most common cases when creating a DSL.">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/result-builders-in-swift/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.com/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2017/10/10">2017/10/10</time>
+            <h1 class="title">Result builders in Swift</h1>
+            <p class="excerpt">If you want to make a result builder in Swift, this article will help you to deal with the most common cases when creating a DSL.</p>
+            <div class="meta">
+                <span class="tag">UIKit</span>
+<span class="tag">iOS</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/result-builders-in-swift/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <h2>Swift result builder basics</h2><p>The <a href="https://github.com/apple/swift-evolution/blob/main/proposals/0289-result-builders.md" target="_blank">result builder proposal</a> (originally it was called function builders) was implemented in Swift 5.4. This feature allows us to build up a result value using a sequence of components. At first sight, you might think, hey this looks like an array with a series of elements, except the coma in between the items, but nope, this is completely different. But why is it good for us?</p><p>Result builder can be used to create entirely new Domain-Specific Languages (DSLs) inside Swift. Creating a DSL has many advantages, since DSLs are usually tied to a specific problem, the syntax that you use to describe the language is very lightweight, yet powerful and capable. Since Swift DSLs are type safe, it is much safer to use one instead of manually concatenate objects. Swift DSLs also allows us to use basic control flows inside these embedded micro-languages. 🤔</p><p>Let me give you an example: you can <a href="https://github.com/BinaryBirds/swift-html" target="_blank">write HTML in Swift</a>, you can simply write out all the tags and glue a bunch of String values together, but that wouldn't be so safe, right?</p><pre><code class="language-swift"><span class="keyword">func</span> buildWebpage(title: <span class="type">String</span>, body: <span class="type">String</span>) -&gt; <span class="type">String</span> {
+    <span class="string">"""
+    &lt;html&gt;
+        &lt;head&gt;
+            &lt;title&gt;</span>\(title)<span class="string">&lt;/title&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+            &lt;h1&gt;</span>\(title)<span class="string">&lt;/h1&gt;
+            &lt;h1&gt;</span>\(body)<span class="string">&lt;/h1&gt;
+        &lt;/body&gt;
+    &lt;/html&gt;
+    """</span>
+}
+
+<span class="keyword">let</span> html = <span class="call">buildWebpage</span>(title: <span class="string">"Lorem ipsum"</span>, body: <span class="string">"dolor sit amet"</span>)
+<span class="call">print</span>(html)</code></pre><p>We can all agree that this is ugly and the compiler won't help you to detect the semantic issues at all. Now if we replace the following code with a DSL, we will greatly benefit of the Swift compiler features. Swift will give us type safety, so our code will be less error prone. A DSL can have many constraints and restrictions that'll help others to write better code. In our case the list of tags is going to be a predefined set of values, so you won't be able to provide a wrong tag or miss the closing tag, in other words your DSL is going to be syntactically valid. Of course you still can have logical mistakes, but that's always the case, no matter what tool you choose. 🧠</p><pre><code class="language-swift"><span class="keyword">import</span> SwiftHtml
+
+<span class="keyword">func</span> buildWebpage(title: <span class="type">String</span>, body: <span class="type">String</span>) -&gt; <span class="type">String</span> {
+    <span class="keyword">let</span> doc = <span class="type">Document</span>(.<span class="dotAccess">unspecified</span>) {
+        <span class="type">Html</span> {
+            <span class="type">Head</span> {
+                <span class="type">Title</span>(title)
+            }
+            <span class="type">Body</span> {
+                <span class="type">H1</span>(title)
+                <span class="type">P</span>(body)
+            }
+        }
+    }
+    <span class="keyword">return</span> <span class="type">DocumentRenderer</span>().<span class="call">render</span>(doc)
+}</code></pre><p>As you can see the snippet above looks way more Swifty and we were also able to remove the duplicate HTML closing tags from the code. We don't have to write the <code>&lt;</code> and <code>&gt;</code> characters at all and the compiler can type check everything for us, so type-o accidents can't happen. ✅</p><p>Before you think that result builders are just syntactic sugar over underlying data types, I have to assure you that they are far more complex than this. It is an extremely advanced and powerful feature that you should definitely know about.</p><p>You can create all kinds of result builders, for example I'm using them to build validators, user interface elements and layout constraints. Of course SGML (HTML, XML) and CSS is also a great use-case, but the list is endless. Let me show you how to build a simple result builder.</p><h2>Building a HTML tree structure</h2><p>I'm going to show you how I created my <a href="https://github.com/BinaryBirds/swift-html" target="_blank">SwiftHtml</a> HTML DSL library, because it was a fun project to work with and I've learned a lot about it, it's also going to replace the Leaf/Tau template in my future projects. The main idea behind SwiftHtml was that I wanted to follow the HTML specifications as closely as possible. So I've created a Node structure to represent a node inside the document tree.</p><pre><code class="language-swift"><span class="keyword">public struct</span> Node {
+
+    <span class="keyword">public enum</span> `<span class="type">Type</span>` {
+        <span class="keyword">case</span> standard     <span class="comment">// &lt;name&gt;contents&lt;/name&gt;</span>
+        <span class="keyword">case</span> comment      <span class="comment">// &lt;!-- contents --&gt;</span>
+        <span class="keyword">case</span> empty        <span class="comment">// &lt;name&gt;</span>
+        <span class="keyword">case</span> group        <span class="comment">// *group*&lt;p&gt;Lorem ipsum&lt;/p&gt;*group*</span>
+    }
+
+    <span class="keyword">public let</span> type: `<span class="type">Type</span>`
+    public <span class="keyword">let</span> name: <span class="type">String</span>?
+    <span class="keyword">public let</span> contents: <span class="type">String</span>?
+
+    <span class="keyword">public init</span>(type: `<span class="type">Type</span>` = .<span class="dotAccess">standard</span>,
+                name: <span class="type">String</span>? = <span class="keyword">nil</span>,
+                contents: <span class="type">String</span>? = <span class="keyword">nil</span>) {
+        <span class="keyword">self</span>.<span class="property">type</span> = type
+        <span class="keyword">self</span>.<span class="property">name</span> = name
+        <span class="keyword">self</span>.<span class="property">contents</span> = contents
+    }
+}</code></pre><p>A node has four variants defined by the Type. A standard node will render as a standard HTML tag using the name and the contents. A comment will only use the contents and empty tag won't have a closing tag and use the name property as a tag name. Finally the group node will be used to group together multiple nodes, it won't render anything, it's just a grouping element for other tags.</p><p>The trick in my solution is that these Node objects only contain the visual representation of a tag, but I've decided to separate the hierarchical relationship from this level. That's why I actually introduced a Tag class that can have multiple children. In my previous article I showed multiple ways to <a href="https://theswiftdev.com/building-tree-data-structures-in-swift/">build a tree structure using Swift</a>, I've experimented with all the possible solutions and my final choice was to use reference types instead of value types. Don't hate me. 😅</p><pre><code class="language-swift"><span class="keyword">open class</span> Tag {
+
+    <span class="keyword">public var</span> node: <span class="type">Node</span>
+    <span class="keyword">public var</span> children: [<span class="type">Tag</span>]
+
+    <span class="keyword">public init</span>(<span class="keyword">_</span> node: <span class="type">Node</span>, children: [<span class="type">Tag</span>] = []) {
+        <span class="keyword">self</span>.<span class="property">node</span> = node
+        <span class="keyword">self</span>.<span class="property">children</span> = children
+    }
+
+}</code></pre><p>Now this is how a Tag object looks like, it's pretty simple. It has an underlying node and a bunch of children. It is possible to extend this tag and provide functionalities for all the HTML tags, such as the capability of adding common attributes and I'm also able to create subclasses for the tags.</p><pre><code class="language-swift"><span class="keyword">public final class</span> Html: <span class="type">Tag</span> {
+
+    <span class="keyword">public init</span>(<span class="keyword">_</span> children: [<span class="type">Tag</span>]) {
+        <span class="keyword">super</span>.<span class="keyword">init</span>(.<span class="keyword">init</span>(type: .<span class="dotAccess">standard</span>, name: <span class="string">"html"</span>, contents: <span class="keyword">nil</span>), children: children)
+    }
+}
+
+<span class="keyword">public final class</span> Head: <span class="type">Tag</span> {
+
+    <span class="keyword">public init</span>(<span class="keyword">_</span> children: [<span class="type">Tag</span>]) {
+        <span class="keyword">super</span>.<span class="keyword">init</span>(.<span class="keyword">init</span>(type: .<span class="dotAccess">standard</span>, name: <span class="string">"head"</span>, contents: <span class="keyword">nil</span>), children: children)
+    }
+}
+
+<span class="keyword">public final class</span> Title: <span class="type">Tag</span> {
+
+    <span class="keyword">public init</span>(<span class="keyword">_</span> contents: <span class="type">String</span>) {
+        <span class="keyword">super</span>.<span class="keyword">init</span>(.<span class="keyword">init</span>(type: .<span class="dotAccess">standard</span>, name: <span class="string">"title"</span>, contents: contents))
+    }
+}
+
+<span class="keyword">public final class</span> Body: <span class="type">Tag</span> {
+
+    <span class="keyword">public init</span>(<span class="keyword">_</span> children: [<span class="type">Tag</span>]) {
+        <span class="keyword">super</span>.<span class="keyword">init</span>(.<span class="keyword">init</span>(type: .<span class="dotAccess">standard</span>, name: <span class="string">"body"</span>, contents: <span class="keyword">nil</span>), children: children)
+    }
+}
+
+<span class="keyword">public final class</span> H1: <span class="type">Tag</span> {
+
+    <span class="keyword">public init</span>(<span class="keyword">_</span> contents: <span class="type">String</span>) {
+        <span class="keyword">super</span>.<span class="keyword">init</span>(.<span class="keyword">init</span>(type: .<span class="dotAccess">standard</span>, name: <span class="string">"h1"</span>, contents: contents))
+    }
+}
+
+<span class="keyword">public final class</span> P: <span class="type">Tag</span> {
+
+    <span class="keyword">public init</span>(<span class="keyword">_</span> contents: <span class="type">String</span>) {
+        <span class="keyword">super</span>.<span class="keyword">init</span>(.<span class="keyword">init</span>(type: .<span class="dotAccess">standard</span>, name: <span class="string">"p"</span>, contents: contents))
+    }
+}</code></pre><p>All right, now we are able to initialize our Tag tree, but I warn you, it's going to look very awkward.</p><pre><code class="language-swift"><span class="keyword">func</span> buildWebpage(title: <span class="type">String</span>, body: <span class="type">String</span>) -&gt; <span class="type">Html</span> {
+    <span class="type">Html</span>([
+        <span class="type">Head</span>([
+            <span class="type">Title</span>(title),
+        ]),
+        <span class="type">Body</span>([
+            <span class="type">H1</span>(title),
+            <span class="type">P</span>(body),
+        ]),
+    ])
+}</code></pre><p>It is still not possible to render the tree and the syntax is not so eye-catchy. It's time to make things better and we should definitely introduce some result builders for good.</p><p>The anatomy of Swift result builders Now that we have our data structure prepared, we should focus on the DSL itself. Before we dive in, I highly recommend to carefully read the <a href="https://github.com/apple/swift-evolution/blob/main/proposals/0289-result-builders.md" target="_blank">official proposal</a> and watch this <a href="https://developer.apple.com/videos/play/wwdc2021/10253/" target="_blank">WWDC video</a> about result builders, since both resources are amazing. 🤓</p><h3>Building an array of elements</h3><p>The main thing that I don't like about our previous buildWebpage function is that I have to constantly write brackets and comas, in order to build our structure. This can be easily eliminated by introducing a new result builder for the Tag objects. We just have to mark an enum with the @resultBuilder attribute and provide a static buildBlock method with the given type.</p><pre><code class="language-swift"><span class="keyword">@resultBuilder
+public enum</span> TagBuilder {
+    <span class="keyword">public static func</span> buildBlock(<span class="keyword">_</span> components: <span class="type">Tag</span>...) -&gt; [<span class="type">Tag</span>] {
+        components
+    }
+}</code></pre><p>This will allow us to use a list of components inside of our DSL building blocks, but before we could use it we also have to change our specific HTML tag init methods to take advantage of this newly created result builder. Just use a closure with the return type that we want to use and mark the entire function argument with the @TagBuilder keyword.</p><pre><code class="language-swift"><span class="keyword">public final class</span> Html: <span class="type">Tag</span> {
+    <span class="keyword">public init</span>(<span class="keyword">@TagBuilder _</span> builder: () -&gt; [<span class="type">Tag</span>]) {
+        <span class="keyword">super</span>.<span class="keyword">init</span>(.<span class="keyword">init</span>(type: .<span class="dotAccess">standard</span>, name: <span class="string">"html"</span>, contents: <span class="keyword">nil</span>), children: <span class="call">builder</span>())
+    }
+}
+
+<span class="keyword">public final class</span> Head: <span class="type">Tag</span> {
+    <span class="keyword">public init</span>(<span class="keyword">@TagBuilder _</span> builder: () -&gt; [<span class="type">Tag</span>]) {
+        <span class="keyword">super</span>.<span class="keyword">init</span>(.<span class="keyword">init</span>(type: .<span class="dotAccess">standard</span>, name: <span class="string">"head"</span>, contents: <span class="keyword">nil</span>), children: <span class="call">builder</span>())
+    }
+}
+
+<span class="keyword">public final class</span> Body: <span class="type">Tag</span> {
+    <span class="keyword">public init</span>(<span class="keyword">@TagBuilder _</span> builder: () -&gt; [<span class="type">Tag</span>]) {
+        <span class="keyword">super</span>.<span class="keyword">init</span>(.<span class="keyword">init</span>(type: .<span class="dotAccess">standard</span>, name: <span class="string">"body"</span>, contents: <span class="keyword">nil</span>), children: <span class="call">builder</span>())
+    }
+}</code></pre><p>Now we can refactor the build webpage method since it can now use the underlying result builder to construct the building blocks based on the components. If you take a look at the <a href="https://github.com/apple/swift-evolution/blob/main/proposals/0289-result-builders.md#introduction" target="_blank">introduction section</a> inside the proposal you'll get a better idea about what happens under the hood.</p><pre><code class="language-swift"><span class="keyword">func</span> buildWebpage(title: <span class="type">String</span>, body: <span class="type">String</span>) -&gt; <span class="type">Html</span> {
+    <span class="type">Html</span> {
+        <span class="type">Head</span> {
+            <span class="type">Title</span>(title)
+        }
+        <span class="type">Body</span> {
+            <span class="type">H1</span>(title)
+            <span class="type">P</span>(body)
+        }
+    }
+}
+
+<span class="keyword">let</span> html = <span class="call">buildWebpage</span>(title: <span class="string">"title"</span>, body: <span class="string">"body"</span>)</code></pre><p>Anyway, it's quite magical how we can transform our complex array based code into something clean and nice by taking advantage of the Swift compiler. I love this approach, but there is more.</p><h3>Optionals and further build blocks</h3><p>If you want to provide if support inside your DSL you have to implement some additional methods inside your result builder object. Try this code, but it won't compile:</p><pre><code class="language-swift"><span class="keyword">func</span> buildWebpage(title: <span class="type">String</span>, body: <span class="type">String</span>) -&gt; <span class="type">Html</span> {
+    <span class="type">Html</span> {
+        <span class="type">Head</span> {
+            <span class="type">Title</span>(title)
+        }
+        <span class="type">Body</span> {
+            <span class="keyword">if</span> title == <span class="string">"magic"</span> {
+                <span class="type">H1</span>(title)
+                <span class="type">P</span>(body)
+            }
+        }
+    }
+}</code></pre><p>The build an optional result with an if statement we have to think about what happens here. If the title is magic we would like to return an array of Tags, otherwise nil. So this could be expressed as a <code>[Tag]?</code> type but we always want to have a bunch of <code>[Tag]</code> elements, now this is easy.</p><pre><code class="language-swift"><span class="keyword">@resultBuilder
+public enum</span> TagBuilder {
+
+    <span class="keyword">public static func</span> buildBlock(<span class="keyword">_</span> components: <span class="type">Tag</span>...) -&gt; [<span class="type">Tag</span>] {
+        components
+    }
+
+    <span class="keyword">public static func</span> buildOptional(<span class="keyword">_</span> component: [<span class="type">Tag</span>]?) -&gt; [<span class="type">Tag</span>] {
+        component ?? []
+    }
+}</code></pre><p>But wait, why is it not working? Well, since we return an array of tags, but the outer Body element was expecting Tag elements one after another, so a <code>[Tag]</code> array won't fit our needs there. What can we do about this? Well, we can introduce a new buildBlock method that can transform our <code>[Tag]...</code> values into a plain Tag array. Let me show you real this quick.</p><pre><code class="language-swift"><span class="keyword">@resultBuilder
+public enum</span> TagBuilder {
+
+    <span class="keyword">public static func</span> buildBlock(<span class="keyword">_</span> components: <span class="type">Tag</span>...) -&gt; [<span class="type">Tag</span>] {
+        components
+    }
+    
+    <span class="keyword">public static func</span> buildBlock(<span class="keyword">_</span> components: [<span class="type">Tag</span>]...) -&gt; [<span class="type">Tag</span>] {
+        components.<span class="call">flatMap</span> { $0 }
+    }
+
+    <span class="keyword">public static func</span> buildOptional(<span class="keyword">_</span> component: [<span class="type">Tag</span>]?) -&gt; [<span class="type">Tag</span>] {
+        component ?? []
+    }
+}
+
+<span class="keyword">func</span> buildWebpage(title: <span class="type">String</span>, body: <span class="type">String</span>) -&gt; <span class="type">Html</span> {
+    <span class="type">Html</span> {
+        <span class="type">Head</span> {
+            <span class="type">Title</span>(title)
+        }
+        <span class="type">Body</span> { <span class="comment">// expects Tag... 
+            // but the first build block transforms it to [Tag]
+
+            // returns [Tag], but we'd need Tag...</span>
+            <span class="keyword">if</span> title == <span class="string">"magic"</span> { 
+                <span class="type">H1</span>(<span class="string">"Hello"</span>)
+                <span class="type">P</span>(<span class="string">"World"</span>)
+            } 
+
+            <span class="comment">// this could also returns [Tag]
+            // if title = "other" {
+            //    H1("Other")
+            //    P("World")  
+            //} 
+
+            // both if block returns [Tag], that's [Tag]... here
+
+            // ...the new build block transforms [Tag]... into [Tag], 
+            // which is just fine for the body init method</span>
+    }
+}</code></pre><p>I hope it's not too complicated, but it's all about building the proper return type for the underlying method. We wanted to have just an array of tags, but with the if support we've ended up with a list of tag arrays, that's why we have to transform it back to a flattened array of tags with the new build block. If you want to take a look at a more simple example, you should <a href="https://swiftsenpai.com/swift/result-builders-basics/" target="_blank">read this post</a>. ☺️</p><h3>If and else support and either blocks</h3><p>If blocks can return optional values, now what about if-else blocks? Well, it's quite a similar approach, we just want to return either the first or the second array of tags.</p><pre><code class="language-swift"><span class="keyword">@resultBuilder
+public enum</span> TagBuilder {
+
+    <span class="keyword">public static func</span> buildBlock(<span class="keyword">_</span> components: <span class="type">Tag</span>...) -&gt; [<span class="type">Tag</span>] {
+        components
+    }
+    
+    <span class="keyword">public static func</span> buildBlock(<span class="keyword">_</span> components: [<span class="type">Tag</span>]...) -&gt; [<span class="type">Tag</span>] {
+        components.<span class="call">flatMap</span> { $0 }
+    }    
+
+    <span class="keyword">public static func</span> buildOptional(<span class="keyword">_</span> component: [<span class="type">Tag</span>]?) -&gt; [<span class="type">Tag</span>] {
+        component ?? []
+    }
+
+    <span class="keyword">public static func</span> buildEither(first component: [<span class="type">Tag</span>]) -&gt; [<span class="type">Tag</span>] {
+        component
+    }
+
+    <span class="keyword">public static func</span> buildEither(second component: [<span class="type">Tag</span>]) -&gt; [<span class="type">Tag</span>] {
+        component
+    }
+}
+
+<span class="keyword">func</span> buildWebpage(title: <span class="type">String</span>, body: <span class="type">String</span>) -&gt; <span class="type">Html</span> {
+    <span class="type">Html</span> {
+        <span class="type">Head</span> {
+            <span class="type">Title</span>(title)
+        }
+        <span class="type">Body</span> {
+            <span class="keyword">if</span> title == <span class="string">"magic"</span> {
+                <span class="type">H1</span>(<span class="string">"Hello"</span>)
+                <span class="type">P</span>(<span class="string">"World"</span>)
+            }
+            <span class="keyword">else</span> {
+                <span class="type">P</span>(body)
+            }
+        }
+    }
+}
+
+<span class="keyword">let</span> html = <span class="call">buildWebpage</span>(title: <span class="string">"title"</span>, body: <span class="string">"body"</span>)</code></pre><p>As you can see now we don't need additional building blocks, since we've already covered the variadic Tag array issue with the optional support. Now it is possible to write if and else blocks inside our HTML DSL. Looks pretty nice so far, what's next? 🧐</p><h3>Enabling for loops and maps through expressions</h3><p>Imagine that you have a bunch of paragraphs inside of the body that you'd like to use. Pretty easy, right? Just change the body into an array of strings and use a for loop to transform them into P tags.</p><pre><code class="language-swift"><span class="keyword">func</span> buildWebpage(title: <span class="type">String</span>, paragraphs: [<span class="type">String</span>]) -&gt; <span class="type">Html</span> {
+    <span class="type">Html</span> {
+        <span class="type">Head</span> {
+            <span class="type">Title</span>(title)
+        }
+        <span class="type">Body</span> {
+            <span class="type">H1</span>(title)
+            <span class="keyword">for</span> item <span class="keyword">in</span> paragraphs {
+                <span class="type">P</span>(item)
+            }
+        }
+    }
+}
+
+<span class="keyword">let</span> html = <span class="call">buildWebpage</span>(title: <span class="string">"title"</span>, paragraphs: [<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>])</code></pre><p>Not so fast, what's the actual return type here and how can we solve the problem? Of course the first impression is that we are returning a Tag, but in reality we'd like to be able to return multiple tags from a for loop, so it's a <code>[Tag]</code>, in the end, it's going to be an array of Tag arrays: <code>[[Tag]]</code>.</p><p>The buildArray method can transform these array of tag arrays into Tag arrays, that's good enough to provide for support, but we still need one more method to be able to use it properly. We have to build an expression from a single Tag to turn it into an array of tags. 🔖</p><pre><code class="language-swift"><span class="keyword">@resultBuilder
+public enum</span> TagBuilder {
+
+    <span class="keyword">public static func</span> buildBlock(<span class="keyword">_</span> components: <span class="type">Tag</span>...) -&gt; [<span class="type">Tag</span>] {
+        components
+    }
+    
+    <span class="keyword">public static func</span> buildBlock(<span class="keyword">_</span> components: [<span class="type">Tag</span>]...) -&gt; [<span class="type">Tag</span>] {
+        components.<span class="call">flatMap</span> { $0 }
+    }
+
+    <span class="keyword">public static func</span> buildEither(first component: [<span class="type">Tag</span>]) -&gt; [<span class="type">Tag</span>] {
+        component
+    }
+
+    <span class="keyword">public static func</span> buildEither(second component: [<span class="type">Tag</span>]) -&gt; [<span class="type">Tag</span>] {
+        component
+    }
+
+    <span class="keyword">public static func</span> buildOptional(<span class="keyword">_</span> component: [<span class="type">Tag</span>]?) -&gt; [<span class="type">Tag</span>] {
+        component ?? []
+    }
+
+    <span class="keyword">public static func</span> buildExpression(<span class="keyword">_</span> expression: <span class="type">Tag</span>) -&gt; [<span class="type">Tag</span>] {
+        [expression]
+    }
+
+    <span class="keyword">public static func</span> buildArray(<span class="keyword">_</span> components: [[<span class="type">Tag</span>]]) -&gt; [<span class="type">Tag</span>] {
+        components.<span class="call">flatMap</span> { $0 }
+    }
+}</code></pre><p>This way our for loop will work. The build expression method is very powerful, it enables us to provide various input types and turn them into the data type that we actually need. I'm going to show you one more build expression example in this case to support the map function on an array of elements. This is the final result builder:</p><pre><code class="language-swift"><span class="keyword">@resultBuilder
+public enum</span> TagBuilder {
+
+    <span class="keyword">public static func</span> buildBlock(<span class="keyword">_</span> components: <span class="type">Tag</span>...) -&gt; [<span class="type">Tag</span>] {
+        components
+    }
+    
+    <span class="keyword">public static func</span> buildBlock(<span class="keyword">_</span> components: [<span class="type">Tag</span>]...) -&gt; [<span class="type">Tag</span>] {
+        components.<span class="call">flatMap</span> { $0 }
+    }
+
+
+    <span class="keyword">public static func</span> buildEither(first component: [<span class="type">Tag</span>]) -&gt; [<span class="type">Tag</span>] {
+        component
+    }
+
+    <span class="keyword">public static func</span> buildEither(second component: [<span class="type">Tag</span>]) -&gt; [<span class="type">Tag</span>] {
+        component
+    }
+
+    <span class="keyword">public static func</span> buildOptional(<span class="keyword">_</span> component: [<span class="type">Tag</span>]?) -&gt; [<span class="type">Tag</span>] {
+        component ?? []
+    }
+
+    <span class="keyword">public static func</span> buildExpression(<span class="keyword">_</span> expression: <span class="type">Tag</span>) -&gt; [<span class="type">Tag</span>] {
+        [expression]
+    }
+
+    <span class="keyword">public static func</span> buildExpression(<span class="keyword">_</span> expression: [<span class="type">Tag</span>]) -&gt; [<span class="type">Tag</span>] {
+        expression
+    }
+
+    <span class="keyword">public static func</span> buildArray(<span class="keyword">_</span> components: [[<span class="type">Tag</span>]]) -&gt; [<span class="type">Tag</span>] {
+        components.<span class="call">flatMap</span> { $0 }
+    }
+}</code></pre><p>Now we can use maps instead of for loops if we prefer functional methods. 😍</p><pre><code class="language-swift"><span class="keyword">func</span> buildWebpage(title: <span class="type">String</span>, paragraphs: [<span class="type">String</span>]) -&gt; <span class="type">Html</span> {
+    <span class="type">Html</span> {
+        <span class="type">Head</span> {
+            <span class="type">Title</span>(title)
+        }
+        <span class="type">Body</span> {
+            <span class="type">H1</span>(title)
+            paragraphs.<span class="call">map</span> { <span class="type">P</span>($0) }
+        }
+    }
+}
+
+<span class="keyword">let</span> html = <span class="call">buildWebpage</span>(title: <span class="string">"title"</span>, paragraphs: [<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>])</code></pre><p>That's how I was able to create a DSL for my Tag hierarchy. Please note that I might had some things wrong, this was the very first DSL that I've made, but so far so good, it serves all my needs.</p><h2>A simple HTML renderer</h2><p>Before we close this article I'd like to show you how I created my HTML document renderer.</p><pre><code class="language-swift"><span class="keyword">struct</span> Renderer {
+
+    <span class="keyword">func</span> render(tag: <span class="type">Tag</span>, level: <span class="type">Int</span> = <span class="number">0</span>) -&gt; <span class="type">String</span> {
+        <span class="keyword">let</span> indent = <span class="number">4</span>
+        <span class="keyword">let</span> spaces = <span class="type">String</span>(repeating: <span class="string">" "</span>, count: level * indent)
+        <span class="keyword">switch</span> tag.<span class="property">node</span>.<span class="property">type</span> {
+        <span class="keyword">case</span> .<span class="dotAccess">standard</span>:
+            <span class="keyword">return</span> spaces + <span class="call">open</span>(tag) + (tag.<span class="property">node</span>.<span class="property">contents</span> ?? <span class="string">""</span>) + <span class="call">renderChildren</span>(tag, level: level, spaces: spaces) + <span class="call">close</span>(tag)
+        <span class="keyword">case</span> .<span class="dotAccess">comment</span>:
+            <span class="keyword">return</span> spaces + <span class="string">"&lt;!--"</span> + (tag.<span class="property">node</span>.<span class="property">contents</span> ?? <span class="string">""</span>) + <span class="string">"--&gt;"</span>
+        <span class="keyword">case</span> .<span class="dotAccess">empty</span>:
+            <span class="keyword">return</span> spaces + <span class="call">open</span>(tag)
+        <span class="keyword">case</span> .<span class="dotAccess">group</span>:
+            <span class="keyword">return</span> spaces + (tag.<span class="property">node</span>.<span class="property">contents</span> ?? <span class="string">""</span>) + <span class="call">renderChildren</span>(tag, level: level, spaces: spaces)
+        }
+    }
+
+    <span class="keyword">private func</span> renderChildren(<span class="keyword">_</span> tag: <span class="type">Tag</span>, level: <span class="type">Int</span>, spaces: <span class="type">String</span>) -&gt; <span class="type">String</span> {
+        <span class="keyword">var</span> children = tag.<span class="property">children</span>.<span class="call">map</span> { <span class="call">render</span>(tag: $0, level: level + <span class="number">1</span>) }.<span class="call">joined</span>(separator: <span class="string">"\n"</span>)
+        <span class="keyword">if</span> !children.<span class="property">isEmpty</span> {
+            children = <span class="string">"\n"</span> + children + <span class="string">"\n"</span> + spaces
+        }
+        <span class="keyword">return</span> children
+    }
+    
+    <span class="keyword">private func</span> open(<span class="keyword">_</span> tag: <span class="type">Tag</span>) -&gt; <span class="type">String</span> {
+        <span class="keyword">return</span> <span class="string">"&lt;"</span> + tag.<span class="property">node</span>.<span class="property">name</span>! + <span class="string">"&gt;"</span>
+    }
+    
+    <span class="keyword">private func</span> close(<span class="keyword">_</span> tag: <span class="type">Tag</span>) -&gt; <span class="type">String</span> {
+        <span class="string">"&lt;/"</span> + tag.<span class="property">node</span>.<span class="property">name</span>! + <span class="string">"&gt;"</span>
+    }
+}</code></pre><p>As you can see it's a pretty simple, yet complex struct. The open and close methods are straightforward, the interesting part happens in the render methods. The very first render function can render a tag using the node type. We just switch the type and return the HTML value according to it. if the node is a standard or a group type we also render the children using the same method.</p><p>Of course the final implementation is a bit more complex, it involves HTML attributes, it supports minification and custom indentation level, but for educational purposes this lightweight version is more than enough. Here's the final code snippet to render a HTML structure:</p><pre><code class="language-swift"><span class="keyword">func</span> buildWebpage(title: <span class="type">String</span>, paragraphs: [<span class="type">String</span>]) -&gt; <span class="type">Html</span> {
+    <span class="type">Html</span> {
+        <span class="type">Head</span> {
+            <span class="type">Title</span>(title)
+        }
+        <span class="type">Body</span> {
+            <span class="type">H1</span>(title)
+            paragraphs.<span class="call">map</span> { <span class="type">P</span>($0) }
+        }
+    }
+}
+
+<span class="keyword">let</span> html = <span class="call">buildWebpage</span>(title: <span class="string">"title"</span>, paragraphs: [<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>])
+<span class="keyword">let</span> output = <span class="type">Renderer</span>().<span class="call">render</span>(tag: html)
+<span class="call">print</span>(output)</code></pre><p>If we compare this to our very first string based solution we can say that the difference is huge. Honestly speaking I was afraid of result builders for a very long time, I thought it's just unnecessary complexity and we don't really need them, but hey things change, and I've also changed my mind about this feature. Now I can't live without result builders and I love the code that I'm able to write by using them. I really hope that this article helped you to understand them a bit better. 🙏</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/result-builders-in-swift/"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.com/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

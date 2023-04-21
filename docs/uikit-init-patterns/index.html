@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>UIKit init patterns - The.Swift.Dev.</title>
+    
+    <meta name="description" content="Learn about the initialization process of the two well known classes in UIKit. Say hello to UIViewcontroller, and UIView init patterns.">
+    
+    <meta property="og:title" content="UIKit init patterns - The.Swift.Dev.">
+    <meta property="og:description" content="Learn about the initialization process of the two well known classes in UIKit. Say hello to UIViewcontroller, and UIView init patterns.">
+    <meta property="og:url" content="https://theswiftdev.com/uikit-init-patterns/">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/uikit-init-patterns/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="UIKit init patterns - The.Swift.Dev.">
+    <meta name="twitter:description" content="Learn about the initialization process of the two well known classes in UIKit. Say hello to UIViewcontroller, and UIView init patterns.">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/uikit-init-patterns/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.com/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2017/10/10">2017/10/10</time>
+            <h1 class="title">UIKit init patterns</h1>
+            <p class="excerpt">Learn about the initialization process of the two well known classes in UIKit. Say hello to UIViewcontroller, and UIView init patterns.</p>
+            <div class="meta">
+                <span class="tag">Swift</span>
+<span class="tag">iOS</span>
+<span class="tag">design patterns</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/uikit-init-patterns/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <h2>UIViewController init</h2><p>Actually <code>UIViewController</code> intialization is pretty straightforward. You only have to override a few methods if you want to be in full control. It depends on the circumstances which init will be called, if you are using a storyboard, <a href="http://napora.org/nscoder-and-swift-initialization/" target="_blank">init(coder)</a> is the one that you are looking for. If you are trying to initiate your controller from an <a href="https://localhost/2018/10/16/custom-uiview-subclass-from-a-xib-file/" target="_blank">external nib file</a>, <code>init(nib,bundle)</code> is going to be called. You also have a third option, you can initialize a controller programmatically from code. Long story short, in order to make a sane init process, you have to deal with all this stuff.</p><p>Let me introduce two patterns for UIViewControllers, the first one is just a common init function that gets called in every case that could initialize a controller.</p><pre><code class="language-swift"><span class="keyword">import</span> UIKit
+
+<span class="keyword">class</span> ViewController: <span class="type">UIViewController</span> {
+
+    <span class="keyword">override init</span>(
+        nibName nibNameOrNil: <span class="type">String</span>?, 
+        bundle nibBundleOrNil: <span class="type">Bundle</span>?
+    ) {
+        <span class="keyword">super</span>.<span class="keyword">init</span>(
+            nibName: nibNameOrNil, 
+            bundle: nibBundleOrNil
+        )
+
+        <span class="keyword">self</span>.<span class="call">initialize</span>()
+    }
+
+    <span class="keyword">required init</span>?(
+        coder aDecoder: <span class="type">NSCoder</span>
+    ) {
+        <span class="keyword">super</span>.<span class="keyword">init</span>(coder: aDecoder)
+
+        <span class="keyword">self</span>.<span class="call">initialize</span>()
+    }
+
+    <span class="keyword">init</span>() {
+        <span class="keyword">super</span>.<span class="keyword">init</span>(nibName: <span class="keyword">nil</span>, bundle: <span class="keyword">nil</span>)
+
+        <span class="keyword">self</span>.<span class="call">initialize</span>()
+    }
+
+    <span class="keyword">func</span> initialize() {
+        <span class="comment">//do your stuff here</span>
+    }
+}</code></pre><p>You can also hide the <code>init(nib:bundle)</code> and <code>init(coder)</code> methods from the future subclasses. You don't have to override <code>init(nib:bundle)</code> and you can mark the <code>init(coder)</code> as a convenience initializer. It seems like a little bit hacky solution and I don't like it too much, but it does the job.</p><pre><code class="language-swift"><span class="keyword">import</span> UIKit
+
+<span class="keyword">class</span> ViewController: <span class="type">UIViewController</span> {
+
+    <span class="keyword">init</span>() {
+        <span class="keyword">super</span>.<span class="keyword">init</span>(nibName: <span class="keyword">nil</span>, bundle: <span class="keyword">nil</span>)
+
+        <span class="keyword">self</span>.<span class="call">initialize</span>()
+    }
+
+    <span class="keyword">required convenience init</span>?(coder aDecoder: <span class="type">NSCoder</span>) {
+        <span class="keyword">self</span>.<span class="keyword">init</span>(coder: aDecoder)
+
+        <span class="keyword">self</span>.<span class="call">initialize</span>()
+    }
+
+    <span class="keyword">func</span> initialize() {
+        <span class="comment">//do your stuff here</span>
+    }
+}
+
+<span class="keyword">class</span> MyFutureViewController: <span class="type">ViewController</span> {
+
+    <span class="keyword">override init</span>() {
+        <span class="keyword">super</span>.<span class="keyword">init</span>()
+    }
+}
+<span class="keyword">let</span> vc = <span class="type">MyFutureViewController</span>()</code></pre><h2>UIView init</h2><p>I usually create a common initializer for UIViews to make the init process more pleasant. I also set the translate autoresizing mask property to false in that initializer method, because it's 2017 and noone uses springs &amp; struts anymore, right?</p><pre><code class="language-swift"><span class="keyword">import</span> UIKit
+
+<span class="keyword">class</span> View: <span class="type">UIView</span> {
+
+    <span class="keyword">init</span>() {
+        <span class="keyword">super</span>.<span class="keyword">init</span>(frame: .<span class="dotAccess">zero</span>)
+
+        <span class="keyword">self</span>.<span class="call">initialize</span>()
+    }
+
+    <span class="keyword">override init</span>(frame: <span class="type">CGRect</span>) {
+        <span class="keyword">super</span>.<span class="keyword">init</span>(frame: frame)
+
+        <span class="keyword">self</span>.<span class="call">initialize</span>()
+    }
+
+    <span class="keyword">required init</span>?(coder aDecoder: <span class="type">NSCoder</span>) {
+        <span class="keyword">super</span>.<span class="keyword">init</span>(coder: aDecoder)
+
+        <span class="keyword">self</span>.<span class="call">initialize</span>()
+    }
+
+    <span class="keyword">func</span> initialize() {
+        <span class="keyword">self</span>.<span class="property">translatesAutoresizingMaskIntoConstraints</span> = <span class="keyword">false</span>
+    }
+}</code></pre><p>It's also nice to have some autolayout helpers, and if you want to <a href="https://www.raywenderlich.com/76433/how-to-make-a-custom-control-swift" target="_blank">initialize a view</a> from a nib file, it's really good to have some convenience method around.</p><pre><code class="language-swift"><span class="keyword">import</span> UIKit
+
+<span class="keyword">extension</span> <span class="type">UIView</span> {
+
+    <span class="keyword">public convenience init</span>(autolayout: <span class="type">Bool</span>) {
+        <span class="keyword">self</span>.<span class="keyword">init</span>(frame: .<span class="dotAccess">zero</span>)
+
+        <span class="keyword">self</span>.<span class="property">translatesAutoresizingMaskIntoConstraints</span> = !autolayout
+    }
+
+    <span class="keyword">public static func</span> create(autolayout: <span class="type">Bool</span> = <span class="keyword">true</span>) -&gt; <span class="type">Self</span> {
+        <span class="keyword">let</span> _self = <span class="keyword">self</span>.<span class="keyword">init</span>()
+        <span class="keyword">let</span> view  = _self <span class="keyword">as</span> <span class="type">UIView</span>
+        view.<span class="property">translatesAutoresizingMaskIntoConstraints</span> = !autolayout
+        <span class="keyword">return</span> _self
+    }
+
+    <span class="keyword">public static func</span> createFromNib(
+        owner: <span class="type">Any</span>? = <span class="keyword">nil</span>, 
+        options: [<span class="type">AnyHashable</span>: <span class="type">Any</span>]? = <span class="keyword">nil</span>
+    ) -&gt; <span class="type">UIView</span> {
+        <span class="keyword">return</span> <span class="type">Bundle</span>.<span class="property">main</span>.<span class="call">loadNibNamed</span>(
+            <span class="type">String</span>(describing: <span class="keyword">self</span>), 
+            owner: owner, 
+            options: options
+        )?.<span class="property">last</span> <span class="keyword">as</span>! <span class="type">UIView</span>
+    }
+}
+<span class="keyword">let</span> view = <span class="type">UIView</span>(autolayout: <span class="keyword">true</span>)</code></pre><p>Using these snippets, it's really easy to maintain a sane init process for all the UIKit classes, because most of them ared derived from these two "primary" classes.</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/uikit-init-patterns/"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.com/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

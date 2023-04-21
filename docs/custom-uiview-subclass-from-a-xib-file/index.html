@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Custom UIView subclass from a xib file - The.Swift.Dev.</title>
+    
+    <meta name="description" content="Do you want to learn how to load a xib file to create a custom view object? Well, this UIKit tutorial is just for you written in Swift.">
+    
+    <meta property="og:title" content="Custom UIView subclass from a xib file - The.Swift.Dev.">
+    <meta property="og:description" content="Do you want to learn how to load a xib file to create a custom view object? Well, this UIKit tutorial is just for you written in Swift.">
+    <meta property="og:url" content="https://theswiftdev.com/custom-uiview-subclass-from-a-xib-file/">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/custom-uiview-subclass-from-a-xib-file/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="Custom UIView subclass from a xib file - The.Swift.Dev.">
+    <meta name="twitter:description" content="Do you want to learn how to load a xib file to create a custom view object? Well, this UIKit tutorial is just for you written in Swift.">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/custom-uiview-subclass-from-a-xib-file/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.com/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2018/10/16">2018/10/16</time>
+            <h1 class="title">Custom UIView subclass from a xib file</h1>
+            <p class="excerpt">Do you want to learn how to load a xib file to create a custom view object? Well, this UIKit tutorial is just for you written in Swift.</p>
+            <div class="meta">
+                <span class="tag">UIKit</span>
+<span class="tag">iOS</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/custom-uiview-subclass-from-a-xib-file/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <p>I already have a comprehensive guide about <a href="https://theswiftdev.com/uikit-init-patterns/">initializing views and controllers</a>, but that one lacks a very special case: creating a custom view using interface builder. 🤷‍♂️</p><h2>Loading xib files</h2><p>Using the contents of a <a href="http://eppz.eu/blog/uiview-from-xib/" target="_blank">xib</a> file is a pretty damn easy task to do. You can use the following two methods to load the contents (aka. the view hierarchy) of the file.</p><pre><code class="language-swift"><span class="keyword">let</span> view = <span class="type">UINib</span>(
+    nibName: <span class="string">"CustomView"</span>, 
+    bundle: .<span class="dotAccess">main</span>
+).<span class="call">instantiate</span>(
+    withOwner: <span class="keyword">nil</span>, 
+    options: <span class="keyword">nil</span>
+).<span class="property">first</span> <span class="keyword">as</span>! <span class="type">UIView</span>
+
+<span class="comment">// does the same as above
+// let view = Bundle.main.loadNibNamed(
+//    "CustomView", 
+//    owner: nil, 
+//    options: nil
+// )!.first as! UIView</span> 
+
+view.<span class="property">frame</span> = <span class="keyword">self</span>.<span class="property">view</span>.<span class="property">bounds</span>
+<span class="keyword">self</span>.<span class="property">view</span>.<span class="call">addSubview</span>(view)</code></pre><p>The snippet above will simply instantiate a view object from the <a href="https://medium.com/@brianclouser/swift-3-creating-a-custom-view-from-a-xib-ecdfe5b3a960" target="_blank">xib file</a>. You can have multiple root objects in the view hierarchy, but this time let's just pick the first one and use that. I assume that in 99% of the cases this is what you'll need in order to get your custom designed views. Also you can extend the UIView object with any of the solutions above to create a <a href="https://theiconic.tech/instantiating-from-xib-using-swift-generics-632a2b3d8109" target="_blank">generic</a> view loader. More on that later... 😊</p><p>This method is pretty simple and cheap, however there is one little drawback. You can't get named pointers (outlets) for the views, but only for the root object. If you are putting design elements into your screen, that's fine, but if you need to display dynamic data, you might want to reach out for the underlying views as well. 😃</p><h2>Custom views with outlets &amp; actions</h2><p>So the proper way to load custom views from xib files goes something like this:</p><p>Inside your custom view object, you instantiate the xib file exactly the same way as I told you right up here. 👆 The only difference is that you don't need to use the object array returned by the methods, but you have to connect your view objects through the interface builder, using the File's Owner as a reference point, plus a custom container view outlet, that'll contain everything you need. 🤨</p><pre><code class="language-swift"><span class="comment">// note: view object is from my previous tutorial, with autoresizing masks disabled</span>
+<span class="keyword">class</span> CustomView: <span class="type">View</span> {
+
+    <span class="comment">// this is going to be our container object</span>
+    <span class="keyword">@IBOutlet weak var</span> containerView: <span class="type">UIView</span>!
+
+    <span class="comment">// other usual outlets</span>
+    <span class="keyword">@IBOutlet weak var</span> textLabel: <span class="type">UILabel</span>!
+
+    <span class="keyword">override func</span> initialize() {
+        <span class="keyword">super</span>.<span class="call">initialize</span>()
+
+        <span class="comment">// first: load the view hierarchy to get proper outlets</span>
+        <span class="keyword">let</span> name = <span class="type">String</span>(describing: <span class="call">type</span>(of: <span class="keyword">self</span>))
+        <span class="keyword">let</span> nib = <span class="type">UINib</span>(nibName: name, bundle: .<span class="dotAccess">main</span>)
+        nib.<span class="call">instantiate</span>(withOwner: <span class="keyword">self</span>, options: <span class="keyword">nil</span>)
+
+        <span class="comment">// next: append the container to our view</span>
+        <span class="keyword">self</span>.<span class="call">addSubview</span>(<span class="keyword">self</span>.<span class="property">containerView</span>)
+        <span class="keyword">self</span>.<span class="property">containerView</span>.<span class="property">translatesAutoresizingMaskIntoConstraints</span> = <span class="keyword">false</span>
+        <span class="type">NSLayoutConstraint</span>.<span class="call">activate</span>([
+            <span class="keyword">self</span>.<span class="property">containerView</span>.<span class="property">topAnchor</span>.<span class="call">constraint</span>(equalTo: <span class="keyword">self</span>.<span class="property">topAnchor</span>),
+            <span class="keyword">self</span>.<span class="property">containerView</span>.<span class="property">bottomAnchor</span>.<span class="call">constraint</span>(equalTo: <span class="keyword">self</span>.<span class="property">bottomAnchor</span>),
+            <span class="keyword">self</span>.<span class="property">containerView</span>.<span class="property">leadingAnchor</span>.<span class="call">constraint</span>(equalTo: <span class="keyword">self</span>.<span class="property">leadingAnchor</span>),
+            <span class="keyword">self</span>.<span class="property">containerView</span>.<span class="property">trailingAnchor</span>.<span class="call">constraint</span>(equalTo: <span class="keyword">self</span>.<span class="property">trailingAnchor</span>),
+        ])
+    }
+}</code></pre><p>So the initialize method here is just loading the nib file with the owner of self. After the loading process finished, your outlet pointers are going to be filled with proper values from the xib file. There is one last thing that we need to do. Even the views from the xib file are "programmatically" connected to our <a href="https://medium.com/swift2go/swift-custom-uiview-with-xib-file-211bb8bbd6eb" target="_blank">custom view</a> object, but visually they aren't. So we have to add our container view into the view hierarchy. 🤐</p></section><section class="wrapper">
+<figure>
+    <picture>
+        <img class="post-image" src="https://theswiftdev.com/images/assets/custom-uiview-subclass-from-a-xib-file/images/ib.png" alt="IB">
+    </picture>
+</figure>
+</section><section class="content-wrapper"><p>If you want to use your custom view object, you just have to create a new instance from it - inside a view controller - and finally feel free to add it as a subview!</p><p>One word about bounds, frames aka. springs and struts: fucking UGLY! That's two words. They are considered as a bad practice, so please use <a href="https://theswiftdev.com/2017/10/31/ios-auto-layout-tutorial-programmatically/">auto layout</a>, I have a nice <a href="https://theswiftdev.com/2018/06/14/mastering-ios-auto-layout-anchors-programmatically-from-swift/">tutorial about anchors</a>, they are amazing and learning them takes about 15 minutes. 😅</p><pre><code class="language-swift"><span class="keyword">class</span> ViewController: <span class="type">UIViewController</span> {
+
+    <span class="keyword">weak var</span> customView: <span class="type">CustomView</span>!
+
+    <span class="keyword">override func</span> loadView() {
+        <span class="keyword">super</span>.<span class="call">loadView</span>()
+
+        <span class="keyword">let</span> customView = <span class="type">CustomView</span>()
+        <span class="keyword">self</span>.<span class="property">view</span>.<span class="call">addSubview</span>(customView)
+        <span class="type">NSLayoutConstraint</span>.<span class="call">activate</span>([
+            customView.<span class="property">topAnchor</span>.<span class="call">constraint</span>(equalTo: <span class="keyword">self</span>.<span class="property">view</span>.<span class="property">topAnchor</span>),
+            customView.<span class="property">bottomAnchor</span>.<span class="call">constraint</span>(equalTo: <span class="keyword">self</span>.<span class="property">view</span>.<span class="property">bottomAnchor</span>),
+            customView.<span class="property">leadingAnchor</span>.<span class="call">constraint</span>(equalTo: <span class="keyword">self</span>.<span class="property">view</span>.<span class="property">leadingAnchor</span>),
+            customView.<span class="property">trailingAnchor</span>.<span class="call">constraint</span>(equalTo: <span class="keyword">self</span>.<span class="property">view</span>.<span class="property">trailingAnchor</span>),
+        ])
+        <span class="keyword">self</span>.<span class="property">customView</span> = customView
+    }
+
+    <span class="keyword">override func</span> viewDidLoad() {
+        <span class="keyword">super</span>.<span class="call">viewDidLoad</span>()
+
+        <span class="keyword">self</span>.<span class="property">customView</span>.<span class="property">textLabel</span>.<span class="property">text</span> = <span class="string">"Lorem ipsum"</span>
+    }
+}</code></pre><p>That's it, now you have a completely working custom UIView object that loads a xib file in order to use it's contents. Wasn't so bad, right? 🤪</p><p>One more extra thing. If you don't like to handle views programmatically or you simply don't want to mess around with the <code>loadView</code> method, just remove it entirely. Next put the <code>@IBOutlet</code> keyword right before your custom view class variable. Open your storyboard using IB, then drag &amp; drop a new UIView element to your controller and connect the custom view outlet. It should work like magic. 💫</p></section><section class="wrapper">
+<figure>
+    <picture>
+        <img class="post-image" src="https://theswiftdev.com/images/assets/custom-uiview-subclass-from-a-xib-file/images/storyboard.png" alt="Storyboard">
+    </picture>
+</figure>
+</section><section class="content-wrapper"><p>I promised outlets and actions in the heading of this section, so let's talk a little bit about IBActions. They work exactly the same as you'd expect them with controllers. You can simply hook-up a button to your custom view and delegate the action to the custom view class. If you want to forward touches or specific actions to a controller, you should use the <a href="https://theswiftdev.com/2018/06/27/swift-delegate-design-pattern/">delegate pattern</a> or go with a simple block. 😎</p><h2>Ownership and container views</h2><p>It is possible to leave out all the xib loading mechanism from the view instance. We can create a set of extensions in order to have a nice view loader with a custom view class from a xib file. This way you don't need a container view anymore, also the owner of the file can be left out from the game, it's more or less the same method as reusable cells for tables and collections created by Apple. 🍎</p><p>You should know that going this way you can't use your default UIView init methods programmatically anymore, because the xib file will take care of the init process. Also if you are trying to use this kind of custom views from a storyboard or xib file, you won't be able to use your outlets, because the correspondig xib of the view class won't be loaded. Otherwise if you are trying to load it manyally you'll run into an infinite loop and eventually your app will crash like hell. 😈</p><pre><code class="language-swift"><span class="keyword">import</span> UIKit
+
+<span class="keyword">extension</span> <span class="type">UINib</span> {
+    <span class="keyword">func</span> instantiate() -&gt; <span class="type">Any</span>? {
+        <span class="keyword">return self</span>.<span class="call">instantiate</span>(withOwner: <span class="keyword">nil</span>, options: <span class="keyword">nil</span>).<span class="property">first</span>
+    }
+}
+
+<span class="keyword">extension</span> <span class="type">UIView</span> {
+
+    <span class="keyword">static var</span> nib: <span class="type">UINib</span> {
+        <span class="keyword">return</span> <span class="type">UINib</span>(nibName: <span class="type">String</span>(describing: <span class="keyword">self</span>), bundle: <span class="keyword">nil</span>)
+    }
+
+    <span class="keyword">static func</span> instantiate(autolayout: <span class="type">Bool</span> = <span class="keyword">true</span>) -&gt; <span class="type">Self</span> {
+        <span class="comment">// generic helper function</span>
+        <span class="keyword">func</span> instantiateUsingNib&lt;T: <span class="type">UIView</span>&gt;(autolayout: <span class="type">Bool</span>) -&gt; <span class="type">T</span> {
+            <span class="keyword">let</span> view = <span class="keyword">self</span>.<span class="property">nib</span>.<span class="call">instantiate</span>() <span class="keyword">as</span>! <span class="type">T</span>
+            view.<span class="property">translatesAutoresizingMaskIntoConstraints</span> = !autolayout
+            <span class="keyword">return</span> view
+        }
+        <span class="keyword">return</span> <span class="call">instantiateUsingNib</span>(autolayout: autolayout)
+    }
+}
+
+<span class="keyword">class</span> CustomView: <span class="type">UIView</span> {
+
+    <span class="keyword">@IBOutlet weak var</span> textLabel: <span class="type">UILabel</span>!
+}
+
+<span class="comment">// usage (inside a view controller for example)
+// let view = CustomView.instantiate()</span></code></pre><p>Just like with table or collection view cells this time you have to set your custom view class on the view object, instead of the File's Owner. You have to connect your outlets and basically you're done with everything. 🤞</p></section><section class="wrapper">
+<figure>
+    <picture>
+        <img class="post-image" src="https://theswiftdev.com/images/assets/custom-uiview-subclass-from-a-xib-file/images/ownership.jpg" alt="ownership">
+    </picture>
+</figure>
+</section><section class="content-wrapper"><p>From now on you should ALWAYS use the instantiate method on your custom view object. The good news is that the function is generic, returns the proper instance type and it's highly reusable. Oh, btw. I already mentioned the bad news... 🤪</p><p>There is also one more technique by overriding <a href="https://stackoverflow.com/questions/9282365/load-view-from-an-external-xib-file-in-storyboard/40343124#40343124" target="_blank">awakeAfter</a>, but I would not rely on that solution anymore. In most of the cases you can simply set the File's Owner to your custom view, and go with a container, that's a safe bet. If you have special needs you might need the second approach, but please be careful with that. 😉</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/custom-uiview-subclass-from-a-xib-file/"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.com/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Swift 5 and ABI stability - The.Swift.Dev.</title>
+    
+    <meta name="description" content="Apple's Swift 5 language version will be a huge milestone for the developer community, let's see what are the possible benefits of it.">
+    
+    <meta property="og:title" content="Swift 5 and ABI stability - The.Swift.Dev.">
+    <meta property="og:description" content="Apple's Swift 5 language version will be a huge milestone for the developer community, let's see what are the possible benefits of it.">
+    <meta property="og:url" content="https://theswiftdev.com/swift-5-and-abi-stability/">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/swift-5-and-abi-stability/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="Swift 5 and ABI stability - The.Swift.Dev.">
+    <meta name="twitter:description" content="Apple's Swift 5 language version will be a huge milestone for the developer community, let's see what are the possible benefits of it.">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/swift-5-and-abi-stability/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.com/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2018/11/06">2018/11/06</time>
+            <h1 class="title">Swift 5 and ABI stability</h1>
+            <p class="excerpt">Apple's Swift 5 language version will be a huge milestone for the developer community, let's see what are the possible benefits of it.</p>
+            <div class="meta">
+                <span class="tag">Swift</span>
+<span class="tag">ABI</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/swift-5-and-abi-stability/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <h2>ABI stability</h2><p>Everyone talks about that <a href="https://developerinsider.co/what-will-be-new-in-swift-5/" target="_blank">Swift 5</a> is will have a <a href="https://swift.org/abi-stability/" target="_blank">stable Application Binary Interface</a>, but what exactly is this mysterious ABI thing that's so important for Swift devs?.</p><blockquote><p>ABI is an interface between two binary program modules.</p></blockquote><p>You can read a well-written definition of ABI on <a href="https://en.wikipedia.org/wiki/Application_binary_interface" target="_blank">Wikipedia</a> or you can get a brief technical explanation through this <a href="https://www.reddit.com/r/swift/comments/67z7dy/what_is_abi_stability_and_why_does_it_matter/" target="_blank">reddit thread</a>, but I'm trying to translate the core concepts of the Application Binary Interface to human language. 🤖</p><p><a href="https://medium.com/swift-india/swift-5-abi-stability-769ccb986d79" target="_blank">ABI</a> is literally a binary communication interface for applications. Just like an API (application programming interface for devs = what was the name of that function?), ABI is a set of rules, so apps and program components like frameworks or libraries can speak the same "binary language", so they can communicate with each other. 😅</p><p>The ABI usually covers the following things:</p><ul><li>CPU instructions (registers, stack organization, memory access type)</li><li>sizes, layouts and alignments of data types</li><li>calling convention (how to call functions, pass arguments, return values)</li><li>system calls to the OS</li></ul><p>So just like with APIs if you change something for example the name of a given method - or a size of a data type if we talk about ABIs - your older API clients will break. This is the exact same case here, older Swift versions are incompatible because the underlying changes in the ABI &amp; API. So to make things work the proper version of Swift dynamic library has to be embedded into your bundle. That means bigger app sizes, but all the apps can run even with different Swift versions. 🤐</p><p>As you can see these are pretty nasty low level stuff, usually you don't have to worry about any of these details, but it's always good to know what the heck is an ABI in general. Maybe you'll need this knowledge in one day. 👍</p><h2>Integrated into the core of the OS</h2><p>When a language is ABI-stable, that means it can be packaged and linked directly into the operating system itself. Currently if you build a Swift application a Swift dynamic library is going to be embedded to that bundle, in order to support your specific Swift version. This leads to bigger app sizes, and version incompatibility issues. After Swift is going to be an ABI stable language there is no need to package the dylib into apps, so Swift will have a smaller footprint on the system, also you can benefit from the OS provided under-the-hood improvements. 😎</p><h2>Swift version compatibility</h2><p>Another big win is version compatiblity. In the past if you had a project that was written in Swift N it was a real pain-in-the-ass to upgrade it to N+1. Especially applies to Swift 2 &gt; Swift 3 migrations. In the future after both the ABI &amp; API are going to be stabilized, you won't need to upgrade (that much) at all. You can already see this happening, Swift 3 to Swift 4 was a much more easy step than the horrible one I mentioned above. After Swift 5, we can hope that everything is going to be backward compatible, so devs can focus on real tasks instead of migrations. 🙏</p><h2>Closed-source Swift packages</h2><p>Developers will be able to create closed source 3rd-party libraries written in Swift and distribute them as pre-compiled frameworks. This one is a HUGE one, because until the ABI stable version of Swift arrives, this is only possible with Objective-C. 🦕</p><p>Framework authors can ship the pre-compiled binaries instead of source files, so if you have to integrate multiple external dependencies into your project, clean build times can be significantly faster. This is also a nice advantage, but let's talk about my personal favorite... 😎</p><h2>SPM support for appleOS &amp; Xcode</h2><p>If the Swift language will be part of the core operating system, Apple should definitely provide Swift Package Manager support both for iOS, macOS, tvOS and watchOS. It would be a logical step forward and I can see some signs that points into this direction. Please Apple give the people what they want and sherlock CocoaPods once and for all. The iOS developer community will be a better place without Podfiles. 😅</p><p>Xcode should gain a deeply intergrated support for Swift Package Manager. Also it'd be nice to have a package discovery / search option, even it is centralized &amp; controlled by Apple. It'd be truely amazing to have a neat UI to search for packages &amp; integrate them just with one click to my iOS project. Works like magic! 💫</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/swift-5-and-abi-stability/"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.com/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

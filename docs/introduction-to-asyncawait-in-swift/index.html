@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Introduction to async/await in Swift - The.Swift.Dev.</title>
+    
+    <meta name="description" content="Beginners guide to the new async/await API's in Swift 5.5. Interacting with sync code, structured concurrency, async let.">
+    
+    <meta property="og:title" content="Introduction to async/await in Swift - The.Swift.Dev.">
+    <meta property="og:description" content="Beginners guide to the new async/await API's in Swift 5.5. Interacting with sync code, structured concurrency, async let.">
+    <meta property="og:url" content="https://theswiftdev.com/introduction-to-asyncawait-in-swift/">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/introduction-to-asyncawait-in-swift/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="Introduction to async/await in Swift - The.Swift.Dev.">
+    <meta name="twitter:description" content="Beginners guide to the new async/await API's in Swift 5.5. Interacting with sync code, structured concurrency, async let.">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/introduction-to-asyncawait-in-swift/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.com/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2021/05/25">2021/05/25</time>
+            <h1 class="title">Introduction to async/await in Swift</h1>
+            <p class="excerpt">Beginners guide to the new async/await API's in Swift 5.5. Interacting with sync code, structured concurrency, async let.</p>
+            <div class="meta">
+                <span class="tag">Swift</span>
+<span class="tag">Concurrency</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/introduction-to-asyncawait-in-swift/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <h2>The main project</h2><p>Swift 5.5 contains a lot of new features, most of them is all about "a better concurrency model" for the language. The very first step into this new asynchronous world is a proper <a href="https://github.com/apple/swift-evolution/blob/main/proposals/0296-async-await.md" target="_blank">async/await</a> system.</p><p>Of course you can still use regular completion blocks or <a href="https://theswiftdev.com/ultimate-grand-central-dispatch-tutorial-in-swift/">the Dispatch framework</a> to write async code, but seems like the future of Swift involves a native approach to handle concurrent tasks even better. There is combine as well, but that's only available for Apple platforms, so yeah... 🥲</p><p>Let me show you how to convert your old callback &amp; result type based Swift code into a shiny new async/await supported API. First we are going to create our experimental async SPM project.</p><pre><code class="language-swift"><span class="comment">// swift-tools-version:5.4</span>
+<span class="keyword">import</span> PackageDescription
+
+<span class="keyword">let</span> package = <span class="type">Package</span>(
+    name: <span class="string">"AsyncSwift"</span>,
+    products: [
+        .<span class="call">executable</span>(name: <span class="string">"AsyncSwift"</span>, targets: [<span class="string">"AsyncSwift"</span>])
+    ],
+    dependencies: [
+        <span class="comment">// none for now..</span>
+    ],
+    targets: [
+        .<span class="call">executableTarget</span>(name: <span class="string">"AsyncSwift"</span>,
+                          swiftSettings: [
+                            .<span class="call">unsafeFlags</span>([
+                                <span class="string">"-parse-as-library"</span>,
+                                <span class="string">"-Xfrontend"</span>, <span class="string">"-disable-availability-checking"</span>,
+                                <span class="string">"-Xfrontend"</span>, <span class="string">"-enable-experimental-concurrency"</span>,
+                            ])
+                          ]
+        ),
+        .<span class="call">testTarget</span>(name: <span class="string">"AsyncSwiftTests"</span>, dependencies: [<span class="string">"AsyncSwift"</span>]),
+    ]
+)</code></pre><p>You might have noticed that we're using the latest <code>swift-tools-version:5.4</code> and we added a few unsafe flags for this project. This is because we're going to use the new <code>@main</code> attribute inside the executable package target, and the concurrency API requires the experimental flag to be present.</p><p>Now we should create a main entry point inside our <code>main.swift</code> file. Since we're using the <a href="https://github.com/apple/swift-evolution/blob/main/proposals/0281-main-attribute.md" target="_blank">@main attribute</a> it is possible to create a new struct with a static main method that can be automatically launched when you build &amp; run your project using Xcode or the command line. 🚀</p><pre><code class="language-swift"><span class="keyword">@main
+struct</span> MyProgram {
+
+    <span class="keyword">static func</span> main() {
+        <span class="call">print</span>(<span class="string">"Hello, world!"</span>)
+    }
+}</code></pre><p>Now that we have a clean main entry point, we should add some standard URLSession related functionality that we are going to replace with new async/await calls as we refactor the code.</p><p>We're going call our usual sample todo service and validate our HTTP response. To get more specific details of a possible error, we can use a simple <code>HTTP.Error</code> object, and of course because the dataTask API returns immediately we have to use the <code>dispatchMain()</code> call to wait for the asynchronous HTTP call. Finally we simply switch the <a href="https://theswiftdev.com/how-to-use-the-result-type-to-handle-errors-in-swift/">result type</a> and exit if needed. ⏳</p><pre><code class="language-swift"><span class="keyword">import</span> Foundation
+
+<span class="keyword">enum</span> HTTP {
+    <span class="keyword">enum</span> Error: <span class="type">LocalizedError</span> {
+        <span class="keyword">case</span> invalidResponse
+        <span class="keyword">case</span> badStatusCode
+        <span class="keyword">case</span> missingData
+    }
+}
+
+<span class="keyword">struct</span> Todo: <span class="type">Codable</span> {
+    <span class="keyword">let</span> id: <span class="type">Int</span>
+    <span class="keyword">let</span> title: <span class="type">String</span>
+    <span class="keyword">let</span> completed: <span class="type">Bool</span>
+    <span class="keyword">let</span> userId: <span class="type">Int</span>
+}
+
+<span class="keyword">func</span> getTodos(completion: <span class="keyword">@escaping</span> (<span class="type">Result</span>&lt;[<span class="type">Todo</span>], <span class="type">Error</span>&gt;) -&gt; <span class="type">Void</span>) {
+    <span class="keyword">let</span> req = <span class="type">URLRequest</span>(url: <span class="type">URL</span>(string: <span class="string">"https://jsonplaceholder.typicode.com/todos"</span>)!)
+    <span class="keyword">let</span> task = <span class="type">URLSession</span>.<span class="property">shared</span>.<span class="call">dataTask</span>(with: req) { data, response, error <span class="keyword">in
+        guard</span> error == <span class="keyword">nil else</span>  {
+            <span class="keyword">return</span> <span class="call">completion</span>(.<span class="call">failure</span>(error!))
+        }
+        <span class="keyword">guard let</span> response = response <span class="keyword">as</span>? <span class="type">HTTPURLResponse</span> <span class="keyword">else</span> {
+            <span class="keyword">return</span> <span class="call">completion</span>(.<span class="call">failure</span>(<span class="type">HTTP</span>.<span class="type">Error</span>.<span class="property">invalidResponse</span>))
+        }
+        <span class="keyword">guard</span> <span class="number">200</span>...<span class="number">299</span> ~= response.<span class="property">statusCode</span> <span class="keyword">else</span> {
+            <span class="keyword">return</span> <span class="call">completion</span>(.<span class="call">failure</span>(<span class="type">HTTP</span>.<span class="type">Error</span>.<span class="property">badStatusCode</span>))
+        }
+        <span class="keyword">guard let</span> data = data <span class="keyword">else</span> {
+            <span class="keyword">return</span> <span class="call">completion</span>(.<span class="call">failure</span>(<span class="type">HTTP</span>.<span class="type">Error</span>.<span class="property">missingData</span>))
+        }
+        <span class="keyword">do</span> {
+            <span class="keyword">let</span> decoder = <span class="type">JSONDecoder</span>()
+            <span class="keyword">let</span> todos = <span class="keyword">try</span> decoder.<span class="call">decode</span>([<span class="type">Todo</span>].<span class="keyword">self</span>, from: data)
+            <span class="keyword">return</span> <span class="call">completion</span>(.<span class="call">success</span>(todos))
+        }
+        <span class="keyword">catch</span> {
+            <span class="keyword">return</span> <span class="call">completion</span>(.<span class="call">failure</span>(error))
+        }
+    }
+    task.<span class="call">resume</span>()
+}
+
+<span class="keyword">@main
+struct</span> MyProgram {
+
+    <span class="keyword">static func</span> main() {
+        <span class="call">getTodos</span> { result <span class="keyword">in
+            switch</span> result {
+            <span class="keyword">case</span> .<span class="dotAccess">success</span>(<span class="keyword">let</span> todos):
+                <span class="call">print</span>(todos.<span class="property">count</span>)
+                <span class="call">exit</span>(<span class="type">EXIT_SUCCESS</span>)
+            <span class="keyword">case</span> .<span class="dotAccess">failure</span>(<span class="keyword">let</span> error):
+                <span class="call">fatalError</span>(error.<span class="property">localizedDescription</span>)
+            }
+            
+        }
+        <span class="call">dispatchMain</span>()
+    }
+}</code></pre><p>If you remember I already showed you <a href="https://theswiftdev.com/urlsession-and-the-combine-framework/">the Combine version of this URLSession data task</a> call a while back, but as I mentioned this Combine is not only available for iOS, macOS, tvOS and watchOS.</p><h2>Async/await and unsafe continuation</h2><p>So how do we convert our existing code into an async variant? Well, the good news is that there is a method called <code>withUnsafeContinuation</code> that you can use to wrap existing completion block based calls to produce async versions of your functions. The quick and dirty solution is this:</p><pre><code class="language-swift"><span class="keyword">import</span> Foundation
+
+<span class="comment">// ...</span> 
+
+<span class="keyword">func</span> getTodos() <span class="keyword">async</span> -&gt; <span class="type">Result</span>&lt;[<span class="type">Todo</span>], <span class="type">Error</span>&gt; {
+    <span class="keyword">await</span> <span class="call">withUnsafeContinuation</span> { c <span class="keyword">in</span>
+        <span class="call">getTodos</span> { result <span class="keyword">in</span>
+            c.<span class="call">resume</span>(returning: result)
+        }
+    }
+}
+
+<span class="keyword">@main
+struct</span> MyProgram {
+
+    <span class="keyword">static func</span> main() <span class="keyword">async</span> {
+        <span class="keyword">let</span> result = <span class="keyword">await</span> <span class="call">getTodos</span>()
+        <span class="keyword">switch</span> result {
+        <span class="keyword">case</span> .<span class="dotAccess">success</span>(<span class="keyword">let</span> todos):
+            <span class="call">print</span>(todos.<span class="property">count</span>)
+            <span class="call">exit</span>(<span class="type">EXIT_SUCCESS</span>)
+        <span class="keyword">case</span> .<span class="dotAccess">failure</span>(<span class="keyword">let</span> error):
+            <span class="call">fatalError</span>(error.<span class="property">localizedDescription</span>)
+        }
+    }
+}</code></pre><p>The <a href="https://github.com/apple/swift-evolution/blob/main/proposals/0300-continuation.md" target="_blank">continuations</a> proposal was born to provide us the necessary API to interact with synchronous code. The <code>withUnsafeContinuation</code> function gives us a block that we can use to resume with the generic async return type, this way it is ridiculously easy to rapidly write an async version of an existing the callback based function. As always, the Swift developer team did a great job here. 👍</p><p>One thing you might have noticed, that instead of calling the <code>dispatchMain()</code> function we've changed the main function into an async function. Well, the thing is that you can't simply call an async function inside a non-async (synchronous) method. ⚠️</p><h2>Interacting with sync code</h2><p>In order to call an async method inside a sync method, you have to use the new <code>Task.detached</code> function and you still have to wait for the async functions to complete using the dispatch APIs.</p><pre><code class="language-swift"><span class="keyword">import</span> Foundation
+
+<span class="comment">// ...</span>
+
+<span class="keyword">@main
+struct</span> MyProgram {
+
+    <span class="keyword">static func</span> main() {
+        <span class="type">Task</span>.<span class="call">detached</span> {
+            <span class="keyword">let</span> result = <span class="keyword">await</span> <span class="call">getTodos</span>()
+            <span class="keyword">switch</span> result {
+            <span class="keyword">case</span> .<span class="dotAccess">success</span>(<span class="keyword">let</span> todos):
+                <span class="call">print</span>(todos.<span class="property">count</span>)
+                <span class="call">exit</span>(<span class="type">EXIT_SUCCESS</span>)
+            <span class="keyword">case</span> .<span class="dotAccess">failure</span>(<span class="keyword">let</span> error):
+                <span class="call">fatalError</span>(error.<span class="property">localizedDescription</span>)
+            }
+        }
+        <span class="call">dispatchMain</span>()
+    }
+}</code></pre><p>Of course you can call any sync and async method inside an async function, so there are no restrictions there. Let me show you one more example, this time we're going to use the Grand Central Dispatch framework, return a few numbers and add them asynchronously.</p><h2>Serial vs concurrent execution</h2><p>Imagine a common use-case where you'd like to combine (pun intended) the output of some long running async operations. In our example we're going to calculate some numbers asynchronously and we'd like to sum the results afterwards. Let's examine the following code...</p><pre><code class="language-swift"><span class="keyword">import</span> Foundation
+
+<span class="keyword">func</span> calculateFirstNumber() <span class="keyword">async</span> -&gt; <span class="type">Int</span> {
+    <span class="call">print</span>(<span class="string">"First number is now being calculated..."</span>)
+    <span class="keyword">return await</span> <span class="call">withUnsafeContinuation</span> { c <span class="keyword">in</span>
+        <span class="type">DispatchQueue</span>.<span class="property">main</span>.<span class="call">asyncAfter</span>(deadline: .<span class="call">now</span>() + <span class="number">2</span>) {
+            <span class="call">print</span>(<span class="string">"First number is now ready."</span>)
+            c.<span class="call">resume</span>(returning: <span class="number">42</span>)
+        }
+    }
+}
+
+<span class="keyword">func</span> calculateSecondNumber() <span class="keyword">async</span> -&gt; <span class="type">Int</span> {
+    <span class="call">print</span>(<span class="string">"Second number is now being calculated..."</span>)
+    <span class="keyword">return await</span> <span class="call">withUnsafeContinuation</span> { c <span class="keyword">in</span>
+        <span class="type">DispatchQueue</span>.<span class="property">main</span>.<span class="call">asyncAfter</span>(deadline: .<span class="call">now</span>() + <span class="number">1</span>) {
+            <span class="call">print</span>(<span class="string">"Second number is now ready."</span>)
+            c.<span class="call">resume</span>(returning: <span class="number">6</span>)
+        }
+    }
+}
+
+<span class="keyword">func</span> calculateThirdNumber() <span class="keyword">async</span> -&gt; <span class="type">Int</span> {
+    <span class="call">print</span>(<span class="string">"Third number is now being calculated..."</span>)
+    <span class="keyword">return await</span> <span class="call">withUnsafeContinuation</span> { c <span class="keyword">in</span>
+        <span class="type">DispatchQueue</span>.<span class="property">main</span>.<span class="call">asyncAfter</span>(deadline: .<span class="call">now</span>() + <span class="number">3</span>) {
+            <span class="call">print</span>(<span class="string">"Third number is now ready."</span>)
+            c.<span class="call">resume</span>(returning: <span class="number">69</span>)
+        }
+    }
+}
+
+<span class="keyword">@main
+struct</span> MyProgram {
+
+    <span class="keyword">static func</span> main() <span class="keyword">async</span> {
+        <span class="keyword">let</span> x = <span class="keyword">await</span> <span class="call">calculateFirstNumber</span>()
+        <span class="keyword">let</span> y = <span class="keyword">await</span> <span class="call">calculateSecondNumber</span>()
+        <span class="keyword">let</span> z = <span class="keyword">await</span> <span class="call">calculateThirdNumber</span>()
+        <span class="call">print</span>(x + y + z)
+    
+}
+
+<span class="comment">/*
+First number is now being calculated...
+First number is now ready.
+Second number is now being calculated...
+Second number is now ready.
+Third number is now being calculated...
+Third number is now ready.
+117
+Program ended with exit code: 0
+*/</span></code></pre><p>As you can see these functions are asynchronous, but they are still executed one after another. It really doesn't matter if you change the main queue into a different concurrent queue, the async task itself is not going to fire until you call it with await. The execution order is always serial. 🤔</p><h2>Spawn tasks using async let</h2><p>It is possible to change this behavior by using the brand new async let syntax. If we move the await keyword just a bit down the line we can fire the async tasks right away via the async let expressions. This new feature is part of <a href="https://github.com/apple/swift-evolution/blob/main/proposals/0317-async-let.md" target="_blank">the structured concurrency proposal</a>.</p><pre><code class="language-swift"><span class="comment">// ...</span>
+
+<span class="keyword">@main
+struct</span> MyProgram {
+
+    <span class="keyword">static func</span> main() <span class="keyword">async</span> {
+        <span class="keyword">async let</span> x = <span class="call">calculateFirstNumber</span>()
+        <span class="keyword">async let</span> y = <span class="call">calculateSecondNumber</span>()
+        <span class="keyword">async let</span> z = <span class="call">calculateThirdNumber</span>()
+
+        <span class="keyword">let</span> res = <span class="keyword">await</span> x + y + z
+        <span class="call">print</span>(res)
+    }
+}
+<span class="comment">/*
+First number is now being calculated...
+Second number is now being calculated...
+Third number is now being calculated...
+Second number is now ready.
+First number is now ready.
+Third number is now ready.
+117
+Program ended with exit code: 0
+*/</span></code></pre><p>Now the execution order is concurrent, the underlying calculation still happens in a serial way on the main queue, but you've got the idea what I'm trying to show you here, right? 😅</p><p>Anyway, simply adding the async/await feature into a programming language won't solve the more complex issues that we have to deal with. Fortunately Swift will have great support to async task management and concurrent code execution. I can't wait to write more about these new features. See you next time, there is a lot to cover, I hope you'll find my async Swift tutorials useful. 👋</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/introduction-to-asyncawait-in-swift/"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.com/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

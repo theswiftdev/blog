@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Swift simple factory design pattern - The.Swift.Dev.</title>
+    
+    <meta name="description" content="This time let's talk about the simple factory design pattern to encapsulate object creation in a really simple way using Swift.">
+    
+    <meta property="og:title" content="Swift simple factory design pattern - The.Swift.Dev.">
+    <meta property="og:description" content="This time let's talk about the simple factory design pattern to encapsulate object creation in a really simple way using Swift.">
+    <meta property="og:url" content="https://theswiftdev.com/swift-simple-factory-design-pattern/">
+    <meta property="og:image" content="https://theswiftdev.com/images/assets/swift-simple-factory-design-pattern/cover.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tiborbodecs">
+    <meta name="twitter:creator" content="@tiborbodecs">
+    <meta name="twitter:title" content="Swift simple factory design pattern - The.Swift.Dev.">
+    <meta name="twitter:description" content="This time let's talk about the simple factory design pattern to encapsulate object creation in a really simple way using Swift.">
+    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/swift-simple-factory-design-pattern/cover.jpg">
+    
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
+    
+    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+    
+</head>
+
+<body>
+    <a href="https://theswiftdev.gumroad.com" class="ribbon">
+        📖
+    </a>
+    <header id="page-header">
+        <a href="https://theswiftdev.com/">
+            <img 
+                id="logo-image"
+                src="https://theswiftdev.com/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+        </a>
+    </header>
+    
+    <main>
+
+        <article>
+    <header>
+        <section id="post-header" class="content-wrapper">
+            <time datetime="2018/05/29">2018/05/29</time>
+            <h1 class="title">Swift simple factory design pattern</h1>
+            <p class="excerpt">This time let's talk about the simple factory design pattern to encapsulate object creation in a really simple way using Swift.</p>
+            <div class="meta">
+                <span class="tag">Swift</span>
+<span class="tag">iOS</span>
+<span class="tag">design patterns</span>
+            </div>
+        </section>
+        <section class="wrapper">
+            <img id="post-image" src="https://theswiftdev.com/images/assets/swift-simple-factory-design-pattern/cover.jpg">
+        </section>
+    </header>
+
+    <div id="contents">
+        <section class="content-wrapper">
+            <h2>Simple factory implementation using switch-case</h2><p>The goal of this pattern is to encapsulate something that can often vary. Imagine a color palette for an application. You might have to change the colors according to the latest habit of the designer on a daily basis. I'd be really inconvenient if you had to search &amp; replace every single instance of the color code by hand. So let's make a <a href="http://pengguo.xyz/tutorial/2017/03/07/Swift-World-Design-Patterns-Simple-Factory.html" target="_blank">simple factory</a> in Swift that can return colors based on a given style. 🎩</p><pre><code class="language-swift"><span class="keyword">class</span> ColorFactory {
+
+    <span class="keyword">enum</span> Style {
+        <span class="keyword">case</span> text
+        <span class="keyword">case</span> background
+    }
+
+    <span class="keyword">func</span> create(<span class="keyword">_</span> style: <span class="type">Style</span>) -&gt; <span class="type">UIColor</span> {
+        <span class="keyword">switch</span> style {
+        <span class="keyword">case</span> .<span class="dotAccess">text</span>:
+            <span class="keyword">return</span> .<span class="dotAccess">black</span>
+        <span class="keyword">case</span> .<span class="dotAccess">background</span>:
+            <span class="keyword">return</span> .<span class="dotAccess">white</span>
+        }
+    }
+}
+
+
+<span class="keyword">let</span> factory = <span class="type">ColorFactory</span>()
+<span class="keyword">let</span> textColor = factory.<span class="call">create</span>(.<span class="dotAccess">text</span>)
+<span class="keyword">let</span> backgroundColor = factory.<span class="call">create</span>(.<span class="dotAccess">background</span>)</code></pre><p>This can be really useful, especially if it comes to a complicated object initialization process. You can also define a protocol and return various instance types that implement the required interface using a switch case block. 🚦</p><pre><code class="language-swift"><span class="keyword">protocol</span> Environment {
+    <span class="keyword">var</span> identifier: <span class="type">String</span> { <span class="keyword">get</span> }
+}
+
+<span class="keyword">class</span> DevEnvironment: <span class="type">Environment</span> {
+    <span class="keyword">var</span> identifier: <span class="type">String</span> { <span class="keyword">return</span> <span class="string">"dev"</span> }
+}
+
+<span class="keyword">class</span> LiveEnvironment: <span class="type">Environment</span> {
+    <span class="keyword">var</span> identifier: <span class="type">String</span> { <span class="keyword">return</span> <span class="string">"live"</span> }
+}
+
+<span class="keyword">class</span> EnvironmentFactory {
+
+    <span class="keyword">enum</span> EnvType {
+        <span class="keyword">case</span> dev
+        <span class="keyword">case</span> live
+    }
+
+    <span class="keyword">func</span> create(<span class="keyword">_</span> type: <span class="type">EnvType</span>) -&gt; <span class="type">Environment</span> {
+        <span class="keyword">switch</span> type {
+        <span class="keyword">case</span> .<span class="dotAccess">dev</span>:
+            <span class="keyword">return</span> <span class="type">DevEnvironment</span>()
+        <span class="keyword">case</span> .<span class="dotAccess">live</span>:
+            <span class="keyword">return</span> <span class="type">LiveEnvironment</span>()
+        }
+    }
+}
+
+<span class="keyword">let</span> factory = <span class="type">EnvironmentFactory</span>()
+<span class="keyword">let</span> dev = factory.<span class="call">create</span>(.<span class="dotAccess">dev</span>)
+<span class="call">print</span>(dev.<span class="property">identifier</span>)</code></pre><p>So, a few things to remember about the <a href="https://code.tutsplus.com/tutorials/design-patterns-the-simple-factory-pattern--cms-22345" target="_blank">simple factory</a> design pattern:</p><ul><li>it helps loose coupling by separating init &amp; usage logic 🤔<ul><li>it's just a wrapper to encapsulate things that can change often 🤷‍♂️</li><li>simple factory can be implemented in Swift using an enum and a switch-case</li><li>use a protocol if you are planning to return different objects (POP 🎉)</li><li>keep it simple 🏭</li></ul></li></ul><p><a href="http://www.sihui.io/design-pattern-factory/" target="_blank">This pattern</a> separates the creation from the actual usage and moves the responsibility to a specific role, so if something changes you only have to modify the factory. You can leave all your tests and everything else completely untouched. Powerful and simple! 💪</p>
+        </section>
+    </div>
+
+</article>
+
+<section id="share" class="content-wrapper">
+    <p>
+    <a
+        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/swift-simple-factory-design-pattern/"
+        target="_blank"
+    >
+        Share this article on Twitter
+    </a>
+    <br> Thank you. 🙏</p>
+</section>
+
+<section  class="wrapper">
+    <div id="book">
+        <div class="column left">
+            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+        </div>
+        <div class="column right">
+            <h3>Get the Practical Server Side Swift book</h3>
+            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+        </div>
+    </div>
+</section>
+
+<section id="author" class="content-wrapper">
+    <img 
+        id="author-image"
+        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
+        alt="Picture of Tibor Bödecs" 
+        title="Tibor Bödecs"
+    >
+    <h3>Tibor Bödecs</h3>
+    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
+    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
+
+    <div class="links">
+        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
+        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://github.com/tib" target="_blank">GitHub</a> 
+    </div>
+</section>
+
+        
+    </main>
+
+    <footer>
+        <section class="content-wrapper">
+            <img 
+                src="https://theswiftdev.com/images/icons/icon-320.png"
+                alt="Logo of The.Swift.Dev." 
+                title="The.Swift.Dev."
+            >
+
+            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+            
+            <p> 
+                <a href="https://theswiftdev.com/">Home</a> ·
+                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
+                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
+            </p>
+            
+            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+        </section>
+    </footer>
+</body>
+</html>

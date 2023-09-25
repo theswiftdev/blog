@@ -8,7 +8,7 @@ tags: Swift, C
 
 ## How to build a C compatible Swift library?
 
-In order to create a Swift library that's going to work with C, we have to play around with [unsafe memory pointers](https://theswiftdev.com/unsafe-memory-pointers-in-swift/) to create a [C compatible interface](https://developer.apple.com/documentation/swift/swift_standard_library/c_interoperability). Fortunately I was able to find a nice example, which served me as a good starting point, on [the Swift forums](https://forums.swift.org/t/creating-a-c-accessible-shared-library-in-swift/45329/3) created by [Cory Benfield](https://twitter.com/Lukasaoz), so that's what we're going to use in this case. Thanks you. 🙏
+In order to create a Swift library that's going to work with C, we have to play around with [unsafe memory pointers](https://theswiftdev.com/unsafe-memory-pointers-in-swift/) to create a [C compatible interface](https://developer.apple.com/documentation/swift/swift_standard_library/c_interoperability). Fortunately I was able to find a nice example, which served me as a good starting point, on [the Swift forums](https://forums.swift.org/t/creating-a-c-accessible-shared-library-in-swift/45329/3) created by [Cory Benfield](https://x.com/Lukasaoz), so that's what we're going to use in this case. Thanks you. 🙏
 
 ```swift
 final class MyType {
@@ -123,7 +123,7 @@ We're going to need a list of the object files that we're going to link together
 ls *.o > LinkFileList
 ```
 
-Then we can call `swiftc` to do the job for us. I suppose it'll invoke the `ld` command under the hood, but I'm not a linker expert, so if you know more about this, feel free to reach out and [provide me more info](https://twitter.com/tiborbodecs) about the process. I have to read [this book](https://www.amazon.com/Linkers-Kaufmann-Software-Engineering-Programming/dp/1558604960) for sure. 📚
+Then we can call `swiftc` to do the job for us. I suppose it'll invoke the `ld` command under the hood, but I'm not a linker expert, so if you know more about this, feel free to reach out and [provide me more info](https://x.com/tiborbodecs) about the process. I have to read [this book](https://www.amazon.com/Linkers-Kaufmann-Software-Engineering-Programming/dp/1558604960) for sure. 📚
 
 ```sh
 # macOS
@@ -157,5 +157,5 @@ swiftc \
 
 The command above will produce the final linked executable file that you can run by using the `./Example` snippet and hopefully you'll see the "Hello, World! 69" message. 🙈
 
-If you want to know more about the [rpath linker flag](https://blog.krzyzanowskim.com/2018/12/05/rpath-what/), I highly recommend reading the article by [Marcin Krzyzanowski](https://twitter.com/krzyzanowskim). If you want to read more about Swift / Objective-C interoperability and using the swiftc command, you should check out [this article](https://rderik.com/blog/understanding-objective-c-and-swift-interoperability/) by [RDerik](https://twitter.com/rderik). Finally if you want to call C code from Swift and go the other way, you should take a look at [my other blog post](https://theswiftdev.com/how-to-call-c-code-from-swift/).
+If you want to know more about the [rpath linker flag](https://blog.krzyzanowskim.com/2018/12/05/rpath-what/), I highly recommend reading the article by [Marcin Krzyzanowski](https://x.com/krzyzanowskim). If you want to read more about Swift / Objective-C interoperability and using the swiftc command, you should check out [this article](https://rderik.com/blog/understanding-objective-c-and-swift-interoperability/) by [RDerik](https://x.com/rderik). Finally if you want to call C code from Swift and go the other way, you should take a look at [my other blog post](https://theswiftdev.com/how-to-call-c-code-from-swift/).
 

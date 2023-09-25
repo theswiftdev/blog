@@ -252,7 +252,7 @@ If unsafe pointers weren't just enough, you should know that Swift has a few oth
 - [ManagedBufferPointer](https://developer.apple.com/documentation/swift/managedbufferpointer)
 - [CVaListPointer](https://developer.apple.com/documentation/swift/cvalistpointer)
 
-As [Vadim Bulavin](https://twitter.com/V8tr) describes this in [his article](https://www.vadimbulavin.com/swift-pointers-overview-unsafe-buffer-raw-and-managed-pointers/), with the help of the `Unmanaged` type you can bypass Automatic Reference Counting (ARC) that is otherwise enforced to every Swift class. The other case is to convert objects between opaque pointers back and forth.
+As [Vadim Bulavin](https://x.com/V8tr) describes this in [his article](https://www.vadimbulavin.com/swift-pointers-overview-unsafe-buffer-raw-and-managed-pointers/), with the help of the `Unmanaged` type you can bypass Automatic Reference Counting (ARC) that is otherwise enforced to every Swift class. The other case is to convert objects between opaque pointers back and forth.
 
 ```swift
 class MyPoint {
@@ -281,8 +281,8 @@ Unmanaged<MyPoint>.fromOpaque(opaque).release()
 
 Opaque pointers are used when you have to work with incomplete C data structures which cannot be represented in Swift. [For example](https://www.objc.io/blog/2018/01/30/opaque-vs-unsafe-pointers/) if you have a struct that contains a pointer type, that variable is going to be imported to Swift as an `OpaquePointer` type when [interacting with C code](https://tech.bakkenbaeck.com/post/swift-c-interop).
 
-`ManagedBufferPointer` and the `ManagedBuffer` type allows you to implement your own copy-on-write data structure. This way you can achieve the exact same behavior as the built-in array, set or dictionary types have. [Russ Bishop](https://twitter.com/xenadu02?lang=en) has a great post [related to this topic](https://academy.realm.io/posts/russ-bishop-unsafe-swift/).
+`ManagedBufferPointer` and the `ManagedBuffer` type allows you to implement your own copy-on-write data structure. This way you can achieve the exact same behavior as the built-in array, set or dictionary types have. [Russ Bishop](https://x.com/xenadu02?lang=en) has a great post [related to this topic](https://academy.realm.io/posts/russ-bishop-unsafe-swift/).
 
-`AutoreleasingUnsafeMutablePointer` is a pointer that points to an Objective-C reference that doesn't own its target. you can read more about it [here](https://useyourloaf.com/blog/how-to-dereference-an-unsafe-mutable-pointer-in-swift/) by [Keith Harrison](https://twitter.com/kharrison)
+`AutoreleasingUnsafeMutablePointer` is a pointer that points to an Objective-C reference that doesn't own its target. you can read more about it [here](https://useyourloaf.com/blog/how-to-dereference-an-unsafe-mutable-pointer-in-swift/) by [Keith Harrison](https://x.com/kharrison)
 
 The `CVaListPointer` is a simple wrapper around a C [va_list](https://www.cprogramming.com/tutorial/c/lesson17.html) pointer.

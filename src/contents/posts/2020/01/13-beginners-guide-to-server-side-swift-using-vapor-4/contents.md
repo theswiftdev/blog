@@ -101,7 +101,7 @@ vapor update -y
 
 The `vapor update -y` command is almost equivalent with `swift package generate-xcodeproj`. It'll update the required dependencies and it'll generate an Xcode project file. Starting from Xcode 11 you can double click on the `Package.swift` file as well. This means you don't have to run anything from the command line, since SPM is now integrated into Xcode, the app can load all the dependencies for you.
 
-> The major difference between the two approaches is that if you geneate an `.xcodeproj` file, your dependencies are going to be linked dynamically, but if you are using the `Package.swift` file the system will use static linking. Don't worry too much about this, unless you are using a package with a reserved system name, like [Ink](https://github.com/johnsundell/ink) by [John Sundell](https://twitter.com/johnsundell). If so, you have to go with static linking.
+> The major difference between the two approaches is that if you geneate an `.xcodeproj` file, your dependencies are going to be linked dynamically, but if you are using the `Package.swift` file the system will use static linking. Don't worry too much about this, unless you are using a package with a reserved system name, like [Ink](https://github.com/johnsundell/ink) by [John Sundell](https://x.com/johnsundell). If so, you have to go with static linking.
 
 You can also use `vapor build` to build your project and `vapor run` to execute it. This comes useful if you don't want to mess around with makefiles or interact directly with the [Swift Package Manager](https://theswiftdev.com/2017/11/09/swift-package-manager-tutorial/) tool. You can enter `vapor --help` if you want to learn more about the Vapor toolbox.
 

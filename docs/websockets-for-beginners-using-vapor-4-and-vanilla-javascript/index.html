@@ -116,7 +116,7 @@
         <span class="keyword">let</span> futures = <span class="keyword">self</span>.<span class="property">storage</span>.<span class="property">values</span>.<span class="call">map</span> { $0.<span class="property">socket</span>.<span class="call">close</span>() }
         <span class="keyword">try</span>! <span class="keyword">self</span>.<span class="property">eventLoop</span>.<span class="call">flatten</span>(futures).<span class="call">wait</span>()
     }
-}</code></pre><p>We are using the <code>EventLoop</code> object to close every socket connection when we don't need them anymore. Closing a socket is an async operation that's why we have to flatten the futures and wait before all of them are closed.</p><p>Clients can send any kind of data (<code>ByteBuffer</code>) or text to the server, but it would be real nice to work with JSON objects, plus if they could provide the associated unique identifier right next to the incoming message that would have other benefits.</p><p>To make this happen we will create a generic <code>WebsocketMessage</code> object. There is a <a href="https://github.com/BastianInuk/DrinkServer/blob/master/Sources/App/Controllers/MachineController.swift" target="_blank">hacky solution</a> to decode incoming messages from JSON data. <a href="https://twitter.com/BastianInuk/" target="_blank">Bastian Inuk</a> showed me this one, but I believe it is pretty simple &amp; works like a charm. Thanks for letting me borrow your idea. 😉</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+}</code></pre><p>We are using the <code>EventLoop</code> object to close every socket connection when we don't need them anymore. Closing a socket is an async operation that's why we have to flatten the futures and wait before all of them are closed.</p><p>Clients can send any kind of data (<code>ByteBuffer</code>) or text to the server, but it would be real nice to work with JSON objects, plus if they could provide the associated unique identifier right next to the incoming message that would have other benefits.</p><p>To make this happen we will create a generic <code>WebsocketMessage</code> object. There is a <a href="https://github.com/BastianInuk/DrinkServer/blob/master/Sources/App/Controllers/MachineController.swift" target="_blank">hacky solution</a> to decode incoming messages from JSON data. <a href="https://x.com/BastianInuk/" target="_blank">Bastian Inuk</a> showed me this one, but I believe it is pretty simple &amp; works like a charm. Thanks for letting me borrow your idea. 😉</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
 
 <span class="keyword">struct</span> WebsocketMessage&lt;T: <span class="type">Codable</span>&gt;: <span class="type">Codable</span> {
     <span class="keyword">let</span> client: <span class="type">UUID</span>
@@ -515,10 +515,10 @@ function WebSocketStop() {
 <section id="share" class="content-wrapper">
     <p>
     <a
-        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/websockets-for-beginners-using-vapor-4-and-vanilla-javascript/"
+        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/websockets-for-beginners-using-vapor-4-and-vanilla-javascript/"
         target="_blank"
     >
-        Share this article on Twitter
+        Share this article
     </a>
     <br> Thank you. 🙏</p>
 </section>
@@ -549,7 +549,7 @@ function WebSocketStop() {
 
     <div class="links">
         <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
         <a href="https://github.com/tib" target="_blank">GitHub</a> 
     </div>
 </section>

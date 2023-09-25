@@ -190,7 +190,7 @@ app.<span class="call">run</span>()</code></pre><p>Don't try to compile this yet
     <span class="keyword">public func</span> invokeAll&lt;ReturnType&gt;(<span class="keyword">_</span> name: <span class="type">String</span>, args: <span class="type">HookArguments</span> = [:]) -&gt; [<span class="type">ReturnType</span>] {
         pointers.<span class="call">filter</span> { $0.<span class="property">name</span> == name &amp;&amp; $0.<span class="property">returnType</span> == <span class="type">ReturnType</span>.<span class="keyword">self</span> }.compactMap { $0.<span class="property">pointer</span>.<span class="call">invoke</span>(args) <span class="keyword">as</span>? <span class="type">ReturnType</span> }
     }
-}</code></pre><p>I know, this seems like quite complicated at first sight, but when you start playing around with these methods it'll all make sense. I'm still not sure about the naming conventions, for example the HookStorage is also a global event storage so maybe it'd be better to call it something related to the event term. If you have a better idea, feel free to <a href="https://twitter.com/tiborbodecs" target="_blank">tweet me</a>.</p><p>Oh, I almost forgot that I wanted to show you how to register an anonymous hook function. 😅</p><pre><code class="language-swift">hooks.<span class="call">register</span>(<span class="string">"name-event"</span>) { <span class="keyword">_ in</span> <span class="string">"John Doe"</span> }</code></pre><p>That's it you don't event have to write the return type, the Swift compiler this time is smart enough to figure out the final function signature. This magic only works with one-liners I suppose... ✨</p><p>This article was a follow-up on <a href="https://theswiftdev.com/modules-and-hooks-in-swift/">the modules and hooks in Swift</a>, also heavily inspired by the my old Entropy framework, Drupal and the <a href="https://www.sitepoint.com/wordpress-hook-system/" target="_blank">Wordpress</a> hook systems. The code implementation idea comes from the <a href="https://github.com/vapor/vapor/tree/master/Sources/Vapor/Routing" target="_blank">Vapor's routing abstraction</a>, but it's slightly changed to match my needs.</p><p>The event-driven design approach is a very nice architecture and I really hope that we'll see the long term benefit of using this pattern inside <a href="https://github.com/binarybirds/feather/" target="_blank">Feather</a>. I can't wait to tell you more about it... 🪶</p>
+}</code></pre><p>I know, this seems like quite complicated at first sight, but when you start playing around with these methods it'll all make sense. I'm still not sure about the naming conventions, for example the HookStorage is also a global event storage so maybe it'd be better to call it something related to the event term. If you have a better idea, feel free to <a href="https://x.com/tiborbodecs" target="_blank">tweet me</a>.</p><p>Oh, I almost forgot that I wanted to show you how to register an anonymous hook function. 😅</p><pre><code class="language-swift">hooks.<span class="call">register</span>(<span class="string">"name-event"</span>) { <span class="keyword">_ in</span> <span class="string">"John Doe"</span> }</code></pre><p>That's it you don't event have to write the return type, the Swift compiler this time is smart enough to figure out the final function signature. This magic only works with one-liners I suppose... ✨</p><p>This article was a follow-up on <a href="https://theswiftdev.com/modules-and-hooks-in-swift/">the modules and hooks in Swift</a>, also heavily inspired by the my old Entropy framework, Drupal and the <a href="https://www.sitepoint.com/wordpress-hook-system/" target="_blank">Wordpress</a> hook systems. The code implementation idea comes from the <a href="https://github.com/vapor/vapor/tree/master/Sources/Vapor/Routing" target="_blank">Vapor's routing abstraction</a>, but it's slightly changed to match my needs.</p><p>The event-driven design approach is a very nice architecture and I really hope that we'll see the long term benefit of using this pattern inside <a href="https://github.com/binarybirds/feather/" target="_blank">Feather</a>. I can't wait to tell you more about it... 🪶</p>
         </section>
     </div>
 
@@ -199,10 +199,10 @@ app.<span class="call">run</span>()</code></pre><p>Don't try to compile this yet
 <section id="share" class="content-wrapper">
     <p>
     <a
-        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/event-driven-generic-hooks-for-swift/"
+        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/event-driven-generic-hooks-for-swift/"
         target="_blank"
     >
-        Share this article on Twitter
+        Share this article
     </a>
     <br> Thank you. 🙏</p>
 </section>
@@ -233,7 +233,7 @@ app.<span class="call">run</span>()</code></pre><p>Don't try to compile this yet
 
     <div class="links">
         <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
         <a href="https://github.com/tib" target="_blank">GitHub</a> 
     </div>
 </section>

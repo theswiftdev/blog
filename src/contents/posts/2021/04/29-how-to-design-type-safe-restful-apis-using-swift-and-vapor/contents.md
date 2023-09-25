@@ -16,7 +16,7 @@ More and more people are asking: "is Vapor / server side Swift ready for product
 
 Of course you still have to learn a lot about how to build a backend service, including the basic understanding of the HTTP protocol and many more other stuff, but no matter which tech stack you choose, you can't avoid learning these things if you want to be a backend developer.
 
-The good news is that if you choose Swift and you are planning to build a client application for an Apple platform, you can reuse most of your data objects and create a shared Swift library for your backend and client applications. [Tim Condon](https://twitter.com/0xtim) is a huge full-stack Swift / Vapor advocate (also member of the Vapor core team), he has some nice presentation videos on YouTube about [Backend For Frontend](https://www.youtube.com/watch?v=XqQJ6-l26QM) (BFF) systems and [full-stack development with Swift and Vapor](https://www.youtube.com/watch?v=fpWOD3JpSrI).
+The good news is that if you choose Swift and you are planning to build a client application for an Apple platform, you can reuse most of your data objects and create a shared Swift library for your backend and client applications. [Tim Condon](https://x.com/0xtim) is a huge full-stack Swift / Vapor advocate (also member of the Vapor core team), he has some nice presentation videos on YouTube about [Backend For Frontend](https://www.youtube.com/watch?v=XqQJ6-l26QM) (BFF) systems and [full-stack development with Swift and Vapor](https://www.youtube.com/watch?v=fpWOD3JpSrI).
 
 Anyway, in this article I'm going to show you how to design a shared Swift package including an API service that can be a good starting point for your next Swift client & Vapor server application. You should know that I've created [Feather CMS](https://github.com/feathercms/feather/) to simplify this process and if you are looking for a real full-stack Swift CMS solution you should definitely take a look.
 
@@ -64,7 +64,7 @@ let package = Package(
 )
 ```
 
-You should note that if you choose to use Fluent when using the vapor toolbox, then the generated Vapor project will contain a basic Todo example. [Christian Weinberger](https://twitter.com/_cweinberger) has a great tutorial about [how to create a Vapor 4 todo backend](https://betterprogramming.pub/vapor-4-todo-backend-5035c9d7e295) if you are interested more in the [todobackend.com](https://www.todobackend.com/) project, you should definitely read it. In our case we're going to build our todo API, in a very similar way.
+You should note that if you choose to use Fluent when using the vapor toolbox, then the generated Vapor project will contain a basic Todo example. [Christian Weinberger](https://x.com/_cweinberger) has a great tutorial about [how to create a Vapor 4 todo backend](https://betterprogramming.pub/vapor-4-todo-backend-5035c9d7e295) if you are interested more in the [todobackend.com](https://www.todobackend.com/) project, you should definitely read it. In our case we're going to build our todo API, in a very similar way.
 
 First, we need a Todo model in the App target, that's for sure, because we'd like to model our database entities. The Fluent ORM framework is quite handy, because you can choose a database driver and switch between database provides, but unfortunately the framework is stuffing too much responsibilities into the models. Models always have to be classes and property wrappers can be annyoing sometimes, but it's more or less easy to use and that's also a huge benefit.
 

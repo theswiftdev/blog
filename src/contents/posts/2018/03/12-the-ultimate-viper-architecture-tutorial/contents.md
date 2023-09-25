@@ -94,7 +94,7 @@ I usually have 3 separate layers in my applications. Modules, services, and app.
 
 ## How to write VIPER code?
 
-I can't emphasize enough how important is to learn this architecture before you start using it. I believe that things can go real bad if someone misunderstands VIPER and start putting view logic in a presenter for example. If you had a previous bad experience with VIPER, think about this quote: don't blame the tool, blame the carpenter (just as [Ilya Puchka](https://twitter.com/ilyapuchka) wisely said on a twitter conversation). 🔨
+I can't emphasize enough how important is to learn this architecture before you start using it. I believe that things can go real bad if someone misunderstands VIPER and start putting view logic in a presenter for example. If you had a previous bad experience with VIPER, think about this quote: don't blame the tool, blame the carpenter (just as [Ilya Puchka](https://x.com/ilyapuchka) wisely said on a twitter conversation). 🔨
 
 > Every single component will just get into the right place if you follow the rules of VIPER.
 

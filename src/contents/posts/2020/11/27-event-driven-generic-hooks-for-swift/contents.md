@@ -184,7 +184,7 @@ public final class HookStorage {
 }
 ```
 
-I know, this seems like quite complicated at first sight, but when you start playing around with these methods it'll all make sense. I'm still not sure about the naming conventions, for example the HookStorage is also a global event storage so maybe it'd be better to call it something related to the event term. If you have a better idea, feel free to [tweet me](https://twitter.com/tiborbodecs).
+I know, this seems like quite complicated at first sight, but when you start playing around with these methods it'll all make sense. I'm still not sure about the naming conventions, for example the HookStorage is also a global event storage so maybe it'd be better to call it something related to the event term. If you have a better idea, feel free to [tweet me](https://x.com/tiborbodecs).
 
 Oh, I almost forgot that I wanted to show you how to register an anonymous hook function. 😅
 

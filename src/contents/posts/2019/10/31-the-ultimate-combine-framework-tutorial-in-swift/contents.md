@@ -171,7 +171,7 @@ By using the `$` sign and the assign function we can create a binding and subscr
 
 ### Custom publishers
 
-Creating a custom publisher is not so hard that you might think, but honestly I never had to make one for myself yet. Still there are some really nice use-cases where building a custom publisher is the right way to go. [Antoine v.d. SwiftLee](https://twitter.com/twannl) has a great tutorial about [how to create a custom combine publisher](https://www.avanderlee.com/swift/custom-combine-publisher/) to extend UIKit, you should definitely check that out if you want to learn more about custom publishers.
+Creating a custom publisher is not so hard that you might think, but honestly I never had to make one for myself yet. Still there are some really nice use-cases where building a custom publisher is the right way to go. [Antoine v.d. SwiftLee](https://x.com/twannl) has a great tutorial about [how to create a custom combine publisher](https://www.avanderlee.com/swift/custom-combine-publisher/) to extend UIKit, you should definitely check that out if you want to learn more about custom publishers.
 
 ### Subjects
 

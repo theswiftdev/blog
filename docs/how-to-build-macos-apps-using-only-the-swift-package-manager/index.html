@@ -177,7 +177,7 @@ task.<span class="call">resume</span>()
 <span class="keyword">let</span> app = <span class="type">NSApplication</span>.<span class="property">shared</span>
 <span class="keyword">let</span> delegate = <span class="type">AppDelegate</span>()
 app.<span class="property">delegate</span> = delegate
-app.<span class="call">run</span>()</code></pre><p>Special thanks goes to <a href="https://github.com/karwa" target="_blank">karwa</a> for the <a href="https://gist.github.com/karwa/5207e232ac9ec53f0276252ab5e3ee07" target="_blank">original gist</a>. Also if you are into Storyboard-less macOS app development, you should definitely take a look at <a href="https://kicsipixel.github.io/2020/nostoryboard/" target="_blank">this article</a> by <a href="https://twitter.com/kicsipixel" target="_blank">@kicsipixel</a>. These resources helped me a lot to put together what I needed. I still had to extend the gist with a proper menu setup and the activation policy, but now this version acts like a real-world macOS application that works like a charm. There is only one issue here... the script file is getting crowded. 🙈</p><h2>Swift Package Manager and macOS apps</h2><p>So, if we follow the same logic, that means we can build an executable package that can invoke AppKit related stuff using the Swift Package Manager. Easy as a pie. 🥧</p><pre><code class="language-sh">mkdir MyApp
+app.<span class="call">run</span>()</code></pre><p>Special thanks goes to <a href="https://github.com/karwa" target="_blank">karwa</a> for the <a href="https://gist.github.com/karwa/5207e232ac9ec53f0276252ab5e3ee07" target="_blank">original gist</a>. Also if you are into Storyboard-less macOS app development, you should definitely take a look at <a href="https://kicsipixel.github.io/2020/nostoryboard/" target="_blank">this article</a> by <a href="https://x.com/kicsipixel" target="_blank">@kicsipixel</a>. These resources helped me a lot to put together what I needed. I still had to extend the gist with a proper menu setup and the activation policy, but now this version acts like a real-world macOS application that works like a charm. There is only one issue here... the script file is getting crowded. 🙈</p><h2>Swift Package Manager and macOS apps</h2><p>So, if we follow the same logic, that means we can build an executable package that can invoke AppKit related stuff using the Swift Package Manager. Easy as a pie. 🥧</p><pre><code class="language-sh">mkdir MyApp
 cd MyApp 
 swift package init --type=executable
 </code></pre><p>Now we can separate the components into standalone files, we can also remove the availability checking, since we're going to add a platform constraint using our <code>Package.swift</code> manifest file. If you don't know much about how the Swift Package Manager works, please read <a href="https://theswiftdev.com/swift-package-manager-tutorial/">my SPM tutorial</a>, or if you are simply curious about the structure of a Package.swift file, you can read my article about the <a href="https://theswiftdev.com/the-swift-package-manifest-file/">Swift Package manifest file</a>. Let's start with the manifest updates.</p><pre><code class="language-swift"><span class="comment">// swift-tools-version:5.3</span>
@@ -253,10 +253,10 @@ app.<span class="call">run</span>()</code></pre><p>The good news is that this ap
 <section id="share" class="content-wrapper">
     <p>
     <a
-        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/how-to-build-macos-apps-using-only-the-swift-package-manager/"
+        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/how-to-build-macos-apps-using-only-the-swift-package-manager/"
         target="_blank"
     >
-        Share this article on Twitter
+        Share this article
     </a>
     <br> Thank you. 🙏</p>
 </section>
@@ -287,7 +287,7 @@ app.<span class="call">run</span>()</code></pre><p>The good news is that this ap
 
     <div class="links">
         <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
         <a href="https://github.com/tib" target="_blank">GitHub</a> 
     </div>
 </section>

@@ -151,7 +151,7 @@ app.delegate = delegate
 app.run()
 ```
 
-Special thanks goes to [karwa](https://github.com/karwa) for the [original gist](https://gist.github.com/karwa/5207e232ac9ec53f0276252ab5e3ee07). Also if you are into Storyboard-less macOS app development, you should definitely take a look at [this article](https://kicsipixel.github.io/2020/nostoryboard/) by [@kicsipixel](https://twitter.com/kicsipixel). These resources helped me a lot to put together what I needed. I still had to extend the gist with a proper menu setup and the activation policy, but now this version acts like a real-world macOS application that works like a charm. There is only one issue here... the script file is getting crowded. 🙈
+Special thanks goes to [karwa](https://github.com/karwa) for the [original gist](https://gist.github.com/karwa/5207e232ac9ec53f0276252ab5e3ee07). Also if you are into Storyboard-less macOS app development, you should definitely take a look at [this article](https://kicsipixel.github.io/2020/nostoryboard/) by [@kicsipixel](https://x.com/kicsipixel). These resources helped me a lot to put together what I needed. I still had to extend the gist with a proper menu setup and the activation policy, but now this version acts like a real-world macOS application that works like a charm. There is only one issue here... the script file is getting crowded. 🙈
 
 ## Swift Package Manager and macOS apps
 

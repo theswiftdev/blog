@@ -107,7 +107,7 @@ struct MyCommandPlugin: CommandPlugin {
 
 The snippet above should locate the swiftlint tool using the plugins context then it'll iterate through the available package targets, filter out non source-module targets and format only those targets that contains actual Swift source files. The process object should simply invoke the underlying tool, we can wait until the child (swiftlint invocation) process exists and hopefully we're good to go. 🤞
 
-> NOTE: Update: [kalKarmaDev](https://twitter.com/k_alweheshy) told me that it is possible to pass the `--in-process-sourcekit` argument to SwiftLint, this will fix the underlying issue and the source files are actually fixed.
+> NOTE: Update: [kalKarmaDev](https://x.com/k_alweheshy) told me that it is possible to pass the `--in-process-sourcekit` argument to SwiftLint, this will fix the underlying issue and the source files are actually fixed.
 
 I wanted to list the available plugins & run my source code linter / formatter using the following shell commands, but unfortunately seems like the swiftlint invocation part failed for some strange reason.
 

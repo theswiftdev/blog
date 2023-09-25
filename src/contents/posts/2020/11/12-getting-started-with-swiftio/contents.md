@@ -101,7 +101,7 @@ You can find the [library reference](https://swiftioapi.madmachine.io/) for the 
 
 The SwiftIO framework can be compiled on your local machine with the local Swift toolchain (using Xcode), so it is possible to build applications without targeting the board, and later on you can re-compile the source files with the mm-cli command, sign the final binary and deploy it to the SwiftIO board after you've pressed the download button. This is the current workflow in a nutshell.
 
-There is an existing [Xcode template](https://github.com/EmbeddedSwift/SwiftIO-Xcode-Template) created by [@kidmar](https://twitter.com/kidmar) that you can use as a starting point.
+There is an existing [Xcode template](https://github.com/EmbeddedSwift/SwiftIO-Xcode-Template) created by [@kidmar](https://x.com/kidmar) that you can use as a starting point.
 
 ### Using SPM
 
@@ -196,7 +196,7 @@ Anyway, you can find really [great examples](https://resources.madmachine.io/exa
 
 For me, the SwiftIO board was a pleasant surprise. I always wanted to play with [embedded](https://github.com/embeddedswift/) systems, know a little more about hardware and low level stuff, but the Raspberry PI and the Arduino felt like alien planet. Once I've tried to build an app for a Raspberry PI at a hackaton, but it was a complete disaster, I was disappointed, because the tools and the developer experience was really bad.
 
-The promise of MadMachine is that you can easily use Swift on such a device and I believe that [Andy Liu](https://twitter.com/madmachineio) created something that can have a bright future on the long term. I felt in love with SwiftIO right after I've assembled my first circuit and deployed my very first Swift source. It was a seamless (pain free) experience and I believe that's a really important factor for developers who never used such devices before. This can be the beginning and the future of Swift on embedded systems. 😍
+The promise of MadMachine is that you can easily use Swift on such a device and I believe that [Andy Liu](https://x.com/madmachineio) created something that can have a bright future on the long term. I felt in love with SwiftIO right after I've assembled my first circuit and deployed my very first Swift source. It was a seamless (pain free) experience and I believe that's a really important factor for developers who never used such devices before. This can be the beginning and the future of Swift on embedded systems. 😍
 
 ![SwiftIO](swift-io.jpg)
  

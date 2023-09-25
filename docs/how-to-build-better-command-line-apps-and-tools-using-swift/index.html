@@ -125,7 +125,7 @@
 
 <span class="call">print</span>(<span class="string">"Environment"</span>)
 <span class="comment">/// print available environment variables</span>
-<span class="call">print</span>(info.<span class="property">environment</span>)</code></pre><p>The environment variables property is a Dictionary where both the keys and the values are available as strings, so you might have to parse them if you are looking for different value types. You can set up environment custom variables in Xcode just like arguments, or you can pass them via the command line before you execute the Swift script using the <a href="https://man7.org/linux/man-pages/man1/export.1p.html" target="_blank">export</a> command.</p><h2>Standard input and output in Swift</h2><p>You can use the print function to write text to the standard output, but you should note that the <a href="https://developer.apple.com/documentation/swift/1541053-print" target="_blank">print</a> function has a variadic items definition, so you can pass around multiple arguments and a custom separator &amp; terminator parameter to display more advanced outputs.</p><p>There is also a standard error stream, which is part of the <a href="https://en.wikipedia.org/wiki/Standard_streams" target="_blank">standard streams</a> of course, but what's interesting about it is that you can also write to this channel through the <code>FileHandle.standardError</code> property there is quite an elegant solution on a <a href="https://stackoverflow.com/questions/24041554/how-can-i-output-to-stderr-with-swift" target="_blank">Stack Overflow</a> thread originally created by <a href="https://twitter.com/cocoaphony?lang=en" target="_blank">Rob Napier</a>, I'm going to include that one here as well. 🙏</p><p>Another great feature of the print function is the to parameter, which can accept a custom <code>TextOutputStream</code> so you can wrap the <code>stderr</code> stream in a custom object or you can also create custom output handlers and separate your print statements e.g. by context if you need.</p><pre><code class="language-swift">#!/usr/bin/env swift
+<span class="call">print</span>(info.<span class="property">environment</span>)</code></pre><p>The environment variables property is a Dictionary where both the keys and the values are available as strings, so you might have to parse them if you are looking for different value types. You can set up environment custom variables in Xcode just like arguments, or you can pass them via the command line before you execute the Swift script using the <a href="https://man7.org/linux/man-pages/man1/export.1p.html" target="_blank">export</a> command.</p><h2>Standard input and output in Swift</h2><p>You can use the print function to write text to the standard output, but you should note that the <a href="https://developer.apple.com/documentation/swift/1541053-print" target="_blank">print</a> function has a variadic items definition, so you can pass around multiple arguments and a custom separator &amp; terminator parameter to display more advanced outputs.</p><p>There is also a standard error stream, which is part of the <a href="https://en.wikipedia.org/wiki/Standard_streams" target="_blank">standard streams</a> of course, but what's interesting about it is that you can also write to this channel through the <code>FileHandle.standardError</code> property there is quite an elegant solution on a <a href="https://stackoverflow.com/questions/24041554/how-can-i-output-to-stderr-with-swift" target="_blank">Stack Overflow</a> thread originally created by <a href="https://x.com/cocoaphony?lang=en" target="_blank">Rob Napier</a>, I'm going to include that one here as well. 🙏</p><p>Another great feature of the print function is the to parameter, which can accept a custom <code>TextOutputStream</code> so you can wrap the <code>stderr</code> stream in a custom object or you can also create custom output handlers and separate your print statements e.g. by context if you need.</p><pre><code class="language-swift">#!/usr/bin/env swift
 <span class="keyword">import</span> Foundation
 
 <span class="comment">/// print using custom separator &amp; terminator</span>
@@ -263,10 +263,10 @@ commands.<span class="call">use</span>(<span class="type">HelloCommand</span>(),
 <section id="share" class="content-wrapper">
     <p>
     <a
-        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/how-to-build-better-command-line-apps-and-tools-using-swift/"
+        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/how-to-build-better-command-line-apps-and-tools-using-swift/"
         target="_blank"
     >
-        Share this article on Twitter
+        Share this article
     </a>
     <br> Thank you. 🙏</p>
 </section>
@@ -297,7 +297,7 @@ commands.<span class="call">use</span>(<span class="type">HelloCommand</span>(),
 
     <div class="links">
         <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
         <a href="https://github.com/tib" target="_blank">GitHub</a> 
     </div>
 </section>

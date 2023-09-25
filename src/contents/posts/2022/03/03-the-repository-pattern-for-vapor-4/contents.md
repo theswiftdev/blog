@@ -22,7 +22,7 @@ Sorry folks, I really appreciate the effort that you've put into Fluent, but the
 
 ## How to make Fluent a bit better?
 
-On the short term I'm trying to fix these issues and fortunately there is a nice approach to separate the query mechanism from the model layer. It is called the [repository pattern](https://docs.vapor.codes/4.0/upgrading/#repositories) and I'd like to give a huge credit to [0xTim](https://twitter.com/0xTim) again, because he made a cool answer on [StackOverlow](https://stackoverflow.com/questions/63333118/understanding-how-to-initialize-a-vapor-4-repository) about this topic.
+On the short term I'm trying to fix these issues and fortunately there is a nice approach to separate the query mechanism from the model layer. It is called the [repository pattern](https://docs.vapor.codes/4.0/upgrading/#repositories) and I'd like to give a huge credit to [0xTim](https://x.com/0xTim) again, because he made a cool answer on [StackOverlow](https://stackoverflow.com/questions/63333118/understanding-how-to-initialize-a-vapor-4-repository) about this topic.
 
 Anyway, the main idea is that you wrap the `Request` object into a custom repository, it's usually a struct, then you only call database related queries inside this specific object. If we take a look at at the default project template (you can generate one by using the [vapor toolbox](https://docs.vapor.codes/4.0/install/linux/#install-toolbox)), we can easily create a new repository for the Todo models.
 

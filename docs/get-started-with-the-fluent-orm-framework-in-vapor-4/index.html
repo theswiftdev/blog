@@ -179,7 +179,7 @@
             database.<span class="call">enum</span>(<span class="type">Todo</span>.<span class="type">Status</span>.<span class="property">name</span>.<span class="property">description</span>).<span class="call">delete</span>()
         }
     }
-}</code></pre><p>The main advantage of this approach that Fluent can take advantage of the database driver's built-in enum type support. Also if you want to store native enums you have to migrate the fields if you introduce a new case. You can read more about this in the <a href="https://github.com/vapor/fluent-kit/releases/tag/1.0.0-beta.5" target="_blank">beta release notes</a>. I can't tell you which one is the best way, since this is a brand new feature, I have to run some tests. ✅</p><h3>Saving option sets in Fluent</h3><p>There is a great post written by <a href="https://twitter.com/BastianInuk/" target="_blank">Bastian Inuk</a> about <a href="https://www.inuk.blog/vapor-fluent-4-and-enums/" target="_blank">managing user roles using option sets</a> in Fluent. You should definitely take a look if you want to use an OptionSet as a Fluent property. Anyway, I'll show you how to create this type, so we'll be able to flag our todo items. 🔴🟣🟠🟡🟢🔵⚪️</p><pre><code class="language-swift"><span class="comment">// model definition</span>
+}</code></pre><p>The main advantage of this approach that Fluent can take advantage of the database driver's built-in enum type support. Also if you want to store native enums you have to migrate the fields if you introduce a new case. You can read more about this in the <a href="https://github.com/vapor/fluent-kit/releases/tag/1.0.0-beta.5" target="_blank">beta release notes</a>. I can't tell you which one is the best way, since this is a brand new feature, I have to run some tests. ✅</p><h3>Saving option sets in Fluent</h3><p>There is a great post written by <a href="https://x.com/BastianInuk/" target="_blank">Bastian Inuk</a> about <a href="https://www.inuk.blog/vapor-fluent-4-and-enums/" target="_blank">managing user roles using option sets</a> in Fluent. You should definitely take a look if you want to use an OptionSet as a Fluent property. Anyway, I'll show you how to create this type, so we'll be able to flag our todo items. 🔴🟣🟠🟡🟢🔵⚪️</p><pre><code class="language-swift"><span class="comment">// model definition</span>
 <span class="keyword">extension</span> <span class="type">FieldKey</span> {
     <span class="keyword">static var</span> labels: <span class="type">Self</span> { <span class="string">"labels"</span> }
 }
@@ -576,10 +576,10 @@ database.<span class="call">schema</span>(<span class="type">TodoTags</span>.<sp
 <section id="share" class="content-wrapper">
     <p>
     <a
-        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/get-started-with-the-fluent-orm-framework-in-vapor-4/"
+        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/get-started-with-the-fluent-orm-framework-in-vapor-4/"
         target="_blank"
     >
-        Share this article on Twitter
+        Share this article
     </a>
     <br> Thank you. 🙏</p>
 </section>
@@ -610,7 +610,7 @@ database.<span class="call">schema</span>(<span class="type">TodoTags</span>.<sp
 
     <div class="links">
         <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
         <a href="https://github.com/tib" target="_blank">GitHub</a> 
     </div>
 </section>

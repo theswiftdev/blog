@@ -40,7 +40,7 @@ The most important thing that you should get used to is the Terminal (console) a
 
 ### Brew & cask
 
-The very first thing that you should install on your new Mac is [Homebrew](https://brew.sh/). If you have used Linux before, might find this tool familiar (it's working on Linux too). According to [Max Howell](https://twitter.com/mxcl) (the creator):
+The very first thing that you should install on your new Mac is [Homebrew](https://brew.sh/). If you have used Linux before, might find this tool familiar (it's working on Linux too). According to [Max Howell](https://x.com/mxcl) (the creator):
 
 > The Missing Package Manager for macOS (or Linux)
 
@@ -221,36 +221,36 @@ It's really good to see that there are still plenty of dedicated people who are 
 
 ### Twitter accounts to follow
 
-- [Ankit Aggarwal](https://twitter.com/aciidb0mb3r)
-- [Harlan Haskins](https://twitter.com/harlanhaskins)
-- [Nate Cook](https://twitter.com/nnnnnnnn)
-- [Slava Pestov](https://twitter.com/slava_pestov)
-- [Ted Kremenek](https://twitter.com/tkremenek)
-- [JP Simard](https://twitter.com/simjp)
-- [Daniel Dunbar](https://twitter.com/daniel_dunbar)
-- [Doug Gregor](https://twitter.com/dgregor79)
-- [Joe Groff](https://twitter.com/jckarter)
-- [Ben Cohen](https://twitter.com/AirspeedSwift)
-- [Tanner Wayne Nelson](https://twitter.com/tanner0101)
-- [Ash Furrow](https://twitter.com/ashfurrow)
-- [Ole Begemann](https://twitter.com/olebegemann)
-- [Bart Jacobs](https://twitter.com/_bartjacobs)
-- [Dave Verwer](https://twitter.com/daveverwer)
-- [Ray Wenderlich](https://twitter.com/rwenderlich)
-- [objc.io](https://twitter.com/objcio)
-- [NSHipster](https://twitter.com/NSHipster)
-- [Krzysztof Zabłocki](https://twitter.com/merowing_)
-- [Marcin Krzyzanowski](https://twitter.com/krzyzanowskim)
-- [Peter Steinberger](https://twitter.com/steipete)
-- [Chris Eidhof](https://twitter.com/chriseidhof)
-- [soroush](https://twitter.com/khanlou)
-- [ericasadun](https://twitter.com/ericasadun)
-- [Chris Lattner](https://twitter.com/clattner_llvm)
-- [John Siracusa](https://twitter.com/siracusa)
-- [Sean Allen](https://twitter.com/seanallen_dev)
-- [Marco Arment](https://twitter.com/marcoarment)
-- [Paul Hudson](https://twitter.com/twostraws)
-- [John Sundell](https://twitter.com/johnsundell)
+- [Ankit Aggarwal](https://x.com/aciidb0mb3r)
+- [Harlan Haskins](https://x.com/harlanhaskins)
+- [Nate Cook](https://x.com/nnnnnnnn)
+- [Slava Pestov](https://x.com/slava_pestov)
+- [Ted Kremenek](https://x.com/tkremenek)
+- [JP Simard](https://x.com/simjp)
+- [Daniel Dunbar](https://x.com/daniel_dunbar)
+- [Doug Gregor](https://x.com/dgregor79)
+- [Joe Groff](https://x.com/jckarter)
+- [Ben Cohen](https://x.com/AirspeedSwift)
+- [Tanner Wayne Nelson](https://x.com/tanner0101)
+- [Ash Furrow](https://x.com/ashfurrow)
+- [Ole Begemann](https://x.com/olebegemann)
+- [Bart Jacobs](https://x.com/_bartjacobs)
+- [Dave Verwer](https://x.com/daveverwer)
+- [Ray Wenderlich](https://x.com/rwenderlich)
+- [objc.io](https://x.com/objcio)
+- [NSHipster](https://x.com/NSHipster)
+- [Krzysztof Zabłocki](https://x.com/merowing_)
+- [Marcin Krzyzanowski](https://x.com/krzyzanowskim)
+- [Peter Steinberger](https://x.com/steipete)
+- [Chris Eidhof](https://x.com/chriseidhof)
+- [soroush](https://x.com/khanlou)
+- [ericasadun](https://x.com/ericasadun)
+- [Chris Lattner](https://x.com/clattner_llvm)
+- [John Siracusa](https://x.com/siracusa)
+- [Sean Allen](https://x.com/seanallen_dev)
+- [Marco Arment](https://x.com/marcoarment)
+- [Paul Hudson](https://x.com/twostraws)
+- [John Sundell](https://x.com/johnsundell)
 
 ## Where to go next?
 

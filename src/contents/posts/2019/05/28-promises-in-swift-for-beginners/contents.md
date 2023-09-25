@@ -273,7 +273,7 @@ The second one is async / await. If you want to know more about it, you should r
 
 ## Promise libraries worth to check
 
-My promise implementation is far from perfect, but it's a quite simple one (~450 lines of code) and it serves me really well. This [blog post](http://khanlou.com/2016/08/promises-in-swift/) by [khanlou](https://twitter.com/khanlou) helped me a lot to understand promises better, you should read it too! 👍
+My promise implementation is far from perfect, but it's a quite simple one (~450 lines of code) and it serves me really well. This [blog post](http://khanlou.com/2016/08/promises-in-swift/) by [khanlou](https://x.com/khanlou) helped me a lot to understand promises better, you should read it too! 👍
 
 There are lots of promise libraries on github, but if I had to choose from them (instead my own implementation), I'd definitely go with one of the following ones:
 

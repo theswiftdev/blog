@@ -187,4 +187,4 @@ if let data = try? post.encoded(), let encoded = String(data: data, encoding: .u
 
 Ambient context has some disadvantages. It might fits well in case of cross-cutting concerns, but it creates implicit dependencies and represents a global mutable state. It's not highly recommended, you should consider the other dependency injection patterns first, but sometimes it can be a right fit for you.
 
-That's all about dependency injection patterns in a nutshell. If you are looking for more, you should read the following sources, because they're all amazing. Especially the first one by [Ilya Puchka](https://twitter.com/ilyapuchka), that's highly recommended. 😉
+That's all about dependency injection patterns in a nutshell. If you are looking for more, you should read the following sources, because they're all amazing. Especially the first one by [Ilya Puchka](https://x.com/ilyapuchka), that's highly recommended. 😉

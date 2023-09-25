@@ -84,7 +84,7 @@ A task group needs a ChildTaskResult type as a first parameter, which has to be 
 
 We can gather individual results from the group by awaiting for the the next element (await group.next()), but since the group conforms to the [AsyncSequence](https://github.com/apple/swift-evolution/blob/main/proposals/0298-asyncsequence.md) protocol we can iterate through the results by awaiting for them using a standard for loop. 🔁
 
-That's how structured concurrency works in a nutshell. The best thing about this whole model is that by using task hierarchies no child task will be ever able to leak and keep running in the background by accident. This a core reason for these APIs that they must always await before the scope ends. (thanks for the suggestions [@ktosopl](https://twitter.com/ktosopl)). ❤️
+That's how structured concurrency works in a nutshell. The best thing about this whole model is that by using task hierarchies no child task will be ever able to leak and keep running in the background by accident. This a core reason for these APIs that they must always await before the scope ends. (thanks for the suggestions [@ktosopl](https://x.com/ktosopl)). ❤️
 
 Let me show you a few more examples...
 

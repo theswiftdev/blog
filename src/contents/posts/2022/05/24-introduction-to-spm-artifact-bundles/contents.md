@@ -87,7 +87,7 @@ Artifact bundles are not a replacement for xcframeworks, but more like an additi
 
 There is a [great blog post](https://www.polpiella.dev/binary-targets-in-modern-swift-packages) about wrapping the SwiftLint executable in an artifact bundle, so I don't really want to get into the details this time, because it's pretty straightforward. The proposal itself helps a lot to understand the basic setup, also the older [binary dependencies proposal](https://github.com/apple/swift-evolution/blob/main/proposals/0272-swiftpm-binary-dependencies.md) contains some related info nice job Swift team. 👍
 
-I'd like to give an honorable mention to [Karim Alweheshy](https://twitter.com/k_alweheshy), who is actively working with the new Swift package manager plugin infrastructure, he has an amazing repository on [GitHub](https://github.com/KarimAlweheshy/spm-build-tools) that demos artifact bundles so please take a look if you have time. 🙏
+I'd like to give an honorable mention to [Karim Alweheshy](https://x.com/k_alweheshy), who is actively working with the new Swift package manager plugin infrastructure, he has an amazing repository on [GitHub](https://github.com/KarimAlweheshy/spm-build-tools) that demos artifact bundles so please take a look if you have time. 🙏
 
 Anyway, I'm going to show you how to wrap an executable into an artifact bundle. Currently there's no way to wrap libraries into artifact bundles, that's going to be added later on.
 

@@ -185,7 +185,7 @@ The main advantage of this approach that Fluent can take advantage of the databa
 
 ### Saving option sets in Fluent
 
-There is a great post written by [Bastian Inuk](https://twitter.com/BastianInuk/) about [managing user roles using option sets](https://www.inuk.blog/vapor-fluent-4-and-enums/) in Fluent. You should definitely take a look if you want to use an OptionSet as a Fluent property. Anyway, I'll show you how to create this type, so we'll be able to flag our todo items. 🔴🟣🟠🟡🟢🔵⚪️
+There is a great post written by [Bastian Inuk](https://x.com/BastianInuk/) about [managing user roles using option sets](https://www.inuk.blog/vapor-fluent-4-and-enums/) in Fluent. You should definitely take a look if you want to use an OptionSet as a Fluent property. Anyway, I'll show you how to create this type, so we'll be able to flag our todo items. 🔴🟣🟠🟡🟢🔵⚪️
 
 ```swift
 // model definition

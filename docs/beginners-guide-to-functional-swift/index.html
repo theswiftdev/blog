@@ -179,7 +179,7 @@
 }
 
 <span class="keyword">let</span> x = <span class="type">Box</span>&lt;<span class="type">Int</span>&gt;(<span class="number">360</span>)
-<span class="call">print</span>(x.<span class="property">value</span>)</code></pre><p>Next continue with a little bit more theory, but I promise I'll keep things very short, just because <a href="https://twitter.com/xenadu02" target="_blank">Russ Bishop</a> already explained <a href="http://www.russbishop.net/monoids-monads-and-functors" target="_blank">functors, applicatives and monads in plain English</a>. I'll try to do my best in order to make it <a href="https://www.mokacoding.com/blog/functor-applicative-monads-in-pictures/" target="_blank">even more simple</a>. 😉</p><h3>Functors</h3><blockquote><p>Functors are containers you can call map on.</p></blockquote><p>Challenge accepted! Let's make a functor from our box type, but what exactly does <a href="https://medium.com/@JLHLonline/a-world-beyond-swift-maps-f73397d4504" target="_blank">map</a>? Well, it basically transforms a value into another. You can provide your own transformation method, where you'll receive the original value as a parameter and you have to return a "new" value form the same or a different type. Code time!</p><pre><code class="language-swift"><span class="keyword">extension</span> <span class="type">Box</span> {
+<span class="call">print</span>(x.<span class="property">value</span>)</code></pre><p>Next continue with a little bit more theory, but I promise I'll keep things very short, just because <a href="https://x.com/xenadu02" target="_blank">Russ Bishop</a> already explained <a href="http://www.russbishop.net/monoids-monads-and-functors" target="_blank">functors, applicatives and monads in plain English</a>. I'll try to do my best in order to make it <a href="https://www.mokacoding.com/blog/functor-applicative-monads-in-pictures/" target="_blank">even more simple</a>. 😉</p><h3>Functors</h3><blockquote><p>Functors are containers you can call map on.</p></blockquote><p>Challenge accepted! Let's make a functor from our box type, but what exactly does <a href="https://medium.com/@JLHLonline/a-world-beyond-swift-maps-f73397d4504" target="_blank">map</a>? Well, it basically transforms a value into another. You can provide your own transformation method, where you'll receive the original value as a parameter and you have to return a "new" value form the same or a different type. Code time!</p><pre><code class="language-swift"><span class="keyword">extension</span> <span class="type">Box</span> {
     <span class="keyword">func</span> map&lt;U&gt;(<span class="keyword">_</span> transformation: (<span class="type">T</span>) -&gt; <span class="type">U</span>) -&gt; <span class="type">Box</span>&lt;<span class="type">U</span>&gt; {
         <span class="keyword">return</span> <span class="type">Box</span>&lt;<span class="type">U</span>&gt;(<span class="call">transformation</span>(<span class="keyword">self</span>.<span class="property">value</span>))
     }
@@ -301,10 +301,10 @@ print(points) // 24 (team one + team two scores together)
 <section id="share" class="content-wrapper">
     <p>
     <a
-        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/beginners-guide-to-functional-swift/"
+        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/beginners-guide-to-functional-swift/"
         target="_blank"
     >
-        Share this article on Twitter
+        Share this article
     </a>
     <br> Thank you. 🙏</p>
 </section>
@@ -335,7 +335,7 @@ print(points) // 24 (team one + team two scores together)
 
     <div class="links">
         <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
         <a href="https://github.com/tib" target="_blank">GitHub</a> 
     </div>
 </section>

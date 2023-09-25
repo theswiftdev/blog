@@ -8,7 +8,7 @@ tags: VIPER, SwiftUI
 
 ## SwiftUI - the new kid on the block
 
-There are literally hundreds of SwiftUI tutorials around the web, but I was only able to find just one or two that focuses on [real world](https://mecid.github.io/2019/06/05/swiftui-making-real-world-app/) use cases instead of the smaller details like how to configure / make X in SwiftUI. Nice tutorials [@mecid](https://twitter.com/mecid) keep it up!
+There are literally hundreds of SwiftUI tutorials around the web, but I was only able to find just one or two that focuses on [real world](https://mecid.github.io/2019/06/05/swiftui-making-real-world-app/) use cases instead of the smaller details like how to configure / make X in SwiftUI. Nice tutorials [@mecid](https://x.com/mecid) keep it up!
 
 I also had my own "struggle" with SwiftUI, because [my collection view framework](https://theswiftdev.com/2019/05/23/building-input-forms-for-ios-apps/) is structured exactly the same way as you write SwiftUI code. After WWDC I was like, hell no! I'm doing the same method for months now, so why should I care? I started to believe that some Apple engineers are reading my blog. 😂
 

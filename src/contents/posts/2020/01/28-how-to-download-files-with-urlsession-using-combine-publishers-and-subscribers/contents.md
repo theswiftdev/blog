@@ -152,7 +152,7 @@ The first version of Combine shipped with a nice `dataTaskPublisher` extension m
 
 ### How to write a custom Publisher?
 
-[SwiftLee](https://twitter.com/twannl) has a nice [tutorial](https://www.avanderlee.com/swift/custom-combine-publisher/) about Combine that can help you a lot with UIControl events. Another great read (even better than the first one) by [Donny Wals](https://twitter.com/donnywals) is about [understanding Publishers and Subscribers](https://www.donnywals.com/understanding-combines-publishers-and-subscribers/). It's a really well-written article, you should definitely check this one, I highly recommend it. 🤘🏻
+[SwiftLee](https://x.com/twannl) has a nice [tutorial](https://www.avanderlee.com/swift/custom-combine-publisher/) about Combine that can help you a lot with UIControl events. Another great read (even better than the first one) by [Donny Wals](https://x.com/donnywals) is about [understanding Publishers and Subscribers](https://www.donnywals.com/understanding-combines-publishers-and-subscribers/). It's a really well-written article, you should definitely check this one, I highly recommend it. 🤘🏻
 
 Now let's start creating our own `DownloadTaskPublisher`. If you command + click on the `dataTaskPublisher` method in Xcode, you can see the corresponding interface. There is also a `DataTaskPublisher` struct, right below. Based on that template we can create our own extension. There are two variants of the same data task method, we'll replicate this behavior. The other thing we need is a `DownloadTaskPublisher` struct, I'll show you the Swift code first, then we'll discuss the implementation details.
 
@@ -394,7 +394,7 @@ I promised a working image downloader, so let me explain the whole flow. We have
 
 Next I'm going to simply assume that there was a valid image behind the URL, and the server returned a valid response, so I'm going to map the publisher's output to an `UIImage` object. I'm also going to replace any kind of error with a fallback image value. In a real-world application, you should always do some extra checkings on the `URLResponse` object, but for the sake of simplicity I'll skip that for now.
 
-The last thing is to update our image view with the returned image. Since this is a UI task it should happen on the main thread, so we have to use the `receive(on:)` operation to switch context. If you want to learn more about [schedulers in the Combine framework](https://www.vadimbulavin.com/understanding-schedulers-in-swift-combine-framework/) you should read [Vadim Bulavin's article](https://twitter.com/v8tr). It's a gem. 💎
+The last thing is to update our image view with the returned image. Since this is a UI task it should happen on the main thread, so we have to use the `receive(on:)` operation to switch context. If you want to learn more about [schedulers in the Combine framework](https://www.vadimbulavin.com/understanding-schedulers-in-swift-combine-framework/) you should read [Vadim Bulavin's article](https://x.com/v8tr). It's a gem. 💎
 
 > WARN: If you are not receiving values on certain appleOS versions, that's might because there was a change in Combine around December, 2019. You should check these links: [link1](https://forums.swift.org/t/combine-receive-on-runloop-main-loses-sent-value-how-can-i-make-it-work/28631/47), [link2](https://heckj.github.io/swiftui-notes/#coreconcepts-lifecycle)
 

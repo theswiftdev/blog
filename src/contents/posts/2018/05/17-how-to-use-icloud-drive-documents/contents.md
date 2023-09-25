@@ -155,5 +155,5 @@ The output will tell you what's actually happening during the sync.
 
 I encourage you to check the manual entry for the `brctl` command, because there are a few more flags that can make troubleshooting more easy. 🤐
 
-This article was heavily inspired by [Marcin Krzyzanowski](https://twitter.com/krzyzanowskim)'s really old blog post. 🍺
+This article was heavily inspired by [Marcin Krzyzanowski](https://x.com/krzyzanowskim)'s really old blog post. 🍺
 

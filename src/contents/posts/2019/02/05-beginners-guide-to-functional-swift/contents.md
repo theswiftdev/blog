@@ -179,7 +179,7 @@ let x = Box<Int>(360)
 print(x.value)
 ```
 
-Next continue with a little bit more theory, but I promise I'll keep things very short, just because [Russ Bishop](https://twitter.com/xenadu02) already explained [functors, applicatives and monads in plain English](http://www.russbishop.net/monoids-monads-and-functors). I'll try to do my best in order to make it [even more simple](https://www.mokacoding.com/blog/functor-applicative-monads-in-pictures/). 😉
+Next continue with a little bit more theory, but I promise I'll keep things very short, just because [Russ Bishop](https://x.com/xenadu02) already explained [functors, applicatives and monads in plain English](http://www.russbishop.net/monoids-monads-and-functors). I'll try to do my best in order to make it [even more simple](https://www.mokacoding.com/blog/functor-applicative-monads-in-pictures/). 😉
 
 ### Functors
 

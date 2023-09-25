@@ -141,7 +141,7 @@ struct</span> MyCommandPlugin: <span class="type">CommandPlugin</span> {
             }
         }
     }
-}</code></pre><p>The snippet above should locate the swiftlint tool using the plugins context then it'll iterate through the available package targets, filter out non source-module targets and format only those targets that contains actual Swift source files. The process object should simply invoke the underlying tool, we can wait until the child (swiftlint invocation) process exists and hopefully we're good to go. 🤞</p><p class="note">Update: <a href="https://twitter.com/k_alweheshy" target="_blank">kalKarmaDev</a> told me that it is possible to pass the <code>--in-process-sourcekit</code> argument to SwiftLint, this will fix the underlying issue and the source files are actually fixed.</p><p>I wanted to list the available plugins &amp; run my source code linter / formatter using the following shell commands, but unfortunately seems like the swiftlint invocation part failed for some strange reason.</p><pre><code class="language-sh">swift package plugin --list
+}</code></pre><p>The snippet above should locate the swiftlint tool using the plugins context then it'll iterate through the available package targets, filter out non source-module targets and format only those targets that contains actual Swift source files. The process object should simply invoke the underlying tool, we can wait until the child (swiftlint invocation) process exists and hopefully we're good to go. 🤞</p><p class="note">Update: <a href="https://x.com/k_alweheshy" target="_blank">kalKarmaDev</a> told me that it is possible to pass the <code>--in-process-sourcekit</code> argument to SwiftLint, this will fix the underlying issue and the source files are actually fixed.</p><p>I wanted to list the available plugins &amp; run my source code linter / formatter using the following shell commands, but unfortunately seems like the swiftlint invocation part failed for some strange reason.</p><pre><code class="language-sh">swift package plugin --list
 swift package format-source-code #won't work, needs access to source files
 swift package --allow-writing-to-package-directory format-source-code
 
@@ -435,10 +435,10 @@ struct</span> MyDistCommandPlugin: <span class="type">CommandPlugin</span> {
 <section id="share" class="content-wrapper">
     <p>
     <a
-        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/beginners-guide-to-swift-package-manager-command-plugins/"
+        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/beginners-guide-to-swift-package-manager-command-plugins/"
         target="_blank"
     >
-        Share this article on Twitter
+        Share this article
     </a>
     <br> Thank you. 🙏</p>
 </section>
@@ -469,7 +469,7 @@ struct</span> MyDistCommandPlugin: <span class="type">CommandPlugin</span> {
 
     <div class="links">
         <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
         <a href="https://github.com/tib" target="_blank">GitHub</a> 
     </div>
 </section>

@@ -75,7 +75,7 @@
 
     <div id="contents">
         <section class="content-wrapper">
-            <h2>How to build a C compatible Swift library?</h2><p>In order to create a Swift library that's going to work with C, we have to play around with <a href="https://theswiftdev.com/unsafe-memory-pointers-in-swift/">unsafe memory pointers</a> to create a <a href="https://developer.apple.com/documentation/swift/swift_standard_library/c_interoperability" target="_blank">C compatible interface</a>. Fortunately I was able to find a nice example, which served me as a good starting point, on <a href="https://forums.swift.org/t/creating-a-c-accessible-shared-library-in-swift/45329/3" target="_blank">the Swift forums</a> created by <a href="https://twitter.com/Lukasaoz" target="_blank">Cory Benfield</a>, so that's what we're going to use in this case. Thanks you. 🙏</p><pre><code class="language-swift"><span class="keyword">final class</span> MyType {
+            <h2>How to build a C compatible Swift library?</h2><p>In order to create a Swift library that's going to work with C, we have to play around with <a href="https://theswiftdev.com/unsafe-memory-pointers-in-swift/">unsafe memory pointers</a> to create a <a href="https://developer.apple.com/documentation/swift/swift_standard_library/c_interoperability" target="_blank">C compatible interface</a>. Fortunately I was able to find a nice example, which served me as a good starting point, on <a href="https://forums.swift.org/t/creating-a-c-accessible-shared-library-in-swift/45329/3" target="_blank">the Swift forums</a> created by <a href="https://x.com/Lukasaoz" target="_blank">Cory Benfield</a>, so that's what we're going to use in this case. Thanks you. 🙏</p><pre><code class="language-swift"><span class="keyword">final class</span> MyType {
     <span class="keyword">var</span> count: <span class="type">Int</span> = <span class="number">69</span>
 }
 
@@ -138,7 +138,7 @@ clang -x objective-c -include mytype.h -include mytype_struct.h -c main.c
 # Linux
 clang -include mytype.h -include mytype_struct.h -c main.c
 </code></pre><p>This command will build a main.o file, which we can use to create the final executable. 💪</p><h2>Linking the final executable</h2><p>This was the hardest part to figure out, but I was able to link the two object files together after a few hours of struggling with the <a href="https://theswiftdev.com/deep-dive-into-swift-frameworks/">ld command and other framework tools</a> I decided to give it up and let swiftc take care of the job, since it can build and link both C and Swift-based executables.</p><p>We're going to need a list of the object files that we're going to link together.</p><pre><code class="language-sh">ls *.o &gt; LinkFileList
-</code></pre><p>Then we can call <code>swiftc</code> to do the job for us. I suppose it'll invoke the <code>ld</code> command under the hood, but I'm not a linker expert, so if you know more about this, feel free to reach out and <a href="https://twitter.com/tiborbodecs" target="_blank">provide me more info</a> about the process. I have to read <a href="https://www.amazon.com/Linkers-Kaufmann-Software-Engineering-Programming/dp/1558604960" target="_blank">this book</a> for sure. 📚</p><pre><code class="language-sh"># macOS
+</code></pre><p>Then we can call <code>swiftc</code> to do the job for us. I suppose it'll invoke the <code>ld</code> command under the hood, but I'm not a linker expert, so if you know more about this, feel free to reach out and <a href="https://x.com/tiborbodecs" target="_blank">provide me more info</a> about the process. I have to read <a href="https://www.amazon.com/Linkers-Kaufmann-Software-Engineering-Programming/dp/1558604960" target="_blank">this book</a> for sure. 📚</p><pre><code class="language-sh"># macOS
 swiftc \
         -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk \
         -F /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks \
@@ -165,7 +165,7 @@ swiftc \
     -emit-executable \
     -Xlinker -rpath \
     -Xlinker @loader_path @/home/ec2-user/swiftfromc/LinkFileList
-</code></pre><p>The command above will produce the final linked executable file that you can run by using the <code>./Example</code> snippet and hopefully you'll see the "Hello, World! 69" message. 🙈</p><p>If you want to know more about the <a href="https://blog.krzyzanowskim.com/2018/12/05/rpath-what/" target="_blank">rpath linker flag</a>, I highly recommend reading the article by <a href="https://twitter.com/krzyzanowskim" target="_blank">Marcin Krzyzanowski</a>. If you want to read more about Swift / Objective-C interoperability and using the swiftc command, you should check out <a href="https://rderik.com/blog/understanding-objective-c-and-swift-interoperability/" target="_blank">this article</a> by <a href="https://twitter.com/rderik" target="_blank">RDerik</a>. Finally if you want to call C code from Swift and go the other way, you should take a look at <a href="https://theswiftdev.com/how-to-call-c-code-from-swift/">my other blog post</a>.</p>
+</code></pre><p>The command above will produce the final linked executable file that you can run by using the <code>./Example</code> snippet and hopefully you'll see the "Hello, World! 69" message. 🙈</p><p>If you want to know more about the <a href="https://blog.krzyzanowskim.com/2018/12/05/rpath-what/" target="_blank">rpath linker flag</a>, I highly recommend reading the article by <a href="https://x.com/krzyzanowskim" target="_blank">Marcin Krzyzanowski</a>. If you want to read more about Swift / Objective-C interoperability and using the swiftc command, you should check out <a href="https://rderik.com/blog/understanding-objective-c-and-swift-interoperability/" target="_blank">this article</a> by <a href="https://x.com/rderik" target="_blank">RDerik</a>. Finally if you want to call C code from Swift and go the other way, you should take a look at <a href="https://theswiftdev.com/how-to-call-c-code-from-swift/">my other blog post</a>.</p>
         </section>
     </div>
 
@@ -174,10 +174,10 @@ swiftc \
 <section id="share" class="content-wrapper">
     <p>
     <a
-        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/how-to-use-a-swift-library-in-c/"
+        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/how-to-use-a-swift-library-in-c/"
         target="_blank"
     >
-        Share this article on Twitter
+        Share this article
     </a>
     <br> Thank you. 🙏</p>
 </section>
@@ -208,7 +208,7 @@ swiftc \
 
     <div class="links">
         <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
         <a href="https://github.com/tib" target="_blank">GitHub</a> 
     </div>
 </section>

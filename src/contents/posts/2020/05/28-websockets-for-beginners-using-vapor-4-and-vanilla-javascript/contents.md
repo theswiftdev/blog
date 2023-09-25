@@ -81,7 +81,7 @@ We are using the `EventLoop` object to close every socket connection when we don
 
 Clients can send any kind of data (`ByteBuffer`) or text to the server, but it would be real nice to work with JSON objects, plus if they could provide the associated unique identifier right next to the incoming message that would have other benefits.
 
-To make this happen we will create a generic `WebsocketMessage` object. There is a [hacky solution](https://github.com/BastianInuk/DrinkServer/blob/master/Sources/App/Controllers/MachineController.swift) to decode incoming messages from JSON data. [Bastian Inuk](https://twitter.com/BastianInuk/) showed me this one, but I believe it is pretty simple & works like a charm. Thanks for letting me borrow your idea. 😉
+To make this happen we will create a generic `WebsocketMessage` object. There is a [hacky solution](https://github.com/BastianInuk/DrinkServer/blob/master/Sources/App/Controllers/MachineController.swift) to decode incoming messages from JSON data. [Bastian Inuk](https://x.com/BastianInuk/) showed me this one, but I believe it is pretty simple & works like a charm. Thanks for letting me borrow your idea. 😉
 
 ```swift
 import Vapor

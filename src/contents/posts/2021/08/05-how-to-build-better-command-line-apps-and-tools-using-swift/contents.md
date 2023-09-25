@@ -98,7 +98,7 @@ The environment variables property is a Dictionary where both the keys and the v
 
 You can use the print function to write text to the standard output, but you should note that the [print](https://developer.apple.com/documentation/swift/1541053-print) function has a variadic items definition, so you can pass around multiple arguments and a custom separator & terminator parameter to display more advanced outputs.
 
-There is also a standard error stream, which is part of the [standard streams](https://en.wikipedia.org/wiki/Standard_streams) of course, but what's interesting about it is that you can also write to this channel through the `FileHandle.standardError` property there is quite an elegant solution on a [Stack Overflow](https://stackoverflow.com/questions/24041554/how-can-i-output-to-stderr-with-swift) thread originally created by [Rob Napier](https://twitter.com/cocoaphony?lang=en), I'm going to include that one here as well. 🙏
+There is also a standard error stream, which is part of the [standard streams](https://en.wikipedia.org/wiki/Standard_streams) of course, but what's interesting about it is that you can also write to this channel through the `FileHandle.standardError` property there is quite an elegant solution on a [Stack Overflow](https://stackoverflow.com/questions/24041554/how-can-i-output-to-stderr-with-swift) thread originally created by [Rob Napier](https://x.com/cocoaphony?lang=en), I'm going to include that one here as well. 🙏
 
 Another great feature of the print function is the to parameter, which can accept a custom `TextOutputStream` so you can wrap the `stderr` stream in a custom object or you can also create custom output handlers and separate your print statements e.g. by context if you need.
 

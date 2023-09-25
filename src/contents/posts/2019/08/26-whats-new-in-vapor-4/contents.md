@@ -173,7 +173,7 @@ Another small change is that the entire application launch / configuration proce
 
 ## ... and many many more!
 
-[Tanner Nelson](https://twitter.com/tanner0101) posted quite a list on [Vapor's discord server](https://discord.gg/BnXmVGA) (it's such an amazing community, you should join too). I'm going to shamelessly rip that off to show you most of the things that are going to be included in Vapor 4. Here is the list:
+[Tanner Nelson](https://x.com/tanner0101) posted quite a list on [Vapor's discord server](https://discord.gg/BnXmVGA) (it's such an amazing community, you should join too). I'm going to shamelessly rip that off to show you most of the things that are going to be included in Vapor 4. Here is the list:
 
 ### Vapor
 

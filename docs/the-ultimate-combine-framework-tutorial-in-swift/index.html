@@ -150,7 +150,7 @@ cancellable = timerPublisher
     <span class="keyword">@IBAction func</span> actionButtonTouched(<span class="keyword">_</span> sender: <span class="type">UIButton</span>) {
         <span class="keyword">self</span>.<span class="property">labelValue</span> = <span class="string">"Hello World!"</span>
     }
-}</code></pre><p>By using the <code>$</code> sign and the assign function we can create a binding and subscribe to value changes, so if the labelValue property changes, it'll be assigned to the text property of the textLabel variable. In other words, the actual text of the label will be updated on the user interface. Also you only want to get updates on the main queue, since we're doing UI related stuff. You can use the receive operator for this.</p><h3>Custom publishers</h3><p>Creating a custom publisher is not so hard that you might think, but honestly I never had to make one for myself yet. Still there are some really nice use-cases where building a custom publisher is the right way to go. <a href="https://twitter.com/twannl" target="_blank">Antoine v.d. SwiftLee</a> has a great tutorial about <a href="https://www.avanderlee.com/swift/custom-combine-publisher/" target="_blank">how to create a custom combine publisher</a> to extend UIKit, you should definitely check that out if you want to learn more about custom publishers.</p><h3>Subjects</h3><p>A subject can be used to transfer values between publishers and subscribers.</p><pre><code class="language-swift"><span class="keyword">let</span> subject = <span class="type">PassthroughSubject</span>&lt;<span class="type">String</span>, <span class="type">Never</span>&gt;()
+}</code></pre><p>By using the <code>$</code> sign and the assign function we can create a binding and subscribe to value changes, so if the labelValue property changes, it'll be assigned to the text property of the textLabel variable. In other words, the actual text of the label will be updated on the user interface. Also you only want to get updates on the main queue, since we're doing UI related stuff. You can use the receive operator for this.</p><h3>Custom publishers</h3><p>Creating a custom publisher is not so hard that you might think, but honestly I never had to make one for myself yet. Still there are some really nice use-cases where building a custom publisher is the right way to go. <a href="https://x.com/twannl" target="_blank">Antoine v.d. SwiftLee</a> has a great tutorial about <a href="https://www.avanderlee.com/swift/custom-combine-publisher/" target="_blank">how to create a custom combine publisher</a> to extend UIKit, you should definitely check that out if you want to learn more about custom publishers.</p><h3>Subjects</h3><p>A subject can be used to transfer values between publishers and subscribers.</p><pre><code class="language-swift"><span class="keyword">let</span> subject = <span class="type">PassthroughSubject</span>&lt;<span class="type">String</span>, <span class="type">Never</span>&gt;()
 
 <span class="keyword">let</span> anyCancellable = subject
 .<span class="call">sink</span> { value <span class="keyword">in</span>
@@ -271,10 +271,10 @@ errorPublisher
 <section id="share" class="content-wrapper">
     <p>
     <a
-        href="https://twitter.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/the-ultimate-combine-framework-tutorial-in-swift/"
+        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/the-ultimate-combine-framework-tutorial-in-swift/"
         target="_blank"
     >
-        Share this article on Twitter
+        Share this article
     </a>
     <br> Thank you. 🙏</p>
 </section>
@@ -305,7 +305,7 @@ errorPublisher
 
     <div class="links">
         <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://twitter.com/tiborbodecs" target="_blank">Twitter</a> · 
+        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
         <a href="https://github.com/tib" target="_blank">GitHub</a> 
     </div>
 </section>

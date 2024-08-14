@@ -1,349 +1,496 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
     <meta charset="utf-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="canonical" href="https://theswiftdev.com/hummingbird-routing-and-requests/">
     
+    
+
     <title>Hummingbird routing and requests - The.Swift.Dev.</title>
-    
-    <meta name="description" content="Beginner's guide to learn all about routing and request handling using the Hummingbird server-side Swift framework.">
-    
-    <meta property="og:title" content="Hummingbird routing and requests - The.Swift.Dev.">
-    <meta property="og:description" content="Beginner's guide to learn all about routing and request handling using the Hummingbird server-side Swift framework.">
+    <meta name="description" content="Beginner&#39;s guide to learn all about routing and request handling using the Hummingbird server-side Swift framework.">
+
     <meta property="og:url" content="https://theswiftdev.com/hummingbird-routing-and-requests/">
-    <meta property="og:image" content="https://theswiftdev.com/images/assets/hummingbird-routing-and-requests/cover.jpg">
+    <meta property="og:title" content="Hummingbird routing and requests - The.Swift.Dev.">
+    <meta property="og:description" content="Beginner&#39;s guide to learn all about routing and request handling using the Hummingbird server-side Swift framework.">
+    
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@tiborbodecs">
-    <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="Hummingbird routing and requests - The.Swift.Dev.">
-    <meta name="twitter:description" content="Beginner's guide to learn all about routing and request handling using the Hummingbird server-side Swift framework.">
-    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/hummingbird-routing-and-requests/cover.jpg">
+    <meta name="twitter:description" content="Beginner&#39;s guide to learn all about routing and request handling using the Hummingbird server-side Swift framework.">
     
-    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
-    
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-normalize.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/variables.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/grid.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/navigation.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/footer.css">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+
     
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/icons/apple-touch-icon-180x180.png">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+        media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+        media="(prefers-color-scheme: dark)"
+    >
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
 </head>
 
 <body>
-    <a href="https://theswiftdev.gumroad.com" class="ribbon">
-        📖
-    </a>
-    <header id="page-header">
-        <a href="https://theswiftdev.com/">
-            <img 
-                id="logo-image"
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
+    <div id="site-container">
+
+    <header id="navigation">
+        <a href="/">
+            <picture>
+                <img
+                    src="https://theswiftdev.com/images/logos/logo.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
         </a>
-    </header>
-    
-    <main>
-
-        <article>
-    <header>
-        <section id="post-header" class="content-wrapper">
-            <time datetime="2023/03/17">2023/03/17</time>
-            <h1 class="title">Hummingbird routing and requests</h1>
-            <p class="excerpt">Beginner's guide to learn all about routing and request handling using the Hummingbird server-side Swift framework.</p>
-            <div class="meta">
-                <span class="tag">Swift</span>
-<span class="tag">Hummingbird</span>
+        <nav>
+            <input type="checkbox" id="primary-menu-button" name="menu-button" class="menu-button">
+            <label for="primary-menu-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </label>
+            <div class="menu-items">
+                <a href="/page/1/">Posts</a>
+                <a href="/tags/">Tags</a>
+                <a href="/authors/">Authors</a>
+                <a href="/practical-server-side-swift/">My Book</a>
             </div>
-        </section>
-        <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.com/images/assets/hummingbird-routing-and-requests/cover.jpg">
-        </section>
+        </nav>
     </header>
 
-    <div id="contents">
-        <section class="content-wrapper">
-            <p>Routing on the server side means the server is going to send a response based on the URL path that the client called when firing up the HTTP request. Of course the server can check additional parameters and headers to build the final response, but when we talk about routing in general, we usually refer to the path components. <a href="https://hummingbird-project.github.io/hummingbird-docs/documentation/hummingbird/router/" target="_blank">Hummingbird</a> uses a <a href="https://en.wikipedia.org/wiki/Trie" target="_blank">trie-based</a> router, which is a fast and efficient way of looking up routes. It's quite simple to respond to HTTP request using the built-in router, you can simply add your basic route handlers like this:</p><pre><code class="language-swift"><span class="comment">/// on path X, when method is Y, call the handler...</span> 
-router.<span class="call">on</span>(<span class="string">"foo"</span>, method: .<span class="dotAccess">HEAD</span>) { <span class="keyword">_</span> -&gt; <span class="type">HTTPResponseStatus</span> <span class="keyword">in</span> .<span class="dotAccess">ok</span> }
-router.<span class="call">on</span>(<span class="string">"foo"</span>, method: .<span class="dotAccess">GET</span>) { <span class="keyword">_</span> -&gt; <span class="type">HTTPResponseStatus</span> <span class="keyword">in</span> .<span class="dotAccess">ok</span> }
-router.<span class="call">on</span>(<span class="string">"foo"</span>, method: .<span class="dotAccess">POST</span>) { <span class="keyword">_</span> -&gt; <span class="type">HTTPResponseStatus</span> <span class="keyword">in</span> .<span class="dotAccess">ok</span> }
-router.<span class="call">on</span>(<span class="string">"foo"</span>, method: .<span class="dotAccess">PUT</span>) { <span class="keyword">_</span> -&gt; <span class="type">HTTPResponseStatus</span> <span class="keyword">in</span> .<span class="dotAccess">ok</span> }
-router.<span class="call">on</span>(<span class="string">"foo"</span>, method: .<span class="dotAccess">PATCH</span>) { <span class="keyword">_</span> -&gt; <span class="type">HTTPResponseStatus</span> <span class="keyword">in</span> .<span class="dotAccess">ok</span> }
-router.<span class="call">on</span>(<span class="string">"foo"</span>, method: .<span class="dotAccess">DELETE</span>) { <span class="keyword">_</span> -&gt; <span class="type">HTTPResponseStatus</span> <span class="keyword">in</span> .<span class="dotAccess">ok</span> }
-
-<span class="comment">/// short version (for some HTTP methods)</span>
-router.<span class="call">head</span>(<span class="string">"foo"</span>) { <span class="keyword">_</span> -&gt; <span class="type">HTTPResponseStatus</span> <span class="keyword">in</span> .<span class="dotAccess">ok</span> }
-router.<span class="call">get</span>(<span class="string">"foo"</span>) { <span class="keyword">_</span> -&gt; <span class="type">HTTPResponseStatus</span> <span class="keyword">in</span> .<span class="dotAccess">ok</span> }
-router.<span class="call">put</span>(<span class="string">"foo"</span>) { <span class="keyword">_</span> -&gt; <span class="type">HTTPResponseStatus</span> <span class="keyword">in</span> .<span class="dotAccess">ok</span> }
-router.<span class="call">post</span>(<span class="string">"foo"</span>) { <span class="keyword">_</span> -&gt; <span class="type">HTTPResponseStatus</span> <span class="keyword">in</span> .<span class="dotAccess">ok</span> }
-router.<span class="call">patch</span>(<span class="string">"foo"</span>) { <span class="keyword">_</span> -&gt; <span class="type">HTTPResponseStatus</span> <span class="keyword">in</span> .<span class="dotAccess">ok</span> }
-router.<span class="call">delete</span>(<span class="string">"foo"</span>) { <span class="keyword">_</span> -&gt; <span class="type">HTTPResponseStatus</span> <span class="keyword">in</span> .<span class="dotAccess">ok</span> }</code></pre><p>In Hummingbird it is also possible to register use a function instead of a block. Handler functions can be async and throwing too, so you can mark the blocks with these keywords or use asynchronous Swift functions when registering route handlers. If you don't provide the first parameter, the path as a string, the route handler is going to be attached to the base group. 👍</p><p>You can also prefix a path component with a colon, this will turn that component into a dynamic route parameter. The parameter is going to be named after the path component, by simply dropping the colon prefix. You can access parameters inside your route handler through the req.parameters property. It is also possible to register multiple components using a / character.</p><pre><code class="language-swift"><span class="keyword">public extension</span> <span class="type">HBApplication</span> {
+    <main id="page-container">
     
-    <span class="keyword">func</span> configure() <span class="keyword">throws</span> {
+    <div class="article-with-toc">
+        <div>
+            <article class="post">
+                <div class="meta">
+                    <time datetime="2023/03/17">2023/03/17</time>
+                     &middot; <span class="reading-time">5 min read</span>
+                    
+                </div>
+                <h1>Hummingbird routing and requests</h1>
+                <hr>
+                <p>Beginner&#39;s guide to learn all about routing and request handling using the Hummingbird server-side Swift framework.</p>
+                <section>
+                
+                <p>Routing on the server side means the server is going to send a response based on the URL path that the client called when firing up the HTTP request. Of course the server can check additional parameters and headers to build the final response, but when we talk about routing in general, we usually refer to the path components. <a href="https://hummingbird-project.github.io/hummingbird-docs/documentation/hummingbird/router/" target="_blank">Hummingbird</a> uses a <a href="https://en.wikipedia.org/wiki/Trie" target="_blank">trie-based</a> router, which is a fast and efficient way of looking up routes. It’s quite simple to respond to HTTP request using the built-in router, you can simply add your basic route handlers like this:</p><pre><code class="language-swift">/// on path X, when method is Y, call the handler... 
+router.on("foo", method: .HEAD) { _ -&gt; HTTPResponseStatus in .ok }
+router.on("foo", method: .GET) { _ -&gt; HTTPResponseStatus in .ok }
+router.on("foo", method: .POST) { _ -&gt; HTTPResponseStatus in .ok }
+router.on("foo", method: .PUT) { _ -&gt; HTTPResponseStatus in .ok }
+router.on("foo", method: .PATCH) { _ -&gt; HTTPResponseStatus in .ok }
+router.on("foo", method: .DELETE) { _ -&gt; HTTPResponseStatus in .ok }
 
-        router.<span class="call">get</span> { <span class="keyword">_ async throws in</span> <span class="string">"Hello, world!"</span> }
+/// short version (for some HTTP methods)
+router.head("foo") { _ -&gt; HTTPResponseStatus in .ok }
+router.get("foo") { _ -&gt; HTTPResponseStatus in .ok }
+router.put("foo") { _ -&gt; HTTPResponseStatus in .ok }
+router.post("foo") { _ -&gt; HTTPResponseStatus in .ok }
+router.patch("foo") { _ -&gt; HTTPResponseStatus in .ok }
+router.delete("foo") { _ -&gt; HTTPResponseStatus in .ok }
+</code></pre><p>In Hummingbird it is also possible to register use a function instead of a block. Handler functions can be async and throwing too, so you can mark the blocks with these keywords or use asynchronous Swift functions when registering route handlers. If you don’t provide the first parameter, the path as a string, the route handler is going to be attached to the base group. 👍</p><p>You can also prefix a path component with a colon, this will turn that component into a dynamic route parameter. The parameter is going to be named after the path component, by simply dropping the colon prefix. You can access parameters inside your route handler through the req.parameters property. It is also possible to register multiple components using a / character.</p><pre><code class="language-swift">public extension HBApplication {
+    
+    func configure() throws {
 
-        router.<span class="call">get</span>(<span class="string">"hello/:name"</span>) { req <span class="keyword">throws in
-            guard let</span> name = req.<span class="property">parameters</span>.<span class="call">get</span>(<span class="string">"name"</span>) <span class="keyword">else</span> {
-                <span class="keyword">throw</span> <span class="type">HBHTTPError</span>(
-                    .<span class="dotAccess">badRequest</span>,
-                    message: <span class="string">"Invalid name parameter."</span>
+        router.get { _ async throws in "Hello, world!" }
+
+        router.get("hello/:name") { req throws in
+            guard let name = req.parameters.get("name") else {
+                throw HBHTTPError(
+                    .badRequest,
+                    message: "Invalid name parameter."
                 )
             }
-            <span class="keyword">return</span> <span class="string">"Hello,</span> \(name)<span class="string">!"</span>
+            return "Hello, \(name)!"
         }
 
-        <span class="keyword">let</span> group = router.<span class="call">group</span>(<span class="string">"todos"</span>)
-        group.<span class="call">get</span>(use: list)
-        group.<span class="call">post</span>(use: create)
+        let group = router.group("todos")
+        group.get(use: list)
+        group.post(use: create)
         
-        <span class="keyword">let</span> idGroup = group.<span class="call">group</span>(<span class="string">":todoId"</span>)
-        idGroup.<span class="call">head</span>(use: check)
-        idGroup.<span class="call">get</span>(use: fetch)
-        idGroup.<span class="call">put</span>(use: update)
-        idGroup.<span class="call">patch</span>(use: patch)
-        idGroup.<span class="call">delete</span>(use: delete)
+        let idGroup = group.group(":todoId")
+        idGroup.head(use: check)
+        idGroup.get(use: fetch)
+        idGroup.put(use: update)
+        idGroup.patch(use: patch)
+        idGroup.delete(use: delete)
 
-        <span class="comment">/// short version</span>
-        router.<span class="call">group</span>(<span class="string">"todos"</span>)
-            .<span class="call">get</span>(use: list)
-            .<span class="call">post</span>(use: create)
-            .<span class="call">group</span>(<span class="string">":todoId"</span>)
-                .<span class="call">head</span>(use: check)
-                .<span class="call">get</span>(use: fetch)
-                .<span class="call">put</span>(use: update)
-                .<span class="call">patch</span>(use: patch)
-                .<span class="call">delete</span>(use: delete)
+        /// short version
+        router.group("todos")
+            .get(use: list)
+            .post(use: create)
+            .group(":todoId")
+                .head(use: check)
+                .get(use: fetch)
+                .put(use: update)
+                .patch(use: patch)
+                .delete(use: delete)
 
     }
 
-    <span class="keyword">func</span> list(<span class="keyword">_</span> req: <span class="type">HBRequest</span>) <span class="keyword">async throws</span> -&gt; <span class="type">HTTPResponseStatus</span> { .<span class="dotAccess">ok</span> }
-    <span class="keyword">func</span> check(<span class="keyword">_</span> req: <span class="type">HBRequest</span>) <span class="keyword">async throws</span> -&gt; <span class="type">HTTPResponseStatus</span> { .<span class="dotAccess">ok</span> }
-    <span class="keyword">func</span> fetch(<span class="keyword">_</span> req: <span class="type">HBRequest</span>) <span class="keyword">async throws</span> -&gt; <span class="type">HTTPResponseStatus</span> { .<span class="dotAccess">ok</span> }
-    <span class="keyword">func</span> create(<span class="keyword">_</span> req: <span class="type">HBRequest</span>) <span class="keyword">async throws</span> -&gt; <span class="type">HTTPResponseStatus</span> { .<span class="dotAccess">ok</span> }
-    <span class="keyword">func</span> update(<span class="keyword">_</span> req: <span class="type">HBRequest</span>) <span class="keyword">async throws</span> -&gt; <span class="type">HTTPResponseStatus</span> { .<span class="dotAccess">ok</span> }
-    <span class="keyword">func</span> patch(<span class="keyword">_</span> req: <span class="type">HBRequest</span>) <span class="keyword">async throws</span> -&gt; <span class="type">HTTPResponseStatus</span> { .<span class="dotAccess">ok</span> }
-    <span class="keyword">func</span> delete(<span class="keyword">_</span> req: <span class="type">HBRequest</span>) <span class="keyword">async throws</span> -&gt; <span class="type">HTTPResponseStatus</span> { .<span class="dotAccess">ok</span> }
-}</code></pre><p>It is possible to use a wildcard character (<em>) when detecting path components and the recursive version (</em>*) to catch everything. Also you can use the ${name} syntax to catch a named request parameter even with a prefix or suffix, but you can't insert this in the middle of a path component. (e.g. "prefix-${name}.jpg" won't work, but "${name}.jpg" is just fine) 💡</p><pre><code class="language-swift"><span class="keyword">import</span> Hummingbird
-<span class="keyword">import</span> HummingbirdFoundation
+    func list(_ req: HBRequest) async throws -&gt; HTTPResponseStatus { .ok }
+    func check(_ req: HBRequest) async throws -&gt; HTTPResponseStatus { .ok }
+    func fetch(_ req: HBRequest) async throws -&gt; HTTPResponseStatus { .ok }
+    func create(_ req: HBRequest) async throws -&gt; HTTPResponseStatus { .ok }
+    func update(_ req: HBRequest) async throws -&gt; HTTPResponseStatus { .ok }
+    func patch(_ req: HBRequest) async throws -&gt; HTTPResponseStatus { .ok }
+    func delete(_ req: HBRequest) async throws -&gt; HTTPResponseStatus { .ok }
+}
+</code></pre><p>It is possible to use a wildcard character (*) when detecting path components and the recursive version (**) to catch everything. Also you can use the ${name} syntax to catch a named request parameter even with a prefix or suffix, but you can’t insert this in the middle of a path component. (e.g. “prefix-${name}.jpg” won’t work, but “${name}.jpg” is just fine) 💡</p><pre><code class="language-swift">import Hummingbird
+import HummingbirdFoundation
 
-<span class="keyword">extension</span> <span class="type">HBApplication</span> {
+extension HBApplication {
 
-    <span class="keyword">func</span> configure(<span class="keyword">_</span> args: <span class="type">AppArguments</span>) <span class="keyword">throws</span> {
+    func configure(_ args: AppArguments) throws {
 
-        router.<span class="call">get</span>(<span class="string">"foo-${name}"</span>, use: catchPrefix)
-        router.<span class="call">get</span>(<span class="string">"${name}.jpg"</span>, use: catchSuffix)
+        router.get("foo-${name}", use: catchPrefix)
+        router.get("${name}.jpg", use: catchSuffix)
         
-        router.<span class="call">get</span>(<span class="string">"*"</span>, use: catchOne)
-        router.<span class="call">get</span>(<span class="string">"*/*"</span>, use: catchTwo)
+        router.get("*", use: catchOne)
+        router.get("*/*", use: catchTwo)
 
-        router.<span class="call">get</span>(<span class="string">"**"</span>, use: catchAll)
+        router.get("**", use: catchAll)
         
     }
     
-    <span class="comment">// http://localhost:8080/bar</span>
-    <span class="keyword">func</span> catchOne(<span class="keyword">_</span> req: <span class="type">HBRequest</span>) <span class="keyword">async throws</span> -&gt; <span class="type">String</span> {
-        <span class="string">"one"</span>
+    // http://localhost:8080/bar
+    func catchOne(_ req: HBRequest) async throws -&gt; String {
+        "one"
     }
 
-    <span class="comment">// http://localhost:8080/bar/baz/</span>
-    <span class="keyword">func</span> catchTwo(<span class="keyword">_</span> req: <span class="type">HBRequest</span>) <span class="keyword">async throws</span> -&gt; <span class="type">String</span> {
-        <span class="string">"two"</span>
+    // http://localhost:8080/bar/baz/
+    func catchTwo(_ req: HBRequest) async throws -&gt; String {
+        "two"
     }
     
-    <span class="comment">// http://localhost:8080/bar/baz/foo/bar/baz</span>
-    <span class="keyword">func</span> catchAll(<span class="keyword">_</span> req: <span class="type">HBRequest</span>) <span class="keyword">async throws</span> -&gt; <span class="type">String</span> {
-        <span class="string">"all: "</span> + req.<span class="property">parameters</span>.<span class="call">getCatchAll</span>().<span class="call">joined</span>(separator: <span class="string">", "</span>)
+    // http://localhost:8080/bar/baz/foo/bar/baz
+    func catchAll(_ req: HBRequest) async throws -&gt; String {
+        "all: " + req.parameters.getCatchAll().joined(separator: ", ")
     }
     
-    <span class="comment">// http://localhost:8080/foo-bar</span>
-    <span class="keyword">func</span> catchPrefix(<span class="keyword">_</span> req: <span class="type">HBRequest</span>) <span class="keyword">async throws</span> -&gt; <span class="type">String</span> {
-        <span class="string">"prefix: "</span> + (req.<span class="property">parameters</span>.<span class="call">get</span>(<span class="string">"name"</span>) ?? <span class="string">"n/a"</span>)
+    // http://localhost:8080/foo-bar
+    func catchPrefix(_ req: HBRequest) async throws -&gt; String {
+        "prefix: " + (req.parameters.get("name") ?? "n/a")
     }
     
-    <span class="comment">// http://localhost:8080/bar.jpg</span>
-    <span class="keyword">func</span> catchSuffix(<span class="keyword">_</span> req: <span class="type">HBRequest</span>) <span class="keyword">async throws</span> -&gt; <span class="type">String</span> {
-        <span class="string">"suffix: "</span> + (req.<span class="property">parameters</span>.<span class="call">get</span>(<span class="string">"name"</span>) ?? <span class="string">"n/a"</span>)
+    // http://localhost:8080/bar.jpg
+    func catchSuffix(_ req: HBRequest) async throws -&gt; String {
+        "suffix: " + (req.parameters.get("name") ?? "n/a")
     }
-}</code></pre><p>It is also possible to <a href="https://hummingbird-project.github.io/hummingbird-docs/documentation/hummingbird/router/#Editing-response-in-handler" target="_blank">edit the auto-generated response</a> if you specify the .editResponse option.</p><pre><code class="language-swift">router.<span class="call">get</span>(<span class="string">"foo"</span>, options: .<span class="dotAccess">editResponse</span>) { req -&gt; <span class="type">String</span> <span class="keyword">in</span>
-    req.<span class="property">response</span>.<span class="property">status</span> = .<span class="dotAccess">ok</span>
-    req.<span class="property">response</span>.<span class="property">headers</span>.<span class="call">replaceOrAdd</span>(
-        name: <span class="string">"Content-Type"</span>, 
-        value: <span class="string">"application/json"</span>
+}
+</code></pre><p>It is also possible to <a href="https://hummingbird-project.github.io/hummingbird-docs/documentation/hummingbird/router/#Editing-response-in-handler" target="_blank">edit the auto-generated response</a> if you specify the .editResponse option.</p><pre><code class="language-swift">router.get("foo", options: .editResponse) { req -&gt; String in
+    req.response.status = .ok
+    req.response.headers.replaceOrAdd(
+        name: "Content-Type", 
+        value: "application/json"
     )
-    <span class="keyword">return</span> <span class="string">#"{"foo": "bar"}"#</span>
-}</code></pre><p>Hummingbird support for body streaming is amazing, you can stream a HTTP request body by using the .streamBody option. The body stream has a sequence property, which you can use to iterate through the incoming <a href="https://swiftinit.org/reference/swift-nio/niocore/bytebuffer" target="_blank">ByteBuffer</a> chunks when handling the request. 🔄</p><pre><code class="language-swift"><span class="keyword">func</span> configure() <span class="keyword">throws</span> { 
-    router.<span class="call">post</span>(<span class="string">"foo"</span>, options: .<span class="dotAccess">streamBody</span>) { req <span class="keyword">async throws</span> -&gt; <span class="type">String</span> <span class="keyword">in
+    return #"{"foo": "bar"}"#
+}
+</code></pre><p>Hummingbird support for body streaming is amazing, you can stream a HTTP request body by using the .streamBody option. The body stream has a sequence property, which you can use to iterate through the incoming <a href="https://swiftinit.org/reference/swift-nio/niocore/bytebuffer" target="_blank">ByteBuffer</a> chunks when handling the request. 🔄</p><pre><code class="language-swift">func configure() throws { 
+    router.post("foo", options: .streamBody) { req async throws -&gt; String in
         guard
-            let</span> rawLength = req.<span class="property">headers</span>[<span class="string">"Content-Length"</span>].first,
-            <span class="keyword">let</span> length = <span class="type">Int</span>(rawLength),
-            <span class="keyword">let</span> stream = req.<span class="property">body</span>.<span class="property">stream</span>
-        <span class="keyword">else</span> {
-            <span class="keyword">throw</span> <span class="type">HBHTTPError</span>(
-                .<span class="dotAccess">badRequest</span>,
-                message: <span class="string">"Missing or invalid body stream."</span>
+            let rawLength = req.headers["Content-Length"].first,
+            let length = Int(rawLength),
+            let stream = req.body.stream
+        else {
+            throw HBHTTPError(
+                .badRequest,
+                message: "Missing or invalid body stream."
             )
         }
-        <span class="keyword">var</span> count: <span class="type">Int</span> = <span class="number">0</span>
-        <span class="keyword">for try await</span> chunk <span class="keyword">in</span> stream.<span class="property">sequence</span> {
-            count += chunk.<span class="property">readableBytes</span>
+        var count: Int = 0
+        for try await chunk in stream.sequence {
+            count += chunk.readableBytes
         }
-        <span class="keyword">return</span> <span class="type">String</span>(<span class="string">"</span>\(length) <span class="string">/</span> \(count)<span class="string">"</span>)
+        return String("\(length) / \(count)")
     }
 }
 
-<span class="comment">// main.swift</span>
-<span class="keyword">let</span> app = <span class="type">HBApplication</span>(
-    configuration: .<span class="keyword">init</span>(
-        address: .<span class="call">hostname</span>(hostname, port: port),
-        serverName: <span class="string">"Hummingbird"</span>,
-        maxUploadSize: <span class="number">1</span> * <span class="number">1024</span> * <span class="number">1024</span> * <span class="number">1024</span> <span class="comment">// 1GB</span>
+// main.swift
+let app = HBApplication(
+    configuration: .init(
+        address: .hostname(hostname, port: port),
+        serverName: "Hummingbird",
+        maxUploadSize: 1 * 1024 * 1024 * 1024 // 1GB
     )
-)</code></pre><p>As you can see you can easily access all the incoming headers via the req.headers container, you should note that this method will return header values in a case-insensitive way. If you want to stream larger files, you also have to set a custom maxUploadSize using the configuration object when initializing the HBApplication instance.</p><pre><code class="language-sh">curl -X POST http://localhost:8080/foo \
+)
+</code></pre><p>As you can see you can easily access all the incoming headers via the req.headers container, you should note that this method will return header values in a case-insensitive way. If you want to stream larger files, you also have to set a custom maxUploadSize using the configuration object when initializing the HBApplication instance.</p><pre><code class="language-sh">curl -X POST http://localhost:8080/foo \
     -H "Content-Length: 3" \
     --data-raw 'foo'
 
 curl -X POST http://localhost:8080/foo \
     -H "content-Length: 5242880" \
     -T ~/test
-</code></pre><p>You can try out streaming with a simple cURL script, feel free to experiment with these.</p><p>Another thing I'd like to show you is how to access query parameters and other properties using the request object. Here is an all-in-one example, which you can use as a cheatsheet... 😉</p><pre><code class="language-swift"><span class="comment">// curl -X GET http://localhost:8080/bar?q=foo&amp;key=42</span>
-router.<span class="call">get</span>(<span class="string">"bar"</span>) { req <span class="keyword">async throws</span> -&gt; <span class="type">String</span> <span class="keyword">in
+</code></pre><p>You can try out streaming with a simple cURL script, feel free to experiment with these.</p><p>Another thing I’d like to show you is how to access query parameters and other properties using the request object. Here is an all-in-one example, which you can use as a cheatsheet… 😉</p><pre><code class="language-swift">// curl -X GET http://localhost:8080/bar?q=foo&key=42
+router.get("bar") { req async throws -&gt; String in
             
-    struct</span> Foo: <span class="type">Codable</span> {
-        <span class="keyword">var</span> a: <span class="type">String</span>
+    struct Foo: Codable {
+        var a: String
     }
 
-    <span class="call">print</span>(req.<span class="property">method</span>)
-    <span class="call">print</span>(req.<span class="property">headers</span>)
-    <span class="call">print</span>(req.<span class="property">headers</span>[<span class="string">"accept"</span>])
-    <span class="call">print</span>(req.<span class="property">uri</span>.<span class="property">queryParameters</span>.<span class="call">get</span>(<span class="string">"q"</span>) ?? <span class="string">"n/a"</span>)
-    <span class="call">print</span>(req.<span class="property">uri</span>.<span class="property">queryParameters</span>.<span class="call">get</span>(<span class="string">"key"</span>, as: <span class="type">Int</span>.<span class="keyword">self</span>) ?? <span class="number">0</span>)
+    print(req.method)
+    print(req.headers)
+    print(req.headers["accept"])
+    print(req.uri.queryParameters.get("q") ?? "n/a")
+    print(req.uri.queryParameters.get("key", as: Int.self) ?? 0)
 
-    <span class="keyword">if let</span> buffer = req.<span class="property">body</span>.<span class="property">buffer</span> {
-        <span class="keyword">let</span> foo = <span class="keyword">try</span>? <span class="type">JSONDecoder</span>().<span class="call">decode</span>(<span class="type">Foo</span>.<span class="keyword">self</span>, from: buffer)
-        <span class="call">print</span>(foo ?? <span class="string">"n/a"</span>)
+    if let buffer = req.body.buffer {
+        let foo = try? JSONDecoder().decode(Foo.self, from: buffer)
+        print(foo ?? "n/a")
     }
-    <span class="keyword">return</span> <span class="string">"Hello, world!"</span>
-}</code></pre><p>Anyway, there is one additional super cool feature in Hummingbird that I'd like to show you. It is possible to define a route handler, this way you can encapsulate everything into a single object. There is an async version of the <a href="https://hummingbird-project.github.io/hummingbird-docs/documentation/hummingbird/router/#Route-handlers" target="_blank">route handler protocol</a>, if you don't need async, you can simply drop the keyword both from the protocol name &amp; the method. I love this approach a lot. 😍</p><pre><code class="language-swift"><span class="keyword">struct</span> MyRouteHandler: <span class="type">HBAsyncRouteHandler</span> {
+    return "Hello, world!"
+}
+</code></pre><p>Anyway, there is one additional super cool feature in Hummingbird that I’d like to show you. It is possible to define a route handler, this way you can encapsulate everything into a single object. There is an async version of the <a href="https://hummingbird-project.github.io/hummingbird-docs/documentation/hummingbird/router/#Route-handlers" target="_blank">route handler protocol</a>, if you don’t need async, you can simply drop the keyword both from the protocol name & the method. I love this approach a lot. 😍</p><pre><code class="language-swift">struct MyRouteHandler: HBAsyncRouteHandler {
 
-    <span class="keyword">struct</span> Input: <span class="type">Decodable</span> {
-        <span class="keyword">let</span> foo: <span class="type">String</span>
+    struct Input: Decodable {
+        let foo: String
     }
 
-    <span class="keyword">struct</span> Output: <span class="type">HBResponseEncodable</span> {
-        <span class="keyword">let</span> id: <span class="type">String</span>
-        <span class="keyword">let</span> foo: <span class="type">String</span>
+    struct Output: HBResponseEncodable {
+        let id: String
+        let foo: String
     }
     
-    <span class="keyword">let</span> input: <span class="type">Input</span>
+    let input: Input
 
-    <span class="keyword">init</span>(from request: <span class="type">HBRequest</span>) <span class="keyword">throws</span> {
-        <span class="keyword">self</span>.<span class="property">input</span> = <span class="keyword">try</span> request.<span class="call">decode</span>(as: <span class="type">Input</span>.<span class="keyword">self</span>)
+    init(from request: HBRequest) throws {
+        self.input = try request.decode(as: Input.self)
     }
 
-    <span class="keyword">func</span> handle(request: <span class="type">HBRequest</span>) <span class="keyword">async throws</span> -&gt; <span class="type">Output</span> {
-        .<span class="keyword">init</span>(
-            id: <span class="string">"id-1"</span>,
-            foo: input.<span class="property">foo</span>
+    func handle(request: HBRequest) async throws -&gt; Output {
+        .init(
+            id: "id-1",
+            foo: input.foo
         )
     }
-}</code></pre><p>The request.decode method uses the built-in decoder, which you have to explicitly set for the application, since we're going to communicate using JSON data, we can use the JSON encoder / decoder from Foundation to automatically transform the data.</p><p>In order to make use of the custom route handler, you can simply register the object type.</p><pre><code class="language-swift"><span class="keyword">import</span> Hummingbird
-<span class="keyword">import</span> HummingbirdFoundation
+}
+</code></pre><p>The request.decode method uses the built-in decoder, which you have to explicitly set for the application, since we’re going to communicate using JSON data, we can use the JSON encoder / decoder from Foundation to automatically transform the data.</p><p>In order to make use of the custom route handler, you can simply register the object type.</p><pre><code class="language-swift">import Hummingbird
+import HummingbirdFoundation
 
-<span class="keyword">public extension</span> <span class="type">HBApplication</span> {
+public extension HBApplication {
 
-    <span class="keyword">func</span> configure() <span class="keyword">throws</span> {
+    func configure() throws {
         
-        encoder = <span class="type">JSONEncoder</span>()
-        decoder = <span class="type">JSONDecoder</span>()
+        encoder = JSONEncoder()
+        decoder = JSONDecoder()
                 
-        <span class="comment">//    curl -i -X POST http://localhost:8080/foo \
+        //    curl -i -X POST http://localhost:8080/foo \
         //        -H "Content-Type: application/json" \
         //        -H "Accept: application/json" \
-        //        --data-raw '{"foo": "bar"}'</span>
-        router.<span class="call">post</span>(<span class="string">"foo"</span>, use: <span class="type">MyRouteHandler</span>.<span class="keyword">self</span>)
+        //        --data-raw '{"foo": "bar"}'
+        router.post("foo", use: MyRouteHandler.self)
     }
-}</code></pre><p>You can read more about how the <a href="https://hummingbird-project.github.io/hummingbird-docs/documentation/hummingbird/encoding-and-decoding/" target="_blank">encoding and decoding</a> works in Hummingbird, but maybe that topic deserves its own blog post. If you have questions or suggestions, feel free to contact me. 🙈</p>
-        </section>
-    </div>
-
-</article>
-
-<section id="share" class="content-wrapper">
-    <p>
-    <a
-        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/hummingbird-routing-and-requests/"
-        target="_blank"
-    >
-        Share this article
-    </a>
-    <br> Thank you. 🙏</p>
-</section>
-
-<section  class="wrapper">
-    <div id="book">
-        <div class="column left">
-            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+}
+</code></pre><p>You can read more about how the <a href="https://hummingbird-project.github.io/hummingbird-docs/documentation/hummingbird/encoding-and-decoding/" target="_blank">encoding and decoding</a> works in Hummingbird, but maybe that topic deserves its own blog post. If you have questions or suggestions, feel free to contact me. 🙈</p>
+                    
+                </section>
+    
+                <footer>
+                    <br>
+                    <time datetime=""></time>
+    
+                    
+                    <div class="author-list">
+                        <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        </a>
+                    </div>
+                    <div class="tag-list">
+                        <a href="https://theswiftdev.com/tags/hummingbird/"><small>Hummingbird</small></a>
+                    <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
+                    </div>
+                    
+                    <p>
+                        <a href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/hummingbird-routing-and-requests/" target="_blank">
+                            <strong>Share this article</strong>
+                        </a>
+                        <br>Thank you. 🙏
+                    </p>
+                </footer>
+                            
+                <section class="group">
+                    <h4>Related posts</h4>                
+                    <div class="grid grid-221">
+                        <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/07/15">2020/07/15</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/10-short-advices-that-will-make-you-a-better-vapor-developer-right-away/" target="">10 short advices that will make you a better Vapor developer right away</a></h2>
+                            <hr>
+                            <p>As a beginner server side Swift developer you&#39;ll face many obstackles. I&#39;ll show you how to avoid the most common ones.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/04/01">2020/04/01</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/a-generic-crud-solution-for-vapor-4/" target="">A generic CRUD solution for Vapor 4</a></h2>
+                            <hr>
+                            <p>Learn how to build a controller component that can serve models as JSON objects through a RESTful API written in Swift.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2019/10/08">2019/10/08</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/a-simple-http2-server-using-vapor-4/" target="">A simple HTTP/2 server using Vapor 4</a></h2>
+                            <hr>
+                            <p>Get started with server-side Swift using the Vapor 4 framework. Learn how to build a really simple HTTP/2 backend server.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/12/18">2020/12/18</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/ajax-calls-using-vapor-4/" target="">AJAX calls using Vapor 4</a></h2>
+                            <hr>
+                            <p>Learn how to implement Asynchronous JavaScript and XML (AJAX) calls using Leaf templates and Vapor 4 as a server.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    
+            </article>
         </div>
-        <div class="column right">
-            <h3>Get the Practical Server Side Swift book</h3>
-            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
-        </div>
-    </div>
-</section>
-
-<section id="author" class="content-wrapper">
-    <img 
-        id="author-image"
-        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
-        alt="Picture of Tibor Bödecs" 
-        title="Tibor Bödecs"
-    >
-    <h3>Tibor Bödecs</h3>
-    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
-    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
-
-    <div class="links">
-        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
-        <a href="https://github.com/tib" target="_blank">GitHub</a> 
-    </div>
-</section>
-
         
+        <div>
+            <div class="book">
+                <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">
+                    <img src="https://theswiftdev.com/book/practical-server-side-swift-cover.png" alt="Practical Server Side Swift cover image">
+                </a>
+                <h3>
+                    <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Get the Practical Server Side Swift book</a>
+                </h3>
+                <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+                <a class="cta" href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+            </div>
+            
+            
+            
+    
+        </div>
+    </div>
+    
     </main>
 
-    <footer>
-        <section class="content-wrapper">
-            <img 
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
-
-            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+    <footer id="site-footer">
+        <div class="grid grid-421">
+    
+            <picture>
+                <img
+                    id="logo-image"
+                    src="https://theswiftdev.com/images/logos/logo-large.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
             
-            <p> 
-                <a href="https://theswiftdev.com/">Home</a> ·
-                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
-            </p>
+            <div>
+                <span style="display: block; height: 32px;">&nbsp;</span>
+                <h4>The.Swift.Dev</h4>
+                <p><small><a href="https://theswiftdev.com/" target="_blank">theswiftdev.com</a></small></p>
+                <ul>
+                    <li><a href="https://github.com/theswiftdev/" target="_blank">GitHub</a></li>
+                    <li><a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a></li>
+                    <li><a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a></li>
+                </ul>
+            </div>
             
-            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+            <div>
+                
+            </div>
+            
+            <div>
+                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                </a>
+                <h4><a href="https://theswiftdev.com/authors/tibor-bodecs/">Tibor Bödecs</a></h4>
+                <p><small><a href="https://binarybirds.com/" target="_blank">Binary Birds Kft.</a></small></p>
+                <ul>
+                    <li><a href="mailto:mail.tib@gmail.com" target="_blank">Email</a></li>
+                    <li><a href="https://github.com/tib/" target="_blank">GitHub</a></li>
+                    <li><a href="https://x.com/tiborbodecs" target="_blank">X (Twitter)</a></li>
+                    <li><a href="https://mastodon.social/@tiborbodecs" target="_blank">Mastodon</a></li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <section class="grid grid-221">
+            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>
+
+    </div>
+
+    
 </body>
 </html>

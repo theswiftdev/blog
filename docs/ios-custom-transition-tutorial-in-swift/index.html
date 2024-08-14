@@ -1,350 +1,521 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
     <meta charset="utf-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="canonical" href="https://theswiftdev.com/ios-custom-transition-tutorial-in-swift/">
     
+    
+
     <title>iOS custom transition tutorial in Swift - The.Swift.Dev.</title>
-    
-    <meta name="description" content="In this tutorial, you'll learn how to replace the push, pop and modal animations with custom transitions & percent driven interactions.">
-    
-    <meta property="og:title" content="iOS custom transition tutorial in Swift - The.Swift.Dev.">
-    <meta property="og:description" content="In this tutorial, you'll learn how to replace the push, pop and modal animations with custom transitions & percent driven interactions.">
+    <meta name="description" content="In this tutorial, you&#39;ll learn how to replace the push, pop and modal animations with custom transitions &amp; percent driven interactions.">
+
     <meta property="og:url" content="https://theswiftdev.com/ios-custom-transition-tutorial-in-swift/">
-    <meta property="og:image" content="https://theswiftdev.com/images/assets/ios-custom-transition-tutorial-in-swift/cover.jpg">
+    <meta property="og:title" content="iOS custom transition tutorial in Swift - The.Swift.Dev.">
+    <meta property="og:description" content="In this tutorial, you&#39;ll learn how to replace the push, pop and modal animations with custom transitions &amp; percent driven interactions.">
+    
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@tiborbodecs">
-    <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="iOS custom transition tutorial in Swift - The.Swift.Dev.">
-    <meta name="twitter:description" content="In this tutorial, you'll learn how to replace the push, pop and modal animations with custom transitions & percent driven interactions.">
-    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/ios-custom-transition-tutorial-in-swift/cover.jpg">
+    <meta name="twitter:description" content="In this tutorial, you&#39;ll learn how to replace the push, pop and modal animations with custom transitions &amp; percent driven interactions.">
     
-    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
-    
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-normalize.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/variables.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/grid.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/navigation.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/footer.css">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+
     
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/icons/apple-touch-icon-180x180.png">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+        media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+        media="(prefers-color-scheme: dark)"
+    >
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
 </head>
 
 <body>
-    <a href="https://theswiftdev.gumroad.com" class="ribbon">
-        📖
-    </a>
-    <header id="page-header">
-        <a href="https://theswiftdev.com/">
-            <img 
-                id="logo-image"
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
+    <div id="site-container">
+
+    <header id="navigation">
+        <a href="/">
+            <picture>
+                <img
+                    src="https://theswiftdev.com/images/logos/logo.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
         </a>
-    </header>
-    
-    <main>
-
-        <article>
-    <header>
-        <section id="post-header" class="content-wrapper">
-            <time datetime="2018/04/26">2018/04/26</time>
-            <h1 class="title">iOS custom transition tutorial in Swift</h1>
-            <p class="excerpt">In this tutorial, you'll learn how to replace the push, pop and modal animations with custom transitions & percent driven interactions.</p>
-            <div class="meta">
-                <span class="tag">UIKit</span>
-<span class="tag">iOS</span>
+        <nav>
+            <input type="checkbox" id="primary-menu-button" name="menu-button" class="menu-button">
+            <label for="primary-menu-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </label>
+            <div class="menu-items">
+                <a href="/page/1/">Posts</a>
+                <a href="/tags/">Tags</a>
+                <a href="/authors/">Authors</a>
+                <a href="/practical-server-side-swift/">My Book</a>
             </div>
-        </section>
-        <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.com/images/assets/ios-custom-transition-tutorial-in-swift/cover.jpg">
-        </section>
+        </nav>
     </header>
 
-    <div id="contents">
-        <section class="content-wrapper">
-            <h2>UIKit custom transition API - a theoretical lesson</h2><p>There are many classes and delegates involved during the process of making a <a href="https://developer.apple.com/videos/play/wwdc2013/218/" target="_blank">custom transition</a>, let's walk through these items real quick, and do some coding afterwards.</p><h3>UIViewControllerTransitioningDelegate</h3><p>Every view controller can have a transition delegate, in that delegate implementation you can provide the custom animation and interaction controllers. Those objects will be responsible for the actual animation process, and this delegate is the place where you can "inject your code" to the UIKit framework. 💉</p><h3>UINavigationControllerDelegate</h3><p>The navigation controller delegate also has two methods that are responsible for custom push and pop <a href="https://stackoverflow.com/questions/26569488/navigation-controller-custom-transition-animation" target="_blank">animations</a>. It's almost the same as the transitioning delegate for the view controllers, but you'll see this in action later on. 💥</p><h3>UINavigationController.Operation</h3><p>The navigation controller operation is just an <code>enum</code> which contains the "direction" of the navigation animation. Usually push or pop.</p><p class="note">Presenting and dismissing something modally is not exactly the same thing as pushing &amp; popping view controllers inside a navigation stack. More on this later.</p><h3>UIViewControllerAnimatedTransitioning</h3><p>These objects are returned by the transition delegate, so basically this is the place where you implement the fancy custom view animations. 😉</p><h3>UIViewControllerContextTransitioning</h3><p>This context encapsulates all the info about the transitioning, you can get the participating views, controllers and many more from this object. The transitioning context is available for you to use it during the animation.</p><h3>UIPercentDrivenInteractiveTransition</h3><p>An object that drives an interactive animation between one view controller and another.</p><p>In a nutshell, this is the thing that gives you the magical ability to swipe a navigation controller interactively back (and forth if you changed your mind) with your fingers from the edge of the screen. 📱</p><h2>Custom transition animations programmatically</h2><p>Let's do some real coding! I'll show you how to make a basic fade <a href="https://www.raywenderlich.com/170144/custom-uiviewcontroller-transitions-getting-started" target="_blank">animation between view controllers</a> inside a navigation stack. First we'll start with the push animation.</p><pre><code class="language-swift"><span class="keyword">open class</span> FadePushAnimator: <span class="type">NSObject</span>, <span class="type">UIViewControllerAnimatedTransitioning</span> {
+    <main id="page-container">
+    
+    <div class="article-with-toc">
+        <div>
+            <article class="post">
+                <div class="meta">
+                    <time datetime="2018/04/26">2018/04/26</time>
+                     &middot; <span class="reading-time">5 min read</span>
+                    
+                </div>
+                <h1>iOS custom transition tutorial in Swift</h1>
+                <hr>
+                <p>In this tutorial, you&#39;ll learn how to replace the push, pop and modal animations with custom transitions &amp; percent driven interactions.</p>
+                <section>
+                
+                <h2 id="uikit-custom-transition-api---a-theoretical-lesson">UIKit custom transition API - a theoretical lesson</h2><p>There are many classes and delegates involved during the process of making a <a href="https://developer.apple.com/videos/play/wwdc2013/218/" target="_blank">custom transition</a>, let’s walk through these items real quick, and do some coding afterwards.</p><h3 id="uiviewcontrollertransitioningdelegate">UIViewControllerTransitioningDelegate</h3><p>Every view controller can have a transition delegate, in that delegate implementation you can provide the custom animation and interaction controllers. Those objects will be responsible for the actual animation process, and this delegate is the place where you can “inject your code” to the UIKit framework. 💉</p><h3 id="uinavigationcontrollerdelegate">UINavigationControllerDelegate</h3><p>The navigation controller delegate also has two methods that are responsible for custom push and pop <a href="https://stackoverflow.com/questions/26569488/navigation-controller-custom-transition-animation" target="_blank">animations</a>. It’s almost the same as the transitioning delegate for the view controllers, but you’ll see this in action later on. 💥</p><h3 id="uinavigationcontroller.operation">UINavigationController.Operation</h3><p>The navigation controller operation is just an <code>enum</code> which contains the “direction” of the navigation animation. Usually push or pop.</p><blockquote><p>NOTE: Presenting and dismissing something modally is not exactly the same thing as pushing & popping view controllers inside a navigation stack. More on this later.</p></blockquote><h3 id="uiviewcontrolleranimatedtransitioning">UIViewControllerAnimatedTransitioning</h3><p>These objects are returned by the transition delegate, so basically this is the place where you implement the fancy custom view animations. 😉</p><h3 id="uiviewcontrollercontexttransitioning">UIViewControllerContextTransitioning</h3><p>This context encapsulates all the info about the transitioning, you can get the participating views, controllers and many more from this object. The transitioning context is available for you to use it during the animation.</p><h3 id="uipercentdriveninteractivetransition">UIPercentDrivenInteractiveTransition</h3><p>An object that drives an interactive animation between one view controller and another.</p><p>In a nutshell, this is the thing that gives you the magical ability to swipe a navigation controller interactively back (and forth if you changed your mind) with your fingers from the edge of the screen. 📱</p><h2 id="custom-transition-animations-programmatically">Custom transition animations programmatically</h2><p>Let’s do some real coding! I’ll show you how to make a basic fade <a href="https://www.raywenderlich.com/170144/custom-uiviewcontroller-transitions-getting-started" target="_blank">animation between view controllers</a> inside a navigation stack. First we’ll start with the push animation.</p><pre><code class="language-swift">open class FadePushAnimator: NSObject, UIViewControllerAnimatedTransitioning {
 
-    <span class="keyword">open func</span> transitionDuration(
-        using transitionContext: <span class="type">UIViewControllerContextTransitioning</span>?
-    ) -&gt; <span class="type">TimeInterval</span> {
-        <span class="number">0.5</span>
+    open func transitionDuration(
+        using transitionContext: UIViewControllerContextTransitioning?
+    ) -&gt; TimeInterval {
+        0.5
     }
 
-    <span class="keyword">open override func</span> animateTransition(
-        using transitionContext: <span class="type">UIViewControllerContextTransitioning</span>
+    open override func animateTransition(
+        using transitionContext: UIViewControllerContextTransitioning
     ) {
-        <span class="keyword">guard
-            let</span> toViewController = transitionContext.<span class="call">viewController</span>(forKey: .<span class="dotAccess">to</span>)
-        <span class="keyword">else</span> {
-            <span class="keyword">return</span>
+        guard
+            let toViewController = transitionContext.viewController(forKey: .to)
+        else {
+            return
         }
-        transitionContext.<span class="property">containerView</span>.<span class="call">addSubview</span>(toViewController.<span class="property">view</span>)
-        toViewController.<span class="property">view</span>.<span class="property">alpha</span> = <span class="number">0</span>
+        transitionContext.containerView.addSubview(toViewController.view)
+        toViewController.view.alpha = 0
 
-        <span class="keyword">let</span> duration = <span class="keyword">self</span>.<span class="call">transitionDuration</span>(using: transitionContext)
-        <span class="type">UIView</span>.<span class="call">animate</span>(withDuration: duration, animations: {
-            toViewController.<span class="property">view</span>.<span class="property">alpha</span> = <span class="number">1</span>
-        }, completion: { <span class="keyword">_ in</span>
-            transitionContext.<span class="call">completeTransition</span>(
-                !transitionContext.<span class="property">transitionWasCancelled</span>
+        let duration = self.transitionDuration(using: transitionContext)
+        UIView.animate(withDuration: duration, animations: {
+            toViewController.view.alpha = 1
+        }, completion: { _ in
+            transitionContext.completeTransition(
+                !transitionContext.transitionWasCancelled
             )
         })
     }
-}</code></pre><p>As you can see creating a custom transition animation is really simple. You just have to implement two delegate methods. One of them will return the duration of the animation, and the other will contain the actual transition.</p><p>The transition context provides a custom <code>containterView</code> object that you can use in the animation, also you can grab the participating views and controllers from this object as I mentioned it before. Now let's reverse this animation. 👈</p><pre><code class="language-swift"><span class="keyword">open class</span> FadePopAnimator: <span class="type">CustomAnimator</span> {
+}
+</code></pre><p>As you can see creating a custom transition animation is really simple. You just have to implement two delegate methods. One of them will return the duration of the animation, and the other will contain the actual transition.</p><p>The transition context provides a custom <code>containterView</code> object that you can use in the animation, also you can grab the participating views and controllers from this object as I mentioned it before. Now let’s reverse this animation. 👈</p><pre><code class="language-swift">open class FadePopAnimator: CustomAnimator {
 
-    <span class="keyword">open func</span> transitionDuration(
-        using transitionContext: <span class="type">UIViewControllerContextTransitioning</span>?
-    ) -&gt; <span class="type">TimeInterval</span> {
-        <span class="number">0.5</span>
+    open func transitionDuration(
+        using transitionContext: UIViewControllerContextTransitioning?
+    ) -&gt; TimeInterval {
+        0.5
     }
 
-    <span class="keyword">open override func</span> animateTransition(
-        using transitionContext: <span class="type">UIViewControllerContextTransitioning</span>
+    open override func animateTransition(
+        using transitionContext: UIViewControllerContextTransitioning
     ) {
-        <span class="keyword">guard
-            let</span> fromViewController = transitionContext.<span class="call">viewController</span>(forKey: .<span class="dotAccess">from</span>),
-            <span class="keyword">let</span> toViewController = transitionContext.<span class="call">viewController</span>(forKey: .<span class="dotAccess">to</span>)
-        <span class="keyword">else</span> {
-            <span class="keyword">return</span>
+        guard
+            let fromViewController = transitionContext.viewController(forKey: .from),
+            let toViewController = transitionContext.viewController(forKey: .to)
+        else {
+            return
         }
 
-        transitionContext.<span class="property">containerView</span>.<span class="call">insertSubview</span>(toViewController.<span class="property">view</span>, belowSubview: fromViewController.<span class="property">view</span>)
+        transitionContext.containerView.insertSubview(toViewController.view, belowSubview: fromViewController.view)
 
-        <span class="keyword">let</span> duration = <span class="keyword">self</span>.<span class="call">transitionDuration</span>(using: transitionContext)
-        <span class="type">UIView</span>.<span class="call">animate</span>(withDuration: duration, animations: {
-            fromViewController.<span class="property">view</span>.<span class="property">alpha</span> = <span class="number">0</span>
-        }, completion: { <span class="keyword">_ in</span>
-            transitionContext.<span class="call">completeTransition</span>(
-                !transitionContext.<span class="property">transitionWasCancelled</span>
+        let duration = self.transitionDuration(using: transitionContext)
+        UIView.animate(withDuration: duration, animations: {
+            fromViewController.view.alpha = 0
+        }, completion: { _ in
+            transitionContext.completeTransition(
+                !transitionContext.transitionWasCancelled
             )
         })
     }
-}</code></pre><p>Finally you just have to implement the navigation controller's delegate method in order to replace the built-in UIKit system animations. 🛠</p><pre><code class="language-swift"><span class="keyword">extension</span> <span class="type">MainViewController</span>: <span class="type">UINavigationControllerDelegate</span> {
+}
+</code></pre><p>Finally you just have to implement the navigation controller’s delegate method in order to replace the built-in UIKit system animations. 🛠</p><pre><code class="language-swift">extension MainViewController: UINavigationControllerDelegate {
 
-    <span class="keyword">func</span> navigationController(
-        <span class="keyword">_</span> navigationController: <span class="type">UINavigationController</span>,
-        animationControllerFor operation: <span class="type">UINavigationController</span>.<span class="type">Operation</span>,
-        from fromVC: <span class="type">UIViewController</span>,
-        to toVC: <span class="type">UIViewController</span>
-    ) -&gt; <span class="type">UIViewControllerAnimatedTransitioning</span>? {
-        <span class="keyword">switch</span> operation {
-        <span class="keyword">case</span> .<span class="dotAccess">push</span>:
-            <span class="keyword">return</span> <span class="type">FadePushAnimator</span>()
-        <span class="keyword">case</span> .<span class="dotAccess">pop</span>:
-            <span class="keyword">return</span> <span class="type">FadePopAnimator</span>()
-        <span class="keyword">default</span>:
-            <span class="keyword">return nil</span>
+    func navigationController(
+        _ navigationController: UINavigationController,
+        animationControllerFor operation: UINavigationController.Operation,
+        from fromVC: UIViewController,
+        to toVC: UIViewController
+    ) -&gt; UIViewControllerAnimatedTransitioning? {
+        switch operation {
+        case .push:
+            return FadePushAnimator()
+        case .pop:
+            return FadePopAnimator()
+        default:
+            return nil
         }
     }
-}</code></pre><p>Note that you don't have to make two separate classes (pop &amp; push), you can also pass the operation and implement the animations in a single animated transitioning class.</p><p>Percent driven interactive transitions So, now you know how to implement a custom transition, but it's time to make it interactive! The process is pretty simple, you'll only need a gesture recognizer and a proper delegate method to make things work. ⌨️</p><pre><code class="language-swift"><span class="keyword">class</span> DetailViewController: <span class="type">UIViewController</span> {
+}
+</code></pre><p>Note that you don’t have to make two separate classes (pop & push), you can also pass the operation and implement the animations in a single animated transitioning class.</p><p>Percent driven interactive transitions<br>So, now you know how to implement a custom transition, but it’s time to make it interactive! The process is pretty simple, you’ll only need a gesture recognizer and a proper delegate method to make things work. ⌨️</p><pre><code class="language-swift">class DetailViewController: UIViewController {
 
-    <span class="keyword">var</span> interactionController: <span class="type">UIPercentDrivenInteractiveTransition</span>?
+    var interactionController: UIPercentDrivenInteractiveTransition?
 
-    <span class="keyword">override func</span> viewDidLoad() {
-        <span class="keyword">super</span>.<span class="call">viewDidLoad</span>()
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
-        <span class="keyword">self</span>.<span class="property">view</span>.<span class="property">backgroundColor</span> = .<span class="dotAccess">lightGray</span>
+        self.view.backgroundColor = .lightGray
 
-        <span class="keyword">let</span> edge = <span class="type">UIScreenEdgePanGestureRecognizer</span>(
-            target: <span class="keyword">self</span>,
-            action: <span class="keyword">#selector</span>(<span class="keyword">self</span>.<span class="call">handleEdgePan</span>(<span class="keyword">_</span>:))
+        let edge = UIScreenEdgePanGestureRecognizer(
+            target: self,
+            action: #selector(self.handleEdgePan(_:))
         )
-        edge.<span class="property">edges</span> = .<span class="dotAccess">left</span>
-        <span class="keyword">self</span>.<span class="property">view</span>.<span class="call">addGestureRecognizer</span>(edge)
+        edge.edges = .left
+        self.view.addGestureRecognizer(edge)
     }
 
-    <span class="keyword">override func</span> viewDidAppear(<span class="keyword">_</span> animated: <span class="type">Bool</span>) {
-        <span class="keyword">super</span>.<span class="call">viewDidAppear</span>(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
 
-        <span class="keyword">self</span>.<span class="property">navigationController</span>?.<span class="property">delegate</span> = <span class="keyword">self</span>
+        self.navigationController?.delegate = self
     }
 
-    <span class="keyword">@objc func</span> handleEdgePan(<span class="keyword">_</span> gesture: <span class="type">UIScreenEdgePanGestureRecognizer</span>) {
-        <span class="keyword">let</span> translate = gesture.<span class="call">translation</span>(in: gesture.<span class="property">view</span>)
-        <span class="keyword">let</span> percent = translate.<span class="property">x</span> / gesture.<span class="property">view</span>!.bounds.<span class="property">size</span>.<span class="property">width</span>
+    @objc func handleEdgePan(_ gesture: UIScreenEdgePanGestureRecognizer) {
+        let translate = gesture.translation(in: gesture.view)
+        let percent = translate.x / gesture.view!.bounds.size.width
 
-        <span class="keyword">switch</span> gesture.<span class="property">state</span> {
-        <span class="keyword">case</span> .<span class="dotAccess">began</span>:
-            <span class="keyword">self</span>.<span class="property">interactionController</span> = <span class="type">UIPercentDrivenInteractiveTransition</span>()
-            <span class="keyword">self</span>.<span class="property">navigationController</span>?.<span class="call">popViewController</span>(animated: <span class="keyword">true</span>)
-        <span class="keyword">case</span> .<span class="dotAccess">changed</span>:
-            <span class="keyword">self</span>.<span class="property">interactionController</span>?.<span class="call">update</span>(percent)
-        <span class="keyword">case</span> .<span class="dotAccess">ended</span>:
-            <span class="keyword">let</span> velocity = gesture.<span class="call">velocity</span>(in: gesture.<span class="property">view</span>)
+        switch gesture.state {
+        case .began:
+            self.interactionController = UIPercentDrivenInteractiveTransition()
+            self.navigationController?.popViewController(animated: true)
+        case .changed:
+            self.interactionController?.update(percent)
+        case .ended:
+            let velocity = gesture.velocity(in: gesture.view)
 
-            <span class="keyword">if</span> percent &amp;gt; <span class="number">0.5</span> || velocity.<span class="property">x</span> &amp;gt; <span class="number">0</span> {
-                <span class="keyword">self</span>.<span class="property">interactionController</span>?.<span class="call">finish</span>()
+            if percent &gt; 0.5 || velocity.x &gt; 0 {
+                self.interactionController?.finish()
             }
-            <span class="keyword">else</span> {
-                <span class="keyword">self</span>.<span class="property">interactionController</span>?.<span class="call">cancel</span>()
+            else {
+                self.interactionController?.cancel()
             }
-            <span class="keyword">self</span>.<span class="property">interactionController</span> = <span class="keyword">nil
-        default</span>:
-            <span class="keyword">break</span>
+            self.interactionController = nil
+        default:
+            break
         }
     }
 }
 
-<span class="keyword">extension</span> <span class="type">DetailViewController</span>: <span class="type">UINavigationControllerDelegate</span> {
+extension DetailViewController: UINavigationControllerDelegate {
 
-    <span class="comment">/* ... */</span>
+    /* ... */
 
-    <span class="keyword">func</span> navigationController(
-        <span class="keyword">_</span> navigationController: <span class="type">UINavigationController</span>,
-        interactionControllerFor animationController: <span class="type">UIViewControllerAnimatedTransitioning</span>
-    ) -&gt; <span class="type">UIViewControllerInteractiveTransitioning</span>? {
+    func navigationController(
+        _ navigationController: UINavigationController,
+        interactionControllerFor animationController: UIViewControllerAnimatedTransitioning
+    ) -&gt; UIViewControllerInteractiveTransitioning? {
         interactionController
     }
-}</code></pre><p>Inside the controller that will be popped you can take ownership of the navigation controller's delegate and implement the interactive transition controller using a left screen edge pan gesture recognizer. This whole code usually goes into a new subclass of <code>UIPercentDrivenInteractiveTransition</code> but for the sake of simplicity this time we'll skip that, and go with this really easy solution. In the <a href="https://gitlab.com/theswiftdev/custom-transitions" target="_blank">final example code</a> you'll find the "subclassed version" of the interactive transition. 😅</p><h2>Navigation vs modal presentation</h2><p>Ok, let's cover one more thing real quick: customizing <a href="https://github.com/pronebird/CustomModalTransition" target="_blank">modal</a> presentation animations for view controllers. There is a minor difference between customizing the navigation stack animations and modal presentation styles. If you want to customize a view controller transition you'd usually do something like this. 👍</p><pre><code class="language-swift"><span class="keyword">class</span> DetailViewController: <span class="type">UIViewController</span> {
+}
+</code></pre><p>Inside the controller that will be popped you can take ownership of the navigation controller’s delegate and implement the interactive transition controller using a left screen edge pan gesture recognizer. This whole code usually goes into a new subclass of <code>UIPercentDrivenInteractiveTransition</code> but for the sake of simplicity this time we’ll skip that, and go with this really easy solution. In the <a href="https://gitlab.com/theswiftdev/custom-transitions" target="_blank">final example code</a> you’ll find the “subclassed version” of the interactive transition. 😅</p><h2 id="navigation-vs-modal-presentation">Navigation vs modal presentation</h2><p>Ok, let’s cover one more thing real quick: customizing <a href="https://github.com/pronebird/CustomModalTransition" target="_blank">modal</a> presentation animations for view controllers. There is a minor difference between customizing the navigation stack animations and modal presentation styles. If you want to customize a view controller transition you’d usually do something like this. 👍</p><pre><code class="language-swift">class DetailViewController: UIViewController {
 
-     <span class="comment">/* ... */</span>
+     /* ... */
 
-    <span class="keyword">override func</span> prepare(for segue: <span class="type">UIStoryboardSegue</span>, sender: <span class="type">Any</span>?) {
-        <span class="keyword">super</span>.<span class="call">prepare</span>(for: segue, sender: sender)
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
 
-        <span class="keyword">guard let</span> controller = segue.<span class="property">destination</span> <span class="keyword">as</span>? <span class="type">ModalViewController</span> <span class="keyword">else</span> {
-            <span class="keyword">return</span>
+        guard let controller = segue.destination as? ModalViewController else {
+            return
         }
 
-        controller.<span class="property">transitioningDelegate</span> = <span class="keyword">self</span>
-        controller.<span class="property">modalPresentationStyle</span> = .<span class="dotAccess">custom</span>
-        controller.<span class="property">modalPresentationCapturesStatusBarAppearance</span> = <span class="keyword">true</span>
+        controller.transitioningDelegate = self
+        controller.modalPresentationStyle = .custom
+        controller.modalPresentationCapturesStatusBarAppearance = true
     }
 }
-<span class="type">Here</span> comes the transitioning delegate, using the same objects that we already have.
+Here comes the transitioning delegate, using the same objects that we already have.
 
-<span class="keyword">extension</span> <span class="type">DetailViewController</span>: <span class="type">UIViewControllerTransitioningDelegate</span> {
+extension DetailViewController: UIViewControllerTransitioningDelegate {
 
-    <span class="keyword">func</span> animationController(forPresented presented: <span class="type">UIViewController</span>,
-                             presenting: <span class="type">UIViewController</span>,
-                             source: <span class="type">UIViewController</span>) -&gt; <span class="type">UIViewControllerAnimatedTransitioning</span>? {
-        <span class="keyword">return</span> <span class="type">FadePushAnimator</span>()
+    func animationController(forPresented presented: UIViewController,
+                             presenting: UIViewController,
+                             source: UIViewController) -&gt; UIViewControllerAnimatedTransitioning? {
+        return FadePushAnimator()
     }
 
-    <span class="keyword">func</span> animationController(forDismissed dismissed: <span class="type">UIViewController</span>) -&gt; <span class="type">UIViewControllerAnimatedTransitioning</span>? {
-        <span class="keyword">return</span> <span class="type">FadePopAnimator</span>()
+    func animationController(forDismissed dismissed: UIViewController) -&gt; UIViewControllerAnimatedTransitioning? {
+        return FadePopAnimator()
     }
-}</code></pre><p>If you run the code and present the modal view controller, that'll work just fine. The problem occurs when you try to dismiss the presented view controller. The whole app will turn to a <a href="https://stackoverflow.com/questions/28558882/custom-transition-results-in-black-screen-or-unresponsive-screen" target="_blank">black screen</a> of death (<a href="https://en.wikipedia.org/wiki/Blue_Screen_of_Death" target="_blank">BSOD</a>). 🖥</p><blockquote><p>(pop != dismiss) &amp;&amp; (push != present)</p></blockquote><p>You have to modify the pop animation in order to support modal dismissal animations. In short: the problem is with placing views and memory management.</p><pre><code class="language-swift"><span class="keyword">open class</span> FadePopAnimator: <span class="type">NSObject</span>, <span class="type">UIViewControllerAnimatedTransitioning</span> {
+}
+</code></pre><p>If you run the code and present the modal view controller, that’ll work just fine. The problem occurs when you try to dismiss the presented view controller. The whole app will turn to a <a href="https://stackoverflow.com/questions/28558882/custom-transition-results-in-black-screen-or-unresponsive-screen" target="_blank">black screen</a> of death (<a href="https://en.wikipedia.org/wiki/Blue_Screen_of_Death" target="_blank">BSOD</a>). 🖥</p><blockquote><p>(pop != dismiss) && (push != present)</p></blockquote><p>You have to modify the pop animation in order to support modal dismissal animations. In short: the problem is with placing views and memory management.</p><pre><code class="language-swift">open class FadePopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
 
-    <span class="keyword">public enum</span> TransitionType {
-        <span class="keyword">case</span> navigation
-        <span class="keyword">case</span> modal
-    }
-
-    <span class="keyword">let</span> type: <span class="type">TransitionType</span>
-    <span class="keyword">let</span> duration: <span class="type">TimeInterval</span>
-
-    <span class="keyword">public init</span>(type: <span class="type">TransitionType</span>, duration: <span class="type">TimeInterval</span> = <span class="number">0.25</span>) {
-        <span class="keyword">self</span>.<span class="property">type</span> = type
-        <span class="keyword">self</span>.<span class="property">duration</span> = duration
-
-        <span class="keyword">super</span>.<span class="keyword">init</span>()
+    public enum TransitionType {
+        case navigation
+        case modal
     }
 
-    <span class="keyword">open func</span> transitionDuration(using transitionContext: <span class="type">UIViewControllerContextTransitioning</span>?) -&gt; <span class="type">TimeInterval</span> {
-        <span class="keyword">return self</span>.<span class="property">duration</span>
+    let type: TransitionType
+    let duration: TimeInterval
+
+    public init(type: TransitionType, duration: TimeInterval = 0.25) {
+        self.type = type
+        self.duration = duration
+
+        super.init()
     }
 
-    <span class="keyword">open override func</span> animateTransition(using transitionContext: <span class="type">UIViewControllerContextTransitioning</span>) {
-        <span class="keyword">guard
-            let</span> fromViewController = transitionContext.<span class="call">viewController</span>(forKey: .<span class="dotAccess">from</span>)
-        <span class="keyword">else</span> {
-            <span class="keyword">return</span>
+    open func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -&gt; TimeInterval {
+        return self.duration
+    }
+
+    open override func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        guard
+            let fromViewController = transitionContext.viewController(forKey: .from)
+        else {
+            return
         }
 
-        <span class="keyword">if self</span>.<span class="property">type</span> == .<span class="dotAccess">navigation</span>, <span class="keyword">let</span> toViewController = transitionContext.<span class="call">viewController</span>(forKey: .<span class="dotAccess">to</span>) {
-            transitionContext.<span class="property">containerView</span>.<span class="call">insertSubview</span>(toViewController.<span class="property">view</span>, belowSubview: fromViewController.<span class="property">view</span>)
+        if self.type == .navigation, let toViewController = transitionContext.viewController(forKey: .to) {
+            transitionContext.containerView.insertSubview(toViewController.view, belowSubview: fromViewController.view)
         }
 
-        <span class="keyword">let</span> duration = <span class="keyword">self</span>.<span class="call">transitionDuration</span>(using: transitionContext)
-        <span class="type">UIView</span>.<span class="call">animate</span>(withDuration: duration, animations: {
-            fromViewController.<span class="property">view</span>.<span class="property">alpha</span> = <span class="number">0</span>
-        }, completion: { <span class="keyword">_ in</span>
-            transitionContext.<span class="call">completeTransition</span>(!transitionContext.<span class="property">transitionWasCancelled</span>)
+        let duration = self.transitionDuration(using: transitionContext)
+        UIView.animate(withDuration: duration, animations: {
+            fromViewController.view.alpha = 0
+        }, completion: { _ in
+            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         })
     }
-}</code></pre><p>The most simple solution is to introduce a new property so you can make a decision to pop or dismiss the view controller based on that flag. Now you can safely use the same animators for modally presented view controllers as well. 😬</p><p>The sample code is inside The.Swift.Dev. <a href="https://github.com/theswiftdev/tutorials" target="_blank">tutorials</a> repository, you'll find examples for replacing the <a href="https://gist.github.com/alanzeino/603293f9da5cd0b7f6b60dc20bc766be" target="_blank">default</a> push &amp; pop navigation animations with custom ones.</p><p>Note that the navigation bar will always use a fade animation, unfortunately that can not be customized. Also I've made a custom modal presentation, and everything is using the interactive transitions too. Obviously there is a lot more, but below are some links that you can follow if you hit an obstacle during your journey.</p><p>Also if you don't want to manually implement custom animation effects you can use <a href="https://github.com/lkzhao/Hero" target="_blank">Hero</a> the elegant transition <a href="https://github.com/carguezu/CGZTransitions" target="_blank">library</a>.</p>
-        </section>
-    </div>
-
-</article>
-
-<section id="share" class="content-wrapper">
-    <p>
-    <a
-        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/ios-custom-transition-tutorial-in-swift/"
-        target="_blank"
-    >
-        Share this article
-    </a>
-    <br> Thank you. 🙏</p>
-</section>
-
-<section  class="wrapper">
-    <div id="book">
-        <div class="column left">
-            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+}
+</code></pre><p>The most simple solution is to introduce a new property so you can make a decision to pop or dismiss the view controller based on that flag. Now you can safely use the same animators for modally presented view controllers as well. 😬</p><p>The sample code is inside The.Swift.Dev. <a href="https://github.com/theswiftdev/tutorials" target="_blank">tutorials</a> repository, you’ll find examples for replacing the <a href="https://gist.github.com/alanzeino/603293f9da5cd0b7f6b60dc20bc766be" target="_blank">default</a> push & pop navigation animations with custom ones.</p><p>Note that the navigation bar will always use a fade animation, unfortunately that can not be customized. Also I’ve made a custom modal presentation, and everything is using the interactive transitions too. Obviously there is a lot more, but below are some links that you can follow if you hit an obstacle during your journey.</p><p>Also if you don’t want to manually implement custom animation effects you can use <a href="https://github.com/lkzhao/Hero" target="_blank">Hero</a> the elegant transition <a href="https://github.com/carguezu/CGZTransitions" target="_blank">library</a>.</p>
+                    
+                </section>
+    
+                <footer>
+                    <br>
+                    <time datetime=""></time>
+    
+                    
+                    <div class="author-list">
+                        <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        </a>
+                    </div>
+                    <div class="tag-list">
+                        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
+                    <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                    </div>
+                    
+                    <p>
+                        <a href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/ios-custom-transition-tutorial-in-swift/" target="_blank">
+                            <strong>Share this article</strong>
+                        </a>
+                        <br>Thank you. 🙏
+                    </p>
+                </footer>
+                            
+                <section class="group">
+                    <h4>Related posts</h4>                
+                    <div class="grid grid-221">
+                        <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2022/02/03">2022/02/03</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/10-little-uikit-tips-you-should-know/" target="">10 little UIKit tips you should know</a></h2>
+                            <hr>
+                            <p>In this article I&#39;ve gathered my top 10 favorite modern UIKit tips that I&#39;d definitely want to know before I start my next project.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2019/05/23">2019/05/23</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/building-input-forms-for-ios-apps/" target="">Building input forms for iOS apps</a></h2>
+                            <hr>
+                            <p>Learn how to build complex forms with my updated collection view view-model framework without the struggle using Swift.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018/10/16">2018/10/16</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/custom-uiview-subclass-from-a-xib-file/" target="">Custom UIView subclass from a xib file</a></h2>
+                            <hr>
+                            <p>Do you want to learn how to load a xib file to create a custom view object? Well, this UIKit tutorial is just for you written in Swift.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2019/10/21">2019/10/21</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/custom-views-input-forms-and-mistakes/" target="">Custom views, input forms and mistakes</a></h2>
+                            <hr>
+                            <p>Just a little advice about creating custom view programmatically and the truth about why form building with collection views sucks.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    
+            </article>
         </div>
-        <div class="column right">
-            <h3>Get the Practical Server Side Swift book</h3>
-            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
-        </div>
-    </div>
-</section>
-
-<section id="author" class="content-wrapper">
-    <img 
-        id="author-image"
-        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
-        alt="Picture of Tibor Bödecs" 
-        title="Tibor Bödecs"
-    >
-    <h3>Tibor Bödecs</h3>
-    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
-    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
-
-    <div class="links">
-        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
-        <a href="https://github.com/tib" target="_blank">GitHub</a> 
-    </div>
-</section>
-
         
+        <div>
+            <div class="book">
+                <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">
+                    <img src="https://theswiftdev.com/book/practical-server-side-swift-cover.png" alt="Practical Server Side Swift cover image">
+                </a>
+                <h3>
+                    <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Get the Practical Server Side Swift book</a>
+                </h3>
+                <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+                <a class="cta" href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+            </div>
+            
+            
+            <aside id="toc">
+                <h4>On this page</h4>
+                <ul>
+                    <li class="first-level">
+                        <a href="#uikit-custom-transition-api---a-theoretical-lesson">UIKit custom transition API - a theoretical lesson</a>
+                        <ul>
+                            <li><a href="#uiviewcontrollertransitioningdelegate">UIViewControllerTransitioningDelegate</a></li>
+                <li><a href="#uinavigationcontrollerdelegate">UINavigationControllerDelegate</a></li>
+                <li><a href="#uinavigationcontroller.operation">UINavigationController.Operation</a></li>
+                <li><a href="#uiviewcontrolleranimatedtransitioning">UIViewControllerAnimatedTransitioning</a></li>
+                <li><a href="#uiviewcontrollercontexttransitioning">UIViewControllerContextTransitioning</a></li>
+                <li><a href="#uipercentdriveninteractivetransition">UIPercentDrivenInteractiveTransition</a></li>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#custom-transition-animations-programmatically">Custom transition animations programmatically</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#navigation-vs-modal-presentation">Navigation vs modal presentation</a>
+                        <ul>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+            
+    
+        </div>
+    </div>
+    
     </main>
 
-    <footer>
-        <section class="content-wrapper">
-            <img 
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
-
-            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+    <footer id="site-footer">
+        <div class="grid grid-421">
+    
+            <picture>
+                <img
+                    id="logo-image"
+                    src="https://theswiftdev.com/images/logos/logo-large.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
             
-            <p> 
-                <a href="https://theswiftdev.com/">Home</a> ·
-                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
-            </p>
+            <div>
+                <span style="display: block; height: 32px;">&nbsp;</span>
+                <h4>The.Swift.Dev</h4>
+                <p><small><a href="https://theswiftdev.com/" target="_blank">theswiftdev.com</a></small></p>
+                <ul>
+                    <li><a href="https://github.com/theswiftdev/" target="_blank">GitHub</a></li>
+                    <li><a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a></li>
+                    <li><a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a></li>
+                </ul>
+            </div>
             
-            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+            <div>
+                
+            </div>
+            
+            <div>
+                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                </a>
+                <h4><a href="https://theswiftdev.com/authors/tibor-bodecs/">Tibor Bödecs</a></h4>
+                <p><small><a href="https://binarybirds.com/" target="_blank">Binary Birds Kft.</a></small></p>
+                <ul>
+                    <li><a href="mailto:mail.tib@gmail.com" target="_blank">Email</a></li>
+                    <li><a href="https://github.com/tib/" target="_blank">GitHub</a></li>
+                    <li><a href="https://x.com/tiborbodecs" target="_blank">X (Twitter)</a></li>
+                    <li><a href="https://mastodon.social/@tiborbodecs" target="_blank">Mastodon</a></li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <section class="grid grid-221">
+            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>
+
+    </div>
+
+    
 </body>
 </html>

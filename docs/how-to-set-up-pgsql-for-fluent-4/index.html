@@ -1,81 +1,114 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
     <meta charset="utf-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="canonical" href="https://theswiftdev.com/how-to-set-up-pgsql-for-fluent-4/">
     
+    
+
     <title>How to set up pgSQL for Fluent 4? - The.Swift.Dev.</title>
-    
-    <meta name="description" content="This is a tutorial for beginners about using PostgreSQL. I'll show you how to automatically backup and restore the database.">
-    
-    <meta property="og:title" content="How to set up pgSQL for Fluent 4? - The.Swift.Dev.">
-    <meta property="og:description" content="This is a tutorial for beginners about using PostgreSQL. I'll show you how to automatically backup and restore the database.">
+    <meta name="description" content="This is a tutorial for beginners about using PostgreSQL. I&#39;ll show you how to automatically backup and restore the database.">
+
     <meta property="og:url" content="https://theswiftdev.com/how-to-set-up-pgsql-for-fluent-4/">
-    <meta property="og:image" content="https://theswiftdev.com/images/assets/how-to-set-up-pgsql-for-fluent-4/cover.jpg">
+    <meta property="og:title" content="How to set up pgSQL for Fluent 4? - The.Swift.Dev.">
+    <meta property="og:description" content="This is a tutorial for beginners about using PostgreSQL. I&#39;ll show you how to automatically backup and restore the database.">
+    
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@tiborbodecs">
-    <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="How to set up pgSQL for Fluent 4? - The.Swift.Dev.">
-    <meta name="twitter:description" content="This is a tutorial for beginners about using PostgreSQL. I'll show you how to automatically backup and restore the database.">
-    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/how-to-set-up-pgsql-for-fluent-4/cover.jpg">
+    <meta name="twitter:description" content="This is a tutorial for beginners about using PostgreSQL. I&#39;ll show you how to automatically backup and restore the database.">
     
-    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
-    
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-normalize.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/variables.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/grid.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/navigation.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/footer.css">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+
     
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/icons/apple-touch-icon-180x180.png">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+        media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+        media="(prefers-color-scheme: dark)"
+    >
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
 </head>
 
 <body>
-    <a href="https://theswiftdev.gumroad.com" class="ribbon">
-        📖
-    </a>
-    <header id="page-header">
-        <a href="https://theswiftdev.com/">
-            <img 
-                id="logo-image"
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
+    <div id="site-container">
+
+    <header id="navigation">
+        <a href="/">
+            <picture>
+                <img
+                    src="https://theswiftdev.com/images/logos/logo.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
         </a>
-    </header>
-    
-    <main>
-
-        <article>
-    <header>
-        <section id="post-header" class="content-wrapper">
-            <time datetime="2020/02/25">2020/02/25</time>
-            <h1 class="title">How to set up pgSQL for Fluent 4?</h1>
-            <p class="excerpt">This is a tutorial for beginners about using PostgreSQL. I'll show you how to automatically backup and restore the database.</p>
-            <div class="meta">
-                <span class="tag">Fluent</span>
-<span class="tag">pgSQL</span>
+        <nav>
+            <input type="checkbox" id="primary-menu-button" name="menu-button" class="menu-button">
+            <label for="primary-menu-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </label>
+            <div class="menu-items">
+                <a href="/page/1/">Posts</a>
+                <a href="/tags/">Tags</a>
+                <a href="/authors/">Authors</a>
+                <a href="/practical-server-side-swift/">My Book</a>
             </div>
-        </section>
-        <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.com/images/assets/how-to-set-up-pgsql-for-fluent-4/cover.jpg">
-        </section>
+        </nav>
     </header>
 
-    <div id="contents">
-        <section class="content-wrapper">
-            <p class="note">If you are already familiar with PostgreSQL, but you don't know much about how to use databases in Vapor, you should <a href="https://theswiftdev.com/a-tutorial-for-beginners-about-the-fluent-postgresql-driver-in-vapor-4/">read my other tutorial about Fluent for beginners</a>.</p><h2>A quick intro to PostgreSQL</h2><p><a href="https://www.postgresql.org/" target="_blank">PostgreSQL</a> is an open source database, it's available for macOS, <a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-18-04" target="_blank">Linux</a> and some other operating systems. You can install it by using the de-facto package manager on every platform. 📦</p><pre><code class="language-sh"># Linux
+    <main id="page-container">
+    
+    <div class="article-with-toc">
+        <div>
+            <article class="post">
+                <div class="meta">
+                    <time datetime="2020/02/25">2020/02/25</time>
+                     &middot; <span class="reading-time">2 min read</span>
+                    
+                </div>
+                <h1>How to set up pgSQL for Fluent 4?</h1>
+                <hr>
+                <p>This is a tutorial for beginners about using PostgreSQL. I&#39;ll show you how to automatically backup and restore the database.</p>
+                <section>
+                
+                <blockquote><p>NOTE: If you are already familiar with PostgreSQL, but you don’t know much about how to use databases in Vapor, you should <a href="https://theswiftdev.com/a-tutorial-for-beginners-about-the-fluent-postgresql-driver-in-vapor-4/">read my other tutorial about Fluent for beginners</a>.</p></blockquote><h2 id="a-quick-intro-to-postgresql">A quick intro to PostgreSQL</h2><p><a href="https://www.postgresql.org/" target="_blank">PostgreSQL</a> is an open source database, it’s available for macOS, <a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-18-04" target="_blank">Linux</a> and some other operating systems. You can install it by using the de-facto package manager on every platform. 📦</p><pre><code class="language-sh"># Linux
 sudo apt-get install postgresql postgresql-contrib
 sudo service postgresql start
 # check service status
@@ -87,7 +120,7 @@ brew install postgresql
 brew services start postgresql
 # check service status
 brew services list
-</code></pre><p>You'll also need to set a proper password for the <code>postgres</code> user, which is the admin user by default with godlike permissions. You can change the root password, you just have to log in as a root &amp; alter the postgres user record with the new pass. 🔑</p><pre><code class="language-sh"># Linux
+</code></pre><p>You’ll also need to set a proper password for the <code>postgres</code> user, which is the admin user by default with godlike permissions. You can change the root password, you just have to log in as a root & alter the postgres user record with the new pass. 🔑</p><pre><code class="language-sh"># Linux
 sudo -u postgres psql postgres
 # macOS
 psql -U postgres
@@ -102,7 +135,7 @@ alter user postgres with password 'mypassword';
 
 # exit
 \q
-</code></pre><p>From now on you'll be able to access pgSQL as root on both platforms like this:</p><pre><code class="language-sh">psql -h localhost -U postgres
+</code></pre><p>From now on you’ll be able to access pgSQL as root on both platforms like this:</p><pre><code class="language-sh">psql -h localhost -U postgres
 </code></pre><p>It is recommended to use a dedicated user for every single database that you create instead of working with a shared root user. Let me show you how to create a new DB with an associated user.</p><pre><code class="language-sh"># List of databases
 \l
 # Show current database
@@ -117,20 +150,20 @@ create user myuser with encrypted password 'mypassword';
 grant all privileges on database mydb to myuser;
 # Quit from psql console
 \q
-</code></pre><p>That's it, you can manage your database by using the newly created <code>myuser</code> account.</p><pre><code class="language-sh"># Log in back to psql console with myuser using mydb
+</code></pre><p>That’s it, you can manage your database by using the newly created <code>myuser</code> account.</p><pre><code class="language-sh"># Log in back to psql console with myuser using mydb
 psql -h localhost -U myuser mydb
 # List all tables
 \dt
 # Describe table structure (will be useful later on)
 \d+ &lt;table&gt;
-</code></pre><p>You can learn more about SQL commands using this <a href="https://www.postgresqltutorial.com/" target="_blank">pgSQL tutorial</a> site.</p><p class="warning">The command below can completely wipe your database, be extremely careful!</p><p>Now you are ready to play around with Fluent, but before we start I'd like to show you some more tips &amp; tricks. During development, things can go wrong and you might need a fresh start for your DB. Here's how to drop &amp; reinitiate everything. 😱</p><pre><code class="language-sh"># Reset database
+</code></pre><p>You can learn more about SQL commands using this <a href="https://www.postgresqltutorial.com/" target="_blank">pgSQL tutorial</a> site.</p><blockquote><p>WARN: The command below can completely wipe your database, be extremely careful!</p></blockquote><p>Now you are ready to play around with Fluent, but before we start I’d like to show you some more tips & tricks. During development, things can go wrong and you might need a fresh start for your DB. Here’s how to drop & reinitiate everything. 😱</p><pre><code class="language-sh"># Reset database
 \c mydb
 drop schema public cascade;
 create schema public;
 grant all on schema public to postgres;
 grant all on schema public to myuser;
 grant all on schema public to public;
-</code></pre><p>The snippet above will delete the <a href="https://www.postgresqltutorial.com/postgresql-schema/" target="_blank">public schema</a>, next it'll recreate it and add all the necessary permissions for the required users. It's pretty straightforward but still dangerous. ⚠️</p><blockquote><p>NOTE : You can execute SQL scripts straight from the terminal by using the following command: <code>psql -h localhost -U myuser mydb -c "select * from mytable;"</code></p></blockquote><p>You can wipe everything from the command line using this "one-liner":</p><pre><code class="language-sh"># Run psql command from the command line
+</code></pre><p>The snippet above will delete the <a href="https://www.postgresqltutorial.com/postgresql-schema/" target="_blank">public schema</a>, next it’ll recreate it and add all the necessary permissions for the required users. It’s pretty straightforward but still dangerous. ⚠️</p><blockquote><p>NOTE : You can execute SQL scripts straight from the terminal by using the following command: <code>psql -h localhost -U myuser mydb -c "select * from mytable;"</code></p></blockquote><p>You can wipe everything from the command line using this “one-liner”:</p><pre><code class="language-sh"># Run psql command from the command line
 psql -h localhost -U postgres mydb\
     -c "drop schema public cascade; \
     create schema public; \
@@ -155,75 +188,191 @@ psql -U myuser -d mydb -1 -f mybackup.sql
 </code></pre><p>Sometimes after I restarted my mac it happened to me that the PostgreSQL stopped working. I had to run the snippet below to fix the issue. The first line stops the service, the second initialize a new database, and the third will start the service again. Alternatively, you can start the database again with the <code>brew services start postgresql</code> command.</p><pre><code>pg_ctl -D /usr/local/var/postgres stop -s -m fast
 initdb /usr/local/var/postgres
 pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start
-</code></pre><p>I'm not a DevOps guru, feel free to tweet me if you know why this happened to me. 😅</p>
-        </section>
-    </div>
-
-</article>
-
-<section id="share" class="content-wrapper">
-    <p>
-    <a
-        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/how-to-set-up-pgsql-for-fluent-4/"
-        target="_blank"
-    >
-        Share this article
-    </a>
-    <br> Thank you. 🙏</p>
-</section>
-
-<section  class="wrapper">
-    <div id="book">
-        <div class="column left">
-            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+</code></pre><p>I’m not a DevOps guru, feel free to tweet me if you know why this happened to me. 😅</p>
+                    
+                </section>
+    
+                <footer>
+                    <br>
+                    <time datetime=""></time>
+    
+                    
+                    <div class="author-list">
+                        <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        </a>
+                    </div>
+                    <div class="tag-list">
+                        <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
+                    <a href="https://theswiftdev.com/tags/vapor/"><small>Vapor</small></a>
+                    </div>
+                    
+                    <p>
+                        <a href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/how-to-set-up-pgsql-for-fluent-4/" target="_blank">
+                            <strong>Share this article</strong>
+                        </a>
+                        <br>Thank you. 🙏
+                    </p>
+                </footer>
+                            
+                <section class="group">
+                    <h4>Related posts</h4>                
+                    <div class="grid grid-221">
+                        <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/07/15">2020/07/15</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/10-short-advices-that-will-make-you-a-better-vapor-developer-right-away/" target="">10 short advices that will make you a better Vapor developer right away</a></h2>
+                            <hr>
+                            <p>As a beginner server side Swift developer you&#39;ll face many obstackles. I&#39;ll show you how to avoid the most common ones.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/04/01">2020/04/01</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/a-generic-crud-solution-for-vapor-4/" target="">A generic CRUD solution for Vapor 4</a></h2>
+                            <hr>
+                            <p>Learn how to build a controller component that can serve models as JSON objects through a RESTful API written in Swift.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2019/10/08">2019/10/08</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/a-simple-http2-server-using-vapor-4/" target="">A simple HTTP/2 server using Vapor 4</a></h2>
+                            <hr>
+                            <p>Get started with server-side Swift using the Vapor 4 framework. Learn how to build a really simple HTTP/2 backend server.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/12/18">2020/12/18</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/ajax-calls-using-vapor-4/" target="">AJAX calls using Vapor 4</a></h2>
+                            <hr>
+                            <p>Learn how to implement Asynchronous JavaScript and XML (AJAX) calls using Leaf templates and Vapor 4 as a server.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    
+            </article>
         </div>
-        <div class="column right">
-            <h3>Get the Practical Server Side Swift book</h3>
-            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
-        </div>
-    </div>
-</section>
-
-<section id="author" class="content-wrapper">
-    <img 
-        id="author-image"
-        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
-        alt="Picture of Tibor Bödecs" 
-        title="Tibor Bödecs"
-    >
-    <h3>Tibor Bödecs</h3>
-    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
-    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
-
-    <div class="links">
-        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
-        <a href="https://github.com/tib" target="_blank">GitHub</a> 
-    </div>
-</section>
-
         
+        <div>
+            <div class="book">
+                <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">
+                    <img src="https://theswiftdev.com/book/practical-server-side-swift-cover.png" alt="Practical Server Side Swift cover image">
+                </a>
+                <h3>
+                    <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Get the Practical Server Side Swift book</a>
+                </h3>
+                <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+                <a class="cta" href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+            </div>
+            
+            
+            <aside id="toc">
+                <h4>On this page</h4>
+                <ul>
+                    <li class="first-level">
+                        <a href="#a-quick-intro-to-postgresql">A quick intro to PostgreSQL</a>
+                        <ul>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+            
+    
+        </div>
+    </div>
+    
     </main>
 
-    <footer>
-        <section class="content-wrapper">
-            <img 
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
-
-            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+    <footer id="site-footer">
+        <div class="grid grid-421">
+    
+            <picture>
+                <img
+                    id="logo-image"
+                    src="https://theswiftdev.com/images/logos/logo-large.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
             
-            <p> 
-                <a href="https://theswiftdev.com/">Home</a> ·
-                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
-            </p>
+            <div>
+                <span style="display: block; height: 32px;">&nbsp;</span>
+                <h4>The.Swift.Dev</h4>
+                <p><small><a href="https://theswiftdev.com/" target="_blank">theswiftdev.com</a></small></p>
+                <ul>
+                    <li><a href="https://github.com/theswiftdev/" target="_blank">GitHub</a></li>
+                    <li><a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a></li>
+                    <li><a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a></li>
+                </ul>
+            </div>
             
-            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+            <div>
+                
+            </div>
+            
+            <div>
+                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                </a>
+                <h4><a href="https://theswiftdev.com/authors/tibor-bodecs/">Tibor Bödecs</a></h4>
+                <p><small><a href="https://binarybirds.com/" target="_blank">Binary Birds Kft.</a></small></p>
+                <ul>
+                    <li><a href="mailto:mail.tib@gmail.com" target="_blank">Email</a></li>
+                    <li><a href="https://github.com/tib/" target="_blank">GitHub</a></li>
+                    <li><a href="https://x.com/tiborbodecs" target="_blank">X (Twitter)</a></li>
+                    <li><a href="https://mastodon.social/@tiborbodecs" target="_blank">Mastodon</a></li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <section class="grid grid-221">
+            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>
+
+    </div>
+
+    
 </body>
 </html>

@@ -1,235 +1,440 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
     <meta charset="utf-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="canonical" href="https://theswiftdev.com/everything-about-public-and-private-swift-attributes/">
     
+    
+
     <title>Everything about public and private Swift attributes - The.Swift.Dev.</title>
-    
-    <meta name="description" content="Have you ever heard about Swift language attributes? In this article I'm trying to gather all the @ annotations and their meanings.">
-    
-    <meta property="og:title" content="Everything about public and private Swift attributes - The.Swift.Dev.">
-    <meta property="og:description" content="Have you ever heard about Swift language attributes? In this article I'm trying to gather all the @ annotations and their meanings.">
+    <meta name="description" content="Have you ever heard about Swift language attributes? In this article I&#39;m trying to gather all the @ annotations and their meanings.">
+
     <meta property="og:url" content="https://theswiftdev.com/everything-about-public-and-private-swift-attributes/">
-    <meta property="og:image" content="https://theswiftdev.com/images/assets/everything-about-public-and-private-swift-attributes/cover.jpg">
+    <meta property="og:title" content="Everything about public and private Swift attributes - The.Swift.Dev.">
+    <meta property="og:description" content="Have you ever heard about Swift language attributes? In this article I&#39;m trying to gather all the @ annotations and their meanings.">
+    
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@tiborbodecs">
-    <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="Everything about public and private Swift attributes - The.Swift.Dev.">
-    <meta name="twitter:description" content="Have you ever heard about Swift language attributes? In this article I'm trying to gather all the @ annotations and their meanings.">
-    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/everything-about-public-and-private-swift-attributes/cover.jpg">
+    <meta name="twitter:description" content="Have you ever heard about Swift language attributes? In this article I&#39;m trying to gather all the @ annotations and their meanings.">
     
-    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
-    
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-normalize.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/variables.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/grid.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/navigation.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/footer.css">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+
     
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/icons/apple-touch-icon-180x180.png">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+        media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+        media="(prefers-color-scheme: dark)"
+    >
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
 </head>
 
 <body>
-    <a href="https://theswiftdev.gumroad.com" class="ribbon">
-        📖
-    </a>
-    <header id="page-header">
-        <a href="https://theswiftdev.com/">
-            <img 
-                id="logo-image"
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
+    <div id="site-container">
+
+    <header id="navigation">
+        <a href="/">
+            <picture>
+                <img
+                    src="https://theswiftdev.com/images/logos/logo.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
         </a>
-    </header>
-    
-    <main>
-
-        <article>
-    <header>
-        <section id="post-header" class="content-wrapper">
-            <time datetime="2017/10/10">2017/10/10</time>
-            <h1 class="title">Everything about public and private Swift attributes</h1>
-            <p class="excerpt">Have you ever heard about Swift language attributes? In this article I'm trying to gather all the @ annotations and their meanings.</p>
-            <div class="meta">
-                <span class="tag">Swift</span>
+        <nav>
+            <input type="checkbox" id="primary-menu-button" name="menu-button" class="menu-button">
+            <label for="primary-menu-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </label>
+            <div class="menu-items">
+                <a href="/page/1/">Posts</a>
+                <a href="/tags/">Tags</a>
+                <a href="/authors/">Authors</a>
+                <a href="/practical-server-side-swift/">My Book</a>
             </div>
-        </section>
-        <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.com/images/assets/everything-about-public-and-private-swift-attributes/cover.jpg">
-        </section>
+        </nav>
     </header>
 
-    <div id="contents">
-        <section class="content-wrapper">
-            <h2>Public attributes</h2><p>Public Swift language attributes are marked with the @ symbol, they are (more or less) well documented and ready for use. Here is the complete list of all the public Swift language attributes. Most of them will seem very familiar... 😉</p><h3>@IBOutlet</h3><p>If you mark a property with the @IBOutlet attribute, the Interface Builder (IB) will recognize that variable and you'll be able to connect your source with your visuals through the provided "outlet" mechanism.</p><pre><code class="language-swift"><span class="keyword">@IBOutlet weak var</span> textLabel: <span class="type">UILabel</span>!</code></pre><h3>@IBAction</h3><p>Similarly, <code>@IBAction</code> is an attribute that makes possible connecting actions sent from Interface Builder. So the marked method will directly receive the event fired up by the user interface. 🔥</p><pre><code class="language-swift"><span class="keyword">@IBaction func</span> buttonTouchedAction(<span class="keyword">_</span> sender: <span class="type">UIButton</span>) {}</code></pre><h3>@IBInspectable, @GKInspectable</h3><p>Marking an NSCodable property with the <code>@IBInspectable</code> attribute will make it easily editable from the Interface Builder’s inspector panel. Using <code>@GKInspectable</code> has the same behavior as <code>@IBInspectable</code>, but the property will be exposed for the SpriteKit editor UI instead of IB. 🎮</p><pre><code class="language-swift"><span class="keyword">@IBInspectable var</span> borderColor: <span class="type">UIColor</span> = .<span class="dotAccess">black</span>
-<span class="keyword">@GKInspectable var</span> mass: <span class="type">Float</span> = <span class="number">1.21</span></code></pre><h3>@IBDesignable</h3><p>When applied to a UIView or NSView subclass, the @IBDesignable attribute lets Interface Builder know that it should display the exact view hierarchy. So basically anything that you draw inside your view will be rendered into the IB canvas.</p><pre><code class="language-swift"><span class="keyword">@IBDesignable class</span> MyCustomView: <span class="type">UIView</span> { <span class="comment">/*...*/</span> }</code></pre><h3>@UIApplicationMain, @NSApplicationMain</h3><p>With this attribute you can mark a class as the application's delegate. Usually this is already there in every AppDelegate.swift file that you'll ever create, however you can provide a main.swift file and call the [UI|NS]ApplicationMain method by hand. #pleasedontdoit 😅</p><h3>@available</h3><p>With the @available attribute you can mark types available, deprecated, unavailable, etc. for specific platforms. I'm not going into the details there are some great posts about how to use the attribute with availability checkings in Swift.</p><pre><code class="language-swift"><span class="keyword">@available</span>(swift <span class="number">4.1</span>)
-<span class="keyword">@available</span>(iOS <span class="number">11</span>, *)
-<span class="keyword">func</span> avaialbleMethod() { <span class="comment">/*...*/</span> }</code></pre><h3>@NSCopying</h3><p>You can mark a property with this attribute to make a copy of it instead of the value of the property iself. Obviously this can be really helpful when you copy reference types.</p><pre><code class="language-swift"><span class="keyword">class</span> Example: <span class="type">NSOBject</span> {
-    <span class="keyword">@NSCopying var</span> objectToCopy: <span class="type">NSObject</span>
-}</code></pre><h3>@NSManaged</h3><p>If you are using Core Data entities (usually NSManagedObject subclasses), you can mark stored variables or instance methods as @NSManaged to indicate that the Core Data framework will dynamically provide the implementation at runtime.</p><pre><code class="language-swift"><span class="keyword">class</span> Person: <span class="type">NSManagedObject</span> {
-    <span class="keyword">@NSManaged var</span> name: <span class="type">NSString</span>
-}</code></pre><h3>@objcMembers</h3><p>It's basically a convenience attribute for marking multiple attributes available for Objective-C. It's legacy stuff for Objective-C dinosaurs, with performance caveats. 🦕</p><pre><code class="language-swift"><span class="keyword">@objcMembers class</span> Person {
-    <span class="keyword">var</span> firstName: <span class="type">String</span>?
-    <span class="keyword">var</span> lastName: <span class="type">String</span>?
-}</code></pre><h3>@escaping</h3><p>You can mark closure parameters as @escaping, if you want to indicate that the value can be stored for later execution, so in other words the value is allowed to outlive the lifetime of the call. 💀</p><pre><code class="language-swift"><span class="keyword">var</span> completionHandlers: [() -&gt; <span class="type">Void</span>] = []
-
-<span class="keyword">func</span> add(<span class="keyword">_</span> completionHandler: <span class="keyword">@escaping</span> () -&gt; <span class="type">Void</span>) {
-    completionHandlers.<span class="call">append</span>(completionHandler)
-}</code></pre><h3>@discardableResult</h3><p>By default the compiler raises a warning when a function returns with something, but that returned value is never used. You can suppress the warning by marking the return value discardable with this Swift language attribute. ⚠️</p><pre><code class="language-swift"><span class="keyword">@discardableResult func</span> logAdd(<span class="keyword">_</span> a: <span class="type">Int</span>, <span class="keyword">_</span> b: <span class="type">Int</span>) -&gt; <span class="type">Int</span> {
-    <span class="keyword">let</span> c = a + b
-    <span class="call">print</span>(c)
-    <span class="keyword">return</span> c
+    <main id="page-container">
+    
+    <div class="article-with-toc">
+        <div>
+            <article class="post">
+                <div class="meta">
+                    <time datetime="2017/10/10">2017/10/10</time>
+                     &middot; <span class="reading-time">6 min read</span>
+                    
+                </div>
+                <h1>Everything about public and private Swift attributes</h1>
+                <hr>
+                <p>Have you ever heard about Swift language attributes? In this article I&#39;m trying to gather all the @ annotations and their meanings.</p>
+                <section>
+                
+                <h2 id="public-attributes">Public attributes</h2><p>Public Swift language attributes are marked with the @ symbol, they are (more or less) well documented and ready for use. Here is the complete list of all the public Swift language attributes. Most of them will seem very familiar… 😉</p><h3 id="iboutlet">@IBOutlet</h3><p>If you mark a property with the @IBOutlet attribute, the Interface Builder (IB) will recognize that variable and you’ll be able to connect your source with your visuals through the provided “outlet” mechanism.</p><pre><code class="language-swift">@IBOutlet weak var textLabel: UILabel!
+</code></pre><h3 id="ibaction">@IBAction</h3><p>Similarly, <code>@IBAction</code> is an attribute that makes possible connecting actions sent from Interface Builder. So the marked method will directly receive the event fired up by the user interface. 🔥</p><pre><code class="language-swift">@IBaction func buttonTouchedAction(_ sender: UIButton) {}
+</code></pre><h3 id="ibinspectable-gkinspectable">@IBInspectable, @GKInspectable</h3><p>Marking an NSCodable property with the <code>@IBInspectable</code> attribute will make it easily editable from the Interface Builder’s inspector panel. Using <code>@GKInspectable</code> has the same behavior as <code>@IBInspectable</code>, but the property will be exposed for the SpriteKit editor UI instead of IB. 🎮</p><pre><code class="language-swift">@IBInspectable var borderColor: UIColor = .black
+@GKInspectable var mass: Float = 1.21
+</code></pre><h3 id="ibdesignable">@IBDesignable</h3><p>When applied to a UIView or NSView subclass, the @IBDesignable attribute lets Interface Builder know that it should display the exact view hierarchy. So basically anything that you draw inside your view will be rendered into the IB canvas.</p><pre><code class="language-swift">@IBDesignable class MyCustomView: UIView { /*...*/ }
+</code></pre><h3 id="uiapplicationmain-nsapplicationmain">@UIApplicationMain, @NSApplicationMain</h3><p>With this attribute you can mark a class as the application’s delegate. Usually this is already there in every AppDelegate.swift file that you’ll ever create, however you can provide a main.swift file and call the [UI|NS]ApplicationMain method by hand. #pleasedontdoit 😅</p><h3 id="available">@available</h3><p>With the @available attribute you can mark types available, deprecated, unavailable, etc. for specific platforms. I’m not going into the details there are some great posts about how to use the attribute with availability checkings in Swift.</p><pre><code class="language-swift">@available(swift 4.1)
+@available(iOS 11, *)
+func avaialbleMethod() { /*...*/ }
+</code></pre><h3 id="nscopying">@NSCopying</h3><p>You can mark a property with this attribute to make a copy of it instead of the value of the property iself. Obviously this can be really helpful when you copy reference types.</p><pre><code class="language-swift">class Example: NSOBject {
+    @NSCopying var objectToCopy: NSObject
 }
-<span class="call">logAdd</span>(<span class="number">1</span>, <span class="number">2</span>)</code></pre><h3>@autoclosure</h3><p>This attribute can magically turn a function with a closure parameter that has no arguments, but a return type, into a function with a parameter type of that original closure return type, so you can call it much more easy. 🤓</p><pre><code class="language-swift"><span class="keyword">func</span> log(<span class="keyword">_</span> closure: <span class="keyword">@autoclosure</span> () -&gt; <span class="type">String</span>) {
-    <span class="call">print</span>(<span class="call">closure</span>())
+</code></pre><h3 id="nsmanaged">@NSManaged</h3><p>If you are using Core Data entities (usually NSManagedObject subclasses), you can mark stored variables or instance methods as @NSManaged to indicate that the Core Data framework will dynamically provide the implementation at runtime.</p><pre><code class="language-swift">class Person: NSManagedObject {
+    @NSManaged var name: NSString
+}
+</code></pre><h3 id="objcmembers">@objcMembers</h3><p>It’s basically a convenience attribute for marking multiple attributes available for Objective-C. It’s legacy stuff for Objective-C dinosaurs, with performance caveats. 🦕</p><pre><code class="language-swift">@objcMembers class Person {
+    var firstName: String?
+    var lastName: String?
+}
+</code></pre><h3 id="escaping">@escaping</h3><p>You can mark closure parameters as @escaping, if you want to indicate that the value can be stored for later execution, so in other words the value is allowed to outlive the lifetime of the call. 💀</p><pre><code class="language-swift">var completionHandlers: [() -&gt; Void] = []
+
+func add(_ completionHandler: @escaping () -&gt; Void) {
+    completionHandlers.append(completionHandler)
+}
+</code></pre><h3 id="discardableresult">@discardableResult</h3><p>By default the compiler raises a warning when a function returns with something, but that returned value is never used. You can suppress the warning by marking the return value discardable with this Swift language attribute. ⚠️</p><pre><code class="language-swift">@discardableResult func logAdd(_ a: Int, _ b: Int) -&gt; Int {
+    let c = a + b
+    print(c)
+    return c
+}
+logAdd(1, 2)
+</code></pre><h3 id="autoclosure">@autoclosure</h3><p>This attribute can magically turn a function with a closure parameter that has no arguments, but a return type, into a function with a parameter type of that original closure return type, so you can call it much more easy. 🤓</p><pre><code class="language-swift">func log(_ closure: @autoclosure () -&gt; String) {
+    print(closure())
 }
 
-<span class="call">log</span>(<span class="string">"b"</span>) <span class="comment">// it's like func log(_ value: String) { print(value) }</span></code></pre><h3>@testable</h3><p>If you mark an imported module with the @testable attribute all the internal access-level entities will be visible (available) for testing purposes. 👍</p><pre><code>@testable import CoreKit
-</code></pre><h3>@objc</h3><p>This attribute tells the compiler that a declaration is available to use in Objective-C code. Optionally you can provide a single identifier that'll be the name of the Objective-C representation of the original entity. 🦖</p><pre><code class="language-swift"><span class="keyword">@objc</span>(<span class="type">LegacyClass</span>)
-<span class="keyword">class</span> ExampleClass: <span class="type">NSObject</span> {
+log("b") // it's like func log(_ value: String) { print(value) }
+</code></pre><h3 id="testable">@testable</h3><p>If you mark an imported module with the @testable attribute all the internal access-level entities will be visible (available) for testing purposes. 👍</p><pre><code>@testable import CoreKit
+</code></pre><h3 id="objc">@objc</h3><p>This attribute tells the compiler that a declaration is available to use in Objective-C code. Optionally you can provide a single identifier that’ll be the name of the Objective-C representation of the original entity. 🦖</p><pre><code class="language-swift">@objc(LegacyClass)
+class ExampleClass: NSObject {
 
-    <span class="keyword">@objc private var</span> store: <span class="type">Bool</span> = <span class="keyword">false
+    @objc private var store: Bool = false
 
-    @objc var</span> enabled: <span class="type">Bool</span> {
-        <span class="keyword">@objc</span>(isEnabled) <span class="keyword">get</span> {
-            <span class="keyword">return self</span>.<span class="property">store</span>
+    @objc var enabled: Bool {
+        @objc(isEnabled) get {
+            return self.store
         }
-        <span class="keyword">@objc</span>(setEnabled:) <span class="keyword">set</span> {
-            <span class="keyword">self</span>.<span class="property">store</span> = newValue
+        @objc(setEnabled:) set {
+            self.store = newValue
         }
     }
 
-    <span class="keyword">@objc</span>(setLegacyEnabled:)
-    <span class="keyword">func</span> set(enabled: <span class="type">Bool</span>) {
-        <span class="keyword">self</span>.<span class="property">enabled</span> = enabled
+    @objc(setLegacyEnabled:)
+    func set(enabled: Bool) {
+        self.enabled = enabled
     }
-}</code></pre><h3>@nonobjc</h3><p>Use this attribute to supress an implicit objc attribute. The @nonobjc attribute tells the compiler to make the declaration unavailable in Objective-C code, even though it’s possible to represent it in Objective-C. 😎</p><pre><code class="language-swift"><span class="keyword">@nonobjc static let</span> test = <span class="string">"test"</span></code></pre><h3>@convention</h3><p>This attribute indicate function calling conventions. It can have one parameter which indicates Swift function reference (swift), Objective-C compatible block reference (block) or C function reference (c).</p><pre><code class="language-swift"><span class="comment">// private let sysBind: @convention(c) (CInt, UnsafePointer&lt;sockaddr&gt;?, socklen_t) -&gt; CInt = bind
+}
+</code></pre><h3 id="nonobjc">@nonobjc</h3><p>Use this attribute to supress an implicit objc attribute. The @nonobjc attribute tells the compiler to make the declaration unavailable in Objective-C code, even though it’s possible to represent it in Objective-C. 😎</p><pre><code class="language-swift">@nonobjc static let test = "test"
+</code></pre><h3 id="convention">@convention</h3><p>This attribute indicate function calling conventions. It can have one parameter which indicates Swift function reference (swift), Objective-C compatible block reference (block) or C function reference (c).</p><pre><code class="language-swift">// private let sysBind: @convention(c) (CInt, UnsafePointer&lt;sockaddr&gt;?, socklen_t) -&gt; CInt = bind
 
 // typealias LeagcyBlock = @convention(block) () -&gt; Void
 // let objcBlock: AnyObject = ... // get real ObjC object from somewhere
 // let block: (() -&gt; Void) = unsafeBitCast(objcBlock, to: LeagcyBlock.self)
-// block()</span>
+// block()
 
-<span class="keyword">func</span> a(a: <span class="type">Int</span>) -&gt; <span class="type">Int</span> {
-    <span class="keyword">return</span> a
+func a(a: Int) -&gt; Int {
+    return a
 }
-<span class="keyword">let</span> exampleSwift: <span class="keyword">@convention</span>(swift) (<span class="type">Int</span>) -&gt; <span class="type">Int</span> = a
-<span class="call">exampleSwift</span>(<span class="number">10</span>)</code></pre><h2>Private attributes</h2><p>Private Swift language attributes should only be used by the creators of the language, or hardcore developers. They usually provide extra (compiler) functionality that is still work in progress, so please be very careful... 😳</p><p>Please do not use private attributes in production code, unless you really know what you are doing!!! 😅</p><h3>@_exported</h3><p>If you want to import an external module for your whole module you can use the <code>@_exported</code> keyword before your import. From now the imported module will be available everywhere. Remember PCH files? 🙃</p><pre><code class="language-swift"><span class="keyword">@_exported import</span> UIKit</code></pre><h3>@inline</h3><p>With the @inline attribute you explicitly tell the compiler the function inlining behavior. For example if a function is small enough or it's only getting called a few times the compiler is maybe going to inline it, unless you disallow it explicitly.</p><pre><code class="language-swift"><span class="keyword">@inline</span>(never) <span class="keyword">func</span> a() -&gt; <span class="type">Int</span> {
-    <span class="keyword">return</span> <span class="number">1</span>
-}
-
-<span class="keyword">@inline</span>(__always) <span class="keyword">func</span> b() -&gt; <span class="type">Int</span> {
-    <span class="keyword">return</span> <span class="number">2</span>
+let exampleSwift: @convention(swift) (Int) -&gt; Int = a
+exampleSwift(10)
+</code></pre><h2 id="private-attributes">Private attributes</h2><p>Private Swift language attributes should only be used by the creators of the language, or hardcore developers. They usually provide extra (compiler) functionality that is still work in progress, so please be very careful… 😳</p><p>Please do not use private attributes in production code, unless you really know what you are doing!!! 😅</p><h3 id="_exported">@_exported</h3><p>If you want to import an external module for your whole module you can use the <code>@_exported</code> keyword before your import. From now the imported module will be available everywhere. Remember PCH files? 🙃</p><pre><code class="language-swift">@_exported import UIKit
+</code></pre><h3 id="inline">@inline</h3><p>With the @inline attribute you explicitly tell the compiler the function inlining behavior. For example if a function is small enough or it’s only getting called a few times the compiler is maybe going to inline it, unless you disallow it explicitly.</p><pre><code class="language-swift">@inline(never) func a() -&gt; Int {
+    return 1
 }
 
-<span class="keyword">@_inlineable public func</span> c() {
-    <span class="call">print</span>(<span class="string">"c"</span>)
+@inline(__always) func b() -&gt; Int {
+    return 2
 }
-<span class="call">c</span>()</code></pre><p>@inlinable is the future (@_inlineable) by Marcin Krzyzanowskim 👏</p><h3>@effects</h3><p>The @effects attribute describes how a function affects "the state of the world". More practically how the optimizer can modify the program based on information that is provided by the attribute. You can find the corresponding docs here.</p><pre><code class="language-swift"><span class="keyword">@effects</span>(readonly) <span class="keyword">func</span> foo() { <span class="comment">/*...*/</span> }</code></pre><h3>@_transparent</h3><p>Basically you can force inlining with the @_transparent attribute, but please read the unofficial documentation for more info.</p><pre><code class="language-swift"><span class="keyword">@_transparent
-func</span> example() {
-    <span class="call">print</span>(<span class="string">"example"</span>)
-}</code></pre><h3>@_specialize</h3><p>With the @_specialize Swift attribute you can give hints for the compiler by listing concrete types for the generic signature. More detailed docs are here.</p><pre><code class="language-swift"><span class="keyword">struct</span> S&lt;T&gt; {
-  <span class="keyword">var</span> x: <span class="type">T</span>
-  <span class="keyword">@_specialize</span>(where <span class="type">T</span> == <span class="type">Int</span>, <span class="type">U</span> == <span class="type">Float</span>)
-  <span class="keyword">mutating func</span> exchangeSecond&lt;U&gt;(<span class="keyword">_</span> u: <span class="type">U</span>, <span class="keyword">_</span> t: <span class="type">T</span>) -&gt; (<span class="type">U</span>, <span class="type">T</span>) {
+
+@_inlineable public func c() {
+    print("c")
+}
+c()
+</code></pre><h3 id="effects">@effects</h3><p>The @effects attribute describes how a function affects “the state of the world”. More practically how the optimizer can modify the program based on information that is provided by the attribute.<br>You can find the corresponding docs here.</p><pre><code class="language-swift">@effects(readonly) func foo() { /*...*/ }
+</code></pre><h3 id="_transparent">@_transparent</h3><p>Basically you can force inlining with the @_transparent attribute, but please read the unofficial documentation for more info.</p><pre><code class="language-swift">@_transparent
+func example() {
+    print("example")
+}
+</code></pre><h3 id="_specialize">@_specialize</h3><p>With the @_specialize Swift attribute you can give hints for the compiler by listing concrete types for the generic signature. More detailed docs are here.</p><pre><code class="language-swift">struct S&lt;T&gt; {
+  var x: T
+  @_specialize(where T == Int, U == Float)
+  mutating func exchangeSecond&lt;U&gt;(_ u: U, _ t: T) -&gt; (U, T) {
     x = t
-    <span class="keyword">return</span> (u, x)
+    return (u, x)
   }
 }
 
-<span class="comment">// Substitutes: &lt;T, U&gt; with &lt;Int, Float&gt; producing:
-// S&lt;Int&gt;::exchangeSecond&lt;Float&gt;(u: Float, t: Int) -&gt; (Float, Int)</span></code></pre><h3>@_semantics</h3><p>The Swift optimizer can detect code in the standard library if it is marked with special attributes @_semantics, that identifies the functions. You can read about semantics here and here, or inside this concurrency proposal.</p><pre><code class="language-swift"><span class="keyword">@_semantics</span>(<span class="string">"array.count"</span>)
-<span class="keyword">func</span> getCount() -&gt; <span class="type">Int</span> {
-    <span class="keyword">return</span> _buffer.<span class="property">count</span>
-}</code></pre><h3>@silgenname</h3><p>This attribute specifies the name that a declaration will have at link time. You can read about it inside the Standard Librery Programmers Manual.</p><pre><code class="language-swift"><span class="keyword">@_silgen_name</span>(<span class="string">"_destroyTLS"</span>)
-<span class="keyword">internal func</span> _destroyTLS(<span class="keyword">_</span> ptr: <span class="type">UnsafeMutableRawPointer</span>?) {
-  <span class="comment">// ... implementation ...</span>
-}</code></pre><h3>@_cdecl</h3><p>Swift compiler comes with a built-in libFuzzer integration, which you can use with the help of the @_cdecl annotation. You can learn more about libFuzzer here.</p><pre><code class="language-swift"><span class="keyword">@_cdecl</span>(<span class="string">"LLVMFuzzerTestOneInput"</span>) 
-<span class="keyword">public func</span> fuzzMe(<span class="type">Data</span>: <span class="type">UnsafePointer</span>&lt;<span class="type">CChar</span>&gt;, <span class="type">Size</span>: <span class="type">CInt</span>) -&gt; <span class="type">CInt</span>{
-    <span class="comment">// Test our code using provided Data.</span>
+// Substitutes: &lt;T, U&gt; with &lt;Int, Float&gt; producing:
+// S&lt;Int&gt;::exchangeSecond&lt;Float&gt;(u: Float, t: Int) -&gt; (Float, Int)
+</code></pre><h3 id="_semantics">@_semantics</h3><p>The Swift optimizer can detect code in the standard library if it is marked with special attributes @_semantics, that identifies the functions.<br>You can read about semantics here and here, or inside this concurrency proposal.</p><pre><code class="language-swift">@_semantics("array.count")
+func getCount() -&gt; Int {
+    return _buffer.count
+}
+</code></pre><h3 id="silgenname">@silgenname</h3><p>This attribute specifies the name that a declaration will have at link time.<br>You can read about it inside the Standard Librery Programmers Manual.</p><pre><code class="language-swift">@_silgen_name("_destroyTLS")
+internal func _destroyTLS(_ ptr: UnsafeMutableRawPointer?) {
+  // ... implementation ...
+}
+</code></pre><h3 id="_cdecl">@_cdecl</h3><p>Swift compiler comes with a built-in libFuzzer integration, which you can use with the help of the @_cdecl annotation. You can learn more about libFuzzer here.</p><pre><code class="language-swift">@_cdecl("LLVMFuzzerTestOneInput") 
+public func fuzzMe(Data: UnsafePointer&lt;CChar&gt;, Size: CInt) -&gt; CInt{
+    // Test our code using provided Data.
   }
-}</code></pre><h2>Unavailable, undocumented, unknown</h2><p>As you can see this is already quite a list, but there is even more. Inside the official Swift repository you can find the attr tests. If you need more info about the remaining Swift annotations you can go directly there and check the source code comments. If you could help me writing about the leftovers, please drop me a few lines, I'd really appreciate any help. 😉👍</p><ul><li>@requiresstoredproperty_inits</li><li>@warnunqualifiedaccess</li><li>@fixedlayout</li><li>@_versioned</li><li>@showin_interface</li><li>@_alignment</li><li>@objcnonlazy_realization</li><li>@_frozen</li><li>@_optimize(none|speed|size)</li><li>@_weakLinked</li><li>@consuming</li><li>@_restatedObjCConformance</li><li>@_staticInitializeObjCMetadata</li><li>@setterAccess</li><li>@rawdoccomment</li><li>@objc_bridged</li><li>@noescape -&gt; removed, see @escaping</li><li>@noreturn -&gt; removed, see Never type</li><li>@downgradeexhaustivity_check -&gt; no effect on switch case anymore?</li><li>@_implements(...) - @implements(Equatable, ==(:_:))</li><li>@swiftnativeobjcruntime_base(class)</li></ul><p>The @_implements attribute, which treats a <code>decl</code> as the implementation for some named protocol requirement (but otherwise not-visible by that name).</p><p>This attribute indicates a class that should be treated semantically as a native Swift root class, but which inherits a specific Objective-C class at runtime. For most classes this is the runtime's "SwiftObject" root class. The compiler does not need to know about the class; it's the build system's responsibility to link against the ObjC code that implements the root class, and the ObjC implementation's responsibility to ensure instances begin with a Swift-refcounting-compatible object header and override all the necessary <code>NSObject</code> refcounting methods.</p><p>This allows us to subclass an Objective-C class and use the fast Swift memory allocator. If you want to add some notes about these attributes, please contact me.</p>
-        </section>
-    </div>
-
-</article>
-
-<section id="share" class="content-wrapper">
-    <p>
-    <a
-        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/everything-about-public-and-private-swift-attributes/"
-        target="_blank"
-    >
-        Share this article
-    </a>
-    <br> Thank you. 🙏</p>
-</section>
-
-<section  class="wrapper">
-    <div id="book">
-        <div class="column left">
-            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+}
+</code></pre><h2 id="unavailable-undocumented-unknown">Unavailable, undocumented, unknown</h2><p>As you can see this is already quite a list, but there is even more. Inside the official Swift repository you can find the attr tests. If you need more info about the remaining Swift annotations you can go directly there and check the source code comments. If you could help me writing about the leftovers, please drop me a few lines, I’d really appreciate any help. 😉👍</p><ul><li>@requiresstoredproperty_inits</li><li>@warnunqualifiedaccess</li><li>@fixedlayout</li><li>@_versioned</li><li>@showin_interface</li><li>@_alignment</li><li>@objcnonlazy_realization</li><li>@_frozen</li><li>@_optimize(none|speed|size)</li><li>@_weakLinked</li><li>@consuming</li><li>@_restatedObjCConformance</li><li>@_staticInitializeObjCMetadata</li><li>@setterAccess</li><li>@rawdoccomment</li><li>@objc_bridged</li><li>@noescape -> removed, see @escaping</li><li>@noreturn -> removed, see Never type</li><li>@downgradeexhaustivity_check -> no effect on switch case anymore?</li><li>@_implements(…) - @implements(Equatable, ==(:_:))</li><li>@swiftnativeobjcruntime_base(class)</li></ul><p>The @_implements attribute, which treats a <code>decl</code> as the implementation for some named protocol requirement (but otherwise not-visible by that name).</p><p>This attribute indicates a class that should be treated semantically as a native Swift root class, but which inherits a specific Objective-C class at runtime. For most classes this is the runtime’s “SwiftObject” root class. The compiler does not need to know about the class; it’s the build system’s responsibility to link against the ObjC code that implements the root class, and the ObjC implementation’s responsibility to ensure instances begin with a Swift-refcounting-compatible object header and override all the necessary <code>NSObject</code> refcounting methods.</p><p>This allows us to subclass an Objective-C class and use the fast Swift memory allocator.<br>If you want to add some notes about these attributes, please contact me.</p>
+                    
+                </section>
+    
+                <footer>
+                    <br>
+                    <time datetime=""></time>
+    
+                    
+                    <div class="author-list">
+                        <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        </a>
+                    </div>
+                    <div class="tag-list">
+                        <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                    </div>
+                    
+                    <p>
+                        <a href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/everything-about-public-and-private-swift-attributes/" target="_blank">
+                            <strong>Share this article</strong>
+                        </a>
+                        <br>Thank you. 🙏
+                    </p>
+                </footer>
+                            
+                <section class="group">
+                    <h4>Related posts</h4>                
+                    <div class="grid grid-221">
+                        <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2021/09/10">2021/09/10</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/all-about-the-bool-type-in-swift/" target="">All about the Bool type in Swift</a></h2>
+                            <hr>
+                            <p>Learn everything about logical types and the Boolean algebra using the Swift programming language and some basic math.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2022/03/18">2022/03/18</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/async-http-api-clients-in-swift/" target="">Async HTTP API clients in Swift</a></h2>
+                            <hr>
+                            <p>Learn how to communicate with API endpoints using the brand new SwiftHttp library, including async / await support.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2019/02/05">2019/02/05</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/beginners-guide-to-functional-swift/" target="">Beginners guide to functional Swift</a></h2>
+                            <hr>
+                            <p>The one and only tutorial that you&#39;ll ever need to learn higher order functions like: map, flatMap, compactMap, reduce, filter and more.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2022/06/28">2022/06/28</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/beginners-guide-to-modern-generic-programming-in-swift/" target="">Beginner&#39;s guide to modern generic programming in Swift</a></h2>
+                            <hr>
+                            <p>Learn the very basics about protocols, existentials, opaque types and how they are related to generic programming in Swift.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    
+            </article>
         </div>
-        <div class="column right">
-            <h3>Get the Practical Server Side Swift book</h3>
-            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
-        </div>
-    </div>
-</section>
-
-<section id="author" class="content-wrapper">
-    <img 
-        id="author-image"
-        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
-        alt="Picture of Tibor Bödecs" 
-        title="Tibor Bödecs"
-    >
-    <h3>Tibor Bödecs</h3>
-    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
-    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
-
-    <div class="links">
-        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
-        <a href="https://github.com/tib" target="_blank">GitHub</a> 
-    </div>
-</section>
-
         
+        <div>
+            <div class="book">
+                <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">
+                    <img src="https://theswiftdev.com/book/practical-server-side-swift-cover.png" alt="Practical Server Side Swift cover image">
+                </a>
+                <h3>
+                    <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Get the Practical Server Side Swift book</a>
+                </h3>
+                <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+                <a class="cta" href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+            </div>
+            
+            
+            <aside id="toc">
+                <h4>On this page</h4>
+                <ul>
+                    <li class="first-level">
+                        <a href="#public-attributes">Public attributes</a>
+                        <ul>
+                            <li><a href="#iboutlet">@IBOutlet</a></li>
+                <li><a href="#ibaction">@IBAction</a></li>
+                <li><a href="#ibinspectable-gkinspectable">@IBInspectable, @GKInspectable</a></li>
+                <li><a href="#ibdesignable">@IBDesignable</a></li>
+                <li><a href="#uiapplicationmain-nsapplicationmain">@UIApplicationMain, @NSApplicationMain</a></li>
+                <li><a href="#available">@available</a></li>
+                <li><a href="#nscopying">@NSCopying</a></li>
+                <li><a href="#nsmanaged">@NSManaged</a></li>
+                <li><a href="#objcmembers">@objcMembers</a></li>
+                <li><a href="#escaping">@escaping</a></li>
+                <li><a href="#discardableresult">@discardableResult</a></li>
+                <li><a href="#autoclosure">@autoclosure</a></li>
+                <li><a href="#testable">@testable</a></li>
+                <li><a href="#objc">@objc</a></li>
+                <li><a href="#nonobjc">@nonobjc</a></li>
+                <li><a href="#convention">@convention</a></li>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#private-attributes">Private attributes</a>
+                        <ul>
+                            <li><a href="#_exported">@_exported</a></li>
+                <li><a href="#inline">@inline</a></li>
+                <li><a href="#effects">@effects</a></li>
+                <li><a href="#_transparent">@_transparent</a></li>
+                <li><a href="#_specialize">@_specialize</a></li>
+                <li><a href="#_semantics">@_semantics</a></li>
+                <li><a href="#silgenname">@silgenname</a></li>
+                <li><a href="#_cdecl">@_cdecl</a></li>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#unavailable-undocumented-unknown">Unavailable, undocumented, unknown</a>
+                        <ul>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+            
+    
+        </div>
+    </div>
+    
     </main>
 
-    <footer>
-        <section class="content-wrapper">
-            <img 
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
-
-            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+    <footer id="site-footer">
+        <div class="grid grid-421">
+    
+            <picture>
+                <img
+                    id="logo-image"
+                    src="https://theswiftdev.com/images/logos/logo-large.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
             
-            <p> 
-                <a href="https://theswiftdev.com/">Home</a> ·
-                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
-            </p>
+            <div>
+                <span style="display: block; height: 32px;">&nbsp;</span>
+                <h4>The.Swift.Dev</h4>
+                <p><small><a href="https://theswiftdev.com/" target="_blank">theswiftdev.com</a></small></p>
+                <ul>
+                    <li><a href="https://github.com/theswiftdev/" target="_blank">GitHub</a></li>
+                    <li><a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a></li>
+                    <li><a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a></li>
+                </ul>
+            </div>
             
-            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+            <div>
+                
+            </div>
+            
+            <div>
+                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                </a>
+                <h4><a href="https://theswiftdev.com/authors/tibor-bodecs/">Tibor Bödecs</a></h4>
+                <p><small><a href="https://binarybirds.com/" target="_blank">Binary Birds Kft.</a></small></p>
+                <ul>
+                    <li><a href="mailto:mail.tib@gmail.com" target="_blank">Email</a></li>
+                    <li><a href="https://github.com/tib/" target="_blank">GitHub</a></li>
+                    <li><a href="https://x.com/tiborbodecs" target="_blank">X (Twitter)</a></li>
+                    <li><a href="https://mastodon.social/@tiborbodecs" target="_blank">Mastodon</a></li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <section class="grid grid-221">
+            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>
+
+    </div>
+
+    
 </body>
 </html>

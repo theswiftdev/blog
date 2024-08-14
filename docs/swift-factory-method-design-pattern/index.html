@@ -1,175 +1,324 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
     <meta charset="utf-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="canonical" href="https://theswiftdev.com/swift-factory-method-design-pattern/">
     
+    
+
     <title>Swift factory method design pattern - The.Swift.Dev.</title>
-    
-    <meta name="description" content="The factory method design pattern is a dedicated non-static method for hiding the creation logic of an object. Let's make it in Swift!">
-    
-    <meta property="og:title" content="Swift factory method design pattern - The.Swift.Dev.">
-    <meta property="og:description" content="The factory method design pattern is a dedicated non-static method for hiding the creation logic of an object. Let's make it in Swift!">
+    <meta name="description" content="The factory method design pattern is a dedicated non-static method for hiding the creation logic of an object. Let&#39;s make it in Swift!">
+
     <meta property="og:url" content="https://theswiftdev.com/swift-factory-method-design-pattern/">
-    <meta property="og:image" content="https://theswiftdev.com/images/assets/swift-factory-method-design-pattern/cover.jpg">
+    <meta property="og:title" content="Swift factory method design pattern - The.Swift.Dev.">
+    <meta property="og:description" content="The factory method design pattern is a dedicated non-static method for hiding the creation logic of an object. Let&#39;s make it in Swift!">
+    
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@tiborbodecs">
-    <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="Swift factory method design pattern - The.Swift.Dev.">
-    <meta name="twitter:description" content="The factory method design pattern is a dedicated non-static method for hiding the creation logic of an object. Let's make it in Swift!">
-    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/swift-factory-method-design-pattern/cover.jpg">
+    <meta name="twitter:description" content="The factory method design pattern is a dedicated non-static method for hiding the creation logic of an object. Let&#39;s make it in Swift!">
     
-    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
-    
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-normalize.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/variables.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/grid.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/navigation.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/footer.css">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+
     
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/icons/apple-touch-icon-180x180.png">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+        media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+        media="(prefers-color-scheme: dark)"
+    >
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
 </head>
 
 <body>
-    <a href="https://theswiftdev.gumroad.com" class="ribbon">
-        📖
-    </a>
-    <header id="page-header">
-        <a href="https://theswiftdev.com/">
-            <img 
-                id="logo-image"
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
+    <div id="site-container">
+
+    <header id="navigation">
+        <a href="/">
+            <picture>
+                <img
+                    src="https://theswiftdev.com/images/logos/logo.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
         </a>
-    </header>
-    
-    <main>
-
-        <article>
-    <header>
-        <section id="post-header" class="content-wrapper">
-            <time datetime="2018/05/31">2018/05/31</time>
-            <h1 class="title">Swift factory method design pattern</h1>
-            <p class="excerpt">The factory method design pattern is a dedicated non-static method for hiding the creation logic of an object. Let's make it in Swift!</p>
-            <div class="meta">
-                <span class="tag">Swift</span>
-<span class="tag">iOS</span>
-<span class="tag">design patterns</span>
+        <nav>
+            <input type="checkbox" id="primary-menu-button" name="menu-button" class="menu-button">
+            <label for="primary-menu-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </label>
+            <div class="menu-items">
+                <a href="/page/1/">Posts</a>
+                <a href="/tags/">Tags</a>
+                <a href="/authors/">Authors</a>
+                <a href="/practical-server-side-swift/">My Book</a>
             </div>
-        </section>
-        <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.com/images/assets/swift-factory-method-design-pattern/cover.jpg">
-        </section>
+        </nav>
     </header>
 
-    <div id="contents">
-        <section class="content-wrapper">
-            <h2>Factory method is just a non-static method</h2><p>Let's face it, this pattern is just a method usually backed by simple protocols &amp; classes. Start with a really simple example: imagine a class that can create a base URL for your service endpoint. Let's call it service factory. 😅</p><pre><code class="language-swift"><span class="keyword">class</span> ServiceFactory {
-    <span class="keyword">func</span> createProductionUrl() -&gt; <span class="type">URL</span> {
-        <span class="keyword">return</span> <span class="type">URL</span>(string: <span class="string">"https://localhost/"</span>)!
+    <main id="page-container">
+    
+    <div class="article-with-toc">
+        <div>
+            <article class="post">
+                <div class="meta">
+                    <time datetime="2018/05/31">2018/05/31</time>
+                     &middot; <span class="reading-time">1 min read</span>
+                    
+                </div>
+                <h1>Swift factory method design pattern</h1>
+                <hr>
+                <p>The factory method design pattern is a dedicated non-static method for hiding the creation logic of an object. Let&#39;s make it in Swift!</p>
+                <section>
+                
+                <h2 id="factory-method-is-just-a-non-static-method">Factory method is just a non-static method</h2><p>Let’s face it, this pattern is just a method usually backed by simple protocols & classes. Start with a really simple example: imagine a class that can create a base URL for your service endpoint. Let’s call it service factory. 😅</p><pre><code class="language-swift">class ServiceFactory {
+    func createProductionUrl() -&gt; URL {
+        return URL(string: "https://localhost/")!
     }
 }
-<span class="keyword">let</span> factory = <span class="type">ServiceFactory</span>()
-factory.<span class="call">createProductionUrl</span>()</code></pre><p>You might think, that hey, this is not even close to a <a href="https://medium.com/jeremy-codes/factory-method-in-swift-d5222dd6e61d" target="_blank">factory method</a> pattern, but wait for it... let's make things a little bit complicated by creating a protocol for the service class and a protocol for returning the URL as well. Now we can implement our base production URL protocol as a separate class and return that specific instance from a production service factory class. Just check the code you'll get it:</p><pre><code class="language-swift"><span class="keyword">protocol</span> ServiceFactory {
-    <span class="keyword">func</span> create() -&gt; <span class="type">Service</span>
+let factory = ServiceFactory()
+factory.createProductionUrl()
+</code></pre><p>You might think, that hey, this is not even close to a <a href="https://medium.com/jeremy-codes/factory-method-in-swift-d5222dd6e61d" target="_blank">factory method</a> pattern, but wait for it… let’s make things a little bit complicated by creating a protocol for the service class and a protocol for returning the URL as well. Now we can implement our base production URL protocol as a separate class and return that specific instance from a production service factory class. Just check the code you’ll get it:</p><pre><code class="language-swift">protocol ServiceFactory {
+    func create() -&gt; Service
 }
 
-<span class="keyword">protocol</span> Service {
-    <span class="keyword">var</span> url: <span class="type">URL</span> { <span class="keyword">get</span> }
+protocol Service {
+    var url: URL { get }
 }
 
-<span class="keyword">class</span> ProductionService: <span class="type">Service</span> {
-    <span class="keyword">var</span> url: <span class="type">URL</span> { <span class="keyword">return</span> <span class="type">URL</span>(string: <span class="string">"https://localhost/"</span>)! }
+class ProductionService: Service {
+    var url: URL { return URL(string: "https://localhost/")! }
 }
 
-<span class="keyword">class</span> ProductionServiceFactory: <span class="type">ServiceFactory</span> {
-    <span class="keyword">func</span> create() -&gt; <span class="type">Service</span> {
-        <span class="keyword">return</span> <span class="type">ProductionService</span>()
+class ProductionServiceFactory: ServiceFactory {
+    func create() -&gt; Service {
+        return ProductionService()
     }
 }
 
-<span class="keyword">let</span> factory = <span class="type">ProductionServiceFactory</span>()
-<span class="keyword">let</span> request = factory.<span class="call">create</span>()</code></pre><p>Why did we separated all the logic into two classes and protocols? Please believe me decoupling is a good thing. From now on you could easily write a mocked service with a dummy URL to play around with. Obviously that'd need a matching factory class.</p><p>Those mock instances would also implement the service protocols so you could add new types in a relatively painless way without changing the original codebase. The <a href="https://medium.com/@NilStack/swift-world-design-patterns-factory-method-2be4bb3c73cc" target="_blank">factory method</a> solves one specific problem of a simple factory pattern. If the list - inside the switch-case - becomes too long, maintaining new objects will be hell with just one factory. <a href="https://stackoverflow.com/questions/69849/factory-pattern-when-to-use-factory-methods" target="_blank">Factory method</a> solves this by introducing multiple factory objects.</p>
-        </section>
-    </div>
-
-</article>
-
-<section id="share" class="content-wrapper">
-    <p>
-    <a
-        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/swift-factory-method-design-pattern/"
-        target="_blank"
-    >
-        Share this article
-    </a>
-    <br> Thank you. 🙏</p>
-</section>
-
-<section  class="wrapper">
-    <div id="book">
-        <div class="column left">
-            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+let factory = ProductionServiceFactory()
+let request = factory.create()
+</code></pre><p>Why did we separated all the logic into two classes and protocols? Please believe me decoupling is a good thing. From now on you could easily write a mocked service with a dummy URL to play around with. Obviously that’d need a matching factory class.</p><p>Those mock instances would also implement the service protocols so you could add new types in a relatively painless way without changing the original codebase. The <a href="https://medium.com/@NilStack/swift-world-design-patterns-factory-method-2be4bb3c73cc" target="_blank">factory method</a> solves one specific problem of a simple factory pattern. If the list - inside the switch-case - becomes too long, maintaining new objects will be hell with just one factory. <a href="https://stackoverflow.com/questions/69849/factory-pattern-when-to-use-factory-methods" target="_blank">Factory method</a> solves this by introducing multiple factory objects.</p>
+                    
+                </section>
+    
+                <footer>
+                    <br>
+                    <time datetime=""></time>
+    
+                    
+                    <div class="author-list">
+                        <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        </a>
+                    </div>
+                    <div class="tag-list">
+                        <a href="https://theswiftdev.com/tags/design-pattern/"><small>Design pattern</small></a>
+                    </div>
+                    
+                    <p>
+                        <a href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/swift-factory-method-design-pattern/" target="_blank">
+                            <strong>Share this article</strong>
+                        </a>
+                        <br>Thank you. 🙏
+                    </p>
+                </footer>
+                            
+                <section class="group">
+                    <h4>Related posts</h4>                
+                    <div class="grid grid-221">
+                        <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/11/27">2020/11/27</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/event-driven-generic-hooks-for-swift/" target="">Event-driven generic hooks for Swift</a></h2>
+                            <hr>
+                            <p>In this article I am going to show you how to implement a basic event processing system for your modular Swift application.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018/08/19">2018/08/19</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/iterator-design-pattern-in-swift/" target="">Iterator design pattern in Swift</a></h2>
+                            <hr>
+                            <p>Learn the iterator design pattern by using some custom sequences, conforming to the IteratorProtocol from the Swift standard library.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018/12/17">2018/12/17</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/lazy-initialization-in-swift/" target="">Lazy initialization in Swift</a></h2>
+                            <hr>
+                            <p>Learn how to use lazy properties in Swift to improve performance, avoid optionals or just to make the init process more clean.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2022/08/12">2022/08/12</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/lenses-and-prisms-in-swift/" target="">Lenses and prisms in Swift</a></h2>
+                            <hr>
+                            <p>Beginner&#39;s guide about optics in Swift. Learn how to use lenses and prisms to manipulate objects using a functional approach.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    
+            </article>
         </div>
-        <div class="column right">
-            <h3>Get the Practical Server Side Swift book</h3>
-            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
-        </div>
-    </div>
-</section>
-
-<section id="author" class="content-wrapper">
-    <img 
-        id="author-image"
-        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
-        alt="Picture of Tibor Bödecs" 
-        title="Tibor Bödecs"
-    >
-    <h3>Tibor Bödecs</h3>
-    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
-    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
-
-    <div class="links">
-        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
-        <a href="https://github.com/tib" target="_blank">GitHub</a> 
-    </div>
-</section>
-
         
+        <div>
+            <div class="book">
+                <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">
+                    <img src="https://theswiftdev.com/book/practical-server-side-swift-cover.png" alt="Practical Server Side Swift cover image">
+                </a>
+                <h3>
+                    <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Get the Practical Server Side Swift book</a>
+                </h3>
+                <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+                <a class="cta" href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+            </div>
+            
+            
+            <aside id="toc">
+                <h4>On this page</h4>
+                <ul>
+                    <li class="first-level">
+                        <a href="#factory-method-is-just-a-non-static-method">Factory method is just a non-static method</a>
+                        <ul>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+            
+    
+        </div>
+    </div>
+    
     </main>
 
-    <footer>
-        <section class="content-wrapper">
-            <img 
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
-
-            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+    <footer id="site-footer">
+        <div class="grid grid-421">
+    
+            <picture>
+                <img
+                    id="logo-image"
+                    src="https://theswiftdev.com/images/logos/logo-large.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
             
-            <p> 
-                <a href="https://theswiftdev.com/">Home</a> ·
-                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
-            </p>
+            <div>
+                <span style="display: block; height: 32px;">&nbsp;</span>
+                <h4>The.Swift.Dev</h4>
+                <p><small><a href="https://theswiftdev.com/" target="_blank">theswiftdev.com</a></small></p>
+                <ul>
+                    <li><a href="https://github.com/theswiftdev/" target="_blank">GitHub</a></li>
+                    <li><a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a></li>
+                    <li><a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a></li>
+                </ul>
+            </div>
             
-            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+            <div>
+                
+            </div>
+            
+            <div>
+                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                </a>
+                <h4><a href="https://theswiftdev.com/authors/tibor-bodecs/">Tibor Bödecs</a></h4>
+                <p><small><a href="https://binarybirds.com/" target="_blank">Binary Birds Kft.</a></small></p>
+                <ul>
+                    <li><a href="mailto:mail.tib@gmail.com" target="_blank">Email</a></li>
+                    <li><a href="https://github.com/tib/" target="_blank">GitHub</a></li>
+                    <li><a href="https://x.com/tiborbodecs" target="_blank">X (Twitter)</a></li>
+                    <li><a href="https://mastodon.social/@tiborbodecs" target="_blank">Mastodon</a></li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <section class="grid grid-221">
+            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>
+
+    </div>
+
+    
 </body>
 </html>

@@ -1,94 +1,114 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
     <meta charset="utf-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="canonical" href="https://theswiftdev.com/how-to-use-icloud-drive-documents/">
     
+    
+
     <title>How to use iCloud drive documents? - The.Swift.Dev.</title>
-    
     <meta name="description" content="Learn how to sync files and data through a shared iCloud drive folder using the latest version of Swift programming language.">
-    
+
+    <meta property="og:url" content="https://theswiftdev.com/how-to-use-icloud-drive-documents/">
     <meta property="og:title" content="How to use iCloud drive documents? - The.Swift.Dev.">
     <meta property="og:description" content="Learn how to sync files and data through a shared iCloud drive folder using the latest version of Swift programming language.">
-    <meta property="og:url" content="https://theswiftdev.com/how-to-use-icloud-drive-documents/">
-    <meta property="og:image" content="https://theswiftdev.com/images/assets/how-to-use-icloud-drive-documents/cover.jpg">
+    
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@tiborbodecs">
-    <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="How to use iCloud drive documents? - The.Swift.Dev.">
     <meta name="twitter:description" content="Learn how to sync files and data through a shared iCloud drive folder using the latest version of Swift programming language.">
-    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/how-to-use-icloud-drive-documents/cover.jpg">
     
-    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
-    
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-normalize.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/variables.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/grid.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/navigation.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/footer.css">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+
     
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/icons/apple-touch-icon-180x180.png">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+        media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+        media="(prefers-color-scheme: dark)"
+    >
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
 </head>
 
 <body>
-    <a href="https://theswiftdev.gumroad.com" class="ribbon">
-        📖
-    </a>
-    <header id="page-header">
-        <a href="https://theswiftdev.com/">
-            <img 
-                id="logo-image"
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
+    <div id="site-container">
+
+    <header id="navigation">
+        <a href="/">
+            <picture>
+                <img
+                    src="https://theswiftdev.com/images/logos/logo.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
         </a>
-    </header>
-    
-    <main>
-
-        <article>
-    <header>
-        <section id="post-header" class="content-wrapper">
-            <time datetime="2018/05/17">2018/05/17</time>
-            <h1 class="title">How to use iCloud drive documents?</h1>
-            <p class="excerpt">Learn how to sync files and data through a shared iCloud drive folder using the latest version of Swift programming language.</p>
-            <div class="meta">
-                <span class="tag">UIKit</span>
-<span class="tag">iOS</span>
-<span class="tag">iCloud</span>
+        <nav>
+            <input type="checkbox" id="primary-menu-button" name="menu-button" class="menu-button">
+            <label for="primary-menu-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </label>
+            <div class="menu-items">
+                <a href="/page/1/">Posts</a>
+                <a href="/tags/">Tags</a>
+                <a href="/authors/">Authors</a>
+                <a href="/practical-server-side-swift/">My Book</a>
             </div>
-        </section>
-        <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.com/images/assets/how-to-use-icloud-drive-documents/cover.jpg">
-        </section>
+        </nav>
     </header>
 
-    <div id="contents">
-        <section class="content-wrapper">
-            <h2>iCloud drive project setup tutorial</h2><p>Let's start by creating a new project for iOS. You can select the single view application template, don't worry too much about document based apps, because in this tutorial we're not going to touch the <code>UIDocument</code> class at all. 🤷‍♂️</p></section><section class="wrapper">
-<figure>
-    <picture>
-        <img class="post-image" src="https://theswiftdev.com/images/assets/how-to-use-icloud-drive-documents/images/capabilities.png" alt="Capabilities">
-    </picture>
-</figure>
-</section><section class="content-wrapper"><p>The first step is to enable iCloud capabilities, which will generate a new entitlements file for you. Also you'll have to enable the iCloud application service for the app id on the <a href="https://developer.apple.com/account/ios/identifier/bundle" target="_blank">Apple developer</a> portal. You should also assign the iCloud container that's going to be used to store data. Just a few clicks, but you have to do this manually. 💩</p><p class="note">You need a valid Apple Developer Program membership in order to set <a href="https://developer.apple.com/support/app-capabilities/" target="_blank">advanced app capabilities</a> like iCloud support. So you have to pay $99/year. #greed 🤑</p></section><section class="wrapper">
-<figure>
-    <picture>
-        <img class="post-image" src="https://theswiftdev.com/images/assets/how-to-use-icloud-drive-documents/images/icloud.png" alt="iCloud">
-    </picture>
-</figure>
-</section><section class="content-wrapper"><p>So I believe that now you have a proper iOS app identifier with iCloud capabilities and application services enabled. One last step is ahead, you have to add these few lines to your <code>Info.plist</code> file in order to define the <a href="https://medium.com/ios-os-x-development/icloud-drive-documents-1a46b5706fe1" target="_blank">iCloud drive</a> container (folder name) that you're going to use. Note that you can have multiple containers for one app.</p><pre><code class="language-xml">&lt;key&gt;NSUbiquitousContainers&lt;/key&gt;
+    <main id="page-container">
+    
+    <div class="article-with-toc">
+        <div>
+            <article class="post">
+                <div class="meta">
+                    <time datetime="2018/05/17">2018/05/17</time>
+                     &middot; <span class="reading-time">3 min read</span>
+                    
+                </div>
+                <h1>How to use iCloud drive documents?</h1>
+                <hr>
+                <p>Learn how to sync files and data through a shared iCloud drive folder using the latest version of Swift programming language.</p>
+                <section>
+                
+                <h2 id="icloud-drive-project-setup-tutorial">iCloud drive project setup tutorial</h2><p>Let’s start by creating a new project for iOS. You can select the single view application template, don’t worry too much about document based apps, because in this tutorial we’re not going to touch the <code>UIDocument</code> class at all. 🤷‍♂️</p><p>    <img src="/assets/how-to-use-icloud-drive-documents/capabilities.png" alt="Capabilities"></p><p>The first step is to enable iCloud capabilities, which will generate a new entitlements file for you. Also you’ll have to enable the iCloud application service for the app id on the <a href="https://developer.apple.com/account/ios/identifier/bundle" target="_blank">Apple developer</a> portal. You should also assign the iCloud container that’s going to be used to store data. Just a few clicks, but you have to do this manually. 💩</p><blockquote><p>NOTE: You need a valid Apple Developer Program membership in order to set <a href="https://developer.apple.com/support/app-capabilities/" target="_blank">advanced app capabilities</a> like iCloud support. So you have to pay $99/year. #greed 🤑</p></blockquote><p>    <img src="/assets/how-to-use-icloud-drive-documents/icloud.png" alt="iCloud"></p><p>So I believe that now you have a proper iOS app identifier with iCloud capabilities and application services enabled. One last step is ahead, you have to add these few lines to your <code>Info.plist</code> file in order to define the <a href="https://medium.com/ios-os-x-development/icloud-drive-documents-1a46b5706fe1" target="_blank">iCloud drive</a> container (folder name) that you’re going to use. Note that you can have multiple containers for one app.</p><pre><code class="language-xml">&lt;key&gt;NSUbiquitousContainers&lt;/key&gt;
 &lt;dict&gt;
     &lt;key&gt;iCloud.com.tiborbodecs.teszt&lt;/key&gt;
     &lt;dict&gt;
@@ -100,141 +120,265 @@
         &lt;string&gt;Any&lt;/string&gt;
     &lt;/dict&gt;
 &lt;/dict&gt;
-</code></pre><p>Finally we're ready to move forward with some actual coding. 💻</p><h2>Files inside iCloud drive containers</h2><p>Working with iCloud files using Swift is relatively easy. Basically you just have to get the base URL of your iCloud drive container, and you can do whatever you want. 🤔 However I'll show you some best practices &amp; tricks.</p><p>First you have to check if your container folder already exists, if not you should create it by hand using the FileManager class. I've also made a "shortcut" variable for the container base URL, so I don't have to write all those long words again. 😅</p><pre><code class="language-swift"><span class="keyword">var</span> containerUrl: <span class="type">URL</span>? {
-    <span class="type">FileManager</span>.<span class="property">default</span>.<span class="call">url</span>(
-        forUbiquityContainerIdentifier: <span class="keyword">nil</span>
-    )?.<span class="call">appendingPathComponent</span>(<span class="string">"Documents"</span>)
+</code></pre><p>Finally we’re ready to move forward with some actual coding. 💻</p><h2 id="files-inside-icloud-drive-containers">Files inside iCloud drive containers</h2><p>Working with iCloud files using Swift is relatively easy. Basically you just have to get the base URL of your iCloud drive container, and you can do whatever you want. 🤔 However I’ll show you some best practices & tricks.</p><p>First you have to check if your container folder already exists, if not you should create it by hand using the FileManager class. I’ve also made a “shortcut” variable for the container base URL, so I don’t have to write all those long words again. 😅</p><pre><code class="language-swift">var containerUrl: URL? {
+    FileManager.default.url(
+        forUbiquityContainerIdentifier: nil
+    )?.appendingPathComponent("Documents")
 }
-<span class="comment">// check for container existence</span>
-<span class="keyword">if 
-    let</span> url = <span class="keyword">self</span>.<span class="property">containerUrl</span>, 
-    !<span class="type">FileManager</span>.<span class="property">default</span>.<span class="call">fileExists</span>(
-        atPath: url.<span class="property">path</span>, 
-        isDirectory: <span class="keyword">nil</span>
+// check for container existence
+if 
+    let url = self.containerUrl, 
+    !FileManager.default.fileExists(
+        atPath: url.path, 
+        isDirectory: nil
     ) {
-    <span class="keyword">do</span> {
-        <span class="keyword">try</span> <span class="type">FileManager</span>.<span class="property">default</span>.<span class="call">createDirectory</span>(
-            at: url, withIntermediateDirectories: <span class="keyword">true</span>, 
-            attributes: <span class="keyword">nil</span>
+    do {
+        try FileManager.default.createDirectory(
+            at: url, withIntermediateDirectories: true, 
+            attributes: nil
         )
     }
-    <span class="keyword">catch</span> {
-        <span class="call">print</span>(error.<span class="property">localizedDescription</span>)
+    catch {
+        print(error.localizedDescription)
     }
-}</code></pre><p>Working with paths inside the iCloud drive container is simple, you can append path components to the base URL and use that exact location URL as you want.</p><pre><code class="language-swift"><span class="keyword">let</span> myDocumentUrl = <span class="keyword">self</span>.<span class="property">containerUrl</span>?
-    .<span class="call">appendingPathComponent</span>(subDirectory)
-    .<span class="call">appendingPathComponent</span>(fileName)
-    .<span class="call">appendingPathExtension</span>(fileExtension)</code></pre><p>Picking existing files is also quite straightforward. You can use the built-in document picker class from UIKit. There are only two catches here. 🤦‍♂️</p><p>First one is that you need to provide the type of the documents that you'd like to access. Have you ever heard about <a href="https://developer.apple.com/library/content/documentation/FileManagement/Conceptual/understanding_utis/understand_utis_intro/understand_utis_intro.html#//apple_ref/doc/uid/TP40001319-CH201-SW1" target="_blank">UTI</a>'s? No? Maybe yes...? The thing is that you have to find the proper <a href="https://developer.apple.com/library/content/documentation/FileManagement/Conceptual/understanding_utis/understand_utis_declare/understand_utis_declare.html#//apple_ref/doc/uid/TP40001319-CH204-SW1" target="_blank">uniform type identifier</a> for every file type, instead of providing an extension or mime-type or something commonly used thing. Smart one, huh? 🧠</p><pre><code class="language-swift"><span class="keyword">let</span> picker = <span class="type">UIDocumentPickerViewController</span>(
-    documentTypes: [<span class="string">"public.json"</span>], 
-    in: .<span class="dotAccess">open</span>
+}
+</code></pre><p>Working with paths inside the iCloud drive container is simple, you can append path components to the base URL and use that exact location URL as you want.</p><pre><code class="language-swift">let myDocumentUrl = self.containerUrl?
+    .appendingPathComponent(subDirectory)
+    .appendingPathComponent(fileName)
+    .appendingPathExtension(fileExtension)
+</code></pre><p>Picking existing files is also quite straightforward. You can use the built-in document picker class from UIKit. There are only two catches here. 🤦‍♂️</p><p>First one is that you need to provide the type of the documents that you’d like to access. Have you ever heard about <a href="https://developer.apple.com/library/content/documentation/FileManagement/Conceptual/understanding_utis/understand_utis_intro/understand_utis_intro.html#//apple_ref/doc/uid/TP40001319-CH201-SW1" target="_blank">UTI</a>’s? No? Maybe yes…? The thing is that you have to find the proper <a href="https://developer.apple.com/library/content/documentation/FileManagement/Conceptual/understanding_utis/understand_utis_declare/understand_utis_declare.html#//apple_ref/doc/uid/TP40001319-CH204-SW1" target="_blank">uniform type identifier</a> for every file type, instead of providing an extension or mime-type or something commonly used thing. Smart one, huh? 🧠</p><pre><code class="language-swift">let picker = UIDocumentPickerViewController(
+    documentTypes: ["public.json"], 
+    in: .open
 )
-picker.<span class="property">delegate</span> = <span class="keyword">self</span>
-picker.<span class="property">modalPresentationStyle</span> = .<span class="dotAccess">fullScreen</span>
-<span class="keyword">self</span>.<span class="call">present</span>(picker, animated: <span class="keyword">true</span>, completion: <span class="keyword">nil</span>)</code></pre><p>The second catch is that you have to "unlock" the picked file before you start reading it. That can be done by calling the <code>startAccessingSecurityScopedResource</code> method. Don't forget to call the stopAccessingSecurityScopedResource method, or things are going to be out of balance. You don't want that, trust me! #snap 🧤</p><pre><code class="language-swift"><span class="keyword">func</span> documentPicker(
-    <span class="keyword">_</span> controller: <span class="type">UIDocumentPickerViewController</span>, 
-    didPickDocumentsAt urls: [<span class="type">URL</span>]
+picker.delegate = self
+picker.modalPresentationStyle = .fullScreen
+self.present(picker, animated: true, completion: nil)
+</code></pre><p>The second catch is that you have to “unlock” the picked file before you start reading it. That can be done by calling the <code>startAccessingSecurityScopedResource</code> method. Don’t forget to call the stopAccessingSecurityScopedResource method, or things are going to be out of balance. You don’t want that, trust me! #snap 🧤</p><pre><code class="language-swift">func documentPicker(
+    _ controller: UIDocumentPickerViewController, 
+    didPickDocumentsAt urls: [URL]
 ) {
-    <span class="keyword">guard</span>
-        controller.<span class="property">documentPickerMode</span> == .<span class="dotAccess">open</span>,
-        <span class="keyword">let</span> url = urls.<span class="property">first</span>,
-        url.<span class="call">startAccessingSecurityScopedResource</span>()
-    <span class="keyword">else</span> {
-        <span class="keyword">return</span>
+    guard
+        controller.documentPickerMode == .open,
+        let url = urls.first,
+        url.startAccessingSecurityScopedResource()
+    else {
+        return
     }
-    <span class="keyword">defer</span> {
-        url.<span class="call">stopAccessingSecurityScopedResource</span>()
+    defer {
+        url.stopAccessingSecurityScopedResource()
     }
-    <span class="comment">// do some work with the url</span>
-}</code></pre><p>Everything else works as you'd expect. You can save files directly into the container through file APIs or by using the <code>UIDocumentPickerViewController</code> instance. Here are some of the most common api calls, that you can use to manipulate files.</p><pre><code class="language-swift"><span class="comment">// string</span>
-<span class="keyword">try</span> string.<span class="call">write</span>(to: url, atomically: <span class="keyword">true</span>, encoding: .<span class="dotAccess">utf8</span>)
-<span class="keyword">try</span> <span class="type">String</span>(contentsOf: url)
+    // do some work with the url
+}
+</code></pre><p>Everything else works as you’d expect. You can save files directly into the container through file APIs or by using the <code>UIDocumentPickerViewController</code> instance. Here are some of the most common api calls, that you can use to manipulate files.</p><pre><code class="language-swift">// string
+try string.write(to: url, atomically: true, encoding: .utf8)
+try String(contentsOf: url)
 
-<span class="comment">// data</span>
-<span class="keyword">try</span> data.<span class="call">write</span>(to: url, options: [.<span class="dotAccess">atomic</span>])
-<span class="keyword">try</span> <span class="type">Data</span>(contentsOf: url)
+// data
+try data.write(to: url, options: [.atomic])
+try Data(contentsOf: url)
 
-<span class="comment">// file manager</span>
-<span class="type">FileManager</span>.<span class="property">default</span>.<span class="call">copyItem</span>(at: local, to: url)
-<span class="type">FileManager</span>.<span class="property">default</span>.<span class="call">removeItem</span>(at: url)</code></pre><p>You can read and write any kind of string, data. By using the <code>FileManager</code> you can copy, move, delete items or change file attributes. All your documents stored inside iCloud drive will be magically available on every device. Obviously you have to be logged in with your iCloud account, and have enough free storage. 💰</p><h2>Debugging</h2><p>If you alter something in your settings you might want to increment your build number as well in order to notify the operating system about the changes. 💡</p><p>On the mac all the iCloud drive files / containers are located under the user's Library folder inside the Mobile Documents directory. You can simply use the Terminal or Finder to go there and list all the files. Pro tip: look for hidden ones as well! 😉</p><pre><code class="language-sh">cd ~/Library/Mobile\ Documents
+// file manager
+FileManager.default.copyItem(at: local, to: url)
+FileManager.default.removeItem(at: url)
+</code></pre><p>You can read and write any kind of string, data. By using the <code>FileManager</code> you can copy, move, delete items or change file attributes. All your documents stored inside iCloud drive will be magically available on every device. Obviously you have to be logged in with your iCloud account, and have enough free storage. 💰</p><h2 id="debugging">Debugging</h2><p>If you alter something in your settings you might want to increment your build number as well in order to notify the operating system about the changes. 💡</p><p>On the mac all the iCloud drive files / containers are located under the user’s Library folder inside the Mobile Documents directory. You can simply use the Terminal or Finder to go there and list all the files. Pro tip: look for hidden ones as well! 😉</p><pre><code class="language-sh">cd ~/Library/Mobile\ Documents
 ls -la
 # ls -la|grep tiborbodecs
 </code></pre><p>You can also monitor the activity of the CloudDocs daemon, by using this command:</p><pre><code class="language-sh"># man brctl
 brctl log --wait --shorten
-</code></pre><p>The output will tell you what's actually happening during the sync.</p></section><section class="wrapper">
-<figure>
-    <picture>
-        <img class="post-image" src="https://theswiftdev.com/images/assets/how-to-use-icloud-drive-documents/images/debug.png" alt="Debug">
-    </picture>
-</figure>
-</section><section class="content-wrapper"><p>I encourage you to check the manual entry for the <code>brctl</code> command, because there are a few more flags that can make troubleshooting more easy. 🤐</p><p>This article was heavily inspired by <a href="https://x.com/krzyzanowskim" target="_blank">Marcin Krzyzanowski</a>'s really old blog post. 🍺</p>
-        </section>
-    </div>
-
-</article>
-
-<section id="share" class="content-wrapper">
-    <p>
-    <a
-        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/how-to-use-icloud-drive-documents/"
-        target="_blank"
-    >
-        Share this article
-    </a>
-    <br> Thank you. 🙏</p>
-</section>
-
-<section  class="wrapper">
-    <div id="book">
-        <div class="column left">
-            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+</code></pre><p>The output will tell you what’s actually happening during the sync.</p><p>    <img src="/assets/how-to-use-icloud-drive-documents/debug.png" alt="Debug"></p><p>I encourage you to check the manual entry for the <code>brctl</code> command, because there are a few more flags that can make troubleshooting more easy. 🤐</p><p>This article was heavily inspired by <a href="https://x.com/krzyzanowskim" target="_blank">Marcin Krzyzanowski</a>’s really old blog post. 🍺</p>
+                    
+                </section>
+    
+                <footer>
+                    <br>
+                    <time datetime=""></time>
+    
+                    
+                    <div class="author-list">
+                        <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        </a>
+                    </div>
+                    <div class="tag-list">
+                        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
+                    </div>
+                    
+                    <p>
+                        <a href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/how-to-use-icloud-drive-documents/" target="_blank">
+                            <strong>Share this article</strong>
+                        </a>
+                        <br>Thank you. 🙏
+                    </p>
+                </footer>
+                            
+                <section class="group">
+                    <h4>Related posts</h4>                
+                    <div class="grid grid-221">
+                        <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018/10/16">2018/10/16</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/custom-uiview-subclass-from-a-xib-file/" target="">Custom UIView subclass from a xib file</a></h2>
+                            <hr>
+                            <p>Do you want to learn how to load a xib file to create a custom view object? Well, this UIKit tutorial is just for you written in Swift.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2017/10/31">2017/10/31</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/ios-auto-layout-tutorial-programmatically/" target="">iOS Auto Layout tutorial programmatically</a></h2>
+                            <hr>
+                            <p>In this great iOS Auto Layout tutorial I&#39;ll teach you how to support rotation, use constraints, work with layers, animate corner radius.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018/04/26">2018/04/26</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/ios-custom-transition-tutorial-in-swift/" target="">iOS custom transition tutorial in Swift</a></h2>
+                            <hr>
+                            <p>In this tutorial, you&#39;ll learn how to replace the push, pop and modal animations with custom transitions &amp; percent driven interactions.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018/06/14">2018/06/14</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/mastering-ios-auto-layout-anchors-programmatically-from-swift/" target="">Mastering iOS auto layout anchors programmatically from Swift</a></h2>
+                            <hr>
+                            <p>Looking for best practices of using layout anchors? Let&#39;s learn how to use the iOS autolayout system in the proper way using Swift.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    
+            </article>
         </div>
-        <div class="column right">
-            <h3>Get the Practical Server Side Swift book</h3>
-            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
-        </div>
-    </div>
-</section>
-
-<section id="author" class="content-wrapper">
-    <img 
-        id="author-image"
-        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
-        alt="Picture of Tibor Bödecs" 
-        title="Tibor Bödecs"
-    >
-    <h3>Tibor Bödecs</h3>
-    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
-    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
-
-    <div class="links">
-        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
-        <a href="https://github.com/tib" target="_blank">GitHub</a> 
-    </div>
-</section>
-
         
+        <div>
+            <div class="book">
+                <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">
+                    <img src="https://theswiftdev.com/book/practical-server-side-swift-cover.png" alt="Practical Server Side Swift cover image">
+                </a>
+                <h3>
+                    <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Get the Practical Server Side Swift book</a>
+                </h3>
+                <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+                <a class="cta" href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+            </div>
+            
+            
+            <aside id="toc">
+                <h4>On this page</h4>
+                <ul>
+                    <li class="first-level">
+                        <a href="#icloud-drive-project-setup-tutorial">iCloud drive project setup tutorial</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#files-inside-icloud-drive-containers">Files inside iCloud drive containers</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#debugging">Debugging</a>
+                        <ul>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+            
+    
+        </div>
+    </div>
+    
     </main>
 
-    <footer>
-        <section class="content-wrapper">
-            <img 
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
-
-            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+    <footer id="site-footer">
+        <div class="grid grid-421">
+    
+            <picture>
+                <img
+                    id="logo-image"
+                    src="https://theswiftdev.com/images/logos/logo-large.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
             
-            <p> 
-                <a href="https://theswiftdev.com/">Home</a> ·
-                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
-            </p>
+            <div>
+                <span style="display: block; height: 32px;">&nbsp;</span>
+                <h4>The.Swift.Dev</h4>
+                <p><small><a href="https://theswiftdev.com/" target="_blank">theswiftdev.com</a></small></p>
+                <ul>
+                    <li><a href="https://github.com/theswiftdev/" target="_blank">GitHub</a></li>
+                    <li><a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a></li>
+                    <li><a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a></li>
+                </ul>
+            </div>
             
-            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+            <div>
+                
+            </div>
+            
+            <div>
+                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                </a>
+                <h4><a href="https://theswiftdev.com/authors/tibor-bodecs/">Tibor Bödecs</a></h4>
+                <p><small><a href="https://binarybirds.com/" target="_blank">Binary Birds Kft.</a></small></p>
+                <ul>
+                    <li><a href="mailto:mail.tib@gmail.com" target="_blank">Email</a></li>
+                    <li><a href="https://github.com/tib/" target="_blank">GitHub</a></li>
+                    <li><a href="https://x.com/tiborbodecs" target="_blank">X (Twitter)</a></li>
+                    <li><a href="https://mastodon.social/@tiborbodecs" target="_blank">Mastodon</a></li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <section class="grid grid-221">
+            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>
+
+    </div>
+
+    
 </body>
 </html>

@@ -1,136 +1,173 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
     <meta charset="utf-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="canonical" href="https://theswiftdev.com/how-to-write-swift-scripts-using-the-new-command-api-in-vapor-4/">
     
+    
+
     <title>How to write Swift scripts using the new Command API in Vapor 4? - The.Swift.Dev.</title>
-    
     <meta name="description" content="Shell scripts are essentials on the server side. Learn how to build Swift scripts for your backend apps using property wrappers.">
-    
+
+    <meta property="og:url" content="https://theswiftdev.com/how-to-write-swift-scripts-using-the-new-command-api-in-vapor-4/">
     <meta property="og:title" content="How to write Swift scripts using the new Command API in Vapor 4? - The.Swift.Dev.">
     <meta property="og:description" content="Shell scripts are essentials on the server side. Learn how to build Swift scripts for your backend apps using property wrappers.">
-    <meta property="og:url" content="https://theswiftdev.com/how-to-write-swift-scripts-using-the-new-command-api-in-vapor-4/">
-    <meta property="og:image" content="https://theswiftdev.com/images/assets/how-to-write-swift-scripts-using-the-new-command-api-in-vapor-4/cover.jpg">
+    
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@tiborbodecs">
-    <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="How to write Swift scripts using the new Command API in Vapor 4? - The.Swift.Dev.">
     <meta name="twitter:description" content="Shell scripts are essentials on the server side. Learn how to build Swift scripts for your backend apps using property wrappers.">
-    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/how-to-write-swift-scripts-using-the-new-command-api-in-vapor-4/cover.jpg">
     
-    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
-    
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-normalize.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/variables.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/grid.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/navigation.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/footer.css">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+
     
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/icons/apple-touch-icon-180x180.png">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+        media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+        media="(prefers-color-scheme: dark)"
+    >
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
 </head>
 
 <body>
-    <a href="https://theswiftdev.gumroad.com" class="ribbon">
-        📖
-    </a>
-    <header id="page-header">
-        <a href="https://theswiftdev.com/">
-            <img 
-                id="logo-image"
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
+    <div id="site-container">
+
+    <header id="navigation">
+        <a href="/">
+            <picture>
+                <img
+                    src="https://theswiftdev.com/images/logos/logo.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
         </a>
-    </header>
-    
-    <main>
-
-        <article>
-    <header>
-        <section id="post-header" class="content-wrapper">
-            <time datetime="2020/03/03">2020/03/03</time>
-            <h1 class="title">How to write Swift scripts using the new Command API in Vapor 4?</h1>
-            <p class="excerpt">Shell scripts are essentials on the server side. Learn how to build Swift scripts for your backend apps using property wrappers.</p>
-            <div class="meta">
-                <span class="tag">Vapor</span>
+        <nav>
+            <input type="checkbox" id="primary-menu-button" name="menu-button" class="menu-button">
+            <label for="primary-menu-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </label>
+            <div class="menu-items">
+                <a href="/page/1/">Posts</a>
+                <a href="/tags/">Tags</a>
+                <a href="/authors/">Authors</a>
+                <a href="/practical-server-side-swift/">My Book</a>
             </div>
-        </section>
-        <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.com/images/assets/how-to-write-swift-scripts-using-the-new-command-api-in-vapor-4/cover.jpg">
-        </section>
+        </nav>
     </header>
 
-    <div id="contents">
-        <section class="content-wrapper">
-            <h2>Swift Argument Parser vs Vapor Commands</h2><p>Apple open-sourced a new library that can help you a lot if you want to build scripts that written in Swift. The <a href="https://github.com/apple/swift-argument-parser" target="_blank">Swift Argument Parser</a> was previously part of the Swift Package Manager tools, but now it is even powerful &amp; has it's own life (I mean repository). 😉</p><p>On the other hand Vapor already had a somewhat similar approach to build scripts, but in Vapor 4 the Command API is better than ever. <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0258-property-wrappers.md" target="_blank">Property Wrappers</a> (available from Swift 5.1) are used in both cases to handle arguments, flags &amp; options. Personally I like this approach a lot.</p><p>Let me show you a simple hello command:</p><pre><code class="language-swift"><span class="comment">// using Argument Parser</span>
-<span class="keyword">import</span> ArgumentParser
-
-<span class="keyword">struct</span> HelloCommand: <span class="type">ParsableCommand</span> {
-    <span class="keyword">@Argument</span>(help: <span class="string">"The name to say hello"</span>)
-    <span class="keyword">var</span> name: <span class="type">String</span>
-
-    <span class="keyword">func</span> run() <span class="keyword">throws</span> {
-        <span class="call">print</span>(<span class="string">"Hello</span> \(<span class="keyword">self</span>.<span class="property">name</span>)<span class="string">!"</span>)
-    }
-}
-<span class="type">HelloCommand</span>.<span class="call">main</span>()
-<span class="comment">// usage: swift run myProject world</span></code></pre><p>Now I'll show you how to implement a similar command <a href="https://theswiftdev.com/beginners-guide-to-server-side-swift-using-vapor-4/">using Vapor</a>:</p><pre><code class="language-swift"><span class="comment">// using Vapor</span>
-<span class="keyword">import</span> Vapor
-
-<span class="keyword">final class</span> HelloCommand: <span class="type">Command</span> {
+    <main id="page-container">
     
-    <span class="keyword">let</span> help = <span class="string">"This command will say hello to a given name."</span>
+    <div class="article-with-toc">
+        <div>
+            <article class="post">
+                <div class="meta">
+                    <time datetime="2020/03/03">2020/03/03</time>
+                     &middot; <span class="reading-time">5 min read</span>
+                    
+                </div>
+                <h1>How to write Swift scripts using the new Command API in Vapor 4?</h1>
+                <hr>
+                <p>Shell scripts are essentials on the server side. Learn how to build Swift scripts for your backend apps using property wrappers.</p>
+                <section>
+                
+                <h2 id="swift-argument-parser-vs-vapor-commands">Swift Argument Parser vs Vapor Commands</h2><p>Apple open-sourced a new library that can help you a lot if you want to build scripts that written in Swift. The <a href="https://github.com/apple/swift-argument-parser" target="_blank">Swift Argument Parser</a> was previously part of the Swift Package Manager tools, but now it is even powerful & has it’s own life (I mean repository). 😉</p><p>On the other hand Vapor already had a somewhat similar approach to build scripts, but in Vapor 4 the Command API is better than ever. <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0258-property-wrappers.md" target="_blank">Property Wrappers</a> (available from Swift 5.1) are used in both cases to handle arguments, flags & options. Personally I like this approach a lot.</p><p>Let me show you a simple hello command:</p><pre><code class="language-swift">// using Argument Parser
+import ArgumentParser
 
-    <span class="keyword">struct</span> Signature: <span class="type">CommandSignature</span> {
-        <span class="keyword">@Argument</span>(name: <span class="string">"name"</span>, help: <span class="string">"The name to say hello"</span>)
-        <span class="keyword">var</span> name: <span class="type">String</span>
+struct HelloCommand: ParsableCommand {
+    @Argument(help: "The name to say hello")
+    var name: String
+
+    func run() throws {
+        print("Hello \(self.name)!")
+    }
+}
+HelloCommand.main()
+// usage: swift run myProject world
+</code></pre><p>Now I’ll show you how to implement a similar command <a href="https://theswiftdev.com/beginners-guide-to-server-side-swift-using-vapor-4/">using Vapor</a>:</p><pre><code class="language-swift">// using Vapor
+import Vapor
+
+final class HelloCommand: Command {
+    
+    let help = "This command will say hello to a given name."
+
+    struct Signature: CommandSignature {
+        @Argument(name: "name", help: "The name to say hello")
+        var name: String
     }
 
-    <span class="keyword">func</span> run(using context: <span class="type">CommandContext</span>, signature: <span class="type">Signature</span>) <span class="keyword">throws</span> {
-        <span class="call">print</span>(<span class="string">"Hello</span> \(signature.<span class="property">name</span>)<span class="string">!"</span>)
+    func run(using context: CommandContext, signature: Signature) throws {
+        print("Hello \(signature.name)!")
     }
 }
 
-<span class="keyword">public func</span> configure(<span class="keyword">_</span> app: <span class="type">Application</span>) <span class="keyword">throws</span> {
-    app.<span class="property">commands</span>.<span class="call">use</span>(<span class="type">HelloCommand</span>(), as: <span class="string">"hello"</span>)
+public func configure(_ app: Application) throws {
+    app.commands.use(HelloCommand(), as: "hello")
 }
-<span class="comment">// usage: swift run myProject hello world</span></code></pre><p>As you can see they almost look like the same.</p><p class="note">If you love scripting, you should definitely check <a href="https://github.com/mxcl/swift-sh" target="_blank">swift-sh</a> and <a href="https://github.com/twostraws/Brisk" target="_blank">Brisk</a></p><p>The Swift Argument Parser library is a lightweight solution if you are only looking for a simple Swift script. A good example is a tool that manipulates files on the system or something similar. It's just one little dependency, but it removes so much boilerplate from your scripts. It allows you to focus on the script itself, instead of parsing the command line inputs. You can find more detailed examples and a detailed <a href="https://github.com/apple/swift-argument-parser/tree/master/Documentation" target="_blank">documentation</a> inside the GitHub repository. 🙏</p><p>Vapor's Command API is useful if you want to perform more complicated tasks with your scripts. Anything that's part of your Vapor application can be triggered from a command, so you can easily create a backend tool that reads (or writes) records from the database <a href="https://theswiftdev.com/a-tutorial-for-beginners-about-the-fluent-postgresql-driver-in-vapor-4/">using Fluent 4</a>. This is the main advantage of using a Vapor command, instead a standalone Swift script.</p><h2>Arguments, options, flags</h2><p>Let's extend the hello command with a new option and a flag. The main difference between an option and a flag is that an option has an associated value, but a flag is just something that you give to the command or not. Both options and flags start with a single <code>-</code> or a double dash <code>--</code>, usually the single dashed version uses a short name for the same thing. 🤓</p><p class="note">Arguments are user provided values read in order (e.g. <code>./hello joe bob john</code>).</p><p>Now that you know the basic definitions, here is the example:</p><pre><code class="language-swift"><span class="keyword">final class</span> HelloCommand: <span class="type">Command</span> {
+// usage: swift run myProject hello world
+</code></pre><p>As you can see they almost look like the same.</p><blockquote><p>NOTE: If you love scripting, you should definitely check <a href="https://github.com/mxcl/swift-sh" target="_blank">swift-sh</a> and <a href="https://github.com/twostraws/Brisk" target="_blank">Brisk</a></p></blockquote><p>The Swift Argument Parser library is a lightweight solution if you are only looking for a simple Swift script. A good example is a tool that manipulates files on the system or something similar. It’s just one little dependency, but it removes so much boilerplate from your scripts. It allows you to focus on the script itself, instead of parsing the command line inputs. You can find more detailed examples and a detailed <a href="https://github.com/apple/swift-argument-parser/tree/master/Documentation" target="_blank">documentation</a> inside the GitHub repository. 🙏</p><p>Vapor’s Command API is useful if you want to perform more complicated tasks with your scripts. Anything that’s part of your Vapor application can be triggered from a command, so you can easily create a backend tool that reads (or writes) records from the database <a href="https://theswiftdev.com/a-tutorial-for-beginners-about-the-fluent-postgresql-driver-in-vapor-4/">using Fluent 4</a>. This is the main advantage of using a Vapor command, instead a standalone Swift script.</p><h2 id="arguments-options-flags">Arguments, options, flags</h2><p>Let’s extend the hello command with a new option and a flag. The main difference between an option and a flag is that an option has an associated value, but a flag is just something that you give to the command or not. Both options and flags start with a single <code>-</code> or a double dash <code>--</code>, usually the single dashed version uses a short name for the same thing. 🤓</p><blockquote><p>NOTE: Arguments are user provided values read in order (e.g. <code>./hello joe bob john</code>).</p></blockquote><p>Now that you know the basic definitions, here is the example:</p><pre><code class="language-swift">final class HelloCommand: Command {
         
-    <span class="keyword">struct</span> Signature: <span class="type">CommandSignature</span> {
+    struct Signature: CommandSignature {
 
-        <span class="keyword">@Argument</span>(name: <span class="string">"name"</span>, help: <span class="string">"The name to say hello"</span>)
-        <span class="keyword">var</span> name: <span class="type">String</span>
+        @Argument(name: "name", help: "The name to say hello")
+        var name: String
 
-        <span class="keyword">@Option</span>(name: <span class="string">"greeting"</span>, short: <span class="string">"g"</span>, help: <span class="string">"Greeting used"</span>)
-        <span class="keyword">var</span> greeting: <span class="type">String</span>?
+        @Option(name: "greeting", short: "g", help: "Greeting used")
+        var greeting: String?
 
-        <span class="keyword">@Flag</span>(name: <span class="string">"capitalize"</span>, short: <span class="string">"c"</span>, help: <span class="string">"Capitalizes the name"</span>)
-        <span class="keyword">var</span> capitalize: <span class="type">Bool</span>
+        @Flag(name: "capitalize", short: "c", help: "Capitalizes the name")
+        var capitalize: Bool
     }
 
-    <span class="keyword">let</span> help = <span class="string">"This command will say hello to a given name."</span>
+    let help = "This command will say hello to a given name."
 
-    <span class="keyword">func</span> run(using context: <span class="type">CommandContext</span>, signature: <span class="type">Signature</span>) <span class="keyword">throws</span> {
-        <span class="keyword">let</span> greeting = signature.<span class="property">greeting</span> ?? <span class="string">"Hello"</span>
-        <span class="keyword">var</span> name = signature.<span class="property">name</span>
-        <span class="keyword">if</span> signature.<span class="property">capitalize</span> {
-            name = name.<span class="property">capitalized</span>
+    func run(using context: CommandContext, signature: Signature) throws {
+        let greeting = signature.greeting ?? "Hello"
+        var name = signature.name
+        if signature.capitalize {
+            name = name.capitalized
         }
-        <span class="call">print</span>(<span class="string">"</span>\(greeting) \(name)<span class="string">!"</span>)
+        print("\(greeting) \(name)!")
     }
-}</code></pre><p>Arguments are required by default, options and flags are optionals. You can have a custom name (short and long) for everything, plus you can customize the help message for every component.</p><pre><code class="language-sh">swift run Run hello john
+}
+</code></pre><p>Arguments are required by default, options and flags are optionals. You can have a custom name (short and long) for everything, plus you can customize the help message for every component.</p><pre><code class="language-sh">swift run Run hello john
 # Hello john!
 
 swift run Run hello john --greeting Hi
@@ -141,156 +178,301 @@ swift run Run hello john --greeting Hi --capitalized
 
 swift run Run hello john -g Szia -c
 # Szia John!
-</code></pre><p>You can call the command using multiple styles. Feel free to pick a preferred version. ⭐️</p><h2>Subcommands</h2><blockquote><p>When command-line programs grow larger, it can be useful to divide them into a group of smaller programs, providing an interface through subcommands. Utilities such as git and the Swift package manager are able to provide varied interfaces for each of their sub-functions by implementing subcommands such as git branch or swift package init.</p></blockquote><p>Vapor can handle command groups in a really cool way. I'll add an extra static property to name our commands, since I don't like to repeat myself or bloat the code with unnecessary strings:</p><pre><code class="language-swift"><span class="keyword">final class</span> HelloCommand: <span class="type">Command</span> {
+</code></pre><p>You can call the command using multiple styles. Feel free to pick a preferred version. ⭐️</p><h2 id="subcommands">Subcommands</h2><blockquote><p>When command-line programs grow larger, it can be useful to divide them into a group of smaller programs, providing an interface through subcommands. Utilities such as git and the Swift package manager are able to provide varied interfaces for each of their sub-functions by implementing subcommands such as git branch or swift package init.</p></blockquote><p>Vapor can handle command groups in a really cool way. I’ll add an extra static property to name our commands, since I don’t like to repeat myself or bloat the code with unnecessary strings:</p><pre><code class="language-swift">final class HelloCommand: Command {
     
-    <span class="keyword">static var</span> name = <span class="string">"hello"</span>
+    static var name = "hello"
         
-    <span class="comment">//...</span>
+    //...
 }
 
-<span class="keyword">struct</span> WelcomeCommandGroup: <span class="type">CommandGroup</span> {
+struct WelcomeCommandGroup: CommandGroup {
     
-    <span class="keyword">static var</span> name = <span class="string">"welcome"</span>
+    static var name = "welcome"
 
-    <span class="keyword">let</span> help: <span class="type">String</span>
-    <span class="keyword">let</span> commands: [<span class="type">String</span>: <span class="type">AnyCommand</span>]
+    let help: String
+    let commands: [String: AnyCommand]
     
-    <span class="keyword">var</span> defaultCommand: <span class="type">AnyCommand</span>? {
-        <span class="keyword">self</span>.<span class="property">commands</span>[<span class="type">HelloCommand</span>.<span class="property">name</span>]
+    var defaultCommand: AnyCommand? {
+        self.commands[HelloCommand.name]
     }
 
-    <span class="keyword">init</span>() {
-        <span class="keyword">self</span>.<span class="property">help</span> = <span class="string">"SEO command group help"</span>
+    init() {
+        self.help = "SEO command group help"
 
-        <span class="keyword">self</span>.<span class="property">commands</span> = [
-            <span class="type">HelloCommand</span>.<span class="property">name</span>: <span class="type">HelloCommand</span>(),
+        self.commands = [
+            HelloCommand.name: HelloCommand(),
         ]
     }
 }
 
-<span class="keyword">public func</span> configure(<span class="keyword">_</span> app: <span class="type">Application</span>) <span class="keyword">throws</span> {
+public func configure(_ app: Application) throws {
 
-    app.<span class="property">commands</span>.<span class="call">use</span>(<span class="type">WelcomeCommandGroup</span>(), as: <span class="type">WelcomeCommandGroup</span>.<span class="property">name</span>)
-}</code></pre><p>That's it, we just moved our <code>hello</code> command under the <code>welcome</code> namespace.</p><pre><code class="language-sh">swift run Run welcome hello john --greeting "Hi" --capitalize
-</code></pre><p>If you read the Swift Argument Parser docs, you can achieve the exact same behavior through a custom <code>CommandConfiguration</code>. Personally, I prefer Vapor's approach here... 🤷‍♂️</p><h2>Waiting for async tasks</h2><p>Vapor builds on top of <a href="https://github.com/apple/swift-nio" target="_blank">SwiftNIO</a> including EventLoops, Futures &amp; Promises. Most of the API is asynchronous, but in the CLI world you have to wait for the async operations to finish.</p><pre><code class="language-swift"><span class="keyword">final class</span> TodoCommand: <span class="type">Command</span> {
+    app.commands.use(WelcomeCommandGroup(), as: WelcomeCommandGroup.name)
+}
+</code></pre><p>That’s it, we just moved our <code>hello</code> command under the <code>welcome</code> namespace.</p><pre><code class="language-sh">swift run Run welcome hello john --greeting "Hi" --capitalize
+</code></pre><p>If you read the Swift Argument Parser docs, you can achieve the exact same behavior through a custom <code>CommandConfiguration</code>. Personally, I prefer Vapor’s approach here… 🤷‍♂️</p><h2 id="waiting-for-async-tasks">Waiting for async tasks</h2><p>Vapor builds on top of <a href="https://github.com/apple/swift-nio" target="_blank">SwiftNIO</a> including EventLoops, Futures & Promises. Most of the API is asynchronous, but in the CLI world you have to wait for the async operations to finish.</p><pre><code class="language-swift">final class TodoCommand: Command {
     
-    <span class="keyword">static let</span> name = <span class="string">"todo"</span>
+    static let name = "todo"
 
-    <span class="keyword">struct</span> Signature: <span class="type">CommandSignature</span> { }
+    struct Signature: CommandSignature { }
         
-    <span class="keyword">let</span> help = <span class="string">"This command will create a dummy Todo item"</span>
+    let help = "This command will create a dummy Todo item"
 
-    <span class="keyword">func</span> run(using context: <span class="type">CommandContext</span>, signature: <span class="type">Signature</span>) <span class="keyword">throws</span> {
-        <span class="keyword">let</span> app = context.<span class="property">application</span>
-        app.<span class="property">logger</span>.<span class="call">notice</span>(<span class="string">"Creating todos..."</span>)
+    func run(using context: CommandContext, signature: Signature) throws {
+        let app = context.application
+        app.logger.notice("Creating todos...")
         
-        <span class="keyword">let</span> todo = <span class="type">Todo</span>(title: <span class="string">"Wait for async tasks..."</span>)
-        <span class="keyword">try</span> todo.<span class="call">create</span>(on: app.<span class="property">db</span>).<span class="call">wait</span>()
+        let todo = Todo(title: "Wait for async tasks...")
+        try todo.create(on: app.db).wait()
         
-        app.<span class="property">logger</span>.<span class="call">notice</span>(<span class="string">"Todo is ready."</span>)
+        app.logger.notice("Todo is ready.")
     }
-}</code></pre><p>There is a throwing <code>wait()</code> method that you can utilize to "stay in the loop" until everything is done. You can also get a pointer for the application object by using the current context. The app has the database connection, so you can tell Fluent to <a href="https://theswiftdev.com/a-tutorial-for-beginners-about-the-fluent-postgresql-driver-in-vapor-4/">create a new model</a>. Also you can use the built-in logger to print info to the console while the user waits. ⏳</p><h2>Using ConsoleKit without Vapor</h2><p>Let's talk about overheads. Vapor comes with this neat commands API, but also bundles lots of other core things. What if I just want the goodies for my Swift scripts? No problem. You can use the underlying ConsoleKit by adding it as a dependency.</p><pre><code class="language-swift"><span class="comment">// swift-tools-version:5.2</span>
-<span class="keyword">import</span> PackageDescription
+}
+</code></pre><p>There is a throwing <code>wait()</code> method that you can utilize to “stay in the loop” until everything is done. You can also get a pointer for the application object by using the current context. The app has the database connection, so you can tell Fluent to <a href="https://theswiftdev.com/a-tutorial-for-beginners-about-the-fluent-postgresql-driver-in-vapor-4/">create a new model</a>. Also you can use the built-in logger to print info to the console while the user waits. ⏳</p><h2 id="using-consolekit-without-vapor">Using ConsoleKit without Vapor</h2><p>Let’s talk about overheads. Vapor comes with this neat commands API, but also bundles lots of other core things. What if I just want the goodies for my Swift scripts? No problem. You can use the underlying ConsoleKit by adding it as a dependency.</p><pre><code class="language-swift">// swift-tools-version:5.2
+import PackageDescription
 
-<span class="keyword">let</span> package = <span class="type">Package</span>(
-    name: <span class="string">"myProject"</span>,
+let package = Package(
+    name: "myProject",
     platforms: [
-       .<span class="call">macOS</span>(.<span class="dotAccess">v10_15</span>)
+       .macOS(.v10_15)
     ],
     dependencies: [
-        .<span class="call">package</span>(url: <span class="string">"https://github.com/vapor/console-kit"</span>, from: <span class="string">"4.1.0"</span>),
+        .package(url: "https://github.com/vapor/console-kit", from: "4.1.0"),
     ],
     targets: [
-        .<span class="call">target</span>(name: <span class="string">"myProject"</span>, dependencies: [
-            .<span class="call">product</span>(name: <span class="string">"ConsoleKit"</span>, package: <span class="string">"console-kit"</span>),
+        .target(name: "myProject", dependencies: [
+            .product(name: "ConsoleKit", package: "console-kit"),
         ])
     ]
-)</code></pre><p>You still have to do some additional work in your <code>main.swift</code> file, but nothing serious:</p><pre><code class="language-swift"><span class="keyword">import</span> ConsoleKit
-<span class="keyword">import</span> Foundation
+)
+</code></pre><p>You still have to do some additional work in your <code>main.swift</code> file, but nothing serious:</p><pre><code class="language-swift">import ConsoleKit
+import Foundation
 
-<span class="keyword">let</span> console: <span class="type">Console</span> = <span class="type">Terminal</span>()
-<span class="keyword">var</span> input = <span class="type">CommandInput</span>(arguments: <span class="type">CommandLine</span>.<span class="property">arguments</span>)
-<span class="keyword">var</span> context = <span class="type">CommandContext</span>(console: console, input: input)
+let console: Console = Terminal()
+var input = CommandInput(arguments: CommandLine.arguments)
+var context = CommandContext(console: console, input: input)
 
-<span class="keyword">var</span> commands = <span class="type">Commands</span>(enableAutocomplete: <span class="keyword">true</span>)
-commands.<span class="call">use</span>(<span class="type">HelloCommand</span>(), as: <span class="type">HelloCommand</span>.<span class="property">name</span>, isDefault: <span class="keyword">false</span>)
+var commands = Commands(enableAutocomplete: true)
+commands.use(HelloCommand(), as: HelloCommand.name, isDefault: false)
 
-<span class="keyword">do</span> {
-    <span class="keyword">let</span> group = commands.<span class="call">group</span>(help: <span class="string">"Using ConsoleKit without Vapor."</span>)
-    <span class="keyword">try</span> console.<span class="call">run</span>(group, input: input)
+do {
+    let group = commands.group(help: "Using ConsoleKit without Vapor.")
+    try console.run(group, input: input)
 }
-<span class="keyword">catch</span> {
-    console.<span class="call">error</span>(<span class="string">"</span>\(error)<span class="string">"</span>)
-    <span class="call">exit</span>(<span class="number">1</span>)
-}</code></pre><p>This way you can get rid of most of the network related core packages (that are included by default if you use Vapor). This approach only fetches <a href="https://github.com/apple/swift-log" target="_blank">swift-log</a> as a third party dependency. 😍</p><h2>Summary</h2><p>ConsoleKit in Vapor is a great way to write CLI tools and small scripts. The new Swift Argument Parser is a more lightweight solution for the same problem. If your plan is to maintain databases through scripts or you perform lots of networking or asynchronous operations it might be better to go with Vapor, since you can always grow by importing a new component from the ecosystem.</p>
-        </section>
-    </div>
-
-</article>
-
-<section id="share" class="content-wrapper">
-    <p>
-    <a
-        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/how-to-write-swift-scripts-using-the-new-command-api-in-vapor-4/"
-        target="_blank"
-    >
-        Share this article
-    </a>
-    <br> Thank you. 🙏</p>
-</section>
-
-<section  class="wrapper">
-    <div id="book">
-        <div class="column left">
-            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+catch {
+    console.error("\(error)")
+    exit(1)
+}
+</code></pre><p>This way you can get rid of most of the network related core packages (that are included by default if you use Vapor). This approach only fetches <a href="https://github.com/apple/swift-log" target="_blank">swift-log</a> as a third party dependency. 😍</p><h2 id="summary">Summary</h2><p>ConsoleKit in Vapor is a great way to write CLI tools and small scripts. The new Swift Argument Parser is a more lightweight solution for the same problem. If your plan is to maintain databases through scripts or you perform lots of networking or asynchronous operations it might be better to go with Vapor, since you can always grow by importing a new component from the ecosystem.</p>
+                    
+                </section>
+    
+                <footer>
+                    <br>
+                    <time datetime=""></time>
+    
+                    
+                    <div class="author-list">
+                        <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        </a>
+                    </div>
+                    <div class="tag-list">
+                        <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
+                    <a href="https://theswiftdev.com/tags/vapor/"><small>Vapor</small></a>
+                    </div>
+                    
+                    <p>
+                        <a href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/how-to-write-swift-scripts-using-the-new-command-api-in-vapor-4/" target="_blank">
+                            <strong>Share this article</strong>
+                        </a>
+                        <br>Thank you. 🙏
+                    </p>
+                </footer>
+                            
+                <section class="group">
+                    <h4>Related posts</h4>                
+                    <div class="grid grid-221">
+                        <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/07/15">2020/07/15</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/10-short-advices-that-will-make-you-a-better-vapor-developer-right-away/" target="">10 short advices that will make you a better Vapor developer right away</a></h2>
+                            <hr>
+                            <p>As a beginner server side Swift developer you&#39;ll face many obstackles. I&#39;ll show you how to avoid the most common ones.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/04/01">2020/04/01</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/a-generic-crud-solution-for-vapor-4/" target="">A generic CRUD solution for Vapor 4</a></h2>
+                            <hr>
+                            <p>Learn how to build a controller component that can serve models as JSON objects through a RESTful API written in Swift.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2019/10/08">2019/10/08</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/a-simple-http2-server-using-vapor-4/" target="">A simple HTTP/2 server using Vapor 4</a></h2>
+                            <hr>
+                            <p>Get started with server-side Swift using the Vapor 4 framework. Learn how to build a really simple HTTP/2 backend server.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/12/18">2020/12/18</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/ajax-calls-using-vapor-4/" target="">AJAX calls using Vapor 4</a></h2>
+                            <hr>
+                            <p>Learn how to implement Asynchronous JavaScript and XML (AJAX) calls using Leaf templates and Vapor 4 as a server.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    
+            </article>
         </div>
-        <div class="column right">
-            <h3>Get the Practical Server Side Swift book</h3>
-            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
-        </div>
-    </div>
-</section>
-
-<section id="author" class="content-wrapper">
-    <img 
-        id="author-image"
-        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
-        alt="Picture of Tibor Bödecs" 
-        title="Tibor Bödecs"
-    >
-    <h3>Tibor Bödecs</h3>
-    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
-    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
-
-    <div class="links">
-        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
-        <a href="https://github.com/tib" target="_blank">GitHub</a> 
-    </div>
-</section>
-
         
+        <div>
+            <div class="book">
+                <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">
+                    <img src="https://theswiftdev.com/book/practical-server-side-swift-cover.png" alt="Practical Server Side Swift cover image">
+                </a>
+                <h3>
+                    <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Get the Practical Server Side Swift book</a>
+                </h3>
+                <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+                <a class="cta" href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+            </div>
+            
+            
+            <aside id="toc">
+                <h4>On this page</h4>
+                <ul>
+                    <li class="first-level">
+                        <a href="#swift-argument-parser-vs-vapor-commands">Swift Argument Parser vs Vapor Commands</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#arguments-options-flags">Arguments, options, flags</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#subcommands">Subcommands</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#waiting-for-async-tasks">Waiting for async tasks</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#using-consolekit-without-vapor">Using ConsoleKit without Vapor</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#summary">Summary</a>
+                        <ul>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+            
+    
+        </div>
+    </div>
+    
     </main>
 
-    <footer>
-        <section class="content-wrapper">
-            <img 
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
-
-            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+    <footer id="site-footer">
+        <div class="grid grid-421">
+    
+            <picture>
+                <img
+                    id="logo-image"
+                    src="https://theswiftdev.com/images/logos/logo-large.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
             
-            <p> 
-                <a href="https://theswiftdev.com/">Home</a> ·
-                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
-            </p>
+            <div>
+                <span style="display: block; height: 32px;">&nbsp;</span>
+                <h4>The.Swift.Dev</h4>
+                <p><small><a href="https://theswiftdev.com/" target="_blank">theswiftdev.com</a></small></p>
+                <ul>
+                    <li><a href="https://github.com/theswiftdev/" target="_blank">GitHub</a></li>
+                    <li><a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a></li>
+                    <li><a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a></li>
+                </ul>
+            </div>
             
-            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+            <div>
+                
+            </div>
+            
+            <div>
+                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                </a>
+                <h4><a href="https://theswiftdev.com/authors/tibor-bodecs/">Tibor Bödecs</a></h4>
+                <p><small><a href="https://binarybirds.com/" target="_blank">Binary Birds Kft.</a></small></p>
+                <ul>
+                    <li><a href="mailto:mail.tib@gmail.com" target="_blank">Email</a></li>
+                    <li><a href="https://github.com/tib/" target="_blank">GitHub</a></li>
+                    <li><a href="https://x.com/tiborbodecs" target="_blank">X (Twitter)</a></li>
+                    <li><a href="https://mastodon.social/@tiborbodecs" target="_blank">Mastodon</a></li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <section class="grid grid-221">
+            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>
+
+    </div>
+
+    
 </body>
 </html>

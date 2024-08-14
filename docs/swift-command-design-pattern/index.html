@@ -1,100 +1,132 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
     <meta charset="utf-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="canonical" href="https://theswiftdev.com/swift-command-design-pattern/">
     
+    
+
     <title>Swift command design pattern - The.Swift.Dev.</title>
-    
-    <meta name="description" content="This time I'm going to show you a behavioral pattern. Here is a little example of the command design patten written in Swift.">
-    
-    <meta property="og:title" content="Swift command design pattern - The.Swift.Dev.">
-    <meta property="og:description" content="This time I'm going to show you a behavioral pattern. Here is a little example of the command design patten written in Swift.">
+    <meta name="description" content="This time I&#39;m going to show you a behavioral pattern. Here is a little example of the command design patten written in Swift.">
+
     <meta property="og:url" content="https://theswiftdev.com/swift-command-design-pattern/">
-    <meta property="og:image" content="https://theswiftdev.com/images/assets/swift-command-design-pattern/cover.jpg">
+    <meta property="og:title" content="Swift command design pattern - The.Swift.Dev.">
+    <meta property="og:description" content="This time I&#39;m going to show you a behavioral pattern. Here is a little example of the command design patten written in Swift.">
+    
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@tiborbodecs">
-    <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="Swift command design pattern - The.Swift.Dev.">
-    <meta name="twitter:description" content="This time I'm going to show you a behavioral pattern. Here is a little example of the command design patten written in Swift.">
-    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/swift-command-design-pattern/cover.jpg">
+    <meta name="twitter:description" content="This time I&#39;m going to show you a behavioral pattern. Here is a little example of the command design patten written in Swift.">
     
-    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
-    
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-normalize.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/variables.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/grid.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/navigation.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/footer.css">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+
     
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/icons/apple-touch-icon-180x180.png">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+        media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+        media="(prefers-color-scheme: dark)"
+    >
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
 </head>
 
 <body>
-    <a href="https://theswiftdev.gumroad.com" class="ribbon">
-        📖
-    </a>
-    <header id="page-header">
-        <a href="https://theswiftdev.com/">
-            <img 
-                id="logo-image"
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
+    <div id="site-container">
+
+    <header id="navigation">
+        <a href="/">
+            <picture>
+                <img
+                    src="https://theswiftdev.com/images/logos/logo.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
         </a>
-    </header>
-    
-    <main>
-
-        <article>
-    <header>
-        <section id="post-header" class="content-wrapper">
-            <time datetime="2018/06/13">2018/06/13</time>
-            <h1 class="title">Swift command design pattern</h1>
-            <p class="excerpt">This time I'm going to show you a behavioral pattern. Here is a little example of the command design patten written in Swift.</p>
-            <div class="meta">
-                <span class="tag">Swift</span>
-<span class="tag">iOS</span>
-<span class="tag">design patterns</span>
+        <nav>
+            <input type="checkbox" id="primary-menu-button" name="menu-button" class="menu-button">
+            <label for="primary-menu-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </label>
+            <div class="menu-items">
+                <a href="/page/1/">Posts</a>
+                <a href="/tags/">Tags</a>
+                <a href="/authors/">Authors</a>
+                <a href="/practical-server-side-swift/">My Book</a>
             </div>
-        </section>
-        <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.com/images/assets/swift-command-design-pattern/cover.jpg">
-        </section>
+        </nav>
     </header>
 
-    <div id="contents">
-        <section class="content-wrapper">
-            <p>The <a href="https://en.wikipedia.org/wiki/Command_pattern" target="_blank">command pattern</a> can be handy if you'd like to provide a common interface for different actions that will be executed later in time. Usually it's an object that encapsulates all the information needed to run the underlying action properly.</p><p><a href="https://medium.com/@NilStack/swift-world-design-patterns-command-cc9c56544bf0" target="_blank">Commands</a> are often used to handle user interface actions, create undo managers, or manage transactions. Let's see a <a href="https://medium.com/design-patterns-in-swift/design-patterns-in-swift-command-pattern-b95a1f4bbc45" target="_blank">command pattern</a> implementation in Swift by creating a command line argument handler with emojis. 💾</p><pre><code class="language-swift">#!/usr/bin/env swift
+    <main id="page-container">
+    
+    <div class="article-with-toc">
+        <div>
+            <article class="post">
+                <div class="meta">
+                    <time datetime="2018/06/13">2018/06/13</time>
+                     &middot; <span class="reading-time">1 min read</span>
+                    
+                </div>
+                <h1>Swift command design pattern</h1>
+                <hr>
+                <p>This time I&#39;m going to show you a behavioral pattern. Here is a little example of the command design patten written in Swift.</p>
+                <section>
+                
+                <p>The <a href="https://en.wikipedia.org/wiki/Command_pattern" target="_blank">command pattern</a> can be handy if you’d like to provide a common interface for different actions that will be executed later in time. Usually it’s an object that encapsulates all the information needed to run the underlying action properly.</p><p><a href="https://medium.com/@NilStack/swift-world-design-patterns-command-cc9c56544bf0" target="_blank">Commands</a> are often used to handle user interface actions, create undo managers, or manage transactions. Let’s see a <a href="https://medium.com/design-patterns-in-swift/design-patterns-in-swift-command-pattern-b95a1f4bbc45" target="_blank">command pattern</a> implementation in Swift by creating a command line argument handler with emojis. 💾</p><pre><code class="language-swift">#!/usr/bin/env swift
 
-<span class="keyword">import</span> Foundation
+import Foundation
 
-<span class="keyword">protocol</span> Command {
-    <span class="keyword">func</span> execute()
+protocol Command {
+    func execute()
 }
 
-<span class="keyword">class</span> HelpCommand: <span class="type">Command</span> {
+class HelpCommand: Command {
 
-    <span class="keyword">func</span> execute() {
-        <span class="type">Help</span>().<span class="call">info</span>()
+    func execute() {
+        Help().info()
     }
 }
 
-<span class="keyword">class</span> Help {
+class Help {
 
-    <span class="keyword">func</span> info() {
-        <span class="call">print</span>(<span class="string">"""
+    func info() {
+        print("""
 
              🤖 Commander 🤖
                   v1.0
@@ -106,128 +138,241 @@
 
         Bye! 👋
 
-        """</span>)
+        """)
     }
 }
 
-<span class="keyword">class</span> ListCommand: <span class="type">Command</span> {
+class ListCommand: Command {
 
-    <span class="keyword">func</span> execute() {
-        <span class="type">List</span>().<span class="call">homeDirectoryContents</span>()
+    func execute() {
+        List().homeDirectoryContents()
     }
 }
 
-<span class="keyword">class</span> List {
+class List {
 
-    <span class="keyword">func</span> homeDirectoryContents() {
-        <span class="keyword">let</span> fileManager = <span class="type">FileManager</span>.<span class="property">default</span>
-        <span class="keyword">guard let</span> documentsURL = fileManager.<span class="call">urls</span>(for: .<span class="dotAccess">documentDirectory</span>, in: .<span class="dotAccess">userDomainMask</span>).<span class="property">first</span> <span class="keyword">else</span> {
-            <span class="call">print</span>(<span class="string">"Could not open documents directory"</span>)
-            <span class="call">exit</span>(-<span class="number">1</span>)
+    func homeDirectoryContents() {
+        let fileManager = FileManager.default
+        guard let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            print("Could not open documents directory")
+            exit(-1)
         }
-        <span class="keyword">do</span> {
-            <span class="keyword">let</span> fileURLs = <span class="keyword">try</span> fileManager.<span class="call">contentsOfDirectory</span>(at: documentsURL, includingPropertiesForKeys: <span class="keyword">nil</span>)
-            <span class="call">print</span>(<span class="string">"\n\t📁 Listing documents directory:\n"</span>)
-            <span class="call">print</span>(fileURLs.<span class="call">map</span> { <span class="string">"\t\t💾 "</span> + $0.<span class="property">lastPathComponent</span> }.<span class="call">joined</span>(separator: <span class="string">"\n\n"</span>) + <span class="string">"\n"</span> )
+        do {
+            let fileURLs = try fileManager.contentsOfDirectory(at: documentsURL, includingPropertiesForKeys: nil)
+            print("\n\t📁 Listing documents directory:\n")
+            print(fileURLs.map { "\t\t💾 " + $0.lastPathComponent }.joined(separator: "\n\n") + "\n" )
         }
-        <span class="keyword">catch</span> {
-            <span class="call">print</span>(error.<span class="property">localizedDescription</span>)
-            <span class="call">exit</span>(-<span class="number">1</span>)
+        catch {
+            print(error.localizedDescription)
+            exit(-1)
         }
 
     }
 }
 
-<span class="keyword">class</span> App {
+class App {
 
-    <span class="keyword">var</span> commands: [<span class="type">String</span>:<span class="type">Command</span>] = [:]
+    var commands: [String:Command] = [:]
 
-    <span class="keyword">init</span>() {
-        <span class="keyword">self</span>.<span class="property">commands</span>[<span class="string">"help"</span>] = <span class="type">HelpCommand</span>()
-        <span class="keyword">self</span>.<span class="property">commands</span>[<span class="string">"ls"</span>] = <span class="type">ListCommand</span>()
+    init() {
+        self.commands["help"] = HelpCommand()
+        self.commands["ls"] = ListCommand()
     }
 
-    <span class="keyword">func</span> run() {
-        <span class="keyword">let</span> arguments = <span class="type">CommandLine</span>.<span class="property">arguments</span>[<span class="number">1</span>...]
+    func run() {
+        let arguments = CommandLine.arguments[1...]
 
-        <span class="keyword">guard let</span> key = arguments.<span class="property">first</span>, <span class="keyword">self</span>.<span class="property">commands</span>[key] != <span class="keyword">nil else</span> {
-            <span class="call">print</span>(<span class="string">"Usage: ./command.swift [</span>\(<span class="keyword">self</span>.<span class="property">commands</span>.<span class="property">keys</span>.<span class="call">joined</span>(separator: <span class="string">"</span>|<span class="string">"</span>))<span class="string">]"</span>)
-            <span class="call">exit</span>(-<span class="number">1</span>)
+        guard let key = arguments.first, self.commands[key] != nil else {
+            print("Usage: ./command.swift [\(self.commands.keys.joined(separator: "|"))]")
+            exit(-1)
         }
 
-        <span class="keyword">self</span>.<span class="property">commands</span>[key]!.<span class="call">execute</span>()
+        self.commands[key]!.execute()
     }
 }
 
-<span class="type">App</span>().<span class="call">run</span>()</code></pre><p>If you save this file, can run it by simply typing <code>./file-name.swift</code> from a terminal window. The Swift compiler will take care of the rest.</p><p>Real world use cases for the <a href="https://tech.okcupid.com/command-patterns-and-uicollectionview/" target="_blank">command design</a> pattern:</p><ul><li>various button actions<ul><li>collection / table view selection actions</li><li>navigating between controllers</li><li>history management / undo manager</li><li>transactional behavior</li><li>progress management</li><li>wizards</li></ul></li></ul><p>As you can see this pattern can be applied in multiple areas. Apple even made a specific class for this purpose called <a href="https://developer.apple.com/documentation/foundation/nsinvocation" target="_blank">NSInvocation</a>, but unfortunately it's not available in Swift, due to it's dynamic behavior. That's not a big deal, you can always make your own protocol &amp; implementation, in most cases you just need one extra class that wraps the underlying command logic. 😛</p>
-        </section>
-    </div>
-
-</article>
-
-<section id="share" class="content-wrapper">
-    <p>
-    <a
-        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/swift-command-design-pattern/"
-        target="_blank"
-    >
-        Share this article
-    </a>
-    <br> Thank you. 🙏</p>
-</section>
-
-<section  class="wrapper">
-    <div id="book">
-        <div class="column left">
-            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+App().run()
+</code></pre><p>If you save this file, can run it by simply typing <code>./file-name.swift</code> from a terminal window. The Swift compiler will take care of the rest.</p><p>Real world use cases for the <a href="https://tech.okcupid.com/command-patterns-and-uicollectionview/" target="_blank">command design</a> pattern:</p><pre><code>+ various button actions
++ collection / table view selection actions
++ navigating between controllers
++ history management / undo manager
++ transactional behavior
++ progress management
++ wizards
+</code></pre><p>As you can see this pattern can be applied in multiple areas. Apple even made a specific class for this purpose called <a href="https://developer.apple.com/documentation/foundation/nsinvocation" target="_blank">NSInvocation</a>, but unfortunately it’s not available in Swift, due to it’s dynamic behavior. That’s not a big deal, you can always make your own protocol & implementation, in most cases you just need one extra class that wraps the underlying command logic. 😛</p>
+                    
+                </section>
+    
+                <footer>
+                    <br>
+                    <time datetime=""></time>
+    
+                    
+                    <div class="author-list">
+                        <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        </a>
+                    </div>
+                    <div class="tag-list">
+                        <a href="https://theswiftdev.com/tags/design-pattern/"><small>Design pattern</small></a>
+                    </div>
+                    
+                    <p>
+                        <a href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/swift-command-design-pattern/" target="_blank">
+                            <strong>Share this article</strong>
+                        </a>
+                        <br>Thank you. 🙏
+                    </p>
+                </footer>
+                            
+                <section class="group">
+                    <h4>Related posts</h4>                
+                    <div class="grid grid-221">
+                        <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/11/27">2020/11/27</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/event-driven-generic-hooks-for-swift/" target="">Event-driven generic hooks for Swift</a></h2>
+                            <hr>
+                            <p>In this article I am going to show you how to implement a basic event processing system for your modular Swift application.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018/08/19">2018/08/19</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/iterator-design-pattern-in-swift/" target="">Iterator design pattern in Swift</a></h2>
+                            <hr>
+                            <p>Learn the iterator design pattern by using some custom sequences, conforming to the IteratorProtocol from the Swift standard library.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018/12/17">2018/12/17</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/lazy-initialization-in-swift/" target="">Lazy initialization in Swift</a></h2>
+                            <hr>
+                            <p>Learn how to use lazy properties in Swift to improve performance, avoid optionals or just to make the init process more clean.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2022/08/12">2022/08/12</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/lenses-and-prisms-in-swift/" target="">Lenses and prisms in Swift</a></h2>
+                            <hr>
+                            <p>Beginner&#39;s guide about optics in Swift. Learn how to use lenses and prisms to manipulate objects using a functional approach.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    
+            </article>
         </div>
-        <div class="column right">
-            <h3>Get the Practical Server Side Swift book</h3>
-            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
-        </div>
-    </div>
-</section>
-
-<section id="author" class="content-wrapper">
-    <img 
-        id="author-image"
-        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
-        alt="Picture of Tibor Bödecs" 
-        title="Tibor Bödecs"
-    >
-    <h3>Tibor Bödecs</h3>
-    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
-    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
-
-    <div class="links">
-        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
-        <a href="https://github.com/tib" target="_blank">GitHub</a> 
-    </div>
-</section>
-
         
+        <div>
+            <div class="book">
+                <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">
+                    <img src="https://theswiftdev.com/book/practical-server-side-swift-cover.png" alt="Practical Server Side Swift cover image">
+                </a>
+                <h3>
+                    <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Get the Practical Server Side Swift book</a>
+                </h3>
+                <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+                <a class="cta" href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+            </div>
+            
+            
+            
+    
+        </div>
+    </div>
+    
     </main>
 
-    <footer>
-        <section class="content-wrapper">
-            <img 
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
-
-            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+    <footer id="site-footer">
+        <div class="grid grid-421">
+    
+            <picture>
+                <img
+                    id="logo-image"
+                    src="https://theswiftdev.com/images/logos/logo-large.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
             
-            <p> 
-                <a href="https://theswiftdev.com/">Home</a> ·
-                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
-            </p>
+            <div>
+                <span style="display: block; height: 32px;">&nbsp;</span>
+                <h4>The.Swift.Dev</h4>
+                <p><small><a href="https://theswiftdev.com/" target="_blank">theswiftdev.com</a></small></p>
+                <ul>
+                    <li><a href="https://github.com/theswiftdev/" target="_blank">GitHub</a></li>
+                    <li><a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a></li>
+                    <li><a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a></li>
+                </ul>
+            </div>
             
-            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+            <div>
+                
+            </div>
+            
+            <div>
+                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                </a>
+                <h4><a href="https://theswiftdev.com/authors/tibor-bodecs/">Tibor Bödecs</a></h4>
+                <p><small><a href="https://binarybirds.com/" target="_blank">Binary Birds Kft.</a></small></p>
+                <ul>
+                    <li><a href="mailto:mail.tib@gmail.com" target="_blank">Email</a></li>
+                    <li><a href="https://github.com/tib/" target="_blank">GitHub</a></li>
+                    <li><a href="https://x.com/tiborbodecs" target="_blank">X (Twitter)</a></li>
+                    <li><a href="https://mastodon.social/@tiborbodecs" target="_blank">Mastodon</a></li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <section class="grid grid-221">
+            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>
+
+    </div>
+
+    
 </body>
 </html>

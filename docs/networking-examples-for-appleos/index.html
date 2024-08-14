@@ -1,165 +1,328 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
     <meta charset="utf-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="canonical" href="https://theswiftdev.com/networking-examples-for-appleos/">
     
+    
+
     <title>Networking examples for appleOS - The.Swift.Dev.</title>
-    
     <meta name="description" content="Learn how to use Bonjour, with UDP/TCP sockets, streams and how to communicate through CoreBluetooth or the watch APIs.">
-    
+
+    <meta property="og:url" content="https://theswiftdev.com/networking-examples-for-appleos/">
     <meta property="og:title" content="Networking examples for appleOS - The.Swift.Dev.">
     <meta property="og:description" content="Learn how to use Bonjour, with UDP/TCP sockets, streams and how to communicate through CoreBluetooth or the watch APIs.">
-    <meta property="og:url" content="https://theswiftdev.com/networking-examples-for-appleos/">
-    <meta property="og:image" content="https://theswiftdev.com/images/assets/networking-examples-for-appleos/cover.jpg">
+    
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@tiborbodecs">
-    <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="Networking examples for appleOS - The.Swift.Dev.">
     <meta name="twitter:description" content="Learn how to use Bonjour, with UDP/TCP sockets, streams and how to communicate through CoreBluetooth or the watch APIs.">
-    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/networking-examples-for-appleos/cover.jpg">
     
-    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
-    
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-normalize.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/variables.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/grid.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/navigation.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/footer.css">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+
     
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/icons/apple-touch-icon-180x180.png">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+        media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+        media="(prefers-color-scheme: dark)"
+    >
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
 </head>
 
 <body>
-    <a href="https://theswiftdev.gumroad.com" class="ribbon">
-        📖
-    </a>
-    <header id="page-header">
-        <a href="https://theswiftdev.com/">
-            <img 
-                id="logo-image"
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
+    <div id="site-container">
+
+    <header id="navigation">
+        <a href="/">
+            <picture>
+                <img
+                    src="https://theswiftdev.com/images/logos/logo.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
         </a>
-    </header>
-    
-    <main>
-
-        <article>
-    <header>
-        <section id="post-header" class="content-wrapper">
-            <time datetime="2018/02/27">2018/02/27</time>
-            <h1 class="title">Networking examples for appleOS</h1>
-            <p class="excerpt">Learn how to use Bonjour, with UDP/TCP sockets, streams and how to communicate through CoreBluetooth or the watch APIs.</p>
-            <div class="meta">
-                <span class="tag">Networking</span>
-<span class="tag">UDP</span>
-<span class="tag">TCP</span>
-<span class="tag">Bonjour</span>
+        <nav>
+            <input type="checkbox" id="primary-menu-button" name="menu-button" class="menu-button">
+            <label for="primary-menu-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </label>
+            <div class="menu-items">
+                <a href="/page/1/">Posts</a>
+                <a href="/tags/">Tags</a>
+                <a href="/authors/">Authors</a>
+                <a href="/practical-server-side-swift/">My Book</a>
             </div>
-        </section>
-        <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.com/images/assets/networking-examples-for-appleos/cover.jpg">
-        </section>
+        </nav>
     </header>
 
-    <div id="contents">
-        <section class="content-wrapper">
-            <p class="warning">This article was originally written back in the end of 2015. The source code is deprecated and not compatible with current Swift versions, so I removed it.</p><p>If you want to learn how to make a <a href="https://developer.apple.com/library/mac/documentation/NetworkingInternet/Conceptual/NetworkingTopics/Articles/UsingSocketsandSocketStreams.html#//apple_ref/doc/uid/CH73-SW2" target="_blank">network connection</a> between your devices using <a href="https://help.dyn.com/bonjour-and-dns-discovery/" target="_blank">Bonjour discovery</a> service you are on the right place. In this post I am going to show you the basics, so for example you will be able to make a remote controller from your watch or iOS device in order to send data directly to any tvOS or macOS machines.</p><h2>Multi-platform development</h2><p>If you want to create an app that supports multiple platforms, you might want to target macOS, iOS, watchOS, tvOS and soon Linux as well. The code snippet below is going to help you detecting the current platform that you are working with.</p><pre><code class="language-swift"><span class="preprocessing">#if os(iOS)</span>
-    <span class="keyword">let</span> platform = <span class="string">"iOS"</span>
-<span class="preprocessing">#elseif os(macOS)</span>
-    <span class="keyword">let</span> platform = <span class="string">"macOS"</span>
-<span class="preprocessing">#elseif os(watchOS)</span>
-    <span class="keyword">let</span> platform = <span class="string">"watchOS"</span>
-<span class="preprocessing">#elseif os(tvOS)</span>
-    <span class="keyword">let</span> platform = <span class="string">"tvOS"</span>
-<span class="preprocessing">#elseif os(Linux)</span>
-    <span class="keyword">let</span> platform = <span class="string">"linux"</span>
-<span class="preprocessing">#else</span>
-    <span class="keyword">let</span> platform = <span class="string">"unknown"</span>
-<span class="preprocessing">#endif</span>
+    <main id="page-container">
+    
+    <div class="article-with-toc">
+        <div>
+            <article class="post">
+                <div class="meta">
+                    <time datetime="2018/02/27">2018/02/27</time>
+                     &middot; <span class="reading-time">3 min read</span>
+                    
+                </div>
+                <h1>Networking examples for appleOS</h1>
+                <hr>
+                <p>Learn how to use Bonjour, with UDP/TCP sockets, streams and how to communicate through CoreBluetooth or the watch APIs.</p>
+                <section>
+                
+                <blockquote><p>WARN: This article was originally written back in the end of 2015. The source code is deprecated and not compatible with current Swift versions, so I removed it.</p></blockquote><p>If you want to learn how to make a <a href="https://developer.apple.com/library/mac/documentation/NetworkingInternet/Conceptual/NetworkingTopics/Articles/UsingSocketsandSocketStreams.html#//apple_ref/doc/uid/CH73-SW2" target="_blank">network connection</a> between your devices using <a href="https://help.dyn.com/bonjour-and-dns-discovery/" target="_blank">Bonjour discovery</a> service you are on the right place. In this post I am going to show you the basics, so for example you will be able to make a remote controller from your watch or iOS device in order to send data directly to any tvOS or macOS machines.</p><h2 id="multi-platform-development">Multi-platform development</h2><p>If you want to create an app that supports multiple platforms, you might want to target macOS, iOS, watchOS, tvOS and soon Linux as well. The code snippet below is going to help you detecting the current platform that you are working with.</p><pre><code class="language-swift">#if os(iOS)
+    let platform = "iOS"
+#elseif os(macOS)
+    let platform = "macOS"
+#elseif os(watchOS)
+    let platform = "watchOS"
+#elseif os(tvOS)
+    let platform = "tvOS"
+#elseif os(Linux)
+    let platform = "linux"
+#else
+    let platform = "unknown"
+#endif
 
-<span class="call">print</span>(platform)</code></pre><h2>Network connection 101</h2><h3>Bonjour discovery service</h3><p><a href="http://dev.eltima.com/post/99996366184/using-bonjour-in-swift" target="_blank">Bonjour</a>, also known as zero-configuration networking, enables automatic discovery of devices and <a href="https://developer.apple.com/library/ios/documentation/Networking/Conceptual/NSNetServiceProgGuide/Articles/PublishingServices.html" target="_blank">services</a> on a local network using industry standard IP protocols.</p><p>So basically with <a href="https://developer.apple.com/bonjour/" target="_blank">Bonjour</a> you can find network devices on your local network. This comes very handy if you are trying to figure out the list of devices that are connected to your LAN. Using NetService class will help you to detect all the devices with the available services that they support. The whole <a href="http://code.tutsplus.com/tutorials/creating-a-game-with-bonjour-client-and-server-setup--mobile-16233" target="_blank">Bonjour API</a> is relatively small and well-written. From the aspect of server side you just have to create the NetService object, and listen to the incoming connections through the NetServiceDelegate.</p><p class="note">You have to be on the same WiFi network with all devices / simulators.</p><h3>TCP connection</h3><p>TCP provides reliable, ordered, and error-checked delivery of a stream of octets (bytes) between applications running on hosts communicating by an IP network.</p><p>With the help of <a href="https://en.wikipedia.org/wiki/Transmission_Control_Protocol" target="_blank">TCP</a> you can build up a reliable network connection. There is a Stream class in Foundation to help you sending data back and forth between devices. If you have a working connection form NetServiceDelegate, just listen to the stream events to handle incoming data through the StreamDelegate. I don't want to go into the details, just download the example <a href="https://gitlab.com/theswiftdev/networking-for-appleos" target="_blank">code</a> and check it out for yourself.</p><h3>UDP connection</h3><p>With <a href="https://developer.apple.com/library/mac/samplecode/UDPEcho/Listings/Read_Me_About_UDPEcho_txt.html" target="_blank">UDP</a>, computer applications can send messages, in this case referred to as datagrams, to other hosts on an Internet Protocol (IP) network.</p><p>If you look at the article about <a href="https://en.wikipedia.org/wiki/User_Datagram_Protocol" target="_blank">UDP</a> you'll clearly see that the main difference from TCP is that this protocol will not guarantee you safety of the data delivery. Data may arrives unordered or duplicated, it's your task to handle these scenarios, but the UDP is fast. If you want to build a file transfer app you should definitely go with TCP, but for example controlling a real-time action game UDP is just as good enough.</p><h3>CocoaAsyncSocket</h3><p>This library is the absolute winner for me and probably it is the best option for everyone who wants to set up a network connection really quickly, because it requires way less code than implementing delegates. Of course you'll still need the Bonjour layer above the whole thing, but that's just fine to deal with.</p><p>If you are using <a href="https://github.com/robbiehanson/CocoaAsyncSocket" target="_blank">CocoaAsyncSocket</a> you will see that the API is straightforward, only after 5 minutes I could relatively easily figure it out what's going on and I was able to <a href="http://beej.us/net2/html/index.html" target="_blank">send messages</a> through the network. It supports all the Apple platforms, you can seamlessly integrate it using Carthage or CocoaPods.</p><h3>CoreBluetooth APIs</h3><p>I was not really familiar with the CoreBluetooth framework API's, that's the reason why I basically just followed and ported this <a href="https://code.tutsplus.com/tutorials/ios-7-sdk-core-bluetooth-theoretical-overview--mobile-20728" target="_blank">tutsplus.com</a> code example to Swift 4. Honestly I felt that the API is somehow over-complicated with all those messy delegate functions. If I have to chose between <a href="http://code.tutsplus.com/tutorials/ios-7-sdk-core-bluetooth-practical-lesson--mobile-20741" target="_blank">CoreBluetooth</a> or CocoaAsyncSocket, I'd go with the last one. So yes, obviously I am not a Bluetooth expert, but this little project was a good first impression about how things are working inside the CB framework.</p><h3>WatchConnectivity framework</h3><p>If you want to communicate between iOS and watchOS you'll probably use the WatchConnectivity framework, especially the WKSession class. It's really not so complicated, with just a few lines of code you can send messages form the watch to the iPhone. You can read this <a href="https://www.hackingwithswift.com/read/37/8/communicating-between-ios-and-watchos-wcsession" target="_blank">tutorial</a>, but if you download my <a href="https://gitlab.com/theswiftdev/networking-for-appleos" target="_blank">final sources</a> for this article, you'll find almost the same thing inside the package.</p>
-        </section>
-    </div>
-
-</article>
-
-<section id="share" class="content-wrapper">
-    <p>
-    <a
-        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/networking-examples-for-appleos/"
-        target="_blank"
-    >
-        Share this article
-    </a>
-    <br> Thank you. 🙏</p>
-</section>
-
-<section  class="wrapper">
-    <div id="book">
-        <div class="column left">
-            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+print(platform)
+</code></pre><h2 id="network-connection-101">Network connection 101</h2><h3 id="bonjour-discovery-service">Bonjour discovery service</h3><p><a href="http://dev.eltima.com/post/99996366184/using-bonjour-in-swift" target="_blank">Bonjour</a>, also known as zero-configuration networking, enables automatic discovery of devices and <a href="https://developer.apple.com/library/ios/documentation/Networking/Conceptual/NSNetServiceProgGuide/Articles/PublishingServices.html" target="_blank">services</a> on a local network using industry standard IP protocols.</p><p>So basically with <a href="https://developer.apple.com/bonjour/" target="_blank">Bonjour</a> you can find network devices on your local network. This comes very handy if you are trying to figure out the list of devices that are connected to your LAN. Using NetService class will help you to detect all the devices with the available services that they support. The whole <a href="http://code.tutsplus.com/tutorials/creating-a-game-with-bonjour-client-and-server-setup--mobile-16233" target="_blank">Bonjour API</a> is relatively small and well-written. From the aspect of server side you just have to create the NetService object, and listen to the incoming connections through the NetServiceDelegate.</p><blockquote><p>NOTE: You have to be on the same WiFi network with all devices / simulators.</p></blockquote><h3 id="tcp-connection">TCP connection</h3><p>TCP provides reliable, ordered, and error-checked delivery of a stream of octets (bytes) between applications running on hosts communicating by an IP network.</p><p>With the help of <a href="https://en.wikipedia.org/wiki/Transmission_Control_Protocol" target="_blank">TCP</a> you can build up a reliable network connection. There is a Stream class in Foundation to help you sending data back and forth between devices. If you have a working connection form NetServiceDelegate, just listen to the stream events to handle incoming data through the StreamDelegate. I don’t want to go into the details, just download the example <a href="https://gitlab.com/theswiftdev/networking-for-appleos" target="_blank">code</a> and check it out for yourself.</p><h3 id="udp-connection">UDP connection</h3><p>With <a href="https://developer.apple.com/library/mac/samplecode/UDPEcho/Listings/Read_Me_About_UDPEcho_txt.html" target="_blank">UDP</a>, computer applications can send messages, in this case referred to as datagrams, to other hosts on an Internet Protocol (IP) network.</p><p>If you look at the article about <a href="https://en.wikipedia.org/wiki/User_Datagram_Protocol" target="_blank">UDP</a> you’ll clearly see that the main difference from TCP is that this protocol will not guarantee you safety of the data delivery. Data may arrives unordered or duplicated, it’s your task to handle these scenarios, but the UDP is fast. If you want to build a file transfer app you should definitely go with TCP, but for example controlling a real-time action game UDP is just as good enough.</p><h3 id="cocoaasyncsocket">CocoaAsyncSocket</h3><p>This library is the absolute winner for me and probably it is the best option for everyone who wants to set up a network connection really quickly, because it requires way less code than implementing delegates. Of course you’ll still need the Bonjour layer above the whole thing, but that’s just fine to deal with.</p><p>If you are using <a href="https://github.com/robbiehanson/CocoaAsyncSocket" target="_blank">CocoaAsyncSocket</a> you will see that the API is straightforward, only after 5 minutes I could relatively easily figure it out what’s going on and I was able to <a href="http://beej.us/net2/html/index.html" target="_blank">send messages</a> through the network. It supports all the Apple platforms, you can seamlessly integrate it using Carthage or CocoaPods.</p><h3 id="corebluetooth-apis">CoreBluetooth APIs</h3><p>I was not really familiar with the CoreBluetooth framework API’s, that’s the reason why I basically just followed and ported this <a href="https://code.tutsplus.com/tutorials/ios-7-sdk-core-bluetooth-theoretical-overview--mobile-20728" target="_blank">tutsplus.com</a> code example to Swift 4. Honestly I felt that the API is somehow over-complicated with all those messy delegate functions. If I have to chose between <a href="http://code.tutsplus.com/tutorials/ios-7-sdk-core-bluetooth-practical-lesson--mobile-20741" target="_blank">CoreBluetooth</a> or CocoaAsyncSocket, I’d go with the last one. So yes, obviously I am not a Bluetooth expert, but this little project was a good first impression about how things are working inside the CB framework.</p><h3 id="watchconnectivity-framework">WatchConnectivity framework</h3><p>If you want to communicate between iOS and watchOS you’ll probably use the WatchConnectivity framework, especially the WKSession class. It’s really not so complicated, with just a few lines of code you can send messages form the watch to the iPhone. You can read this <a href="https://www.hackingwithswift.com/read/37/8/communicating-between-ios-and-watchos-wcsession" target="_blank">tutorial</a>, but if you download my <a href="https://gitlab.com/theswiftdev/networking-for-appleos" target="_blank">final sources</a> for this article, you’ll find almost the same thing inside the package.</p>
+                    
+                </section>
+    
+                <footer>
+                    <br>
+                    <time datetime=""></time>
+    
+                    
+                    <div class="author-list">
+                        <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        </a>
+                    </div>
+                    <div class="tag-list">
+                        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
+                    <a href="https://theswiftdev.com/tags/ipados/"><small>iPadOS</small></a>
+                    <a href="https://theswiftdev.com/tags/macos/"><small>macOS</small></a>
+                    <a href="https://theswiftdev.com/tags/tvos/"><small>tvOS</small></a>
+                    <a href="https://theswiftdev.com/tags/visionos/"><small>visionOS</small></a>
+                    <a href="https://theswiftdev.com/tags/watchos/"><small>watchOS</small></a>
+                    </div>
+                    
+                    <p>
+                        <a href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/networking-examples-for-appleos/" target="_blank">
+                            <strong>Share this article</strong>
+                        </a>
+                        <br>Thank you. 🙏
+                    </p>
+                </footer>
+                            
+                <section class="group">
+                    <h4>Related posts</h4>                
+                    <div class="grid grid-221">
+                        <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2016/04/28">2016/04/28</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/clockkit-complications-cheat-sheet/" target="">ClockKit complications cheatsheet</a></h2>
+                            <hr>
+                            <p>ClockKit families and templates, there are so many of them. It&#39;s a little bit time consuming if you are looking for the right one.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018/10/16">2018/10/16</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/custom-uiview-subclass-from-a-xib-file/" target="">Custom UIView subclass from a xib file</a></h2>
+                            <hr>
+                            <p>Do you want to learn how to load a xib file to create a custom view object? Well, this UIKit tutorial is just for you written in Swift.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/10/26">2020/10/26</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/how-to-build-macos-apps-using-only-the-swift-package-manager/" target="">How to build macOS apps using only the Swift Package Manager?</a></h2>
+                            <hr>
+                            <p>In this article we&#39;re going to create a macOS application without ever touching an Xcode project file, but only working with SPM.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2017/10/27">2017/10/27</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/how-to-launch-a-macos-app-at-login/" target="">How to launch a macOS app at login?</a></h2>
+                            <hr>
+                            <p>In this tutorial I&#39;ll show you how to launch a completely sandboxed macOS application on system startup written in Swift.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    
+            </article>
         </div>
-        <div class="column right">
-            <h3>Get the Practical Server Side Swift book</h3>
-            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
-        </div>
-    </div>
-</section>
-
-<section id="author" class="content-wrapper">
-    <img 
-        id="author-image"
-        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
-        alt="Picture of Tibor Bödecs" 
-        title="Tibor Bödecs"
-    >
-    <h3>Tibor Bödecs</h3>
-    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
-    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
-
-    <div class="links">
-        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
-        <a href="https://github.com/tib" target="_blank">GitHub</a> 
-    </div>
-</section>
-
         
+        <div>
+            <div class="book">
+                <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">
+                    <img src="https://theswiftdev.com/book/practical-server-side-swift-cover.png" alt="Practical Server Side Swift cover image">
+                </a>
+                <h3>
+                    <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Get the Practical Server Side Swift book</a>
+                </h3>
+                <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+                <a class="cta" href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+            </div>
+            
+            
+            <aside id="toc">
+                <h4>On this page</h4>
+                <ul>
+                    <li class="first-level">
+                        <a href="#multi-platform-development">Multi-platform development</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#network-connection-101">Network connection 101</a>
+                        <ul>
+                            <li><a href="#bonjour-discovery-service">Bonjour discovery service</a></li>
+                <li><a href="#tcp-connection">TCP connection</a></li>
+                <li><a href="#udp-connection">UDP connection</a></li>
+                <li><a href="#cocoaasyncsocket">CocoaAsyncSocket</a></li>
+                <li><a href="#corebluetooth-apis">CoreBluetooth APIs</a></li>
+                <li><a href="#watchconnectivity-framework">WatchConnectivity framework</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+            
+    
+        </div>
+    </div>
+    
     </main>
 
-    <footer>
-        <section class="content-wrapper">
-            <img 
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
-
-            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+    <footer id="site-footer">
+        <div class="grid grid-421">
+    
+            <picture>
+                <img
+                    id="logo-image"
+                    src="https://theswiftdev.com/images/logos/logo-large.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
             
-            <p> 
-                <a href="https://theswiftdev.com/">Home</a> ·
-                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
-            </p>
+            <div>
+                <span style="display: block; height: 32px;">&nbsp;</span>
+                <h4>The.Swift.Dev</h4>
+                <p><small><a href="https://theswiftdev.com/" target="_blank">theswiftdev.com</a></small></p>
+                <ul>
+                    <li><a href="https://github.com/theswiftdev/" target="_blank">GitHub</a></li>
+                    <li><a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a></li>
+                    <li><a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a></li>
+                </ul>
+            </div>
             
-            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+            <div>
+                
+            </div>
+            
+            <div>
+                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                </a>
+                <h4><a href="https://theswiftdev.com/authors/tibor-bodecs/">Tibor Bödecs</a></h4>
+                <p><small><a href="https://binarybirds.com/" target="_blank">Binary Birds Kft.</a></small></p>
+                <ul>
+                    <li><a href="mailto:mail.tib@gmail.com" target="_blank">Email</a></li>
+                    <li><a href="https://github.com/tib/" target="_blank">GitHub</a></li>
+                    <li><a href="https://x.com/tiborbodecs" target="_blank">X (Twitter)</a></li>
+                    <li><a href="https://mastodon.social/@tiborbodecs" target="_blank">Mastodon</a></li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <section class="grid grid-221">
+            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>
+
+    </div>
+
+    
 </body>
 </html>

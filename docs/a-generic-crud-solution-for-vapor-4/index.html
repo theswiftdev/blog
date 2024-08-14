@@ -1,412 +1,599 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
     <meta charset="utf-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="canonical" href="https://theswiftdev.com/a-generic-crud-solution-for-vapor-4/">
     
+    
+
     <title>A generic CRUD solution for Vapor 4 - The.Swift.Dev.</title>
-    
     <meta name="description" content="Learn how to build a controller component that can serve models as JSON objects through a RESTful API written in Swift.">
-    
+
+    <meta property="og:url" content="https://theswiftdev.com/a-generic-crud-solution-for-vapor-4/">
     <meta property="og:title" content="A generic CRUD solution for Vapor 4 - The.Swift.Dev.">
     <meta property="og:description" content="Learn how to build a controller component that can serve models as JSON objects through a RESTful API written in Swift.">
-    <meta property="og:url" content="https://theswiftdev.com/a-generic-crud-solution-for-vapor-4/">
-    <meta property="og:image" content="https://theswiftdev.com/images/assets/a-generic-crud-solution-for-vapor-4/cover.jpg">
+    
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@tiborbodecs">
-    <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="A generic CRUD solution for Vapor 4 - The.Swift.Dev.">
     <meta name="twitter:description" content="Learn how to build a controller component that can serve models as JSON objects through a RESTful API written in Swift.">
-    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/a-generic-crud-solution-for-vapor-4/cover.jpg">
     
-    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
-    
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-normalize.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/variables.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/grid.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/navigation.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/footer.css">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+
     
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/icons/apple-touch-icon-180x180.png">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+        media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+        media="(prefers-color-scheme: dark)"
+    >
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
 </head>
 
 <body>
-    <a href="https://theswiftdev.gumroad.com" class="ribbon">
-        📖
-    </a>
-    <header id="page-header">
-        <a href="https://theswiftdev.com/">
-            <img 
-                id="logo-image"
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
+    <div id="site-container">
+
+    <header id="navigation">
+        <a href="/">
+            <picture>
+                <img
+                    src="https://theswiftdev.com/images/logos/logo.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
         </a>
-    </header>
-    
-    <main>
-
-        <article>
-    <header>
-        <section id="post-header" class="content-wrapper">
-            <time datetime="2020/04/01">2020/04/01</time>
-            <h1 class="title">A generic CRUD solution for Vapor 4</h1>
-            <p class="excerpt">Learn how to build a controller component that can serve models as JSON objects through a RESTful API written in Swift.</p>
-            <div class="meta">
-                <span class="tag">Vapor</span>
-<span class="tag">CRUD</span>
+        <nav>
+            <input type="checkbox" id="primary-menu-button" name="menu-button" class="menu-button">
+            <label for="primary-menu-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </label>
+            <div class="menu-items">
+                <a href="/page/1/">Posts</a>
+                <a href="/tags/">Tags</a>
+                <a href="/authors/">Authors</a>
+                <a href="/practical-server-side-swift/">My Book</a>
             </div>
-        </section>
-        <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.com/images/assets/a-generic-crud-solution-for-vapor-4/cover.jpg">
-        </section>
+        </nav>
     </header>
 
-    <div id="contents">
-        <section class="content-wrapper">
-            <h2>CRUD ~ Create, Read, Update and Delete</h2><p>We should start by implementing the non-generic version of our code, so after we see the pattern we can turn it into a more generalized Swift code. If you start with the <a href="https://github.com/vapor/api-template" target="_blank">API template</a> project there is a pretty good example for almost everything using a Todo model.</p><p class="note">Start a new project using the <a href="http://docs.vapor.codes/3.0/getting-started/toolbox/" target="_blank">toolbox</a>, just run <code>vapor new myProject</code></p><p>Open the project by double clicking the <code>Package.swift</code> file, that'll fire up Xcode (you should be on version 11.4 or later). If you open the <code>Sources/App/Controllers</code> folder you'll find a sample controller file there called <code>TodoController.swift</code>. We're going to work on this, but first...</p><blockquote><p>A controller is a collection of request handler functions around a specific model.</p></blockquote><h2>HTTP basics: Request -&gt; Response</h2><p><a href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol" target="_blank">HTTP</a> is a text transfer protocol that is widely used around the web. In the beginning it was only used to transfer HTML files, but nowadays you can use it to request almost anything. It's mostly a stateless protocol, this means you request something, you get back a response and that's it.</p><p>It's like ordering a pizza from a place through phone. You need a number to call (URL), you pick up the phone, dial the place, the phone company initializes the connection between (you &amp; the pizza place) the two participants (the network layer does the same thing when you request an URL from a server). The phone on the other side starts ringing. 📱</p><p>Someone picks up the phone. You both introduce yourselves, also exchange some basic info such as the delivery address (server checks HTTP headers &amp; discovers what needs to be delivered to where). You tell the place what kind of pizza you'd like to have &amp; you wait for it. The place cooks the pizza (the server gathers the necessary data for the response) &amp; the pizza boy arrives with your order (the server sends back the actual response). 🍕</p><blockquote><p>Everything happens asynchronously, the place (server) can fulfill multiple requests. If there is only one person who is taking orders &amp; cooking pizzas, sometimes the cooking process will be blocked by answering the phone. Anyways, using non-blocking i/o is important, that's why Vapor uses Futures &amp; Promises from <a href="https://github.com/apple/swift-nio" target="_blank">SwiftNIO</a> under the hood.</p></blockquote><p>In our case the request is a URL with some extra headers (key, value pairs) and a request body object (encoded data). The response is usually made of a HTTP status code, optional headers and response body. If we are talking about a RESTful API, the encoding of the body is usually JSON.</p><p>All right then, now you know the basics it's time to look at some Swift code.</p><h2>Contents and models in Vapor</h2><p>Defining a data structure in Swift is pretty easy, you just have to create a struct or a class. You can also convert them back and forth to JSON using the built-in <a href="https://theswiftdev.com/how-to-parse-json-in-swift-using-codable-protocol/">Codable protocol</a>. Vapor has an extension around this called Content. If you conform the the protocol (no need to implement any new functions, the object just needs to be Codable) the system can decode these objects from requests and encode them as responses.</p><p>Models on the other hand represent rows from your database. The <a href="https://theswiftdev.com/a-tutorial-for-beginners-about-the-fluent-postgresql-driver-in-vapor-4/">Fluent</a> ORM layer can take care of the low level abstractions, so you don't have to mess around with SQL queries. This is a great thing to have, read my other article if you like to know more about Fluent. 💾</p><p>The problem starts when you have a model and it has different fields than the content. Imagine if this Todo model was a User model with a secret password field? Would you like to expose that to the public when you encode it as a response? Nope, I don't think so. 🙉</p><p>I believe that in most of the Cases the Model and the Content should be separated. Taking this one step further, the content of the request (input) and the content of the response (output) is sometimes different. I'll stop it now, let's change our Todo model according to this.</p><pre><code class="language-swift"><span class="keyword">import</span> Fluent
-<span class="keyword">import</span> Vapor
-
-<span class="keyword">final class</span> Todo: <span class="type">Model</span> {
+    <main id="page-container">
     
-    <span class="keyword">struct</span> Input: <span class="type">Content</span> {
-        <span class="keyword">let</span> title: <span class="type">String</span>
+    <div class="article-with-toc">
+        <div>
+            <article class="post">
+                <div class="meta">
+                    <time datetime="2020/04/01">2020/04/01</time>
+                     &middot; <span class="reading-time">10 min read</span>
+                    
+                </div>
+                <h1>A generic CRUD solution for Vapor 4</h1>
+                <hr>
+                <p>Learn how to build a controller component that can serve models as JSON objects through a RESTful API written in Swift.</p>
+                <section>
+                
+                <h2 id="crud-create-read-update-and-delete">CRUD ~ Create, Read, Update and Delete</h2><p>We should start by implementing the non-generic version of our code, so after we see the pattern we can turn it into a more generalized Swift code. If you start with the <a href="https://github.com/vapor/api-template" target="_blank">API template</a> project there is a pretty good example for almost everything using a Todo model.</p><blockquote><p>NOTE: Start a new project using the <a href="http://docs.vapor.codes/3.0/getting-started/toolbox/" target="_blank">toolbox</a>, just run <code>vapor new myProject</code></p></blockquote><p>Open the project by double clicking the <code>Package.swift</code> file, that’ll fire up Xcode (you should be on version 11.4 or later). If you open the <code>Sources/App/Controllers</code> folder you’ll find a sample controller file there called <code>TodoController.swift</code>. We’re going to work on this, but first…</p><blockquote><p>A controller is a collection of request handler functions around a specific model.</p></blockquote><h2 id="http-basics-request---response">HTTP basics: Request -> Response</h2><p><a href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol" target="_blank">HTTP</a> is a text transfer protocol that is widely used around the web. In the beginning it was only used to transfer HTML files, but nowadays you can use it to request almost anything. It’s mostly a stateless protocol, this means you request something, you get back a response and that’s it.</p><p>It’s like ordering a pizza from a place through phone. You need a number to call (URL), you pick up the phone, dial the place, the phone company initializes the connection between (you & the pizza place) the two participants (the network layer does the same thing when you request an URL from a server). The phone on the other side starts ringing. 📱</p><p>Someone picks up the phone. You both introduce yourselves, also exchange some basic info such as the delivery address (server checks HTTP headers & discovers what needs to be delivered to where). You tell the place what kind of pizza you’d like to have & you wait for it. The place cooks the pizza (the server gathers the necessary data for the response) & the pizza boy arrives with your order (the server sends back the actual response). 🍕</p><blockquote><p>Everything happens asynchronously, the place (server) can fulfill multiple requests. If there is only one person who is taking orders & cooking pizzas, sometimes the cooking process will be blocked by answering the phone. Anyways, using non-blocking i/o is important, that’s why Vapor uses Futures & Promises from <a href="https://github.com/apple/swift-nio" target="_blank">SwiftNIO</a> under the hood.</p></blockquote><p>In our case the request is a URL with some extra headers (key, value pairs) and a request body object (encoded data). The response is usually made of a HTTP status code, optional headers and response body. If we are talking about a RESTful API, the encoding of the body is usually JSON.</p><p>All right then, now you know the basics it’s time to look at some Swift code.</p><h2 id="contents-and-models-in-vapor">Contents and models in Vapor</h2><p>Defining a data structure in Swift is pretty easy, you just have to create a struct or a class. You can also convert them back and forth to JSON using the built-in <a href="https://theswiftdev.com/how-to-parse-json-in-swift-using-codable-protocol/">Codable protocol</a>. Vapor has an extension around this called Content. If you conform the the protocol (no need to implement any new functions, the object just needs to be Codable) the system can decode these objects from requests and encode them as responses.</p><p>Models on the other hand represent rows from your database. The <a href="https://theswiftdev.com/a-tutorial-for-beginners-about-the-fluent-postgresql-driver-in-vapor-4/">Fluent</a> ORM layer can take care of the low level abstractions, so you don’t have to mess around with SQL queries. This is a great thing to have, read my other article if you like to know more about Fluent. 💾</p><p>The problem starts when you have a model and it has different fields than the content. Imagine if this Todo model was a User model with a secret password field? Would you like to expose that to the public when you encode it as a response? Nope, I don’t think so. 🙉</p><p>I believe that in most of the Cases the Model and the Content should be separated. Taking this one step further, the content of the request (input) and the content of the response (output) is sometimes different. I’ll stop it now, let’s change our Todo model according to this.</p><pre><code class="language-swift">import Fluent
+import Vapor
+
+final class Todo: Model {
+    
+    struct Input: Content {
+        let title: String
     }
 
-    <span class="keyword">struct</span> Output: <span class="type">Content</span> {
-        <span class="keyword">let</span> id: <span class="type">String</span>
-        <span class="keyword">let</span> title: <span class="type">String</span>
+    struct Output: Content {
+        let id: String
+        let title: String
     }
     
-    <span class="keyword">static let</span> schema = <span class="string">"todos"</span>
+    static let schema = "todos"
 
-    <span class="keyword">@ID</span>(key: .<span class="dotAccess">id</span>) <span class="keyword">var</span> id: <span class="type">UUID</span>?
-    <span class="keyword">@Field</span>(key: <span class="string">"title"</span>) <span class="keyword">var</span> title: <span class="type">String</span>
+    @ID(key: .id) var id: UUID?
+    @Field(key: "title") var title: String
 
-    <span class="keyword">init</span>() { }
+    init() { }
 
-    <span class="keyword">init</span>(id: <span class="type">UUID</span>? = <span class="keyword">nil</span>, title: <span class="type">String</span>) {
-        <span class="keyword">self</span>.<span class="property">id</span> = id
-        <span class="keyword">self</span>.<span class="property">title</span> = title
+    init(id: UUID? = nil, title: String) {
+        self.id = id
+        self.title = title
     }
-}</code></pre><p>We expect to have a title when we insert a record (we can generate the id), but when we're returning Todos we can expose the id property as well. Now back to the controller.</p><p class="warning">Don't forget to run Fluent migrations first: <code>swift run Run migrate</code></p><h3>Create</h3><p>The flow is pretty simple. Decode the Input type from the content of the request (it's created from the HTTP body) and use it to construct a new Todo class. Next save the newly created item to the database using Fluent. Finally after the save operation is done (it returns nothing by default), map the future into a proper Output, so Vapor can encode this to JSON format.</p><pre><code class="language-swift"><span class="keyword">import</span> Fluent
-<span class="keyword">import</span> Vapor
+}
+</code></pre><p>We expect to have a title when we insert a record (we can generate the id), but when we’re returning Todos we can expose the id property as well. Now back to the controller.</p><blockquote><p>WARN: Don’t forget to run Fluent migrations first: <code>swift run Run migrate</code></p></blockquote><h3 id="create">Create</h3><p>The flow is pretty simple. Decode the Input type from the content of the request (it’s created from the HTTP body) and use it to construct a new Todo class. Next save the newly created item to the database using Fluent. Finally after the save operation is done (it returns nothing by default), map the future into a proper Output, so Vapor can encode this to JSON format.</p><pre><code class="language-swift">import Fluent
+import Vapor
 
-<span class="keyword">struct</span> TodoController {
+struct TodoController {
 
-    <span class="comment">/*
+    /*
          curl -i -X POST "http://127.0.0.1:8080/todos" \
          -H "Content-Type: application/json" \
          -d '{"title": "Hello World!"}'
-     */</span>
-    <span class="keyword">func</span> create(req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Todo</span>.<span class="type">Output</span>&gt; {
-        <span class="keyword">let</span> input = <span class="keyword">try</span> req.<span class="property">content</span>.<span class="call">decode</span>(<span class="type">Todo</span>.<span class="type">Input</span>.<span class="keyword">self</span>)
-        <span class="keyword">let</span> todo = <span class="type">Todo</span>(title: input.<span class="property">title</span>)
-        <span class="keyword">return</span> todo.<span class="call">save</span>(on: req.<span class="property">db</span>)
-            .<span class="call">map</span> { <span class="type">Todo</span>.<span class="type">Output</span>(id: todo.<span class="property">id</span>!.uuidString, title: todo.<span class="property">title</span>) }
+     */
+    func create(req: Request) throws -&gt; EventLoopFuture&lt;Todo.Output&gt; {
+        let input = try req.content.decode(Todo.Input.self)
+        let todo = Todo(title: input.title)
+        return todo.save(on: req.db)
+            .map { Todo.Output(id: todo.id!.uuidString, title: todo.title) }
     }
 
-    <span class="comment">// ...</span>
-}</code></pre><p>I prefer cURL to quickly check my endpoints, but you can also create unit tets for this purpose. Run the server using Xcode or type <code>swift run Run</code> to the command line. Next if you copy &amp; paste the commented snippet it should create a new todo item and return the output with some additional HTTP info. You should also validate the input, but this time let's just skip that part. 😅</p><h3>Read</h3><p>Getting back all the <code>Todo</code> objects is a simple task, but returning a paged response is not so obvious. Fortunately with Fluent 4 we have a built-in solution for this. Let me show you how it works, but first I'd like to alter the routes a little bit.</p><pre><code class="language-swift"><span class="keyword">import</span> Fluent
-<span class="keyword">import</span> Vapor
+    // ...
+}
+</code></pre><p>I prefer cURL to quickly check my endpoints, but you can also create unit tets for this purpose. Run the server using Xcode or type <code>swift run Run</code> to the command line. Next if you copy & paste the commented snippet it should create a new todo item and return the output with some additional HTTP info. You should also validate the input, but this time let’s just skip that part. 😅</p><h3 id="read">Read</h3><p>Getting back all the <code>Todo</code> objects is a simple task, but returning a paged response is not so obvious. Fortunately with Fluent 4 we have a built-in solution for this. Let me show you how it works, but first I’d like to alter the routes a little bit.</p><pre><code class="language-swift">import Fluent
+import Vapor
 
-<span class="keyword">func</span> routes(<span class="keyword">_</span> app: <span class="type">Application</span>) <span class="keyword">throws</span> {
-    <span class="keyword">let</span> todoController = <span class="type">TodoController</span>()
-    app.<span class="call">post</span>(<span class="string">"todos"</span>, use: todoController.<span class="property">create</span>)
-    app.<span class="call">get</span>(<span class="string">"todos"</span>, use: todoController.<span class="property">readAll</span>)
-    app.<span class="call">get</span>(<span class="string">"todos"</span>, <span class="string">":id"</span>, use: todoController.<span class="property">read</span>)
-    app.<span class="call">post</span>(<span class="string">"todos"</span>, <span class="string">":id"</span>, use: todoController.<span class="property">update</span>)
-    app.<span class="call">delete</span>(<span class="string">"todos"</span>, <span class="string">":id"</span>, use: todoController.<span class="property">delete</span>)
-}</code></pre><p>As you can see I tend to use read instead of index, plus <code>:id</code> is a much shorter parameter name, plus I'll already know the returned model type based on the context, no need for additional prefixes here. Ok, let me show you the controller code for the read endpoints:</p><pre><code class="language-swift"><span class="keyword">struct</span> TodoController {
+func routes(_ app: Application) throws {
+    let todoController = TodoController()
+    app.post("todos", use: todoController.create)
+    app.get("todos", use: todoController.readAll)
+    app.get("todos", ":id", use: todoController.read)
+    app.post("todos", ":id", use: todoController.update)
+    app.delete("todos", ":id", use: todoController.delete)
+}
+</code></pre><p>As you can see I tend to use read instead of index, plus <code>:id</code> is a much shorter parameter name, plus I’ll already know the returned model type based on the context, no need for additional prefixes here. Ok, let me show you the controller code for the read endpoints:</p><pre><code class="language-swift">struct TodoController {
 
-    <span class="comment">/*
-       curl -i -X GET "http://127.0.0.1:8080/todos?page=2&amp;per=2" \
+    /*
+       curl -i -X GET "http://127.0.0.1:8080/todos?page=2&per=2" \
         -H "Content-Type: application/json"
-    */</span>
-    <span class="keyword">func</span> readAll(req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Page</span>&lt;<span class="type">Todo</span>.<span class="type">Output</span>&gt;&gt; {
-        <span class="keyword">return</span> <span class="type">Todo</span>.<span class="call">query</span>(on: req.<span class="property">db</span>).<span class="call">paginate</span>(for: req).<span class="property">map</span> { page <span class="keyword">in</span>
-            page.<span class="call">map</span> { <span class="type">Todo</span>.<span class="type">Output</span>(id: $0.<span class="property">id</span>!.uuidString, title: $0.<span class="property">title</span>) }
+    */
+    func readAll(req: Request) throws -&gt; EventLoopFuture&lt;Page&lt;Todo.Output&gt;&gt; {
+        return Todo.query(on: req.db).paginate(for: req).map { page in
+            page.map { Todo.Output(id: $0.id!.uuidString, title: $0.title) }
         }
     }
 
-    <span class="comment">//...</span>
-}</code></pre><p>As I mentioned this before Fluent helps with pagination. You can use the <code>page</code> and <code>per</code> query parameters to retrieve a page with a given number of elements. The newly returned response will contain two new (<code>items</code> &amp; <code>metadata</code>) keys. Metadata inclues the total number of items in the database. If you don't like the metadata object you can ship your own paginator:</p><pre><code class="language-swift"><span class="comment">// the first 10 items</span>
-<span class="type">Todo</span>.<span class="call">query</span>(on: req.<span class="property">db</span>).<span class="call">range</span>(..&lt;<span class="number">10</span>)
+    //...
+}
+</code></pre><p>As I mentioned this before Fluent helps with pagination. You can use the <code>page</code> and <code>per</code> query parameters to retrieve a page with a given number of elements. The newly returned response will contain two new (<code>items</code> & <code>metadata</code>) keys. Metadata inclues the total number of items in the database. If you don’t like the metadata object you can ship your own paginator:</p><pre><code class="language-swift">// the first 10 items
+Todo.query(on: req.db).range(..&lt;10)
 
-<span class="comment">// returns 10 items from the 2nd element</span>
-<span class="type">Todo</span>.<span class="call">query</span>(on: req.<span class="property">db</span>).<span class="call">range</span>(<span class="number">2</span>..&lt;<span class="number">10</span>).<span class="call">all</span>()
+// returns 10 items from the 2nd element
+Todo.query(on: req.db).range(2..&lt;10).all()
 
-<span class="comment">// limit - offset</span>
-<span class="type">Todo</span>.<span class="call">query</span>(on: req.<span class="property">db</span>).<span class="call">range</span>(offset..&lt;limit).<span class="call">all</span>()
+// limit - offset
+Todo.query(on: req.db).range(offset..&lt;limit).all()
 
-<span class="comment">// page - per</span>
-<span class="type">Todo</span>.<span class="call">query</span>(on: req.<span class="property">db</span>).<span class="call">range</span>(((page - <span class="number">1</span>) * per)..&lt;(page * per)).<span class="call">all</span>()
-<span class="type">The QueryBuilder</span> range support <span class="keyword">is</span> a great addition. <span class="type">Now</span> <span class="keyword">let</span>'s talk about reading one element.
+// page - per
+Todo.query(on: req.db).range(((page - 1) * per)..&lt;(page * per)).all()
+The QueryBuilder range support is a great addition. Now let's talk about reading one element.
 
-<span class="keyword">struct</span> TodoController {
+struct TodoController {
 
-    <span class="comment">/*
+    /*
         curl -i -X GET "http://127.0.0.1:8080/todos/&lt;id&gt;" \
             -H "Content-Type: application/json"
-     */</span>
-    <span class="keyword">func</span> read(req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Todo</span>.<span class="type">Output</span>&gt; {
-        <span class="keyword">guard let</span> id = req.<span class="property">parameters</span>.<span class="call">get</span>(<span class="string">"id"</span>, as: <span class="type">UUID</span>.<span class="keyword">self</span>) <span class="keyword">else</span> {
-            <span class="keyword">throw</span> <span class="type">Abort</span>(.<span class="dotAccess">badRequest</span>)
+     */
+    func read(req: Request) throws -&gt; EventLoopFuture&lt;Todo.Output&gt; {
+        guard let id = req.parameters.get("id", as: UUID.self) else {
+            throw Abort(.badRequest)
         }
-        <span class="keyword">return</span> <span class="type">Todo</span>.<span class="call">find</span>(id, on: req.<span class="property">db</span>)
-            .<span class="call">unwrap</span>(or: <span class="type">Abort</span>(.<span class="dotAccess">notFound</span>))
-            .<span class="call">map</span> { <span class="type">Todo</span>.<span class="type">Output</span>(id: $0.<span class="property">id</span>!.uuidString, title: $0.<span class="property">title</span>) }
+        return Todo.find(id, on: req.db)
+            .unwrap(or: Abort(.notFound))
+            .map { Todo.Output(id: $0.id!.uuidString, title: $0.title) }
     }
 
-    <span class="comment">//...</span>
-}</code></pre><p>You can get named parameters by key, I already mentioned this in my <a href="https://theswiftdev.com/beginners-guide-to-server-side-swift-using-vapor-4/">beginner's guide article</a>. The new thing here is that you can <code>throw Abort(error)</code> anytime you want to break something. Same thing happens in the <code>unwrap</code> method, that just checks if the value wrapped inside the future object. If it is <code>nil</code> it'll throws the given error, if the value is present the promise chain will continue.</p><h3>Update</h3><p>Update is pretty straightforward, it's somewhat the combination of the read &amp; create methods.</p><pre><code class="language-swift"><span class="keyword">struct</span> TodoController {
+    //...
+}
+</code></pre><p>You can get named parameters by key, I already mentioned this in my <a href="https://theswiftdev.com/beginners-guide-to-server-side-swift-using-vapor-4/">beginner’s guide article</a>. The new thing here is that you can <code>throw Abort(error)</code> anytime you want to break something. Same thing happens in the <code>unwrap</code> method, that just checks if the value wrapped inside the future object. If it is <code>nil</code> it’ll throws the given error, if the value is present the promise chain will continue.</p><h3 id="update">Update</h3><p>Update is pretty straightforward, it’s somewhat the combination of the read & create methods.</p><pre><code class="language-swift">struct TodoController {
 
-    <span class="comment">/*
+    /*
         curl -i -X POST "http://127.0.0.1:8080/todos/&lt;id&gt;" \
             -H "Content-Type: application/json" \
             -d '{"title": "Write Vapor 4 book"}'
-     */</span>
-    <span class="keyword">func</span> update(req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Todo</span>.<span class="type">Output</span>&gt; {
-        <span class="keyword">guard let</span> id = req.<span class="property">parameters</span>.<span class="call">get</span>(<span class="string">"id"</span>, as: <span class="type">UUID</span>.<span class="keyword">self</span>) <span class="keyword">else</span> {
-            <span class="keyword">throw</span> <span class="type">Abort</span>(.<span class="dotAccess">badRequest</span>)
+     */
+    func update(req: Request) throws -&gt; EventLoopFuture&lt;Todo.Output&gt; {
+        guard let id = req.parameters.get("id", as: UUID.self) else {
+            throw Abort(.badRequest)
         }
-        <span class="keyword">let</span> input = <span class="keyword">try</span> req.<span class="property">content</span>.<span class="call">decode</span>(<span class="type">Todo</span>.<span class="type">Input</span>.<span class="keyword">self</span>)
-        <span class="keyword">return</span> <span class="type">Todo</span>.<span class="call">find</span>(id, on: req.<span class="property">db</span>)
-            .<span class="call">unwrap</span>(or: <span class="type">Abort</span>(.<span class="dotAccess">notFound</span>))
-            .<span class="call">flatMap</span> { todo <span class="keyword">in</span>
-                todo.<span class="property">title</span> = input.<span class="property">title</span>
-                <span class="keyword">return</span> todo.<span class="call">save</span>(on: req.<span class="property">db</span>)
-                    .<span class="call">map</span> { <span class="type">Todo</span>.<span class="type">Output</span>(id: todo.<span class="property">id</span>!.uuidString, title: todo.<span class="property">title</span>) }
+        let input = try req.content.decode(Todo.Input.self)
+        return Todo.find(id, on: req.db)
+            .unwrap(or: Abort(.notFound))
+            .flatMap { todo in
+                todo.title = input.title
+                return todo.save(on: req.db)
+                    .map { Todo.Output(id: todo.id!.uuidString, title: todo.title) }
             }
     }
     
-    <span class="comment">//...</span>
-}</code></pre><p>You need an id to find the object in the database, plus some input to update the fields. You fetch the item, update the corresponding properties based on the input, save the model and finally return the newly saved version as a public output object. Piece of cake. 🍰</p><h3>Delete</h3><p>Delete is just a little bit tricky, since usually you don't return anything in the body, but just a simple status code. Vapor has a nice <code>HTTPStatus</code> enum for this purpose, so e.g. <code>.ok</code> is 200.</p><pre><code class="language-swift"><span class="keyword">struct</span> TodoController {
+    //...
+}
+</code></pre><p>You need an id to find the object in the database, plus some input to update the fields. You fetch the item, update the corresponding properties based on the input, save the model and finally return the newly saved version as a public output object. Piece of cake. 🍰</p><h3 id="delete">Delete</h3><p>Delete is just a little bit tricky, since usually you don’t return anything in the body, but just a simple status code. Vapor has a nice <code>HTTPStatus</code> enum for this purpose, so e.g. <code>.ok</code> is 200.</p><pre><code class="language-swift">struct TodoController {
 
-    <span class="comment">/*
+    /*
         curl -i -X DELETE "https://127.0.0.1:8080/todos/&lt;id&gt;"
-     */</span>
-    <span class="keyword">func</span> delete(req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">HTTPStatus</span>&gt; {
-        <span class="keyword">guard let</span> id = req.<span class="property">parameters</span>.<span class="call">get</span>(<span class="string">"id"</span>, as: <span class="type">UUID</span>.<span class="keyword">self</span>) <span class="keyword">else</span> {
-            <span class="keyword">throw</span> <span class="type">Abort</span>(.<span class="dotAccess">badRequest</span>)
+     */
+    func delete(req: Request) throws -&gt; EventLoopFuture&lt;HTTPStatus&gt; {
+        guard let id = req.parameters.get("id", as: UUID.self) else {
+            throw Abort(.badRequest)
         }
-        <span class="keyword">return</span> <span class="type">Todo</span>.<span class="call">find</span>(id, on: req.<span class="property">db</span>)
-            .<span class="call">unwrap</span>(or: <span class="type">Abort</span>(.<span class="dotAccess">notFound</span>))
-            .<span class="call">flatMap</span> { $0.<span class="call">delete</span>(on: req.<span class="property">db</span>) }
-            .<span class="call">map</span> { .<span class="dotAccess">ok</span> }
+        return Todo.find(id, on: req.db)
+            .unwrap(or: Abort(.notFound))
+            .flatMap { $0.delete(on: req.db) }
+            .map { .ok }
     }
 
-    <span class="comment">//...</span>
-}</code></pre><p>Pretty much that sums everything. Of course you can extend this with a PATCH method, but that's quite a good task for practicing. I'll leave this "unimplemented" just for you... 😈</p><h2>A protocol oriented generic CRUD</h2><p>Long story short, if you introduce new models you'll have to do this exact same thing over and over again if you want to have CRUD endpoints for every single one of them.</p><p>That's a boring task to do, plus you'll end up having a lot of boilerplate code. So why not come up with a more generic solution, right? I'll show you one possible implementation.</p><pre><code class="language-swift"><span class="keyword">protocol</span> ApiModel: <span class="type">Model</span> {
-    <span class="keyword">associatedtype</span> Input: <span class="type">Content</span>
-    <span class="keyword">associatedtype</span> Output: <span class="type">Content</span>
+    //...
+}
+</code></pre><p>Pretty much that sums everything. Of course you can extend this with a PATCH method, but that’s quite a good task for practicing. I’ll leave this “unimplemented” just for you… 😈</p><h2 id="a-protocol-oriented-generic-crud">A protocol oriented generic CRUD</h2><p>Long story short, if you introduce new models you’ll have to do this exact same thing over and over again if you want to have CRUD endpoints for every single one of them.</p><p>That’s a boring task to do, plus you’ll end up having a lot of boilerplate code. So why not come up with a more generic solution, right? I’ll show you one possible implementation.</p><pre><code class="language-swift">protocol ApiModel: Model {
+    associatedtype Input: Content
+    associatedtype Output: Content
 
-    <span class="keyword">init</span>(<span class="keyword">_</span>: <span class="type">Input</span>) <span class="keyword">throws
-    var</span> output: <span class="type">Output</span> { <span class="keyword">get</span> }
-    <span class="keyword">func</span> update(<span class="keyword">_</span>: <span class="type">Input</span>) <span class="keyword">throws</span>
-}</code></pre><p>The first thing I did is that I created a new protocol called ApiModel, it has two <code>associatedType</code> requirements, those are the i/o structs from the non-generic example. I also want to be able to initialize or update a model using an <code>Input</code> type, and transform it to an <code>Output</code>.</p><pre><code class="language-swift"><span class="keyword">protocol</span> ApiController {
-    <span class="keyword">var</span> idKey: <span class="type">String</span> { <span class="keyword">get</span> }
+    init(_: Input) throws
+    var output: Output { get }
+    func update(_: Input) throws
+}
+</code></pre><p>The first thing I did is that I created a new protocol called ApiModel, it has two <code>associatedType</code> requirements, those are the i/o structs from the non-generic example. I also want to be able to initialize or update a model using an <code>Input</code> type, and transform it to an <code>Output</code>.</p><pre><code class="language-swift">protocol ApiController {
+    var idKey: String { get }
 
-    <span class="keyword">associatedtype</span> Model: <span class="type">ApiModel</span>
+    associatedtype Model: ApiModel
 
-    <span class="comment">// generic helper functions</span>
-    <span class="keyword">func</span> getId(<span class="keyword">_</span>: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">Model</span>.<span class="type">IDValue</span>
-    <span class="keyword">func</span> find(<span class="keyword">_</span>: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Model</span>&gt;
+    // generic helper functions
+    func getId(_: Request) throws -&gt; Model.IDValue
+    func find(_: Request) throws -&gt; EventLoopFuture&lt;Model&gt;
 
-    <span class="comment">// generic crud methods</span>
-    <span class="keyword">func</span> create(<span class="keyword">_</span>: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Model</span>.<span class="type">Output</span>&gt;
-    <span class="keyword">func</span> readAll(<span class="keyword">_</span>: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Page</span>&lt;<span class="type">Model</span>.<span class="type">Output</span>&gt;&gt;
-    <span class="keyword">func</span> read(<span class="keyword">_</span>: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Model</span>.<span class="type">Output</span>&gt;
-    <span class="keyword">func</span> update(<span class="keyword">_</span>: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Model</span>.<span class="type">Output</span>&gt;
-    <span class="keyword">func</span> delete(<span class="keyword">_</span>: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">HTTPStatus</span>&gt;
+    // generic crud methods
+    func create(_: Request) throws -&gt; EventLoopFuture&lt;Model.Output&gt;
+    func readAll(_: Request) throws -&gt; EventLoopFuture&lt;Page&lt;Model.Output&gt;&gt;
+    func read(_: Request) throws -&gt; EventLoopFuture&lt;Model.Output&gt;
+    func update(_: Request) throws -&gt; EventLoopFuture&lt;Model.Output&gt;
+    func delete(_: Request) throws -&gt; EventLoopFuture&lt;HTTPStatus&gt;
     
-    <span class="comment">// router helper</span>
-    <span class="keyword">@discardableResult
-    func</span> setup(routes: <span class="type">RoutesBuilder</span>, on endpoint: <span class="type">String</span>) -&gt; <span class="type">RoutesBuilder</span>
-}</code></pre><p>Next thing todo (haha) is to come up with a controller interface. This is also going to be "generic", plus I'd like to be able to set a custom id parameter key. One small thing here is that you can't 100% generalize the decoding of the identifier parameter, but only if it's <code>LosslessStringConvertible</code>.</p><pre><code class="language-swift"><span class="keyword">extension</span> <span class="type">ApiController</span> <span class="keyword">where</span> <span class="type">Model</span>.<span class="type">IDValue</span>: <span class="type">LosslessStringConvertible</span> {
+    // router helper
+    @discardableResult
+    func setup(routes: RoutesBuilder, on endpoint: String) -&gt; RoutesBuilder
+}
+</code></pre><p>Next thing todo (haha) is to come up with a controller interface. This is also going to be “generic”, plus I’d like to be able to set a custom id parameter key. One small thing here is that you can’t 100% generalize the decoding of the identifier parameter, but only if it’s <code>LosslessStringConvertible</code>.</p><pre><code class="language-swift">extension ApiController where Model.IDValue: LosslessStringConvertible {
 
-    <span class="keyword">func</span> getId(<span class="keyword">_</span> req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">Model</span>.<span class="type">IDValue</span> {
-        <span class="keyword">guard let</span> id = req.<span class="property">parameters</span>.<span class="call">get</span>(<span class="keyword">self</span>.<span class="property">idKey</span>, as: <span class="type">Model</span>.<span class="type">IDValue</span>.<span class="keyword">self</span>) <span class="keyword">else</span> {
-            <span class="keyword">throw</span> <span class="type">Abort</span>(.<span class="dotAccess">badRequest</span>)
+    func getId(_ req: Request) throws -&gt; Model.IDValue {
+        guard let id = req.parameters.get(self.idKey, as: Model.IDValue.self) else {
+            throw Abort(.badRequest)
         }
-        <span class="keyword">return</span> id
+        return id
     }
-}</code></pre><p>Trust me in 99.9% of the cases you'll be just fine right with this. Final step is to have a generic version of what we've just made above with each CRUD endpoint. 👻</p><pre><code class="language-swift"><span class="keyword">extension</span> <span class="type">ApiController</span> {
+}
+</code></pre><p>Trust me in 99.9% of the cases you’ll be just fine right with this. Final step is to have a generic version of what we’ve just made above with each CRUD endpoint. 👻</p><pre><code class="language-swift">extension ApiController {
     
-    <span class="keyword">var</span> idKey: <span class="type">String</span> { <span class="string">"id"</span> }
+    var idKey: String { "id" }
 
-    <span class="keyword">func</span> find(<span class="keyword">_</span> req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Model</span>&gt; {
-        <span class="type">Model</span>.<span class="call">find</span>(<span class="keyword">try self</span>.<span class="call">getId</span>(req), on: req.<span class="property">db</span>).<span class="call">unwrap</span>(or: <span class="type">Abort</span>(.<span class="dotAccess">notFound</span>))
+    func find(_ req: Request) throws -&gt; EventLoopFuture&lt;Model&gt; {
+        Model.find(try self.getId(req), on: req.db).unwrap(or: Abort(.notFound))
     }
 
-    <span class="keyword">func</span> create(<span class="keyword">_</span> req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Model</span>.<span class="type">Output</span>&gt; {
-        <span class="keyword">let</span> request = <span class="keyword">try</span> req.<span class="property">content</span>.<span class="call">decode</span>(<span class="type">Model</span>.<span class="type">Input</span>.<span class="keyword">self</span>)
-        <span class="keyword">let</span> model = <span class="keyword">try</span> <span class="type">Model</span>(request)
-        <span class="keyword">return</span> model.<span class="call">save</span>(on: req.<span class="property">db</span>).<span class="call">map</span> { <span class="keyword">_ in</span> model.<span class="property">output</span> }
+    func create(_ req: Request) throws -&gt; EventLoopFuture&lt;Model.Output&gt; {
+        let request = try req.content.decode(Model.Input.self)
+        let model = try Model(request)
+        return model.save(on: req.db).map { _ in model.output }
     }
     
-    <span class="keyword">func</span> readAll(<span class="keyword">_</span> req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Page</span>&lt;<span class="type">Model</span>.<span class="type">Output</span>&gt;&gt; {
-        <span class="type">Model</span>.<span class="call">query</span>(on: req.<span class="property">db</span>).<span class="call">paginate</span>(for: req).<span class="property">map</span> { $0.<span class="property">map</span> { $0.<span class="property">output</span> } }
+    func readAll(_ req: Request) throws -&gt; EventLoopFuture&lt;Page&lt;Model.Output&gt;&gt; {
+        Model.query(on: req.db).paginate(for: req).map { $0.map { $0.output } }
     }
 
-    <span class="keyword">func</span> read(<span class="keyword">_</span> req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Model</span>.<span class="type">Output</span>&gt; {
-        <span class="keyword">try self</span>.<span class="call">find</span>(req).<span class="call">map</span> { $0.<span class="property">output</span> }
+    func read(_ req: Request) throws -&gt; EventLoopFuture&lt;Model.Output&gt; {
+        try self.find(req).map { $0.output }
     }
 
-    <span class="keyword">func</span> update(<span class="keyword">_</span> req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Model</span>.<span class="type">Output</span>&gt; {
-        <span class="keyword">let</span> request = <span class="keyword">try</span> req.<span class="property">content</span>.<span class="call">decode</span>(<span class="type">Model</span>.<span class="type">Input</span>.<span class="keyword">self</span>)
-        <span class="keyword">return try self</span>.<span class="call">find</span>(req).<span class="call">flatMapThrowing</span> { model -&gt; <span class="type">Model</span> <span class="keyword">in
-            try</span> model.<span class="call">update</span>(request)
-            <span class="keyword">return</span> model
+    func update(_ req: Request) throws -&gt; EventLoopFuture&lt;Model.Output&gt; {
+        let request = try req.content.decode(Model.Input.self)
+        return try self.find(req).flatMapThrowing { model -&gt; Model in
+            try model.update(request)
+            return model
         }
-        .<span class="call">flatMap</span> { model <span class="keyword">in
-            return</span> model.<span class="call">update</span>(on: req.<span class="property">db</span>).<span class="call">map</span> { model.<span class="property">output</span> }
+        .flatMap { model in
+            return model.update(on: req.db).map { model.output }
         }
     }
     
-    <span class="keyword">func</span> delete(<span class="keyword">_</span> req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">HTTPStatus</span>&gt; {
-        <span class="keyword">try self</span>.<span class="call">find</span>(req).<span class="call">flatMap</span> { $0.<span class="call">delete</span>(on: req.<span class="property">db</span>) }.<span class="call">map</span> { .<span class="dotAccess">ok</span> }
+    func delete(_ req: Request) throws -&gt; EventLoopFuture&lt;HTTPStatus&gt; {
+        try self.find(req).flatMap { $0.delete(on: req.db) }.map { .ok }
     }
     
-    <span class="keyword">@discardableResult
-    func</span> setup(routes: <span class="type">RoutesBuilder</span>, on endpoint: <span class="type">String</span>) -&gt; <span class="type">RoutesBuilder</span> {
-        <span class="keyword">let</span> base = routes.<span class="call">grouped</span>(<span class="type">PathComponent</span>(stringLiteral: endpoint))
-        <span class="keyword">let</span> idPathComponent = <span class="type">PathComponent</span>(stringLiteral: <span class="string">":</span>\(<span class="keyword">self</span>.<span class="property">idKey</span>)<span class="string">"</span>)
+    @discardableResult
+    func setup(routes: RoutesBuilder, on endpoint: String) -&gt; RoutesBuilder {
+        let base = routes.grouped(PathComponent(stringLiteral: endpoint))
+        let idPathComponent = PathComponent(stringLiteral: ":\(self.idKey)")
         
-        base.<span class="call">post</span>(use: <span class="keyword">self</span>.<span class="property">create</span>)
-        base.<span class="call">get</span>(use: <span class="keyword">self</span>.<span class="property">readAll</span>)
-        base.<span class="call">get</span>(idPathComponent, use: <span class="keyword">self</span>.<span class="property">read</span>)
-        base.<span class="call">post</span>(idPathComponent, use: <span class="keyword">self</span>.<span class="property">update</span>)
-        base.<span class="call">delete</span>(idPathComponent, use: <span class="keyword">self</span>.<span class="property">delete</span>)
+        base.post(use: self.create)
+        base.get(use: self.readAll)
+        base.get(idPathComponent, use: self.read)
+        base.post(idPathComponent, use: self.update)
+        base.delete(idPathComponent, use: self.delete)
 
-        <span class="keyword">return</span> base
+        return base
     }
-}</code></pre><p>Example time. Here is our generic model:</p><pre><code class="language-swift"><span class="keyword">final class</span> Todo: <span class="type">ApiModel</span> {
+}
+</code></pre><p>Example time. Here is our generic model:</p><pre><code class="language-swift">final class Todo: ApiModel {
     
-    <span class="keyword">struct</span> _Input: <span class="type">Content</span> {
-        <span class="keyword">let</span> title: <span class="type">String</span>
+    struct _Input: Content {
+        let title: String
     }
 
-    <span class="keyword">struct</span> _Output: <span class="type">Content</span> {
-        <span class="keyword">let</span> id: <span class="type">String</span>
-        <span class="keyword">let</span> title: <span class="type">String</span>
-    }
-    
-    <span class="keyword">typealias</span> Input = <span class="type">_Input</span>
-    <span class="keyword">typealias</span> Output = <span class="type">_Output</span>
-    
-    <span class="comment">// MARK: - model</span>
-
-    <span class="keyword">static let</span> schema = <span class="string">"todos"</span>
-
-    <span class="keyword">@ID</span>(key: .<span class="dotAccess">id</span>) <span class="keyword">var</span> id: <span class="type">UUID</span>?
-    <span class="keyword">@Field</span>(key: <span class="string">"title"</span>) <span class="keyword">var</span> title: <span class="type">String</span>
-
-    <span class="keyword">init</span>() { }
-
-    <span class="keyword">init</span>(id: <span class="type">UUID</span>? = <span class="keyword">nil</span>, title: <span class="type">String</span>) {
-        <span class="keyword">self</span>.<span class="property">id</span> = id
-        <span class="keyword">self</span>.<span class="property">title</span> = title
+    struct _Output: Content {
+        let id: String
+        let title: String
     }
     
-    <span class="comment">// MARK: - api</span>
+    typealias Input = _Input
+    typealias Output = _Output
     
-    <span class="keyword">init</span>(<span class="keyword">_</span> input: <span class="type">Input</span>) <span class="keyword">throws</span> {
-        <span class="keyword">self</span>.<span class="property">title</span> = input.<span class="property">title</span>
+    // MARK: - model
+
+    static let schema = "todos"
+
+    @ID(key: .id) var id: UUID?
+    @Field(key: "title") var title: String
+
+    init() { }
+
+    init(id: UUID? = nil, title: String) {
+        self.id = id
+        self.title = title
     }
     
-    <span class="keyword">func</span> update(<span class="keyword">_</span> input: <span class="type">Input</span>) <span class="keyword">throws</span> {
-        <span class="keyword">self</span>.<span class="property">title</span> = input.<span class="property">title</span>
+    // MARK: - api
+    
+    init(_ input: Input) throws {
+        self.title = input.title
     }
     
-    <span class="keyword">var</span> output: <span class="type">Output</span> {
-        .<span class="keyword">init</span>(id: <span class="keyword">self</span>.<span class="property">id</span>!.uuidString, title: <span class="keyword">self</span>.<span class="property">title</span>)
+    func update(_ input: Input) throws {
+        self.title = input.title
     }
-}</code></pre><p class="note">If the input is the same as the output, you just need one (<code>Context</code>?) struct instead of two.</p><p>This is what's left off the controller (not much, haha):</p><pre><code class="language-swift"><span class="keyword">struct</span> TodoController: <span class="type">ApiController</span> {
-    <span class="keyword">typealias</span> Model = <span class="type">Todo</span>
-}</code></pre><p>The router object also shortened a bit:</p><pre><code class="language-swift"><span class="keyword">func</span> routes(<span class="keyword">_</span> app: <span class="type">Application</span>) <span class="keyword">throws</span> {
-    <span class="keyword">let</span> todoController = <span class="type">TodoController</span>()
-    todoController.<span class="call">setup</span>(routes: routes, on: <span class="string">"todos"</span>)
-}</code></pre><p>Try to run the app, everything should work just as before.</p><p>This means that you don't have to write controllers anymore? Yes, mostly, but still this method lacks a few things, like fetching child objects for nested models or relations. If you are fine with that please go ahead and copy &amp; paste the snippets into your codebase. You won't regret, because this code is as simple as possible, plus you can override everything in your controller if you don't like the default implementation. This is the beauty of the protocol oriented approach. 😎</p><h2>Conclusion</h2><p>There is no silver bullet, but if it comes to CRUD, but please <a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself" target="_blank">DRY</a>. Using a generic code can be a proper solution, but maybe it won't cover every single use case. Taken together I like the fact that I don't have to focus anymore on writing API endpoints, but only those that are quite unique. 🤓</p>
-        </section>
-    </div>
-
-</article>
-
-<section id="share" class="content-wrapper">
-    <p>
-    <a
-        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/a-generic-crud-solution-for-vapor-4/"
-        target="_blank"
-    >
-        Share this article
-    </a>
-    <br> Thank you. 🙏</p>
-</section>
-
-<section  class="wrapper">
-    <div id="book">
-        <div class="column left">
-            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+    
+    var output: Output {
+        .init(id: self.id!.uuidString, title: self.title)
+    }
+}
+</code></pre><blockquote><p>NOTE: If the input is the same as the output, you just need one (<code>Context</code>?) struct instead of two.</p></blockquote><p>This is what’s left off the controller (not much, haha):</p><pre><code class="language-swift">struct TodoController: ApiController {
+    typealias Model = Todo
+}
+</code></pre><p>The router object also shortened a bit:</p><pre><code class="language-swift">func routes(_ app: Application) throws {
+    let todoController = TodoController()
+    todoController.setup(routes: routes, on: "todos")
+}
+</code></pre><p>Try to run the app, everything should work just as before.</p><p>This means that you don’t have to write controllers anymore? Yes, mostly, but still this method lacks a few things, like fetching child objects for nested models or relations. If you are fine with that please go ahead and copy & paste the snippets into your codebase. You won’t regret, because this code is as simple as possible, plus you can override everything in your controller if you don’t like the default implementation. This is the beauty of the protocol oriented approach. 😎</p><h2 id="conclusion">Conclusion</h2><p>There is no silver bullet, but if it comes to CRUD, but please <a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself" target="_blank">DRY</a>. Using a generic code can be a proper solution, but maybe it won’t cover every single use case. Taken together I like the fact that I don’t have to focus anymore on writing API endpoints, but only those that are quite unique. 🤓</p>
+                    
+                </section>
+    
+                <footer>
+                    <br>
+                    <time datetime=""></time>
+    
+                    
+                    <div class="author-list">
+                        <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        </a>
+                    </div>
+                    <div class="tag-list">
+                        <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
+                    <a href="https://theswiftdev.com/tags/vapor/"><small>Vapor</small></a>
+                    </div>
+                    
+                    <p>
+                        <a href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/a-generic-crud-solution-for-vapor-4/" target="_blank">
+                            <strong>Share this article</strong>
+                        </a>
+                        <br>Thank you. 🙏
+                    </p>
+                </footer>
+                            
+                <section class="group">
+                    <h4>Related posts</h4>                
+                    <div class="grid grid-221">
+                        <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/07/15">2020/07/15</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/10-short-advices-that-will-make-you-a-better-vapor-developer-right-away/" target="">10 short advices that will make you a better Vapor developer right away</a></h2>
+                            <hr>
+                            <p>As a beginner server side Swift developer you&#39;ll face many obstackles. I&#39;ll show you how to avoid the most common ones.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2019/10/08">2019/10/08</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/a-simple-http2-server-using-vapor-4/" target="">A simple HTTP/2 server using Vapor 4</a></h2>
+                            <hr>
+                            <p>Get started with server-side Swift using the Vapor 4 framework. Learn how to build a really simple HTTP/2 backend server.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/12/18">2020/12/18</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/ajax-calls-using-vapor-4/" target="">AJAX calls using Vapor 4</a></h2>
+                            <hr>
+                            <p>Learn how to implement Asynchronous JavaScript and XML (AJAX) calls using Leaf templates and Vapor 4 as a server.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/04/07">2020/04/07</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/all-about-authentication-in-vapor-4/" target="">All about authentication in Vapor 4</a></h2>
+                            <hr>
+                            <p>Learn how to implement a user login mechanism with various auth methods using sessions, JWTs, written in Swift only.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    
+            </article>
         </div>
-        <div class="column right">
-            <h3>Get the Practical Server Side Swift book</h3>
-            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
-        </div>
-    </div>
-</section>
-
-<section id="author" class="content-wrapper">
-    <img 
-        id="author-image"
-        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
-        alt="Picture of Tibor Bödecs" 
-        title="Tibor Bödecs"
-    >
-    <h3>Tibor Bödecs</h3>
-    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
-    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
-
-    <div class="links">
-        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
-        <a href="https://github.com/tib" target="_blank">GitHub</a> 
-    </div>
-</section>
-
         
+        <div>
+            <div class="book">
+                <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">
+                    <img src="https://theswiftdev.com/book/practical-server-side-swift-cover.png" alt="Practical Server Side Swift cover image">
+                </a>
+                <h3>
+                    <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Get the Practical Server Side Swift book</a>
+                </h3>
+                <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+                <a class="cta" href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+            </div>
+            
+            
+            <aside id="toc">
+                <h4>On this page</h4>
+                <ul>
+                    <li class="first-level">
+                        <a href="#crud-create-read-update-and-delete">CRUD ~ Create, Read, Update and Delete</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#http-basics-request---response">HTTP basics: Request -&gt; Response</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#contents-and-models-in-vapor">Contents and models in Vapor</a>
+                        <ul>
+                            <li><a href="#create">Create</a></li>
+                <li><a href="#read">Read</a></li>
+                <li><a href="#update">Update</a></li>
+                <li><a href="#delete">Delete</a></li>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#a-protocol-oriented-generic-crud">A protocol oriented generic CRUD</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#conclusion">Conclusion</a>
+                        <ul>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+            
+    
+        </div>
+    </div>
+    
     </main>
 
-    <footer>
-        <section class="content-wrapper">
-            <img 
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
-
-            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+    <footer id="site-footer">
+        <div class="grid grid-421">
+    
+            <picture>
+                <img
+                    id="logo-image"
+                    src="https://theswiftdev.com/images/logos/logo-large.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
             
-            <p> 
-                <a href="https://theswiftdev.com/">Home</a> ·
-                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
-            </p>
+            <div>
+                <span style="display: block; height: 32px;">&nbsp;</span>
+                <h4>The.Swift.Dev</h4>
+                <p><small><a href="https://theswiftdev.com/" target="_blank">theswiftdev.com</a></small></p>
+                <ul>
+                    <li><a href="https://github.com/theswiftdev/" target="_blank">GitHub</a></li>
+                    <li><a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a></li>
+                    <li><a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a></li>
+                </ul>
+            </div>
             
-            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+            <div>
+                
+            </div>
+            
+            <div>
+                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                </a>
+                <h4><a href="https://theswiftdev.com/authors/tibor-bodecs/">Tibor Bödecs</a></h4>
+                <p><small><a href="https://binarybirds.com/" target="_blank">Binary Birds Kft.</a></small></p>
+                <ul>
+                    <li><a href="mailto:mail.tib@gmail.com" target="_blank">Email</a></li>
+                    <li><a href="https://github.com/tib/" target="_blank">GitHub</a></li>
+                    <li><a href="https://x.com/tiborbodecs" target="_blank">X (Twitter)</a></li>
+                    <li><a href="https://mastodon.social/@tiborbodecs" target="_blank">Mastodon</a></li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <section class="grid grid-221">
+            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>
+
+    </div>
+
+    
 </body>
 </html>

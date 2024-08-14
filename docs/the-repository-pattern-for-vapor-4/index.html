@@ -1,388 +1,551 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
     <meta charset="utf-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="canonical" href="https://theswiftdev.com/the-repository-pattern-for-vapor-4/">
     
+    
+
     <title>The repository pattern for Vapor 4 - The.Swift.Dev.</title>
-    
-    <meta name="description" content="In this article I'm going to talk about the repository design pattern and give you a few Fluent ORM tips for your Vapor 4 app.">
-    
-    <meta property="og:title" content="The repository pattern for Vapor 4 - The.Swift.Dev.">
-    <meta property="og:description" content="In this article I'm going to talk about the repository design pattern and give you a few Fluent ORM tips for your Vapor 4 app.">
+    <meta name="description" content="In this article I&#39;m going to talk about the repository design pattern and give you a few Fluent ORM tips for your Vapor 4 app.">
+
     <meta property="og:url" content="https://theswiftdev.com/the-repository-pattern-for-vapor-4/">
-    <meta property="og:image" content="https://theswiftdev.com/images/assets/the-repository-pattern-for-vapor-4/cover.jpg">
+    <meta property="og:title" content="The repository pattern for Vapor 4 - The.Swift.Dev.">
+    <meta property="og:description" content="In this article I&#39;m going to talk about the repository design pattern and give you a few Fluent ORM tips for your Vapor 4 app.">
+    
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@tiborbodecs">
-    <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="The repository pattern for Vapor 4 - The.Swift.Dev.">
-    <meta name="twitter:description" content="In this article I'm going to talk about the repository design pattern and give you a few Fluent ORM tips for your Vapor 4 app.">
-    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/the-repository-pattern-for-vapor-4/cover.jpg">
+    <meta name="twitter:description" content="In this article I&#39;m going to talk about the repository design pattern and give you a few Fluent ORM tips for your Vapor 4 app.">
     
-    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
-    
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-normalize.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/variables.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/grid.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/navigation.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/footer.css">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+
     
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/icons/apple-touch-icon-180x180.png">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+        media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+        media="(prefers-color-scheme: dark)"
+    >
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
 </head>
 
 <body>
-    <a href="https://theswiftdev.gumroad.com" class="ribbon">
-        📖
-    </a>
-    <header id="page-header">
-        <a href="https://theswiftdev.com/">
-            <img 
-                id="logo-image"
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
+    <div id="site-container">
+
+    <header id="navigation">
+        <a href="/">
+            <picture>
+                <img
+                    src="https://theswiftdev.com/images/logos/logo.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
         </a>
-    </header>
-    
-    <main>
-
-        <article>
-    <header>
-        <section id="post-header" class="content-wrapper">
-            <time datetime="2022/03/03">2022/03/03</time>
-            <h1 class="title">The repository pattern for Vapor 4</h1>
-            <p class="excerpt">In this article I'm going to talk about the repository design pattern and give you a few Fluent ORM tips for your Vapor 4 app.</p>
-            <div class="meta">
-                <span class="tag">Vapor</span>
+        <nav>
+            <input type="checkbox" id="primary-menu-button" name="menu-button" class="menu-button">
+            <label for="primary-menu-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </label>
+            <div class="menu-items">
+                <a href="/page/1/">Posts</a>
+                <a href="/tags/">Tags</a>
+                <a href="/authors/">Authors</a>
+                <a href="/practical-server-side-swift/">My Book</a>
             </div>
-        </section>
-        <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.com/images/assets/the-repository-pattern-for-vapor-4/cover.jpg">
-        </section>
+        </nav>
     </header>
 
-    <div id="contents">
-        <section class="content-wrapper">
-            <h2>Fluent is essentially broken</h2><p>The more I use the <a href="https://docs.vapor.codes/4.0/fluent/overview/" target="_blank">Fluent ORM framework</a> the more I realize how hard it is to work with it. I'm talking about a particular design issue that I also mentioned in <a href="https://theswiftdev.com/the-future-of-server-side-swift/">the future of server side Swift article</a>. I really don't like the idea of property wrappers and abstract database models.</p><p>What's the problem with the current database model abstraction? First of all, the optional ID property is confusing. For example you don't have to provide an identifier when you insert a record, it can be an nil value and the ORM system can create a unique identifier (under the hood using a generator) for you. So why do we have an id for create operations at all? Yes, you might say that it is possible to specify a custom identifier, but honestly how many times do we need that? If you want to identify a record that's going to be something like a key, not an id field. 🙃</p><p>Also this optional property can cause some other issues, when using fluent you can require an id, which is a throwing operation, alternatively you can unwrap the optional property if you're sure that the identifier already exists, but this is not a safe approach at all.</p><p>My other issue is related to initializers, if you define a custom model you always have to provide an empty <code>init() {}</code> method for it, otherwise the compiler will complain, because models have to be classes. BUT WHY? IMHO the reason relates to this issue: you can query the database models using the model itself. So the model acts like a repository that you can use to query the fields, and it also represents the the record itself. Isn't this against the clean principles? 🤔</p><p>Okay, one last thing. Property wrappers, field keys and migrations. The core members at Vapor told us that this approach will provide a safe way to query my models and I can be sure that field keys won't be messed up, but I'm actually struggling with versioning in this case. I had to introduce a v1, v2, vN structure both for the field keys and the migration, which actually feels a bit worse than using raw strings. It is over-complicated for sure, and it feels like the schema definition is mixed up with the actual query mechanism and the model layer as well.</p><p>Sorry folks, I really appreciate the effort that you've put into Fluent, but these issues are real and I know that you can fix them on the long term and make the developer experience a lot better.</p><h2>How to make Fluent a bit better?</h2><p>On the short term I'm trying to fix these issues and fortunately there is a nice approach to separate the query mechanism from the model layer. It is called the <a href="https://docs.vapor.codes/4.0/upgrading/#repositories" target="_blank">repository pattern</a> and I'd like to give a huge credit to <a href="https://x.com/0xTim" target="_blank">0xTim</a> again, because he made a cool answer on <a href="https://stackoverflow.com/questions/63333118/understanding-how-to-initialize-a-vapor-4-repository" target="_blank">StackOverlow</a> about this topic.</p><p>Anyway, the main idea is that you wrap the <code>Request</code> object into a custom repository, it's usually a struct, then you only call database related queries inside this specific object. If we take a look at at the default project template (you can generate one by using the <a href="https://docs.vapor.codes/4.0/install/linux/#install-toolbox" target="_blank">vapor toolbox</a>), we can easily create a new repository for the Todo models.</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
-<span class="keyword">import</span> Fluent
+    <main id="page-container">
+    
+    <div class="article-with-toc">
+        <div>
+            <article class="post">
+                <div class="meta">
+                    <time datetime="2022/03/03">2022/03/03</time>
+                     &middot; <span class="reading-time">7 min read</span>
+                    
+                </div>
+                <h1>The repository pattern for Vapor 4</h1>
+                <hr>
+                <p>In this article I&#39;m going to talk about the repository design pattern and give you a few Fluent ORM tips for your Vapor 4 app.</p>
+                <section>
+                
+                <h2 id="fluent-is-essentially-broken">Fluent is essentially broken</h2><p>The more I use the <a href="https://docs.vapor.codes/4.0/fluent/overview/" target="_blank">Fluent ORM framework</a> the more I realize how hard it is to work with it. I’m talking about a particular design issue that I also mentioned in <a href="https://theswiftdev.com/the-future-of-server-side-swift/">the future of server side Swift article</a>. I really don’t like the idea of property wrappers and abstract database models.</p><p>What’s the problem with the current database model abstraction? First of all, the optional ID property is confusing. For example you don’t have to provide an identifier when you insert a record, it can be an nil value and the ORM system can create a unique identifier (under the hood using a generator) for you. So why do we have an id for create operations at all? Yes, you might say that it is possible to specify a custom identifier, but honestly how many times do we need that? If you want to identify a record that’s going to be something like a key, not an id field. 🙃</p><p>Also this optional property can cause some other issues, when using fluent you can require an id, which is a throwing operation, alternatively you can unwrap the optional property if you’re sure that the identifier already exists, but this is not a safe approach at all.</p><p>My other issue is related to initializers, if you define a custom model you always have to provide an empty <code>init() {}</code> method for it, otherwise the compiler will complain, because models have to be classes. BUT WHY? IMHO the reason relates to this issue: you can query the database models using the model itself. So the model acts like a repository that you can use to query the fields, and it also represents the the record itself. Isn’t this against the clean principles? 🤔</p><p>Okay, one last thing. Property wrappers, field keys and migrations. The core members at Vapor told us that this approach will provide a safe way to query my models and I can be sure that field keys won’t be messed up, but I’m actually struggling with versioning in this case. I had to introduce a v1, v2, vN structure both for the field keys and the migration, which actually feels a bit worse than using raw strings. It is over-complicated for sure, and it feels like the schema definition is mixed up with the actual query mechanism and the model layer as well.</p><p>Sorry folks, I really appreciate the effort that you’ve put into Fluent, but these issues are real and I know that you can fix them on the long term and make the developer experience a lot better.</p><h2 id="how-to-make-fluent-a-bit-better">How to make Fluent a bit better?</h2><p>On the short term I’m trying to fix these issues and fortunately there is a nice approach to separate the query mechanism from the model layer. It is called the <a href="https://docs.vapor.codes/4.0/upgrading/#repositories" target="_blank">repository pattern</a> and I’d like to give a huge credit to <a href="https://x.com/0xTim" target="_blank">0xTim</a> again, because he made a cool answer on <a href="https://stackoverflow.com/questions/63333118/understanding-how-to-initialize-a-vapor-4-repository" target="_blank">StackOverlow</a> about this topic.</p><p>Anyway, the main idea is that you wrap the <code>Request</code> object into a custom repository, it’s usually a struct, then you only call database related queries inside this specific object. If we take a look at at the default project template (you can generate one by using the <a href="https://docs.vapor.codes/4.0/install/linux/#install-toolbox" target="_blank">vapor toolbox</a>), we can easily create a new repository for the Todo models.</p><pre><code class="language-swift">import Vapor
+import Fluent
 
-<span class="keyword">struct</span> TodoRepository {
-    <span class="keyword">var</span> req: <span class="type">Request</span>
+struct TodoRepository {
+    var req: Request
     
-    <span class="comment">/// initialize the repository with a request object</span>
-    <span class="keyword">init</span>(req: <span class="type">Request</span>) {
-        <span class="keyword">self</span>.<span class="property">req</span> = req
-    }
-    
-    <span class="comment">/// query the Todo models using the req.db property</span>
-    <span class="keyword">func</span> query() -&gt; <span class="type">QueryBuilder</span>&lt;<span class="type">Todo</span>&gt; {
-        <span class="type">Todo</span>.<span class="call">query</span>(on: req.<span class="property">db</span>)
-    }
-    
-    <span class="comment">/// query the models and filter by an identifier</span>
-    <span class="keyword">func</span> query(<span class="keyword">_</span> id: <span class="type">Todo</span>.<span class="type">IDValue</span>) -&gt; <span class="type">QueryBuilder</span>&lt;<span class="type">Todo</span>&gt; {
-        <span class="call">query</span>().<span class="call">filter</span>(\.<span class="property">$id</span> == id)
-    }
-    
-    <span class="comment">/// query the models and filter by multiple identifiers</span>
-    <span class="keyword">func</span> query(<span class="keyword">_</span> ids: [<span class="type">Todo</span>.<span class="type">IDValue</span>]) -&gt; <span class="type">QueryBuilder</span>&lt;<span class="type">Todo</span>&gt; {
-        <span class="call">query</span>().<span class="call">filter</span>(\.<span class="property">$id</span> ~~ ids)
-    }
-
-    <span class="comment">/// list all the available Todo items</span>
-    <span class="keyword">func</span> list() <span class="keyword">async throws</span> -&gt; [<span class="type">Todo</span>] {
-        <span class="keyword">try await</span> <span class="call">query</span>().<span class="call">all</span>()
+    /// initialize the repository with a request object
+    init(req: Request) {
+        self.req = req
     }
     
-    <span class="comment">/// get one Todo item by an identifier if it exists</span>
-    <span class="keyword">func</span> get(<span class="keyword">_</span> id: <span class="type">Todo</span>.<span class="type">IDValue</span>) <span class="keyword">async throws</span> -&gt; <span class="type">Todo</span>? {
-        <span class="keyword">try await</span> <span class="call">get</span>([id]).<span class="property">first</span>
-    }
-
-    <span class="comment">/// get the list of the Todo items by multiple identifiers</span>
-    <span class="keyword">func</span> get(<span class="keyword">_</span> ids: [<span class="type">Todo</span>.<span class="type">IDValue</span>]) <span class="keyword">async throws</span> -&gt; [<span class="type">Todo</span>] {
-        <span class="keyword">try await</span> <span class="call">query</span>(ids).<span class="call">all</span>()
-    }
-
-    <span class="comment">/// create a Todo model and return the updated model (with an id)</span>
-    <span class="keyword">func</span> create(<span class="keyword">_</span> model: <span class="type">Todo</span>) <span class="keyword">async throws</span> -&gt; <span class="type">Todo</span> {
-        <span class="keyword">try await</span> model.<span class="call">create</span>(on: req.<span class="property">db</span>)
-        <span class="keyword">return</span> model
+    /// query the Todo models using the req.db property
+    func query() -&gt; QueryBuilder&lt;Todo&gt; {
+        Todo.query(on: req.db)
     }
     
-    <span class="comment">/// update a Todo model</span>
-    <span class="keyword">func</span> update(<span class="keyword">_</span> model: <span class="type">Todo</span>) <span class="keyword">async throws</span> -&gt; <span class="type">Todo</span> {
-        <span class="keyword">try await</span> model.<span class="call">update</span>(on: req.<span class="property">db</span>)
-        <span class="keyword">return</span> model
+    /// query the models and filter by an identifier
+    func query(_ id: Todo.IDValue) -&gt; QueryBuilder&lt;Todo&gt; {
+        query().filter(\.$id == id)
     }
-
-    <span class="comment">/// delete a Todo item based on the identifier</span>
-    <span class="keyword">func</span> delete(<span class="keyword">_</span> id: <span class="type">Todo</span>.<span class="type">IDValue</span>) <span class="keyword">async throws</span> {
-        <span class="keyword">try await</span> <span class="call">delete</span>([id])
-    }
-
-    <span class="comment">/// delete multiple Todo items based on id values</span>
-    <span class="keyword">func</span> delete(<span class="keyword">_</span> ids: [<span class="type">Todo</span>.<span class="type">IDValue</span>]) <span class="keyword">async throws</span> {
-        <span class="keyword">try await</span> <span class="call">query</span>(ids).<span class="call">delete</span>()
-    }
-}</code></pre><p>That's how we are can manipulate Todo models, from now on you don't have to use the static methods on the model itself, but you can use an instance of the repository to alter your database rows. The repository can be hooked up to the Request object by using a common pattern. The most simple way is to return a service every time you need it.</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
-
-<span class="keyword">extension</span> <span class="type">Request</span> {
     
-    <span class="keyword">var</span> todo: <span class="type">TodoRepository</span> {
-        .<span class="keyword">init</span>(req: <span class="keyword">self</span>)
-    }
-}</code></pre><p>Of course this is a very basic solution and it pollutes the namespace under the Request object, I mean, if you have lots of repositories this can be a problem, but first let me show you how to refactor the controller by using this simple method. 🤓</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
-
-<span class="keyword">struct</span> TodoController: <span class="type">RouteCollection</span> {
-
-    <span class="keyword">func</span> boot(routes: <span class="type">RoutesBuilder</span>) <span class="keyword">throws</span> {
-        <span class="keyword">let</span> todos = routes.<span class="call">grouped</span>(<span class="string">"todos"</span>)
-        todos.<span class="call">get</span>(use: index)
-        todos.<span class="call">post</span>(use: create)
-        todos.<span class="call">group</span>(<span class="string">":todoID"</span>) { todo <span class="keyword">in</span>
-            todo.<span class="call">delete</span>(use: delete)
-        }
+    /// query the models and filter by multiple identifiers
+    func query(_ ids: [Todo.IDValue]) -&gt; QueryBuilder&lt;Todo&gt; {
+        query().filter(\.$id ~~ ids)
     }
 
-    <span class="keyword">func</span> index(req: <span class="type">Request</span>) <span class="keyword">async throws</span> -&gt; [<span class="type">Todo</span>] {
-        <span class="keyword">try await</span> req.<span class="property">todo</span>.<span class="call">list</span>()
+    /// list all the available Todo items
+    func list() async throws -&gt; [Todo] {
+        try await query().all()
     }
-
-    <span class="keyword">func</span> create(req: <span class="type">Request</span>) <span class="keyword">async throws</span> -&gt; <span class="type">Todo</span> {
-        <span class="keyword">let</span> todo = <span class="keyword">try</span> req.<span class="property">content</span>.<span class="call">decode</span>(<span class="type">Todo</span>.<span class="keyword">self</span>)
-        <span class="keyword">return try await</span> req.<span class="property">todo</span>.<span class="call">create</span>(todo)
-    }
-
-    <span class="keyword">func</span> delete(req: <span class="type">Request</span>) <span class="keyword">async throws</span> -&gt; <span class="type">HTTPStatus</span> {
-        <span class="keyword">guard let</span> id = req.<span class="property">parameters</span>.<span class="call">get</span>(<span class="string">"todoID"</span>, as: <span class="type">Todo</span>.<span class="type">IDValue</span>.<span class="keyword">self</span>) <span class="keyword">else</span> {
-            <span class="keyword">throw</span> <span class="type">Abort</span>(.<span class="dotAccess">notFound</span>)
-        }
-        <span class="keyword">try await</span> req.<span class="property">todo</span>.<span class="call">delete</span>(id)
-        <span class="keyword">return</span> .<span class="dotAccess">ok</span>
-    }
-}</code></pre><p>As you can see this way we were able to eliminate the Fluent dependency from the controller, and we can simply call the appropriate method using the repository instance. Still if you want to unit test the controller it is not possible to mock the repository, so we have to figure out something about that issue. First we need some new protocols.</p><pre><code class="language-swift"><span class="keyword">public protocol</span> Repository {
-    <span class="keyword">init</span>(<span class="keyword">_</span> req: <span class="type">Request</span>)
-}
-
-<span class="keyword">public protocol</span> TodoRepository: <span class="type">Repository</span> {
-    <span class="keyword">func</span> query() -&gt; <span class="type">QueryBuilder</span>&lt;<span class="type">Todo</span>&gt;
-    <span class="keyword">func</span> query(<span class="keyword">_</span> id: <span class="type">Todo</span>.<span class="type">IDValue</span>) -&gt; <span class="type">QueryBuilder</span>&lt;<span class="type">Todo</span>&gt;
-    <span class="keyword">func</span> query(<span class="keyword">_</span> ids: [<span class="type">Todo</span>.<span class="type">IDValue</span>]) -&gt; <span class="type">QueryBuilder</span>&lt;<span class="type">Todo</span>&gt;
-    <span class="keyword">func</span> list() <span class="keyword">async throws</span> -&gt; [<span class="type">Todo</span>]
-    <span class="keyword">func</span> get(<span class="keyword">_</span> ids: [<span class="type">Todo</span>.<span class="type">IDValue</span>]) <span class="keyword">async throws</span> -&gt; [<span class="type">Todo</span>]
-    <span class="keyword">func</span> get(<span class="keyword">_</span> id: <span class="type">Todo</span>.<span class="type">IDValue</span>) <span class="keyword">async throws</span> -&gt; <span class="type">Todo</span>?
-    <span class="keyword">func</span> create(<span class="keyword">_</span> model: <span class="type">Todo</span>) <span class="keyword">async throws</span> -&gt; <span class="type">Todo</span>
-    <span class="keyword">func</span> update(<span class="keyword">_</span> model: <span class="type">Todo</span>) <span class="keyword">async throws</span> -&gt; <span class="type">Todo</span>
-    <span class="keyword">func</span> delete(<span class="keyword">_</span> ids: [<span class="type">Todo</span>.<span class="type">IDValue</span>]) <span class="keyword">async throws
-    func</span> delete(<span class="keyword">_</span> id: <span class="type">Todo</span>.<span class="type">IDValue</span>) <span class="keyword">async throws</span>
-}</code></pre><p>Next we're going to define a shared repository registry using the <code>Application</code> extension. This registry will allow us to register repositories for given identifiers, we'll use the RepositoryId struct for this purpose. The <code>RepositoryRegistry</code> will be able to return a factory instance with a reference to the required request and registry service, this way we're going to be able to create an actual Repository based on the identifier. Of course this whole ceremony can be avoided, but I wanted to come up with a generic solution to store repositories under the <code>req.repository</code> namespace. 😅</p><pre><code class="language-swift"><span class="keyword">public struct</span> RepositoryId: <span class="type">Hashable</span>, <span class="type">Codable</span> {
-
-    <span class="keyword">public let</span> string: <span class="type">String</span>
     
-    <span class="keyword">public init</span>(<span class="keyword">_</span> string: <span class="type">String</span>) {
-        <span class="keyword">self</span>.<span class="property">string</span> = string
+    /// get one Todo item by an identifier if it exists
+    func get(_ id: Todo.IDValue) async throws -&gt; Todo? {
+        try await get([id]).first
+    }
+
+    /// get the list of the Todo items by multiple identifiers
+    func get(_ ids: [Todo.IDValue]) async throws -&gt; [Todo] {
+        try await query(ids).all()
+    }
+
+    /// create a Todo model and return the updated model (with an id)
+    func create(_ model: Todo) async throws -&gt; Todo {
+        try await model.create(on: req.db)
+        return model
+    }
+    
+    /// update a Todo model
+    func update(_ model: Todo) async throws -&gt; Todo {
+        try await model.update(on: req.db)
+        return model
+    }
+
+    /// delete a Todo item based on the identifier
+    func delete(_ id: Todo.IDValue) async throws {
+        try await delete([id])
+    }
+
+    /// delete multiple Todo items based on id values
+    func delete(_ ids: [Todo.IDValue]) async throws {
+        try await query(ids).delete()
     }
 }
+</code></pre><p>That’s how we are can manipulate Todo models, from now on you don’t have to use the static methods on the model itself, but you can use an instance of the repository to alter your database rows. The repository can be hooked up to the Request object by using a common pattern. The most simple way is to return a service every time you need it.</p><pre><code class="language-swift">import Vapor
 
-<span class="keyword">public final class</span> RepositoryRegistry {
-
-    <span class="keyword">private let</span> app: <span class="type">Application</span>
-    <span class="keyword">private var</span> builders: [<span class="type">RepositoryId</span>: ((<span class="type">Request</span>) -&gt; <span class="type">Repository</span>)]
-
-    <span class="keyword">fileprivate init</span>(<span class="keyword">_</span> app: <span class="type">Application</span>) {
-        <span class="keyword">self</span>.<span class="property">app</span> = app
-        <span class="keyword">self</span>.<span class="property">builders</span> = [:]
-    }
-
-    <span class="keyword">fileprivate func</span> builder(<span class="keyword">_</span> req: <span class="type">Request</span>) -&gt; <span class="type">RepositoryFactory</span> {
-        .<span class="keyword">init</span>(req, <span class="keyword">self</span>)
-    }
+extension Request {
     
-    <span class="keyword">fileprivate func</span> make(<span class="keyword">_</span> id: <span class="type">RepositoryId</span>, <span class="keyword">_</span> req: <span class="type">Request</span>) -&gt; <span class="type">Repository</span> {
-        <span class="keyword">guard let</span> builder = builders[id] <span class="keyword">else</span> {
-            <span class="call">fatalError</span>(<span class="string">"Repository for id `</span>\(id.<span class="property">string</span>)<span class="string">` is not configured."</span>)
+    var todo: TodoRepository {
+        .init(req: self)
+    }
+}
+</code></pre><p>Of course this is a very basic solution and it pollutes the namespace under the Request object, I mean, if you have lots of repositories this can be a problem, but first let me show you how to refactor the controller by using this simple method. 🤓</p><pre><code class="language-swift">import Vapor
+
+struct TodoController: RouteCollection {
+
+    func boot(routes: RoutesBuilder) throws {
+        let todos = routes.grouped("todos")
+        todos.get(use: index)
+        todos.post(use: create)
+        todos.group(":todoID") { todo in
+            todo.delete(use: delete)
         }
-        <span class="keyword">return</span> <span class="call">builder</span>(req)
+    }
+
+    func index(req: Request) async throws -&gt; [Todo] {
+        try await req.todo.list()
+    }
+
+    func create(req: Request) async throws -&gt; Todo {
+        let todo = try req.content.decode(Todo.self)
+        return try await req.todo.create(todo)
+    }
+
+    func delete(req: Request) async throws -&gt; HTTPStatus {
+        guard let id = req.parameters.get("todoID", as: Todo.IDValue.self) else {
+            throw Abort(.notFound)
+        }
+        try await req.todo.delete(id)
+        return .ok
+    }
+}
+</code></pre><p>As you can see this way we were able to eliminate the Fluent dependency from the controller, and we can simply call the appropriate method using the repository instance. Still if you want to unit test the controller it is not possible to mock the repository, so we have to figure out something about that issue. First we need some new protocols.</p><pre><code class="language-swift">public protocol Repository {
+    init(_ req: Request)
+}
+
+public protocol TodoRepository: Repository {
+    func query() -&gt; QueryBuilder&lt;Todo&gt;
+    func query(_ id: Todo.IDValue) -&gt; QueryBuilder&lt;Todo&gt;
+    func query(_ ids: [Todo.IDValue]) -&gt; QueryBuilder&lt;Todo&gt;
+    func list() async throws -&gt; [Todo]
+    func get(_ ids: [Todo.IDValue]) async throws -&gt; [Todo]
+    func get(_ id: Todo.IDValue) async throws -&gt; Todo?
+    func create(_ model: Todo) async throws -&gt; Todo
+    func update(_ model: Todo) async throws -&gt; Todo
+    func delete(_ ids: [Todo.IDValue]) async throws
+    func delete(_ id: Todo.IDValue) async throws
+}
+</code></pre><p>Next we’re going to define a shared repository registry using the <code>Application</code> extension. This registry will allow us to register repositories for given identifiers, we’ll use the RepositoryId struct for this purpose. The <code>RepositoryRegistry</code> will be able to return a factory instance with a reference to the required request and registry service, this way we’re going to be able to create an actual Repository based on the identifier. Of course this whole ceremony can be avoided, but I wanted to come up with a generic solution to store repositories under the <code>req.repository</code> namespace. 😅</p><pre><code class="language-swift">public struct RepositoryId: Hashable, Codable {
+
+    public let string: String
+    
+    public init(_ string: String) {
+        self.string = string
+    }
+}
+
+public final class RepositoryRegistry {
+
+    private let app: Application
+    private var builders: [RepositoryId: ((Request) -&gt; Repository)]
+
+    fileprivate init(_ app: Application) {
+        self.app = app
+        self.builders = [:]
+    }
+
+    fileprivate func builder(_ req: Request) -&gt; RepositoryFactory {
+        .init(req, self)
     }
     
-    <span class="keyword">public func</span> register(<span class="keyword">_</span> id: <span class="type">RepositoryId</span>, <span class="keyword">_</span> builder: <span class="keyword">@escaping</span> (<span class="type">Request</span>) -&gt; <span class="type">Repository</span>) {
+    fileprivate func make(_ id: RepositoryId, _ req: Request) -&gt; Repository {
+        guard let builder = builders[id] else {
+            fatalError("Repository for id `\(id.string)` is not configured.")
+        }
+        return builder(req)
+    }
+    
+    public func register(_ id: RepositoryId, _ builder: @escaping (Request) -&gt; Repository) {
         builders[id] = builder
     }
 }
 
-<span class="keyword">public struct</span> RepositoryFactory {
-    <span class="keyword">private var</span> registry: <span class="type">RepositoryRegistry</span>
-    <span class="keyword">private var</span> req: <span class="type">Request</span>
+public struct RepositoryFactory {
+    private var registry: RepositoryRegistry
+    private var req: Request
     
-    <span class="keyword">fileprivate init</span>(<span class="keyword">_</span> req: <span class="type">Request</span>, <span class="keyword">_</span> registry: <span class="type">RepositoryRegistry</span>) {
-        <span class="keyword">self</span>.<span class="property">req</span> = req
-        <span class="keyword">self</span>.<span class="property">registry</span> = registry
+    fileprivate init(_ req: Request, _ registry: RepositoryRegistry) {
+        self.req = req
+        self.registry = registry
     }
 
-    <span class="keyword">public func</span> make(<span class="keyword">_</span> id: <span class="type">RepositoryId</span>) -&gt; <span class="type">Repository</span> {
-        registry.<span class="call">make</span>(id, req)
+    public func make(_ id: RepositoryId) -&gt; Repository {
+        registry.make(id, req)
     }
 }
 
-<span class="keyword">public extension</span> <span class="type">Application</span> {
+public extension Application {
 
-    <span class="keyword">private struct</span> Key: <span class="type">StorageKey</span> {
-        <span class="keyword">typealias</span> Value = <span class="type">RepositoryRegistry</span>
+    private struct Key: StorageKey {
+        typealias Value = RepositoryRegistry
     }
     
-    <span class="keyword">var</span> repositories: <span class="type">RepositoryRegistry</span> {
-        <span class="keyword">if</span> storage[<span class="type">Key</span>.<span class="keyword">self</span>] == <span class="keyword">nil</span> {
-            storage[<span class="type">Key</span>.<span class="keyword">self</span>] = .<span class="keyword">init</span>(<span class="keyword">self</span>)
+    var repositories: RepositoryRegistry {
+        if storage[Key.self] == nil {
+            storage[Key.self] = .init(self)
         }
-        <span class="keyword">return</span> storage[<span class="type">Key</span>.<span class="keyword">self</span>]!
+        return storage[Key.self]!
     }
 }
 
-<span class="keyword">public extension</span> <span class="type">Request</span> {
+public extension Request {
     
-    <span class="keyword">var</span> repositories: <span class="type">RepositoryFactory</span> {
-        application.<span class="property">repositories</span>.<span class="call">builder</span>(<span class="keyword">self</span>)
+    var repositories: RepositoryFactory {
+        application.repositories.builder(self)
     }
-}</code></pre><p>As a developer you just have to come up with a new unique identifier and extend the RepositoryFactory with your getter for your own repository type.</p><pre><code class="language-swift"><span class="keyword">public extension</span> <span class="type">RepositoryId</span> {
-    <span class="keyword">static let</span> todo = <span class="type">RepositoryId</span>(<span class="string">"todo"</span>)
+}
+</code></pre><p>As a developer you just have to come up with a new unique identifier and extend the RepositoryFactory with your getter for your own repository type.</p><pre><code class="language-swift">public extension RepositoryId {
+    static let todo = RepositoryId("todo")
 }
 
-<span class="keyword">public extension</span> <span class="type">RepositoryFactory</span> {
+public extension RepositoryFactory {
 
-    <span class="keyword">var</span> todo: <span class="type">TodoRepository</span> {
-        <span class="keyword">guard let</span> result = <span class="call">make</span>(.<span class="dotAccess">todo</span>) <span class="keyword">as</span>? <span class="type">TodoRepository</span> <span class="keyword">else</span> {
-            <span class="call">fatalError</span>(<span class="string">"Todo repository is not configured"</span>)
+    var todo: TodoRepository {
+        guard let result = make(.todo) as? TodoRepository else {
+            fatalError("Todo repository is not configured")
         }
-        <span class="keyword">return</span> result
+        return result
     }
-}</code></pre><p>We can now register the FluentTodoRepository object, we just have to rename the original TodoRepository struct and conform to the protocol instead.</p><pre><code class="language-swift"><span class="comment">// repository file</span>
-<span class="keyword">public struct</span> FluentTodoRepository: <span class="type">TodoRepository</span> {
-    <span class="keyword">var</span> req: <span class="type">Request</span>
+}
+</code></pre><p>We can now register the FluentTodoRepository object, we just have to rename the original TodoRepository struct and conform to the protocol instead.</p><pre><code class="language-swift">// repository file
+public struct FluentTodoRepository: TodoRepository {
+    var req: Request
     
-    <span class="keyword">public init</span>(<span class="keyword">_</span> req: <span class="type">Request</span>) {
-        <span class="keyword">self</span>.<span class="property">req</span> = req
+    public init(_ req: Request) {
+        self.req = req
     }
     
-    <span class="keyword">func</span> query() -&gt; <span class="type">QueryBuilder</span>&lt;<span class="type">Todo</span>&gt; {
-        <span class="type">Todo</span>.<span class="call">query</span>(on: req.<span class="property">db</span>)
+    func query() -&gt; QueryBuilder&lt;Todo&gt; {
+        Todo.query(on: req.db)
     }
 
-    <span class="comment">// ... same as before</span>
+    // ... same as before
 }
 
-<span class="comment">// configure.swift</span>
-app.<span class="property">repositories</span>.<span class="call">register</span>(.<span class="dotAccess">todo</span>) { req <span class="keyword">in</span>
-    <span class="type">FluentTodoRepository</span>(req)
-}</code></pre><p>We're going to be able to get the repository through the <code>req.repositories.todo</code> property. You don't have to change anything else inside the controller file.</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+// configure.swift
+app.repositories.register(.todo) { req in
+    FluentTodoRepository(req)
+}
+</code></pre><p>We’re going to be able to get the repository through the <code>req.repositories.todo</code> property. You don’t have to change anything else inside the controller file.</p><pre><code class="language-swift">import Vapor
 
-<span class="keyword">struct</span> TodoController: <span class="type">RouteCollection</span> {
+struct TodoController: RouteCollection {
 
-    <span class="keyword">func</span> boot(routes: <span class="type">RoutesBuilder</span>) <span class="keyword">throws</span> {
-        <span class="keyword">let</span> todos = routes.<span class="call">grouped</span>(<span class="string">"todos"</span>)
-        todos.<span class="call">get</span>(use: index)
-        todos.<span class="call">post</span>(use: create)
-        todos.<span class="call">group</span>(<span class="string">":todoID"</span>) { todo <span class="keyword">in</span>
-            todo.<span class="call">delete</span>(use: delete)
+    func boot(routes: RoutesBuilder) throws {
+        let todos = routes.grouped("todos")
+        todos.get(use: index)
+        todos.post(use: create)
+        todos.group(":todoID") { todo in
+            todo.delete(use: delete)
         }
     }
 
-    <span class="keyword">func</span> index(req: <span class="type">Request</span>) <span class="keyword">async throws</span> -&gt; [<span class="type">Todo</span>] {
-        <span class="keyword">try await</span> req.<span class="property">repositories</span>.<span class="property">todo</span>.<span class="call">list</span>()
+    func index(req: Request) async throws -&gt; [Todo] {
+        try await req.repositories.todo.list()
     }
 
-    <span class="keyword">func</span> create(req: <span class="type">Request</span>) <span class="keyword">async throws</span> -&gt; <span class="type">Todo</span> {
-        <span class="keyword">let</span> todo = <span class="keyword">try</span> req.<span class="property">content</span>.<span class="call">decode</span>(<span class="type">Todo</span>.<span class="keyword">self</span>)
-        <span class="keyword">return try await</span> req.<span class="property">repositories</span>.<span class="property">todo</span>.<span class="call">create</span>(todo)
+    func create(req: Request) async throws -&gt; Todo {
+        let todo = try req.content.decode(Todo.self)
+        return try await req.repositories.todo.create(todo)
     }
 
-    <span class="keyword">func</span> delete(req: <span class="type">Request</span>) <span class="keyword">async throws</span> -&gt; <span class="type">HTTPStatus</span> {
-        <span class="keyword">guard let</span> id = req.<span class="property">parameters</span>.<span class="call">get</span>(<span class="string">"todoID"</span>, as: <span class="type">Todo</span>.<span class="type">IDValue</span>.<span class="keyword">self</span>) <span class="keyword">else</span> {
-            <span class="keyword">throw</span> <span class="type">Abort</span>(.<span class="dotAccess">notFound</span>)
+    func delete(req: Request) async throws -&gt; HTTPStatus {
+        guard let id = req.parameters.get("todoID", as: Todo.IDValue.self) else {
+            throw Abort(.notFound)
         }
-        <span class="keyword">try await</span> req.<span class="property">repositories</span>.<span class="property">todo</span>.<span class="call">delete</span>(id)
-        <span class="keyword">return</span> .<span class="dotAccess">ok</span>
+        try await req.repositories.todo.delete(id)
+        return .ok
     }
-}</code></pre><p>The best part of this approach is that you can simply replace the <code>FluentTodoRepository</code> with a <code>MockTodoRepository</code> for testing purposes. I also like the fact that we don't pollute the req.* namespace, but every single repository has its own variable under the repositories key.</p><p>You can come up with a generic <code>DatabaseRepository</code> protocol with an associated database Model type, then you could implement some basic features as a protocol extension for the Fluent models. I'm using this approach and I'm quite happy with it so far, what do you think? Should the Vapor core team add better support for repositories? Let me know on Twitter. ☺️</p>
-        </section>
-    </div>
-
-</article>
-
-<section id="share" class="content-wrapper">
-    <p>
-    <a
-        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/the-repository-pattern-for-vapor-4/"
-        target="_blank"
-    >
-        Share this article
-    </a>
-    <br> Thank you. 🙏</p>
-</section>
-
-<section  class="wrapper">
-    <div id="book">
-        <div class="column left">
-            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+}
+</code></pre><p>The best part of this approach is that you can simply replace the <code>FluentTodoRepository</code> with a <code>MockTodoRepository</code> for testing purposes. I also like the fact that we don’t pollute the req.* namespace, but every single repository has its own variable under the repositories key.</p><p>You can come up with a generic <code>DatabaseRepository</code> protocol with an associated database Model type, then you could implement some basic features as a protocol extension for the Fluent models. I’m using this approach and I’m quite happy with it so far, what do you think? Should the Vapor core team add better support for repositories? Let me know on Twitter. ☺️</p>
+                    
+                </section>
+    
+                <footer>
+                    <br>
+                    <time datetime=""></time>
+    
+                    
+                    <div class="author-list">
+                        <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        </a>
+                    </div>
+                    <div class="tag-list">
+                        <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
+                    <a href="https://theswiftdev.com/tags/vapor/"><small>Vapor</small></a>
+                    </div>
+                    
+                    <p>
+                        <a href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/the-repository-pattern-for-vapor-4/" target="_blank">
+                            <strong>Share this article</strong>
+                        </a>
+                        <br>Thank you. 🙏
+                    </p>
+                </footer>
+                            
+                <section class="group">
+                    <h4>Related posts</h4>                
+                    <div class="grid grid-221">
+                        <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/07/15">2020/07/15</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/10-short-advices-that-will-make-you-a-better-vapor-developer-right-away/" target="">10 short advices that will make you a better Vapor developer right away</a></h2>
+                            <hr>
+                            <p>As a beginner server side Swift developer you&#39;ll face many obstackles. I&#39;ll show you how to avoid the most common ones.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/04/01">2020/04/01</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/a-generic-crud-solution-for-vapor-4/" target="">A generic CRUD solution for Vapor 4</a></h2>
+                            <hr>
+                            <p>Learn how to build a controller component that can serve models as JSON objects through a RESTful API written in Swift.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2019/10/08">2019/10/08</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/a-simple-http2-server-using-vapor-4/" target="">A simple HTTP/2 server using Vapor 4</a></h2>
+                            <hr>
+                            <p>Get started with server-side Swift using the Vapor 4 framework. Learn how to build a really simple HTTP/2 backend server.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/12/18">2020/12/18</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/ajax-calls-using-vapor-4/" target="">AJAX calls using Vapor 4</a></h2>
+                            <hr>
+                            <p>Learn how to implement Asynchronous JavaScript and XML (AJAX) calls using Leaf templates and Vapor 4 as a server.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    
+            </article>
         </div>
-        <div class="column right">
-            <h3>Get the Practical Server Side Swift book</h3>
-            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
-        </div>
-    </div>
-</section>
-
-<section id="author" class="content-wrapper">
-    <img 
-        id="author-image"
-        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
-        alt="Picture of Tibor Bödecs" 
-        title="Tibor Bödecs"
-    >
-    <h3>Tibor Bödecs</h3>
-    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
-    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
-
-    <div class="links">
-        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
-        <a href="https://github.com/tib" target="_blank">GitHub</a> 
-    </div>
-</section>
-
         
+        <div>
+            <div class="book">
+                <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">
+                    <img src="https://theswiftdev.com/book/practical-server-side-swift-cover.png" alt="Practical Server Side Swift cover image">
+                </a>
+                <h3>
+                    <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Get the Practical Server Side Swift book</a>
+                </h3>
+                <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+                <a class="cta" href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+            </div>
+            
+            
+            <aside id="toc">
+                <h4>On this page</h4>
+                <ul>
+                    <li class="first-level">
+                        <a href="#fluent-is-essentially-broken">Fluent is essentially broken</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#how-to-make-fluent-a-bit-better">How to make Fluent a bit better?</a>
+                        <ul>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+            
+    
+        </div>
+    </div>
+    
     </main>
 
-    <footer>
-        <section class="content-wrapper">
-            <img 
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
-
-            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+    <footer id="site-footer">
+        <div class="grid grid-421">
+    
+            <picture>
+                <img
+                    id="logo-image"
+                    src="https://theswiftdev.com/images/logos/logo-large.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
             
-            <p> 
-                <a href="https://theswiftdev.com/">Home</a> ·
-                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
-            </p>
+            <div>
+                <span style="display: block; height: 32px;">&nbsp;</span>
+                <h4>The.Swift.Dev</h4>
+                <p><small><a href="https://theswiftdev.com/" target="_blank">theswiftdev.com</a></small></p>
+                <ul>
+                    <li><a href="https://github.com/theswiftdev/" target="_blank">GitHub</a></li>
+                    <li><a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a></li>
+                    <li><a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a></li>
+                </ul>
+            </div>
             
-            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+            <div>
+                
+            </div>
+            
+            <div>
+                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                </a>
+                <h4><a href="https://theswiftdev.com/authors/tibor-bodecs/">Tibor Bödecs</a></h4>
+                <p><small><a href="https://binarybirds.com/" target="_blank">Binary Birds Kft.</a></small></p>
+                <ul>
+                    <li><a href="mailto:mail.tib@gmail.com" target="_blank">Email</a></li>
+                    <li><a href="https://github.com/tib/" target="_blank">GitHub</a></li>
+                    <li><a href="https://x.com/tiborbodecs" target="_blank">X (Twitter)</a></li>
+                    <li><a href="https://mastodon.social/@tiborbodecs" target="_blank">Mastodon</a></li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <section class="grid grid-221">
+            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>
+
+    </div>
+
+    
 </body>
 </html>

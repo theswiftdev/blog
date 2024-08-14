@@ -1,85 +1,119 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
     <meta charset="utf-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="canonical" href="https://theswiftdev.com/the-anatomy-of-vapor-commands/">
     
+    
+
     <title>The anatomy of Vapor commands - The.Swift.Dev.</title>
-    
     <meta name="description" content="Learn how to build and run your existing Vapor apps using various command line arguments, flags and environments.">
-    
+
+    <meta property="og:url" content="https://theswiftdev.com/the-anatomy-of-vapor-commands/">
     <meta property="og:title" content="The anatomy of Vapor commands - The.Swift.Dev.">
     <meta property="og:description" content="Learn how to build and run your existing Vapor apps using various command line arguments, flags and environments.">
-    <meta property="og:url" content="https://theswiftdev.com/the-anatomy-of-vapor-commands/">
-    <meta property="og:image" content="https://theswiftdev.com/images/assets/the-anatomy-of-vapor-commands/cover.jpg">
+    
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@tiborbodecs">
-    <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="The anatomy of Vapor commands - The.Swift.Dev.">
     <meta name="twitter:description" content="Learn how to build and run your existing Vapor apps using various command line arguments, flags and environments.">
-    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/the-anatomy-of-vapor-commands/cover.jpg">
     
-    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
-    
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-normalize.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/variables.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/grid.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/navigation.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/footer.css">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+
     
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/icons/apple-touch-icon-180x180.png">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+        media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+        media="(prefers-color-scheme: dark)"
+    >
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
 </head>
 
 <body>
-    <a href="https://theswiftdev.gumroad.com" class="ribbon">
-        📖
-    </a>
-    <header id="page-header">
-        <a href="https://theswiftdev.com/">
-            <img 
-                id="logo-image"
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
+    <div id="site-container">
+
+    <header id="navigation">
+        <a href="/">
+            <picture>
+                <img
+                    src="https://theswiftdev.com/images/logos/logo.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
         </a>
-    </header>
-    
-    <main>
-
-        <article>
-    <header>
-        <section id="post-header" class="content-wrapper">
-            <time datetime="2020/03/25">2020/03/25</time>
-            <h1 class="title">The anatomy of Vapor commands</h1>
-            <p class="excerpt">Learn how to build and run your existing Vapor apps using various command line arguments, flags and environments.</p>
-            <div class="meta">
-                <span class="tag">Vapor</span>
+        <nav>
+            <input type="checkbox" id="primary-menu-button" name="menu-button" class="menu-button">
+            <label for="primary-menu-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </label>
+            <div class="menu-items">
+                <a href="/page/1/">Posts</a>
+                <a href="/tags/">Tags</a>
+                <a href="/authors/">Authors</a>
+                <a href="/practical-server-side-swift/">My Book</a>
             </div>
-        </section>
-        <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.com/images/assets/the-anatomy-of-vapor-commands/cover.jpg">
-        </section>
+        </nav>
     </header>
 
-    <div id="contents">
-        <section class="content-wrapper">
-            <h2>The Vapor toolbox</h2><p>The very first thing I want to show you (again) is the <a href="https://docs.vapor.codes/3.0/getting-started/toolbox/" target="_blank">Vapor toolbox</a> command line application. It's a nice little convenient tool for initializing new Vapor applications from scratch. You can use it to build, run, update, test and even deploy (to Heroku) your project.</p><pre><code class="language-sh"># create &amp; run a new project
+    <main id="page-container">
+    
+    <div class="article-with-toc">
+        <div>
+            <article class="post">
+                <div class="meta">
+                    <time datetime="2020/03/25">2020/03/25</time>
+                     &middot; <span class="reading-time">3 min read</span>
+                    
+                </div>
+                <h1>The anatomy of Vapor commands</h1>
+                <hr>
+                <p>Learn how to build and run your existing Vapor apps using various command line arguments, flags and environments.</p>
+                <section>
+                
+                <h2 id="the-vapor-toolbox">The Vapor toolbox</h2><p>The very first thing I want to show you (again) is the <a href="https://docs.vapor.codes/3.0/getting-started/toolbox/" target="_blank">Vapor toolbox</a> command line application. It’s a nice little convenient tool for initializing new Vapor applications from scratch. You can use it to build, run, update, test and even deploy (to Heroku) your project.</p><pre><code class="language-sh"># create & run a new project
 vapor new myProject
 cd myProject
 vapor build
 vapor run
-</code></pre><p>Personally I'm not using it too much, except when I create a new project. I'd love to generate additional "boilerplate" code for controllers, models using the toolbox, but unfortunately this feature is not implemented yet. The <a href="https://loopback.io/getting-started.html" target="_blank">loopback-cli</a> is a great example tho... 🙏</p><p>You can run <code>vapor --help</code> to see all the available commands.</p><h2>Serve</h2><p>Every server needs to listen for incoming requests on some port. The serve command starts the Vapor application and fires up the HTTP server. You can specify the hostname and the port using some additional flags. The bind flag combines the hostname and port flags into one, they both have short and long versions, feel free to pick your favorite command format. 😉</p><pre><code class="language-sh"># by default Vapor runs the serve command
+</code></pre><p>Personally I’m not using it too much, except when I create a new project. I’d love to generate additional “boilerplate” code for controllers, models using the toolbox, but unfortunately this feature is not implemented yet. The <a href="https://loopback.io/getting-started.html" target="_blank">loopback-cli</a> is a great example tho… 🙏</p><p>You can run <code>vapor --help</code> to see all the available commands.</p><h2 id="serve">Serve</h2><p>Every server needs to listen for incoming requests on some port. The serve command starts the Vapor application and fires up the HTTP server. You can specify the hostname and the port using some additional flags. The bind flag combines the hostname and port flags into one, they both have short and long versions, feel free to pick your favorite command format. 😉</p><pre><code class="language-sh"># by default Vapor runs the serve command
 swift run Run
 
 # the serve command starts the server
@@ -88,7 +122,7 @@ swift run Run serve --hostname "localhost" --port 8080
 swift run Run serve -h "localhost" -p 8080
 swift run Run serve --bind "localhost:8080"
 swift run Run serve -b "localhost:8080"
-</code></pre><p>You should know that this is the default command, so if you simply run your app without any arguments, the serve command will be executed behind the scenes. 💀</p><h2>Migrate</h2><p>When you <a href="https://theswiftdev.com/a-tutorial-for-beginners-about-the-fluent-postgresql-driver-in-vapor-4/">work with databases using Fluent</a>, you need a schema first. You can only populate the database with actual data after the main structure exists. This process is called migration. You'll also have to migrate your database if you change something in your Fluent code (for example you introduce a new field for a model). You can perform a migration by running:</p><pre><code class="language-sh"># run Fluent migrations
+</code></pre><p>You should know that this is the default command, so if you simply run your app without any arguments, the serve command will be executed behind the scenes. 💀</p><h2 id="migrate">Migrate</h2><p>When you <a href="https://theswiftdev.com/a-tutorial-for-beginners-about-the-fluent-postgresql-driver-in-vapor-4/">work with databases using Fluent</a>, you need a schema first. You can only populate the database with actual data after the main structure exists. This process is called migration. You’ll also have to migrate your database if you change something in your Fluent code (for example you introduce a new field for a model). You can perform a migration by running:</p><pre><code class="language-sh"># run Fluent migrations
 swift run Run migrate
 
 # run migrations without the confirmation
@@ -96,7 +130,7 @@ swift run Run migrate --auto-migrate
 
 # revert last migration
 swift run Run migrate --revert
-</code></pre><p>The cli will show you what needs to be done in order to keep your DB up-to-date. You can double check everything one more time before you proceed, or you can skip the entire confirmation dialog by using the <code>--auto-migrate</code> option. Be extremely careful with auto migrations! ⚠️</p><h2>Log levels</h2><p>You might have noticed that there are a bunch of Vapor messages in your console. Well, the good news is that you can filter them by log level. There are two ways of doing this. The first option is to provide a <code>log</code> flag with one of the following values:</p><ul><li>trace</li><li>debug</li><li>info</li><li>notice</li><li>warning</li><li>error</li><li>critical</li></ul><p class="warning">The <code>--log</code> flag has no short variant, don't try to use <code>-l</code>.</p><p>If you want to trace, debug and info logs, you can run the app like this:</p><pre><code class="language-sh"># set log level
+</code></pre><p>The cli will show you what needs to be done in order to keep your DB up-to-date. You can double check everything one more time before you proceed, or you can skip the entire confirmation dialog by using the <code>--auto-migrate</code> option. Be extremely careful with auto migrations! ⚠️</p><h2 id="log-levels">Log levels</h2><p>You might have noticed that there are a bunch of Vapor messages in your console. Well, the good news is that you can filter them by log level. There are two ways of doing this. The first option is to provide a <code>log</code> flag with one of the following values:</p><ul><li>trace</li><li>debug</li><li>info</li><li>notice</li><li>warning</li><li>error</li><li>critical</li></ul><blockquote><p>WARN: The <code>--log</code> flag has no short variant, don’t try to use <code>-l</code>.</p></blockquote><p>If you want to trace, debug and info logs, you can run the app like this:</p><pre><code class="language-sh"># set log level
 swift run Run --log notice
 </code></pre><p>The second option is to set a <code>LOG_LEVEL</code> variable before you run the app.</p><pre><code class="language-sh"># set log level using a variable
 LOG_LEVEL=notice swift run Run
@@ -106,7 +140,7 @@ export LOG_LEVEL=notice
 swift run Run
 # unset log level
 unset LOG_LEVEL
-</code></pre><p>The exported variable will be around until you close the terminal window or you remove it.</p><h2>Environment</h2><p>Every Vapor application can run in development or production mode. The default mode is development, but you can explicitly set this using the command line:</p><pre><code class="language-sh"># .env.development
+</code></pre><p>The exported variable will be around until you close the terminal window or you remove it.</p><h2 id="environment">Environment</h2><p>Every Vapor application can run in development or production mode. The default mode is development, but you can explicitly set this using the command line:</p><pre><code class="language-sh"># .env.development
 DB_URL="postgres://myuser:mypass@localhost:5432/mydb"
 
 # run in development mode using the .env.development file
@@ -119,92 +153,243 @@ DB_URL="postgres://realuser:realpass@localhost:5432/realdb"
 # run in production mode using the .env file
 swift run Run --env production
 swift run Run -e prod
-</code></pre><p class="note">It is possible to store environmental variables in a dot env file. The <code>.env.development</code> file will be loeaded in development mode and the <code>.env</code> file in production mode. You can also use the <code>.env.testing</code> file for the test environment.</p><p>You can also override environmental variables with a local variable, like the way we defined the <code>LOG_LEVEL</code> before. So let's say if you have a DB_URL in your production <code>.env</code> file, but you still want to use the dev database, you can run Vapor like this:</p><pre><code class="language-sh">DB_URL="postgres://myuser:mypass@localhost:5432/mydb" swift run Run --env production
-</code></pre><p>Environment variables are super cool, you should play around with them to get familiar.</p><h2>Routes</h2><p>This is very handy command to quickly display all the connected endpoints that your app has.</p><pre><code># prints all the routes information
+</code></pre><blockquote><p>NOTE: It is possible to store environmental variables in a dot env file. The <code>.env.development</code> file will be loeaded in development mode and the <code>.env</code> file in production mode. You can also use the <code>.env.testing</code> file for the test environment.</p></blockquote><p>You can also override environmental variables with a local variable, like the way we defined the <code>LOG_LEVEL</code> before. So let’s say if you have a DB_URL in your production <code>.env</code> file, but you still want to use the dev database, you can run Vapor like this:</p><pre><code class="language-sh">DB_URL="postgres://myuser:mypass@localhost:5432/mydb" swift run Run --env production
+</code></pre><p>Environment variables are super cool, you should play around with them to get familiar.</p><h2 id="routes">Routes</h2><p>This is very handy command to quickly display all the connected endpoints that your app has.</p><pre><code># prints all the routes information
 swift run Run routes
 
-# +--------+----------------+
+# +-----+----+
 # | GET    | /              |
-# +--------+----------------+
+# +-----+----+
 # | GET    | /hello/        |
-# +--------+----------------+
+# +-----+----+
 # | GET    | /todos         |
-# +--------+----------------+
+# +-----+----+
 # | POST   | /todos         |
-# +--------+----------------+
+# +-----+----+
 # | DELETE | /todos/:todoID |
-# +--------+----------------+
-</code></pre><p>If you need more info about how routing works in Vapor 4, you should check the <a href="https://docs.vapor.codes/4.0/routing/#viewing-routes" target="_blank">official docs</a>.</p><h2>Boot</h2><p>Honestly: I've never used the boot command before, but it's there. 🤷‍♂️</p><pre><code class="language-sh"># boots the app providers &amp; exists
+# +-----+----+
+</code></pre><p>If you need more info about how routing works in Vapor 4, you should check the <a href="https://docs.vapor.codes/4.0/routing/#viewing-routes" target="_blank">official docs</a>.</p><h2 id="boot">Boot</h2><p>Honestly: I’ve never used the boot command before, but it’s there. 🤷‍♂️</p><pre><code class="language-sh"># boots the app providers & exists
 swift run Run boot
-</code></pre><p>Can somebody tell me a use case for this?</p><h2>Custom commands</h2><p>It is possible to write your custom commands <a href="https://theswiftdev.com/how-to-write-swift-scripts-using-the-new-command-api-in-vapor-4/">using the brand new Command API</a> in Vapor 4. If you are interested in writing Swift scripts, you should continue reading the linked article. 📚</p><p>There are lots of other Swift compiler flags (e.g. <code>-Xswiftc -g</code> to make <code>Backtrace.print()</code> work) that you can use during the build process. If you are interested in those please let me know and maybe I'll make an article about it in the not so distant future.</p>
-        </section>
-    </div>
-
-</article>
-
-<section id="share" class="content-wrapper">
-    <p>
-    <a
-        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/the-anatomy-of-vapor-commands/"
-        target="_blank"
-    >
-        Share this article
-    </a>
-    <br> Thank you. 🙏</p>
-</section>
-
-<section  class="wrapper">
-    <div id="book">
-        <div class="column left">
-            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+</code></pre><p>Can somebody tell me a use case for this?</p><h2 id="custom-commands">Custom commands</h2><p>It is possible to write your custom commands <a href="https://theswiftdev.com/how-to-write-swift-scripts-using-the-new-command-api-in-vapor-4/">using the brand new Command API</a> in Vapor 4. If you are interested in writing Swift scripts, you should continue reading the linked article. 📚</p><p>There are lots of other Swift compiler flags (e.g. <code>-Xswiftc -g</code> to make <code>Backtrace.print()</code> work) that you can use during the build process. If you are interested in those please let me know and maybe I’ll make an article about it in the not so distant future.</p>
+                    
+                </section>
+    
+                <footer>
+                    <br>
+                    <time datetime=""></time>
+    
+                    
+                    <div class="author-list">
+                        <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        </a>
+                    </div>
+                    <div class="tag-list">
+                        <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
+                    <a href="https://theswiftdev.com/tags/vapor/"><small>Vapor</small></a>
+                    </div>
+                    
+                    <p>
+                        <a href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/the-anatomy-of-vapor-commands/" target="_blank">
+                            <strong>Share this article</strong>
+                        </a>
+                        <br>Thank you. 🙏
+                    </p>
+                </footer>
+                            
+                <section class="group">
+                    <h4>Related posts</h4>                
+                    <div class="grid grid-221">
+                        <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/07/15">2020/07/15</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/10-short-advices-that-will-make-you-a-better-vapor-developer-right-away/" target="">10 short advices that will make you a better Vapor developer right away</a></h2>
+                            <hr>
+                            <p>As a beginner server side Swift developer you&#39;ll face many obstackles. I&#39;ll show you how to avoid the most common ones.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/04/01">2020/04/01</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/a-generic-crud-solution-for-vapor-4/" target="">A generic CRUD solution for Vapor 4</a></h2>
+                            <hr>
+                            <p>Learn how to build a controller component that can serve models as JSON objects through a RESTful API written in Swift.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2019/10/08">2019/10/08</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/a-simple-http2-server-using-vapor-4/" target="">A simple HTTP/2 server using Vapor 4</a></h2>
+                            <hr>
+                            <p>Get started with server-side Swift using the Vapor 4 framework. Learn how to build a really simple HTTP/2 backend server.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/12/18">2020/12/18</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/ajax-calls-using-vapor-4/" target="">AJAX calls using Vapor 4</a></h2>
+                            <hr>
+                            <p>Learn how to implement Asynchronous JavaScript and XML (AJAX) calls using Leaf templates and Vapor 4 as a server.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    
+            </article>
         </div>
-        <div class="column right">
-            <h3>Get the Practical Server Side Swift book</h3>
-            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
-        </div>
-    </div>
-</section>
-
-<section id="author" class="content-wrapper">
-    <img 
-        id="author-image"
-        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
-        alt="Picture of Tibor Bödecs" 
-        title="Tibor Bödecs"
-    >
-    <h3>Tibor Bödecs</h3>
-    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
-    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
-
-    <div class="links">
-        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
-        <a href="https://github.com/tib" target="_blank">GitHub</a> 
-    </div>
-</section>
-
         
+        <div>
+            <div class="book">
+                <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">
+                    <img src="https://theswiftdev.com/book/practical-server-side-swift-cover.png" alt="Practical Server Side Swift cover image">
+                </a>
+                <h3>
+                    <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Get the Practical Server Side Swift book</a>
+                </h3>
+                <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+                <a class="cta" href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+            </div>
+            
+            
+            <aside id="toc">
+                <h4>On this page</h4>
+                <ul>
+                    <li class="first-level">
+                        <a href="#the-vapor-toolbox">The Vapor toolbox</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#serve">Serve</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#migrate">Migrate</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#log-levels">Log levels</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#environment">Environment</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#routes">Routes</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#boot">Boot</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#custom-commands">Custom commands</a>
+                        <ul>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+            
+    
+        </div>
+    </div>
+    
     </main>
 
-    <footer>
-        <section class="content-wrapper">
-            <img 
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
-
-            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+    <footer id="site-footer">
+        <div class="grid grid-421">
+    
+            <picture>
+                <img
+                    id="logo-image"
+                    src="https://theswiftdev.com/images/logos/logo-large.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
             
-            <p> 
-                <a href="https://theswiftdev.com/">Home</a> ·
-                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
-            </p>
+            <div>
+                <span style="display: block; height: 32px;">&nbsp;</span>
+                <h4>The.Swift.Dev</h4>
+                <p><small><a href="https://theswiftdev.com/" target="_blank">theswiftdev.com</a></small></p>
+                <ul>
+                    <li><a href="https://github.com/theswiftdev/" target="_blank">GitHub</a></li>
+                    <li><a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a></li>
+                    <li><a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a></li>
+                </ul>
+            </div>
             
-            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+            <div>
+                
+            </div>
+            
+            <div>
+                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                </a>
+                <h4><a href="https://theswiftdev.com/authors/tibor-bodecs/">Tibor Bödecs</a></h4>
+                <p><small><a href="https://binarybirds.com/" target="_blank">Binary Birds Kft.</a></small></p>
+                <ul>
+                    <li><a href="mailto:mail.tib@gmail.com" target="_blank">Email</a></li>
+                    <li><a href="https://github.com/tib/" target="_blank">GitHub</a></li>
+                    <li><a href="https://x.com/tiborbodecs" target="_blank">X (Twitter)</a></li>
+                    <li><a href="https://mastodon.social/@tiborbodecs" target="_blank">Mastodon</a></li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <section class="grid grid-221">
+            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>
+
+    </div>
+
+    
 </body>
 </html>

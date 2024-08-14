@@ -1,287 +1,469 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
     <meta charset="utf-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="canonical" href="https://theswiftdev.com/generating-random-numbers-in-swift/">
     
+    
+
     <title>Generating random numbers in Swift - The.Swift.Dev.</title>
-    
-    <meta name="description" content="Learn everything what you'll ever need to generate random values in Swift using the latest methods and covering some old techniques.">
-    
-    <meta property="og:title" content="Generating random numbers in Swift - The.Swift.Dev.">
-    <meta property="og:description" content="Learn everything what you'll ever need to generate random values in Swift using the latest methods and covering some old techniques.">
+    <meta name="description" content="Learn everything what you&#39;ll ever need to generate random values in Swift using the latest methods and covering some old techniques.">
+
     <meta property="og:url" content="https://theswiftdev.com/generating-random-numbers-in-swift/">
-    <meta property="og:image" content="https://theswiftdev.com/images/assets/generating-random-numbers-in-swift/cover.jpg">
+    <meta property="og:title" content="Generating random numbers in Swift - The.Swift.Dev.">
+    <meta property="og:description" content="Learn everything what you&#39;ll ever need to generate random values in Swift using the latest methods and covering some old techniques.">
+    
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@tiborbodecs">
-    <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="Generating random numbers in Swift - The.Swift.Dev.">
-    <meta name="twitter:description" content="Learn everything what you'll ever need to generate random values in Swift using the latest methods and covering some old techniques.">
-    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/generating-random-numbers-in-swift/cover.jpg">
+    <meta name="twitter:description" content="Learn everything what you&#39;ll ever need to generate random values in Swift using the latest methods and covering some old techniques.">
     
-    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
-    
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-normalize.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/variables.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/grid.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/navigation.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/footer.css">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+
     
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/icons/apple-touch-icon-180x180.png">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+        media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+        media="(prefers-color-scheme: dark)"
+    >
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
 </head>
 
 <body>
-    <a href="https://theswiftdev.gumroad.com" class="ribbon">
-        📖
-    </a>
-    <header id="page-header">
-        <a href="https://theswiftdev.com/">
-            <img 
-                id="logo-image"
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
+    <div id="site-container">
+
+    <header id="navigation">
+        <a href="/">
+            <picture>
+                <img
+                    src="https://theswiftdev.com/images/logos/logo.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
         </a>
-    </header>
-    
-    <main>
-
-        <article>
-    <header>
-        <section id="post-header" class="content-wrapper">
-            <time datetime="2017/08/07">2017/08/07</time>
-            <h1 class="title">Generating random numbers in Swift</h1>
-            <p class="excerpt">Learn everything what you'll ever need to generate random values in Swift using the latest methods and covering some old techniques.</p>
-            <div class="meta">
-                <span class="tag">Swift</span>
-<span class="tag">random numbers</span>
+        <nav>
+            <input type="checkbox" id="primary-menu-button" name="menu-button" class="menu-button">
+            <label for="primary-menu-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </label>
+            <div class="menu-items">
+                <a href="/page/1/">Posts</a>
+                <a href="/tags/">Tags</a>
+                <a href="/authors/">Authors</a>
+                <a href="/practical-server-side-swift/">My Book</a>
             </div>
-        </section>
-        <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.com/images/assets/generating-random-numbers-in-swift/cover.jpg">
-        </section>
+        </nav>
     </header>
 
-    <div id="contents">
-        <section class="content-wrapper">
-            <h2>How to generate random numbers using Swift?</h2><p>Fortunately <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0202-random-unification.md" target="_blank">random number generation</a> has been unified since <a href="https://www.hackingwithswift.com/articles/102/how-to-generate-random-numbers-in-swift" target="_blank">Swift 4.2</a>. This means that you don't have to mess around with imported C APIs anymore, you can simply generate random values by using native Swift methods on all platforms! 😍</p><pre><code class="language-swift"><span class="keyword">let</span> randomBool = <span class="type">Bool</span>.<span class="call">random</span>()
-<span class="keyword">let</span> randomInt = <span class="type">Int</span>.<span class="call">random</span>(in: <span class="number">1</span>...<span class="number">6</span>) <span class="comment">//dice roll</span>
-<span class="keyword">let</span> randomFloat = <span class="type">Float</span>.<span class="call">random</span>(in: <span class="number">0</span>...<span class="number">1</span>)
-<span class="keyword">let</span> randomDouble = <span class="type">Double</span>.<span class="call">random</span>(in: <span class="number">1</span>..&lt;<span class="number">100</span>)</code></pre><p>As you can see generating a dice roll is now super easy, thanks to the cryptographically secure randomizer that's built into the Swift language. The <a href="https://developer.apple.com/videos/play/wwdc2018/401/" target="_blank">new random generator API</a> also better at distributing the numbers. The old <code>arc4random</code> function had some issues, because the generated values were not uniformly distributed for example in between 1 and 6 due to the modulo bias side effect. 🎲</p><h3>Random Number Generator (RNG)</h3><p>These examples above are implicitly using the default <a href="https://oleb.net/blog/2018/06/random-numbers-in-swift/" target="_blank">random number</a> generator (<a href="https://developer.apple.com/documentation/swift/systemrandomnumbergenerator" target="_blank">SystemRandomNumberGenerator</a>) provided by the Swift standard library. There is a second parameter for every method, so you can use a different RNG if you want. You can also implement your own RNG or <a href="https://github.com/t-ae/rng-extension" target="_blank">extend the built-in generator</a>, if you'd like to alter the behavior of distribution (or just give it some more "entropy"! 🤪).</p><pre><code class="language-swift"><span class="keyword">var</span> rng = <span class="type">SystemRandomNumberGenerator</span>()
-<span class="keyword">let</span> randomBool = <span class="type">Bool</span>.<span class="call">random</span>(using: &amp;rng)
-<span class="keyword">let</span> randomInt = <span class="type">Int</span>.<span class="call">random</span>(in: <span class="number">1</span>...<span class="number">6</span>, using: &amp;rng) <span class="comment">//dice roll</span>
-<span class="keyword">let</span> randomFloat = <span class="type">Float</span>.<span class="call">random</span>(in: <span class="number">0</span>...<span class="number">1</span>, using: &amp;rng)
-<span class="keyword">let</span> randomDouble = <span class="type">Double</span>.<span class="call">random</span>(in: <span class="number">1</span>..&lt;<span class="number">100</span>, using: &amp;rng)</code></pre><h3>Collections, random elements, shuffle</h3><p>The new random API introduced some nice extensions for collection types. Picking a random element and mixing up the order of elements inside a collection is now ridiculously easy and performant (with custom RNG support as well). 😉</p><pre><code class="language-swift"><span class="keyword">let</span> array = [<span class="string">"🐶"</span>, <span class="string">"🐱"</span>, <span class="string">"🐮"</span>, <span class="string">"🐷"</span>, <span class="string">"🐔"</span>, <span class="string">"🐵"</span>]
-<span class="keyword">let</span> randomArrayElement = array.<span class="call">randomElement</span>()
-<span class="keyword">let</span> shuffledArray = array.<span class="call">shuffled</span>()
+    <main id="page-container">
+    
+    <div class="article-with-toc">
+        <div>
+            <article class="post">
+                <div class="meta">
+                    <time datetime="2018/08/07">2018/08/07</time>
+                     &middot; <span class="reading-time">6 min read</span>
+                    
+                </div>
+                <h1>Generating random numbers in Swift</h1>
+                <hr>
+                <p>Learn everything what you&#39;ll ever need to generate random values in Swift using the latest methods and covering some old techniques.</p>
+                <section>
+                
+                <h2 id="how-to-generate-random-numbers-using-swift">How to generate random numbers using Swift?</h2><p>Fortunately <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0202-random-unification.md" target="_blank">random number generation</a> has been unified since <a href="https://www.hackingwithswift.com/articles/102/how-to-generate-random-numbers-in-swift" target="_blank">Swift 4.2</a>. This means that you don’t have to mess around with imported C APIs anymore, you can simply generate random values by using native Swift methods on all platforms! 😍</p><pre><code class="language-swift">let randomBool = Bool.random()
+let randomInt = Int.random(in: 1...6) //dice roll
+let randomFloat = Float.random(in: 0...1)
+let randomDouble = Double.random(in: 1..&lt;100)
+</code></pre><p>As you can see generating a dice roll is now super easy, thanks to the cryptographically secure randomizer that’s built into the Swift language. The <a href="https://developer.apple.com/videos/play/wwdc2018/401/" target="_blank">new random generator API</a> also better at distributing the numbers. The old <code>arc4random</code> function had some issues, because the generated values were not uniformly distributed for example in between 1 and 6 due to the modulo bias side effect. 🎲</p><h3 id="random-number-generator-rng">Random Number Generator (RNG)</h3><p>These examples above are implicitly using the default <a href="https://oleb.net/blog/2018/06/random-numbers-in-swift/" target="_blank">random number</a> generator (<a href="https://developer.apple.com/documentation/swift/systemrandomnumbergenerator" target="_blank">SystemRandomNumberGenerator</a>) provided by the Swift standard library. There is a second parameter for every method, so you can use a different RNG if you want. You can also implement your own RNG or <a href="https://github.com/t-ae/rng-extension" target="_blank">extend the built-in generator</a>, if you’d like to alter the behavior of distribution (or just give it some more “entropy”! 🤪).</p><pre><code class="language-swift">var rng = SystemRandomNumberGenerator()
+let randomBool = Bool.random(using: &rng)
+let randomInt = Int.random(in: 1...6, using: &rng) //dice roll
+let randomFloat = Float.random(in: 0...1, using: &rng)
+let randomDouble = Double.random(in: 1..&lt;100, using: &rng)
+</code></pre><h3 id="collections-random-elements-shuffle">Collections, random elements, shuffle</h3><p>The new random API introduced some nice extensions for collection types. Picking a random element and mixing up the order of elements inside a collection is now ridiculously easy and performant (with custom RNG support as well). 😉</p><pre><code class="language-swift">let array = ["🐶", "🐱", "🐮", "🐷", "🐔", "🐵"]
+let randomArrayElement = array.randomElement()
+let shuffledArray = array.shuffled()
 
-<span class="keyword">let</span> dictionary = [
-    <span class="string">"🐵"</span>: <span class="string">"🍌"</span>,
-    <span class="string">"🐱"</span>: <span class="string">"🥛"</span>,
-    <span class="string">"🐶"</span>: <span class="string">"🍖"</span>,
+let dictionary = [
+    "🐵": "🍌",
+    "🐱": "🥛",
+    "🐶": "🍖",
 ]
-<span class="keyword">let</span> randomDictionaryElement = dictionary.<span class="call">randomElement</span>()
-<span class="keyword">let</span> shuffledDictionary = dictionary.<span class="call">shuffled</span>()
+let randomDictionaryElement = dictionary.randomElement()
+let shuffledDictionary = dictionary.shuffled()
 
-<span class="keyword">let</span> sequence = <span class="number">1</span>..&lt;<span class="number">10</span>
-<span class="keyword">let</span> randomSequenceElement = sequence.<span class="call">randomElement</span>()
-<span class="keyword">let</span> shuffledSequence = sequence.<span class="call">shuffled</span>()
+let sequence = 1..&lt;10
+let randomSequenceElement = sequence.randomElement()
+let shuffledSequence = sequence.shuffled()
 
-<span class="keyword">let</span> set = <span class="type">Set</span>&lt;<span class="type">String</span>&gt;(arrayLiteral: <span class="string">"🐶"</span>, <span class="string">"🐱"</span>, <span class="string">"🐮"</span>, <span class="string">"🐷"</span>, <span class="string">"🐔"</span>, <span class="string">"🐵"</span>)
-<span class="keyword">let</span> randomSetElement = set.<span class="call">randomElement</span>()
-<span class="keyword">let</span> shuffledSet = set.<span class="call">shuffled</span>()</code></pre><h3>Randomizing custom types</h3><p>You can implement random functions on your custom types as well. There are two simple things that you should keep in mind in order to follow the Swift standard library pattern:</p><ul><li>provide a static method that has a (<code>inout</code>) parameter for the custom RNG</li><li>make a <code>random()</code> method that uses the <code>SystemRandomNumberGenerator</code></li></ul><pre><code class="language-swift"><span class="keyword">enum</span> Animal: <span class="type">String</span>, <span class="type">CaseIterable</span> {
-    <span class="keyword">case</span> dog = <span class="string">"🐶"</span>
-    <span class="keyword">case</span> cat = <span class="string">"🐱"</span>
-    <span class="keyword">case</span> cow = <span class="string">"🐮"</span>
-    <span class="keyword">case</span> pig = <span class="string">"🐷"</span>
-    <span class="keyword">case</span> chicken = <span class="string">"🐔"</span>
-    <span class="keyword">case</span> monkey = <span class="string">"🐵"</span>
+let set = Set&lt;String&gt;(arrayLiteral: "🐶", "🐱", "🐮", "🐷", "🐔", "🐵")
+let randomSetElement = set.randomElement()
+let shuffledSet = set.shuffled()
+</code></pre><h3 id="randomizing-custom-types">Randomizing custom types</h3><p>You can implement random functions on your custom types as well. There are two simple things that you should keep in mind in order to follow the Swift standard library pattern:</p><ul><li>provide a static method that has a (<code>inout</code>) parameter for the custom RNG</li><li>make a <code>random()</code> method that uses the <code>SystemRandomNumberGenerator</code></li></ul><pre><code class="language-swift">
+enum Animal: String, CaseIterable {
+    case dog = "🐶"
+    case cat = "🐱"
+    case cow = "🐮"
+    case pig = "🐷"
+    case chicken = "🐔"
+    case monkey = "🐵"
 }
 
-<span class="keyword">extension</span> <span class="type">Animal</span> {
+extension Animal {
 
-    <span class="keyword">static func</span> random&lt;T: <span class="type">RandomNumberGenerator</span>&gt;(using generator: <span class="keyword">inout</span> <span class="type">T</span>) -&gt; <span class="type">Animal</span> {
-        <span class="keyword">return self</span>.<span class="property">allCases</span>.<span class="call">randomElement</span>(using: &amp;generator)!
+    static func random&lt;T: RandomNumberGenerator&gt;(using generator: inout T) -&gt; Animal {
+        return self.allCases.randomElement(using: &generator)!
     }
 
-    <span class="keyword">static func</span> random() -&gt; <span class="type">Animal</span> {
-        <span class="keyword">var</span> rng = <span class="type">SystemRandomNumberGenerator</span>()
-        <span class="keyword">return</span> <span class="type">Animal</span>.<span class="call">random</span>(using: &amp;rng)
+    static func random() -&gt; Animal {
+        var rng = SystemRandomNumberGenerator()
+        return Animal.random(using: &rng)
     }
 }
 
-<span class="keyword">let</span> random: <span class="type">Animal</span> = .<span class="call">random</span>()
-random.<span class="property">rawValue</span></code></pre><h2>Generating random values using GameplayKit</h2><p>The <a href="https://developer.apple.com/documentation/gameplaykit" target="_blank">GameplayKit</a> provides lots of things to help you dealing with <a href="https://learnappmaking.com/random-numbers-swift/" target="_blank">random number</a> generation. Various random sources and distributions are available inside the framework, let's have a quick look at them.</p><h3>Random sources in GameplayKit</h3><p>GameplayKit has three random source algorithms implemented, the reason behind it is that <a href="https://stackoverflow.com/questions/24007129/how-does-one-generate-a-random-number-in-apples-swift-language" target="_blank">random number</a> generation is hard, but usually you're going to go with arc4 random source. You should note that Apple recommends resetting the first 769 values (just round it up to 1024 to make it look good) before you're using it for something important, otherwise it will generate sequences that can be guessed. 🔑</p><ul><li><code>GKARC4RandomSource</code> - okay performance and randomness</li><li><code>GKLinearCongruentialRandomSource</code> - fast, less random</li><li><code>GKMersenneTwisterRandomSource</code> - good randomness, but slow</li></ul><p>You can simply generate a <a href="https://www.netguru.co/codestories/generating-random-numbers-in-swift" target="_blank">random number</a> from int min to int max by using the <code>nextInt()</code> method on any of the sources mentioned above or from 0 to upper bound by using the <code>nextInt(upperBound:)</code> method.</p><pre><code class="language-swift"><span class="keyword">import</span> GameplayKit
+let random: Animal = .random()
+random.rawValue
+</code></pre><h2 id="generating-random-values-using-gameplaykit">Generating random values using GameplayKit</h2><p>The <a href="https://developer.apple.com/documentation/gameplaykit" target="_blank">GameplayKit</a> provides lots of things to help you dealing with <a href="https://learnappmaking.com/random-numbers-swift/" target="_blank">random number</a> generation. Various random sources and distributions are available inside the framework, let’s have a quick look at them.</p><h3 id="random-sources-in-gameplaykit">Random sources in GameplayKit</h3><p>GameplayKit has three random source algorithms implemented, the reason behind it is that <a href="https://stackoverflow.com/questions/24007129/how-does-one-generate-a-random-number-in-apples-swift-language" target="_blank">random number</a> generation is hard, but usually you’re going to go with arc4 random source. You should note that Apple recommends resetting the first 769 values (just round it up to 1024 to make it look good) before you’re using it for something important, otherwise it will generate sequences that can be guessed. 🔑</p><ul><li><code>GKARC4RandomSource</code> - okay performance and randomness</li><li><code>GKLinearCongruentialRandomSource</code> - fast, less random</li><li><code>GKMersenneTwisterRandomSource</code> - good randomness, but slow</li></ul><p>You can simply generate a <a href="https://www.netguru.co/codestories/generating-random-numbers-in-swift" target="_blank">random number</a> from int min to int max by using the <code>nextInt()</code> method on any of the sources mentioned above or from 0 to upper bound by using the <code>nextInt(upperBound:)</code> method.</p><pre><code class="language-swift">import GameplayKit
 
-<span class="keyword">let</span> arc4 = <span class="type">GKARC4RandomSource</span>()
-arc4.<span class="call">dropValues</span>(<span class="number">1024</span>) <span class="comment">//drop first 1024 values first</span>
-arc4.<span class="call">nextInt</span>(upperBound: <span class="number">20</span>)
-<span class="keyword">let</span> linearCongruential = <span class="type">GKLinearCongruentialRandomSource</span>()
-linearCongruential.<span class="call">nextInt</span>(upperBound: <span class="number">20</span>)
-<span class="keyword">let</span> mersenneTwister = <span class="type">GKMersenneTwisterRandomSource</span>()
-mersenneTwister.<span class="call">nextInt</span>(upperBound: <span class="number">20</span>)</code></pre><h3>Random distribution algorithms</h3><blockquote><p>GKRandomDistribution - A generator for random numbers that fall within a specific range and that exhibit a specific distribution over multiple samplings.</p></blockquote><p>Basically we can say that this implementation is trying to provide randomly distributed values for us. It's the default value for shared random source. 🤨</p><blockquote><p>GKGaussianDistribution - A generator for random numbers that follow a Gaussian distribution (also known as a normal distribution) across multiple samplings.</p></blockquote><p>The gaussian distribution is a shaped random number generator, so it's more likely that the numbers near the middle are more frequent. In other words elements in the middle are going to occure significantly more, so if you are going to simulate dice rolling, 3 is going to more likely happen than 1 or 6. Feels like the real world, huh? 😅</p><blockquote><p>GKShuffledDistribution - A generator for random numbers that are uniformly distributed across many samplings, but where short sequences of similar values are unlikely.</p></blockquote><p>A fair random number generator or shuffled distribution is one that generates each of its possible values in equal amounts evenly distributed. If we keep the dice rolling example with 6 rolls, you might get 6, 2, 1, 3, 4, 5 but you would never get 6 6 6 1 2 6.</p><pre><code class="language-swift"><span class="comment">// 6 sided dice</span>
-<span class="keyword">let</span> randomD6 = <span class="type">GKRandomDistribution</span>.<span class="call">d6</span>()
-<span class="keyword">let</span> shuffledD6 = <span class="type">GKShuffledDistribution</span>.<span class="call">d6</span>()
-<span class="keyword">let</span> gaussianD6 = <span class="type">GKGaussianDistribution</span>.<span class="call">d6</span>()
-randomD6.<span class="call">nextInt</span>()   <span class="comment">// completely random</span>
-shuffledD6.<span class="call">nextInt</span>() <span class="comment">// see below... // eg. 1</span>
-gaussianD6.<span class="call">nextInt</span>() <span class="comment">// mostly 3, most likely 2, 4 less likely 1, 6
+let arc4 = GKARC4RandomSource()
+arc4.dropValues(1024) //drop first 1024 values first
+arc4.nextInt(upperBound: 20)
+let linearCongruential = GKLinearCongruentialRandomSource()
+linearCongruential.nextInt(upperBound: 20)
+let mersenneTwister = GKMersenneTwisterRandomSource()
+mersenneTwister.nextInt(upperBound: 20)
+</code></pre><h3 id="random-distribution-algorithms">Random distribution algorithms</h3><blockquote><p>GKRandomDistribution - A generator for random numbers that fall within a specific range and that exhibit a specific distribution over multiple samplings.</p></blockquote><p>Basically we can say that this implementation is trying to provide randomly distributed values for us. It’s the default value for shared random source. 🤨</p><blockquote><p>GKGaussianDistribution - A generator for random numbers that follow a Gaussian distribution (also known as a normal distribution) across multiple samplings.</p></blockquote><p>The gaussian distribution is a shaped random number generator, so it’s more likely that the numbers near the middle are more frequent. In other words elements in the middle are going to occure significantly more, so if you are going to simulate dice rolling, 3 is going to more likely happen than 1 or 6. Feels like the real world, huh? 😅</p><blockquote><p>GKShuffledDistribution - A generator for random numbers that are uniformly distributed across many samplings, but where short sequences of similar values are unlikely.</p></blockquote><p>A fair random number generator or shuffled distribution is one that generates each of its possible values in equal amounts evenly distributed. If we keep the dice rolling example with 6 rolls, you might get 6, 2, 1, 3, 4, 5 but you would never get 6 6 6 1 2 6.</p><pre><code class="language-swift">// 6 sided dice
+let randomD6 = GKRandomDistribution.d6()
+let shuffledD6 = GKShuffledDistribution.d6()
+let gaussianD6 = GKGaussianDistribution.d6()
+randomD6.nextInt()   // completely random
+shuffledD6.nextInt() // see below... // eg. 1
+gaussianD6.nextInt() // mostly 3, most likely 2, 4 less likely 1, 6
 
-//goes through all the possible values again and again...</span>
-shuffledD6.<span class="call">nextInt</span>() <span class="comment">// eg. 3</span>
-shuffledD6.<span class="call">nextInt</span>() <span class="comment">// eg. 5</span>
-shuffledD6.<span class="call">nextInt</span>() <span class="comment">// eg. 2</span>
-shuffledD6.<span class="call">nextInt</span>() <span class="comment">// eg. 6</span>
-shuffledD6.<span class="call">nextInt</span>() <span class="comment">// eg. 4
+//goes through all the possible values again and again...
+shuffledD6.nextInt() // eg. 3
+shuffledD6.nextInt() // eg. 5
+shuffledD6.nextInt() // eg. 2
+shuffledD6.nextInt() // eg. 6
+shuffledD6.nextInt() // eg. 4
 
-// 20 sided dice</span>
-<span class="keyword">let</span> randomD20 = <span class="type">GKRandomDistribution</span>.<span class="call">d20</span>()
-<span class="keyword">let</span> shuffledD20 = <span class="type">GKShuffledDistribution</span>.<span class="call">d20</span>()
-<span class="keyword">let</span> gaussianD20 = <span class="type">GKGaussianDistribution</span>.<span class="call">d20</span>()
-randomD20.<span class="call">nextInt</span>()
-shuffledD20.<span class="call">nextInt</span>()
-gaussianD20.<span class="call">nextInt</span>()
+// 20 sided dice
+let randomD20 = GKRandomDistribution.d20()
+let shuffledD20 = GKShuffledDistribution.d20()
+let gaussianD20 = GKGaussianDistribution.d20()
+randomD20.nextInt()
+shuffledD20.nextInt()
+gaussianD20.nextInt()
 
-<span class="comment">// using custom random source, by default it uses arc4</span>
-<span class="keyword">let</span> mersenneTwister = <span class="type">GKMersenneTwisterRandomSource</span>()
-<span class="keyword">let</span> mersoneTwisterRandomD6 = <span class="type">GKRandomDistribution</span>(randomSource: mersenneTwister, lowestValue: <span class="number">1</span>, highestValue: <span class="number">6</span>)
-mersoneTwisterRandomD6.<span class="call">nextInt</span>()
-mersoneTwisterRandomD6.<span class="call">nextInt</span>(upperBound: <span class="number">3</span>) <span class="comment">//limiting upper bound</span></code></pre><h3>How to shuffle arrays using GameplayKit?</h3><p>You can use the <code>arrayByShufflingObjects(in:)</code> method to mix up elements inside an array. Also you can use a seed value in order to shuffle elements identically. It's going to be a random order, but it can be predicted. This comes handy if you need to sync two random arrays between multiple devices. 📱</p><pre><code class="language-swift"><span class="keyword">let</span> dice = [<span class="type">Int</span>](<span class="number">1</span>...<span class="number">6</span>)
+// using custom random source, by default it uses arc4
+let mersenneTwister = GKMersenneTwisterRandomSource()
+let mersoneTwisterRandomD6 = GKRandomDistribution(randomSource: mersenneTwister, lowestValue: 1, highestValue: 6)
+mersoneTwisterRandomD6.nextInt()
+mersoneTwisterRandomD6.nextInt(upperBound: 3) //limiting upper bound
+</code></pre><h3 id="how-to-shuffle-arrays-using-gameplaykit">How to shuffle arrays using GameplayKit?</h3><p>You can use the <code>arrayByShufflingObjects(in:)</code> method to mix up elements inside an array. Also you can use a seed value in order to shuffle elements identically. It’s going to be a random order, but it can be predicted. This comes handy if you need to sync two random arrays between multiple devices. 📱</p><pre><code class="language-swift">let dice = [Int](1...6)
 
-<span class="keyword">let</span> random = <span class="type">GKRandomSource</span>.<span class="call">sharedRandom</span>()
-<span class="keyword">let</span> randomRolls = random.<span class="call">arrayByShufflingObjects</span>(in: dice)
+let random = GKRandomSource.sharedRandom()
+let randomRolls = random.arrayByShufflingObjects(in: dice)
 
-<span class="keyword">let</span> mersenneTwister = <span class="type">GKMersenneTwisterRandomSource</span>()
-<span class="keyword">let</span> mersenneTwisterRolls = mersenneTwister.<span class="call">arrayByShufflingObjects</span>(in: dice)
+let mersenneTwister = GKMersenneTwisterRandomSource()
+let mersenneTwisterRolls = mersenneTwister.arrayByShufflingObjects(in: dice)
 
-<span class="keyword">let</span> fixedSeed = <span class="type">GKMersenneTwisterRandomSource</span>(seed: <span class="number">1001</span>)
-<span class="keyword">let</span> fixed1 = fixedSeed.<span class="call">arrayByShufflingObjects</span>(in: dice) <span class="comment">// always the same order</span></code></pre><h3>GameplayKit best practice to generate random values</h3><p>There is also a shared random source that you can use to generate random numbers. This is ideal if you don't want to mess around with distributions or sources. This shared random object uses arc4 as a source and random distribution. 😉</p><pre><code class="language-swift"><span class="keyword">let</span> sharedRandomSource = <span class="type">GKRandomSource</span>.<span class="call">sharedRandom</span>()
-sharedRandomSource.<span class="call">nextBool</span>() <span class="comment">// true / false</span>
-sharedRandomSource.<span class="call">nextInt</span>() <span class="comment">//from int min - to int max</span>
-sharedRandomSource.<span class="call">nextInt</span>(upperBound: <span class="number">6</span>) <span class="comment">//dice roll</span>
-sharedRandomSource.<span class="call">nextUniform</span>() <span class="comment">//float between 0 - 1</span></code></pre><p>Please note that none of these random number generation solutions provided by the GameplayKit framework are recommended for cryptography purposes!</p><h2>Pre-Swift 4.2 random generation methods</h2><p>I'll leave this section here for historical reasons. 😅</p><h3>arc4random</h3><pre><code class="language-swift"><span class="call">arc4random</span>() % <span class="number">6</span> + <span class="number">1</span> <span class="comment">// dice roll</span></code></pre><p>This C function was very common to generate a dice roll, but it's also dangerous, because it can lead to a <a href="https://en.wikipedia.org/wiki/Fisher–Yates_shuffle#Modulo_bias" target="_blank">modulo bias</a> (or pigenhole principle), that means some numbers are generated more frequently than others. Please don't use it. 😅</p><h3>arc4random_uniform</h3><p>This method will return a uniformly distributed random numbers. It was the best / recommended way of generating random numbers before Swift 4.2, because it avoids the modulo bias problem, if the upper bound is not a power of two.</p><pre><code class="language-swift"><span class="keyword">func</span> rndm(min: <span class="type">Int</span>, max: <span class="type">Int</span>) -&gt; <span class="type">Int</span> {
-    <span class="keyword">if</span> max &lt; min {
-        <span class="call">fatalError</span>(<span class="string">"The max value should be greater than the min value."</span>)
+let fixedSeed = GKMersenneTwisterRandomSource(seed: 1001)
+let fixed1 = fixedSeed.arrayByShufflingObjects(in: dice) // always the same order
+</code></pre><h3 id="gameplaykit-best-practice-to-generate-random-values">GameplayKit best practice to generate random values</h3><p>There is also a shared random source that you can use to generate random numbers. This is ideal if you don’t want to mess around with distributions or sources. This shared random object uses arc4 as a source and random distribution. 😉</p><pre><code class="language-swift">let sharedRandomSource = GKRandomSource.sharedRandom()
+sharedRandomSource.nextBool() // true / false
+sharedRandomSource.nextInt() //from int min - to int max
+sharedRandomSource.nextInt(upperBound: 6) //dice roll
+sharedRandomSource.nextUniform() //float between 0 - 1
+</code></pre><p>Please note that none of these random number generation solutions provided by the GameplayKit framework are recommended for cryptography purposes!</p><h2 id="pre-swift-4.2-random-generation-methods">Pre-Swift 4.2 random generation methods</h2><p>I’ll leave this section here for historical reasons. 😅</p><h3 id="arc4random">arc4random</h3><pre><code class="language-swift">arc4random() % 6 + 1 // dice roll
+</code></pre><p>This C function was very common to generate a dice roll, but it’s also dangerous, because it can lead to a <a href="https://en.wikipedia.org/wiki/Fisher–Yates_shuffle#Modulo_bias" target="_blank">modulo bias</a> (or pigenhole principle), that means some numbers are generated more frequently than others. Please don’t use it. 😅</p><h3 id="arc4random_uniform">arc4random_uniform</h3><p>This method will return a uniformly distributed random numbers. It was the best / recommended way of generating random numbers before Swift 4.2, because it avoids the modulo bias problem, if the upper bound is not a power of two.</p><pre><code class="language-swift">func rndm(min: Int, max: Int) -&gt; Int {
+    if max &lt; min {
+        fatalError("The max value should be greater than the min value.")
     }
-    <span class="keyword">if</span> min == max {
-        <span class="keyword">return</span> min
+    if min == max {
+        return min
     }
-    <span class="keyword">return</span> <span class="type">Int</span>(<span class="call">arc4random_uniform</span>(<span class="type">UInt32</span>((max - min) + <span class="number">1</span>))) + min
+    return Int(arc4random_uniform(UInt32((max - min) + 1))) + min
 }
-<span class="call">rndm</span>(min: <span class="number">1</span>, max: <span class="number">6</span>) <span class="comment">//dice roll</span></code></pre><h3>drand48</h3><p>The <code>drand48</code> function returns a random floating point number between of 0 and 1. It was really useful for generating color values for random UIColor objects. One minor side note that it generates a pseudo-random number sequence, and you have to <a href="https://bendodson.com/weblog/2016/09/10/generating-random-colour-with-seed-in-swift/" target="_blank">provide a seed value</a> by using <code>srand48</code> and usually a time parameter. 🤷‍♂️</p><pre><code class="language-swift"><span class="keyword">let</span> red = <span class="type">CGFloat</span>(<span class="call">drand48</span>())
-<span class="keyword">let</span> green = <span class="type">CGFloat</span>(<span class="call">drand48</span>())
-<span class="keyword">let</span> blue = <span class="type">CGFloat</span>(<span class="call">drand48</span>())</code></pre><h3>Linux support, glibc and the rand method</h3><p>I was using this snippet below in order to generate random numbers on both appleOS and Linux platform. I know it's not perfect, but it did the job for me. 🤐</p><pre><code class="language-swift">#!/usr/bin/env swift
+rndm(min: 1, max: 6) //dice roll
+</code></pre><h3 id="drand48">drand48</h3><p>The <code>drand48</code> function returns a random floating point number between of 0 and 1. It was really useful for generating color values for random UIColor objects. One minor side note that it generates a pseudo-random number sequence, and you have to <a href="https://bendodson.com/weblog/2016/09/10/generating-random-colour-with-seed-in-swift/" target="_blank">provide a seed value</a> by using <code>srand48</code> and usually a time parameter. 🤷‍♂️</p><pre><code class="language-swift">let red = CGFloat(drand48())
+let green = CGFloat(drand48())
+let blue = CGFloat(drand48())
+</code></pre><h3 id="linux-support-glibc-and-the-rand-method">Linux support, glibc and the rand method</h3><p>I was using this snippet below in order to generate random numbers on both appleOS and Linux platform. I know it’s not perfect, but it did the job for me. 🤐</p><pre><code class="language-swift">#!/usr/bin/env swift
 
-<span class="preprocessing">#if os(iOS) || os(tvOS) || os(macOS) || os(watchOS)</span>
-    <span class="keyword">import</span> Darwin
-<span class="preprocessing">#endif
-#if os(Linux)</span>
-    <span class="keyword">import</span> Glibc
-<span class="preprocessing">#endif</span>
+#if os(iOS) || os(tvOS) || os(macOS) || os(watchOS)
+    import Darwin
+#endif
+#if os(Linux)
+    import Glibc
+#endif
 
-<span class="keyword">public func</span> rndm(to max: <span class="type">Int</span>, from min: <span class="type">Int</span> = <span class="number">0</span>) -&gt; <span class="type">Int</span> {
-    <span class="preprocessing">#if os(iOS) || os(tvOS) || os(macOS) || os(watchOS)</span>
-        <span class="keyword">let</span> scale = <span class="type">Double</span>(<span class="call">arc4random</span>()) / <span class="type">Double</span>(<span class="type">UInt32</span>.<span class="property">max</span>)
-    <span class="preprocessing">#endif
-    #if os(Linux)</span>
-        <span class="keyword">let</span> scale = <span class="type">Double</span>(<span class="call">rand</span>()) / <span class="type">Double</span>(<span class="type">RAND_MAX</span>)
-    <span class="preprocessing">#endif</span>
-    <span class="keyword">var</span> value = max - min
-    <span class="keyword">let</span> maximum = value.<span class="call">addingReportingOverflow</span>(<span class="number">1</span>)
-    <span class="keyword">if</span> maximum.<span class="property">overflow</span> {
-        value = <span class="type">Int</span>.<span class="property">max</span>
+public func rndm(to max: Int, from min: Int = 0) -&gt; Int {
+    #if os(iOS) || os(tvOS) || os(macOS) || os(watchOS)
+        let scale = Double(arc4random()) / Double(UInt32.max)
+    #endif
+    #if os(Linux)
+        let scale = Double(rand()) / Double(RAND_MAX)
+    #endif
+    var value = max - min
+    let maximum = value.addingReportingOverflow(1)
+    if maximum.overflow {
+        value = Int.max
     }
-    <span class="keyword">else</span> {
-        value = maximum.<span class="property">partialValue</span>
+    else {
+        value = maximum.partialValue
     }
-    <span class="keyword">let</span> partial = <span class="type">Int</span>(<span class="type">Double</span>(value) * scale)
-    <span class="keyword">let</span> result = partial.<span class="call">addingReportingOverflow</span>(min)
-    <span class="keyword">if</span> result.<span class="property">overflow</span> {
-        <span class="keyword">return</span> partial
+    let partial = Int(Double(value) * scale)
+    let result = partial.addingReportingOverflow(min)
+    if result.overflow {
+        return partial
     }
-    <span class="keyword">return</span> result.<span class="property">partialValue</span>
+    return result.partialValue
 }
 
-<span class="call">rndm</span>(to: <span class="number">6</span>)</code></pre><p>Now that we have Swift 4.2 just around the corner I'd like to encourage everyone to adapt the new random number generation API methods. I'm really glad that Apple and the community tackled down this issue so well, the results are amazing! 👏</p>
-        </section>
-    </div>
-
-</article>
-
-<section id="share" class="content-wrapper">
-    <p>
-    <a
-        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/generating-random-numbers-in-swift/"
-        target="_blank"
-    >
-        Share this article
-    </a>
-    <br> Thank you. 🙏</p>
-</section>
-
-<section  class="wrapper">
-    <div id="book">
-        <div class="column left">
-            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+rndm(to: 6)
+</code></pre><p>Now that we have Swift 4.2 just around the corner I’d like to encourage everyone to adapt the new random number generation API methods. I’m really glad that Apple and the community tackled down this issue so well, the results are amazing! 👏</p>
+                    
+                </section>
+    
+                <footer>
+                    <br>
+                    <time datetime=""></time>
+    
+                    
+                    <div class="author-list">
+                        <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        </a>
+                    </div>
+                    <div class="tag-list">
+                        <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                    </div>
+                    
+                    <p>
+                        <a href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/generating-random-numbers-in-swift/" target="_blank">
+                            <strong>Share this article</strong>
+                        </a>
+                        <br>Thank you. 🙏
+                    </p>
+                </footer>
+                            
+                <section class="group">
+                    <h4>Related posts</h4>                
+                    <div class="grid grid-221">
+                        <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2021/09/10">2021/09/10</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/all-about-the-bool-type-in-swift/" target="">All about the Bool type in Swift</a></h2>
+                            <hr>
+                            <p>Learn everything about logical types and the Boolean algebra using the Swift programming language and some basic math.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2022/03/18">2022/03/18</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/async-http-api-clients-in-swift/" target="">Async HTTP API clients in Swift</a></h2>
+                            <hr>
+                            <p>Learn how to communicate with API endpoints using the brand new SwiftHttp library, including async / await support.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2019/02/05">2019/02/05</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/beginners-guide-to-functional-swift/" target="">Beginners guide to functional Swift</a></h2>
+                            <hr>
+                            <p>The one and only tutorial that you&#39;ll ever need to learn higher order functions like: map, flatMap, compactMap, reduce, filter and more.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2022/06/28">2022/06/28</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/beginners-guide-to-modern-generic-programming-in-swift/" target="">Beginner&#39;s guide to modern generic programming in Swift</a></h2>
+                            <hr>
+                            <p>Learn the very basics about protocols, existentials, opaque types and how they are related to generic programming in Swift.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    
+            </article>
         </div>
-        <div class="column right">
-            <h3>Get the Practical Server Side Swift book</h3>
-            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
-        </div>
-    </div>
-</section>
-
-<section id="author" class="content-wrapper">
-    <img 
-        id="author-image"
-        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
-        alt="Picture of Tibor Bödecs" 
-        title="Tibor Bödecs"
-    >
-    <h3>Tibor Bödecs</h3>
-    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
-    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
-
-    <div class="links">
-        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
-        <a href="https://github.com/tib" target="_blank">GitHub</a> 
-    </div>
-</section>
-
         
+        <div>
+            <div class="book">
+                <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">
+                    <img src="https://theswiftdev.com/book/practical-server-side-swift-cover.png" alt="Practical Server Side Swift cover image">
+                </a>
+                <h3>
+                    <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Get the Practical Server Side Swift book</a>
+                </h3>
+                <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+                <a class="cta" href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+            </div>
+            
+            
+            <aside id="toc">
+                <h4>On this page</h4>
+                <ul>
+                    <li class="first-level">
+                        <a href="#how-to-generate-random-numbers-using-swift">How to generate random numbers using Swift?</a>
+                        <ul>
+                            <li><a href="#random-number-generator-rng">Random Number Generator (RNG)</a></li>
+                <li><a href="#collections-random-elements-shuffle">Collections, random elements, shuffle</a></li>
+                <li><a href="#randomizing-custom-types">Randomizing custom types</a></li>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#generating-random-values-using-gameplaykit">Generating random values using GameplayKit</a>
+                        <ul>
+                            <li><a href="#random-sources-in-gameplaykit">Random sources in GameplayKit</a></li>
+                <li><a href="#random-distribution-algorithms">Random distribution algorithms</a></li>
+                <li><a href="#how-to-shuffle-arrays-using-gameplaykit">How to shuffle arrays using GameplayKit?</a></li>
+                <li><a href="#gameplaykit-best-practice-to-generate-random-values">GameplayKit best practice to generate random values</a></li>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#pre-swift-4.2-random-generation-methods">Pre-Swift 4.2 random generation methods</a>
+                        <ul>
+                            <li><a href="#arc4random">arc4random</a></li>
+                <li><a href="#arc4random_uniform">arc4random_uniform</a></li>
+                <li><a href="#drand48">drand48</a></li>
+                <li><a href="#linux-support-glibc-and-the-rand-method">Linux support, glibc and the rand method</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+            
+    
+        </div>
+    </div>
+    
     </main>
 
-    <footer>
-        <section class="content-wrapper">
-            <img 
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
-
-            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+    <footer id="site-footer">
+        <div class="grid grid-421">
+    
+            <picture>
+                <img
+                    id="logo-image"
+                    src="https://theswiftdev.com/images/logos/logo-large.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
             
-            <p> 
-                <a href="https://theswiftdev.com/">Home</a> ·
-                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
-            </p>
+            <div>
+                <span style="display: block; height: 32px;">&nbsp;</span>
+                <h4>The.Swift.Dev</h4>
+                <p><small><a href="https://theswiftdev.com/" target="_blank">theswiftdev.com</a></small></p>
+                <ul>
+                    <li><a href="https://github.com/theswiftdev/" target="_blank">GitHub</a></li>
+                    <li><a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a></li>
+                    <li><a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a></li>
+                </ul>
+            </div>
             
-            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+            <div>
+                
+            </div>
+            
+            <div>
+                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                </a>
+                <h4><a href="https://theswiftdev.com/authors/tibor-bodecs/">Tibor Bödecs</a></h4>
+                <p><small><a href="https://binarybirds.com/" target="_blank">Binary Birds Kft.</a></small></p>
+                <ul>
+                    <li><a href="mailto:mail.tib@gmail.com" target="_blank">Email</a></li>
+                    <li><a href="https://github.com/tib/" target="_blank">GitHub</a></li>
+                    <li><a href="https://x.com/tiborbodecs" target="_blank">X (Twitter)</a></li>
+                    <li><a href="https://mastodon.social/@tiborbodecs" target="_blank">Mastodon</a></li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <section class="grid grid-221">
+            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>
+
+    </div>
+
+    
 </body>
 </html>

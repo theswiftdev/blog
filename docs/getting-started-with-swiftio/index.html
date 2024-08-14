@@ -1,156 +1,173 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
     <meta charset="utf-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="canonical" href="https://theswiftdev.com/getting-started-with-swiftio/">
     
+    
+
     <title>Getting started with SwiftIO - The.Swift.Dev.</title>
-    
     <meta name="description" content="SwiftIO is an electronic circuit board that runs Swift on the bare metal. It can control sensors, displays, lights, motors and more.">
-    
+
+    <meta property="og:url" content="https://theswiftdev.com/getting-started-with-swiftio/">
     <meta property="og:title" content="Getting started with SwiftIO - The.Swift.Dev.">
     <meta property="og:description" content="SwiftIO is an electronic circuit board that runs Swift on the bare metal. It can control sensors, displays, lights, motors and more.">
-    <meta property="og:url" content="https://theswiftdev.com/getting-started-with-swiftio/">
-    <meta property="og:image" content="https://theswiftdev.com/images/assets/getting-started-with-swiftio/cover.jpg">
+    
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@tiborbodecs">
-    <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="Getting started with SwiftIO - The.Swift.Dev.">
     <meta name="twitter:description" content="SwiftIO is an electronic circuit board that runs Swift on the bare metal. It can control sensors, displays, lights, motors and more.">
-    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/getting-started-with-swiftio/cover.jpg">
     
-    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
-    
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-normalize.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/variables.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/grid.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/navigation.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/footer.css">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+
     
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/icons/apple-touch-icon-180x180.png">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+        media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+        media="(prefers-color-scheme: dark)"
+    >
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
 </head>
 
 <body>
-    <a href="https://theswiftdev.gumroad.com" class="ribbon">
-        📖
-    </a>
-    <header id="page-header">
-        <a href="https://theswiftdev.com/">
-            <img 
-                id="logo-image"
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
+    <div id="site-container">
+
+    <header id="navigation">
+        <a href="/">
+            <picture>
+                <img
+                    src="https://theswiftdev.com/images/logos/logo.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
         </a>
-    </header>
-    
-    <main>
-
-        <article>
-    <header>
-        <section id="post-header" class="content-wrapper">
-            <time datetime="2020/11/12">2020/11/12</time>
-            <h1 class="title">Getting started with SwiftIO</h1>
-            <p class="excerpt">SwiftIO is an electronic circuit board that runs Swift on the bare metal. It can control sensors, displays, lights, motors and more.</p>
-            <div class="meta">
-                <span class="tag">Swift</span>
-<span class="tag">MadMachine</span>
+        <nav>
+            <input type="checkbox" id="primary-menu-button" name="menu-button" class="menu-button">
+            <label for="primary-menu-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </label>
+            <div class="menu-items">
+                <a href="/page/1/">Posts</a>
+                <a href="/tags/">Tags</a>
+                <a href="/authors/">Authors</a>
+                <a href="/practical-server-side-swift/">My Book</a>
             </div>
-        </section>
-        <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.com/images/assets/getting-started-with-swiftio/cover.jpg">
-        </section>
+        </nav>
     </header>
 
-    <div id="contents">
-        <section class="content-wrapper">
-            <h2>The SwiftIO board</h2><p><a href="https://www.madmachine.io/" target="_blank">MadMachine</a>'s SwiftIO board is an Arduino-like system, but it can run Swift code natively on the hardware. <a href="https://swift.org/" target="_blank">Swift</a> is a great programming language for education purposes, it is a modern language with a JavaScript-like syntax that is easy to learn and understand. Swift is safe and efficient, this combination makes it a perfect candidate for embedded systems. The SwiftIO board enables us regular Swift / iOS developers to build IoT projects using our favorite programming language.</p></section><section class="wrapper">
-<figure>
-    <picture>
-        <img class="post-image" src="https://theswiftdev.com/images/assets/getting-started-with-swiftio/images/board.png" alt="SwiftIO board">
-    </picture>
-</figure>
-</section><section class="content-wrapper"><p>The board itself has a small footprint, it's just about 1,57" x 2,36" (4cm x 6cm) big.</p><p>It's quite a powerful microcontroller. It is definitely the most affordable Swift language learning device. It can be ideal for STEM education purposes for students who want to see how to build electronic circuits and get some basic Swift programming skills at the same time.</p><p>The <a href="https://www.madmachine.io/product-page/maker-kit-for-swiftio" target="_blank">Maker Kit</a> box contains both a 7 segment and an LCD display, a servo and a DC motor with drivers, a humiture (temperature &amp; humidity) sensor, a buzzer module a potentiometer and a light sensor and many more other things (breadboard, resistors, LEDs, buttons and cables, etc.) that you can use to build the starter projects. You will have pretty much everything in the box that you need as a newcomer to get started and have some fun time using SwiftIO. 📦</p><p>Unfortunately you won't find a working GPS, WiFi or Bluetooth module for the SwiftIO board yet, but hopefully these kind of accessories are just a few months away. There is a new shield and a brand new screen module in the works. Oh by the way a shield is something that you can plug into your board and connect external accessories using "special" colorful cables. 🌈</p><blockquote><p>Shields are boards that can be plugged on top of the Arduino PCB extending its capabilities. The different shields follow the same philosophy as the original toolkit: they are easy to mount, and cheap to produce. - <a href="https://www.arduino.cc/en/Main/ArduinoShields" target="_blank">ArduinoShields</a></p></blockquote><p>The board initially went on sale in July, 2020 and many people brought it from all around the world. New plug-ins, extensions and modules are still being developed by the makers, but it is important to emphasize that the SwiftIO board hardware is in a stable state. 💪</p><h3>Technical specifications:</h3><ul><li>i.MX RT1052 Crossover Processor with Arm® Cortex®-M7 core @600MHz</li><li>Micro SD card slot, supporting standard and high capacity SD cards</li><li>Micro USB connector for power</li><li>On-board USB to UART for serial communication</li><li>46 GPIO on left and right edges</li><li>On-board GRB LED</li><li>12x 12-bit analog to digital (ADC) converters</li><li>4 UART, 2 CAN, 2 IIC, and 2 SPI</li><li>14 PWM pins</li><li>Many additional advanced features to meet the needs of advanced users</li></ul><h3>Ports, communication, architecture</h3><p>You can connect the SwiftIO board to your computer via a USB connector, the two devices can communicate through a serial port. The USB cable will provide the necessary power support, but alternatively you can use an adapter or an external battery through a shield.</p></section><section class="wrapper">
-<figure>
-    <picture>
-        <img class="post-image" src="https://theswiftdev.com/images/assets/getting-started-with-swiftio/images/ports.png" alt="SwiftIO ports">
-    </picture>
-</figure>
-</section><section class="content-wrapper"><p>You can wire up additional components using the General Purpose Input/Output pins (<a href="https://en.wikipedia.org/wiki/General-purpose_input/output" target="_blank">GPIO</a>). You can see the exact specification on the picture above, but honestly I barely understand this diagram.</p><blockquote><p>Confession time: I don't know shit about electronics (yet). 💩</p></blockquote><p>The board can be used with a shield and fortunately the MakersKit arrives with a handy instruction manual for absolute beginners. I felt lucky, because I was able to approach this little gadget with my programmer mindset and I could focus more on Swift instead of building working circuits.</p><p>So what's actually under the hood? How can I build &amp; run applications for SwiftIO?</p></section><section class="wrapper">
-<figure>
-    <picture>
-        <img class="post-image" src="https://theswiftdev.com/images/assets/getting-started-with-swiftio/images/architecture.jpg" alt="SwiftIO architecture">
-    </picture>
-</figure>
-</section><section class="content-wrapper"><p>The gray area is the hardware itself, on top of that in the pink-ish/purple boxes there is this Zephyr layer which I've never heard before. I'm just scratching the surface here, but that's fine, since as a Swift developer we only care about the orange stuff. Long story short, there is a custom built Swift toolchain for this device that allows us to build and run Swift applications on the board. 😅</p><p>If there is a toolchain, then we can run Swift binaries, but how do we communicate with the ports and stuff like that? Fortunately the <a href="https://github.com/madmachineio/SwiftIO" target="_blank">SwiftIO framework</a> is here for us. It provides an easy access to communicate with external hardware accessories. You can read or write digital and analog signals using the communication protocol. Are you ready for some Swift code?</p><h2>The SwiftIO environment</h2><p>Although the hardware is stable, the software is not finished yet. There are two options available, but if you are on a Windows machine, you should grab the official MadMachine IDE and use that. The reason is that the Swift Package Manager is not ready for that platform yet, so you won't be able to work with the tools that I'll show you next. Sorry Windows, no offense. 😅</p><p>So option A, is to go with the IDE, it's really easy to use and provides a great DX. Option B, learn a bit more about the underlying toolkit and follow my guide, it's a bit more complicated, but you'll know more about the technical infrastructure if you choose this path. 🤔</p><h3>Installing the MadMachine SDK &amp; CLI</h3><p>As a macOS or Linux user you should know that you can install the unofficial MadMachine SDK alongside a command line tool called mm. As you can see this <a href="https://github.com/EmbeddedSwift/MadMachine" target="_blank">MadMachine SDK</a> is written in Swift, but you should know that I ported a python script from the original <a href="https://github.com/madmachineio/mm-sdk" target="_blank">mm-sdk</a> project with the help of <a href="https://github.com/kimar" target="_blank">Marcus Kida</a>. First, he made an Xcode template by invoking the original script inside the official <a href="https://www.madmachine.io/downloads" target="_blank">MadMachine IDE</a>, then I thought, it would be cool to get rid of the IDE for good, and now, here we go, we have a standalone Swift version of the necessary build tools. You can install it like this:</p><pre><code class="language-sh">git clone https://github.com/EmbeddedSwift/MadMachine.git
+    <main id="page-container">
+    
+    <div class="article-with-toc">
+        <div>
+            <article class="post">
+                <div class="meta">
+                    <time datetime="2020/11/12">2020/11/12</time>
+                     &middot; <span class="reading-time">9 min read</span>
+                    
+                </div>
+                <h1>Getting started with SwiftIO</h1>
+                <hr>
+                <p>SwiftIO is an electronic circuit board that runs Swift on the bare metal. It can control sensors, displays, lights, motors and more.</p>
+                <section>
+                
+                <h2 id="the-swiftio-board">The SwiftIO board</h2><p><a href="https://www.madmachine.io/" target="_blank">MadMachine</a>’s SwiftIO board is an Arduino-like system, but it can run Swift code natively on the hardware. <a href="https://swift.org/" target="_blank">Swift</a> is a great programming language for education purposes, it is a modern language with a JavaScript-like syntax that is easy to learn and understand. Swift is safe and efficient, this combination makes it a perfect candidate for embedded systems. The SwiftIO board enables us regular Swift / iOS developers to build IoT projects using our favorite programming language.</p><p>    <img src="/assets/getting-started-with-swiftio/board.png" alt="SwiftIO board"></p><p>The board itself has a small footprint, it’s just about 1,57” x 2,36” (4cm x 6cm) big.</p><p>It’s quite a powerful microcontroller. It is definitely the most affordable Swift language learning device. It can be ideal for STEM education purposes for students who want to see how to build electronic circuits and get some basic Swift programming skills at the same time.</p><p>The <a href="https://www.madmachine.io/product-page/maker-kit-for-swiftio" target="_blank">Maker Kit</a> box contains both a 7 segment and an LCD display, a servo and a DC motor with drivers, a humiture (temperature & humidity) sensor, a buzzer module a potentiometer and a light sensor and many more other things (breadboard, resistors, LEDs, buttons and cables, etc.) that you can use to build the starter projects. You will have pretty much everything in the box that you need as a newcomer to get started and have some fun time using SwiftIO. 📦</p><p>Unfortunately you won’t find a working GPS, WiFi or Bluetooth module for the SwiftIO board yet, but hopefully these kind of accessories are just a few months away. There is a new shield and a brand new screen module in the works. Oh by the way a shield is something that you can plug into your board and connect external accessories using “special” colorful cables. 🌈</p><blockquote><p>Shields are boards that can be plugged on top of the Arduino PCB extending its capabilities. The different shields follow the same philosophy as the original toolkit: they are easy to mount, and cheap to produce. - <a href="https://www.arduino.cc/en/Main/ArduinoShields" target="_blank">ArduinoShields</a></p></blockquote><p>The board initially went on sale in July, 2020 and many people brought it from all around the world. New plug-ins, extensions and modules are still being developed by the makers, but it is important to emphasize that the SwiftIO board hardware is in a stable state. 💪</p><h3 id="technical-specifications">Technical specifications:</h3><ul><li>i.MX RT1052 Crossover Processor with Arm® Cortex®-M7 core @600MHz</li><li>Micro SD card slot, supporting standard and high capacity SD cards</li><li>Micro USB connector for power</li><li>On-board USB to UART for serial communication</li><li>46 GPIO on left and right edges</li><li>On-board GRB LED</li><li>12x 12-bit analog to digital (ADC) converters</li><li>4 UART, 2 CAN, 2 IIC, and 2 SPI</li><li>14 PWM pins</li><li>Many additional advanced features to meet the needs of advanced users</li></ul><h3 id="ports-communication-architecture">Ports, communication, architecture</h3><p>You can connect the SwiftIO board to your computer via a USB connector, the two devices can communicate through a serial port. The USB cable will provide the necessary power support, but alternatively you can use an adapter or an external battery through a shield.</p><p>    <img src="/assets/getting-started-with-swiftio/ports.png" alt="SwiftIO ports"></p><p>You can wire up additional components using the General Purpose Input/Output pins (<a href="https://en.wikipedia.org/wiki/General-purpose_input/output" target="_blank">GPIO</a>). You can see the exact specification on the picture above, but honestly I barely understand this diagram.</p><blockquote><p>Confession time: I don’t know shit about electronics (yet). 💩</p></blockquote><p>The board can be used with a shield and fortunately the MakersKit arrives with a handy instruction manual for absolute beginners. I felt lucky, because I was able to approach this little gadget with my programmer mindset and I could focus more on Swift instead of building working circuits.</p><p>So what’s actually under the hood? How can I build & run applications for SwiftIO?</p><p>    <img src="/assets/getting-started-with-swiftio/architecture.jpg" alt="SwiftIO architecture"></p><p>The gray area is the hardware itself, on top of that in the pink-ish/purple boxes there is this Zephyr layer which I’ve never heard before. I’m just scratching the surface here, but that’s fine, since as a Swift developer we only care about the orange stuff. Long story short, there is a custom built Swift toolchain for this device that allows us to build and run Swift applications on the board. 😅</p><p>If there is a toolchain, then we can run Swift binaries, but how do we communicate with the ports and stuff like that? Fortunately the <a href="https://github.com/madmachineio/SwiftIO" target="_blank">SwiftIO framework</a> is here for us. It provides an easy access to communicate with external hardware accessories. You can read or write digital and analog signals using the communication protocol. Are you ready for some Swift code?</p><h2 id="the-swiftio-environment">The SwiftIO environment</h2><p>Although the hardware is stable, the software is not finished yet. There are two options available, but if you are on a Windows machine, you should grab the official MadMachine IDE and use that. The reason is that the Swift Package Manager is not ready for that platform yet, so you won’t be able to work with the tools that I’ll show you next. Sorry Windows, no offense. 😅</p><p>So option A, is to go with the IDE, it’s really easy to use and provides a great DX. Option B, learn a bit more about the underlying toolkit and follow my guide, it’s a bit more complicated, but you’ll know more about the technical infrastructure if you choose this path. 🤔</p><h3 id="installing-the-madmachine-sdk-cli">Installing the MadMachine SDK & CLI</h3><p>As a macOS or Linux user you should know that you can install the unofficial MadMachine SDK alongside a command line tool called mm. As you can see this <a href="https://github.com/EmbeddedSwift/MadMachine" target="_blank">MadMachine SDK</a> is written in Swift, but you should know that I ported a python script from the original <a href="https://github.com/madmachineio/mm-sdk" target="_blank">mm-sdk</a> project with the help of <a href="https://github.com/kimar" target="_blank">Marcus Kida</a>. First, he made an Xcode template by invoking the original script inside the official <a href="https://www.madmachine.io/downloads" target="_blank">MadMachine IDE</a>, then I thought, it would be cool to get rid of the IDE for good, and now, here we go, we have a standalone Swift version of the necessary build tools. You can install it like this:</p><pre><code class="language-sh">git clone https://github.com/EmbeddedSwift/MadMachine.git
 cd MadMachine
 make install
-</code></pre><p>Now you should be ready to use the mm cli app, you can check the available commands inside the <a href="https://github.com/EmbeddedSwift/MadMachine" target="_blank">README</a> file on GitHub. I have not tested this on Linux yet, so if you find any issues, please don't hesitate to report or submit a PR. This is an experimental project, so keep this in mind. 😅</p><h3>The MadMachine toolchain</h3><p>In order to use the MadMachine SDK you will need a working toolchain installed on your computer. You can grab the latest one by running the following command:</p><pre><code class="language-sh">mm toolchain --upgrade
-</code></pre><p>This will grab the latest release from the unofficial MadMachine toolchain <a href="https://github.com/EmbeddedSwift/MadMachineToolchain" target="_blank">repository</a>, and place it under your home folder inside the <code>.MadMachine</code> directory. There is one additional thing that now you have to do before you could start building SwiftIO apps. Currently there is one extra python script that was not ported yet, because it will be completely eliminated in the future. For now you still have to download the official MadMachine SDK from the <a href="https://github.com/madmachineio/mm-sdk/releases" target="_blank">GitHub</a> releases page and place the entire contents of the <code>mm-sdk/tools_[platform]/scripts/dist/gen_isr_tables</code> folder into the <code>~/.MadMachine/legacy</code> directory. You might have to create a legacy folder. 🙈</p><h3>The SwiftIO framework</h3><p>The SwiftIO framework is going to be linked with the application binary, we have to install it (with the help of the mm-cli tool) as a system library first. There's an unofficial <a href="https://github.com/EmbeddedSwift/SwiftIO" target="_blank">repo</a> with a makefile for this:</p><pre><code class="language-sh">git clone https://github.com/EmbeddedSwift/SwiftIO
+</code></pre><p>Now you should be ready to use the mm cli app, you can check the available commands inside the <a href="https://github.com/EmbeddedSwift/MadMachine" target="_blank">README</a> file on GitHub. I have not tested this on Linux yet, so if you find any issues, please don’t hesitate to report or submit a PR. This is an experimental project, so keep this in mind. 😅</p><h3 id="the-madmachine-toolchain">The MadMachine toolchain</h3><p>In order to use the MadMachine SDK you will need a working toolchain installed on your computer. You can grab the latest one by running the following command:</p><pre><code class="language-sh">mm toolchain --upgrade
+</code></pre><p>This will grab the latest release from the unofficial MadMachine toolchain <a href="https://github.com/EmbeddedSwift/MadMachineToolchain" target="_blank">repository</a>, and place it under your home folder inside the <code>.MadMachine</code> directory. There is one additional thing that now you have to do before you could start building SwiftIO apps. Currently there is one extra python script that was not ported yet, because it will be completely eliminated in the future. For now you still have to download the official MadMachine SDK from the <a href="https://github.com/madmachineio/mm-sdk/releases" target="_blank">GitHub</a> releases page and place the entire contents of the <code>mm-sdk/tools_[platform]/scripts/dist/gen_isr_tables</code> folder into the <code>~/.MadMachine/legacy</code> directory. You might have to create a legacy folder. 🙈</p><h3 id="the-swiftio-framework">The SwiftIO framework</h3><p>The SwiftIO framework is going to be linked with the application binary, we have to install it (with the help of the mm-cli tool) as a system library first. There’s an unofficial <a href="https://github.com/EmbeddedSwift/SwiftIO" target="_blank">repo</a> with a makefile for this:</p><pre><code class="language-sh">git clone https://github.com/EmbeddedSwift/SwiftIO
 cd SwiftIO
 make install
-</code></pre><p>You can find the <a href="https://swiftioapi.madmachine.io/" target="_blank">library reference</a> for the SwiftIO framework, but we'll see you can make it work, in just a few moments. Before we go further you should note that the custom MadMachine toolchain is a modified version of the Swift 5.1 toolchain. This means that you can't use Swift 5.3 on the board yet, but hopefully the creators of SwiftIO will release new software components real soon. 🤞</p><h3>Using Xcode</h3><p>The SwiftIO framework can be compiled on your local machine with the local Swift toolchain (using Xcode), so it is possible to build applications without targeting the board, and later on you can re-compile the source files with the mm-cli command, sign the final binary and deploy it to the SwiftIO board after you've pressed the download button. This is the current workflow in a nutshell.</p><p>There is an existing <a href="https://github.com/EmbeddedSwift/SwiftIO-Xcode-Template" target="_blank">Xcode template</a> created by <a href="https://x.com/kidmar" target="_blank">@kidmar</a> that you can use as a starting point.</p><h3>Using SPM</h3><p>Nowadays I prefer to create a Swift package for almost everything. You can use SPM with a Makefile and your favorite editor to create SwiftIO apps. You just have to initialize a new executable package with the necessary dependencies, for example:</p><pre><code class="language-swift"><span class="comment">// swift-tools-version:5.3</span>
-<span class="keyword">import</span> PackageDescription
+</code></pre><p>You can find the <a href="https://swiftioapi.madmachine.io/" target="_blank">library reference</a> for the SwiftIO framework, but we’ll see you can make it work, in just a few moments. Before we go further you should note that the custom MadMachine toolchain is a modified version of the Swift 5.1 toolchain. This means that you can’t use Swift 5.3 on the board yet, but hopefully the creators of SwiftIO will release new software components real soon. 🤞</p><h3 id="using-xcode">Using Xcode</h3><p>The SwiftIO framework can be compiled on your local machine with the local Swift toolchain (using Xcode), so it is possible to build applications without targeting the board, and later on you can re-compile the source files with the mm-cli command, sign the final binary and deploy it to the SwiftIO board after you’ve pressed the download button. This is the current workflow in a nutshell.</p><p>There is an existing <a href="https://github.com/EmbeddedSwift/SwiftIO-Xcode-Template" target="_blank">Xcode template</a> created by <a href="https://x.com/kidmar" target="_blank">@kidmar</a> that you can use as a starting point.</p><h3 id="using-spm">Using SPM</h3><p>Nowadays I prefer to create a Swift package for almost everything. You can use SPM with a Makefile and your favorite editor to create SwiftIO apps. You just have to initialize a new executable package with the necessary dependencies, for example:</p><pre><code class="language-swift">// swift-tools-version:5.3
+import PackageDescription
 
-<span class="keyword">let</span> package = <span class="type">Package</span>(
-    name: <span class="string">"myProject"</span>,
+let package = Package(
+    name: "myProject",
     products: [
-        .<span class="call">executable</span>(name: <span class="string">"myProject"</span>, targets: [<span class="string">"myProject"</span>]),
+        .executable(name: "myProject", targets: ["myProject"]),
     ],
     dependencies: [
-        .<span class="call">package</span>(url: <span class="string">"https://github.com/EmbeddedSwift/SwiftIO"</span>, .<span class="dotAccess">branch</span>(<span class="string">"main"</span>)),
-        .<span class="call">package</span>(url: <span class="string">"https://github.com/EmbeddedSwift/SHT3x"</span>, .<span class="dotAccess">branch</span>(<span class="string">"main"</span>)),
-        .<span class="call">package</span>(url: <span class="string">"https://github.com/EmbeddedSwift/LCD1602"</span>, .<span class="dotAccess">branch</span>(<span class="string">"main"</span>)),
+        .package(url: "https://github.com/EmbeddedSwift/SwiftIO", .branch("main")),
+        .package(url: "https://github.com/EmbeddedSwift/SHT3x", .branch("main")),
+        .package(url: "https://github.com/EmbeddedSwift/LCD1602", .branch("main")),
     ],
     targets: [
-        .<span class="call">target</span>(name: <span class="string">"myProject"</span>, dependencies: [
-            .<span class="call">product</span>(name: <span class="string">"SwiftIO"</span>, package: <span class="string">"SwiftIO"</span>),
-            .<span class="call">product</span>(name: <span class="string">"SHT3x"</span>, package: <span class="string">"SHT3x"</span>),
-            .<span class="call">product</span>(name: <span class="string">"LCD1602"</span>, package: <span class="string">"LCD1602"</span>),
+        .target(name: "myProject", dependencies: [
+            .product(name: "SwiftIO", package: "SwiftIO"),
+            .product(name: "SHT3x", package: "SHT3x"),
+            .product(name: "LCD1602", package: "LCD1602"),
         ]),
     ]
-)</code></pre><p>Inside the <code>main.swift</code> file now you can write a simple Humiture sensor app that displays the current humidity &amp; temperature on a 16x2 LCD display like this:</p><pre><code class="language-swift"><span class="keyword">import</span> SwiftIO
-<span class="keyword">import</span> SHT3x
-<span class="keyword">import</span> LCD1602
+)
+</code></pre><p>Inside the <code>main.swift</code> file now you can write a simple Humiture sensor app that displays the current humidity & temperature on a 16x2 LCD display like this:</p><pre><code class="language-swift">import SwiftIO
+import SHT3x
+import LCD1602
 
-<span class="comment">// Get a number with one decimal place.</span>
-<span class="keyword">extension</span> <span class="type">Float</span> {
-    <span class="keyword">func</span> format(<span class="keyword">_</span> f: <span class="type">Int</span>) -&gt; <span class="type">Float</span> {
-        <span class="keyword">guard</span> f &gt; <span class="number">0</span> <span class="keyword">else</span> {<span class="keyword">return self</span>}
-        <span class="keyword">var</span> mul = <span class="number">10</span>
-        <span class="keyword">for _ in</span> <span class="number">1</span>..&lt;f {
-            mul *= <span class="number">10</span>
+// Get a number with one decimal place.
+extension Float {
+    func format(_ f: Int) -&gt; Float {
+        guard f &gt; 0 else {return self}
+        var mul = 10
+        for _ in 1..&lt;f {
+            mul *= 10
         }
-        <span class="keyword">let</span> data = <span class="type">Int</span>(<span class="keyword">self</span> * <span class="type">Float</span>(mul))
-        <span class="keyword">return</span> <span class="type">Float</span>(data) / <span class="type">Float</span>(mul)
+        let data = Int(self * Float(mul))
+        return Float(data) / Float(mul)
     }
 }
 
-<span class="comment">// Initialize the LCD and sensor to use the I2C communication.</span>
-<span class="keyword">let</span> i2c = <span class="type">I2C</span>(<span class="type">Id</span>.<span class="type">I2C0</span>)
-<span class="keyword">let</span> lcd = <span class="type">LCD1602</span>(i2c)
-<span class="keyword">let</span> sht = <span class="type">SHT3x</span>(i2c)
+// Initialize the LCD and sensor to use the I2C communication.
+let i2c = I2C(Id.I2C0)
+let lcd = LCD1602(i2c)
+let sht = SHT3x(i2c)
 
-<span class="keyword">while true</span>{
-    <span class="comment">// Read and display the temperature on the LCD and update the value every 1s.</span>
-    <span class="keyword">let</span> temp = sht.<span class="call">readTemperature</span>()
-    lcd.<span class="call">write</span>(x: <span class="number">0</span>, y: <span class="number">0</span>, <span class="string">"Temperature:"</span>)
-    lcd.<span class="call">write</span>(x: <span class="number">0</span>, y: <span class="number">1</span>, <span class="type">String</span>(temp.<span class="call">format</span>(<span class="number">1</span>)))
-    lcd.<span class="call">write</span>(x: <span class="number">4</span>, y: <span class="number">1</span>, <span class="string">" "</span>)
-    lcd.<span class="call">write</span>(x: <span class="number">5</span>, y: <span class="number">1</span>, <span class="string">"C"</span>)
-    <span class="call">sleep</span>(ms: <span class="number">1000</span>)
-}</code></pre><p>Now if you open the Package.swift file using Xcode you can even build the project locally using the CMD+B shortcut, but don't try to run it, since your Mac is not a SwiftIO board... 😅</p><p>If you want to build and run this project you have to target the SwiftIO board. The <code>mm-cli</code> can't resolve package dependencies (yet) so you have to install the necessary dependencies (<a href="https://github.com/EmbeddedSwift/SHT3x" target="_blank">SHT3x</a>, <a href="https://github.com/EmbeddedSwift/LCD1602" target="_blank">LCD1602</a>) the same way as we did with the SwiftIO library. You have to clone both repositories and use the makefile to install them as local MadMachine system libraries. This will move the required files under the <code>~/.MadMachine/libraries</code> folder, all the available libraries "live" there. 🔨</p><p>After you've installed the libraries, you can use the following Makefile for the actual binary builds:</p><pre><code>build:
+while true{
+    // Read and display the temperature on the LCD and update the value every 1s.
+    let temp = sht.readTemperature()
+    lcd.write(x: 0, y: 0, "Temperature:")
+    lcd.write(x: 0, y: 1, String(temp.format(1)))
+    lcd.write(x: 4, y: 1, " ")
+    lcd.write(x: 5, y: 1, "C")
+    sleep(ms: 1000)
+}
+</code></pre><p>Now if you open the Package.swift file using Xcode you can even build the project locally using the CMD+B shortcut, but don’t try to run it, since your Mac is not a SwiftIO board… 😅</p><p>If you want to build and run this project you have to target the SwiftIO board. The <code>mm-cli</code> can’t resolve package dependencies (yet) so you have to install the necessary dependencies (<a href="https://github.com/EmbeddedSwift/SHT3x" target="_blank">SHT3x</a>, <a href="https://github.com/EmbeddedSwift/LCD1602" target="_blank">LCD1602</a>) the same way as we did with the SwiftIO library. You have to clone both repositories and use the makefile to install them as local MadMachine system libraries. This will move the required files under the <code>~/.MadMachine/libraries</code> folder, all the available libraries “live” there. 🔨</p><p>After you’ve installed the libraries, you can use the following Makefile for the actual binary builds:</p><pre><code>build:
     mm build --name myProject --binary-type executable --input . --output ./myProject
 
 run: build
@@ -158,81 +175,212 @@ run: build
 
 clean:
     rm -r ./myProject
-</code></pre><p>The <code>mm build</code> command invokes the <code>swiftc</code> compiler from the SwiftIO toolchain with the right search paths and library search paths. The <code>mm board --run [binary]</code> command will simply copy the necessary files to the MadMachine board if it is in download mode. You have to press the download button on the board before you run this command. Pressing the download button will mount the SD card so we can deploy the signed binary to the device, then eject the storage, which will restart the board and the new application will be loaded &amp; executed right away. 🚀</p><h2>The MadMachine IDE</h2><p>If you don't like to play with command line utilities, you can always use the <a href="https://www.madmachine.io/downloads" target="_blank">MadMachine IDE</a> to build and deliver your projects. It uses a <code>mmp</code> file to describe dependencies, so it can resolve them on the fly, but I don't like the fact that I have to use a new package manager and editor to work with Swift. I'm in a love and hate relationship with Xcode (plus I'm an old-school Sublime Text fan). ❤️</p><p>Anyway, you can find really <a href="https://resources.madmachine.io/examples" target="_blank">great examples</a> with a dedicated <a href="https://github.com/madmachineio/Examples" target="_blank">GitHub</a> repository and many video tutorials on the official <a href="https://www.youtube.com/channel/UCFsoLnjIb0UXJYSz2X4nAVQ" target="_blank">YouTube</a> channel. You can access all the MakerKit sample codes, they are both on GitHub and you can clone a template with a click using the MadMachine IDE.</p><h2>Conclusion</h2><p>For me, the SwiftIO board was a pleasant surprise. I always wanted to play with <a href="https://github.com/embeddedswift/" target="_blank">embedded</a> systems, know a little more about hardware and low level stuff, but the Raspberry PI and the Arduino felt like alien planet. Once I've tried to build an app for a Raspberry PI at a hackaton, but it was a complete disaster, I was disappointed, because the tools and the developer experience was really bad.</p><p>The promise of MadMachine is that you can easily use Swift on such a device and I believe that <a href="https://x.com/madmachineio" target="_blank">Andy Liu</a> created something that can have a bright future on the long term. I felt in love with SwiftIO right after I've assembled my first circuit and deployed my very first Swift source. It was a seamless (pain free) experience and I believe that's a really important factor for developers who never used such devices before. This can be the beginning and the future of Swift on embedded systems. 😍</p></section><section class="wrapper">
-<figure>
-    <picture>
-        <img class="post-image" src="https://theswiftdev.com/images/assets/getting-started-with-swiftio/images/swift-io.jpg" alt="SwiftIO">
-    </picture>
-</figure>
-</section><section class="content-wrapper"><p>You can build some really fun stuff with SwiftIO, it's a perfect tool for learning how electric circuits work. I can't wait to see more and more sensors and libraries available for MadMachine. If you have an idea or a question feel free to join the official <a href="https://discord.com/invite/zZ9bFHK" target="_blank">Discord</a> server.</p>
-        </section>
-    </div>
-
-</article>
-
-<section id="share" class="content-wrapper">
-    <p>
-    <a
-        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/getting-started-with-swiftio/"
-        target="_blank"
-    >
-        Share this article
-    </a>
-    <br> Thank you. 🙏</p>
-</section>
-
-<section  class="wrapper">
-    <div id="book">
-        <div class="column left">
-            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+</code></pre><p>The <code>mm build</code> command invokes the <code>swiftc</code> compiler from the SwiftIO toolchain with the right search paths and library search paths. The <code>mm board --run [binary]</code> command will simply copy the necessary files to the MadMachine board if it is in download mode. You have to press the download button on the board before you run this command. Pressing the download button will mount the SD card so we can deploy the signed binary to the device, then eject the storage, which will restart the board and the new application will be loaded & executed right away. 🚀</p><h2 id="the-madmachine-ide">The MadMachine IDE</h2><p>If you don’t like to play with command line utilities, you can always use the <a href="https://www.madmachine.io/downloads" target="_blank">MadMachine IDE</a> to build and deliver your projects. It uses a <code>mmp</code> file to describe dependencies, so it can resolve them on the fly, but I don’t like the fact that I have to use a new package manager and editor to work with Swift. I’m in a love and hate relationship with Xcode (plus I’m an old-school Sublime Text fan). ❤️</p><p>Anyway, you can find really <a href="https://resources.madmachine.io/examples" target="_blank">great examples</a> with a dedicated <a href="https://github.com/madmachineio/Examples" target="_blank">GitHub</a> repository and many video tutorials on the official <a href="https://www.youtube.com/channel/UCFsoLnjIb0UXJYSz2X4nAVQ" target="_blank">YouTube</a> channel. You can access all the MakerKit sample codes, they are both on GitHub and you can clone a template with a click using the MadMachine IDE.</p><h2 id="conclusion">Conclusion</h2><p>For me, the SwiftIO board was a pleasant surprise. I always wanted to play with <a href="https://github.com/embeddedswift/" target="_blank">embedded</a> systems, know a little more about hardware and low level stuff, but the Raspberry PI and the Arduino felt like alien planet. Once I’ve tried to build an app for a Raspberry PI at a hackaton, but it was a complete disaster, I was disappointed, because the tools and the developer experience was really bad.</p><p>The promise of MadMachine is that you can easily use Swift on such a device and I believe that <a href="https://x.com/madmachineio" target="_blank">Andy Liu</a> created something that can have a bright future on the long term. I felt in love with SwiftIO right after I’ve assembled my first circuit and deployed my very first Swift source. It was a seamless (pain free) experience and I believe that’s a really important factor for developers who never used such devices before. This can be the beginning and the future of Swift on embedded systems. 😍</p><p>    <img src="/assets/getting-started-with-swiftio/swift-io.jpg" alt="SwiftIO"></p><p>You can build some really fun stuff with SwiftIO, it’s a perfect tool for learning how electric circuits work. I can’t wait to see more and more sensors and libraries available for MadMachine. If you have an idea or a question feel free to join the official <a href="https://discord.com/invite/zZ9bFHK" target="_blank">Discord</a> server.</p>
+                    
+                </section>
+    
+                <footer>
+                    <br>
+                    <time datetime=""></time>
+    
+                    
+                    <div class="author-list">
+                        <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        </a>
+                    </div>
+                    <div class="tag-list">
+                        <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                    </div>
+                    
+                    <p>
+                        <a href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/getting-started-with-swiftio/" target="_blank">
+                            <strong>Share this article</strong>
+                        </a>
+                        <br>Thank you. 🙏
+                    </p>
+                </footer>
+                            
+                <section class="group">
+                    <h4>Related posts</h4>                
+                    <div class="grid grid-221">
+                        <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2021/09/10">2021/09/10</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/all-about-the-bool-type-in-swift/" target="">All about the Bool type in Swift</a></h2>
+                            <hr>
+                            <p>Learn everything about logical types and the Boolean algebra using the Swift programming language and some basic math.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2022/03/18">2022/03/18</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/async-http-api-clients-in-swift/" target="">Async HTTP API clients in Swift</a></h2>
+                            <hr>
+                            <p>Learn how to communicate with API endpoints using the brand new SwiftHttp library, including async / await support.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2019/02/05">2019/02/05</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/beginners-guide-to-functional-swift/" target="">Beginners guide to functional Swift</a></h2>
+                            <hr>
+                            <p>The one and only tutorial that you&#39;ll ever need to learn higher order functions like: map, flatMap, compactMap, reduce, filter and more.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2022/06/28">2022/06/28</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/beginners-guide-to-modern-generic-programming-in-swift/" target="">Beginner&#39;s guide to modern generic programming in Swift</a></h2>
+                            <hr>
+                            <p>Learn the very basics about protocols, existentials, opaque types and how they are related to generic programming in Swift.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    
+            </article>
         </div>
-        <div class="column right">
-            <h3>Get the Practical Server Side Swift book</h3>
-            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
-        </div>
-    </div>
-</section>
-
-<section id="author" class="content-wrapper">
-    <img 
-        id="author-image"
-        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
-        alt="Picture of Tibor Bödecs" 
-        title="Tibor Bödecs"
-    >
-    <h3>Tibor Bödecs</h3>
-    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
-    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
-
-    <div class="links">
-        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
-        <a href="https://github.com/tib" target="_blank">GitHub</a> 
-    </div>
-</section>
-
         
+        <div>
+            <div class="book">
+                <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">
+                    <img src="https://theswiftdev.com/book/practical-server-side-swift-cover.png" alt="Practical Server Side Swift cover image">
+                </a>
+                <h3>
+                    <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Get the Practical Server Side Swift book</a>
+                </h3>
+                <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+                <a class="cta" href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+            </div>
+            
+            
+            <aside id="toc">
+                <h4>On this page</h4>
+                <ul>
+                    <li class="first-level">
+                        <a href="#the-swiftio-board">The SwiftIO board</a>
+                        <ul>
+                            <li><a href="#technical-specifications">Technical specifications:</a></li>
+                <li><a href="#ports-communication-architecture">Ports, communication, architecture</a></li>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#the-swiftio-environment">The SwiftIO environment</a>
+                        <ul>
+                            <li><a href="#installing-the-madmachine-sdk-cli">Installing the MadMachine SDK &amp; CLI</a></li>
+                <li><a href="#the-madmachine-toolchain">The MadMachine toolchain</a></li>
+                <li><a href="#the-swiftio-framework">The SwiftIO framework</a></li>
+                <li><a href="#using-xcode">Using Xcode</a></li>
+                <li><a href="#using-spm">Using SPM</a></li>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#the-madmachine-ide">The MadMachine IDE</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#conclusion">Conclusion</a>
+                        <ul>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+            
+    
+        </div>
+    </div>
+    
     </main>
 
-    <footer>
-        <section class="content-wrapper">
-            <img 
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
-
-            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+    <footer id="site-footer">
+        <div class="grid grid-421">
+    
+            <picture>
+                <img
+                    id="logo-image"
+                    src="https://theswiftdev.com/images/logos/logo-large.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
             
-            <p> 
-                <a href="https://theswiftdev.com/">Home</a> ·
-                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
-            </p>
+            <div>
+                <span style="display: block; height: 32px;">&nbsp;</span>
+                <h4>The.Swift.Dev</h4>
+                <p><small><a href="https://theswiftdev.com/" target="_blank">theswiftdev.com</a></small></p>
+                <ul>
+                    <li><a href="https://github.com/theswiftdev/" target="_blank">GitHub</a></li>
+                    <li><a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a></li>
+                    <li><a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a></li>
+                </ul>
+            </div>
             
-            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+            <div>
+                
+            </div>
+            
+            <div>
+                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                </a>
+                <h4><a href="https://theswiftdev.com/authors/tibor-bodecs/">Tibor Bödecs</a></h4>
+                <p><small><a href="https://binarybirds.com/" target="_blank">Binary Birds Kft.</a></small></p>
+                <ul>
+                    <li><a href="mailto:mail.tib@gmail.com" target="_blank">Email</a></li>
+                    <li><a href="https://github.com/tib/" target="_blank">GitHub</a></li>
+                    <li><a href="https://x.com/tiborbodecs" target="_blank">X (Twitter)</a></li>
+                    <li><a href="https://mastodon.social/@tiborbodecs" target="_blank">Mastodon</a></li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <section class="grid grid-221">
+            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>
+
+    </div>
+
+    
 </body>
 </html>

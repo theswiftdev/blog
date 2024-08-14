@@ -1,504 +1,685 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
     <meta charset="utf-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="canonical" href="https://theswiftdev.com/viper-best-practices-for-ios-developers/">
     
+    
+
     <title>VIPER best practices for iOS developers - The.Swift.Dev.</title>
-    
-    <meta name="description" content="In this tutorial I'm going to show you a complete guide about how to build a VIPER based iOS application, written entirely in Swift.">
-    
-    <meta property="og:title" content="VIPER best practices for iOS developers - The.Swift.Dev.">
-    <meta property="og:description" content="In this tutorial I'm going to show you a complete guide about how to build a VIPER based iOS application, written entirely in Swift.">
+    <meta name="description" content="In this tutorial I&#39;m going to show you a complete guide about how to build a VIPER based iOS application, written entirely in Swift.">
+
     <meta property="og:url" content="https://theswiftdev.com/viper-best-practices-for-ios-developers/">
-    <meta property="og:image" content="https://theswiftdev.com/images/assets/viper-best-practices-for-ios-developers/cover.jpg">
+    <meta property="og:title" content="VIPER best practices for iOS developers - The.Swift.Dev.">
+    <meta property="og:description" content="In this tutorial I&#39;m going to show you a complete guide about how to build a VIPER based iOS application, written entirely in Swift.">
+    
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@tiborbodecs">
-    <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="VIPER best practices for iOS developers - The.Swift.Dev.">
-    <meta name="twitter:description" content="In this tutorial I'm going to show you a complete guide about how to build a VIPER based iOS application, written entirely in Swift.">
-    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/viper-best-practices-for-ios-developers/cover.jpg">
+    <meta name="twitter:description" content="In this tutorial I&#39;m going to show you a complete guide about how to build a VIPER based iOS application, written entirely in Swift.">
     
-    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
-    
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-normalize.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/variables.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/grid.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/navigation.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/footer.css">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+
     
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/icons/apple-touch-icon-180x180.png">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+        media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+        media="(prefers-color-scheme: dark)"
+    >
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
 </head>
 
 <body>
-    <a href="https://theswiftdev.gumroad.com" class="ribbon">
-        📖
-    </a>
-    <header id="page-header">
-        <a href="https://theswiftdev.com/">
-            <img 
-                id="logo-image"
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
+    <div id="site-container">
+
+    <header id="navigation">
+        <a href="/">
+            <picture>
+                <img
+                    src="https://theswiftdev.com/images/logos/logo.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
         </a>
-    </header>
-    
-    <main>
-
-        <article>
-    <header>
-        <section id="post-header" class="content-wrapper">
-            <time datetime="2019/03/11">2019/03/11</time>
-            <h1 class="title">VIPER best practices for iOS developers</h1>
-            <p class="excerpt">In this tutorial I'm going to show you a complete guide about how to build a VIPER based iOS application, written entirely in Swift.</p>
-            <div class="meta">
-                <span class="tag">VIPER</span>
+        <nav>
+            <input type="checkbox" id="primary-menu-button" name="menu-button" class="menu-button">
+            <label for="primary-menu-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </label>
+            <div class="menu-items">
+                <a href="/page/1/">Posts</a>
+                <a href="/tags/">Tags</a>
+                <a href="/authors/">Authors</a>
+                <a href="/practical-server-side-swift/">My Book</a>
             </div>
-        </section>
-        <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.com/images/assets/viper-best-practices-for-ios-developers/cover.jpg">
-        </section>
+        </nav>
     </header>
 
-    <div id="contents">
-        <section class="content-wrapper">
-            <h2>Getting started with VIPER</h2><p>First of all, you should read my previous (more theoretical) article <a href="https://theswiftdev.com/2018/03/12/the-ultimate-viper-architecture-tutorial/">about the VIPER architecture</a> itself. It's a pretty decent writing explaining all the VIPER components and memory management. I've also polished it a little bit, last week. ⭐️</p><p>The problem with that article however was that I haven't show you the real deal, aka. the Swift code for implementing VIPER. Now after a full year of projects using this architecture I can finally share all my best practices with you.</p><p>So, let's start by creating a brand new Xcode project, use the single view app template, name the project (VIPER best practices), use Swift and now you're ready to take the next step of making an awesome "enterprise grade" iOS app.</p><h2>Generating VIPER modules</h2><p>Lesson 1: never create a module by hand, always use a code generator, because it's a repetative task, it's fuckin' boring plus you should focus on more important things than making boilerplate code. You can use my lightweight module generator called:</p><p class="warning">This section is outdated, you should use the swift template repository.</p><p>Just download or clone the repository from <a href="https://github.com/binarybirds/swift-template" target="_blank">GitHub</a>. You can install the binary tool by running swift run install --with-templates. This will install the vipera app under /usr/local/bin/ and the basic templates under the ~/.vipera directory. You can use your own templates too, but for now I'll work with the default one. 🔨</p><p>I usually start with a module called Main that's the root view of the application. You can generate it by calling vipera Main in the project directory, so the generator can use the proper project name for the header comments inside the template files.</p><p>Clean up the project structure a little bit, by applying my <a href="https://theswiftdev.com/2016/07/06/conventions-for-xcode/">conventions for Xcode</a>, this means that resources goes to an Assets folder, and all the Swift files into the Sources directory. Nowadays I also change the AppDelegate.swift file, and I make a separate extension for the UIApplicationDelegate protocol.</p><p>Create a Modules group (with a physical folder too) under the Sources directory and move the newly generated Main module under that group. Now fix the project issues, by selecting the Info.plist file from the Assets folder for the current target. Also do remove the Main Interface, and after that you can safely delete the Main.storyboard and the ViewController.swift files, because we're not going to need them at all.</p><p>Inside the AppDelegate.swift file, you have to set the Main module's view controller as the root view controller, so it should look somewhat like this:</p><pre><code class="language-swift"><span class="keyword">import</span> UIKit
+    <main id="page-container">
+    
+    <div class="article-with-toc">
+        <div>
+            <article class="post">
+                <div class="meta">
+                    <time datetime="2019/03/11">2019/03/11</time>
+                     &middot; <span class="reading-time">8 min read</span>
+                    
+                </div>
+                <h1>VIPER best practices for iOS developers</h1>
+                <hr>
+                <p>In this tutorial I&#39;m going to show you a complete guide about how to build a VIPER based iOS application, written entirely in Swift.</p>
+                <section>
+                
+                <h2 id="getting-started-with-viper">Getting started with VIPER</h2><p>First of all, you should read my previous (more theoretical) article <a href="https://theswiftdev.com/2018/03/12/the-ultimate-viper-architecture-tutorial/">about the VIPER architecture</a> itself. It’s a pretty decent writing explaining all the VIPER components and memory management. I’ve also polished it a little bit, last week. ⭐️</p><p>The problem with that article however was that I haven’t show you the real deal, aka. the Swift code for implementing VIPER. Now after a full year of projects using this architecture I can finally share all my best practices with you.</p><p>So, let’s start by creating a brand new Xcode project, use the single view app template, name the project (VIPER best practices), use Swift and now you’re ready to take the next step of making an awesome “enterprise grade” iOS app.</p><h2 id="generating-viper-modules">Generating VIPER modules</h2><p>Lesson 1: never create a module by hand, always use a code generator, because it’s a repetative task, it’s fuckin’ boring plus you should focus on more important things than making boilerplate code. You can use my lightweight module generator called:</p><blockquote><p>WARN: This section is outdated, you should use the swift template repository.</p></blockquote><p>Just download or clone the repository from <a href="https://github.com/binarybirds/swift-template" target="_blank">GitHub</a>. You can install the binary tool by running swift run install –with-templates. This will install the vipera app under /usr/local/bin/ and the basic templates under the ~/.vipera directory. You can use your own templates too, but for now I’ll work with the default one. 🔨</p><p>I usually start with a module called Main that’s the root view of the application. You can generate it by calling vipera Main in the project directory, so the generator can use the proper project name for the header comments inside the template files.</p><p>Clean up the project structure a little bit, by applying my <a href="https://theswiftdev.com/2016/07/06/conventions-for-xcode/">conventions for Xcode</a>, this means that resources goes to an Assets folder, and all the Swift files into the Sources directory. Nowadays I also change the AppDelegate.swift file, and I make a separate extension for the UIApplicationDelegate protocol.</p><p>Create a Modules group (with a physical folder too) under the Sources directory and move the newly generated Main module under that group. Now fix the project issues, by selecting the Info.plist file from the Assets folder for the current target. Also do remove the Main Interface, and after that you can safely delete the Main.storyboard and the ViewController.swift files, because we’re not going to need them at all.</p><p>Inside the AppDelegate.swift file, you have to set the Main module’s view controller as the root view controller, so it should look somewhat like this:</p><pre><code class="language-swift">import UIKit
 
-<span class="keyword">@UIApplicationMain
-class</span> AppDelegate: <span class="type">UIResponder</span> {
+@UIApplicationMain
+class AppDelegate: UIResponder {
 
-    <span class="keyword">var</span> window: <span class="type">UIWindow</span>?
+    var window: UIWindow?
 }
 
-<span class="keyword">extension</span> <span class="type">AppDelegate</span>: <span class="type">UIApplicationDelegate</span> {
+extension AppDelegate: UIApplicationDelegate {
 
-    <span class="keyword">func</span> application(<span class="keyword">_</span> application: <span class="type">UIApplication</span>,
-                     didFinishLaunchingWithOptions launchOptions: [<span class="type">UIApplication</span>.<span class="type">LaunchOptionsKey</span>: <span class="type">Any</span>]?) -&gt; <span class="type">Bool</span> {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -&gt; Bool {
 
-        <span class="keyword">self</span>.<span class="property">window</span> = <span class="type">UIWindow</span>(frame: <span class="type">UIScreen</span>.<span class="property">main</span>.<span class="property">bounds</span>)
-        <span class="keyword">self</span>.<span class="property">window</span>?.<span class="property">rootViewController</span> = <span class="type">MainModule</span>().<span class="call">buildDefault</span>()
-        <span class="keyword">self</span>.<span class="property">window</span>?.<span class="call">makeKeyAndVisible</span>()
+        self.window = UIWindow(frame: UIScreen.main.bounds)
+        self.window?.rootViewController = MainModule().buildDefault()
+        self.window?.makeKeyAndVisible()
 
-        <span class="keyword">return true</span>
-    }
-}</code></pre><p>Congratulations, you've created your very first VIPER module! 🎉</p><h2>UITabBarController &amp; VIPER</h2><p>I have a super simple solution for using a tab bar controller in a VIPER module. First let's generate a few new modules, those are going to be the tabs. I'm going to use the <a href="https://jsonplaceholder.typicode.com/" target="_blank">JSONPlaceholder</a> service, so let's imagine a separate tab for each of these resources: posts, albums, photos, todos (with the same module name). Generate them all, and move them into the modules folder.</p><p>Now, let's generate one more module called Home. This will implement our tab bar controller view. If you want you can use the Main module for this purpose, but I like to keep that for animation purposes, to have a neat transition between the loading screen and my Home module (it all depends on your needs).</p><p>So the main logic that we're going to implement is this: the main view will notify the presenter about the viewDidAppear event, and the presenter will ask the router to display the Home module. The Home module's view will be a subclass of a UITabBarController, it'll also notify it's presenter about viewDidLoad, and the presenter will ask for the proper tabs, by using its router.</p><p>Here is the code, without the interfaces:</p><pre><code class="language-swift"><span class="keyword">class</span> MainDefaultView: <span class="type">UIViewController</span> {
-
-    <span class="keyword">var</span> presenter: <span class="type">MainPresenter</span>?
-
-    <span class="keyword">override func</span> viewDidAppear(<span class="keyword">_</span> animated: <span class="type">Bool</span>) {
-        <span class="keyword">super</span>.<span class="call">viewDidAppear</span>(animated)
-
-        <span class="keyword">self</span>.<span class="property">presenter</span>?.<span class="call">viewDidAppear</span>()
+        return true
     }
 }
+</code></pre><p>Congratulations, you’ve created your very first VIPER module! 🎉</p><h2 id="uitabbarcontroller-viper">UITabBarController & VIPER</h2><p>I have a super simple solution for using a tab bar controller in a VIPER module. First let’s generate a few new modules, those are going to be the tabs. I’m going to use the <a href="https://jsonplaceholder.typicode.com/" target="_blank">JSONPlaceholder</a> service, so let’s imagine a separate tab for each of these resources: posts, albums, photos, todos (with the same module name). Generate them all, and move them into the modules folder.</p><p>Now, let’s generate one more module called Home. This will implement our tab bar controller view. If you want you can use the Main module for this purpose, but I like to keep that for animation purposes, to have a neat transition between the loading screen and my Home module (it all depends on your needs).</p><p>So the main logic that we’re going to implement is this: the main view will notify the presenter about the viewDidAppear event, and the presenter will ask the router to display the Home module. The Home module’s view will be a subclass of a UITabBarController, it’ll also notify it’s presenter about viewDidLoad, and the presenter will ask for the proper tabs, by using its router.</p><p>Here is the code, without the interfaces:</p><pre><code class="language-swift">class MainDefaultView: UIViewController {
 
-<span class="keyword">extension</span> <span class="type">MainDefaultPresenter</span>: <span class="type">MainPresenter</span> {
+    var presenter: MainPresenter?
 
-    <span class="keyword">func</span> viewDidAppear() {
-        <span class="keyword">self</span>.<span class="property">router</span>?.<span class="call">showHome</span>()
-    }
-}
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
 
-<span class="keyword">extension</span> <span class="type">MainDefaultRouter</span>: <span class="type">MainRouter</span> {
-
-    <span class="keyword">func</span> showHome() {
-        <span class="keyword">let</span> viewController = <span class="type">HomeModule</span>().<span class="call">buildDefault</span>()
-        <span class="keyword">self</span>.<span class="property">viewController</span>?.<span class="call">present</span>(viewController, animated: <span class="keyword">true</span>, completion: <span class="keyword">nil</span>)
-    }
-}
-
-<span class="keyword">extension</span> <span class="type">HomeDefaultView</span>: <span class="type">HomeView</span> {
-
-    <span class="keyword">func</span> display(<span class="keyword">_</span> viewControllers: [<span class="type">UIViewController</span>]) {
-        <span class="keyword">self</span>.<span class="property">viewControllers</span> = viewControllers
+        self.presenter?.viewDidAppear()
     }
 }
 
-<span class="comment">// MARK: - Home module</span>
+extension MainDefaultPresenter: MainPresenter {
 
-<span class="keyword">extension</span> <span class="type">HomeDefaultPresenter</span>: <span class="type">HomePresenter</span> {
+    func viewDidAppear() {
+        self.router?.showHome()
+    }
+}
 
-    <span class="keyword">func</span> setupViewControllers() {
-        <span class="keyword">guard let</span> controllers = <span class="keyword">self</span>.<span class="property">router</span>?.<span class="call">getViewControllers</span>() <span class="keyword">else</span> {
-            <span class="keyword">return</span>
+extension MainDefaultRouter: MainRouter {
+
+    func showHome() {
+        let viewController = HomeModule().buildDefault()
+        self.viewController?.present(viewController, animated: true, completion: nil)
+    }
+}
+
+extension HomeDefaultView: HomeView {
+
+    func display(_ viewControllers: [UIViewController]) {
+        self.viewControllers = viewControllers
+    }
+}
+
+// MARK: - Home module
+
+extension HomeDefaultPresenter: HomePresenter {
+
+    func setupViewControllers() {
+        guard let controllers = self.router?.getViewControllers() else {
+            return
         }
-        <span class="keyword">self</span>.<span class="property">view</span>?.<span class="call">display</span>(controllers)
+        self.view?.display(controllers)
     }
 
 }
 
-<span class="keyword">extension</span> <span class="type">HomeDefaultRouter</span>: <span class="type">HomeRouter</span> {
+extension HomeDefaultRouter: HomeRouter {
 
-    <span class="keyword">func</span> getViewControllers() -&gt; [<span class="type">UIViewController</span>] {
-        <span class="keyword">return</span> [
-            <span class="type">PostsModule</span>().<span class="call">buildDefault</span>(),
-            <span class="type">AlbumsModule</span>().<span class="call">buildDefault</span>(),
-            <span class="type">PhotosModule</span>().<span class="call">buildDefault</span>(),
-            <span class="type">TodosModule</span>().<span class="call">buildDefault</span>(),
-        ].<span class="call">map</span> { <span class="type">UINavigationController</span>(rootViewController: $0) }
+    func getViewControllers() -&gt; [UIViewController] {
+        return [
+            PostsModule().buildDefault(),
+            AlbumsModule().buildDefault(),
+            PhotosModule().buildDefault(),
+            TodosModule().buildDefault(),
+        ].map { UINavigationController(rootViewController: $0) }
     }
 }
 
-<span class="keyword">class</span> HomeModule {
+class HomeModule {
 
-    <span class="keyword">func</span> buildDefault() -&gt; <span class="type">UIViewController</span> {
-        <span class="comment">/* ... */</span>
+    func buildDefault() -&gt; UIViewController {
+        /* ... */
 
-        presenter.<span class="call">setupViewControllers</span>()
+        presenter.setupViewControllers()
 
-        <span class="keyword">return</span> view
+        return view
     }
-}</code></pre><p>There is one additional line inside the Home module builder function that triggers the presenter to setup proper view controllers. That's just because the UITabBarController viewDidLoad method gets called before the init process finishes. This behaviour is quite undocumented but I assume it's an UIKit hack in order to maintain the view references (or just a simple bug... is anyone from Apple here?). 😊</p><p>Anyway, now you have a proper tab bar inside the project integrated as a VIPER module. It's time to get some data from the server and here comes another important lesson: not everything is a VIPER module.</p><p>Services and entities As you might noticed there is no such thing as an Entity inside my modules. I usually wrap APIs, CoreData and many more data providers as a service. This way, all the related entities can be abstracted away, so the service can be easily replaced (with a mock for example) and all my interactors can use the service through the protocol definition without knowing the underlying implementation.</p><p>Another thing is that I always use <a href="https://github.com/corekit/promises" target="_blank">my promise library</a> if I have to deal with async code. The reason behind it is pretty simple: it's way more elegant than using callbacks and optional <a href="https://theswiftdev.com/2019/01/28/how-to-use-the-result-type-to-handle-errors-in-swift/">result</a> elements. You should learn promises too. So here is some part of my service implementation around the JSONPlaceholder API:</p><pre><code class="language-swift"><span class="keyword">protocol</span> Api {
+}
+</code></pre><p>There is one additional line inside the Home module builder function that triggers the presenter to setup proper view controllers. That’s just because the UITabBarController viewDidLoad method gets called before the init process finishes. This behaviour is quite undocumented but I assume it’s an UIKit hack in order to maintain the view references (or just a simple bug… is anyone from Apple here?). 😊</p><p>Anyway, now you have a proper tab bar inside the project integrated as a VIPER module. It’s time to get some data from the server and here comes another important lesson: not everything is a VIPER module.</p><p>Services and entities<br>As you might noticed there is no such thing as an Entity inside my modules. I usually wrap APIs, CoreData and many more data providers as a service. This way, all the related entities can be abstracted away, so the service can be easily replaced (with a mock for example) and all my interactors can use the service through the protocol definition without knowing the underlying implementation.</p><p>Another thing is that I always use <a href="https://github.com/corekit/promises" target="_blank">my promise library</a> if I have to deal with async code. The reason behind it is pretty simple: it’s way more elegant than using callbacks and optional <a href="https://theswiftdev.com/2019/01/28/how-to-use-the-result-type-to-handle-errors-in-swift/">result</a> elements. You should learn promises too. So here is some part of my service implementation around the JSONPlaceholder API:</p><pre><code class="language-swift">protocol Api {
 
-    <span class="keyword">func</span> posts() -&gt; <span class="type">Promise</span>&lt;[<span class="type">Post</span>]&gt;
-    <span class="keyword">func</span> comments(for post: <span class="type">Post</span>) -&gt; <span class="type">Promise</span>&lt;[<span class="type">Comment</span>]&gt;
-    <span class="keyword">func</span> albums() -&gt; <span class="type">Promise</span>&lt;[<span class="type">Album</span>]&gt;
-    <span class="keyword">func</span> photos(for album: <span class="type">Album</span>) -&gt; <span class="type">Promise</span>&lt;[<span class="type">Photo</span>]&gt;
-    <span class="keyword">func</span> todos() -&gt; <span class="type">Promise</span>&lt;[<span class="type">Todo</span>]&gt;
+    func posts() -&gt; Promise&lt;[Post]&gt;
+    func comments(for post: Post) -&gt; Promise&lt;[Comment]&gt;
+    func albums() -&gt; Promise&lt;[Album]&gt;
+    func photos(for album: Album) -&gt; Promise&lt;[Photo]&gt;
+    func todos() -&gt; Promise&lt;[Todo]&gt;
 }
 
-<span class="comment">// MARK: - entities</span>
+// MARK: - entities
 
-<span class="keyword">struct</span> Post: <span class="type">Codable</span> {
+struct Post: Codable {
 
-    <span class="keyword">let</span> id: <span class="type">Int</span>
-    <span class="keyword">let</span> title: <span class="type">String</span>
-    <span class="keyword">let</span> body: <span class="type">String</span>
+    let id: Int
+    let title: String
+    let body: String
 }
 
-<span class="comment">// MARK: - API implementation</span>
+// MARK: - API implementation
 
-<span class="keyword">class</span> JSONPlaceholderService {
+class JSONPlaceholderService {
 
-    <span class="keyword">var</span> baseUrl = <span class="type">URL</span>(string: <span class="string">"https://jsonplaceholder.typicode.com/"</span>)!
+    var baseUrl = URL(string: "https://jsonplaceholder.typicode.com/")!
 
-    <span class="keyword">enum</span> Error: <span class="type">LocalizedError</span> {
-        <span class="keyword">case</span> invalidStatusCode
-        <span class="keyword">case</span> emptyData
+    enum Error: LocalizedError {
+        case invalidStatusCode
+        case emptyData
     }
 
-    <span class="keyword">private func</span> request&lt;T&gt;(path: <span class="type">String</span>) -&gt; <span class="type">Promise</span>&lt;<span class="type">T</span>&gt; <span class="keyword">where</span> <span class="type">T</span>: <span class="type">Decodable</span> {
-        <span class="keyword">let</span> promise = <span class="type">Promise</span>&lt;<span class="type">T</span>&gt;()
-        <span class="keyword">let</span> url = baseUrl.<span class="call">appendingPathComponent</span>(path)
-        <span class="call">print</span>(url)
-        <span class="type">URLSession</span>.<span class="property">shared</span>.<span class="call">dataTask</span>(with: url) { data, response, error <span class="keyword">in
-            if let</span> error = error {
-                promise.<span class="call">reject</span>(error)
-                <span class="keyword">return</span>
+    private func request&lt;T&gt;(path: String) -&gt; Promise&lt;T&gt; where T: Decodable {
+        let promise = Promise&lt;T&gt;()
+        let url = baseUrl.appendingPathComponent(path)
+        print(url)
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                promise.reject(error)
+                return
             }
-            <span class="keyword">guard let</span> httpResponse = response <span class="keyword">as</span>? <span class="type">HTTPURLResponse</span>, httpResponse.<span class="property">statusCode</span> == <span class="number">200</span> <span class="keyword">else</span> {
-                promise.<span class="call">reject</span>(<span class="type">Error</span>.<span class="property">invalidStatusCode</span>)
-                <span class="keyword">return</span>
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                promise.reject(Error.invalidStatusCode)
+                return
             }
-            <span class="keyword">guard let</span> data = data <span class="keyword">else</span> {
-                promise.<span class="call">reject</span>(<span class="type">Error</span>.<span class="property">emptyData</span>)
-                <span class="keyword">return</span>
+            guard let data = data else {
+                promise.reject(Error.emptyData)
+                return
             }
-            <span class="keyword">do</span> {
-                <span class="keyword">let</span> model = <span class="keyword">try</span> <span class="type">JSONDecoder</span>().<span class="call">decode</span>(<span class="type">T</span>.<span class="keyword">self</span>, from: data)
-                promise.<span class="call">fulfill</span>(model)
+            do {
+                let model = try JSONDecoder().decode(T.self, from: data)
+                promise.fulfill(model)
             }
-            <span class="keyword">catch</span> {
-                promise.<span class="call">reject</span>(error)
+            catch {
+                promise.reject(error)
             }
-        }.<span class="call">resume</span>()
-        <span class="keyword">return</span> promise
+        }.resume()
+        return promise
     }
 }
 
-<span class="keyword">extension</span> <span class="type">JSONPlaceholderService</span>: <span class="type">Api</span> {
+extension JSONPlaceholderService: Api {
 
-    <span class="keyword">func</span> posts() -&gt; <span class="type">Promise</span>&lt;[<span class="type">Post</span>]&gt; {
-        <span class="keyword">return self</span>.<span class="call">request</span>(path: <span class="string">"posts"</span>)
+    func posts() -&gt; Promise&lt;[Post]&gt; {
+        return self.request(path: "posts")
     }
 
-    <span class="comment">/* ... */</span>
-}</code></pre><p>Usually I have a mock service implementation next to this one, so I can easily test out everything I want. How do I switch between these services? Well, there is a shared (<a href="https://theswiftdev.com/2018/05/23/swift-singleton-design-pattern/">singleton</a> - don't hate me it's completely fine 🤪) App class that I use mostly for <a href="https://theswiftdev.com/2019/02/19/styling-by-subclassing/">styling purposes</a>, but I also put the dependency injection (<a href="https://theswiftdev.com/2018/07/17/swift-dependency-injection-design-pattern/">DI</a>) related code there too. This way I can pass around proper service objects for the VIPER modules.</p><pre><code class="language-swift"><span class="keyword">class</span> App {
+    /* ... */
+}
+</code></pre><p>Usually I have a mock service implementation next to this one, so I can easily test out everything I want. How do I switch between these services? Well, there is a shared (<a href="https://theswiftdev.com/2018/05/23/swift-singleton-design-pattern/">singleton</a> - don’t hate me it’s completely fine 🤪) App class that I use mostly for <a href="https://theswiftdev.com/2019/02/19/styling-by-subclassing/">styling purposes</a>, but I also put the dependency injection (<a href="https://theswiftdev.com/2018/07/17/swift-dependency-injection-design-pattern/">DI</a>) related code there too. This way I can pass around proper service objects for the VIPER modules.</p><pre><code class="language-swift">class App {
 
-    <span class="keyword">static let</span> shared = <span class="type">App</span>()
+    static let shared = App()
 
-    <span class="keyword">private init</span>() {
+    private init() {
 
     }
 
-    <span class="keyword">var</span> apiService: <span class="type">Api</span> {
-        <span class="keyword">return</span> <span class="type">JSONPlaceholderService</span>()
+    var apiService: Api {
+        return JSONPlaceholderService()
     }
 }
 
-<span class="comment">// MARK: - module</span>
+// MARK: - module
 
-<span class="keyword">class</span> PostsModule {
+class PostsModule {
 
-    <span class="keyword">func</span> buildDefault() -&gt; <span class="type">UIViewController</span> {
-        <span class="keyword">let</span> view = <span class="type">PostsDefaultView</span>()
-        <span class="keyword">let</span> interactor = <span class="type">PostsDefaultInteractor</span>(apiService: <span class="type">App</span>.<span class="property">shared</span>.<span class="property">apiService</span>)
+    func buildDefault() -&gt; UIViewController {
+        let view = PostsDefaultView()
+        let interactor = PostsDefaultInteractor(apiService: App.shared.apiService)
 
-        <span class="comment">/* ... */</span>
+        /* ... */
 
-        <span class="keyword">return</span> view
+        return view
     }
 }
 
-<span class="comment">// MARK: - interactor</span>
+// MARK: - interactor
 
-<span class="keyword">class</span> PostsDefaultInteractor {
+class PostsDefaultInteractor {
 
-    <span class="keyword">weak var</span> presenter: <span class="type">PostsPresenter</span>?
+    weak var presenter: PostsPresenter?
 
-    <span class="keyword">var</span> apiService: <span class="type">Api</span>
+    var apiService: Api
 
-    <span class="keyword">init</span>(apiService: <span class="type">Api</span>) {
-        <span class="keyword">self</span>.<span class="property">apiService</span> = apiService
+    init(apiService: Api) {
+        self.apiService = apiService
     }
 }
 
-<span class="keyword">extension</span> <span class="type">PostsDefaultInteractor</span>: <span class="type">PostsInteractor</span> {
+extension PostsDefaultInteractor: PostsInteractor {
 
-    <span class="keyword">func</span> posts() -&gt; <span class="type">Promise</span>&lt;[<span class="type">Post</span>]&gt; {
-        <span class="keyword">return self</span>.<span class="property">apiService</span>.<span class="call">posts</span>()
+    func posts() -&gt; Promise&lt;[Post]&gt; {
+        return self.apiService.posts()
     }
 
-}</code></pre><p>You can do this in a 100 other ways, but I currently prefer this approach. This way interactors can directly call the service with some extra details, like filters, order, sort, etc. Basically the service is just a high concept wrapper around the endpoint, and the interactor is creating the fine-tuned (better) API for the presenter.</p><h2>Making promises</h2><p>Implementing the business logic is the task of the presenter. I always use promises so a basic presenter implementation that only loads some content asynchronously and displays the results or the error (plus a loading indicator) is just a few lines long. I'm always trying to implement the three <a href="http://scotthurff.com/posts/why-your-user-interface-is-awkward-youre-ignoring-the-ui-stack" target="_blank">basic UI stack elements</a> (loading, data, error) by using the same protocol naming conventions on the view. 😉</p><p>On the view side I'm using my good old collection view logic, which significantly reduces the amount of code I have to write. You can go with the traditional way, implementing a few data source &amp; delegate method for a table or collection view is not so much code after all. Here is my view example:</p><pre><code class="language-swift"><span class="keyword">extension</span> <span class="type">PostsDefaultPresenter</span>: <span class="type">PostsPresenter</span> {
+}
+</code></pre><p>You can do this in a 100 other ways, but I currently prefer this approach. This way interactors can directly call the service with some extra details, like filters, order, sort, etc. Basically the service is just a high concept wrapper around the endpoint, and the interactor is creating the fine-tuned (better) API for the presenter.</p><h2 id="making-promises">Making promises</h2><p>Implementing the business logic is the task of the presenter. I always use promises so a basic presenter implementation that only loads some content asynchronously and displays the results or the error (plus a loading indicator) is just a few lines long. I’m always trying to implement the three <a href="http://scotthurff.com/posts/why-your-user-interface-is-awkward-youre-ignoring-the-ui-stack" target="_blank">basic UI stack elements</a> (loading, data, error) by using the same protocol naming conventions on the view. 😉</p><p>On the view side I’m using my good old collection view logic, which significantly reduces the amount of code I have to write. You can go with the traditional way, implementing a few data source & delegate method for a table or collection view is not so much code after all. Here is my view example:</p><pre><code class="language-swift">extension PostsDefaultPresenter: PostsPresenter {
 
-    <span class="keyword">func</span> viewDidLoad() {
-        <span class="keyword">self</span>.<span class="property">view</span>?.<span class="call">displayLoading</span>()
-        <span class="keyword">self</span>.<span class="property">interactor</span>?.<span class="call">posts</span>()
-        .<span class="call">onSuccess</span>(queue: .<span class="dotAccess">main</span>) { posts  <span class="keyword">in
-            self</span>.<span class="property">view</span>?.<span class="call">display</span>(posts)
+    func viewDidLoad() {
+        self.view?.displayLoading()
+        self.interactor?.posts()
+        .onSuccess(queue: .main) { posts  in
+            self.view?.display(posts)
         }
-        .<span class="call">onFailure</span>(queue: .<span class="dotAccess">main</span>) { error <span class="keyword">in
-            self</span>.<span class="property">view</span>?.<span class="call">display</span>(error)
+        .onFailure(queue: .main) { error in
+            self.view?.display(error)
         }
     }
 }
 
-<span class="comment">// MARK: - view</span>
+// MARK: - view
 
-<span class="keyword">class</span> PostsDefaultView: <span class="type">CollectionViewController</span> {
+class PostsDefaultView: CollectionViewController {
 
-    <span class="keyword">var</span> presenter: <span class="type">PostsPresenter</span>?
+    var presenter: PostsPresenter?
 
-    <span class="keyword">init</span>() {
-        <span class="keyword">super</span>.<span class="keyword">init</span>(nibName: <span class="keyword">nil</span>, bundle: <span class="keyword">nil</span>)
+    init() {
+        super.init(nibName: nil, bundle: nil)
 
-        <span class="keyword">self</span>.<span class="property">title</span> = <span class="string">"Posts"</span>
+        self.title = "Posts"
     }
 
-    <span class="keyword">required init</span>?(coder aDecoder: <span class="type">NSCoder</span>) {
-        <span class="call">fatalError</span>(<span class="string">"init(coder:) has not been implemented"</span>)
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
-    <span class="keyword">override func</span> viewDidLoad() {
-        <span class="keyword">super</span>.<span class="call">viewDidLoad</span>()
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
-        <span class="keyword">self</span>.<span class="property">presenter</span>?.<span class="call">viewDidLoad</span>()
+        self.presenter?.viewDidLoad()
     }
 }
 
-<span class="keyword">extension</span> <span class="type">PostsDefaultView</span>: <span class="type">PostsView</span> {
+extension PostsDefaultView: PostsView {
 
-    <span class="keyword">func</span> displayLoading() {
-        <span class="call">print</span>(<span class="string">"loading..."</span>)
+    func displayLoading() {
+        print("loading...")
     }
 
-    <span class="keyword">func</span> display(<span class="keyword">_</span> posts: [<span class="type">Post</span>]) {
-        <span class="keyword">let</span> grid = <span class="type">Grid</span>(columns: <span class="number">1</span>, margin: <span class="type">UIEdgeInsets</span>(all: <span class="number">8</span>))
+    func display(_ posts: [Post]) {
+        let grid = Grid(columns: 1, margin: UIEdgeInsets(all: 8))
 
-        <span class="keyword">self</span>.<span class="property">source</span> = <span class="type">CollectionViewSource</span>(grid: grid, sections: [
-            <span class="type">CollectionViewSection</span>(items: posts.<span class="call">map</span> { <span class="type">PostViewModel</span>($0) })
+        self.source = CollectionViewSource(grid: grid, sections: [
+            CollectionViewSection(items: posts.map { PostViewModel($0) })
         ])
-        <span class="keyword">self</span>.<span class="property">collectionView</span>.<span class="call">reloadData</span>()
+        self.collectionView.reloadData()
     }
 
-    <span class="keyword">func</span> display(<span class="keyword">_</span> error: <span class="type">Error</span>) {
-        <span class="call">print</span>(error.<span class="property">localizedDescription</span>)
-    }
-}</code></pre><p>The cell and the ViewModel is outside the VIPER module, I tend to dedicate an App folder for the custom application specific views, extensions, view models, etc.</p><pre><code class="language-swift"><span class="keyword">class</span> PostCell: <span class="type">CollectionViewCell</span> {
-
-    <span class="keyword">@IBOutlet weak var</span> textLabel: <span class="type">UILabel</span>!
-}
-
-<span class="keyword">class</span> PostViewModel: <span class="type">CollectionViewViewModel</span>&lt;<span class="type">PostCell</span>, <span class="type">Post</span>&gt; {
-
-    <span class="keyword">override func</span> config(cell: <span class="type">PostCell</span>, data: <span class="type">Post</span>, indexPath: <span class="type">IndexPath</span>, grid: <span class="type">Grid</span>) {
-        cell.<span class="property">textLabel</span>.<span class="property">text</span> = data.<span class="property">title</span>
-    }
-
-    <span class="keyword">override func</span> size(data: <span class="type">Post</span>, indexPath: <span class="type">IndexPath</span>, grid: <span class="type">Grid</span>, view: <span class="type">UIView</span>) -&gt; <span class="type">CGSize</span> {
-        <span class="keyword">let</span> width = grid.<span class="call">width</span>(for: view, items: grid.<span class="property">columns</span>)
-        <span class="keyword">return</span> <span class="type">CGSize</span>(width: width, height: <span class="number">64</span>)
-    }
-}</code></pre><p>Nothing special, if you'd like to know more about this collection view architecture, you should read my other <a href="https://theswiftdev.com/2018/04/17/ultimate-uicollectionview-guide-with-ios-examples-written-in-swift/">tutorial about mastering collection views</a>.</p><h2>Module communication</h2><p>Another important lesson is to learn how to communicate between two VIPER modules. Normally I go with simple variables - and delegates if I have to send back some sort of info to the original module - that I pass around inside the build methods. I'm going to show you a really simple example for this too.</p><pre><code class="language-swift"><span class="keyword">class</span> PostsDefaultRouter {
-
-    <span class="keyword">weak var</span> presenter: <span class="type">PostsPresenter</span>?
-    <span class="keyword">weak var</span> viewController: <span class="type">UIViewController</span>?
-}
-
-<span class="keyword">extension</span> <span class="type">PostsDefaultRouter</span>: <span class="type">PostsRouter</span> {
-
-    <span class="keyword">func</span> showComments(for post: <span class="type">Post</span>) {
-        <span class="keyword">let</span> viewController = <span class="type">PostDetailsModule</span>().<span class="call">buildDefault</span>(with: post, delegate: <span class="keyword">self</span>)
-        <span class="keyword">self</span>.<span class="property">viewController</span>?.<span class="call">show</span>(viewController, sender: <span class="keyword">nil</span>)
+    func display(_ error: Error) {
+        print(error.localizedDescription)
     }
 }
+</code></pre><p>The cell and the ViewModel is outside the VIPER module, I tend to dedicate an App folder for the custom application specific views, extensions, view models, etc.</p><pre><code class="language-swift">class PostCell: CollectionViewCell {
 
-<span class="keyword">extension</span> <span class="type">PostsDefaultRouter</span>: <span class="type">PostDetailsModuleDelegate</span> {
+    @IBOutlet weak var textLabel: UILabel!
+}
 
-    <span class="keyword">func</span> toggleBookmark(for post: <span class="type">Post</span>) {
-        <span class="keyword">self</span>.<span class="property">presenter</span>?.<span class="call">toggleBookmark</span>(for: post)
+class PostViewModel: CollectionViewViewModel&lt;PostCell, Post&gt; {
+
+    override func config(cell: PostCell, data: Post, indexPath: IndexPath, grid: Grid) {
+        cell.textLabel.text = data.title
+    }
+
+    override func size(data: Post, indexPath: IndexPath, grid: Grid, view: UIView) -&gt; CGSize {
+        let width = grid.width(for: view, items: grid.columns)
+        return CGSize(width: width, height: 64)
+    }
+}
+</code></pre><p>Nothing special, if you’d like to know more about this collection view architecture, you should read my other <a href="https://theswiftdev.com/2018/04/17/ultimate-uicollectionview-guide-with-ios-examples-written-in-swift/">tutorial about mastering collection views</a>.</p><h2 id="module-communication">Module communication</h2><p>Another important lesson is to learn how to communicate between two VIPER modules. Normally I go with simple variables - and delegates if I have to send back some sort of info to the original module - that I pass around inside the build methods. I’m going to show you a really simple example for this too.</p><pre><code class="language-swift">class PostsDefaultRouter {
+
+    weak var presenter: PostsPresenter?
+    weak var viewController: UIViewController?
+}
+
+extension PostsDefaultRouter: PostsRouter {
+
+    func showComments(for post: Post) {
+        let viewController = PostDetailsModule().buildDefault(with: post, delegate: self)
+        self.viewController?.show(viewController, sender: nil)
     }
 }
 
-<span class="comment">// MARK: - details</span>
+extension PostsDefaultRouter: PostDetailsModuleDelegate {
 
-
-<span class="keyword">protocol</span> PostDetailsModuleDelegate: <span class="keyword">class</span> {
-    <span class="keyword">func</span> toggleBookmark(for post: <span class="type">Post</span>)
-}
-
-<span class="keyword">class</span> PostDetailsModule {
-
-    <span class="keyword">func</span> buildDefault(with post: <span class="type">Post</span>, delegate: <span class="type">PostDetailsModuleDelegate</span>? = <span class="keyword">nil</span>) -&gt; <span class="type">UIViewController</span> {
-        <span class="keyword">let</span> view = <span class="type">PostDetailsDefaultView</span>()
-        <span class="keyword">let</span> interactor = <span class="type">PostDetailsDefaultInteractor</span>(apiService: <span class="type">App</span>.<span class="property">shared</span>.<span class="property">apiService</span>,
-                                                      bookmarkService: <span class="type">App</span>.<span class="property">shared</span>.<span class="property">bookmarkService</span>)
-        <span class="keyword">let</span> presenter = <span class="type">PostDetailsDefaultPresenter</span>(post: post)
-
-        <span class="comment">/* ... */</span>
-
-        <span class="keyword">return</span> view
+    func toggleBookmark(for post: Post) {
+        self.presenter?.toggleBookmark(for: post)
     }
 }
 
-<span class="keyword">class</span> PostDetailsDefaultRouter {
+// MARK: - details
 
-    <span class="keyword">weak var</span> presenter: <span class="type">PostDetailsPresenter</span>?
-    <span class="keyword">weak var</span> viewController: <span class="type">UIViewController</span>?
-    <span class="keyword">weak var</span> delegate: <span class="type">PostDetailsModuleDelegate</span>?
+
+protocol PostDetailsModuleDelegate: class {
+    func toggleBookmark(for post: Post)
 }
 
-<span class="keyword">extension</span> <span class="type">PostDetailsDefaultRouter</span>: <span class="type">PostDetailsRouter</span> {
+class PostDetailsModule {
 
-    <span class="keyword">func</span> toggleBookmark(for post: <span class="type">Post</span>) {
-        <span class="keyword">self</span>.<span class="property">delegate</span>?.<span class="call">toggleBookmark</span>(for: post)
+    func buildDefault(with post: Post, delegate: PostDetailsModuleDelegate? = nil) -&gt; UIViewController {
+        let view = PostDetailsDefaultView()
+        let interactor = PostDetailsDefaultInteractor(apiService: App.shared.apiService,
+                                                      bookmarkService: App.shared.bookmarkService)
+        let presenter = PostDetailsDefaultPresenter(post: post)
+
+        /* ... */
+
+        return view
+    }
+}
+
+class PostDetailsDefaultRouter {
+
+    weak var presenter: PostDetailsPresenter?
+    weak var viewController: UIViewController?
+    weak var delegate: PostDetailsModuleDelegate?
+}
+
+extension PostDetailsDefaultRouter: PostDetailsRouter {
+
+    func toggleBookmark(for post: Post) {
+        self.delegate?.toggleBookmark(for: post)
     }
 }
 
 
-<span class="keyword">class</span> PostDetailsDefaultPresenter {
+class PostDetailsDefaultPresenter {
 
-    <span class="keyword">var</span> router: <span class="type">PostDetailsRouter</span>?
-    <span class="keyword">var</span> interactor: <span class="type">PostDetailsInteractor</span>?
-    <span class="keyword">weak var</span> view: <span class="type">PostDetailsView</span>?
+    var router: PostDetailsRouter?
+    var interactor: PostDetailsInteractor?
+    weak var view: PostDetailsView?
 
-    <span class="keyword">let</span> post: <span class="type">Post</span>
+    let post: Post
 
-    <span class="keyword">init</span>(post: <span class="type">Post</span>) {
-        <span class="keyword">self</span>.<span class="property">post</span> = post
+    init(post: Post) {
+        self.post = post
     }
 }
 
-<span class="keyword">extension</span> <span class="type">PostDetailsDefaultPresenter</span>: <span class="type">PostDetailsPresenter</span> {
+extension PostDetailsDefaultPresenter: PostDetailsPresenter {
 
-    <span class="keyword">func</span> reload() {
-        <span class="keyword">self</span>.<span class="property">view</span>?.<span class="call">setup</span>(with: <span class="keyword">self</span>.<span class="property">interactor</span>!.<span class="call">bookmark</span>(for: <span class="keyword">self</span>.<span class="property">post</span>))
+    func reload() {
+        self.view?.setup(with: self.interactor!.bookmark(for: self.post))
 
-        <span class="comment">//display loading...</span>
-        <span class="keyword">self</span>.<span class="property">interactor</span>?.<span class="call">comments</span>(for: <span class="keyword">self</span>.<span class="property">post</span>)
-        .<span class="call">onSuccess</span>(queue: .<span class="dotAccess">main</span>) { comments <span class="keyword">in
-            self</span>.<span class="property">view</span>?.<span class="call">display</span>(comments)
+        //display loading...
+        self.interactor?.comments(for: self.post)
+        .onSuccess(queue: .main) { comments in
+            self.view?.display(comments)
         }
-        .<span class="call">onFailure</span>(queue: .<span class="dotAccess">main</span>) { error <span class="keyword">in</span>
-            <span class="comment">//display error...</span>
+        .onFailure(queue: .main) { error in
+            //display error...
         }
     }
 
-    <span class="keyword">func</span> toggleBookmark() {
-        <span class="keyword">self</span>.<span class="property">router</span>?.<span class="call">toggleBookmark</span>(for: <span class="keyword">self</span>.<span class="property">post</span>)
-        <span class="keyword">self</span>.<span class="property">view</span>?.<span class="call">setup</span>(with: <span class="keyword">self</span>.<span class="property">interactor</span>!.<span class="call">bookmark</span>(for: <span class="keyword">self</span>.<span class="property">post</span>))
+    func toggleBookmark() {
+        self.router?.toggleBookmark(for: self.post)
+        self.view?.setup(with: self.interactor!.bookmark(for: self.post))
     }
-}</code></pre><p>In the builder method I can access every component of the VIPER module so I can simply pass around the variable to the designated place (same applies for the delegate parameter). I usually set input variables on the presenter and delegates on the router.</p><p>It's usually a presenter who needs data from the original module, and I like to store the delegate on the router, because if the navigation pattern changes I don't have to change the presenter at all. This is just a personal preference, but I like the way it looks like in code. It's really hard to write down these things in a single article, so I'd recommend to download my finished sample code from <a href="https://github.com/theswiftdev/tutorials" target="_blank">GitHub</a>.</p><h2>Summary</h2><p>As you can see I'm using various design patterns in this VIPER architecture tutorial. Some say that there is no silver bullet, but I believe that I've found a really amazing methodology that I can turn on my advantage to build quality apps in a short time.</p><p>Combining Promises, MVVM with collection views on top of a VIPER structure simply puts every single piece into the right place. Over-engineered? Maybe. For me it's worth the overhead. What do you think about it? Feel free to message me through twitter. You can also subscribe to my monthly newsletter below.</p>
-        </section>
-    </div>
-
-</article>
-
-<section id="share" class="content-wrapper">
-    <p>
-    <a
-        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/viper-best-practices-for-ios-developers/"
-        target="_blank"
-    >
-        Share this article
-    </a>
-    <br> Thank you. 🙏</p>
-</section>
-
-<section  class="wrapper">
-    <div id="book">
-        <div class="column left">
-            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+}
+</code></pre><p>In the builder method I can access every component of the VIPER module so I can simply pass around the variable to the designated place (same applies for the delegate parameter). I usually set input variables on the presenter and delegates on the router.</p><p>It’s usually a presenter who needs data from the original module, and I like to store the delegate on the router, because if the navigation pattern changes I don’t have to change the presenter at all. This is just a personal preference, but I like the way it looks like in code. It’s really hard to write down these things in a single article, so I’d recommend to download my finished sample code from <a href="https://github.com/theswiftdev/tutorials" target="_blank">GitHub</a>.</p><h2 id="summary">Summary</h2><p>As you can see I’m using various design patterns in this VIPER architecture tutorial. Some say that there is no silver bullet, but I believe that I’ve found a really amazing methodology that I can turn on my advantage to build quality apps in a short time.</p><p>Combining Promises, MVVM with collection views on top of a VIPER structure simply puts every single piece into the right place. Over-engineered? Maybe. For me it’s worth the overhead. What do you think about it? Feel free to message me through twitter. You can also subscribe to my monthly newsletter below.</p>
+                    
+                </section>
+    
+                <footer>
+                    <br>
+                    <time datetime=""></time>
+    
+                    
+                    <div class="author-list">
+                        <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        </a>
+                    </div>
+                    <div class="tag-list">
+                        <a href="https://theswiftdev.com/tags/viper/"><small>VIPER</small></a>
+                    </div>
+                    
+                    <p>
+                        <a href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/viper-best-practices-for-ios-developers/" target="_blank">
+                            <strong>Share this article</strong>
+                        </a>
+                        <br>Thank you. 🙏
+                    </p>
+                </footer>
+                            
+                <section class="group">
+                    <h4>Related posts</h4>                
+                    <div class="grid grid-221">
+                        <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2019/09/18">2019/09/18</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/how-to-build-swiftui-apps-using-viper/" target="">How to build SwiftUI apps using VIPER?</a></h2>
+                            <hr>
+                            <p>In this tutorial I&#39;ll show you how to combine SwiftUI with the VIPER architecture in a real world iOS application example.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2019/09/25">2019/09/25</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/how-to-write-services-for-viper/" target="">How to write services for VIPER?</a></h2>
+                            <hr>
+                            <p>Not everything is a VIPER module. In this article I&#39;ll show you how do I separate the service layer from the modules, using Swift.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2019/03/19">2019/03/19</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/mastering-the-viper-architecture/" target="">Mastering the VIPER architecture</a></h2>
+                            <hr>
+                            <p>Learn how to master the VIPER architectural design pattern, with some protocol oriented programming techniques using Swift.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018/03/12">2018/03/12</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/the-ultimate-viper-architecture-tutorial/" target="">The ultimate VIPER architecture tutorial</a></h2>
+                            <hr>
+                            <p>Learn how to write scalable iOS code using the VIPER architecture with some MVVM and MVC tricks and coordinators in mind.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    
+            </article>
         </div>
-        <div class="column right">
-            <h3>Get the Practical Server Side Swift book</h3>
-            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
-        </div>
-    </div>
-</section>
-
-<section id="author" class="content-wrapper">
-    <img 
-        id="author-image"
-        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
-        alt="Picture of Tibor Bödecs" 
-        title="Tibor Bödecs"
-    >
-    <h3>Tibor Bödecs</h3>
-    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
-    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
-
-    <div class="links">
-        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
-        <a href="https://github.com/tib" target="_blank">GitHub</a> 
-    </div>
-</section>
-
         
+        <div>
+            <div class="book">
+                <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">
+                    <img src="https://theswiftdev.com/book/practical-server-side-swift-cover.png" alt="Practical Server Side Swift cover image">
+                </a>
+                <h3>
+                    <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Get the Practical Server Side Swift book</a>
+                </h3>
+                <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+                <a class="cta" href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+            </div>
+            
+            
+            <aside id="toc">
+                <h4>On this page</h4>
+                <ul>
+                    <li class="first-level">
+                        <a href="#getting-started-with-viper">Getting started with VIPER</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#generating-viper-modules">Generating VIPER modules</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#uitabbarcontroller-viper">UITabBarController &amp; VIPER</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#making-promises">Making promises</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#module-communication">Module communication</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#summary">Summary</a>
+                        <ul>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+            
+    
+        </div>
+    </div>
+    
     </main>
 
-    <footer>
-        <section class="content-wrapper">
-            <img 
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
-
-            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+    <footer id="site-footer">
+        <div class="grid grid-421">
+    
+            <picture>
+                <img
+                    id="logo-image"
+                    src="https://theswiftdev.com/images/logos/logo-large.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
             
-            <p> 
-                <a href="https://theswiftdev.com/">Home</a> ·
-                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
-            </p>
+            <div>
+                <span style="display: block; height: 32px;">&nbsp;</span>
+                <h4>The.Swift.Dev</h4>
+                <p><small><a href="https://theswiftdev.com/" target="_blank">theswiftdev.com</a></small></p>
+                <ul>
+                    <li><a href="https://github.com/theswiftdev/" target="_blank">GitHub</a></li>
+                    <li><a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a></li>
+                    <li><a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a></li>
+                </ul>
+            </div>
             
-            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+            <div>
+                
+            </div>
+            
+            <div>
+                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                </a>
+                <h4><a href="https://theswiftdev.com/authors/tibor-bodecs/">Tibor Bödecs</a></h4>
+                <p><small><a href="https://binarybirds.com/" target="_blank">Binary Birds Kft.</a></small></p>
+                <ul>
+                    <li><a href="mailto:mail.tib@gmail.com" target="_blank">Email</a></li>
+                    <li><a href="https://github.com/tib/" target="_blank">GitHub</a></li>
+                    <li><a href="https://x.com/tiborbodecs" target="_blank">X (Twitter)</a></li>
+                    <li><a href="https://mastodon.social/@tiborbodecs" target="_blank">Mastodon</a></li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <section class="grid grid-221">
+            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>
+
+    </div>
+
+    
 </body>
 </html>

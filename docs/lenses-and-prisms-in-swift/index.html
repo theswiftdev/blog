@@ -1,342 +1,518 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
     <meta charset="utf-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="canonical" href="https://theswiftdev.com/lenses-and-prisms-in-swift/">
     
+    
+
     <title>Lenses and prisms in Swift - The.Swift.Dev.</title>
-    
-    <meta name="description" content="Beginner's guide about optics in Swift. Learn how to use lenses and prisms to manipulate objects using a functional approach.">
-    
-    <meta property="og:title" content="Lenses and prisms in Swift - The.Swift.Dev.">
-    <meta property="og:description" content="Beginner's guide about optics in Swift. Learn how to use lenses and prisms to manipulate objects using a functional approach.">
+    <meta name="description" content="Beginner&#39;s guide about optics in Swift. Learn how to use lenses and prisms to manipulate objects using a functional approach.">
+
     <meta property="og:url" content="https://theswiftdev.com/lenses-and-prisms-in-swift/">
-    <meta property="og:image" content="https://theswiftdev.com/images/assets/lenses-and-prisms-in-swift/cover.jpg">
+    <meta property="og:title" content="Lenses and prisms in Swift - The.Swift.Dev.">
+    <meta property="og:description" content="Beginner&#39;s guide about optics in Swift. Learn how to use lenses and prisms to manipulate objects using a functional approach.">
+    
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@tiborbodecs">
-    <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="Lenses and prisms in Swift - The.Swift.Dev.">
-    <meta name="twitter:description" content="Beginner's guide about optics in Swift. Learn how to use lenses and prisms to manipulate objects using a functional approach.">
-    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/lenses-and-prisms-in-swift/cover.jpg">
+    <meta name="twitter:description" content="Beginner&#39;s guide about optics in Swift. Learn how to use lenses and prisms to manipulate objects using a functional approach.">
     
-    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
-    
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-normalize.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/variables.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/grid.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/navigation.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/footer.css">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+
     
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/icons/apple-touch-icon-180x180.png">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+        media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+        media="(prefers-color-scheme: dark)"
+    >
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
 </head>
 
 <body>
-    <a href="https://theswiftdev.gumroad.com" class="ribbon">
-        📖
-    </a>
-    <header id="page-header">
-        <a href="https://theswiftdev.com/">
-            <img 
-                id="logo-image"
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
+    <div id="site-container">
+
+    <header id="navigation">
+        <a href="/">
+            <picture>
+                <img
+                    src="https://theswiftdev.com/images/logos/logo.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
         </a>
-    </header>
-    
-    <main>
-
-        <article>
-    <header>
-        <section id="post-header" class="content-wrapper">
-            <time datetime="2022/08/12">2022/08/12</time>
-            <h1 class="title">Lenses and prisms in Swift</h1>
-            <p class="excerpt">Beginner's guide about optics in Swift. Learn how to use lenses and prisms to manipulate objects using a functional approach.</p>
-            <div class="meta">
-                <span class="tag">Swift</span>
-<span class="tag">lenses</span>
-<span class="tag">optics</span>
+        <nav>
+            <input type="checkbox" id="primary-menu-button" name="menu-button" class="menu-button">
+            <label for="primary-menu-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </label>
+            <div class="menu-items">
+                <a href="/page/1/">Posts</a>
+                <a href="/tags/">Tags</a>
+                <a href="/authors/">Authors</a>
+                <a href="/practical-server-side-swift/">My Book</a>
             </div>
-        </section>
-        <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.com/images/assets/lenses-and-prisms-in-swift/cover.jpg">
-        </section>
+        </nav>
     </header>
 
-    <div id="contents">
-        <section class="content-wrapper">
-            <h2>Understanding optics</h2><p>Optics is a pattern borrowed from <a href="https://en.wikipedia.org/wiki/Haskell" target="_blank">Haskell</a>, that enables you to zoom down into objects. In other words, you can set or get a property of an object in a functional way. By functional I mean you can set a property without causing mutation, so instead of altering the original object, a new one will be created with the updated property. Trust me it's not that complicated as it might sounds. 😅</p><p>We're going to need just a bit of Swift code to understand everything.</p><pre><code class="language-swift"><span class="keyword">struct</span> Address {
-    <span class="keyword">let</span> street: <span class="type">String</span>
-    <span class="keyword">let</span> city: <span class="type">String</span>
+    <main id="page-container">
+    
+    <div class="article-with-toc">
+        <div>
+            <article class="post">
+                <div class="meta">
+                    <time datetime="2022/08/12">2022/08/12</time>
+                     &middot; <span class="reading-time">5 min read</span>
+                    
+                </div>
+                <h1>Lenses and prisms in Swift</h1>
+                <hr>
+                <p>Beginner&#39;s guide about optics in Swift. Learn how to use lenses and prisms to manipulate objects using a functional approach.</p>
+                <section>
+                
+                <h2 id="understanding-optics">Understanding optics</h2><p>Optics is a pattern borrowed from <a href="https://en.wikipedia.org/wiki/Haskell" target="_blank">Haskell</a>, that enables you to zoom down into objects. In other words, you can set or get a property of an object in a functional way. By functional I mean you can set a property without causing mutation, so instead of altering the original object, a new one will be created with the updated property. Trust me it’s not that complicated as it might sounds. 😅</p><p>We’re going to need just a bit of Swift code to understand everything.</p><pre><code class="language-swift">struct Address {
+    let street: String
+    let city: String
 }
 
-<span class="keyword">struct</span> Company {
-    <span class="keyword">let</span> name: <span class="type">String</span>
-    <span class="keyword">let</span> address: <span class="type">Address</span>
+struct Company {
+    let name: String
+    let address: Address
 }
 
-<span class="keyword">struct</span> Person {
-    <span class="keyword">let</span> name: <span class="type">String</span>
-    <span class="keyword">let</span> company: <span class="type">Company</span>
-}</code></pre><p>As you can see it is possible to build up a hierarchy using these structs. A person can have a company and the company has an address, for example:</p><pre><code class="language-swift"><span class="keyword">let</span> oneInfiniteLoop = <span class="type">Address</span>(street: <span class="string">"One Infinite Loop"</span>, city: <span class="string">"Cupertino"</span>)
-<span class="keyword">let</span> appleInc = <span class="type">Company</span>(name: <span class="string">"Apple Inc."</span>, address: oneInfiniteLoop)
-<span class="keyword">let</span> steveJobs = <span class="type">Person</span>(name: <span class="string">"Steve Jobs"</span>, company: appleInc)</code></pre><p>Now let's imagine that the street name of the address changes, how do we alter this one field and propagate the property change for the entire structure? 🤔</p><pre><code class="language-swift"><span class="keyword">struct</span> Address {
-    <span class="keyword">var</span> street: <span class="type">String</span>
-    <span class="keyword">let</span> city: <span class="type">String</span>
+struct Person {
+    let name: String
+    let company: Company
+}
+</code></pre><p>As you can see it is possible to build up a hierarchy using these structs. A person can have a company and the company has an address, for example:</p><pre><code class="language-swift">let oneInfiniteLoop = Address(street: "One Infinite Loop", city: "Cupertino")
+let appleInc = Company(name: "Apple Inc.", address: oneInfiniteLoop)
+let steveJobs = Person(name: "Steve Jobs", company: appleInc)
+</code></pre><p>Now let’s imagine that the street name of the address changes, how do we alter this one field and propagate the property change for the entire structure? 🤔</p><pre><code class="language-swift">struct Address {
+    var street: String
+    let city: String
 }
 
-<span class="keyword">struct</span> Company {
-    <span class="keyword">let</span> name: <span class="type">String</span>
-    <span class="keyword">var</span> address: <span class="type">Address</span>
+struct Company {
+    let name: String
+    var address: Address
 }
 
-<span class="keyword">struct</span> Person {
-    <span class="keyword">let</span> name: <span class="type">String</span>
-    <span class="keyword">var</span> company: <span class="type">Company</span>
+struct Person {
+    let name: String
+    var company: Company
 }
 
-<span class="keyword">var</span> oneInfiniteLoop = <span class="type">Address</span>(street: <span class="string">"One Infinite Loop"</span>, city: <span class="string">"Cupertino"</span>)
-<span class="keyword">var</span> appleInc = <span class="type">Company</span>(name: <span class="string">"Apple Inc."</span>, address: oneInfiniteLoop)
-<span class="keyword">var</span> steveJobs = <span class="type">Person</span>(name: <span class="string">"Steve Jobs"</span>, company: appleInc)
+var oneInfiniteLoop = Address(street: "One Infinite Loop", city: "Cupertino")
+var appleInc = Company(name: "Apple Inc.", address: oneInfiniteLoop)
+var steveJobs = Person(name: "Steve Jobs", company: appleInc)
 
-oneInfiniteLoop.<span class="property">street</span> = <span class="string">"Apple Park Way"</span>
-appleInc.<span class="property">address</span> = oneInfiniteLoop
-steveJobs.<span class="property">company</span> = appleInc
+oneInfiniteLoop.street = "Apple Park Way"
+appleInc.address = oneInfiniteLoop
+steveJobs.company = appleInc
 
-<span class="call">print</span>(steveJobs) <span class="comment">// address is updated</span></code></pre><p>In order to update the street property we had to do quite a lot of work, first we had to change some of the properties to variables, and we also had to manually update all the references, since structs are not reference types, but value types, hence copies are being used all around.</p><p>This looks really bad, we've also caused quite a lot of mutation and now others can also change these variable properties, which we don't necessary want. Is there a better way? Well...</p><pre><code class="language-swift"><span class="keyword">let</span> newSteveJobs = <span class="type">Person</span>(name: steveJobs.<span class="property">name</span>,
-                      company: <span class="type">Company</span>(name: appleInc.<span class="property">name</span>,
-                                       address: <span class="type">Address</span>(street: <span class="string">"Apple Park Way"</span>,
-                                                        city: oneInfiniteLoop.<span class="property">city</span>)))</code></pre><p>Ok, this is ridiculous, can we actually do something better? 🙄</p><h2>Lenses</h2><p>We can use a <a href="https://chris.eidhof.nl/post/lenses-in-swift/" target="_blank">lens</a> to zoom on a property and use that lens to construct complex types. A lens is a value representing maps between a complex type and one of its property.</p><p>Let's keep it simple and define a Lens struct that can transform a whole object to a partial value using a getter, and set the partial value on the entire object using a setter, then return a new "whole object". This is how the lens definition looks like in Swift.</p><pre><code class="language-swift"><span class="keyword">struct</span> Lens&lt;Whole, Part&gt; {
-    <span class="keyword">let</span> get: (<span class="type">Whole</span>) -&gt; <span class="type">Part</span>
-    <span class="keyword">let</span> set: (<span class="type">Part</span>, <span class="type">Whole</span>) -&gt; <span class="type">Whole</span>
-}</code></pre><p>Now we can create a <a href="https://te.xel.io/posts/2016-04-30-lambda-fu-powerup-lenses-prisms-and-optics-with-swift.html" target="_blank">lens that zooms</a> on the street property of an address and construct a new address using an existing one.</p><pre><code class="language-swift"><span class="keyword">let</span> oneInfiniteLoop = <span class="type">Address</span>(street: <span class="string">"One Infinite Loop"</span>, city: <span class="string">"Cupertino"</span>)
-<span class="keyword">let</span> appleInc = <span class="type">Company</span>(name: <span class="string">"Apple Inc."</span>, address: oneInfiniteLoop)
-<span class="keyword">let</span> steveJobs = <span class="type">Person</span>(name: <span class="string">"Steve Jobs"</span>, company: appleInc)
+print(steveJobs) // address is updated
+</code></pre><p>In order to update the street property we had to do quite a lot of work, first we had to change some of the properties to variables, and we also had to manually update all the references, since structs are not reference types, but value types, hence copies are being used all around.</p><p>This looks really bad, we’ve also caused quite a lot of mutation and now others can also change these variable properties, which we don’t necessary want. Is there a better way? Well…</p><pre><code class="language-swift">let newSteveJobs = Person(
+    name: steveJobs.name,
+    company: Company(
+        name: appleInc.name,
+        address: Address(
+            street: "Apple Park Way",
+            city: oneInfiniteLoop.city
+        )
+    )
+)
+</code></pre><p>Ok, this is ridiculous, can we actually do something better? 🙄</p><h2 id="lenses">Lenses</h2><p>We can use a <a href="https://chris.eidhof.nl/post/lenses-in-swift/" target="_blank">lens</a> to zoom on a property and use that lens to construct complex types. A lens is a value representing maps between a complex type and one of its property.</p><p>Let’s keep it simple and define a Lens struct that can transform a whole object to a partial value using a getter, and set the partial value on the entire object using a setter, then return a new “whole object”. This is how the lens definition looks like in Swift.</p><pre><code class="language-swift">struct Lens&lt;Whole, Part&gt; {
+    let get: (Whole) -&gt; Part
+    let set: (Part, Whole) -&gt; Whole
+}
+</code></pre><p>Now we can create a <a href="https://te.xel.io/posts/2016-04-30-lambda-fu-powerup-lenses-prisms-and-optics-with-swift.html" target="_blank">lens that zooms</a> on the street property of an address and construct a new address using an existing one.</p><pre><code class="language-swift">let oneInfiniteLoop = Address(street: "One Infinite Loop", city: "Cupertino")
+let appleInc = Company(name: "Apple Inc.", address: oneInfiniteLoop)
+let steveJobs = Person(name: "Steve Jobs", company: appleInc)
 
-<span class="keyword">let</span> addressStreetLens = <span class="type">Lens</span>&lt;<span class="type">Address</span>, <span class="type">String</span>&gt;(get: { $0.<span class="property">street</span> },
-                                              set: { <span class="type">Address</span>(street: $0, city: $1.<span class="property">city</span>) })
+let addressStreetLens = Lens&lt;Address, String&gt;(get: { $0.street },
+                                              set: { Address(street: $0, city: $1.city) })
 
 
-<span class="keyword">let</span> newSteveJobs = <span class="type">Person</span>(name: steveJobs.<span class="property">name</span>,
-                          company: <span class="type">Company</span>(name: appleInc.<span class="property">name</span>,
-                                           address: addressStreetLens.<span class="call">set</span>(<span class="string">"Apple Park Way"</span>, oneInfiniteLoop)))</code></pre><p>Let's try to build lenses for the other properties as well.</p><pre><code class="language-swift"><span class="keyword">let</span> oneInfiniteLoop = <span class="type">Address</span>(street: <span class="string">"One Infinite Loop"</span>, city: <span class="string">"Cupertino"</span>)
-<span class="keyword">let</span> appleInc = <span class="type">Company</span>(name: <span class="string">"Apple Inc."</span>, address: oneInfiniteLoop)
-<span class="keyword">let</span> steveJobs = <span class="type">Person</span>(name: <span class="string">"Steve Jobs"</span>, company: appleInc)
+let newSteveJobs = Person(name: steveJobs.name,
+                          company: Company(name: appleInc.name,
+                                           address: addressStreetLens.set("Apple Park Way", oneInfiniteLoop)))
+</code></pre><p>Let’s try to build lenses for the other properties as well.</p><pre><code class="language-swift">let oneInfiniteLoop = Address(street: "One Infinite Loop", city: "Cupertino")
+let appleInc = Company(name: "Apple Inc.", address: oneInfiniteLoop)
+let steveJobs = Person(name: "Steve Jobs", company: appleInc)
 
-<span class="keyword">let</span> addressStreetLens = <span class="type">Lens</span>&lt;<span class="type">Address</span>, <span class="type">String</span>&gt;(get: { $0.<span class="property">street</span> },
-                                              set: { <span class="type">Address</span>(street: $0, city: $1.<span class="property">city</span>) })
+let addressStreetLens = Lens&lt;Address, String&gt;(get: { $0.street },
+                                              set: { Address(street: $0, city: $1.city) })
 
-<span class="keyword">let</span> companyAddressLens = <span class="type">Lens</span>&lt;<span class="type">Company</span>, <span class="type">Address</span>&gt;(get: { $0.<span class="property">address</span> },
-                                                set: { <span class="type">Company</span>(name: $1.<span class="property">name</span>, address: $0) })
+let companyAddressLens = Lens&lt;Company, Address&gt;(get: { $0.address },
+                                                set: { Company(name: $1.name, address: $0) })
 
-<span class="keyword">let</span> personCompanyLens = <span class="type">Lens</span>&lt;<span class="type">Person</span>, <span class="type">Company</span>&gt;(get: { $0.<span class="property">company</span> },
-                                              set: { <span class="type">Person</span>(name: $1.<span class="property">name</span>, company: $0) })
+let personCompanyLens = Lens&lt;Person, Company&gt;(get: { $0.company },
+                                              set: { Person(name: $1.name, company: $0) })
 
-<span class="keyword">let</span> newAddress = addressStreetLens.<span class="call">set</span>(<span class="string">"Apple Park Way"</span>, oneInfiniteLoop)
-<span class="keyword">let</span> newCompany = companyAddressLens.<span class="call">set</span>(newAddress, appleInc)
-<span class="keyword">let</span> newPerson = personCompanyLens.<span class="call">set</span>(newCompany, steveJobs)
+let newAddress = addressStreetLens.set("Apple Park Way", oneInfiniteLoop)
+let newCompany = companyAddressLens.set(newAddress, appleInc)
+let newPerson = personCompanyLens.set(newCompany, steveJobs)
 
-<span class="call">print</span>(newPerson)</code></pre><p>This might looks a bit strange at first sight, but we're just scratching the surface here. It is possible to compose lenses and create a transition from an object to another property inside the hierarchy.</p><pre><code class="language-swift"><span class="keyword">struct</span> Lens&lt;Whole, Part&gt; {
-    <span class="keyword">let</span> get: (<span class="type">Whole</span>) -&gt; <span class="type">Part</span>
-    <span class="keyword">let</span> set: (<span class="type">Part</span>, <span class="type">Whole</span>) -&gt; <span class="type">Whole</span>
+print(newPerson)
+</code></pre><p>This might looks a bit strange at first sight, but we’re just scratching the surface here. It is possible to compose lenses and create a transition from an object to another property inside the hierarchy.</p><pre><code class="language-swift">struct Lens&lt;Whole, Part&gt; {
+    let get: (Whole) -&gt; Part
+    let set: (Part, Whole) -&gt; Whole
 }
 
-<span class="keyword">extension</span> <span class="type">Lens</span> {
-    <span class="keyword">func</span> transition&lt;NewPart&gt;(<span class="keyword">_</span> to: <span class="type">Lens</span>&lt;<span class="type">Part</span>, <span class="type">NewPart</span>&gt;) -&gt; <span class="type">Lens</span>&lt;<span class="type">Whole</span>, <span class="type">NewPart</span>&gt; {
-        .<span class="keyword">init</span>(get: { to.<span class="call">get</span>(<span class="call">get</span>($0)) },
-              set: { <span class="call">set</span>(to.<span class="call">set</span>($0, <span class="call">get</span>($1)), $1) })
+extension Lens {
+    func transition&lt;NewPart&gt;(_ to: Lens&lt;Part, NewPart&gt;) -&gt; Lens&lt;Whole, NewPart&gt; {
+        .init(get: { to.get(get($0)) },
+              set: { set(to.set($0, get($1)), $1) })
     }
 
 }
 
-<span class="comment">// ...</span>
+// ...
 
-<span class="keyword">let</span> personStreetLens = personCompanyLens.<span class="call">transition</span>(companyAddressLens)
-                                        .<span class="call">transition</span>(addressStreetLens)
+let personStreetLens = personCompanyLens.transition(companyAddressLens)
+                                        .transition(addressStreetLens)
 
 
-<span class="keyword">let</span> newPerson = personStreetLens.<span class="call">set</span>(<span class="string">"Apple Park Way"</span>, steveJobs)
+let newPerson = personStreetLens.set("Apple Park Way", steveJobs)
 
-<span class="call">print</span>(newPerson)</code></pre><p>So in our case we can come up with a transition method and create a lens between the person and the street property, this will allow us to directly modify the street using this newly created lens.</p><p>Oh, by the way, we can also extend the original structs to provide these lenses by default. 👍</p><pre><code class="language-swift"><span class="keyword">extension</span> <span class="type">Address</span> {
-    <span class="keyword">struct</span> Lenses {
-        <span class="keyword">static var</span> street: <span class="type">Lens</span>&lt;<span class="type">Address</span>, <span class="type">String</span>&gt; {
-            .<span class="keyword">init</span>(get: { $0.<span class="property">street</span> },
-                  set: { <span class="type">Address</span>(street: $0, city: $1.<span class="property">city</span>) })
+print(newPerson)
+</code></pre><p>So in our case we can come up with a transition method and create a lens between the person and the street property, this will allow us to directly modify the street using this newly created lens.</p><p>Oh, by the way, we can also extend the original structs to provide these lenses by default. 👍</p><pre><code class="language-swift">extension Address {
+    struct Lenses {
+        static var street: Lens&lt;Address, String&gt; {
+            .init(get: { $0.street },
+                  set: { Address(street: $0, city: $1.city) })
         }
     }
 }
 
-<span class="keyword">extension</span> <span class="type">Company</span> {
+extension Company {
 
-    <span class="keyword">struct</span> Lenses {
-        <span class="keyword">static var</span> address: <span class="type">Lens</span>&lt;<span class="type">Company</span>, <span class="type">Address</span>&gt; {
-            .<span class="keyword">init</span>(get: { $0.<span class="property">address</span> },
-                  set: { <span class="type">Company</span>(name: $1.<span class="property">name</span>, address: $0) })
+    struct Lenses {
+        static var address: Lens&lt;Company, Address&gt; {
+            .init(get: { $0.address },
+                  set: { Company(name: $1.name, address: $0) })
         }
     }
 }
 
-<span class="keyword">extension</span> <span class="type">Person</span> {
+extension Person {
 
-    <span class="keyword">struct</span> Lenses {
-        <span class="keyword">static var</span> company: <span class="type">Lens</span>&lt;<span class="type">Person</span>, <span class="type">Company</span>&gt; {
-            .<span class="keyword">init</span>(get: { $0.<span class="property">company</span> },
-                  set: { <span class="type">Person</span>(name: $1.<span class="property">name</span>, company: $0) })
+    struct Lenses {
+        static var company: Lens&lt;Person, Company&gt; {
+            .init(get: { $0.company },
+                  set: { Person(name: $1.name, company: $0) })
         }
         
-        <span class="keyword">static var</span> companyAddressStreet: <span class="type">Lens</span>&lt;<span class="type">Person</span>, <span class="type">String</span>&gt; {
-            <span class="type">Person</span>.<span class="type">Lenses</span>.<span class="property">company</span>
-                .<span class="call">transition</span>(<span class="type">Company</span>.<span class="type">Lenses</span>.<span class="property">address</span>)
-                .<span class="call">transition</span>(<span class="type">Address</span>.<span class="type">Lenses</span>.<span class="property">street</span>)
+        static var companyAddressStreet: Lens&lt;Person, String&gt; {
+            Person.Lenses.company
+                .transition(Company.Lenses.address)
+                .transition(Address.Lenses.street)
         }
     }
 
 }
 
-<span class="keyword">let</span> oneInfiniteLoop = <span class="type">Address</span>(street: <span class="string">"One Infinite Loop"</span>, city: <span class="string">"Cupertino"</span>)
-<span class="keyword">let</span> appleInc = <span class="type">Company</span>(name: <span class="string">"Apple Inc."</span>, address: oneInfiniteLoop)
-<span class="keyword">let</span> steveJobs = <span class="type">Person</span>(name: <span class="string">"Steve Jobs"</span>, company: appleInc)
+let oneInfiniteLoop = Address(street: "One Infinite Loop", city: "Cupertino")
+let appleInc = Company(name: "Apple Inc.", address: oneInfiniteLoop)
+let steveJobs = Person(name: "Steve Jobs", company: appleInc)
 
-<span class="keyword">let</span> newPerson = <span class="type">Person</span>.<span class="type">Lenses</span>.<span class="property">companyAddressStreet</span>.<span class="call">set</span>(<span class="string">"Apple Park Way"</span>, steveJobs)
+let newPerson = Person.Lenses.companyAddressStreet.set("Apple Park Way", steveJobs)
 
-<span class="call">print</span>(newPerson)</code></pre><p>On the call site we were able to use one single line to update the street property of an immutable structure, of course we're creating a new copy of the entire object, but that's good since we wanted to avoid mutations. Of course we have to create quite a lot of lenses to make this magic happen under the hood, but sometimes it is worth the effort. ☺️</p><h2>Prisms</h2><p>Now that we know how to set properties of a struct hierarchy using a lens, let me show you one more data type that we can use to alter enum values. Prisms are just like lenses, but they work with <a href="https://mislavjavor.github.io/2017-04-19/Swift-enums-are-sum-types.-That-makes-them-very-interesting/" target="_blank">sum types</a>. Long story short, enums are sum types, structs are product types, and the main difference is how many unique values can you represent with them.</p><pre><code class="language-swift"><span class="comment">// 512 possible values (= 2 * 256)</span>
-<span class="keyword">struct</span> ProductExample {
-    <span class="keyword">let</span> a: <span class="type">Bool</span> <span class="comment">// 2 possible values</span>
-    <span class="keyword">let</span> b: <span class="type">Int8</span> <span class="comment">// 256 possible values</span>
+print(newPerson)
+</code></pre><p>On the call site we were able to use one single line to update the street property of an immutable structure, of course we’re creating a new copy of the entire object, but that’s good since we wanted to avoid mutations. Of course we have to create quite a lot of lenses to make this magic happen under the hood, but sometimes it is worth the effort. ☺️</p><h2 id="prisms">Prisms</h2><p>Now that we know how to set properties of a struct hierarchy using a lens, let me show you one more data type that we can use to alter enum values. Prisms are just like lenses, but they work with <a href="https://mislavjavor.github.io/2017-04-19/Swift-enums-are-sum-types.-That-makes-them-very-interesting/" target="_blank">sum types</a>. Long story short, enums are sum types, structs are product types, and the main difference is how many unique values can you represent with them.</p><pre><code class="language-swift">// 512 possible values (= 2 * 256)
+struct ProductExample {
+    let a: Bool // 2 possible values
+    let b: Int8 // 256 possible values
 }
 
 
-<span class="comment">// 258 possible values (= 2 + 256)</span>
-<span class="keyword">enum</span> SumExample {
-    <span class="keyword">case</span> a(<span class="type">Bool</span>) <span class="comment">// 2 possible values</span>
-    <span class="keyword">case</span> b(<span class="type">Int8</span>) <span class="comment">// 256 possible values</span>
-}</code></pre><p>Another difference is that a prism getter can return a nil value and the setter can "fail", this means if it is not possible to set the value of the property it'll return the original data value instead.</p><pre><code class="language-swift"><span class="keyword">struct</span> Prism&lt;Whole, Part&gt; {
-    <span class="keyword">let</span> tryGet: (<span class="type">Whole</span>) -&gt; <span class="type">Part</span>?
-    <span class="keyword">let</span> inject: (<span class="type">Part</span>) -&gt; <span class="type">Whole</span>
-}</code></pre><p>This is how we can implement a prism, we call the getter tryGet, since it returns an optional value, the setter is called inject because we try to inject a new partial value and return the whole if possible. Let me show you an example so it'll make more sense.</p><pre><code class="language-swift"><span class="keyword">enum</span> State {
-    <span class="keyword">case</span> loading
-    <span class="keyword">case</span> ready(<span class="type">String</span>)
+// 258 possible values (= 2 + 256)
+enum SumExample {
+    case a(Bool) // 2 possible values
+    case b(Int8) // 256 possible values
+}
+</code></pre><p>Another difference is that a prism getter can return a nil value and the setter can “fail”, this means if it is not possible to set the value of the property it’ll return the original data value instead.</p><pre><code class="language-swift">struct Prism&lt;Whole, Part&gt; {
+    let tryGet: (Whole) -&gt; Part?
+    let inject: (Part) -&gt; Whole
+}
+</code></pre><p>This is how we can implement a prism, we call the getter tryGet, since it returns an optional value, the setter is called inject because we try to inject a new partial value and return the whole if possible. Let me show you an example so it’ll make more sense.</p><pre><code class="language-swift">enum State {
+    case loading
+    case ready(String)
 }
 
-<span class="keyword">extension</span> <span class="type">State</span> {
+extension State {
 
-    <span class="keyword">enum</span> Prisms {
-        <span class="keyword">static var</span> loading: <span class="type">Prism</span>&lt;<span class="type">State</span>, <span class="type">Void</span>&gt; {
-            .<span class="keyword">init</span>(tryGet: {
-                <span class="keyword">guard case</span> .<span class="dotAccess">loading</span> = $0 <span class="keyword">else</span> {
-                    <span class="keyword">return nil</span>
+    enum Prisms {
+        static var loading: Prism&lt;State, Void&gt; {
+            .init(tryGet: {
+                guard case .loading = $0 else {
+                    return nil
                 }
-                <span class="keyword">return</span> ()
+                return ()
             },
-            inject: { .<span class="dotAccess">loading</span> })
+            inject: { .loading })
         }
         
-        <span class="keyword">static var</span> ready: <span class="type">Prism</span>&lt;<span class="type">State</span>, <span class="type">String</span>&gt; {
-            .<span class="keyword">init</span>(tryGet: {
-                <span class="keyword">guard case let</span> .<span class="call">ready</span>(message) = $0 <span class="keyword">else</span> {
-                    <span class="keyword">return nil</span>
+        static var ready: Prism&lt;State, String&gt; {
+            .init(tryGet: {
+                guard case let .ready(message) = $0 else {
+                    return nil
                 }
-                <span class="keyword">return</span> message
+                return message
             },
-            inject: { .<span class="call">ready</span>($0) })
+            inject: { .ready($0) })
         }
     }
-}</code></pre><p>we've created a simple State enum, plus we've extended it and added a new Prism namespace as an enum with two static properties. ExactlyOne static prism for every case that we have in the original State enum. We can use these prisms to check if a given state has the right value or construct a new state using the inject method.</p><pre><code class="language-swift"><span class="comment">// create enums cases the regular way</span>
-<span class="keyword">let</span> loadingState = <span class="type">State</span>.<span class="property">loading</span>
-<span class="keyword">let</span> readyState = <span class="type">State</span>.<span class="call">ready</span>(<span class="string">"I'm ready."</span>)
+}
+</code></pre><p>we’ve created a simple State enum, plus we’ve extended it and added a new Prism namespace as an enum with two static properties. ExactlyOne static prism for every case that we have in the original State enum. We can use these prisms to check if a given state has the right value or construct a new state using the inject method.</p><pre><code class="language-swift">// create enums cases the regular way
+let loadingState = State.loading
+let readyState = State.ready("I'm ready.")
 
-<span class="comment">// this creates a new loading state using the prism</span>
-<span class="keyword">let</span> newLoadingState = <span class="type">State</span>.<span class="type">Prisms</span>.<span class="property">loading</span>.<span class="call">inject</span>(())
-<span class="comment">// this creates a new ready state with a given value</span>
-<span class="keyword">let</span> newReadyState = <span class="type">State</span>.<span class="type">Prisms</span>.<span class="property">ready</span>.<span class="call">inject</span>(<span class="string">"Hurray!"</span>)
+// this creates a new loading state using the prism
+let newLoadingState = State.Prisms.loading.inject(())
+// this creates a new ready state with a given value
+let newReadyState = State.Prisms.ready.inject("Hurray!")
 
 
-<span class="comment">// trying to access the ready message through the prism</span>
-<span class="keyword">let</span> nilMessage = <span class="type">State</span>.<span class="type">Prisms</span>.<span class="property">ready</span>.<span class="call">tryGet</span>(loadingState)
-<span class="call">print</span>(nilMessage)
+// trying to access the ready message through the prism
+let nilMessage = State.Prisms.ready.tryGet(loadingState)
+print(nilMessage)
 
-<span class="comment">// returns the message if the state has a ready value</span>
-<span class="keyword">let</span> message = <span class="type">State</span>.<span class="type">Prisms</span>.<span class="property">ready</span>.<span class="call">tryGet</span>(readyState)
-<span class="call">print</span>(message)</code></pre><p>The syntax seems like a bit strange at the first sight, but trust me Prisms can be very useful. You can also apply transformations on prisms, but that's a more advanced topic for another day.</p><p>Anyway, this time I'd like to stop here, since optics are quite a huge topic and I simply can't cover everything in one article. Hopefully this little article will help you to understand lenses and prisms just a bit better using the Swift programming language. 🙂</p>
-        </section>
-    </div>
-
-</article>
-
-<section id="share" class="content-wrapper">
-    <p>
-    <a
-        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/lenses-and-prisms-in-swift/"
-        target="_blank"
-    >
-        Share this article
-    </a>
-    <br> Thank you. 🙏</p>
-</section>
-
-<section  class="wrapper">
-    <div id="book">
-        <div class="column left">
-            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+// returns the message if the state has a ready value
+let message = State.Prisms.ready.tryGet(readyState)
+print(message)
+</code></pre><p>The syntax seems like a bit strange at the first sight, but trust me Prisms can be very useful. You can also apply transformations on prisms, but that’s a more advanced topic for another day.</p><p>Anyway, this time I’d like to stop here, since optics are quite a huge topic and I simply can’t cover everything in one article. Hopefully this little article will help you to understand lenses and prisms just a bit better using the Swift programming language. 🙂</p>
+                    
+                </section>
+    
+                <footer>
+                    <br>
+                    <time datetime=""></time>
+    
+                    
+                    <div class="author-list">
+                        <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        </a>
+                    </div>
+                    <div class="tag-list">
+                        <a href="https://theswiftdev.com/tags/design-pattern/"><small>Design pattern</small></a>
+                    </div>
+                    
+                    <p>
+                        <a href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/lenses-and-prisms-in-swift/" target="_blank">
+                            <strong>Share this article</strong>
+                        </a>
+                        <br>Thank you. 🙏
+                    </p>
+                </footer>
+                            
+                <section class="group">
+                    <h4>Related posts</h4>                
+                    <div class="grid grid-221">
+                        <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/11/27">2020/11/27</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/event-driven-generic-hooks-for-swift/" target="">Event-driven generic hooks for Swift</a></h2>
+                            <hr>
+                            <p>In this article I am going to show you how to implement a basic event processing system for your modular Swift application.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018/08/19">2018/08/19</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/iterator-design-pattern-in-swift/" target="">Iterator design pattern in Swift</a></h2>
+                            <hr>
+                            <p>Learn the iterator design pattern by using some custom sequences, conforming to the IteratorProtocol from the Swift standard library.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018/12/17">2018/12/17</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/lazy-initialization-in-swift/" target="">Lazy initialization in Swift</a></h2>
+                            <hr>
+                            <p>Learn how to use lazy properties in Swift to improve performance, avoid optionals or just to make the init process more clean.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/04/16">2020/04/16</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/modules-and-hooks-in-swift/" target="">Modules and hooks in Swift</a></h2>
+                            <hr>
+                            <p>Learn how to extend your application with new functionalities using a loosely coupled modular plugin system written in Swift.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    
+            </article>
         </div>
-        <div class="column right">
-            <h3>Get the Practical Server Side Swift book</h3>
-            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
-        </div>
-    </div>
-</section>
-
-<section id="author" class="content-wrapper">
-    <img 
-        id="author-image"
-        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
-        alt="Picture of Tibor Bödecs" 
-        title="Tibor Bödecs"
-    >
-    <h3>Tibor Bödecs</h3>
-    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
-    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
-
-    <div class="links">
-        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
-        <a href="https://github.com/tib" target="_blank">GitHub</a> 
-    </div>
-</section>
-
         
+        <div>
+            <div class="book">
+                <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">
+                    <img src="https://theswiftdev.com/book/practical-server-side-swift-cover.png" alt="Practical Server Side Swift cover image">
+                </a>
+                <h3>
+                    <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Get the Practical Server Side Swift book</a>
+                </h3>
+                <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+                <a class="cta" href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+            </div>
+            
+            
+            <aside id="toc">
+                <h4>On this page</h4>
+                <ul>
+                    <li class="first-level">
+                        <a href="#understanding-optics">Understanding optics</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#lenses">Lenses</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#prisms">Prisms</a>
+                        <ul>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+            
+    
+        </div>
+    </div>
+    
     </main>
 
-    <footer>
-        <section class="content-wrapper">
-            <img 
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
-
-            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+    <footer id="site-footer">
+        <div class="grid grid-421">
+    
+            <picture>
+                <img
+                    id="logo-image"
+                    src="https://theswiftdev.com/images/logos/logo-large.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
             
-            <p> 
-                <a href="https://theswiftdev.com/">Home</a> ·
-                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
-            </p>
+            <div>
+                <span style="display: block; height: 32px;">&nbsp;</span>
+                <h4>The.Swift.Dev</h4>
+                <p><small><a href="https://theswiftdev.com/" target="_blank">theswiftdev.com</a></small></p>
+                <ul>
+                    <li><a href="https://github.com/theswiftdev/" target="_blank">GitHub</a></li>
+                    <li><a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a></li>
+                    <li><a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a></li>
+                </ul>
+            </div>
             
-            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+            <div>
+                
+            </div>
+            
+            <div>
+                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                </a>
+                <h4><a href="https://theswiftdev.com/authors/tibor-bodecs/">Tibor Bödecs</a></h4>
+                <p><small><a href="https://binarybirds.com/" target="_blank">Binary Birds Kft.</a></small></p>
+                <ul>
+                    <li><a href="mailto:mail.tib@gmail.com" target="_blank">Email</a></li>
+                    <li><a href="https://github.com/tib/" target="_blank">GitHub</a></li>
+                    <li><a href="https://x.com/tiborbodecs" target="_blank">X (Twitter)</a></li>
+                    <li><a href="https://mastodon.social/@tiborbodecs" target="_blank">Mastodon</a></li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <section class="grid grid-221">
+            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>
+
+    </div>
+
+    
 </body>
 </html>

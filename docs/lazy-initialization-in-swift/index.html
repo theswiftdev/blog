@@ -1,248 +1,423 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
     <meta charset="utf-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="canonical" href="https://theswiftdev.com/lazy-initialization-in-swift/">
     
+    
+
     <title>Lazy initialization in Swift - The.Swift.Dev.</title>
-    
     <meta name="description" content="Learn how to use lazy properties in Swift to improve performance, avoid optionals or just to make the init process more clean.">
-    
+
+    <meta property="og:url" content="https://theswiftdev.com/lazy-initialization-in-swift/">
     <meta property="og:title" content="Lazy initialization in Swift - The.Swift.Dev.">
     <meta property="og:description" content="Learn how to use lazy properties in Swift to improve performance, avoid optionals or just to make the init process more clean.">
-    <meta property="og:url" content="https://theswiftdev.com/lazy-initialization-in-swift/">
-    <meta property="og:image" content="https://theswiftdev.com/images/assets/lazy-initialization-in-swift/cover.jpg">
+    
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@tiborbodecs">
-    <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="Lazy initialization in Swift - The.Swift.Dev.">
     <meta name="twitter:description" content="Learn how to use lazy properties in Swift to improve performance, avoid optionals or just to make the init process more clean.">
-    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/lazy-initialization-in-swift/cover.jpg">
     
-    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
-    
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-normalize.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/variables.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/grid.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/navigation.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/footer.css">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+
     
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/icons/apple-touch-icon-180x180.png">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+        media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+        media="(prefers-color-scheme: dark)"
+    >
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
 </head>
 
 <body>
-    <a href="https://theswiftdev.gumroad.com" class="ribbon">
-        📖
-    </a>
-    <header id="page-header">
-        <a href="https://theswiftdev.com/">
-            <img 
-                id="logo-image"
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
+    <div id="site-container">
+
+    <header id="navigation">
+        <a href="/">
+            <picture>
+                <img
+                    src="https://theswiftdev.com/images/logos/logo.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
         </a>
-    </header>
-    
-    <main>
-
-        <article>
-    <header>
-        <section id="post-header" class="content-wrapper">
-            <time datetime="2018/12/17">2018/12/17</time>
-            <h1 class="title">Lazy initialization in Swift</h1>
-            <p class="excerpt">Learn how to use lazy properties in Swift to improve performance, avoid optionals or just to make the init process more clean.</p>
-            <div class="meta">
-                <span class="tag">Swift</span>
-<span class="tag">iOS</span>
-<span class="tag">design patterns</span>
+        <nav>
+            <input type="checkbox" id="primary-menu-button" name="menu-button" class="menu-button">
+            <label for="primary-menu-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </label>
+            <div class="menu-items">
+                <a href="/page/1/">Posts</a>
+                <a href="/tags/">Tags</a>
+                <a href="/authors/">Authors</a>
+                <a href="/practical-server-side-swift/">My Book</a>
             </div>
-        </section>
-        <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.com/images/assets/lazy-initialization-in-swift/cover.jpg">
-        </section>
+        </nav>
     </header>
 
-    <div id="contents">
-        <section class="content-wrapper">
-            <p>According to <a href="https://en.wikipedia.org/wiki/Lazy_initialization" target="_blank">Wikipedia</a>:</p><blockquote><p>In computer programming, lazy initialization is the tactic of delaying the creation of an object, the calculation of a value, or some other expensive process until the first time it is needed.</p></blockquote><p>That little quote pretty much sums up everything, however because we're working with the Swift programming language, we have a thing called <a href="https://developer.apple.com/documentation/swift/optional" target="_blank">optionals</a>. If you don't know what are those, please read <a href="https://hackernoon.com/swift-optionals-explained-simply-e109a4297298" target="_blank">the linked articles</a> first, and come back afterwards. 🤐</p><h2>The ultimate guide of being lazy</h2><p>When a <a href="https://docs.swift.org/swift-book/LanguageGuide/Properties.html" target="_blank">property</a> is only needed at some point in time, you can prefix it with the lazy keyword so it'll be "excluded" from the initialization process and it's default value will be assigned on-demand. This can be useful for types that are expensive to create, or needs more time to be created. Here is a quick tale of a lazy princess. 👸💤</p><pre><code class="language-swift"><span class="keyword">class</span> SleepingBeauty {
+    <main id="page-container">
+    
+    <div class="article-with-toc">
+        <div>
+            <article class="post">
+                <div class="meta">
+                    <time datetime="2018/12/17">2018/12/17</time>
+                     &middot; <span class="reading-time">4 min read</span>
+                    
+                </div>
+                <h1>Lazy initialization in Swift</h1>
+                <hr>
+                <p>Learn how to use lazy properties in Swift to improve performance, avoid optionals or just to make the init process more clean.</p>
+                <section>
+                
+                <p>According to <a href="https://en.wikipedia.org/wiki/Lazy_initialization" target="_blank">Wikipedia</a>:</p><blockquote><p>In computer programming, lazy initialization is the tactic of delaying the creation of an object, the calculation of a value, or some other expensive process until the first time it is needed.</p></blockquote><p>That little quote pretty much sums up everything, however because we’re working with the Swift programming language, we have a thing called <a href="https://developer.apple.com/documentation/swift/optional" target="_blank">optionals</a>. If you don’t know what are those, please read <a href="https://hackernoon.com/swift-optionals-explained-simply-e109a4297298" target="_blank">the linked articles</a> first, and come back afterwards. 🤐</p><h2 id="the-ultimate-guide-of-being-lazy">The ultimate guide of being lazy</h2><p>When a <a href="https://docs.swift.org/swift-book/LanguageGuide/Properties.html" target="_blank">property</a> is only needed at some point in time, you can prefix it with the lazy keyword so it’ll be “excluded” from the initialization process and it’s default value will be assigned on-demand. This can be useful for types that are expensive to create, or needs more time to be created. Here is a quick tale of a lazy princess. 👸💤</p><pre><code class="language-swift">class SleepingBeauty {
 
-    <span class="keyword">init</span>() {
-        <span class="call">print</span>(<span class="string">"zzz...sleeping..."</span>)
-        <span class="call">sleep</span>(<span class="number">2</span>)
-        <span class="call">print</span>(<span class="string">"sleeping beauty is ready!"</span>)
+    init() {
+        print("zzz...sleeping...")
+        sleep(2)
+        print("sleeping beauty is ready!")
     }
 }
 
-<span class="keyword">class</span> Castle {
+class Castle {
 
-    <span class="keyword">var</span> princess = <span class="type">SleepingBeauty</span>()
+    var princess = SleepingBeauty()
 
-    <span class="keyword">init</span>() {
-        <span class="call">print</span>(<span class="string">"castle is ready!"</span>)
+    init() {
+        print("castle is ready!")
     }
 }
 
-<span class="call">print</span>(<span class="string">"a new castle..."</span>)
-<span class="keyword">let</span> castle = <span class="type">Castle</span>()</code></pre><p>The output of this code snippet is something like below, but as you can see the princess is sleeping for a very long time, she is also "blocking" the castle. 🏰</p><pre><code>a new castle...
+print("a new castle...")
+let castle = Castle()
+</code></pre><p>The output of this code snippet is something like below, but as you can see the princess is sleeping for a very long time, she is also “blocking” the castle. 🏰</p><pre><code>a new castle...
 zzz...sleeping...
 sleeping beauty is ready!
 castle is ready!
-</code></pre><p>Now, we can speed things up by adding the lazy keword, so our hero will have time to slay the dragon and our princess can sleep in her bed until she's needed... 🐉 🗡 🤴</p><pre><code class="language-swift"><span class="keyword">class</span> SleepingBeauty {
+</code></pre><p>Now, we can speed things up by adding the lazy keword, so our hero will have time to slay the dragon and our princess can sleep in her bed until she’s needed… 🐉 🗡 🤴</p><pre><code class="language-swift">class SleepingBeauty {
 
-    <span class="keyword">init</span>() {
-        <span class="call">print</span>(<span class="string">"zzz...sleeping..."</span>)
-        <span class="call">sleep</span>(<span class="number">2</span>)
-        <span class="call">print</span>(<span class="string">"sleeping beauty is ready!"</span>)
+    init() {
+        print("zzz...sleeping...")
+        sleep(2)
+        print("sleeping beauty is ready!")
     }
 }
 
-<span class="keyword">class</span> Castle {
+class Castle {
 
-    <span class="keyword">lazy var</span> princess = <span class="type">SleepingBeauty</span>()
+    lazy var princess = SleepingBeauty()
 
-    <span class="keyword">init</span>() {
-        <span class="call">print</span>(<span class="string">"castle is ready!"</span>)
+    init() {
+        print("castle is ready!")
     }
 }
 
-<span class="call">print</span>(<span class="string">"a new castle..."</span>)
-<span class="keyword">let</span> castle = <span class="type">Castle</span>()
-castle.<span class="property">princess</span></code></pre><p>Much better! Now the castle is instantly ready for the battle, so the prince can wake up his loved one and... they lived happily ever after. End of story. 👸 ❤️ 🤴</p><pre><code>a new castle...
+print("a new castle...")
+let castle = Castle()
+castle.princess
+</code></pre><p>Much better! Now the castle is instantly ready for the battle, so the prince can wake up his loved one and… they lived happily ever after. End of story. 👸 ❤️ 🤴</p><pre><code>a new castle...
 castle is ready!
 zzz...sleeping...
 sleeping beauty is ready!
-</code></pre><p>I hope you enjoyed the fairy tale, but let's do some real coding! 🤓</p><h2>Avoiding optionals with lazyness</h2><p>As you've seen in the previous example lazy properties can be used to improve the performance of your Swift code. Also you can eliminate optionals in your objects. This can be useful if you're dealing with <code>UIView</code> derived classes. For example if you need a <code>UILabel</code> for your view hierarchy you usually have to declare that property as optional or as an implicitly unwrapped optional stored property. Let's remake this example by using lazy &amp; eliminating the need of the evil optional requirement. 😈</p><pre><code class="language-swift"><span class="keyword">class</span> ViewController: <span class="type">UIViewController</span> {
+</code></pre><p>I hope you enjoyed the fairy tale, but let’s do some real coding! 🤓</p><h2 id="avoiding-optionals-with-lazyness">Avoiding optionals with lazyness</h2><p>As you’ve seen in the previous example lazy properties can be used to improve the performance of your Swift code. Also you can eliminate optionals in your objects. This can be useful if you’re dealing with <code>UIView</code> derived classes. For example if you need a <code>UILabel</code> for your view hierarchy you usually have to declare that property as optional or as an implicitly unwrapped optional stored property. Let’s remake this example by using lazy & eliminating the need of the evil optional requirement. 😈</p><pre><code class="language-swift">class ViewController: UIViewController {
 
-    <span class="keyword">lazy var</span> label: <span class="type">UILabel</span> = <span class="type">UILabel</span>(frame: .<span class="dotAccess">zero</span>)
+    lazy var label: UILabel = UILabel(frame: .zero)
 
-    <span class="keyword">override func</span> loadView() {
-        <span class="keyword">super</span>.<span class="call">loadView</span>()
+    override func loadView() {
+        super.loadView()
 
-        <span class="keyword">self</span>.<span class="property">view</span>.<span class="call">addSubview</span>(<span class="keyword">self</span>.<span class="property">label</span>)
+        self.view.addSubview(self.label)
     }
 
-    <span class="keyword">override func</span> viewDidLoad() {
-        <span class="keyword">super</span>.<span class="call">viewDidLoad</span>()
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
-        <span class="keyword">self</span>.<span class="property">label</span>.<span class="property">textColor</span> = .<span class="dotAccess">black</span>
-        <span class="keyword">self</span>.<span class="property">label</span>.<span class="property">font</span> = <span class="type">UIFont</span>.<span class="call">systemFont</span>(ofSize: <span class="number">16</span>, weight: .<span class="dotAccess">bold</span>)
+        self.label.textColor = .black
+        self.label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
     }
-}</code></pre><p>It isn't so bad, however I still prefer to declare my views as implicitly unwrapped optionals. Maybe I'll change my mind later on, but old habits die hard... 💀</p><h2>Using a lazy closure</h2><p>You can use a <a href="https://www.bobthedeveloper.io/blog/swift-lazy-initialization-with-closures" target="_blank">lazy closure</a> to wrap some of your code inside it. The main advantage of being lazy - over stored properties - is that your block will be executed ONLY if a read operation happens on that variable. You can also populate the value of a <a href="https://useyourloaf.com/blog/swift-lazy-property-initialization/" target="_blank">lazy property</a> with a regular stored proeprty. Let's see this in practice.</p><pre><code class="language-swift"><span class="keyword">class</span> ViewController: <span class="type">UIViewController</span> {
+}
+</code></pre><p>It isn’t so bad, however I still prefer to declare my views as implicitly unwrapped optionals. Maybe I’ll change my mind later on, but old habits die hard… 💀</p><h2 id="using-a-lazy-closure">Using a lazy closure</h2><p>You can use a <a href="https://www.bobthedeveloper.io/blog/swift-lazy-initialization-with-closures" target="_blank">lazy closure</a> to wrap some of your code inside it. The main advantage of being lazy - over stored properties - is that your block will be executed ONLY if a read operation happens on that variable. You can also populate the value of a <a href="https://useyourloaf.com/blog/swift-lazy-property-initialization/" target="_blank">lazy property</a> with a regular stored proeprty. Let’s see this in practice.</p><pre><code class="language-swift">class ViewController: UIViewController {
 
-    <span class="keyword">lazy var</span> label: <span class="type">UILabel</span> = {
-        <span class="keyword">let</span> label = <span class="type">UILabel</span>(frame: .<span class="dotAccess">zero</span>)
-        label.<span class="property">translatesAutoresizingMaskIntoConstraints</span> = <span class="keyword">false</span>
-        label.<span class="property">textColor</span> = .<span class="dotAccess">black</span>
-        label.<span class="property">font</span> = <span class="type">UIFont</span>.<span class="call">systemFont</span>(ofSize: <span class="number">16</span>, weight: .<span class="dotAccess">bold</span>)
-        <span class="keyword">return</span> label
+    lazy var label: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        return label
     }()
-}</code></pre><p>This one is a nice practice if you'd like to declutter your init method. You can put all the object customization logic inside a closure. The closure executes itself on read (self-executing closure), so when you call <code>self.label</code> your block will be executed and voilá: your view will be ready to use.</p><blockquote><p>You can't use self in stored properties, but you are allowed to do so with lazy blocks. Be careful: you should always use <code>[unowned self]</code>, if you don't want to create reference cycles and memory leaks. ♻️</p></blockquote><h2>Lazy initialization using factories</h2><p>I already have a couple of articles about <a href="https://theswiftdev.com/2018/06/06/comparing-factory-design-patterns/">factories in Swift</a>, so now i just want to show you how to use a factory method &amp; a static factory combined with a lazy property.</p><h3>Factory method</h3><p>If you don't like self-executing closures, you can move out your code into a <a href="https://theswiftdev.com/2018/05/31/swift-factory-method-design-pattern/">factory method</a> and use that one with your <a href="https://medium.com/@abhimuralidharan/lazy-var-in-ios-swift-96c75cb8a13a" target="_blank">lazy variable</a>. It's simple like this:</p><pre><code class="language-swift"><span class="keyword">class</span> ViewController: <span class="type">UIViewController</span> {
+}
+</code></pre><p>This one is a nice practice if you’d like to declutter your init method. You can put all the object customization logic inside a closure. The closure executes itself on read (self-executing closure), so when you call <code>self.label</code> your block will be executed and voilá: your view will be ready to use.</p><blockquote><p>You can’t use self in stored properties, but you are allowed to do so with lazy blocks. Be careful: you should always use <code>[unowned self]</code>, if you don’t want to create reference cycles and memory leaks. ♻️</p></blockquote><h2 id="lazy-initialization-using-factories">Lazy initialization using factories</h2><p>I already have a couple of articles about <a href="https://theswiftdev.com/2018/06/06/comparing-factory-design-patterns/">factories in Swift</a>, so now i just want to show you how to use a factory method & a static factory combined with a lazy property.</p><h3 id="factory-method">Factory method</h3><p>If you don’t like self-executing closures, you can move out your code into a <a href="https://theswiftdev.com/2018/05/31/swift-factory-method-design-pattern/">factory method</a> and use that one with your <a href="https://medium.com/@abhimuralidharan/lazy-var-in-ios-swift-96c75cb8a13a" target="_blank">lazy variable</a>. It’s simple like this:</p><pre><code class="language-swift">class ViewController: UIViewController {
 
-    <span class="keyword">lazy var</span> label: <span class="type">UILabel</span> = <span class="keyword">self</span>.<span class="call">createCustomLabel</span>()
+    lazy var label: UILabel = self.createCustomLabel()
 
-    <span class="keyword">private func</span> createCustomLabel() -&gt; <span class="type">UILabel</span> {
-        <span class="call">print</span>(<span class="string">"called"</span>)
-        <span class="keyword">let</span> label = <span class="type">UILabel</span>(frame: .<span class="dotAccess">zero</span>)
-        label.<span class="property">translatesAutoresizingMaskIntoConstraints</span> = <span class="keyword">false</span>
-        label.<span class="property">textColor</span> = .<span class="dotAccess">black</span>
-        label.<span class="property">font</span> = <span class="type">UIFont</span>.<span class="call">systemFont</span>(ofSize: <span class="number">16</span>, weight: .<span class="dotAccess">bold</span>)
-        <span class="keyword">return</span> label
+    private func createCustomLabel() -&gt; UILabel {
+        print("called")
+        let label = UILabel(frame: .zero)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        return label
     }
-}</code></pre><p>Now the factory method works like a private initializer for your lazy property. Let's bring this one step further, so we can improve reusability a little bit...</p><h3>Static factory</h3><p>Outsourcing your lazy initializer code into a <a href="https://theswiftdev.com/2018/05/29/swift-static-factory-design-pattern/">static factory</a> can be a good practice if you'd like to reuse that code in multiple parts of your application. For example this is a good fit for initializing custom views. Also creating a custom view is not really a view controller task, so the responsibilities in this example are more separated.</p><pre><code class="language-swift"><span class="keyword">class</span> ViewController: <span class="type">UIViewController</span> {
+}
+</code></pre><p>Now the factory method works like a private initializer for your lazy property. Let’s bring this one step further, so we can improve reusability a little bit…</p><h3 id="static-factory">Static factory</h3><p>Outsourcing your lazy initializer code into a <a href="https://theswiftdev.com/2018/05/29/swift-static-factory-design-pattern/">static factory</a> can be a good practice if you’d like to reuse that code in multiple parts of your application. For example this is a good fit for initializing custom views. Also creating a custom view is not really a view controller task, so the responsibilities in this example are more separated.</p><pre><code class="language-swift">class ViewController: UIViewController {
 
-    <span class="keyword">lazy var</span> label: <span class="type">UILabel</span> = <span class="type">UILabel</span>.<span class="call">createCustomLabel</span>()
+    lazy var label: UILabel = UILabel.createCustomLabel()
 }
 
-<span class="keyword">extension</span> <span class="type">UILabel</span> {
+extension UILabel {
 
-    <span class="keyword">static func</span> createCustomLabel() -&gt; <span class="type">UILabel</span> {
-        <span class="keyword">let</span> label = <span class="type">UILabel</span>(frame: .<span class="dotAccess">zero</span>)
-        label.<span class="property">translatesAutoresizingMaskIntoConstraints</span> = <span class="keyword">false</span>
-        label.<span class="property">textColor</span> = .<span class="dotAccess">black</span>
-        label.<span class="property">font</span> = <span class="type">UIFont</span>.<span class="call">systemFont</span>(ofSize: <span class="number">16</span>, weight: .<span class="dotAccess">bold</span>)
-        <span class="keyword">return</span> label
+    static func createCustomLabel() -&gt; UILabel {
+        let label = UILabel(frame: .zero)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        return label
     }
-}</code></pre><p>As a gratis you can enjoy the advantages of static factory properties / methods, like caching or returning specific subtypes. Pretty neat! 👍</p><h2>Conclusion</h2><p>Lazy variables are a really convenient way to optimize your code, however they can only used on structs and classes. You can't use them as computed properties, this means they won't return the closure block every time you are trying to access them.</p><p>Another important thing is that lazy properties are <strong>NOT thread safe</strong>, so you have to be careful with them. Plus you don't always want to eliminate implicitly unwrapped optional values, sometimes it's just way better to simply crash! 🐛</p><blockquote><p>Don't be lazy!</p></blockquote><p>...but feel free to use lazy properties whenever you can! 😉</p>
-        </section>
-    </div>
-
-</article>
-
-<section id="share" class="content-wrapper">
-    <p>
-    <a
-        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/lazy-initialization-in-swift/"
-        target="_blank"
-    >
-        Share this article
-    </a>
-    <br> Thank you. 🙏</p>
-</section>
-
-<section  class="wrapper">
-    <div id="book">
-        <div class="column left">
-            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+}
+</code></pre><p>As a gratis you can enjoy the advantages of static factory properties / methods, like caching or returning specific subtypes. Pretty neat! 👍</p><h2 id="conclusion">Conclusion</h2><p>Lazy variables are a really convenient way to optimize your code, however they can only used on structs and classes. You can’t use them as computed properties, this means they won’t return the closure block every time you are trying to access them.</p><p>Another important thing is that lazy properties are <strong>NOT thread safe</strong>, so you have to be careful with them. Plus you don’t always want to eliminate implicitly unwrapped optional values, sometimes it’s just way better to simply crash! 🐛</p><blockquote><p>Don’t be lazy!</p></blockquote><p>…but feel free to use lazy properties whenever you can! 😉</p>
+                    
+                </section>
+    
+                <footer>
+                    <br>
+                    <time datetime=""></time>
+    
+                    
+                    <div class="author-list">
+                        <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        </a>
+                    </div>
+                    <div class="tag-list">
+                        <a href="https://theswiftdev.com/tags/design-pattern/"><small>Design pattern</small></a>
+                    </div>
+                    
+                    <p>
+                        <a href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/lazy-initialization-in-swift/" target="_blank">
+                            <strong>Share this article</strong>
+                        </a>
+                        <br>Thank you. 🙏
+                    </p>
+                </footer>
+                            
+                <section class="group">
+                    <h4>Related posts</h4>                
+                    <div class="grid grid-221">
+                        <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/11/27">2020/11/27</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/event-driven-generic-hooks-for-swift/" target="">Event-driven generic hooks for Swift</a></h2>
+                            <hr>
+                            <p>In this article I am going to show you how to implement a basic event processing system for your modular Swift application.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018/08/19">2018/08/19</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/iterator-design-pattern-in-swift/" target="">Iterator design pattern in Swift</a></h2>
+                            <hr>
+                            <p>Learn the iterator design pattern by using some custom sequences, conforming to the IteratorProtocol from the Swift standard library.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2022/08/12">2022/08/12</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/lenses-and-prisms-in-swift/" target="">Lenses and prisms in Swift</a></h2>
+                            <hr>
+                            <p>Beginner&#39;s guide about optics in Swift. Learn how to use lenses and prisms to manipulate objects using a functional approach.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/04/16">2020/04/16</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/modules-and-hooks-in-swift/" target="">Modules and hooks in Swift</a></h2>
+                            <hr>
+                            <p>Learn how to extend your application with new functionalities using a loosely coupled modular plugin system written in Swift.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    
+            </article>
         </div>
-        <div class="column right">
-            <h3>Get the Practical Server Side Swift book</h3>
-            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
-        </div>
-    </div>
-</section>
-
-<section id="author" class="content-wrapper">
-    <img 
-        id="author-image"
-        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
-        alt="Picture of Tibor Bödecs" 
-        title="Tibor Bödecs"
-    >
-    <h3>Tibor Bödecs</h3>
-    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
-    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
-
-    <div class="links">
-        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
-        <a href="https://github.com/tib" target="_blank">GitHub</a> 
-    </div>
-</section>
-
         
+        <div>
+            <div class="book">
+                <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">
+                    <img src="https://theswiftdev.com/book/practical-server-side-swift-cover.png" alt="Practical Server Side Swift cover image">
+                </a>
+                <h3>
+                    <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Get the Practical Server Side Swift book</a>
+                </h3>
+                <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+                <a class="cta" href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+            </div>
+            
+            
+            <aside id="toc">
+                <h4>On this page</h4>
+                <ul>
+                    <li class="first-level">
+                        <a href="#the-ultimate-guide-of-being-lazy">The ultimate guide of being lazy</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#avoiding-optionals-with-lazyness">Avoiding optionals with lazyness</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#using-a-lazy-closure">Using a lazy closure</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#lazy-initialization-using-factories">Lazy initialization using factories</a>
+                        <ul>
+                            <li><a href="#factory-method">Factory method</a></li>
+                <li><a href="#static-factory">Static factory</a></li>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#conclusion">Conclusion</a>
+                        <ul>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+            
+    
+        </div>
+    </div>
+    
     </main>
 
-    <footer>
-        <section class="content-wrapper">
-            <img 
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
-
-            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+    <footer id="site-footer">
+        <div class="grid grid-421">
+    
+            <picture>
+                <img
+                    id="logo-image"
+                    src="https://theswiftdev.com/images/logos/logo-large.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
             
-            <p> 
-                <a href="https://theswiftdev.com/">Home</a> ·
-                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
-            </p>
+            <div>
+                <span style="display: block; height: 32px;">&nbsp;</span>
+                <h4>The.Swift.Dev</h4>
+                <p><small><a href="https://theswiftdev.com/" target="_blank">theswiftdev.com</a></small></p>
+                <ul>
+                    <li><a href="https://github.com/theswiftdev/" target="_blank">GitHub</a></li>
+                    <li><a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a></li>
+                    <li><a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a></li>
+                </ul>
+            </div>
             
-            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+            <div>
+                
+            </div>
+            
+            <div>
+                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                </a>
+                <h4><a href="https://theswiftdev.com/authors/tibor-bodecs/">Tibor Bödecs</a></h4>
+                <p><small><a href="https://binarybirds.com/" target="_blank">Binary Birds Kft.</a></small></p>
+                <ul>
+                    <li><a href="mailto:mail.tib@gmail.com" target="_blank">Email</a></li>
+                    <li><a href="https://github.com/tib/" target="_blank">GitHub</a></li>
+                    <li><a href="https://x.com/tiborbodecs" target="_blank">X (Twitter)</a></li>
+                    <li><a href="https://mastodon.social/@tiborbodecs" target="_blank">Mastodon</a></li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <section class="grid grid-221">
+            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>
+
+    </div>
+
+    
 </body>
 </html>

@@ -1,535 +1,723 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
     <meta charset="utf-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="canonical" href="https://theswiftdev.com/uitableview-tutorial-in-swift/">
     
+    
+
     <title>UITableView tutorial in Swift - The.Swift.Dev.</title>
-    
     <meta name="description" content="This guide is made for beginners to learn the foundations of the UITableView class programmatically with auto layout in Swift.">
-    
+
+    <meta property="og:url" content="https://theswiftdev.com/uitableview-tutorial-in-swift/">
     <meta property="og:title" content="UITableView tutorial in Swift - The.Swift.Dev.">
     <meta property="og:description" content="This guide is made for beginners to learn the foundations of the UITableView class programmatically with auto layout in Swift.">
-    <meta property="og:url" content="https://theswiftdev.com/uitableview-tutorial-in-swift/">
-    <meta property="og:image" content="https://theswiftdev.com/images/assets/uitableview-tutorial-in-swift/cover.jpg">
+    
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@tiborbodecs">
-    <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="UITableView tutorial in Swift - The.Swift.Dev.">
     <meta name="twitter:description" content="This guide is made for beginners to learn the foundations of the UITableView class programmatically with auto layout in Swift.">
-    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/uitableview-tutorial-in-swift/cover.jpg">
     
-    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
-    
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-normalize.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/variables.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/grid.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/navigation.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/footer.css">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+
     
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/icons/apple-touch-icon-180x180.png">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+        media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+        media="(prefers-color-scheme: dark)"
+    >
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
 </head>
 
 <body>
-    <a href="https://theswiftdev.gumroad.com" class="ribbon">
-        📖
-    </a>
-    <header id="page-header">
-        <a href="https://theswiftdev.com/">
-            <img 
-                id="logo-image"
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
+    <div id="site-container">
+
+    <header id="navigation">
+        <a href="/">
+            <picture>
+                <img
+                    src="https://theswiftdev.com/images/logos/logo.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
         </a>
-    </header>
-    
-    <main>
-
-        <article>
-    <header>
-        <section id="post-header" class="content-wrapper">
-            <time datetime="2018/12/01">2018/12/01</time>
-            <h1 class="title">UITableView tutorial in Swift</h1>
-            <p class="excerpt">This guide is made for beginners to learn the foundations of the UITableView class programmatically with auto layout in Swift.</p>
-            <div class="meta">
-                <span class="tag">UIKit</span>
-<span class="tag">iOS</span>
-<span class="tag">UITableView</span>
+        <nav>
+            <input type="checkbox" id="primary-menu-button" name="menu-button" class="menu-button">
+            <label for="primary-menu-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </label>
+            <div class="menu-items">
+                <a href="/page/1/">Posts</a>
+                <a href="/tags/">Tags</a>
+                <a href="/authors/">Authors</a>
+                <a href="/practical-server-side-swift/">My Book</a>
             </div>
-        </section>
-        <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.com/images/assets/uitableview-tutorial-in-swift/cover.jpg">
-        </section>
+        </nav>
     </header>
 
-    <div id="contents">
-        <section class="content-wrapper">
-            <h2>How to create a table view programmatically?</h2><p>Let's jump straight into the <a href="http://www.thomashanning.com/uitableview-tutorial-for-beginners/" target="_blank">coding</a> part, but first: start Xcode, create a new iOS single view app project, enter some name &amp; details for the project as usual, use Swift and finally open the ViewController.swift file right away. Now grab your keyboard! ⌨️</p><blockquote><p>Pro tip: use Cmd+Shift+O to quickly jump between files</p></blockquote><p>I'm not going to use interface builder in this tutorial, so how do we create views programmatically? There is a method called loadView that's where you should add custom views to your view hierarchy. You can option+click the method name in Xcode &amp; read the discussion about <a href="https://developer.apple.com/documentation/uikit/uiviewcontroller/1621454-loadview" target="_blank">loadView</a> method, but let me summarize the whole thing.</p><p>We'll use a weak property to hold a reference to our table view. Next, we override the loadView method &amp; call super, in order to load the controller's self.view property with a view object (from a nib or a storyboard file if there is one for the controller). After that we assign our brand new view to a local property, turn off system provided layout stuff, and insert our table view into our view hierarchy. Finally we create some real constraints using anchors &amp; save our pointer to our weak property. Easy! 🤪</p><pre><code class="language-swift"><span class="keyword">class</span> ViewController: <span class="type">UIViewController</span> {
+    <main id="page-container">
+    
+    <div class="article-with-toc">
+        <div>
+            <article class="post">
+                <div class="meta">
+                    <time datetime="2018/12/01">2018/12/01</time>
+                     &middot; <span class="reading-time">10 min read</span>
+                    
+                </div>
+                <h1>UITableView tutorial in Swift</h1>
+                <hr>
+                <p>This guide is made for beginners to learn the foundations of the UITableView class programmatically with auto layout in Swift.</p>
+                <section>
+                
+                <h2 id="how-to-create-a-table-view-programmatically">How to create a table view programmatically?</h2><p>Let’s jump straight into the <a href="http://www.thomashanning.com/uitableview-tutorial-for-beginners/" target="_blank">coding</a> part, but first: start Xcode, create a new iOS single view app project, enter some name & details for the project as usual, use Swift and finally open the ViewController.swift file right away. Now grab your keyboard! ⌨️</p><blockquote><p>Pro tip: use Cmd+Shift+O to quickly jump between files</p></blockquote><p>I’m not going to use interface builder in this tutorial, so how do we create views programmatically? There is a method called loadView that’s where you should add custom views to your view hierarchy. You can option+click the method name in Xcode & read the discussion about <a href="https://developer.apple.com/documentation/uikit/uiviewcontroller/1621454-loadview" target="_blank">loadView</a> method, but let me summarize the whole thing.</p><p>We’ll use a weak property to hold a reference to our table view. Next, we override the loadView method & call super, in order to load the controller’s self.view property with a view object (from a nib or a storyboard file if there is one for the controller). After that we assign our brand new view to a local property, turn off system provided layout stuff, and insert our table view into our view hierarchy. Finally we create some real constraints using anchors & save our pointer to our weak property. Easy! 🤪</p><pre><code class="language-swift">class ViewController: UIViewController {
 
-    <span class="keyword">weak var</span> tableView: <span class="type">UITableView</span>!
+    weak var tableView: UITableView!
 
-    <span class="keyword">override func</span> loadView() {
-        <span class="keyword">super</span>.<span class="call">loadView</span>()
+    override func loadView() {
+        super.loadView()
 
-        <span class="keyword">let</span> tableView = <span class="type">UITableView</span>(frame: .<span class="dotAccess">zero</span>, style: .<span class="dotAccess">plain</span>)
-        tableView.<span class="property">translatesAutoresizingMaskIntoConstraints</span> = <span class="keyword">false
-        self</span>.<span class="property">view</span>.<span class="call">addSubview</span>(tableView)
-        <span class="type">NSLayoutConstraint</span>.<span class="call">activate</span>([
-        <span class="keyword">self</span>.<span class="property">view</span>.<span class="property">safeAreaLayoutGuide</span>.<span class="property">topAnchor</span>.<span class="call">constraint</span>(equalTo: tableView.<span class="property">topAnchor</span>),
-            <span class="keyword">self</span>.<span class="property">view</span>.<span class="property">safeAreaLayoutGuide</span>.<span class="property">bottomAnchor</span>.<span class="call">constraint</span>(equalTo: tableView.<span class="property">bottomAnchor</span>),
-            <span class="keyword">self</span>.<span class="property">view</span>.<span class="property">leadingAnchor</span>.<span class="call">constraint</span>(equalTo: tableView.<span class="property">leadingAnchor</span>),
-            <span class="keyword">self</span>.<span class="property">view</span>.<span class="property">trailingAnchor</span>.<span class="call">constraint</span>(equalTo: tableView.<span class="property">trailingAnchor</span>),
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(tableView)
+        NSLayoutConstraint.activate([
+        self.view.safeAreaLayoutGuide.topAnchor.constraint(equalTo: tableView.topAnchor),
+            self.view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: tableView.bottomAnchor),
+            self.view.leadingAnchor.constraint(equalTo: tableView.leadingAnchor),
+            self.view.trailingAnchor.constraint(equalTo: tableView.trailingAnchor),
         ])
-        <span class="keyword">self</span>.<span class="property">tableView</span> = tableView
+        self.tableView = tableView
     }
-}</code></pre><p>Always use auto layout anchors to specify view constraints, if you don't know how to use them, check my <a href="https://theswiftdev.com/2018/06/14/mastering-ios-auto-layout-anchors-programmatically-from-swift/">layout anchors tutorial</a>, it's takes only about 15 minutes to learn this API, and you won't regret it. It's an extremely useful tool for any iOS developer! 😉</p><p>You might ask: should I use <a href="https://krakendev.io/blog/weak-and-unowned-references-in-swift" target="_blank">weak or strong</a> properties for view references? I'd say in most of the cases if you are not overriding self.view you should use weak! The view hierarchy will hold your custom view through a strong reference, so there is no need for stupid retain cycles &amp; memory leaks. Trust me! 🤥</p><h2>UITableViewDataSource basics</h2><p>Okay, we have an empty table view, let's display some <a href="https://samwize.com/2016/02/24/everything-about-uitableview/" target="_blank">cells</a>! In order to fill our table view with real data, we have to conform to the UITableViewDataSource protocol. Through a simple <a href="https://theswiftdev.com/2018/06/27/swift-delegate-design-pattern/">delegate pattern</a>, we can provide various information for the UITableView class, so it'll to know how much sections and rows will be needed, what kind of cells should be displayed for each row, and many more little details.</p><p>Another thing is that UITableView is a really efficient class. It'll reuse all the cells that are currently not displayed on the screen, so it'll consume way less memory than a UIScrollView, if you have to deal with hundreds or thousands of items. To support this behavior we have to register our cell class with a reuse identifier, so the underlying system will know what kind of cell is needed for a specific place. ⚙️</p><pre><code class="language-swift"><span class="keyword">class</span> ViewController: <span class="type">UIViewController</span> {
+}
+</code></pre><p>Always use auto layout anchors to specify view constraints, if you don’t know how to use them, check my <a href="https://theswiftdev.com/2018/06/14/mastering-ios-auto-layout-anchors-programmatically-from-swift/">layout anchors tutorial</a>, it’s takes only about 15 minutes to learn this API, and you won’t regret it. It’s an extremely useful tool for any iOS developer! 😉</p><p>You might ask: should I use <a href="https://krakendev.io/blog/weak-and-unowned-references-in-swift" target="_blank">weak or strong</a> properties for view references? I’d say in most of the cases if you are not overriding self.view you should use weak! The view hierarchy will hold your custom view through a strong reference, so there is no need for stupid retain cycles & memory leaks. Trust me! 🤥</p><h2 id="uitableviewdatasource-basics">UITableViewDataSource basics</h2><p>Okay, we have an empty table view, let’s display some <a href="https://samwize.com/2016/02/24/everything-about-uitableview/" target="_blank">cells</a>! In order to fill our table view with real data, we have to conform to the UITableViewDataSource protocol. Through a simple <a href="https://theswiftdev.com/2018/06/27/swift-delegate-design-pattern/">delegate pattern</a>, we can provide various information for the UITableView class, so it’ll to know how much sections and rows will be needed, what kind of cells should be displayed for each row, and many more little details.</p><p>Another thing is that UITableView is a really efficient class. It’ll reuse all the cells that are currently not displayed on the screen, so it’ll consume way less memory than a UIScrollView, if you have to deal with hundreds or thousands of items. To support this behavior we have to register our cell class with a reuse identifier, so the underlying system will know what kind of cell is needed for a specific place. ⚙️</p><pre><code class="language-swift">class ViewController: UIViewController {
 
-    <span class="keyword">var</span> items: [<span class="type">String</span>] = [
-        <span class="string">"👽"</span>, <span class="string">"🐱"</span>, <span class="string">"🐔"</span>, <span class="string">"🐶"</span>, <span class="string">"🦊"</span>, <span class="string">"🐵"</span>, <span class="string">"🐼"</span>, <span class="string">"🐷"</span>, <span class="string">"💩"</span>, <span class="string">"🐰"</span>,
-        <span class="string">"🤖"</span>, <span class="string">"🦄"</span>, <span class="string">"🐻"</span>, <span class="string">"🐲"</span>, <span class="string">"🦁"</span>, <span class="string">"💀"</span>, <span class="string">"🐨"</span>, <span class="string">"🐯"</span>, <span class="string">"👻"</span>, <span class="string">"🦖"</span>,
+    var items: [String] = [
+        "👽", "🐱", "🐔", "🐶", "🦊", "🐵", "🐼", "🐷", "💩", "🐰",
+        "🤖", "🦄", "🐻", "🐲", "🦁", "💀", "🐨", "🐯", "👻", "🦖",
     ]
 
-    <span class="keyword">override func</span> viewDidLoad() {
-        <span class="keyword">super</span>.<span class="call">viewDidLoad</span>()
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
-        <span class="keyword">self</span>.<span class="property">tableView</span>.<span class="call">register</span>(<span class="type">UITableViewCell</span>.<span class="keyword">self</span>, forCellReuseIdentifier: <span class="string">"UITableViewCell"</span>)
+        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
 
-        <span class="keyword">self</span>.<span class="property">tableView</span>.<span class="property">dataSource</span> = <span class="keyword">self</span>
+        self.tableView.dataSource = self
     }
 }
 
-<span class="keyword">extension</span> <span class="type">ViewController</span>: <span class="type">UITableViewDataSource</span> {
+extension ViewController: UITableViewDataSource {
 
-    <span class="keyword">func</span> tableView(<span class="keyword">_</span> tableView: <span class="type">UITableView</span>, numberOfRowsInSection section: <span class="type">Int</span>) -&gt; <span class="type">Int</span> {
-        <span class="keyword">return self</span>.<span class="property">items</span>.<span class="property">count</span>
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -&gt; Int {
+        return self.items.count
     }
 
-    <span class="keyword">func</span> tableView(<span class="keyword">_</span> tableView: <span class="type">UITableView</span>, cellForRowAt indexPath: <span class="type">IndexPath</span>) -&gt; <span class="type">UITableViewCell</span> {
-        <span class="keyword">let</span> cell = tableView.<span class="call">dequeueReusableCell</span>(withIdentifier: <span class="string">"UITableViewCell"</span>, for: indexPath)
-        <span class="keyword">let</span> item = <span class="keyword">self</span>.<span class="property">items</span>[indexPath.<span class="property">item</span>]
-        cell.<span class="property">textLabel</span>?.<span class="property">text</span> = item
-        <span class="keyword">return</span> cell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -&gt; UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
+        let item = self.items[indexPath.item]
+        cell.textLabel?.text = item
+        return cell
     }
-}</code></pre><p>After adding a few lines of code to our view controller file, the table view is now able to display a nice list of emojis! We are using the built-in UITableViewCell class from UIKit, which comes really handy if you are good to go with the "iOS-system-like" cell designs. We also conformed to the data source protocol, by telling how many items are in our section (currently there is only one section), and we configured our cell inside the famous cell for row at indexPath delegate method. 😎</p><h2>Customizing table view cells</h2><p>UITableViewCell can provide some basic elements to display data (title, detail, image in different styles), but usually you'll need custom designed cells. Here is a basic template of a custom cell subclass, I'll explain all the methods after the code.</p><pre><code class="language-swift"><span class="keyword">class</span> MyCell: <span class="type">UITableViewCell</span> {
+}
+</code></pre><p>After adding a few lines of code to our view controller file, the table view is now able to display a nice list of emojis! We are using the built-in UITableViewCell class from UIKit, which comes really handy if you are good to go with the “iOS-system-like” cell designs. We also conformed to the data source protocol, by telling how many items are in our section (currently there is only one section), and we configured our cell inside the famous cell for row at indexPath delegate method. 😎</p><h2 id="customizing-table-view-cells">Customizing table view cells</h2><p>UITableViewCell can provide some basic elements to display data (title, detail, image in different styles), but usually you’ll need custom designed cells. Here is a basic template of a custom cell subclass, I’ll explain all the methods after the code.</p><pre><code class="language-swift">class MyCell: UITableViewCell {
 
-    <span class="keyword">override init</span>(style: <span class="type">UITableViewCell</span>.<span class="type">CellStyle</span>, reuseIdentifier: <span class="type">String</span>?) {
-        <span class="keyword">super</span>.<span class="keyword">init</span>(style: style, reuseIdentifier: reuseIdentifier)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        <span class="keyword">self</span>.<span class="call">initialize</span>()
-    }
-
-    <span class="keyword">required init</span>?(coder aDecoder: <span class="type">NSCoder</span>) {
-        <span class="keyword">super</span>.<span class="keyword">init</span>(coder: aDecoder)
-
-        <span class="keyword">self</span>.<span class="call">initialize</span>()
+        self.initialize()
     }
 
-    <span class="keyword">func</span> initialize() {
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+
+        self.initialize()
+    }
+
+    func initialize() {
 
     }
-    <span class="comment">/*
+    /*
     override func awakeFromNib() {
         super.awakeFromNib()
 
     }
-    */</span>
-    <span class="keyword">override func</span> prepareForReuse() {
-        <span class="keyword">super</span>.<span class="call">prepareForReuse</span>()
+    */
+    override func prepareForReuse() {
+        super.prepareForReuse()
 
     }
-}</code></pre><p>The <code>init(style:reuseIdentifier)</code> method is a great place to override the cell style property if you are going to use the default UITableViewCell programmatically, but with different styles (there is no option to set cellStyle after the cell was initialized). For example if you need a <code>.value1</code> styled cell, just pass the argument directly to the super call. This way you can benefit from the 4 predefined <a href="https://developer.apple.com/documentation/uikit/uitableviewcellstyle" target="_blank">cell styles</a>.</p><blockquote><p>You'll also have to implement <code>init(coder:)</code>, so you should create a common initialize() function where you'll be able to add your custom views to the view hierarchy, like we did in the loadView method above. If you are using xib files &amp; IB, you can use the awakeFromNib method to add extra style to your views through the standard <code>@IBOutlet</code> properties (or add extra views to the hierarchy as well). 👍</p></blockquote><p>The last method that we have to talk about is <code>prepareForReuse</code>. As I mentioned before cells are being reused so if you want to reset some properties, like the background of a cell, you can do it here. This method will be called before the cell is going to be reused.</p><p>Let's make two new cell subclasses to play around with.</p><pre><code class="language-swift"><span class="keyword">class</span> DetailCell: <span class="type">UITableViewCell</span> {
+}
+</code></pre><p>The <code>init(style:reuseIdentifier)</code> method is a great place to override the cell style property if you are going to use the default UITableViewCell programmatically, but with different styles (there is no option to set cellStyle after the cell was initialized). For example if you need a <code>.value1</code> styled cell, just pass the argument directly to the super call. This way you can benefit from the 4 predefined <a href="https://developer.apple.com/documentation/uikit/uitableviewcellstyle" target="_blank">cell styles</a>.</p><blockquote><p>You’ll also have to implement <code>init(coder:)</code>, so you should create a common initialize() function where you’ll be able to add your custom views to the view hierarchy, like we did in the loadView method above. If you are using xib files & IB, you can use the awakeFromNib method to add extra style to your views through the standard <code>@IBOutlet</code> properties (or add extra views to the hierarchy as well). 👍</p></blockquote><p>The last method that we have to talk about is <code>prepareForReuse</code>. As I mentioned before cells are being reused so if you want to reset some properties, like the background of a cell, you can do it here. This method will be called before the cell is going to be reused.</p><p>Let’s make two new cell subclasses to play around with.</p><pre><code class="language-swift">class DetailCell: UITableViewCell {
 
-    <span class="keyword">override init</span>(style: <span class="type">UITableViewCell</span>.<span class="type">CellStyle</span>, reuseIdentifier: <span class="type">String</span>?) {
-        <span class="keyword">super</span>.<span class="keyword">init</span>(style: .<span class="dotAccess">subtitle</span>, reuseIdentifier: reuseIdentifier)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
 
-        <span class="keyword">self</span>.<span class="call">initialize</span>()
+        self.initialize()
     }
 
-    <span class="keyword">required init</span>?(coder aDecoder: <span class="type">NSCoder</span>) {
-        <span class="keyword">super</span>.<span class="keyword">init</span>(coder: aDecoder)
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
 
-        <span class="keyword">self</span>.<span class="call">initialize</span>()
+        self.initialize()
     }
 
-    <span class="keyword">func</span> initialize() {
-        <span class="comment">// nothing to do here :)</span>
+    func initialize() {
+        // nothing to do here :)
     }
 
-    <span class="keyword">override func</span> prepareForReuse() {
-        <span class="keyword">super</span>.<span class="call">prepareForReuse</span>()
+    override func prepareForReuse() {
+        super.prepareForReuse()
 
-        <span class="keyword">self</span>.<span class="property">textLabel</span>?.<span class="property">text</span> = <span class="keyword">nil
-        self</span>.<span class="property">detailTextLabel</span>?.<span class="property">text</span> = <span class="keyword">nil
-        self</span>.<span class="property">imageView</span>?.<span class="property">image</span> = <span class="keyword">nil</span>
+        self.textLabel?.text = nil
+        self.detailTextLabel?.text = nil
+        self.imageView?.image = nil
     }
-}</code></pre><p>Our custom cell will have a big image background plus a title label in the center of the view with a custom sized system font. Also I've added the <a href="https://commons.wikimedia.org/wiki/File:Swift_logo.svg" target="_blank">Swift logo</a> as an asset to the project, so we can have a nice demo image. 🖼</p><pre><code class="language-swift"><span class="keyword">class</span> CustomCell: <span class="type">UITableViewCell</span> {
+}
+</code></pre><p>Our custom cell will have a big image background plus a title label in the center of the view with a custom sized system font. Also I’ve added the <a href="https://commons.wikimedia.org/wiki/File:Swift_logo.svg" target="_blank">Swift logo</a> as an asset to the project, so we can have a nice demo image. 🖼</p><pre><code class="language-swift">class CustomCell: UITableViewCell {
 
-    <span class="keyword">weak var</span> coverView: <span class="type">UIImageView</span>!
-    <span class="keyword">weak var</span> titleLabel: <span class="type">UILabel</span>!
+    weak var coverView: UIImageView!
+    weak var titleLabel: UILabel!
 
-    <span class="keyword">override init</span>(style: <span class="type">UITableViewCell</span>.<span class="type">CellStyle</span>, reuseIdentifier: <span class="type">String</span>?) {
-        <span class="keyword">super</span>.<span class="keyword">init</span>(style: style, reuseIdentifier: reuseIdentifier)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        <span class="keyword">self</span>.<span class="call">initialize</span>()
-    }
-
-    <span class="keyword">required init</span>?(coder aDecoder: <span class="type">NSCoder</span>) {
-        <span class="keyword">super</span>.<span class="keyword">init</span>(coder: aDecoder)
-
-        <span class="keyword">self</span>.<span class="call">initialize</span>()
+        self.initialize()
     }
 
-    <span class="keyword">func</span> initialize() {
-        <span class="keyword">let</span> coverView = <span class="type">UIImageView</span>(frame: .<span class="dotAccess">zero</span>)
-        coverView.<span class="property">translatesAutoresizingMaskIntoConstraints</span> = <span class="keyword">false
-        self</span>.<span class="property">contentView</span>.<span class="call">addSubview</span>(coverView)
-        <span class="keyword">self</span>.<span class="property">coverView</span> = coverView
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
 
-        <span class="keyword">let</span> titleLabel = <span class="type">UILabel</span>(frame: .<span class="dotAccess">zero</span>)
-        titleLabel.<span class="property">translatesAutoresizingMaskIntoConstraints</span> = <span class="keyword">false
-        self</span>.<span class="property">contentView</span>.<span class="call">addSubview</span>(titleLabel)
-        <span class="keyword">self</span>.<span class="property">titleLabel</span> = titleLabel
+        self.initialize()
+    }
 
-        <span class="type">NSLayoutConstraint</span>.<span class="call">activate</span>([
-            <span class="keyword">self</span>.<span class="property">contentView</span>.<span class="property">topAnchor</span>.<span class="call">constraint</span>(equalTo: <span class="keyword">self</span>.<span class="property">coverView</span>.<span class="property">topAnchor</span>),
-            <span class="keyword">self</span>.<span class="property">contentView</span>.<span class="property">bottomAnchor</span>.<span class="call">constraint</span>(equalTo: <span class="keyword">self</span>.<span class="property">coverView</span>.<span class="property">bottomAnchor</span>),
-            <span class="keyword">self</span>.<span class="property">contentView</span>.<span class="property">leadingAnchor</span>.<span class="call">constraint</span>(equalTo: <span class="keyword">self</span>.<span class="property">coverView</span>.<span class="property">leadingAnchor</span>),
-            <span class="keyword">self</span>.<span class="property">contentView</span>.<span class="property">trailingAnchor</span>.<span class="call">constraint</span>(equalTo: <span class="keyword">self</span>.<span class="property">coverView</span>.<span class="property">trailingAnchor</span>),
+    func initialize() {
+        let coverView = UIImageView(frame: .zero)
+        coverView.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(coverView)
+        self.coverView = coverView
 
-            <span class="keyword">self</span>.<span class="property">contentView</span>.<span class="property">centerXAnchor</span>.<span class="call">constraint</span>(equalTo: <span class="keyword">self</span>.<span class="property">titleLabel</span>.<span class="property">centerXAnchor</span>),
-            <span class="keyword">self</span>.<span class="property">contentView</span>.<span class="property">centerYAnchor</span>.<span class="call">constraint</span>(equalTo: <span class="keyword">self</span>.<span class="property">titleLabel</span>.<span class="property">centerYAnchor</span>),
+        let titleLabel = UILabel(frame: .zero)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(titleLabel)
+        self.titleLabel = titleLabel
+
+        NSLayoutConstraint.activate([
+            self.contentView.topAnchor.constraint(equalTo: self.coverView.topAnchor),
+            self.contentView.bottomAnchor.constraint(equalTo: self.coverView.bottomAnchor),
+            self.contentView.leadingAnchor.constraint(equalTo: self.coverView.leadingAnchor),
+            self.contentView.trailingAnchor.constraint(equalTo: self.coverView.trailingAnchor),
+
+            self.contentView.centerXAnchor.constraint(equalTo: self.titleLabel.centerXAnchor),
+            self.contentView.centerYAnchor.constraint(equalTo: self.titleLabel.centerYAnchor),
         ])
 
-        <span class="keyword">self</span>.<span class="property">titleLabel</span>.<span class="property">font</span> = <span class="type">UIFont</span>.<span class="call">systemFont</span>(ofSize: <span class="number">64</span>)
+        self.titleLabel.font = UIFont.systemFont(ofSize: 64)
     }
 
-    <span class="keyword">override func</span> prepareForReuse() {
-        <span class="keyword">super</span>.<span class="call">prepareForReuse</span>()
+    override func prepareForReuse() {
+        super.prepareForReuse()
 
-        <span class="keyword">self</span>.<span class="property">coverView</span>.<span class="property">image</span> = <span class="keyword">nil</span>
-    }
-}</code></pre><p>That's it, let's start using these new cells. I'll even tell you how to set custom height for a given cell, and how to handle cell selection properly, but first we need to get to know with another delegate protocol. 🤝</p><h2>Basic UITableViewDelegate tutorial</h2><p>This delegate is responsible for lots of things, but for now we're going to cover just a few interesting aspects, like how to handle cell selection &amp; provide a custom cell height for each items inside the table. Here is a quick sample code.</p><pre><code class="language-swift"><span class="keyword">class</span> ViewController: <span class="type">UIViewController</span> {
-
-    <span class="keyword">override func</span> viewDidLoad() {
-            <span class="keyword">super</span>.<span class="call">viewDidLoad</span>()
-
-            <span class="keyword">self</span>.<span class="property">tableView</span>.<span class="call">register</span>(<span class="type">UITableViewCell</span>.<span class="keyword">self</span>, forCellReuseIdentifier: <span class="string">"UITableViewCell"</span>)
-            <span class="keyword">self</span>.<span class="property">tableView</span>.<span class="call">register</span>(<span class="type">DetailCell</span>.<span class="keyword">self</span>, forCellReuseIdentifier: <span class="string">"DetailCell"</span>)
-            <span class="keyword">self</span>.<span class="property">tableView</span>.<span class="call">register</span>(<span class="type">CustomCell</span>.<span class="keyword">self</span>, forCellReuseIdentifier: <span class="string">"CustomCell"</span>)
-
-            <span class="keyword">self</span>.<span class="property">tableView</span>.<span class="property">dataSource</span> = <span class="keyword">self
-            self</span>.<span class="property">tableView</span>.<span class="property">delegate</span> = <span class="keyword">self</span>
+        self.coverView.image = nil
     }
 }
-<span class="keyword">extension</span> <span class="type">ViewController</span>: <span class="type">UITableViewDataSource</span> {
+</code></pre><p>That’s it, let’s start using these new cells. I’ll even tell you how to set custom height for a given cell, and how to handle cell selection properly, but first we need to get to know with another delegate protocol. 🤝</p><h2 id="basic-uitableviewdelegate-tutorial">Basic UITableViewDelegate tutorial</h2><p>This delegate is responsible for lots of things, but for now we’re going to cover just a few interesting aspects, like how to handle cell selection & provide a custom cell height for each items inside the table. Here is a quick sample code.</p><pre><code class="language-swift">class ViewController: UIViewController {
 
-    <span class="keyword">func</span> tableView(<span class="keyword">_</span> tableView: <span class="type">UITableView</span>, cellForRowAt indexPath: <span class="type">IndexPath</span>) -&gt; <span class="type">UITableViewCell</span> {
-        <span class="keyword">let</span> cell = tableView.<span class="call">dequeueReusableCell</span>(withIdentifier: <span class="string">"CustomCell"</span>, for: indexPath) <span class="keyword">as</span>! <span class="type">CustomCell</span>
-        <span class="keyword">let</span> item = <span class="keyword">self</span>.<span class="property">items</span>[indexPath.<span class="property">item</span>]
-        cell.<span class="property">titleLabel</span>.<span class="property">text</span> = item
-        cell.<span class="property">coverView</span>.<span class="property">image</span> = <span class="type">UIImage</span>(named: <span class="string">"Swift"</span>)
-        <span class="keyword">return</span> cell
+    override func viewDidLoad() {
+            super.viewDidLoad()
+
+            self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
+            self.tableView.register(DetailCell.self, forCellReuseIdentifier: "DetailCell")
+            self.tableView.register(CustomCell.self, forCellReuseIdentifier: "CustomCell")
+
+            self.tableView.dataSource = self
+            self.tableView.delegate = self
+    }
+}
+extension ViewController: UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -&gt; UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! CustomCell
+        let item = self.items[indexPath.item]
+        cell.titleLabel.text = item
+        cell.coverView.image = UIImage(named: "Swift")
+        return cell
     }
 }
 
-<span class="keyword">extension</span> <span class="type">ViewController</span>: <span class="type">UITableViewDelegate</span> {
+extension ViewController: UITableViewDelegate {
 
-    <span class="keyword">func</span> tableView(<span class="keyword">_</span> tableView: <span class="type">UITableView</span>, heightForRowAt indexPath: <span class="type">IndexPath</span>) -&gt; <span class="type">CGFloat</span> {
-        <span class="keyword">return</span> <span class="number">128</span>
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -&gt; CGFloat {
+        return 128
     }
 
-    <span class="keyword">func</span> tableView(<span class="keyword">_</span> tableView: <span class="type">UITableView</span>, didSelectRowAt indexPath: <span class="type">IndexPath</span>) {
-        tableView.<span class="call">deselectRow</span>(at: indexPath, animated: <span class="keyword">true</span>)
-        <span class="keyword">let</span> item = <span class="keyword">self</span>.<span class="property">items</span>[indexPath.<span class="property">item</span>]
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let item = self.items[indexPath.item]
 
-        <span class="keyword">let</span> alertController = <span class="type">UIAlertController</span>(title: item, message: <span class="string">"is in da house!"</span>, preferredStyle: .<span class="dotAccess">alert</span>)
-        <span class="keyword">let</span> action = <span class="type">UIAlertAction</span>(title: <span class="string">"Ok"</span>, style: .<span class="dotAccess">default</span>) { <span class="keyword">_ in</span> }
-        alertController.<span class="call">addAction</span>(action)
-        <span class="keyword">self</span>.<span class="call">present</span>(alertController, animated: <span class="keyword">true</span>, completion: <span class="keyword">nil</span>)
+        let alertController = UIAlertController(title: item, message: "is in da house!", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Ok", style: .default) { _ in }
+        alertController.addAction(action)
+        self.present(alertController, animated: true, completion: nil)
     }
-}</code></pre><p>As you can see I'm registering my brand new custom cell classes in the <code>viewDidLoad</code> method. I also changed the code inside the <code>cellForRowAt</code> indexPath method, so we can use the <code>CustomCell</code> class instead of <code>UITableViewCells</code>. Don't be afraid of force casting here, if something goes wrong at this point, your app should crash. 🙃</p><p>There are two delegate methods that we are using here. In the first one, we have to return a number and the system will use that height for the cells. If you want to use different cell height per row, you can achieve that too by checking indexPath property or anything like that. The second one is the handler for the selection. If someone taps on a cell, this method will be called &amp; you can perform some action.</p><blockquote><p>An indexPath has two interesting properties: section &amp; item (=row)</p></blockquote><h2>Multiple sections with headers and footers</h2><p>It's possible to have <a href="https://medium.com/@stasost/ios-how-to-build-a-table-view-with-multiple-cell-types-2df91a206429" target="_blank">multiple</a> sections inside the table view, I won't go too much into the details, because it's pretty straightforward. You just have to use indexPaths in order to get / set / return the proper data for each section &amp; cell.</p><pre><code class="language-swift"><span class="keyword">import</span> UIKit
+}
+</code></pre><p>As you can see I’m registering my brand new custom cell classes in the <code>viewDidLoad</code> method. I also changed the code inside the <code>cellForRowAt</code> indexPath method, so we can use the <code>CustomCell</code> class instead of <code>UITableViewCells</code>. Don’t be afraid of force casting here, if something goes wrong at this point, your app should crash. 🙃</p><p>There are two delegate methods that we are using here. In the first one, we have to return a number and the system will use that height for the cells. If you want to use different cell height per row, you can achieve that too by checking indexPath property or anything like that. The second one is the handler for the selection. If someone taps on a cell, this method will be called & you can perform some action.</p><blockquote><p>An indexPath has two interesting properties: section & item (=row)</p></blockquote><h2 id="multiple-sections-with-headers-and-footers">Multiple sections with headers and footers</h2><p>It’s possible to have <a href="https://medium.com/@stasost/ios-how-to-build-a-table-view-with-multiple-cell-types-2df91a206429" target="_blank">multiple</a> sections inside the table view, I won’t go too much into the details, because it’s pretty straightforward. You just have to use indexPaths in order to get / set / return the proper data for each section & cell.</p><pre><code class="language-swift">import UIKit
 
-<span class="keyword">class</span> ViewController: <span class="type">UIViewController</span> {
+class ViewController: UIViewController {
 
-    <span class="keyword">weak var</span> tableView: <span class="type">UITableView</span>!
+    weak var tableView: UITableView!
 
-    <span class="keyword">var</span> placeholderView = <span class="type">UIView</span>(frame: .<span class="dotAccess">zero</span>)
-    <span class="keyword">var</span> isPullingDown = <span class="keyword">false
+    var placeholderView = UIView(frame: .zero)
+    var isPullingDown = false
 
-    enum</span> Style {
-        <span class="keyword">case</span> `default`
+    enum Style {
+        case `default`
         case subtitle
-        <span class="keyword">case</span> custom
+        case custom
     }
 
-    <span class="keyword">var</span> style = <span class="type">Style</span>.<span class="property">default</span>
+    var style = Style.default
 
-    <span class="keyword">var</span> items: [<span class="type">String</span>: [<span class="type">String</span>]] = [
-        <span class="string">"Originals"</span>: [<span class="string">"👽"</span>, <span class="string">"🐱"</span>, <span class="string">"🐔"</span>, <span class="string">"🐶"</span>, <span class="string">"🦊"</span>, <span class="string">"🐵"</span>, <span class="string">"🐼"</span>, <span class="string">"🐷"</span>, <span class="string">"💩"</span>, <span class="string">"🐰"</span>,<span class="string">"🤖"</span>, <span class="string">"🦄"</span>],
-        <span class="string">"iOS 11.3"</span>: [<span class="string">"🐻"</span>, <span class="string">"🐲"</span>, <span class="string">"🦁"</span>, <span class="string">"💀"</span>],
-        <span class="string">"iOS 12"</span>: [<span class="string">"🐨"</span>, <span class="string">"🐯"</span>, <span class="string">"👻"</span>, <span class="string">"🦖"</span>],
+    var items: [String: [String]] = [
+        "Originals": ["👽", "🐱", "🐔", "🐶", "🦊", "🐵", "🐼", "🐷", "💩", "🐰","🤖", "🦄"],
+        "iOS 11.3": ["🐻", "🐲", "🦁", "💀"],
+        "iOS 12": ["🐨", "🐯", "👻", "🦖"],
     ]
 
-    <span class="keyword">override func</span> loadView() {
-        <span class="keyword">super</span>.<span class="call">loadView</span>()
+    override func loadView() {
+        super.loadView()
 
-        <span class="keyword">let</span> tableView = <span class="type">UITableView</span>(frame: .<span class="dotAccess">zero</span>, style: .<span class="dotAccess">plain</span>)
-        tableView.<span class="property">translatesAutoresizingMaskIntoConstraints</span> = <span class="keyword">false
-        self</span>.<span class="property">view</span>.<span class="call">addSubview</span>(tableView)
-        <span class="type">NSLayoutConstraint</span>.<span class="call">activate</span>([
-            <span class="keyword">self</span>.<span class="property">view</span>.<span class="property">safeAreaLayoutGuide</span>.<span class="property">topAnchor</span>.<span class="call">constraint</span>(equalTo: tableView.<span class="property">topAnchor</span>),
-            <span class="keyword">self</span>.<span class="property">view</span>.<span class="property">safeAreaLayoutGuide</span>.<span class="property">bottomAnchor</span>.<span class="call">constraint</span>(equalTo: tableView.<span class="property">bottomAnchor</span>),
-            <span class="keyword">self</span>.<span class="property">view</span>.<span class="property">leadingAnchor</span>.<span class="call">constraint</span>(equalTo: tableView.<span class="property">leadingAnchor</span>),
-            <span class="keyword">self</span>.<span class="property">view</span>.<span class="property">trailingAnchor</span>.<span class="call">constraint</span>(equalTo: tableView.<span class="property">trailingAnchor</span>),
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(tableView)
+        NSLayoutConstraint.activate([
+            self.view.safeAreaLayoutGuide.topAnchor.constraint(equalTo: tableView.topAnchor),
+            self.view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: tableView.bottomAnchor),
+            self.view.leadingAnchor.constraint(equalTo: tableView.leadingAnchor),
+            self.view.trailingAnchor.constraint(equalTo: tableView.trailingAnchor),
         ])
-        <span class="keyword">self</span>.<span class="property">tableView</span> = tableView
+        self.tableView = tableView
     }
 
-    <span class="keyword">override func</span> viewDidLoad() {
-        <span class="keyword">super</span>.<span class="call">viewDidLoad</span>()
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
-        <span class="keyword">self</span>.<span class="property">tableView</span>.<span class="call">register</span>(<span class="type">UITableViewCell</span>.<span class="keyword">self</span>, forCellReuseIdentifier: <span class="string">"UITableViewCell"</span>)
-        <span class="keyword">self</span>.<span class="property">tableView</span>.<span class="call">register</span>(<span class="type">DetailCell</span>.<span class="keyword">self</span>, forCellReuseIdentifier: <span class="string">"DetailCell"</span>)
-        <span class="keyword">self</span>.<span class="property">tableView</span>.<span class="call">register</span>(<span class="type">CustomCell</span>.<span class="keyword">self</span>, forCellReuseIdentifier: <span class="string">"CustomCell"</span>)
+        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
+        self.tableView.register(DetailCell.self, forCellReuseIdentifier: "DetailCell")
+        self.tableView.register(CustomCell.self, forCellReuseIdentifier: "CustomCell")
 
-        <span class="keyword">self</span>.<span class="property">tableView</span>.<span class="property">dataSource</span> = <span class="keyword">self
-        self</span>.<span class="property">tableView</span>.<span class="property">delegate</span> = <span class="keyword">self
-        self</span>.<span class="property">tableView</span>.<span class="property">separatorStyle</span> = .<span class="dotAccess">singleLine</span>
-        <span class="keyword">self</span>.<span class="property">tableView</span>.<span class="property">separatorColor</span> = .<span class="dotAccess">lightGray</span>
-        <span class="keyword">self</span>.<span class="property">tableView</span>.<span class="property">separatorInset</span> = .<span class="dotAccess">zero</span>
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
+        self.tableView.separatorStyle = .singleLine
+        self.tableView.separatorColor = .lightGray
+        self.tableView.separatorInset = .zero
 
-        <span class="keyword">self</span>.<span class="property">navigationItem</span>.<span class="property">rightBarButtonItem</span> = .<span class="keyword">init</span>(barButtonSystemItem: .<span class="dotAccess">refresh</span>, target: <span class="keyword">self</span>, action: <span class="keyword">#selector</span>(<span class="keyword">self</span>.<span class="property">toggleCells</span>))
+        self.navigationItem.rightBarButtonItem = .init(barButtonSystemItem: .refresh, target: self, action: #selector(self.toggleCells))
     }
 
-    <span class="keyword">@objc func</span> toggleCells() {
+    @objc func toggleCells() {
 
-        <span class="keyword">switch self</span>.<span class="property">style</span> {
-        <span class="keyword">case</span> .<span class="dotAccess">default</span>:
-            <span class="keyword">self</span>.<span class="property">style</span> = .<span class="dotAccess">subtitle</span>
-        <span class="keyword">case</span> .<span class="dotAccess">subtitle</span>:
-            <span class="keyword">self</span>.<span class="property">style</span> = .<span class="dotAccess">custom</span>
-        <span class="keyword">case</span> .<span class="dotAccess">custom</span>:
-            <span class="keyword">self</span>.<span class="property">style</span> = .<span class="dotAccess">default</span>
+        switch self.style {
+        case .default:
+            self.style = .subtitle
+        case .subtitle:
+            self.style = .custom
+        case .custom:
+            self.style = .default
         }
 
-        <span class="type">DispatchQueue</span>.<span class="property">main</span>.<span class="call">async</span> {
-            <span class="keyword">self</span>.<span class="property">tableView</span>.<span class="call">reloadData</span>()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
         }
     }
 
-    <span class="comment">// MARK: - helpers</span>
+    // MARK: - helpers
 
-    <span class="keyword">func</span> key(for section: <span class="type">Int</span>) -&gt; <span class="type">String</span> {
-        <span class="keyword">let</span> keys = <span class="type">Array</span>(<span class="keyword">self</span>.<span class="property">items</span>.<span class="property">keys</span>).<span class="call">sorted</span> { first, last -&gt; <span class="type">Bool</span> <span class="keyword">in
-            if</span> first == <span class="string">"Originals"</span> {
-                <span class="keyword">return true</span>
+    func key(for section: Int) -&gt; String {
+        let keys = Array(self.items.keys).sorted { first, last -&gt; Bool in
+            if first == "Originals" {
+                return true
             }
-            <span class="keyword">return</span> first &lt; last
+            return first &lt; last
         }
-        <span class="keyword">let</span> key = keys[section]
-        <span class="keyword">return</span> key
+        let key = keys[section]
+        return key
     }
 
-    <span class="keyword">func</span> items(in section: <span class="type">Int</span>) -&gt; [<span class="type">String</span>] {
-        <span class="keyword">let</span> key = <span class="keyword">self</span>.<span class="call">key</span>(for: section)
-        <span class="keyword">return self</span>.<span class="property">items</span>[key]!
+    func items(in section: Int) -&gt; [String] {
+        let key = self.key(for: section)
+        return self.items[key]!
     }
 
-    <span class="keyword">func</span> item(at indexPath: <span class="type">IndexPath</span>) -&gt; <span class="type">String</span> {
-        <span class="keyword">let</span> items = <span class="keyword">self</span>.<span class="call">items</span>(in: indexPath.<span class="property">section</span>)
-        <span class="keyword">return</span> items[indexPath.<span class="property">item</span>]
+    func item(at indexPath: IndexPath) -&gt; String {
+        let items = self.items(in: indexPath.section)
+        return items[indexPath.item]
     }
 }
 
-<span class="keyword">extension</span> <span class="type">ViewController</span>: <span class="type">UITableViewDataSource</span> {
+extension ViewController: UITableViewDataSource {
 
-    <span class="keyword">func</span> numberOfSections(in tableView: <span class="type">UITableView</span>) -&gt; <span class="type">Int</span> {
-        <span class="keyword">return self</span>.<span class="property">items</span>.<span class="property">keys</span>.<span class="property">count</span>
+    func numberOfSections(in tableView: UITableView) -&gt; Int {
+        return self.items.keys.count
     }
 
-    <span class="keyword">func</span> tableView(<span class="keyword">_</span> tableView: <span class="type">UITableView</span>, numberOfRowsInSection section: <span class="type">Int</span>) -&gt; <span class="type">Int</span> {
-        <span class="keyword">return self</span>.<span class="call">items</span>(in: section).<span class="property">count</span>
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -&gt; Int {
+        return self.items(in: section).count
     }
 
-    <span class="keyword">func</span> tableView(<span class="keyword">_</span> tableView: <span class="type">UITableView</span>, cellForRowAt indexPath: <span class="type">IndexPath</span>) -&gt; <span class="type">UITableViewCell</span> {
-        <span class="keyword">let</span> item = <span class="keyword">self</span>.<span class="call">item</span>(at: indexPath)
-        <span class="keyword">let</span> cell = tableView.<span class="call">dequeueReusableCell</span>(withIdentifier: <span class="string">"CustomCell"</span>, for: indexPath) <span class="keyword">as</span>! <span class="type">CustomCell</span>
-        cell.<span class="property">titleLabel</span>.<span class="property">text</span> = item
-        cell.<span class="property">coverView</span>.<span class="property">image</span> = <span class="type">UIImage</span>(named: <span class="string">"Swift"</span>)
-        <span class="keyword">return</span> cell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -&gt; UITableViewCell {
+        let item = self.item(at: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! CustomCell
+        cell.titleLabel.text = item
+        cell.coverView.image = UIImage(named: "Swift")
+        return cell
     }
 
-    <span class="keyword">func</span> tableView(<span class="keyword">_</span> tableView: <span class="type">UITableView</span>, titleForHeaderInSection section: <span class="type">Int</span>) -&gt; <span class="type">String</span>? {
-        <span class="keyword">return self</span>.<span class="call">key</span>(for: section)
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -&gt; String? {
+        return self.key(for: section)
     }
 
 }
 
-<span class="keyword">extension</span> <span class="type">ViewController</span>: <span class="type">UITableViewDelegate</span> {
+extension ViewController: UITableViewDelegate {
 
-    <span class="keyword">func</span> tableView(<span class="keyword">_</span> tableView: <span class="type">UITableView</span>, heightForRowAt indexPath: <span class="type">IndexPath</span>) -&gt; <span class="type">CGFloat</span> {
-        <span class="keyword">return</span> <span class="number">128</span>
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -&gt; CGFloat {
+        return 128
     }
 
-    <span class="keyword">func</span> tableView(<span class="keyword">_</span> tableView: <span class="type">UITableView</span>, didSelectRowAt indexPath: <span class="type">IndexPath</span>) {
-        tableView.<span class="call">deselectRow</span>(at: indexPath, animated: <span class="keyword">true</span>)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
 
-        <span class="keyword">let</span> item = <span class="keyword">self</span>.<span class="call">item</span>(at: indexPath)
-        <span class="keyword">let</span> alertController = <span class="type">UIAlertController</span>(title: item, message: <span class="string">"is in da house!"</span>, preferredStyle: .<span class="dotAccess">alert</span>)
-        <span class="keyword">let</span> action = <span class="type">UIAlertAction</span>(title: <span class="string">"Ok"</span>, style: .<span class="dotAccess">default</span>) { <span class="keyword">_ in</span> }
-        alertController.<span class="call">addAction</span>(action)
-        <span class="keyword">self</span>.<span class="call">present</span>(alertController, animated: <span class="keyword">true</span>, completion: <span class="keyword">nil</span>)
+        let item = self.item(at: indexPath)
+        let alertController = UIAlertController(title: item, message: "is in da house!", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Ok", style: .default) { _ in }
+        alertController.addAction(action)
+        self.present(alertController, animated: true, completion: nil)
     }
-}</code></pre><p>Although there is one interesting addition in the code snippet above. You can have a custom title for every section, you just have to add the <code>titleForHeaderInSection</code> data source method. Yep, it looks like shit, but this one is not about perfect UIs. 😂</p><p>However if you are not satisfied with the layout of the section titles, you can create a custom class &amp; use that instead of the built-in ones. Here is how to do a custom section header view. Here is the implementation of the reusable view:</p><pre><code class="language-swift"><span class="keyword">class</span> HeaderView: <span class="type">UITableViewHeaderFooterView</span> {
+}
+</code></pre><p>Although there is one interesting addition in the code snippet above. You can have a custom title for every section, you just have to add the <code>titleForHeaderInSection</code> data source method. Yep, it looks like shit, but this one is not about perfect UIs. 😂</p><p>However if you are not satisfied with the layout of the section titles, you can create a custom class & use that instead of the built-in ones. Here is how to do a custom section header view. Here is the implementation of the reusable view:</p><pre><code class="language-swift">class HeaderView: UITableViewHeaderFooterView {
 
-    <span class="keyword">weak var</span> titleLabel: <span class="type">UILabel</span>!
+    weak var titleLabel: UILabel!
 
-    <span class="keyword">override init</span>(reuseIdentifier: <span class="type">String</span>?) {
-        <span class="keyword">super</span>.<span class="keyword">init</span>(reuseIdentifier: reuseIdentifier)
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
 
-        <span class="keyword">self</span>.<span class="call">initialize</span>()
-    }
-
-    <span class="keyword">required init</span>?(coder aDecoder: <span class="type">NSCoder</span>) {
-        <span class="keyword">super</span>.<span class="keyword">init</span>(coder: aDecoder)
-
-        <span class="keyword">self</span>.<span class="call">initialize</span>()
+        self.initialize()
     }
 
-    <span class="keyword">func</span> initialize() {
-        <span class="keyword">let</span> titleLabel = <span class="type">UILabel</span>(frame: .<span class="dotAccess">zero</span>)
-        titleLabel.<span class="property">translatesAutoresizingMaskIntoConstraints</span> = <span class="keyword">false
-        self</span>.<span class="property">contentView</span>.<span class="call">addSubview</span>(titleLabel)
-        <span class="keyword">self</span>.<span class="property">titleLabel</span> = titleLabel
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
 
-        <span class="type">NSLayoutConstraint</span>.<span class="call">activate</span>([
-            <span class="keyword">self</span>.<span class="property">contentView</span>.<span class="property">centerXAnchor</span>.<span class="call">constraint</span>(equalTo: <span class="keyword">self</span>.<span class="property">titleLabel</span>.<span class="property">centerXAnchor</span>),
-            <span class="keyword">self</span>.<span class="property">contentView</span>.<span class="property">centerYAnchor</span>.<span class="call">constraint</span>(equalTo: <span class="keyword">self</span>.<span class="property">titleLabel</span>.<span class="property">centerYAnchor</span>),
+        self.initialize()
+    }
+
+    func initialize() {
+        let titleLabel = UILabel(frame: .zero)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(titleLabel)
+        self.titleLabel = titleLabel
+
+        NSLayoutConstraint.activate([
+            self.contentView.centerXAnchor.constraint(equalTo: self.titleLabel.centerXAnchor),
+            self.contentView.centerYAnchor.constraint(equalTo: self.titleLabel.centerYAnchor),
         ])
 
-        <span class="keyword">self</span>.<span class="property">contentView</span>.<span class="property">backgroundColor</span> = .<span class="dotAccess">black</span>
-        <span class="keyword">self</span>.<span class="property">titleLabel</span>.<span class="property">font</span> = <span class="type">UIFont</span>.<span class="call">boldSystemFont</span>(ofSize: <span class="number">16</span>)
-        <span class="keyword">self</span>.<span class="property">titleLabel</span>.<span class="property">textAlignment</span> = .<span class="dotAccess">center</span>
-        <span class="keyword">self</span>.<span class="property">titleLabel</span>.<span class="property">textColor</span> = .<span class="dotAccess">white</span>
+        self.contentView.backgroundColor = .black
+        self.titleLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        self.titleLabel.textAlignment = .center
+        self.titleLabel.textColor = .white
     }
-}</code></pre><p>There is only a few things left to do, you have to register your header view, just like you did it for the cells. It's exactly the same way, except that there is a separate registration "pool" for the header &amp; footer views. Lastly you have to implement two additional, but relatively simple (and familiar) delegate methods.</p><pre><code class="language-swift"><span class="comment">// This goes to viewDidLoad, but I don't want to embedd that much code... :)
-// self.tableView.register(HeaderView.self, forHeaderFooterViewReuseIdentifier: "HeaderView")</span>
+}
+</code></pre><p>There is only a few things left to do, you have to register your header view, just like you did it for the cells. It’s exactly the same way, except that there is a separate registration “pool” for the header & footer views. Lastly you have to implement two additional, but relatively simple (and familiar) delegate methods.</p><pre><code class="language-swift">// This goes to viewDidLoad, but I don't want to embedd that much code... :)
+// self.tableView.register(HeaderView.self, forHeaderFooterViewReuseIdentifier: "HeaderView")
 
-<span class="keyword">extension</span> <span class="type">ViewController</span>: <span class="type">UITableViewDelegate</span> {
+extension ViewController: UITableViewDelegate {
 
-    <span class="comment">/* ... */</span>
+    /* ... */
 
-    <span class="keyword">func</span> tableView(<span class="keyword">_</span> tableView: <span class="type">UITableView</span>, heightForHeaderInSection section: <span class="type">Int</span>) -&gt; <span class="type">CGFloat</span> {
-        <span class="keyword">return</span> <span class="number">32</span>
-    }
-
-    <span class="keyword">func</span> tableView(<span class="keyword">_</span> tableView: <span class="type">UITableView</span>, viewForHeaderInSection section: <span class="type">Int</span>) -&gt; <span class="type">UIView</span>? {
-        <span class="keyword">let</span> view = tableView.<span class="call">dequeueReusableHeaderFooterView</span>(withIdentifier: <span class="string">"HeaderView"</span>) <span class="keyword">as</span>! <span class="type">HeaderView</span>
-        view.<span class="property">titleLabel</span>.<span class="property">text</span> = <span class="keyword">self</span>.<span class="call">key</span>(for: section)
-        <span class="keyword">return</span> view
-    }
-}</code></pre><blockquote><p>Footers works exactly the same as headers, you just have to implement the corresponding data source &amp; delegate methods in order to support them.</p></blockquote><p>You can even have multiple cells in the same table view based on the row or section index or any specific business requirement. I'm not going to demo this here, because I have a way better solution for mixing and reusing cells inside the <a href="https://gitlab.com/corekit/CoreKit" target="_blank">CoreKit framework</a>. It's already there for table views as well, plus I already covered this idea in my <a href="https://theswiftdev.com/2018/04/17/ultimate-uicollectionview-guide-with-ios-examples-written-in-swift/">ultimate collection view tutorial</a> post. You should check that too. 🤓</p><h2>Section titles &amp; indexes</h2><p>Ok, if your brain is not melted yet, I'll show you two more little things that can be interesting for beginners. The first one is based on two additional data source methods and it's a very pleasant addition for long lists. (I prefer search bars!) 🤯</p><pre><code class="language-swift"><span class="keyword">extension</span> <span class="type">ViewController</span>: <span class="type">UITableViewDataSource</span> {
-    <span class="comment">/* ... */</span>
-
-    <span class="keyword">func</span> sectionIndexTitles(for tableView: <span class="type">UITableView</span>) -&gt; [<span class="type">String</span>]? {
-        <span class="keyword">return</span> [<span class="string">"1"</span>, <span class="string">"2"</span>, <span class="string">"3"</span>]
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -&gt; CGFloat {
+        return 32
     }
 
-    <span class="keyword">func</span> tableView(<span class="keyword">_</span> tableView: <span class="type">UITableView</span>, sectionForSectionIndexTitle title: <span class="type">String</span>, at index: <span class="type">Int</span>) -&gt; <span class="type">Int</span> {
-        <span class="keyword">return</span> index
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -&gt; UIView? {
+        let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: "HeaderView") as! HeaderView
+        view.titleLabel.text = self.key(for: section)
+        return view
     }
-}</code></pre><p>If you are going to implement these methods above you can have a little index view for your sections in the right side of the table view, so the end-user will be able to quickly jump between sections. Just like in the official contacts app. 📕</p><h2>Selection vs highlight</h2><p>Cells are highlighted when you are holding them down with your finger. Cell is going to be selected if you release your finger from the cell.</p><p>Don't <a href="https://medium.com/@imho_ios/why-uitableviewcell-highlight-and-selection-styling-are-such-a-mystery-1ae1599e660a" target="_blank">over-complicate</a> this. You just have to implement two methods in you custom cell class to make everything work. I prefer to deselect my cells right away, if they're not for example used by some sort of data picker layout. Here is the code:</p><pre><code class="language-swift"><span class="keyword">class</span> CustomCell: <span class="type">UITableViewCell</span> {
+}
+</code></pre><blockquote><p>Footers works exactly the same as headers, you just have to implement the corresponding data source & delegate methods in order to support them.</p></blockquote><p>You can even have multiple cells in the same table view based on the row or section index or any specific business requirement. I’m not going to demo this here, because I have a way better solution for mixing and reusing cells inside the <a href="https://gitlab.com/corekit/CoreKit" target="_blank">CoreKit framework</a>. It’s already there for table views as well, plus I already covered this idea in my <a href="https://theswiftdev.com/2018/04/17/ultimate-uicollectionview-guide-with-ios-examples-written-in-swift/">ultimate collection view tutorial</a> post. You should check that too. 🤓</p><h2 id="section-titles-indexes">Section titles & indexes</h2><p>Ok, if your brain is not melted yet, I’ll show you two more little things that can be interesting for beginners. The first one is based on two additional data source methods and it’s a very pleasant addition for long lists. (I prefer search bars!) 🤯</p><pre><code class="language-swift">extension ViewController: UITableViewDataSource {
+    /* ... */
 
-    <span class="comment">/* ... */</span>
-
-    <span class="keyword">override func</span> setSelected(<span class="keyword">_</span> selected: <span class="type">Bool</span>, animated: <span class="type">Bool</span>) {
-        <span class="keyword">self</span>.<span class="property">coverView</span>.<span class="property">backgroundColor</span> = selected ? .<span class="dotAccess">red</span> : .<span class="dotAccess">clear</span>
+    func sectionIndexTitles(for tableView: UITableView) -&gt; [String]? {
+        return ["1", "2", "3"]
     }
 
-    <span class="keyword">override func</span> setHighlighted(<span class="keyword">_</span> highlighted: <span class="type">Bool</span>, animated: <span class="type">Bool</span>) {
-        <span class="keyword">self</span>.<span class="property">coverView</span>.<span class="property">backgroundColor</span> = highlighted ? .<span class="dotAccess">blue</span> : .<span class="dotAccess">clear</span>
+    func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -&gt; Int {
+        return index
     }
-}</code></pre><p>As you can see, it's ridiculously easy, but most of the beginners don't know how to do this. Also they usually forget to reset cells before the reusing logic happens, so the list keeps messing up cell states. Don't worry too much about these problems, they'll go away as you're going to be more experienced with the UITableView APIs.</p>
-        </section>
-    </div>
+}
+</code></pre><p>If you are going to implement these methods above you can have a little index view for your sections in the right side of the table view, so the end-user will be able to quickly jump between sections. Just like in the official contacts app. 📕</p><h2 id="selection-vs-highlight">Selection vs highlight</h2><p>Cells are highlighted when you are holding them down with your finger. Cell is going to be selected if you release your finger from the cell.</p><p>Don’t <a href="https://medium.com/@imho_ios/why-uitableviewcell-highlight-and-selection-styling-are-such-a-mystery-1ae1599e660a" target="_blank">over-complicate</a> this. You just have to implement two methods in you custom cell class to make everything work. I prefer to deselect my cells right away, if they’re not for example used by some sort of data picker layout. Here is the code:</p><pre><code class="language-swift">class CustomCell: UITableViewCell {
 
-</article>
+    /* ... */
 
-<section id="share" class="content-wrapper">
-    <p>
-    <a
-        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/uitableview-tutorial-in-swift/"
-        target="_blank"
-    >
-        Share this article
-    </a>
-    <br> Thank you. 🙏</p>
-</section>
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        self.coverView.backgroundColor = selected ? .red : .clear
+    }
 
-<section  class="wrapper">
-    <div id="book">
-        <div class="column left">
-            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        self.coverView.backgroundColor = highlighted ? .blue : .clear
+    }
+}
+</code></pre><p>As you can see, it’s ridiculously easy, but most of the beginners don’t know how to do this. Also they usually forget to reset cells before the reusing logic happens, so the list keeps messing up cell states. Don’t worry too much about these problems, they’ll go away as you’re going to be more experienced with the UITableView APIs.</p>
+                    
+                </section>
+    
+                <footer>
+                    <br>
+                    <time datetime=""></time>
+    
+                    
+                    <div class="author-list">
+                        <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        </a>
+                    </div>
+                    <div class="tag-list">
+                        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                    </div>
+                    
+                    <p>
+                        <a href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/uitableview-tutorial-in-swift/" target="_blank">
+                            <strong>Share this article</strong>
+                        </a>
+                        <br>Thank you. 🙏
+                    </p>
+                </footer>
+                            
+                <section class="group">
+                    <h4>Related posts</h4>                
+                    <div class="grid grid-221">
+                        <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2022/02/03">2022/02/03</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/10-little-uikit-tips-you-should-know/" target="">10 little UIKit tips you should know</a></h2>
+                            <hr>
+                            <p>In this article I&#39;ve gathered my top 10 favorite modern UIKit tips that I&#39;d definitely want to know before I start my next project.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2019/05/23">2019/05/23</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/building-input-forms-for-ios-apps/" target="">Building input forms for iOS apps</a></h2>
+                            <hr>
+                            <p>Learn how to build complex forms with my updated collection view view-model framework without the struggle using Swift.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018/10/16">2018/10/16</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/custom-uiview-subclass-from-a-xib-file/" target="">Custom UIView subclass from a xib file</a></h2>
+                            <hr>
+                            <p>Do you want to learn how to load a xib file to create a custom view object? Well, this UIKit tutorial is just for you written in Swift.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2019/10/21">2019/10/21</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/custom-views-input-forms-and-mistakes/" target="">Custom views, input forms and mistakes</a></h2>
+                            <hr>
+                            <p>Just a little advice about creating custom view programmatically and the truth about why form building with collection views sucks.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    
+            </article>
         </div>
-        <div class="column right">
-            <h3>Get the Practical Server Side Swift book</h3>
-            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
-        </div>
-    </div>
-</section>
-
-<section id="author" class="content-wrapper">
-    <img 
-        id="author-image"
-        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
-        alt="Picture of Tibor Bödecs" 
-        title="Tibor Bödecs"
-    >
-    <h3>Tibor Bödecs</h3>
-    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
-    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
-
-    <div class="links">
-        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
-        <a href="https://github.com/tib" target="_blank">GitHub</a> 
-    </div>
-</section>
-
         
+        <div>
+            <div class="book">
+                <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">
+                    <img src="https://theswiftdev.com/book/practical-server-side-swift-cover.png" alt="Practical Server Side Swift cover image">
+                </a>
+                <h3>
+                    <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Get the Practical Server Side Swift book</a>
+                </h3>
+                <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+                <a class="cta" href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+            </div>
+            
+            
+            <aside id="toc">
+                <h4>On this page</h4>
+                <ul>
+                    <li class="first-level">
+                        <a href="#how-to-create-a-table-view-programmatically">How to create a table view programmatically?</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#uitableviewdatasource-basics">UITableViewDataSource basics</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#customizing-table-view-cells">Customizing table view cells</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#basic-uitableviewdelegate-tutorial">Basic UITableViewDelegate tutorial</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#multiple-sections-with-headers-and-footers">Multiple sections with headers and footers</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#section-titles-indexes">Section titles &amp; indexes</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#selection-vs-highlight">Selection vs highlight</a>
+                        <ul>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+            
+    
+        </div>
+    </div>
+    
     </main>
 
-    <footer>
-        <section class="content-wrapper">
-            <img 
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
-
-            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+    <footer id="site-footer">
+        <div class="grid grid-421">
+    
+            <picture>
+                <img
+                    id="logo-image"
+                    src="https://theswiftdev.com/images/logos/logo-large.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
             
-            <p> 
-                <a href="https://theswiftdev.com/">Home</a> ·
-                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
-            </p>
+            <div>
+                <span style="display: block; height: 32px;">&nbsp;</span>
+                <h4>The.Swift.Dev</h4>
+                <p><small><a href="https://theswiftdev.com/" target="_blank">theswiftdev.com</a></small></p>
+                <ul>
+                    <li><a href="https://github.com/theswiftdev/" target="_blank">GitHub</a></li>
+                    <li><a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a></li>
+                    <li><a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a></li>
+                </ul>
+            </div>
             
-            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+            <div>
+                
+            </div>
+            
+            <div>
+                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                </a>
+                <h4><a href="https://theswiftdev.com/authors/tibor-bodecs/">Tibor Bödecs</a></h4>
+                <p><small><a href="https://binarybirds.com/" target="_blank">Binary Birds Kft.</a></small></p>
+                <ul>
+                    <li><a href="mailto:mail.tib@gmail.com" target="_blank">Email</a></li>
+                    <li><a href="https://github.com/tib/" target="_blank">GitHub</a></li>
+                    <li><a href="https://x.com/tiborbodecs" target="_blank">X (Twitter)</a></li>
+                    <li><a href="https://mastodon.social/@tiborbodecs" target="_blank">Mastodon</a></li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <section class="grid grid-221">
+            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>
+
+    </div>
+
+    
 </body>
 </html>

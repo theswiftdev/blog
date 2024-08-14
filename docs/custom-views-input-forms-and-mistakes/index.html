@@ -1,238 +1,410 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
     <meta charset="utf-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="canonical" href="https://theswiftdev.com/custom-views-input-forms-and-mistakes/">
     
+    
+
     <title>Custom views, input forms and mistakes - The.Swift.Dev.</title>
-    
     <meta name="description" content="Just a little advice about creating custom view programmatically and the truth about why form building with collection views sucks.">
-    
+
+    <meta property="og:url" content="https://theswiftdev.com/custom-views-input-forms-and-mistakes/">
     <meta property="og:title" content="Custom views, input forms and mistakes - The.Swift.Dev.">
     <meta property="og:description" content="Just a little advice about creating custom view programmatically and the truth about why form building with collection views sucks.">
-    <meta property="og:url" content="https://theswiftdev.com/custom-views-input-forms-and-mistakes/">
-    <meta property="og:image" content="https://theswiftdev.com/images/assets/custom-views-input-forms-and-mistakes/cover.jpg">
+    
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@tiborbodecs">
-    <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="Custom views, input forms and mistakes - The.Swift.Dev.">
     <meta name="twitter:description" content="Just a little advice about creating custom view programmatically and the truth about why form building with collection views sucks.">
-    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/custom-views-input-forms-and-mistakes/cover.jpg">
     
-    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
-    
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-normalize.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/variables.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/grid.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/navigation.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/footer.css">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+
     
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/icons/apple-touch-icon-180x180.png">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+        media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+        media="(prefers-color-scheme: dark)"
+    >
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
 </head>
 
 <body>
-    <a href="https://theswiftdev.gumroad.com" class="ribbon">
-        📖
-    </a>
-    <header id="page-header">
-        <a href="https://theswiftdev.com/">
-            <img 
-                id="logo-image"
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
+    <div id="site-container">
+
+    <header id="navigation">
+        <a href="/">
+            <picture>
+                <img
+                    src="https://theswiftdev.com/images/logos/logo.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
         </a>
-    </header>
-    
-    <main>
-
-        <article>
-    <header>
-        <section id="post-header" class="content-wrapper">
-            <time datetime="2019/10/21">2019/10/21</time>
-            <h1 class="title">Custom views, input forms and mistakes</h1>
-            <p class="excerpt">Just a little advice about creating custom view programmatically and the truth about why form building with collection views sucks.</p>
-            <div class="meta">
-                <span class="tag">UIKit</span>
-<span class="tag">iOS</span>
+        <nav>
+            <input type="checkbox" id="primary-menu-button" name="menu-button" class="menu-button">
+            <label for="primary-menu-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </label>
+            <div class="menu-items">
+                <a href="/page/1/">Posts</a>
+                <a href="/tags/">Tags</a>
+                <a href="/authors/">Authors</a>
+                <a href="/practical-server-side-swift/">My Book</a>
             </div>
-        </section>
-        <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.com/images/assets/custom-views-input-forms-and-mistakes/cover.jpg">
-        </section>
+        </nav>
     </header>
 
-    <div id="contents">
-        <section class="content-wrapper">
-            <h2>How NOT to build forms for iOS apps?</h2><p>Let's start with an honest statement: I messed up with this tutorial (a lot):</p><p><a href="https://theswiftdev.com/2019/05/23/building-input-forms-for-ios-apps/">Building input forms for iOS apps</a></p><p>The thing is that this form building methodology only works if the cells are always visible on screen, which is quite a rare case. I discovered this issue while I was working on my current project and some fields were constantly disappearing and moving the cursor to the next input field stopped working when the cell was out of frame.</p><blockquote><p>Reusability &amp; memory efficiency is not always what you want.</p></blockquote><p>Seems like <code>UICollectionView</code> is not the best solution for making input forms, because the constant cell reusability will mess up some of the expected behavior. It's still good for lists with "a thousand elements", but for an input form I would not recommend this technique anymore. Yep, my mistake, sorry about it... 😬</p><h2>Learning by making mistakes</h2><p>Long story short, I made a mistake and probably you'll also make a lot during your developer career. Does this make you a bad programmer? Not at all. We're human, we're constantly making smaller or bigger mistakes, but...</p><blockquote><p>(Remain and) turn it into strength</p></blockquote><p>Your mistakes will always stay with you, but you can learn from them a lot. The problem only starts if you keep doing the same mistakes again and again, or you don't even realize that you're doing something wrong. It's really hard to take one step back and see the problem from a bigger perspective. Sometimes you simply need someone else to point out the issue for you, but negative feedback can also be painful.</p><p>Anyway, I don't want to be too much philosophical, this is a Swift developer blog ffs.</p><h3>A few things that I learned:</h3><ul><li>my ideas are not always working, so don't trust me 100% (haha) 🤣</li><li>it's always better to code/work in pair with someone else</li><li>sometimes the "padawan" will teach the "master" 😉</li><li>a professional qa team can save you a lot of time</li><li><a href="https://theswiftdev.com/2018/03/12/the-ultimate-viper-architecture-tutorial/">VIPER is my architectural "silver bullet"</a>, not <a href="https://theswiftdev.com/2018/04/17/ultimate-uicollectionview-guide-with-ios-examples-written-in-swift/">collection views</a></li><li>UICollectionView based form building is not working...</li><li>...but the collection view framework still rocks for complex interfaces</li><li>have some dedicated time for code cosmetics &amp; refactor</li><li>use view subclasses programmatically (or SwiftUI in the future)</li></ul><p>So the last point is the most interesting one, let me explain why.</p><h2>Custom view subclasses from code only</h2><p>Creating a <a href="https://theswiftdev.com/2018/10/16/custom-uiview-subclass-from-a-xib-file/">UIView subclass programmatically</a> is a relatively easy task. You can load a nib file or you can do it straight from code. A few weeks ago I've learned a new trick, that was bugging me all the time I made a new subclass in Swift:</p><blockquote><p>Why the hell do I have to implement <code>init(coder:)</code> if I'm not using IB at all?</p></blockquote><p>Also what the heck is going on with <code>init(frame:)</code>, I don't want to deal with these two <a href="https://theswiftdev.com/2017/10/11/uikit-init-patterns/">init methods</a> anymore, since I'm using auto layout and I'm completely trying to ignore interface builder with the messed up storyboards and nibs as well.</p><pre><code class="language-swift"><span class="keyword">class</span> View: <span class="type">UIView</span> {
+    <main id="page-container">
+    
+    <div class="article-with-toc">
+        <div>
+            <article class="post">
+                <div class="meta">
+                    <time datetime="2019/10/21">2019/10/21</time>
+                     &middot; <span class="reading-time">4 min read</span>
+                    
+                </div>
+                <h1>Custom views, input forms and mistakes</h1>
+                <hr>
+                <p>Just a little advice about creating custom view programmatically and the truth about why form building with collection views sucks.</p>
+                <section>
+                
+                <h2 id="how-not-to-build-forms-for-ios-apps">How NOT to build forms for iOS apps?</h2><p>Let’s start with an honest statement: I messed up with this tutorial (a lot):</p><p><a href="https://theswiftdev.com/2019/05/23/building-input-forms-for-ios-apps/">Building input forms for iOS apps</a></p><p>The thing is that this form building methodology only works if the cells are always visible on screen, which is quite a rare case. I discovered this issue while I was working on my current project and some fields were constantly disappearing and moving the cursor to the next input field stopped working when the cell was out of frame.</p><blockquote><p>Reusability & memory efficiency is not always what you want.</p></blockquote><p>Seems like <code>UICollectionView</code> is not the best solution for making input forms, because the constant cell reusability will mess up some of the expected behavior. It’s still good for lists with “a thousand elements”, but for an input form I would not recommend this technique anymore. Yep, my mistake, sorry about it… 😬</p><h2 id="learning-by-making-mistakes">Learning by making mistakes</h2><p>Long story short, I made a mistake and probably you’ll also make a lot during your developer career. Does this make you a bad programmer? Not at all. We’re human, we’re constantly making smaller or bigger mistakes, but…</p><blockquote><p>(Remain and) turn it into strength</p></blockquote><p>Your mistakes will always stay with you, but you can learn from them a lot. The problem only starts if you keep doing the same mistakes again and again, or you don’t even realize that you’re doing something wrong. It’s really hard to take one step back and see the problem from a bigger perspective. Sometimes you simply need someone else to point out the issue for you, but negative feedback can also be painful.</p><p>Anyway, I don’t want to be too much philosophical, this is a Swift developer blog ffs.</p><h3 id="a-few-things-that-i-learned">A few things that I learned:</h3><ul><li>my ideas are not always working, so don’t trust me 100% (haha) 🤣</li><li>it’s always better to code/work in pair with someone else</li><li>sometimes the “padawan” will teach the “master” 😉</li><li>a professional qa team can save you a lot of time</li><li><a href="https://theswiftdev.com/2018/03/12/the-ultimate-viper-architecture-tutorial/">VIPER is my architectural “silver bullet”</a>, not <a href="https://theswiftdev.com/2018/04/17/ultimate-uicollectionview-guide-with-ios-examples-written-in-swift/">collection views</a></li><li>UICollectionView based form building is not working…</li><li>…but the collection view framework still rocks for complex interfaces</li><li>have some dedicated time for code cosmetics & refactor</li><li>use view subclasses programmatically (or SwiftUI in the future)</li></ul><p>So the last point is the most interesting one, let me explain why.</p><h2 id="custom-view-subclasses-from-code-only">Custom view subclasses from code only</h2><p>Creating a <a href="https://theswiftdev.com/2018/10/16/custom-uiview-subclass-from-a-xib-file/">UIView subclass programmatically</a> is a relatively easy task. You can load a nib file or you can do it straight from code. A few weeks ago I’ve learned a new trick, that was bugging me all the time I made a new subclass in Swift:</p><blockquote><p>Why the hell do I have to implement <code>init(coder:)</code> if I’m not using IB at all?</p></blockquote><p>Also what the heck is going on with <code>init(frame:)</code>, I don’t want to deal with these two <a href="https://theswiftdev.com/2017/10/11/uikit-init-patterns/">init methods</a> anymore, since I’m using auto layout and I’m completely trying to ignore interface builder with the messed up storyboards and nibs as well.</p><pre><code class="language-swift">class View: UIView {
 
-    <span class="keyword">@available</span>(*, unavailable)
-    <span class="keyword">override init</span>(frame: <span class="type">CGRect</span>) {
-        <span class="keyword">super</span>.<span class="keyword">init</span>(frame: frame)
+    @available(*, unavailable)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
 
-        <span class="keyword">self</span>.<span class="call">initialize</span>()
+        self.initialize()
     }
 
-    <span class="keyword">@available</span>(*, unavailable)
-    <span class="keyword">required init</span>?(coder aDecoder: <span class="type">NSCoder</span>) {
-        <span class="keyword">super</span>.<span class="keyword">init</span>(coder: aDecoder)
+    @available(*, unavailable)
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
 
-        <span class="keyword">self</span>.<span class="call">initialize</span>()
+        self.initialize()
     }
 
-    <span class="keyword">init</span>() {
-        <span class="keyword">super</span>.<span class="keyword">init</span>(frame: .<span class="dotAccess">zero</span>)
+    init() {
+        super.init(frame: .zero)
 
-        <span class="keyword">self</span>.<span class="call">initialize</span>()
+        self.initialize()
     }
 
-    <span class="keyword">func</span> initialize() {
-        <span class="keyword">self</span>.<span class="property">translatesAutoresizingMaskIntoConstraints</span> = <span class="keyword">false</span>
+    func initialize() {
+        self.translatesAutoresizingMaskIntoConstraints = false
     }
-}</code></pre><p>The solution: mark these stupid init functions as unavailable, so no-one can use them anymore. The only source of truth will be your own init method, which is quite a relief if you were so annoyed about the messed up initialization process like I was. 😤</p><p>Now you have your own base class that you can use as a parent for your future views. Of course you'll need to do the same thing for almost every UI element, like labels, buttons, text fields, etc. That's a lot of work, but on a long term it's totally worth it.</p><pre><code class="language-swift"><span class="keyword">import</span> UIKit
+}
+</code></pre><p>The solution: mark these stupid init functions as unavailable, so no-one can use them anymore. The only source of truth will be your own init method, which is quite a relief if you were so annoyed about the messed up initialization process like I was. 😤</p><p>Now you have your own base class that you can use as a parent for your future views. Of course you’ll need to do the same thing for almost every UI element, like labels, buttons, text fields, etc. That’s a lot of work, but on a long term it’s totally worth it.</p><pre><code class="language-swift">import UIKit
 
-<span class="keyword">class</span> TitleLabel: <span class="type">Label</span> {
+class TitleLabel: Label {
 
-    <span class="keyword">override func</span> initialize() {
-        <span class="keyword">super</span>.<span class="call">initialize</span>()
+    override func initialize() {
+        super.initialize()
 
-        <span class="keyword">self</span>.<span class="property">textAlignment</span> = .<span class="dotAccess">center</span>
-        <span class="keyword">self</span>.<span class="property">font</span> = <span class="type">UIFont</span>.<span class="call">preferredFont</span>(forTextStyle: .<span class="dotAccess">largeTitle</span>)
-        <span class="keyword">self</span>.<span class="property">textColor</span> = .<span class="dotAccess">systemBlue</span>
+        self.textAlignment = .center
+        self.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+        self.textColor = .systemBlue
     }
 
-    <span class="keyword">func</span> constraints(in view: <span class="type">UIView</span>, padding: <span class="type">CGFloat</span> = <span class="number">8</span>) -&gt; [<span class="type">NSLayoutConstraint</span>] {
+    func constraints(in view: UIView, padding: CGFloat = 8) -&gt; [NSLayoutConstraint] {
         [
-            <span class="keyword">self</span>.<span class="property">topAnchor</span>.<span class="call">constraint</span>(equalTo: view.<span class="property">topAnchor</span>, constant: padding),
-            <span class="keyword">self</span>.<span class="property">leadingAnchor</span>.<span class="call">constraint</span>(equalTo: view.<span class="property">leadingAnchor</span>, constant: padding),
-            <span class="keyword">self</span>.<span class="property">trailingAnchor</span>.<span class="call">constraint</span>(equalTo: view.<span class="property">trailingAnchor</span>, constant: -<span class="number">1</span> * padding),
+            self.topAnchor.constraint(equalTo: view.topAnchor, constant: padding),
+            self.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+            self.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -1 * padding),
         ]
     }
-}</code></pre><p>A good practice can be to have subclass for each and every custom user interface component, like the primary button, secondary button, title label, header label, etc. This way you don't have to configure your views in the view controller, plus you can put your frequently used constraints into the subclass using some helper methods.</p><p>Also you can have some nice extensions, those can help you with view configurations. You know, just like modifiers in SwiftUI. You can even recreate the exact same syntax. The underlying behavior won't be the same, but that's another story. 📚</p><h2>What about the form new builder in iOS?</h2><p>Oh, yeah almost forgot. I have a brand new, but still very similar solution. I'm using view subclasses instead of collection view components, plus the collection view have been replaced with a <code>UIScrollView</code> + <code>UIStackView</code> combination. 🐐</p><pre><code class="language-swift"><span class="keyword">class</span> ViewController: <span class="type">UIViewController</span> {
+}
+</code></pre><p>A good practice can be to have subclass for each and every custom user interface component, like the primary button, secondary button, title label, header label, etc. This way you don’t have to configure your views in the view controller, plus you can put your frequently used constraints into the subclass using some helper methods.</p><p>Also you can have some nice extensions, those can help you with view configurations. You know, just like modifiers in SwiftUI. You can even recreate the exact same syntax. The underlying behavior won’t be the same, but that’s another story. 📚</p><h2 id="what-about-the-form-new-builder-in-ios">What about the form new builder in iOS?</h2><p>Oh, yeah almost forgot. I have a brand new, but still very similar solution. I’m using view subclasses instead of collection view components, plus the collection view have been replaced with a <code>UIScrollView</code> + <code>UIStackView</code> combination. 🐐</p><pre><code class="language-swift">class ViewController: UIViewController {
 
-    <span class="keyword">weak var</span> scrollView: <span class="type">ScrollView</span>!
-    <span class="keyword">weak var</span> stackView: <span class="type">VerticalStackView</span>!
+    weak var scrollView: ScrollView!
+    weak var stackView: VerticalStackView!
 
-    <span class="keyword">override func</span> loadView() {
-        <span class="keyword">super</span>.<span class="call">loadView</span>()
+    override func loadView() {
+        super.loadView()
 
-        <span class="keyword">let</span> scrollView = <span class="type">ScrollView</span>()
-        <span class="keyword">self</span>.<span class="property">view</span>.<span class="call">addSubview</span>(scrollView)
-        <span class="keyword">self</span>.<span class="property">scrollView</span> = scrollView
-        <span class="type">NSLayoutConstraint</span>.<span class="call">activate</span>([<span class="comment">/*...*/</span>])
+        let scrollView = ScrollView()
+        self.view.addSubview(scrollView)
+        self.scrollView = scrollView
+        NSLayoutConstraint.activate([/*...*/])
 
-        <span class="keyword">let</span> stackView = <span class="type">VerticalStackView</span>()
-        <span class="keyword">self</span>.<span class="property">scrollView</span>.<span class="call">addSubview</span>(stackView)
-        <span class="keyword">self</span>.<span class="property">stackView</span> = stackView
-        <span class="type">NSLayoutConstraint</span>.<span class="call">activate</span>([<span class="comment">/*...*/</span>])
+        let stackView = VerticalStackView()
+        self.scrollView.addSubview(stackView)
+        self.stackView = stackView
+        NSLayoutConstraint.activate([/*...*/])
     }
 
-    <span class="keyword">override func</span> viewDidLoad() {
-        <span class="keyword">super</span>.<span class="call">viewDidLoad</span>()
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
-        <span class="keyword">self</span>.<span class="property">title</span> = <span class="string">"StackForm"</span>
-        <span class="keyword">self</span>.<span class="property">navigationController</span>?.<span class="property">navigationBar</span>.<span class="property">prefersLargeTitles</span> = <span class="keyword">true
+        self.title = "StackForm"
+        self.navigationController?.navigationBar.prefersLargeTitles = true
 
-        let</span> email = <span class="type">EmailTextField</span>(id: <span class="string">"email-input"</span>, placeholder: <span class="string">"Email"</span>)
-        <span class="keyword">self</span>.<span class="property">stackView</span>.<span class="call">addArrangedSubview</span>(email)
+        let email = EmailTextField(id: "email-input", placeholder: "Email")
+        self.stackView.addArrangedSubview(email)
 
-        <span class="keyword">let</span> password = <span class="type">PasswordTextField</span>(id: <span class="string">"password-input"</span>, placeholder: <span class="string">"Password"</span>)
-        <span class="keyword">self</span>.<span class="property">stackView</span>.<span class="call">addArrangedSubview</span>(password)
+        let password = PasswordTextField(id: "password-input", placeholder: "Password")
+        self.stackView.addArrangedSubview(password)
 
-        <span class="keyword">let</span> submit = <span class="type">SubmitButton</span>(id: <span class="string">"submit-button"</span>, title: <span class="string">"Submit"</span>)
-        .<span class="call">onTouch</span> { [<span class="keyword">weak self</span>] <span class="keyword">_ in self</span>?.<span class="call">submit</span>() }
-        <span class="keyword">self</span>.<span class="property">stackView</span>.<span class="call">addArrangedSubview</span>(submit)
+        let submit = SubmitButton(id: "submit-button", title: "Submit")
+        .onTouch { [weak self] _ in self?.submit() }
+        self.stackView.addArrangedSubview(submit)
     }
 
-    <span class="keyword">func</span> submit() {
-        <span class="keyword">guard
-            let</span> email = (<span class="keyword">self</span>.<span class="property">view</span>.<span class="call">view</span>(withId: <span class="string">"email-input"</span>) <span class="keyword">as</span>? <span class="type">UITextField</span>)?.<span class="property">text</span>,
-            <span class="keyword">let</span> password = (<span class="keyword">self</span>.<span class="property">view</span>.<span class="call">view</span>(withId: <span class="string">"password-input"</span>) <span class="keyword">as</span>? <span class="type">UITextField</span>)?.<span class="property">text</span>
-        <span class="keyword">else</span> {
-            <span class="keyword">return</span>
+    func submit() {
+        guard
+            let email = (self.view.view(withId: "email-input") as? UITextField)?.text,
+            let password = (self.view.view(withId: "password-input") as? UITextField)?.text
+        else {
+            return
         }
-        <span class="call">print</span>(<span class="string">"Account:</span> \(email) <span class="string">-</span> \(password)<span class="string">"</span>)
+        print("Account: \(email) - \(password)")
     }
-}</code></pre><p>As you can see I'm still using the same <a href="https://theswiftdev.com/2019/04/02/uniquely-identifying-views/">view identification technique</a>, plus I still prefer to have the SwiftUI-like <code>.onTouch</code> action handlers. You might ask though:</p><h2>Why don't you simply go with SwiftUI?</h2><p>Well, the thing is that SwiftUI is iOS 13 only, which is only around ~55% adoption nowadays, that's one of the main reasons, but also SwiftUI is kind of incomplete.</p><p>I'm trying to get as close as I can to SwiftUI, so the transition will be less pain in the ass when the time comes. SwiftUI will be amazing, but still it's a giant leap forward. Sometimes I believe that Apple is rushing things just because of marketing / developer needs (yeah, we are very impatient animals). Maybe a simple wrapper framework around UIKit / AppKit without the whole declarative syntax would have been a better idea as a first step... who knows... CoreKit -&gt; AppleKit? 🤔</p><p>Anyway, you can download a working example of my latest form building solution in Swift 5 from <a href="https://github.com/theswiftdev/tutorials" target="_blank">GitHub</a>. Just look for the <code>StackForm</code> folder inside the repository.</p>
-        </section>
-    </div>
-
-</article>
-
-<section id="share" class="content-wrapper">
-    <p>
-    <a
-        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/custom-views-input-forms-and-mistakes/"
-        target="_blank"
-    >
-        Share this article
-    </a>
-    <br> Thank you. 🙏</p>
-</section>
-
-<section  class="wrapper">
-    <div id="book">
-        <div class="column left">
-            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+}
+</code></pre><p>As you can see I’m still using the same <a href="https://theswiftdev.com/2019/04/02/uniquely-identifying-views/">view identification technique</a>, plus I still prefer to have the SwiftUI-like <code>.onTouch</code> action handlers. You might ask though:</p><h2 id="why-don-t-you-simply-go-with-swiftui">Why don’t you simply go with SwiftUI?</h2><p>Well, the thing is that SwiftUI is iOS 13 only, which is only around ~55% adoption nowadays, that’s one of the main reasons, but also SwiftUI is kind of incomplete.</p><p>I’m trying to get as close as I can to SwiftUI, so the transition will be less pain in the ass when the time comes. SwiftUI will be amazing, but still it’s a giant leap forward. Sometimes I believe that Apple is rushing things just because of marketing / developer needs (yeah, we are very impatient animals). Maybe a simple wrapper framework around UIKit / AppKit without the whole declarative syntax would have been a better idea as a first step… who knows… CoreKit -> AppleKit? 🤔</p><p>Anyway, you can download a working example of my latest form building solution in Swift 5 from <a href="https://github.com/theswiftdev/tutorials" target="_blank">GitHub</a>. Just look for the <code>StackForm</code> folder inside the repository.</p>
+                    
+                </section>
+    
+                <footer>
+                    <br>
+                    <time datetime=""></time>
+    
+                    
+                    <div class="author-list">
+                        <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        </a>
+                    </div>
+                    <div class="tag-list">
+                        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                    </div>
+                    
+                    <p>
+                        <a href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/custom-views-input-forms-and-mistakes/" target="_blank">
+                            <strong>Share this article</strong>
+                        </a>
+                        <br>Thank you. 🙏
+                    </p>
+                </footer>
+                            
+                <section class="group">
+                    <h4>Related posts</h4>                
+                    <div class="grid grid-221">
+                        <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2022/02/03">2022/02/03</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/10-little-uikit-tips-you-should-know/" target="">10 little UIKit tips you should know</a></h2>
+                            <hr>
+                            <p>In this article I&#39;ve gathered my top 10 favorite modern UIKit tips that I&#39;d definitely want to know before I start my next project.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2019/05/23">2019/05/23</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/building-input-forms-for-ios-apps/" target="">Building input forms for iOS apps</a></h2>
+                            <hr>
+                            <p>Learn how to build complex forms with my updated collection view view-model framework without the struggle using Swift.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018/10/16">2018/10/16</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/custom-uiview-subclass-from-a-xib-file/" target="">Custom UIView subclass from a xib file</a></h2>
+                            <hr>
+                            <p>Do you want to learn how to load a xib file to create a custom view object? Well, this UIKit tutorial is just for you written in Swift.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2017/10/10">2017/10/10</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/how-to-create-reusable-views-for-modern-collection-views/" target="">How to create reusable views for modern collection views?</a></h2>
+                            <hr>
+                            <p>A quick intro to modern collection views using compositional layout, diffable data source and reusable view components.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    
+            </article>
         </div>
-        <div class="column right">
-            <h3>Get the Practical Server Side Swift book</h3>
-            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
-        </div>
-    </div>
-</section>
-
-<section id="author" class="content-wrapper">
-    <img 
-        id="author-image"
-        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
-        alt="Picture of Tibor Bödecs" 
-        title="Tibor Bödecs"
-    >
-    <h3>Tibor Bödecs</h3>
-    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
-    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
-
-    <div class="links">
-        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
-        <a href="https://github.com/tib" target="_blank">GitHub</a> 
-    </div>
-</section>
-
         
+        <div>
+            <div class="book">
+                <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">
+                    <img src="https://theswiftdev.com/book/practical-server-side-swift-cover.png" alt="Practical Server Side Swift cover image">
+                </a>
+                <h3>
+                    <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Get the Practical Server Side Swift book</a>
+                </h3>
+                <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+                <a class="cta" href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+            </div>
+            
+            
+            <aside id="toc">
+                <h4>On this page</h4>
+                <ul>
+                    <li class="first-level">
+                        <a href="#how-not-to-build-forms-for-ios-apps">How NOT to build forms for iOS apps?</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#learning-by-making-mistakes">Learning by making mistakes</a>
+                        <ul>
+                            <li><a href="#a-few-things-that-i-learned">A few things that I learned:</a></li>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#custom-view-subclasses-from-code-only">Custom view subclasses from code only</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#what-about-the-form-new-builder-in-ios">What about the form new builder in iOS?</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#why-don-t-you-simply-go-with-swiftui">Why don’t you simply go with SwiftUI?</a>
+                        <ul>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+            
+    
+        </div>
+    </div>
+    
     </main>
 
-    <footer>
-        <section class="content-wrapper">
-            <img 
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
-
-            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+    <footer id="site-footer">
+        <div class="grid grid-421">
+    
+            <picture>
+                <img
+                    id="logo-image"
+                    src="https://theswiftdev.com/images/logos/logo-large.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
             
-            <p> 
-                <a href="https://theswiftdev.com/">Home</a> ·
-                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
-            </p>
+            <div>
+                <span style="display: block; height: 32px;">&nbsp;</span>
+                <h4>The.Swift.Dev</h4>
+                <p><small><a href="https://theswiftdev.com/" target="_blank">theswiftdev.com</a></small></p>
+                <ul>
+                    <li><a href="https://github.com/theswiftdev/" target="_blank">GitHub</a></li>
+                    <li><a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a></li>
+                    <li><a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a></li>
+                </ul>
+            </div>
             
-            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+            <div>
+                
+            </div>
+            
+            <div>
+                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                </a>
+                <h4><a href="https://theswiftdev.com/authors/tibor-bodecs/">Tibor Bödecs</a></h4>
+                <p><small><a href="https://binarybirds.com/" target="_blank">Binary Birds Kft.</a></small></p>
+                <ul>
+                    <li><a href="mailto:mail.tib@gmail.com" target="_blank">Email</a></li>
+                    <li><a href="https://github.com/tib/" target="_blank">GitHub</a></li>
+                    <li><a href="https://x.com/tiborbodecs" target="_blank">X (Twitter)</a></li>
+                    <li><a href="https://mastodon.social/@tiborbodecs" target="_blank">Mastodon</a></li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <section class="grid grid-221">
+            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>
+
+    </div>
+
+    
 </body>
 </html>

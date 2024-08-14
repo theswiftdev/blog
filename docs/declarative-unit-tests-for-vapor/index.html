@@ -1,488 +1,650 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
     <meta charset="utf-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="canonical" href="https://theswiftdev.com/declarative-unit-tests-for-vapor/">
     
+    
+
     <title>Declarative unit tests for Vapor - The.Swift.Dev.</title>
-    
     <meta name="description" content="Learn how to test your server side Swift backend app in a declarative style using a lightweight library called Spec.">
-    
+
+    <meta property="og:url" content="https://theswiftdev.com/declarative-unit-tests-for-vapor/">
     <meta property="og:title" content="Declarative unit tests for Vapor - The.Swift.Dev.">
     <meta property="og:description" content="Learn how to test your server side Swift backend app in a declarative style using a lightweight library called Spec.">
-    <meta property="og:url" content="https://theswiftdev.com/declarative-unit-tests-for-vapor/">
-    <meta property="og:image" content="https://theswiftdev.com/images/assets/declarative-unit-tests-for-vapor/cover.jpg">
+    
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@tiborbodecs">
-    <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="Declarative unit tests for Vapor - The.Swift.Dev.">
     <meta name="twitter:description" content="Learn how to test your server side Swift backend app in a declarative style using a lightweight library called Spec.">
-    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/declarative-unit-tests-for-vapor/cover.jpg">
     
-    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
-    
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-normalize.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/variables.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/grid.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/navigation.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/footer.css">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+
     
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/icons/apple-touch-icon-180x180.png">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+        media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+        media="(prefers-color-scheme: dark)"
+    >
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
 </head>
 
 <body>
-    <a href="https://theswiftdev.gumroad.com" class="ribbon">
-        📖
-    </a>
-    <header id="page-header">
-        <a href="https://theswiftdev.com/">
-            <img 
-                id="logo-image"
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
+    <div id="site-container">
+
+    <header id="navigation">
+        <a href="/">
+            <picture>
+                <img
+                    src="https://theswiftdev.com/images/logos/logo.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
         </a>
-    </header>
-    
-    <main>
-
-        <article>
-    <header>
-        <section id="post-header" class="content-wrapper">
-            <time datetime="2021/05/04">2021/05/04</time>
-            <h1 class="title">Declarative unit tests for Vapor</h1>
-            <p class="excerpt">Learn how to test your server side Swift backend app in a declarative style using a lightweight library called Spec.</p>
-            <div class="meta">
-                <span class="tag">Swift</span>
+        <nav>
+            <input type="checkbox" id="primary-menu-button" name="menu-button" class="menu-button">
+            <label for="primary-menu-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </label>
+            <div class="menu-items">
+                <a href="/page/1/">Posts</a>
+                <a href="/tags/">Tags</a>
+                <a href="/authors/">Authors</a>
+                <a href="/practical-server-side-swift/">My Book</a>
             </div>
-        </section>
-        <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.com/images/assets/declarative-unit-tests-for-vapor/cover.jpg">
-        </section>
+        </nav>
     </header>
 
-    <div id="contents">
-        <section class="content-wrapper">
-            <h2>Writing tests using XCTVapor</h2><p>In my previous article I showed you how to build a <a href="https://theswiftdev.com/how-to-design-type-safe-restful-apis-using-swift-and-vapor/">type safe RESTful API using Vapor</a>. This time we're going to extend that project a bit and write some tests using the Vapor testing tool to discover the underlying issues in the API layer. First we're going to use XCTVapor library, then we migrate to a lightweight declarative testing framework (<a href="https://github.com/binarybirds/spec/" target="_blank">Spec</a>) built on top of that.</p><p>Before we start testing our application, we have to make sure that if the app runs in testing mode we register an inMemory database instead of our local SQLite file. We can simply alter the configuration and check the environment and set the db driver based on it.</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
-<span class="keyword">import</span> Fluent
-<span class="keyword">import</span> FluentSQLiteDriver
+    <main id="page-container">
+    
+    <div class="article-with-toc">
+        <div>
+            <article class="post">
+                <div class="meta">
+                    <time datetime="2021/05/04">2021/05/04</time>
+                     &middot; <span class="reading-time">7 min read</span>
+                    
+                </div>
+                <h1>Declarative unit tests for Vapor</h1>
+                <hr>
+                <p>Learn how to test your server side Swift backend app in a declarative style using a lightweight library called Spec.</p>
+                <section>
+                
+                <h2 id="writing-tests-using-xctvapor">Writing tests using XCTVapor</h2><p>In my previous article I showed you how to build a <a href="https://theswiftdev.com/how-to-design-type-safe-restful-apis-using-swift-and-vapor/">type safe RESTful API using Vapor</a>. This time we’re going to extend that project a bit and write some tests using the Vapor testing tool to discover the underlying issues in the API layer. First we’re going to use XCTVapor library, then we migrate to a lightweight declarative testing framework (<a href="https://github.com/binarybirds/spec/" target="_blank">Spec</a>) built on top of that.</p><p>Before we start testing our application, we have to make sure that if the app runs in testing mode we register an inMemory database instead of our local SQLite file. We can simply alter the configuration and check the environment and set the db driver based on it.</p><pre><code class="language-swift">import Vapor
+import Fluent
+import FluentSQLiteDriver
 
-<span class="keyword">public func</span> configure(<span class="keyword">_</span> app: <span class="type">Application</span>) <span class="keyword">throws</span> {
+public func configure(_ app: Application) throws {
 
-    <span class="keyword">if</span> app.<span class="property">environment</span> == .<span class="dotAccess">testing</span> {
-        app.<span class="property">databases</span>.<span class="call">use</span>(.<span class="call">sqlite</span>(.<span class="dotAccess">memory</span>), as: .<span class="dotAccess">sqlite</span>, isDefault: <span class="keyword">true</span>)
+    if app.environment == .testing {
+        app.databases.use(.sqlite(.memory), as: .sqlite, isDefault: true)
     }
-    <span class="keyword">else</span> {
-        app.<span class="property">databases</span>.<span class="call">use</span>(.<span class="call">sqlite</span>(.<span class="call">file</span>(<span class="string">"Resources/db.sqlite"</span>)), as: .<span class="dotAccess">sqlite</span>)
+    else {
+        app.databases.use(.sqlite(.file("Resources/db.sqlite")), as: .sqlite)
     }
 
-    app.<span class="property">migrations</span>.<span class="call">add</span>(<span class="type">TodoMigration</span>())
-    <span class="keyword">try</span> app.<span class="call">autoMigrate</span>().<span class="call">wait</span>()
+    app.migrations.add(TodoMigration())
+    try app.autoMigrate().wait()
 
-    <span class="keyword">try</span> <span class="type">TodoRouter</span>().<span class="call">boot</span>(routes: app.<span class="property">routes</span>)
-}</code></pre><p>Now we're ready to create our very first unit test using the XCTVapor testing framework. The <a href="https://docs.vapor.codes/4.0/testing/" target="_blank">official docs</a> are short, but quite useful to learn about the basics of testing Vapor endpoints. Unfortunately it won't tell you much about testing websites or complex API calls. ✅</p><p>We're going to make a simple test that checks the return type for our Todo list endpoint.</p><pre><code class="language-swift"><span class="keyword">@testable import</span> App
-<span class="keyword">import</span> TodoApi
-<span class="keyword">import</span> Fluent
-<span class="keyword">import</span> XCTVapor
+    try TodoRouter().boot(routes: app.routes)
+}
+</code></pre><p>Now we’re ready to create our very first unit test using the XCTVapor testing framework. The <a href="https://docs.vapor.codes/4.0/testing/" target="_blank">official docs</a> are short, but quite useful to learn about the basics of testing Vapor endpoints. Unfortunately it won’t tell you much about testing websites or complex API calls. ✅</p><p>We’re going to make a simple test that checks the return type for our Todo list endpoint.</p><pre><code class="language-swift">@testable import App
+import TodoApi
+import Fluent
+import XCTVapor
 
-<span class="keyword">final class</span> AppTests: <span class="type">XCTestCase</span> {
+final class AppTests: XCTestCase {
 
-    <span class="keyword">func</span> testTodoList() <span class="keyword">throws</span> {
-        <span class="keyword">let</span> app = <span class="type">Application</span>(.<span class="dotAccess">testing</span>)
-        <span class="keyword">defer</span> { app.<span class="call">shutdown</span>() }
-        <span class="keyword">try</span> <span class="call">configure</span>(app)
+    func testTodoList() throws {
+        let app = Application(.testing)
+        defer { app.shutdown() }
+        try configure(app)
 
-        <span class="keyword">try</span> app.<span class="call">test</span>(.<span class="dotAccess">GET</span>, <span class="string">"/todos/"</span>, afterResponse: { res <span class="keyword">in</span>
-            <span class="call">XCTAssertEqual</span>(res.<span class="property">status</span>, .<span class="dotAccess">ok</span>)
-            <span class="call">XCTAssertEqual</span>(res.<span class="property">headers</span>.<span class="property">contentType</span>, .<span class="dotAccess">json</span>)
-            <span class="keyword">_</span> = <span class="keyword">try</span> res.<span class="property">content</span>.<span class="call">decode</span>(<span class="type">Page</span>&lt;<span class="type">TodoListObject</span>&gt;.<span class="keyword">self</span>)
+        try app.test(.GET, "/todos/", afterResponse: { res in
+            XCTAssertEqual(res.status, .ok)
+            XCTAssertEqual(res.headers.contentType, .json)
+            _ = try res.content.decode(Page&lt;TodoListObject&gt;.self)
         })
     }
-}</code></pre><p>As you can see first we setup &amp; configure our application, then we send a GET request to the <code>/todos/</code> endpoint. After we have a response we can check the status code, the content type and we can try to decode the response body as a valid paginated todo list item object.</p><p>This test case was pretty simple, now let's write a new unit test for the todo item creation.</p><pre><code class="language-swift"><span class="keyword">@testable import</span> App
-<span class="keyword">import</span> TodoApi
-<span class="keyword">import</span> Fluent
-<span class="keyword">import</span> XCTVapor
+}
+</code></pre><p>As you can see first we setup & configure our application, then we send a GET request to the <code>/todos/</code> endpoint. After we have a response we can check the status code, the content type and we can try to decode the response body as a valid paginated todo list item object.</p><p>This test case was pretty simple, now let’s write a new unit test for the todo item creation.</p><pre><code class="language-swift">@testable import App
+import TodoApi
+import Fluent
+import XCTVapor
 
-<span class="keyword">final class</span> AppTests: <span class="type">XCTestCase</span> {
+final class AppTests: XCTestCase {
 
-    <span class="comment">//...</span>
+    //...
     
-    <span class="keyword">func</span> testCreateTodo() <span class="keyword">throws</span> {
-        <span class="keyword">let</span> app = <span class="type">Application</span>(.<span class="dotAccess">testing</span>)
-        <span class="keyword">defer</span> { app.<span class="call">shutdown</span>() }
-        <span class="keyword">try</span> <span class="call">configure</span>(app)
+    func testCreateTodo() throws {
+        let app = Application(.testing)
+        defer { app.shutdown() }
+        try configure(app)
 
-        <span class="keyword">let</span> title = <span class="string">"Write a todo tutorial"</span>
+        let title = "Write a todo tutorial"
         
-        <span class="keyword">try</span> app.<span class="call">test</span>(.<span class="dotAccess">POST</span>, <span class="string">"/todos/"</span>, beforeRequest: { req <span class="keyword">in
-            let</span> input = <span class="type">TodoCreateObject</span>(title: title)
-            <span class="keyword">try</span> req.<span class="property">content</span>.<span class="call">encode</span>(input)
-        }, afterResponse: { res <span class="keyword">in</span>
-            <span class="call">XCTAssertEqual</span>(res.<span class="property">status</span>, .<span class="dotAccess">created</span>)
-            <span class="keyword">let</span> todo = <span class="keyword">try</span> res.<span class="property">content</span>.<span class="call">decode</span>(<span class="type">TodoGetObject</span>.<span class="keyword">self</span>)
-            <span class="call">XCTAssertEqual</span>(todo.<span class="property">title</span>, title)
-            <span class="call">XCTAssertEqual</span>(todo.<span class="property">completed</span>, <span class="keyword">false</span>)
-            <span class="call">XCTAssertEqual</span>(todo.<span class="property">order</span>, <span class="keyword">nil</span>)
+        try app.test(.POST, "/todos/", beforeRequest: { req in
+            let input = TodoCreateObject(title: title)
+            try req.content.encode(input)
+        }, afterResponse: { res in
+            XCTAssertEqual(res.status, .created)
+            let todo = try res.content.decode(TodoGetObject.self)
+            XCTAssertEqual(todo.title, title)
+            XCTAssertEqual(todo.completed, false)
+            XCTAssertEqual(todo.order, nil)
         })
     }
-}</code></pre><p>This time we'd like to submit a new TodoCreateObject as a POST data, fortunately XCTVapor can help us with the beforeRequest block. We can simply encode the input object as a content, then in the response handler we can check the HTTP status code (it should be created) decode the expected response object (TodoGetObject) and validate the field values.</p><p>I also updated the TodoCreateObject, since it does not make too much sense to have an optional Bool field and we can use a default nil value for the custom order. 🤓</p><pre><code class="language-swift"><span class="keyword">public struct</span> TodoCreateObject: <span class="type">Codable</span> {
+}
+</code></pre><p>This time we’d like to submit a new TodoCreateObject as a POST data, fortunately XCTVapor can help us with the beforeRequest block. We can simply encode the input object as a content, then in the response handler we can check the HTTP status code (it should be created) decode the expected response object (TodoGetObject) and validate the field values.</p><p>I also updated the TodoCreateObject, since it does not make too much sense to have an optional Bool field and we can use a default nil value for the custom order. 🤓</p><pre><code class="language-swift">public struct TodoCreateObject: Codable {
     
-    <span class="keyword">public let</span> title: <span class="type">String</span>
-    <span class="keyword">public let</span> completed: <span class="type">Bool</span>
-    <span class="keyword">public let</span> order: <span class="type">Int</span>?
+    public let title: String
+    public let completed: Bool
+    public let order: Int?
     
-    <span class="keyword">public init</span>(title: <span class="type">String</span>, completed: <span class="type">Bool</span> = <span class="keyword">false</span>, order: <span class="type">Int</span>? = <span class="keyword">nil</span>) {
-        <span class="keyword">self</span>.<span class="property">title</span> = title
-        <span class="keyword">self</span>.<span class="property">completed</span> = completed
-        <span class="keyword">self</span>.<span class="property">order</span> = order
+    public init(title: String, completed: Bool = false, order: Int? = nil) {
+        self.title = title
+        self.completed = completed
+        self.order = order
     }
-}</code></pre><p>The test will still fail, because we're returning an <code>.ok</code> status instead of a <code>.created</code> value. We can easily fix this in the create method of the TodoController Swift file.</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
-<span class="keyword">import</span> Fluent
-<span class="keyword">import</span> TodoApi
+}
+</code></pre><p>The test will still fail, because we’re returning an <code>.ok</code> status instead of a <code>.created</code> value. We can easily fix this in the create method of the TodoController Swift file.</p><pre><code class="language-swift">import Vapor
+import Fluent
+import TodoApi
 
-<span class="keyword">struct</span> TodoController {
+struct TodoController {
 
-    <span class="comment">// ...</span>
+    // ...
 
-    <span class="keyword">func</span> create(req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Response</span>&gt; {
-        <span class="keyword">let</span> input = <span class="keyword">try</span> req.<span class="property">content</span>.<span class="call">decode</span>(<span class="type">TodoCreateObject</span>.<span class="keyword">self</span>)
-        <span class="keyword">let</span> todo = <span class="type">TodoModel</span>()
-        todo.<span class="call">create</span>(input)
-        <span class="keyword">return</span> todo
-            .<span class="call">create</span>(on: req.<span class="property">db</span>)
-            .<span class="call">map</span> { todo.<span class="call">mapGet</span>() }
-            .<span class="call">encodeResponse</span>(status: .<span class="dotAccess">created</span>, for: req)
+    func create(req: Request) throws -&gt; EventLoopFuture&lt;Response&gt; {
+        let input = try req.content.decode(TodoCreateObject.self)
+        let todo = TodoModel()
+        todo.create(input)
+        return todo
+            .create(on: req.db)
+            .map { todo.mapGet() }
+            .encodeResponse(status: .created, for: req)
     }
     
-    <span class="comment">// ...</span>
-}</code></pre><p>Now we should try to create an invalid todo item and see what happens...</p><pre><code class="language-swift"><span class="keyword">func</span> testCreateInvalidTodo() <span class="keyword">throws</span> {
-    <span class="keyword">let</span> app = <span class="type">Application</span>(.<span class="dotAccess">testing</span>)
-    <span class="keyword">defer</span> { app.<span class="call">shutdown</span>() }
-    <span class="keyword">try</span> <span class="call">configure</span>(app)
+    // ...
+}
+</code></pre><p>Now we should try to create an invalid todo item and see what happens…</p><pre><code class="language-swift">func testCreateInvalidTodo() throws {
+    let app = Application(.testing)
+    defer { app.shutdown() }
+    try configure(app)
 
-    <span class="comment">/// title shouldn't be empty</span>
-    <span class="keyword">let</span> title = <span class="string">""</span>
+    /// title shouldn't be empty
+    let title = ""
     
-    <span class="keyword">try</span> app.<span class="call">test</span>(.<span class="dotAccess">POST</span>, <span class="string">"/todos/"</span>, beforeRequest: { req <span class="keyword">in
-        let</span> input = <span class="type">TodoCreateObject</span>(title: title)
-        <span class="keyword">try</span> req.<span class="property">content</span>.<span class="call">encode</span>(input)
-    }, afterResponse: { res <span class="keyword">in</span>
-        <span class="call">XCTAssertEqual</span>(res.<span class="property">status</span>, .<span class="dotAccess">created</span>)
-        <span class="keyword">let</span> todo = <span class="keyword">try</span> res.<span class="property">content</span>.<span class="call">decode</span>(<span class="type">TodoGetObject</span>.<span class="keyword">self</span>)
-        <span class="call">XCTAssertEqual</span>(todo.<span class="property">title</span>, title)
-        <span class="call">XCTAssertEqual</span>(todo.<span class="property">completed</span>, <span class="keyword">false</span>)
-        <span class="call">XCTAssertEqual</span>(todo.<span class="property">order</span>, <span class="keyword">nil</span>)
+    try app.test(.POST, "/todos/", beforeRequest: { req in
+        let input = TodoCreateObject(title: title)
+        try req.content.encode(input)
+    }, afterResponse: { res in
+        XCTAssertEqual(res.status, .created)
+        let todo = try res.content.decode(TodoGetObject.self)
+        XCTAssertEqual(todo.title, title)
+        XCTAssertEqual(todo.completed, false)
+        XCTAssertEqual(todo.order, nil)
     })
-}</code></pre><p>Well, this is bad, we shouldn't be able to create a todo item without a title. We could use the built-in <a href="https://docs.vapor.codes/4.0/validation/" target="_blank">validation API</a> to check user input, but honestly speaking that's not the best approach.</p><p>My issue with validation is that first of all you can't return custom error messages and the other main reason is that validation in Vapor is not async by default. Eventually you'll face a situation when you need to validate an object based on a db call, then you can't fit that part of the object validation process into other non-async field validation. IMHO, this should be unified. 🥲</p><p>Fort the sake of simplicity we're going to start with a custom validation method, this time without any async logic involved, later on I'll show you how to build a generic validation &amp; error reporting mechanism for your JSON-based RESTful API.</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
-<span class="keyword">import</span> TodoApi
+}
+</code></pre><p>Well, this is bad, we shouldn’t be able to create a todo item without a title. We could use the built-in <a href="https://docs.vapor.codes/4.0/validation/" target="_blank">validation API</a> to check user input, but honestly speaking that’s not the best approach.</p><p>My issue with validation is that first of all you can’t return custom error messages and the other main reason is that validation in Vapor is not async by default. Eventually you’ll face a situation when you need to validate an object based on a db call, then you can’t fit that part of the object validation process into other non-async field validation. IMHO, this should be unified. 🥲</p><p>Fort the sake of simplicity we’re going to start with a custom validation method, this time without any async logic involved, later on I’ll show you how to build a generic validation & error reporting mechanism for your JSON-based RESTful API.</p><pre><code class="language-swift">import Vapor
+import TodoApi
 
-<span class="keyword">extension</span> <span class="type">TodoModel</span> {
+extension TodoModel {
     
-    <span class="comment">// ...</span>
+    // ...
     
-    <span class="keyword">func</span> create(<span class="keyword">_</span> input: <span class="type">TodoCreateObject</span>) {
-        title = input.<span class="property">title</span>
-        completed = input.<span class="property">completed</span>
-        order = input.<span class="property">order</span>
+    func create(_ input: TodoCreateObject) {
+        title = input.title
+        completed = input.completed
+        order = input.order
     }
 
-    <span class="keyword">static func</span> validateCreate(<span class="keyword">_</span> input: <span class="type">TodoCreateObject</span>) <span class="keyword">throws</span> {
-        <span class="keyword">guard</span> !input.<span class="property">title</span>.<span class="property">isEmpty</span> <span class="keyword">else</span> {
-            <span class="keyword">throw</span> <span class="type">Abort</span>(.<span class="dotAccess">badRequest</span>, reason: <span class="string">"Title is required"</span>)
+    static func validateCreate(_ input: TodoCreateObject) throws {
+        guard !input.title.isEmpty else {
+            throw Abort(.badRequest, reason: "Title is required")
         }
     }
-}</code></pre><p>In the create controller we can simply call the throwing validateCreate function, if something goes wrong the Abort error will be returned as a response. It is also possible to use an async method (return with an <code>EventLoopFuture</code>) then await (<code>flatMap</code>) the call and return our newly created todo if everything was fine.</p><pre><code class="language-swift"><span class="keyword">func</span> create(req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Response</span>&gt; {
-    <span class="keyword">let</span> input = <span class="keyword">try</span> req.<span class="property">content</span>.<span class="call">decode</span>(<span class="type">TodoCreateObject</span>.<span class="keyword">self</span>)
-    <span class="keyword">try</span> <span class="type">TodoModel</span>.<span class="call">validateCreate</span>(input)
-    <span class="keyword">let</span> todo = <span class="type">TodoModel</span>()
-    todo.<span class="call">create</span>(input)
-    <span class="keyword">return</span> todo
-        .<span class="call">create</span>(on: req.<span class="property">db</span>)
-        .<span class="call">map</span> { todo.<span class="call">mapGet</span>() }
-        .<span class="call">encodeResponse</span>(status: .<span class="dotAccess">created</span>, for: req)
-}</code></pre><p>The last thing that we have to do is to update our test case and check for an error response.</p><pre><code class="language-swift"><span class="comment">// ...</span>
+}
+</code></pre><p>In the create controller we can simply call the throwing validateCreate function, if something goes wrong the Abort error will be returned as a response. It is also possible to use an async method (return with an <code>EventLoopFuture</code>) then await (<code>flatMap</code>) the call and return our newly created todo if everything was fine.</p><pre><code class="language-swift">func create(req: Request) throws -&gt; EventLoopFuture&lt;Response&gt; {
+    let input = try req.content.decode(TodoCreateObject.self)
+    try TodoModel.validateCreate(input)
+    let todo = TodoModel()
+    todo.create(input)
+    return todo
+        .create(on: req.db)
+        .map { todo.mapGet() }
+        .encodeResponse(status: .created, for: req)
+}
+</code></pre><p>The last thing that we have to do is to update our test case and check for an error response.</p><pre><code class="language-swift">// ...
 
-<span class="keyword">struct</span> ErrorResponse: <span class="type">Content</span> {
-    <span class="keyword">let</span> error: <span class="type">Bool</span>
-    <span class="keyword">let</span> reason: <span class="type">String</span>
+struct ErrorResponse: Content {
+    let error: Bool
+    let reason: String
 }
 
-<span class="keyword">func</span> testCreateInvalidTodo() <span class="keyword">throws</span> {
-    <span class="keyword">let</span> app = <span class="type">Application</span>(.<span class="dotAccess">testing</span>)
-    <span class="keyword">defer</span> { app.<span class="call">shutdown</span>() }
-    <span class="keyword">try</span> <span class="call">configure</span>(app)
+func testCreateInvalidTodo() throws {
+    let app = Application(.testing)
+    defer { app.shutdown() }
+    try configure(app)
     
-    <span class="keyword">try</span> app.<span class="call">test</span>(.<span class="dotAccess">POST</span>, <span class="string">"/todos/"</span>, beforeRequest: { req <span class="keyword">in
-        let</span> input = <span class="type">TodoCreateObject</span>(title: <span class="string">""</span>)
-        <span class="keyword">try</span> req.<span class="property">content</span>.<span class="call">encode</span>(input)
-    }, afterResponse: { res <span class="keyword">in</span>
-        <span class="call">XCTAssertEqual</span>(res.<span class="property">status</span>, .<span class="dotAccess">badRequest</span>)
-        <span class="keyword">let</span> error = <span class="keyword">try</span> res.<span class="property">content</span>.<span class="call">decode</span>(<span class="type">ErrorResponse</span>.<span class="keyword">self</span>)
-        <span class="call">XCTAssertEqual</span>(error.<span class="property">reason</span>, <span class="string">"Title is required"</span>)
+    try app.test(.POST, "/todos/", beforeRequest: { req in
+        let input = TodoCreateObject(title: "")
+        try req.content.encode(input)
+    }, afterResponse: { res in
+        XCTAssertEqual(res.status, .badRequest)
+        let error = try res.content.decode(ErrorResponse.self)
+        XCTAssertEqual(error.reason, "Title is required")
     })
-}</code></pre><p>Writing tests is a great way to debug our server side Swift code and double check our API endpoints. My only issue with this approach is that the code isn't too much self-explaining.</p><p>Declarative unit tests using Spec XCTVapor and the entire test framework works just great, but I had a small problem with it. If you ever worked with JavaScript or TypeScript you might have heard about the <a href="https://www.npmjs.com/package/supertest" target="_blank">SuperTest</a> library. This little <code>npm</code> package gives us a declarative syntactical sugar for testing HTTP requests, which I liked way too much to go back to regular XCTVapor-based test cases.</p><p>This is the reason why I've created the <a href="https://github.com/binarybirds/spec/" target="_blank">Spec</a> "micro-framework", which is literally one file with with an extra thin layer around Vapor's unit testing framework to provide a declarative API. Let me show you how this works in practice, using a real-world example. 🙃</p><pre><code class="language-swift"><span class="comment">// swift-tools-version:5.3</span>
-<span class="keyword">import</span> PackageDescription
+}
+</code></pre><p>Writing tests is a great way to debug our server side Swift code and double check our API endpoints. My only issue with this approach is that the code isn’t too much self-explaining.</p><p>Declarative unit tests using Spec<br>XCTVapor and the entire test framework works just great, but I had a small problem with it. If you ever worked with JavaScript or TypeScript you might have heard about the <a href="https://www.npmjs.com/package/supertest" target="_blank">SuperTest</a> library. This little <code>npm</code> package gives us a declarative syntactical sugar for testing HTTP requests, which I liked way too much to go back to regular XCTVapor-based test cases.</p><p>This is the reason why I’ve created the <a href="https://github.com/binarybirds/spec/" target="_blank">Spec</a> “micro-framework”, which is literally one file with with an extra thin layer around Vapor’s unit testing framework to provide a declarative API. Let me show you how this works in practice, using a real-world example. 🙃</p><pre><code class="language-swift">// swift-tools-version:5.3
+import PackageDescription
 
-<span class="keyword">let</span> package = <span class="type">Package</span>(
-    name: <span class="string">"myProject"</span>,
+let package = Package(
+    name: "myProject",
     platforms: [
-       .<span class="call">macOS</span>(.<span class="dotAccess">v10_15</span>)
+       .macOS(.v10_15)
     ],
     products: [
-        .<span class="call">library</span>(name: <span class="string">"TodoApi"</span>, targets: [<span class="string">"TodoApi"</span>]),
+        .library(name: "TodoApi", targets: ["TodoApi"]),
     ],
     dependencies: [
-        .<span class="call">package</span>(url: <span class="string">"https://github.com/vapor/vapor"</span>, from: <span class="string">"4.44.0"</span>),
-        .<span class="call">package</span>(url: <span class="string">"https://github.com/vapor/fluent"</span>, from: <span class="string">"4.0.0"</span>),
-        .<span class="call">package</span>(url: <span class="string">"https://github.com/vapor/fluent-sqlite-driver"</span>, from: <span class="string">"4.0.0"</span>),
-        .<span class="call">package</span>(url: <span class="string">"https://github.com/binarybirds/spec"</span>, from: <span class="string">"1.0.0"</span>),
+        .package(url: "https://github.com/vapor/vapor", from: "4.44.0"),
+        .package(url: "https://github.com/vapor/fluent", from: "4.0.0"),
+        .package(url: "https://github.com/vapor/fluent-sqlite-driver", from: "4.0.0"),
+        .package(url: "https://github.com/binarybirds/spec", from: "1.0.0"),
     ],
     targets: [
-        .<span class="call">target</span>(name: <span class="string">"TodoApi"</span>),
-        .<span class="call">target</span>(
-            name: <span class="string">"App"</span>,
+        .target(name: "TodoApi"),
+        .target(
+            name: "App",
             dependencies: [
-                .<span class="call">product</span>(name: <span class="string">"Fluent"</span>, package: <span class="string">"fluent"</span>),
-                .<span class="call">product</span>(name: <span class="string">"FluentSQLiteDriver"</span>, package: <span class="string">"fluent-sqlite-driver"</span>),
-                .<span class="call">product</span>(name: <span class="string">"Vapor"</span>, package: <span class="string">"vapor"</span>),
-                .<span class="call">target</span>(name: <span class="string">"TodoApi"</span>)
+                .product(name: "Fluent", package: "fluent"),
+                .product(name: "FluentSQLiteDriver", package: "fluent-sqlite-driver"),
+                .product(name: "Vapor", package: "vapor"),
+                .target(name: "TodoApi")
             ],
             swiftSettings: [
-                .<span class="call">unsafeFlags</span>([<span class="string">"-cross-module-optimization"</span>], .<span class="dotAccess">when</span>(configuration: .<span class="dotAccess">release</span>))
+                .unsafeFlags(["-cross-module-optimization"], .when(configuration: .release))
             ]
         ),
-        .<span class="call">target</span>(name: <span class="string">"Run"</span>, dependencies: [.<span class="call">target</span>(name: <span class="string">"App"</span>)]),
-        .<span class="call">testTarget</span>(name: <span class="string">"AppTests"</span>, dependencies: [
-            .<span class="call">target</span>(name: <span class="string">"App"</span>),
-            .<span class="call">product</span>(name: <span class="string">"XCTVapor"</span>, package: <span class="string">"vapor"</span>),
-            .<span class="call">product</span>(name: <span class="string">"Spec"</span>, package: <span class="string">"spec"</span>),
+        .target(name: "Run", dependencies: [.target(name: "App")]),
+        .testTarget(name: "AppTests", dependencies: [
+            .target(name: "App"),
+            .product(name: "XCTVapor", package: "vapor"),
+            .product(name: "Spec", package: "spec"),
         ])
     ]
-)</code></pre><p>We had some expectations for the previous calls, right? How should we test the update todo endpoint? Well, we can create a new item, then update it and check if the results are valid.</p><pre><code class="language-swift"><span class="keyword">import</span> Spec
+)
+</code></pre><p>We had some expectations for the previous calls, right? How should we test the update todo endpoint? Well, we can create a new item, then update it and check if the results are valid.</p><pre><code class="language-swift">import Spec
 
-<span class="comment">// ...</span>
-<span class="keyword">func</span> testUpdateTodo() <span class="keyword">throws</span> {
-    <span class="keyword">let</span> app = <span class="type">Application</span>(.<span class="dotAccess">testing</span>)
-    <span class="keyword">defer</span> { app.<span class="call">shutdown</span>() }
-    <span class="keyword">try</span> <span class="call">configure</span>(app)
+// ...
+func testUpdateTodo() throws {
+    let app = Application(.testing)
+    defer { app.shutdown() }
+    try configure(app)
     
     
-    <span class="keyword">var</span> existingTodo: <span class="type">TodoGetObject</span>?
+    var existingTodo: TodoGetObject?
     
-    <span class="keyword">try</span> app
-        .<span class="call">describe</span>(<span class="string">"A valid todo object should exists after creation"</span>)
-        .<span class="call">post</span>(<span class="string">"/todos/"</span>)
-        .<span class="call">body</span>(<span class="type">TodoCreateObject</span>(title: <span class="string">"sample"</span>))
-        .<span class="call">expect</span>(.<span class="dotAccess">created</span>)
-        .<span class="call">expect</span>(.<span class="dotAccess">json</span>)
-        .<span class="call">expect</span>(<span class="type">TodoGetObject</span>.<span class="keyword">self</span>) { existingTodo = $0 }
-        .<span class="call">test</span>()
+    try app
+        .describe("A valid todo object should exists after creation")
+        .post("/todos/")
+        .body(TodoCreateObject(title: "sample"))
+        .expect(.created)
+        .expect(.json)
+        .expect(TodoGetObject.self) { existingTodo = $0 }
+        .test()
 
-    <span class="call">XCTAssertNotNil</span>(existingTodo)
+    XCTAssertNotNil(existingTodo)
 
-    <span class="keyword">let</span> updatedTitle = <span class="string">"Item is done"</span>
+    let updatedTitle = "Item is done"
     
-    <span class="keyword">try</span> app
-        .<span class="call">describe</span>(<span class="string">"Todo should be updated"</span>)
-        .<span class="call">put</span>(<span class="string">"/todos/"</span> + existingTodo!.id.<span class="property">uuidString</span>)
-        .<span class="call">body</span>(<span class="type">TodoUpdateObject</span>(title: updatedTitle, completed: <span class="keyword">true</span>, order: <span class="number">2</span>))
-        .<span class="call">expect</span>(.<span class="dotAccess">ok</span>)
-        .<span class="call">expect</span>(.<span class="dotAccess">json</span>)
-        .<span class="call">expect</span>(<span class="type">TodoGetObject</span>.<span class="keyword">self</span>) { todo <span class="keyword">in</span>
-            <span class="call">XCTAssertEqual</span>(todo.<span class="property">title</span>, updatedTitle)
-            <span class="call">XCTAssertTrue</span>(todo.<span class="property">completed</span>)
-            <span class="call">XCTAssertEqual</span>(todo.<span class="property">order</span>, <span class="number">2</span>)
+    try app
+        .describe("Todo should be updated")
+        .put("/todos/" + existingTodo!.id.uuidString)
+        .body(TodoUpdateObject(title: updatedTitle, completed: true, order: 2))
+        .expect(.ok)
+        .expect(.json)
+        .expect(TodoGetObject.self) { todo in
+            XCTAssertEqual(todo.title, updatedTitle)
+            XCTAssertTrue(todo.completed)
+            XCTAssertEqual(todo.order, 2)
         }
-        .<span class="call">test</span>()
-}</code></pre><p>The very first part of the code expects that we were able to create a todo object, it is the exact same create expectation as we used to write with the help of the XCTVapor framework.</p><p>IMHO the overall code quality is way better than it was in the previous example. We described the test scenario then we set our expectations and finally we run our test. With this format it's going to be more straightforward to understand test cases. If you compare the two versions the create case the second one is trivial to understand, but in the first one you actually have to take a deeper look at each line to understand what's going on.</p><p>Ok, one more test before we stop, let me show you how to describe the delete endpoint. We're going to refactor our code a bit, since there are some duplications already.</p><pre><code class="language-swift"><span class="keyword">@testable import</span> App
-<span class="keyword">import</span> TodoApi
-<span class="keyword">import</span> Fluent
-<span class="keyword">import</span> Spec
+        .test()
+}
+</code></pre><p>The very first part of the code expects that we were able to create a todo object, it is the exact same create expectation as we used to write with the help of the XCTVapor framework.</p><p>IMHO the overall code quality is way better than it was in the previous example. We described the test scenario then we set our expectations and finally we run our test. With this format it’s going to be more straightforward to understand test cases. If you compare the two versions the create case the second one is trivial to understand, but in the first one you actually have to take a deeper look at each line to understand what’s going on.</p><p>Ok, one more test before we stop, let me show you how to describe the delete endpoint. We’re going to refactor our code a bit, since there are some duplications already.</p><pre><code class="language-swift">@testable import App
+import TodoApi
+import Fluent
+import Spec
 
-<span class="keyword">final class</span> AppTests: <span class="type">XCTestCase</span> {
+final class AppTests: XCTestCase {
 
-    <span class="comment">// MARK: - helpers</span>
+    // MARK: - helpers
     
-    <span class="keyword">private struct</span> ErrorResponse: <span class="type">Content</span> {
-        <span class="keyword">let</span> error: <span class="type">Bool</span>
-        <span class="keyword">let</span> reason: <span class="type">String</span>
+    private struct ErrorResponse: Content {
+        let error: Bool
+        let reason: String
     }
 
-    <span class="keyword">@discardableResult
-    private func</span> createTodo(app: <span class="type">Application</span>, input: <span class="type">TodoCreateObject</span>) <span class="keyword">throws</span> -&gt; <span class="type">TodoGetObject</span> {
-        <span class="keyword">var</span> existingTodo: <span class="type">TodoGetObject</span>?
+    @discardableResult
+    private func createTodo(app: Application, input: TodoCreateObject) throws -&gt; TodoGetObject {
+        var existingTodo: TodoGetObject?
 
-        <span class="keyword">try</span> app
-            .<span class="call">describe</span>(<span class="string">"A valid todo object should exists after creation"</span>)
-            .<span class="call">post</span>(<span class="string">"/todos/"</span>)
-            .<span class="call">body</span>(input)
-            .<span class="call">expect</span>(.<span class="dotAccess">created</span>)
-            .<span class="call">expect</span>(.<span class="dotAccess">json</span>)
-            .<span class="call">expect</span>(<span class="type">TodoGetObject</span>.<span class="keyword">self</span>) { existingTodo = $0 }
-            .<span class="call">test</span>()
+        try app
+            .describe("A valid todo object should exists after creation")
+            .post("/todos/")
+            .body(input)
+            .expect(.created)
+            .expect(.json)
+            .expect(TodoGetObject.self) { existingTodo = $0 }
+            .test()
         
-        <span class="call">XCTAssertNotNil</span>(existingTodo)
+        XCTAssertNotNil(existingTodo)
 
-        <span class="keyword">return</span> existingTodo!
+        return existingTodo!
     }
     
-    <span class="comment">// MARK: - tests</span>
+    // MARK: - tests
     
-    <span class="keyword">func</span> testTodoList() <span class="keyword">throws</span> {
-        <span class="keyword">let</span> app = <span class="type">Application</span>(.<span class="dotAccess">testing</span>)
-        <span class="keyword">defer</span> { app.<span class="call">shutdown</span>() }
-        <span class="keyword">try</span> <span class="call">configure</span>(app)
+    func testTodoList() throws {
+        let app = Application(.testing)
+        defer { app.shutdown() }
+        try configure(app)
         
-        <span class="keyword">try</span> app
-            .<span class="call">describe</span>(<span class="string">"A valid todo list page should be returned."</span>)
-            .<span class="call">get</span>(<span class="string">"/todos/"</span>)
-            .<span class="call">expect</span>(.<span class="dotAccess">ok</span>)
-            .<span class="call">expect</span>(.<span class="dotAccess">json</span>)
-            .<span class="call">expect</span>(<span class="type">Page</span>&lt;<span class="type">TodoListObject</span>&gt;.<span class="keyword">self</span>)
-            .<span class="call">test</span>()
+        try app
+            .describe("A valid todo list page should be returned.")
+            .get("/todos/")
+            .expect(.ok)
+            .expect(.json)
+            .expect(Page&lt;TodoListObject&gt;.self)
+            .test()
     }
     
-    <span class="keyword">func</span> testCreateTodo() <span class="keyword">throws</span> {
-        <span class="keyword">let</span> app = <span class="type">Application</span>(.<span class="dotAccess">testing</span>)
-        <span class="keyword">defer</span> { app.<span class="call">shutdown</span>() }
-        <span class="keyword">try</span> <span class="call">configure</span>(app)
+    func testCreateTodo() throws {
+        let app = Application(.testing)
+        defer { app.shutdown() }
+        try configure(app)
 
-        <span class="keyword">try</span> <span class="call">createTodo</span>(app: app, input: <span class="type">TodoCreateObject</span>(title: <span class="string">"Write a todo tutorial"</span>))
+        try createTodo(app: app, input: TodoCreateObject(title: "Write a todo tutorial"))
     }
 
-    <span class="keyword">func</span> testCreateInvalidTodo() <span class="keyword">throws</span> {
-        <span class="keyword">let</span> app = <span class="type">Application</span>(.<span class="dotAccess">testing</span>)
-        <span class="keyword">defer</span> { app.<span class="call">shutdown</span>() }
-        <span class="keyword">try</span> <span class="call">configure</span>(app)
+    func testCreateInvalidTodo() throws {
+        let app = Application(.testing)
+        defer { app.shutdown() }
+        try configure(app)
 
-        <span class="keyword">try</span> app
-            .<span class="call">describe</span>(<span class="string">"An invalid title response should be returned"</span>)
-            .<span class="call">post</span>(<span class="string">"/todos/"</span>)
-            .<span class="call">body</span>(<span class="type">TodoCreateObject</span>(title: <span class="string">""</span>))
-            .<span class="call">expect</span>(.<span class="dotAccess">badRequest</span>)
-            .<span class="call">expect</span>(.<span class="dotAccess">json</span>)
-            .<span class="call">expect</span>(<span class="type">ErrorResponse</span>.<span class="keyword">self</span>) { error <span class="keyword">in</span>
-                <span class="call">XCTAssertEqual</span>(error.<span class="property">reason</span>, <span class="string">"Title is required"</span>)
+        try app
+            .describe("An invalid title response should be returned")
+            .post("/todos/")
+            .body(TodoCreateObject(title: ""))
+            .expect(.badRequest)
+            .expect(.json)
+            .expect(ErrorResponse.self) { error in
+                XCTAssertEqual(error.reason, "Title is required")
             }
-            .<span class="call">test</span>()
+            .test()
     }
 
-    <span class="keyword">func</span> testUpdateTodo() <span class="keyword">throws</span> {
-        <span class="keyword">let</span> app = <span class="type">Application</span>(.<span class="dotAccess">testing</span>)
-        <span class="keyword">defer</span> { app.<span class="call">shutdown</span>() }
-        <span class="keyword">try</span> <span class="call">configure</span>(app)
+    func testUpdateTodo() throws {
+        let app = Application(.testing)
+        defer { app.shutdown() }
+        try configure(app)
         
-        <span class="keyword">let</span> todo: <span class="type">TodoGetObject</span>? = <span class="keyword">try</span> <span class="call">createTodo</span>(app: app, input: <span class="type">TodoCreateObject</span>(title: <span class="string">"Write a todo tutorial"</span>))
+        let todo: TodoGetObject? = try createTodo(app: app, input: TodoCreateObject(title: "Write a todo tutorial"))
 
-        <span class="keyword">let</span> updatedTitle = <span class="string">"Item is done"</span>
+        let updatedTitle = "Item is done"
         
-        <span class="keyword">try</span> app
-            .<span class="call">describe</span>(<span class="string">"Todo should be updated"</span>)
-            .<span class="call">put</span>(<span class="string">"/todos/"</span> + todo!.id.<span class="property">uuidString</span>)
-            .<span class="call">expect</span>(.<span class="dotAccess">ok</span>)
-            .<span class="call">expect</span>(.<span class="dotAccess">json</span>)
-            .<span class="call">body</span>(<span class="type">TodoUpdateObject</span>(title: updatedTitle, completed: <span class="keyword">true</span>, order: <span class="number">2</span>))
-            .<span class="call">expect</span>(<span class="type">TodoGetObject</span>.<span class="keyword">self</span>) { todo <span class="keyword">in</span>
-                <span class="call">XCTAssertEqual</span>(todo.<span class="property">title</span>, updatedTitle)
-                <span class="call">XCTAssertTrue</span>(todo.<span class="property">completed</span>)
-                <span class="call">XCTAssertEqual</span>(todo.<span class="property">order</span>, <span class="number">2</span>)
+        try app
+            .describe("Todo should be updated")
+            .put("/todos/" + todo!.id.uuidString)
+            .expect(.ok)
+            .expect(.json)
+            .body(TodoUpdateObject(title: updatedTitle, completed: true, order: 2))
+            .expect(TodoGetObject.self) { todo in
+                XCTAssertEqual(todo.title, updatedTitle)
+                XCTAssertTrue(todo.completed)
+                XCTAssertEqual(todo.order, 2)
             }
-            .<span class="call">test</span>()
+            .test()
     }
     
-    <span class="keyword">func</span> testDeleteTodo() <span class="keyword">throws</span> {
-        <span class="keyword">let</span> app = <span class="type">Application</span>(.<span class="dotAccess">testing</span>)
-        <span class="keyword">defer</span> { app.<span class="call">shutdown</span>() }
-        <span class="keyword">try</span> <span class="call">configure</span>(app)
+    func testDeleteTodo() throws {
+        let app = Application(.testing)
+        defer { app.shutdown() }
+        try configure(app)
         
-        <span class="keyword">let</span> todo: <span class="type">TodoGetObject</span>? = <span class="keyword">try</span> <span class="call">createTodo</span>(app: app, input: <span class="type">TodoCreateObject</span>(title: <span class="string">"Write a todo tutorial"</span>))
+        let todo: TodoGetObject? = try createTodo(app: app, input: TodoCreateObject(title: "Write a todo tutorial"))
 
-        <span class="keyword">try</span> app
-            .<span class="call">describe</span>(<span class="string">"Todo should be updated"</span>)
-            .<span class="call">delete</span>(<span class="string">"/todos/"</span> + todo!.id.<span class="property">uuidString</span>)
-            .<span class="call">expect</span>(.<span class="dotAccess">ok</span>)
-            .<span class="call">test</span>()
+        try app
+            .describe("Todo should be updated")
+            .delete("/todos/" + todo!.id.uuidString)
+            .expect(.ok)
+            .test()
     }
-}</code></pre><p>This is how you can create a complete unit test scenario for a REST API endpoint using the Spec library. Of course there are a dozen other issues that we could fix, such as better input object validation, unit test for the patch endpoint, better tests for edge cases. Well, next time. 😅</p><p>By using Spec you can build your expectations by describing the use case, then you can place your expectations on the described "specification" run the attached validators. The nice thing about this declarative approach is the clean self-explaining format that you can understand without taking too much time on investigating the underlying Swift / Vapor code.</p><p>I believe that <a href="https://github.com/binarybirds/spec/" target="_blank">Spec</a> is a fun little tool that helps you to write better tests for your Swift backend apps. It has a very lightweight footprint, and the API is straightforward and easy to use. 💪</p>
-        </section>
-    </div>
-
-</article>
-
-<section id="share" class="content-wrapper">
-    <p>
-    <a
-        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/declarative-unit-tests-for-vapor/"
-        target="_blank"
-    >
-        Share this article
-    </a>
-    <br> Thank you. 🙏</p>
-</section>
-
-<section  class="wrapper">
-    <div id="book">
-        <div class="column left">
-            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+}
+</code></pre><p>This is how you can create a complete unit test scenario for a REST API endpoint using the Spec library. Of course there are a dozen other issues that we could fix, such as better input object validation, unit test for the patch endpoint, better tests for edge cases. Well, next time. 😅</p><p>By using Spec you can build your expectations by describing the use case, then you can place your expectations on the described “specification” run the attached validators. The nice thing about this declarative approach is the clean self-explaining format that you can understand without taking too much time on investigating the underlying Swift / Vapor code.</p><p>I believe that <a href="https://github.com/binarybirds/spec/" target="_blank">Spec</a> is a fun little tool that helps you to write better tests for your Swift backend apps. It has a very lightweight footprint, and the API is straightforward and easy to use. 💪</p>
+                    
+                </section>
+    
+                <footer>
+                    <br>
+                    <time datetime=""></time>
+    
+                    
+                    <div class="author-list">
+                        <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        </a>
+                    </div>
+                    <div class="tag-list">
+                        <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
+                    <a href="https://theswiftdev.com/tags/vapor/"><small>Vapor</small></a>
+                    </div>
+                    
+                    <p>
+                        <a href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/declarative-unit-tests-for-vapor/" target="_blank">
+                            <strong>Share this article</strong>
+                        </a>
+                        <br>Thank you. 🙏
+                    </p>
+                </footer>
+                            
+                <section class="group">
+                    <h4>Related posts</h4>                
+                    <div class="grid grid-221">
+                        <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/07/15">2020/07/15</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/10-short-advices-that-will-make-you-a-better-vapor-developer-right-away/" target="">10 short advices that will make you a better Vapor developer right away</a></h2>
+                            <hr>
+                            <p>As a beginner server side Swift developer you&#39;ll face many obstackles. I&#39;ll show you how to avoid the most common ones.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/04/01">2020/04/01</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/a-generic-crud-solution-for-vapor-4/" target="">A generic CRUD solution for Vapor 4</a></h2>
+                            <hr>
+                            <p>Learn how to build a controller component that can serve models as JSON objects through a RESTful API written in Swift.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2019/10/08">2019/10/08</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/a-simple-http2-server-using-vapor-4/" target="">A simple HTTP/2 server using Vapor 4</a></h2>
+                            <hr>
+                            <p>Get started with server-side Swift using the Vapor 4 framework. Learn how to build a really simple HTTP/2 backend server.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/12/18">2020/12/18</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/ajax-calls-using-vapor-4/" target="">AJAX calls using Vapor 4</a></h2>
+                            <hr>
+                            <p>Learn how to implement Asynchronous JavaScript and XML (AJAX) calls using Leaf templates and Vapor 4 as a server.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    
+            </article>
         </div>
-        <div class="column right">
-            <h3>Get the Practical Server Side Swift book</h3>
-            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
-        </div>
-    </div>
-</section>
-
-<section id="author" class="content-wrapper">
-    <img 
-        id="author-image"
-        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
-        alt="Picture of Tibor Bödecs" 
-        title="Tibor Bödecs"
-    >
-    <h3>Tibor Bödecs</h3>
-    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
-    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
-
-    <div class="links">
-        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
-        <a href="https://github.com/tib" target="_blank">GitHub</a> 
-    </div>
-</section>
-
         
+        <div>
+            <div class="book">
+                <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">
+                    <img src="https://theswiftdev.com/book/practical-server-side-swift-cover.png" alt="Practical Server Side Swift cover image">
+                </a>
+                <h3>
+                    <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Get the Practical Server Side Swift book</a>
+                </h3>
+                <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+                <a class="cta" href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+            </div>
+            
+            
+            <aside id="toc">
+                <h4>On this page</h4>
+                <ul>
+                    <li class="first-level">
+                        <a href="#writing-tests-using-xctvapor">Writing tests using XCTVapor</a>
+                        <ul>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+            
+    
+        </div>
+    </div>
+    
     </main>
 
-    <footer>
-        <section class="content-wrapper">
-            <img 
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
-
-            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+    <footer id="site-footer">
+        <div class="grid grid-421">
+    
+            <picture>
+                <img
+                    id="logo-image"
+                    src="https://theswiftdev.com/images/logos/logo-large.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
             
-            <p> 
-                <a href="https://theswiftdev.com/">Home</a> ·
-                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
-            </p>
+            <div>
+                <span style="display: block; height: 32px;">&nbsp;</span>
+                <h4>The.Swift.Dev</h4>
+                <p><small><a href="https://theswiftdev.com/" target="_blank">theswiftdev.com</a></small></p>
+                <ul>
+                    <li><a href="https://github.com/theswiftdev/" target="_blank">GitHub</a></li>
+                    <li><a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a></li>
+                    <li><a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a></li>
+                </ul>
+            </div>
             
-            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+            <div>
+                
+            </div>
+            
+            <div>
+                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                </a>
+                <h4><a href="https://theswiftdev.com/authors/tibor-bodecs/">Tibor Bödecs</a></h4>
+                <p><small><a href="https://binarybirds.com/" target="_blank">Binary Birds Kft.</a></small></p>
+                <ul>
+                    <li><a href="mailto:mail.tib@gmail.com" target="_blank">Email</a></li>
+                    <li><a href="https://github.com/tib/" target="_blank">GitHub</a></li>
+                    <li><a href="https://x.com/tiborbodecs" target="_blank">X (Twitter)</a></li>
+                    <li><a href="https://mastodon.social/@tiborbodecs" target="_blank">Mastodon</a></li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <section class="grid grid-221">
+            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>
+
+    </div>
+
+    
 </body>
 </html>

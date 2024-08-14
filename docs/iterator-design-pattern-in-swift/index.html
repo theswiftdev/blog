@@ -1,325 +1,485 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
     <meta charset="utf-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="canonical" href="https://theswiftdev.com/iterator-design-pattern-in-swift/">
     
+    
+
     <title>Iterator design pattern in Swift - The.Swift.Dev.</title>
-    
     <meta name="description" content="Learn the iterator design pattern by using some custom sequences, conforming to the IteratorProtocol from the Swift standard library.">
-    
+
+    <meta property="og:url" content="https://theswiftdev.com/iterator-design-pattern-in-swift/">
     <meta property="og:title" content="Iterator design pattern in Swift - The.Swift.Dev.">
     <meta property="og:description" content="Learn the iterator design pattern by using some custom sequences, conforming to the IteratorProtocol from the Swift standard library.">
-    <meta property="og:url" content="https://theswiftdev.com/iterator-design-pattern-in-swift/">
-    <meta property="og:image" content="https://theswiftdev.com/images/assets/iterator-design-pattern-in-swift/cover.jpg">
+    
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@tiborbodecs">
-    <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="Iterator design pattern in Swift - The.Swift.Dev.">
     <meta name="twitter:description" content="Learn the iterator design pattern by using some custom sequences, conforming to the IteratorProtocol from the Swift standard library.">
-    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/iterator-design-pattern-in-swift/cover.jpg">
     
-    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
-    
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-normalize.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/variables.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/grid.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/navigation.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/footer.css">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+
     
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/icons/apple-touch-icon-180x180.png">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+        media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+        media="(prefers-color-scheme: dark)"
+    >
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
 </head>
 
 <body>
-    <a href="https://theswiftdev.gumroad.com" class="ribbon">
-        📖
-    </a>
-    <header id="page-header">
-        <a href="https://theswiftdev.com/">
-            <img 
-                id="logo-image"
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
+    <div id="site-container">
+
+    <header id="navigation">
+        <a href="/">
+            <picture>
+                <img
+                    src="https://theswiftdev.com/images/logos/logo.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
         </a>
-    </header>
-    
-    <main>
-
-        <article>
-    <header>
-        <section id="post-header" class="content-wrapper">
-            <time datetime="2018/08/19">2018/08/19</time>
-            <h1 class="title">Iterator design pattern in Swift</h1>
-            <p class="excerpt">Learn the iterator design pattern by using some custom sequences, conforming to the IteratorProtocol from the Swift standard library.</p>
-            <div class="meta">
-                <span class="tag">Swift</span>
-<span class="tag">iOS</span>
-<span class="tag">design patterns</span>
+        <nav>
+            <input type="checkbox" id="primary-menu-button" name="menu-button" class="menu-button">
+            <label for="primary-menu-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </label>
+            <div class="menu-items">
+                <a href="/page/1/">Posts</a>
+                <a href="/tags/">Tags</a>
+                <a href="/authors/">Authors</a>
+                <a href="/practical-server-side-swift/">My Book</a>
             </div>
-        </section>
-        <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.com/images/assets/iterator-design-pattern-in-swift/cover.jpg">
-        </section>
+        </nav>
     </header>
 
-    <div id="contents">
-        <section class="content-wrapper">
-            <p>This time I'm going to focus on the <a href="https://en.wikipedia.org/wiki/Iterator_pattern" target="_blank">iterator design pattern</a>. The pattern is heavily used in the <a href="https://developer.apple.com/documentation/swift/swift_standard_library" target="_blank">Swift standard library</a>, there are protocols that will give you support if you need to create an iterator, but honestly: I've never implemented this pattern directly. 😅</p><p>The truth is that probably in 99% of the use cases you'll never have to deal with this pattern, because there is amazing support for iterators built-in directly into Swift. Always use sequences, arrays, dictionaries instead of directly implementing this pattern, but it's good to know how things are working under the hood, isn't it? 🙃</p><h2>What is the iterator design pattern?</h2><p>As the name suggests, the pattern enables you to iterate over a collection of elements. Here is the definition from the gang of four book:</p><p>Provide a way to access the elements of an aggregate object sequentially without exposing its underlying representation.</p><p>Long story short the <a href="https://agostini.tech/2018/06/10/design-patterns-in-swift-iterator-pattern/" target="_blank">iterator</a> gives you an interface that will enable you to iterate over collections regardless of how they are implemented in the background. Here is a quick example of the theory above using a string iterator.</p><pre><code class="language-swift"><span class="keyword">import</span> Foundation
+    <main id="page-container">
+    
+    <div class="article-with-toc">
+        <div>
+            <article class="post">
+                <div class="meta">
+                    <time datetime="2018/08/19">2018/08/19</time>
+                     &middot; <span class="reading-time">4 min read</span>
+                    
+                </div>
+                <h1>Iterator design pattern in Swift</h1>
+                <hr>
+                <p>Learn the iterator design pattern by using some custom sequences, conforming to the IteratorProtocol from the Swift standard library.</p>
+                <section>
+                
+                <p>This time I’m going to focus on the <a href="https://en.wikipedia.org/wiki/Iterator_pattern" target="_blank">iterator design pattern</a>. The pattern is heavily used in the <a href="https://developer.apple.com/documentation/swift/swift_standard_library" target="_blank">Swift standard library</a>, there are protocols that will give you support if you need to create an iterator, but honestly: I’ve never implemented this pattern directly. 😅</p><p>The truth is that probably in 99% of the use cases you’ll never have to deal with this pattern, because there is amazing support for iterators built-in directly into Swift. Always use sequences, arrays, dictionaries instead of directly implementing this pattern, but it’s good to know how things are working under the hood, isn’t it? 🙃</p><h2 id="what-is-the-iterator-design-pattern">What is the iterator design pattern?</h2><p>As the name suggests, the pattern enables you to iterate over a collection of elements. Here is the definition from the gang of four book:</p><p>Provide a way to access the elements of an aggregate object sequentially without exposing its underlying representation.</p><p>Long story short the <a href="https://agostini.tech/2018/06/10/design-patterns-in-swift-iterator-pattern/" target="_blank">iterator</a> gives you an interface that will enable you to iterate over collections regardless of how they are implemented in the background. Here is a quick example of the theory above using a string iterator.</p><pre><code class="language-swift">import Foundation
 
-<span class="keyword">protocol</span> StringIterator {
-    <span class="keyword">func</span> next() -&gt; <span class="type">String</span>?
+protocol StringIterator {
+    func next() -&gt; String?
 }
 
-<span class="keyword">class</span> ArrayStringIterator: <span class="type">StringIterator</span> {
+class ArrayStringIterator: StringIterator {
 
-    <span class="keyword">private let</span> values: [<span class="type">String</span>]
-    <span class="keyword">private var</span> index: <span class="type">Int</span>?
+    private let values: [String]
+    private var index: Int?
 
-    <span class="keyword">init</span>(<span class="keyword">_</span> values: [<span class="type">String</span>]) {
-        <span class="keyword">self</span>.<span class="property">values</span> = values
+    init(_ values: [String]) {
+        self.values = values
     }
 
-    <span class="keyword">private func</span> nextIndex(for index: <span class="type">Int</span>?) -&gt; <span class="type">Int</span>? {
-        <span class="keyword">if let</span> index = index, index &lt; <span class="keyword">self</span>.<span class="property">values</span>.<span class="property">count</span> - <span class="number">1</span> {
-            <span class="keyword">return</span> index + <span class="number">1</span>
+    private func nextIndex(for index: Int?) -&gt; Int? {
+        if let index = index, index &lt; self.values.count - 1 {
+            return index + 1
         }
-        <span class="keyword">if</span> index == <span class="keyword">nil</span>, !<span class="keyword">self</span>.<span class="property">values</span>.<span class="property">isEmpty</span> {
-            <span class="keyword">return</span> <span class="number">0</span>
+        if index == nil, !self.values.isEmpty {
+            return 0
         }
-        <span class="keyword">return nil</span>
+        return nil
     }
 
-    <span class="keyword">func</span> next() -&gt; <span class="type">String</span>? {
-        <span class="keyword">if let</span> index = <span class="keyword">self</span>.<span class="call">nextIndex</span>(for: <span class="keyword">self</span>.<span class="property">index</span>) {
-            <span class="keyword">self</span>.<span class="property">index</span> = index
-            <span class="keyword">return self</span>.<span class="property">values</span>[index]
+    func next() -&gt; String? {
+        if let index = self.nextIndex(for: self.index) {
+            self.index = index
+            return self.values[index]
         }
-        <span class="keyword">return nil</span>
+        return nil
     }
 }
 
 
-<span class="keyword">protocol</span> Iterable {
-    <span class="keyword">func</span> makeIterator() -&gt; <span class="type">StringIterator</span>
+protocol Iterable {
+    func makeIterator() -&gt; StringIterator
 }
 
-<span class="keyword">class</span> DataArray: <span class="type">Iterable</span> {
+class DataArray: Iterable {
 
-    <span class="keyword">private var</span> dataSource: [<span class="type">String</span>]
+    private var dataSource: [String]
 
-    <span class="keyword">init</span>() {
-        <span class="keyword">self</span>.<span class="property">dataSource</span> = [<span class="string">"🐶"</span>, <span class="string">"🐔"</span>, <span class="string">"🐵"</span>, <span class="string">"🦁"</span>, <span class="string">"🐯"</span>, <span class="string">"🐭"</span>, <span class="string">"🐱"</span>, <span class="string">"🐮"</span>, <span class="string">"🐷"</span>]
+    init() {
+        self.dataSource = ["🐶", "🐔", "🐵", "🦁", "🐯", "🐭", "🐱", "🐮", "🐷"]
     }
 
-    <span class="keyword">func</span> makeIterator() -&gt; <span class="type">StringIterator</span> {
-        <span class="keyword">return</span> <span class="type">ArrayStringIterator</span>(<span class="keyword">self</span>.<span class="property">dataSource</span>)
-    }
-}
-
-<span class="keyword">let</span> data = <span class="type">DataArray</span>()
-<span class="keyword">let</span> iterator = data.<span class="call">makeIterator</span>()
-
-<span class="keyword">while let</span> next = iterator.<span class="call">next</span>() {
-    <span class="call">print</span>(next)
-}</code></pre><p>As you can see there are two main protocols and a really simple implementation for both of them. Our <code>DataArray</code> class now acts like a real array, the underlying elements can be iterated through using a loop. Let's ditch the theory and re-implement the example from above by using real Swift standard library components. 😉</p><h2>Custom sequences in Swift</h2><p>Swift has a built-in sequence protocol to help you creating iterators. Implementing your own sequence in Swift is all about hiding your underlying data structure by creating a custom iterator object. You just have to store the current index and return your next element according to that each time the next function gets called. 😛</p><pre><code class="language-swift"><span class="keyword">import</span> Foundation
-
-<span class="keyword">struct</span> Emojis: <span class="type">Sequence</span> {
-    <span class="keyword">let</span> animals: [<span class="type">String</span>]
-
-    <span class="keyword">func</span> makeIterator() -&gt; <span class="type">EmojiIterator</span> {
-        <span class="keyword">return</span> <span class="type">EmojiIterator</span>(<span class="keyword">self</span>.<span class="property">animals</span>)
+    func makeIterator() -&gt; StringIterator {
+        return ArrayStringIterator(self.dataSource)
     }
 }
 
-<span class="keyword">struct</span> EmojiIterator: <span class="type">IteratorProtocol</span> {
+let data = DataArray()
+let iterator = data.makeIterator()
 
-    <span class="keyword">private let</span> values: [<span class="type">String</span>]
-    <span class="keyword">private var</span> index: <span class="type">Int</span>?
+while let next = iterator.next() {
+    print(next)
+}
+</code></pre><p>As you can see there are two main protocols and a really simple implementation for both of them. Our <code>DataArray</code> class now acts like a real array, the underlying elements can be iterated through using a loop. Let’s ditch the theory and re-implement the example from above by using real Swift standard library components. 😉</p><h2 id="custom-sequences-in-swift">Custom sequences in Swift</h2><p>Swift has a built-in sequence protocol to help you creating iterators. Implementing your own sequence in Swift is all about hiding your underlying data structure by creating a custom iterator object. You just have to store the current index and return your next element according to that each time the next function gets called. 😛</p><pre><code class="language-swift">import Foundation
 
-    <span class="keyword">init</span>(<span class="keyword">_</span> values: [<span class="type">String</span>]) {
-        <span class="keyword">self</span>.<span class="property">values</span> = values
+struct Emojis: Sequence {
+    let animals: [String]
+
+    func makeIterator() -&gt; EmojiIterator {
+        return EmojiIterator(self.animals)
+    }
+}
+
+struct EmojiIterator: IteratorProtocol {
+
+    private let values: [String]
+    private var index: Int?
+
+    init(_ values: [String]) {
+        self.values = values
     }
 
-    <span class="keyword">private func</span> nextIndex(for index: <span class="type">Int</span>?) -&gt; <span class="type">Int</span>? {
-        <span class="keyword">if let</span> index = index, index &lt; <span class="keyword">self</span>.<span class="property">values</span>.<span class="property">count</span> - <span class="number">1</span> {
-            <span class="keyword">return</span> index + <span class="number">1</span>
+    private func nextIndex(for index: Int?) -&gt; Int? {
+        if let index = index, index &lt; self.values.count - 1 {
+            return index + 1
         }
-        <span class="keyword">if</span> index == <span class="keyword">nil</span>, !<span class="keyword">self</span>.<span class="property">values</span>.<span class="property">isEmpty</span> {
-            <span class="keyword">return</span> <span class="number">0</span>
+        if index == nil, !self.values.isEmpty {
+            return 0
         }
-        <span class="keyword">return nil</span>
+        return nil
     }
 
-    <span class="keyword">mutating func</span> next() -&gt; <span class="type">String</span>? {
-        <span class="keyword">if let</span> index = <span class="keyword">self</span>.<span class="call">nextIndex</span>(for: <span class="keyword">self</span>.<span class="property">index</span>) {
-            <span class="keyword">self</span>.<span class="property">index</span> = index
-            <span class="keyword">return self</span>.<span class="property">values</span>[index]
+    mutating func next() -&gt; String? {
+        if let index = self.nextIndex(for: self.index) {
+            self.index = index
+            return self.values[index]
         }
-        <span class="keyword">return nil</span>
+        return nil
     }
 }
 
-<span class="keyword">let</span> emojis = <span class="type">Emojis</span>(animals: [<span class="string">"🐶"</span>, <span class="string">"🐔"</span>, <span class="string">"🐵"</span>, <span class="string">"🦁"</span>, <span class="string">"🐯"</span>, <span class="string">"🐭"</span>, <span class="string">"🐱"</span>, <span class="string">"🐮"</span>, <span class="string">"🐷"</span>])
-<span class="keyword">for</span> emoji <span class="keyword">in</span> emojis {
-    <span class="call">print</span>(emoji)
-}</code></pre><p>So the <a href="https://developer.apple.com/documentation/swift/sequence" target="_blank">Sequence protocol</a> is a generic counterpart of our custom iterable protocol used in the first example. The <a href="https://developer.apple.com/documentation/swift/iteratorprotocol" target="_blank">IteratorProtocol</a> is somewhat like the string iterator protocol used before, but more <em>Swift-ish</em> and of course more generic.</p><p>So, this is great. Finally you know how to create a custom sequence. Which is good if you'd like to hide your data structure and provide a generic iterable interface. Imagine what would happen if you were about to start using a dictionary instead of an array for storing named emojis without an iterator that wraps them. 🤔</p><p>Now the thing is that there is one more super useful thing in the Swift standard library that I'd like to talk about. That's right, one abstraction level up and here we are:</p><h2>Custom collections in Swift</h2><p><a href="https://developer.apple.com/documentation/swift/collection" target="_blank">Collections</a> are one step beyond sequences. Elements inside of them can be accessed via subscript they also define both a startIndex and an endIndex, plus individual elements of a collection can be accessed multiple times. Sounds good? 👍</p><p>Sometimes it can be useful to create a <a href="https://www.swiftbysundell.com/posts/creating-custom-collections-in-swift" target="_blank">custom collection</a> type. For example if you'd like to eliminate optional values. Imagine a categorized favorite mechanism, for every category you'd have an array of favorites, so you'd have to deal with empty and non-existing cases. With a <a href="https://www.raywenderlich.com/867-building-a-custom-collection-in-swift" target="_blank">custom collection</a> you could hide that extra code inside your custom data structure and provide a clean interface for the rest of your app. 😍</p><pre><code class="language-swift"><span class="keyword">class</span> Favorites {
+let emojis = Emojis(animals: ["🐶", "🐔", "🐵", "🦁", "🐯", "🐭", "🐱", "🐮", "🐷"])
+for emoji in emojis {
+    print(emoji)
+}
+</code></pre><p>So the <a href="https://developer.apple.com/documentation/swift/sequence" target="_blank">Sequence protocol</a> is a generic counterpart of our custom iterable protocol used in the first example. The <a href="https://developer.apple.com/documentation/swift/iteratorprotocol" target="_blank">IteratorProtocol</a> is somewhat like the string iterator protocol used before, but more <em>Swift-ish</em> and of course more generic.</p><p>So, this is great. Finally you know how to create a custom sequence. Which is good if you’d like to hide your data structure and provide a generic iterable interface. Imagine what would happen if you were about to start using a dictionary instead of an array for storing named emojis without an iterator that wraps them. 🤔</p><p>Now the thing is that there is one more super useful thing in the Swift standard library that I’d like to talk about. That’s right, one abstraction level up and here we are:</p><h2 id="custom-collections-in-swift">Custom collections in Swift</h2><p><a href="https://developer.apple.com/documentation/swift/collection" target="_blank">Collections</a> are one step beyond sequences. Elements inside of them can be accessed via subscript they also define both a startIndex and an endIndex, plus individual elements of a collection can be accessed multiple times. Sounds good? 👍</p><p>Sometimes it can be useful to create a <a href="https://www.swiftbysundell.com/posts/creating-custom-collections-in-swift" target="_blank">custom collection</a> type. For example if you’d like to eliminate optional values. Imagine a categorized favorite mechanism, for every category you’d have an array of favorites, so you’d have to deal with empty and non-existing cases. With a <a href="https://www.raywenderlich.com/867-building-a-custom-collection-in-swift" target="_blank">custom collection</a> you could hide that extra code inside your custom data structure and provide a clean interface for the rest of your app. 😍</p><pre><code class="language-swift">class Favorites {
 
-    <span class="keyword">typealias</span> FavoriteType = [<span class="type">String</span>: [<span class="type">String</span>]]
+    typealias FavoriteType = [String: [String]]
 
-    <span class="keyword">private(set) var</span> list: <span class="type">FavoriteType</span>
+    private(set) var list: FavoriteType
 
-    <span class="keyword">public static let</span> shared = <span class="type">Favorites</span>()
+    public static let shared = Favorites()
 
-    <span class="keyword">private init</span>() {
-        <span class="keyword">self</span>.<span class="property">list</span> = <span class="type">FavoriteType</span>()
+    private init() {
+        self.list = FavoriteType()
     }
 }
 
 
-<span class="keyword">extension</span> <span class="type">Favorites</span>: <span class="type">Collection</span> {
+extension Favorites: Collection {
 
-    <span class="keyword">typealias</span> Index = <span class="type">FavoriteType</span>.<span class="type">Index</span>
-    <span class="keyword">typealias</span> Element = <span class="type">FavoriteType</span>.<span class="type">Element</span>
+    typealias Index = FavoriteType.Index
+    typealias Element = FavoriteType.Element
 
-    <span class="keyword">var</span> startIndex: <span class="type">Index</span> {
-        <span class="keyword">return self</span>.<span class="property">list</span>.<span class="property">startIndex</span>
+    var startIndex: Index {
+        return self.list.startIndex
     }
-    <span class="keyword">var</span> endIndex: <span class="type">Index</span> {
-        <span class="keyword">return self</span>.<span class="property">list</span>.<span class="property">endIndex</span>
-    }
-
-    <span class="keyword">subscript</span>(index: <span class="type">Index</span>) -&gt; <span class="type">Iterator</span>.<span class="type">Element</span> {
-        <span class="keyword">return self</span>.<span class="property">list</span>[index]
+    var endIndex: Index {
+        return self.list.endIndex
     }
 
-    <span class="keyword">func</span> index(after i: <span class="type">Index</span>) -&gt; <span class="type">Index</span> {
-        <span class="keyword">return self</span>.<span class="property">list</span>.<span class="call">index</span>(after: i)
+    subscript(index: Index) -&gt; Iterator.Element {
+        return self.list[index]
+    }
+
+    func index(after i: Index) -&gt; Index {
+        return self.list.index(after: i)
     }
 }
 
-<span class="keyword">extension</span> <span class="type">Favorites</span> {
+extension Favorites {
 
-    <span class="keyword">subscript</span>(index: <span class="type">String</span>) -&gt; [<span class="type">String</span>] {
-        <span class="keyword">return self</span>.<span class="property">list</span>[index] ?? []
+    subscript(index: String) -&gt; [String] {
+        return self.list[index] ?? []
     }
 
-    <span class="keyword">func</span> add(<span class="keyword">_</span> value: <span class="type">String</span>, category: <span class="type">String</span>) {
-        <span class="keyword">if var</span> values = <span class="keyword">self</span>.<span class="property">list</span>[category] {
-            <span class="keyword">guard</span> !values.<span class="call">contains</span>(value) <span class="keyword">else</span> {
-                <span class="keyword">return</span>
+    func add(_ value: String, category: String) {
+        if var values = self.list[category] {
+            guard !values.contains(value) else {
+                return
             }
-            values.<span class="call">append</span>(value)
-            <span class="keyword">self</span>.<span class="property">list</span>[category] = values
+            values.append(value)
+            self.list[category] = values
         }
-        <span class="keyword">else</span> {
-            <span class="keyword">self</span>.<span class="property">list</span>[category] = [value]
+        else {
+            self.list[category] = [value]
         }
     }
 
-    <span class="keyword">func</span> remove(<span class="keyword">_</span> value: <span class="type">String</span>, category: <span class="type">String</span>) {
-        <span class="keyword">guard var</span> values = <span class="keyword">self</span>.<span class="property">list</span>[category] <span class="keyword">else</span> {
-            <span class="keyword">return</span>
+    func remove(_ value: String, category: String) {
+        guard var values = self.list[category] else {
+            return
         }
-        values = values.<span class="call">filter</span> { $0 == value }
+        values = values.filter { $0 == value }
 
-        <span class="keyword">if</span> values.<span class="property">isEmpty</span> {
-            <span class="keyword">self</span>.<span class="property">list</span>.<span class="call">removeValue</span>(forKey: category)
+        if values.isEmpty {
+            self.list.removeValue(forKey: category)
         }
-        <span class="keyword">else</span> {
-            <span class="keyword">self</span>.<span class="property">list</span>[category] = values
+        else {
+            self.list[category] = values
         }
     }
 }
 
-<span class="type">Favorites</span>.<span class="property">shared</span>.<span class="call">add</span>(<span class="string">"apple"</span>, category: <span class="string">"fruits"</span>)
-<span class="type">Favorites</span>.<span class="property">shared</span>.<span class="call">add</span>(<span class="string">"pear"</span>, category: <span class="string">"fruits"</span>)
-<span class="type">Favorites</span>.<span class="property">shared</span>.<span class="call">add</span>(<span class="string">"apple"</span>, category: <span class="string">"fruits"</span>)
+Favorites.shared.add("apple", category: "fruits")
+Favorites.shared.add("pear", category: "fruits")
+Favorites.shared.add("apple", category: "fruits")
 
-<span class="type">Favorites</span>.<span class="property">shared</span>[<span class="string">"fruits"</span>]
+Favorites.shared["fruits"]
 
-<span class="type">Favorites</span>.<span class="property">shared</span>.<span class="call">remove</span>(<span class="string">"apple"</span>, category: <span class="string">"fruits"</span>)
-<span class="type">Favorites</span>.<span class="property">shared</span>.<span class="call">remove</span>(<span class="string">"pear"</span>, category: <span class="string">"fruits"</span>)
-<span class="type">Favorites</span>.<span class="property">shared</span>.<span class="property">list</span></code></pre><p>I know, this is a really dumb example, but it demonstrates why collections are more advanced compared to pure sequences. Also in the links below there are great demos of well written collections. Feel free to learn more about these super protocols and custom data types hidden (not so deep) inside the Swift standard library. 🤐</p>
-        </section>
-    </div>
-
-</article>
-
-<section id="share" class="content-wrapper">
-    <p>
-    <a
-        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/iterator-design-pattern-in-swift/"
-        target="_blank"
-    >
-        Share this article
-    </a>
-    <br> Thank you. 🙏</p>
-</section>
-
-<section  class="wrapper">
-    <div id="book">
-        <div class="column left">
-            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+Favorites.shared.remove("apple", category: "fruits")
+Favorites.shared.remove("pear", category: "fruits")
+Favorites.shared.list
+</code></pre><p>I know, this is a really dumb example, but it demonstrates why collections are more advanced compared to pure sequences. Also in the links below there are great demos of well written collections. Feel free to learn more about these super protocols and custom data types hidden (not so deep) inside the Swift standard library. 🤐</p>
+                    
+                </section>
+    
+                <footer>
+                    <br>
+                    <time datetime=""></time>
+    
+                    
+                    <div class="author-list">
+                        <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        </a>
+                    </div>
+                    <div class="tag-list">
+                        <a href="https://theswiftdev.com/tags/design-pattern/"><small>Design pattern</small></a>
+                    </div>
+                    
+                    <p>
+                        <a href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/iterator-design-pattern-in-swift/" target="_blank">
+                            <strong>Share this article</strong>
+                        </a>
+                        <br>Thank you. 🙏
+                    </p>
+                </footer>
+                            
+                <section class="group">
+                    <h4>Related posts</h4>                
+                    <div class="grid grid-221">
+                        <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/11/27">2020/11/27</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/event-driven-generic-hooks-for-swift/" target="">Event-driven generic hooks for Swift</a></h2>
+                            <hr>
+                            <p>In this article I am going to show you how to implement a basic event processing system for your modular Swift application.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018/12/17">2018/12/17</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/lazy-initialization-in-swift/" target="">Lazy initialization in Swift</a></h2>
+                            <hr>
+                            <p>Learn how to use lazy properties in Swift to improve performance, avoid optionals or just to make the init process more clean.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2022/08/12">2022/08/12</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/lenses-and-prisms-in-swift/" target="">Lenses and prisms in Swift</a></h2>
+                            <hr>
+                            <p>Beginner&#39;s guide about optics in Swift. Learn how to use lenses and prisms to manipulate objects using a functional approach.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/04/16">2020/04/16</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/modules-and-hooks-in-swift/" target="">Modules and hooks in Swift</a></h2>
+                            <hr>
+                            <p>Learn how to extend your application with new functionalities using a loosely coupled modular plugin system written in Swift.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    
+            </article>
         </div>
-        <div class="column right">
-            <h3>Get the Practical Server Side Swift book</h3>
-            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
-        </div>
-    </div>
-</section>
-
-<section id="author" class="content-wrapper">
-    <img 
-        id="author-image"
-        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
-        alt="Picture of Tibor Bödecs" 
-        title="Tibor Bödecs"
-    >
-    <h3>Tibor Bödecs</h3>
-    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
-    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
-
-    <div class="links">
-        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
-        <a href="https://github.com/tib" target="_blank">GitHub</a> 
-    </div>
-</section>
-
         
+        <div>
+            <div class="book">
+                <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">
+                    <img src="https://theswiftdev.com/book/practical-server-side-swift-cover.png" alt="Practical Server Side Swift cover image">
+                </a>
+                <h3>
+                    <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Get the Practical Server Side Swift book</a>
+                </h3>
+                <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+                <a class="cta" href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+            </div>
+            
+            
+            <aside id="toc">
+                <h4>On this page</h4>
+                <ul>
+                    <li class="first-level">
+                        <a href="#what-is-the-iterator-design-pattern">What is the iterator design pattern?</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#custom-sequences-in-swift">Custom sequences in Swift</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#custom-collections-in-swift">Custom collections in Swift</a>
+                        <ul>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+            
+    
+        </div>
+    </div>
+    
     </main>
 
-    <footer>
-        <section class="content-wrapper">
-            <img 
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
-
-            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+    <footer id="site-footer">
+        <div class="grid grid-421">
+    
+            <picture>
+                <img
+                    id="logo-image"
+                    src="https://theswiftdev.com/images/logos/logo-large.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
             
-            <p> 
-                <a href="https://theswiftdev.com/">Home</a> ·
-                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
-            </p>
+            <div>
+                <span style="display: block; height: 32px;">&nbsp;</span>
+                <h4>The.Swift.Dev</h4>
+                <p><small><a href="https://theswiftdev.com/" target="_blank">theswiftdev.com</a></small></p>
+                <ul>
+                    <li><a href="https://github.com/theswiftdev/" target="_blank">GitHub</a></li>
+                    <li><a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a></li>
+                    <li><a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a></li>
+                </ul>
+            </div>
             
-            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+            <div>
+                
+            </div>
+            
+            <div>
+                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                </a>
+                <h4><a href="https://theswiftdev.com/authors/tibor-bodecs/">Tibor Bödecs</a></h4>
+                <p><small><a href="https://binarybirds.com/" target="_blank">Binary Birds Kft.</a></small></p>
+                <ul>
+                    <li><a href="mailto:mail.tib@gmail.com" target="_blank">Email</a></li>
+                    <li><a href="https://github.com/tib/" target="_blank">GitHub</a></li>
+                    <li><a href="https://x.com/tiborbodecs" target="_blank">X (Twitter)</a></li>
+                    <li><a href="https://mastodon.social/@tiborbodecs" target="_blank">Mastodon</a></li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <section class="grid grid-221">
+            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>
+
+    </div>
+
+    
 </body>
 </html>

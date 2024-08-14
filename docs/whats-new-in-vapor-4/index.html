@@ -1,275 +1,465 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
     <meta charset="utf-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="canonical" href="https://theswiftdev.com/whats-new-in-vapor-4/">
     
-    <title>What's new in Vapor 4? - The.Swift.Dev.</title>
     
-    <meta name="description" content="Vapor is the most popular server side Swift web application framework. This time we'll cover what's new in Vapor 4.">
-    
-    <meta property="og:title" content="What's new in Vapor 4? - The.Swift.Dev.">
-    <meta property="og:description" content="Vapor is the most popular server side Swift web application framework. This time we'll cover what's new in Vapor 4.">
+
+    <title>What&#39;s new in Vapor 4? - The.Swift.Dev.</title>
+    <meta name="description" content="Vapor is the most popular server side Swift web application framework. This time we&#39;ll cover what&#39;s new in Vapor 4.">
+
     <meta property="og:url" content="https://theswiftdev.com/whats-new-in-vapor-4/">
-    <meta property="og:image" content="https://theswiftdev.com/images/assets/whats-new-in-vapor-4/cover.jpg">
+    <meta property="og:title" content="What&#39;s new in Vapor 4? - The.Swift.Dev.">
+    <meta property="og:description" content="Vapor is the most popular server side Swift web application framework. This time we&#39;ll cover what&#39;s new in Vapor 4.">
+    
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@tiborbodecs">
-    <meta name="twitter:creator" content="@tiborbodecs">
-    <meta name="twitter:title" content="What's new in Vapor 4? - The.Swift.Dev.">
-    <meta name="twitter:description" content="Vapor is the most popular server side Swift web application framework. This time we'll cover what's new in Vapor 4.">
-    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/whats-new-in-vapor-4/cover.jpg">
+    <meta name="twitter:title" content="What&#39;s new in Vapor 4? - The.Swift.Dev.">
+    <meta name="twitter:description" content="Vapor is the most popular server side Swift web application framework. This time we&#39;ll cover what&#39;s new in Vapor 4.">
     
-    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
-    
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-normalize.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/variables.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/grid.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/navigation.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/footer.css">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+
     
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/icons/apple-touch-icon-180x180.png">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+        media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+        media="(prefers-color-scheme: dark)"
+    >
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
 </head>
 
 <body>
-    <a href="https://theswiftdev.gumroad.com" class="ribbon">
-        📖
-    </a>
-    <header id="page-header">
-        <a href="https://theswiftdev.com/">
-            <img 
-                id="logo-image"
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
+    <div id="site-container">
+
+    <header id="navigation">
+        <a href="/">
+            <picture>
+                <img
+                    src="https://theswiftdev.com/images/logos/logo.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
         </a>
-    </header>
-    
-    <main>
-
-        <article>
-    <header>
-        <section id="post-header" class="content-wrapper">
-            <time datetime="2019/08/26">2019/08/26</time>
-            <h1 class="title">What's new in Vapor 4?</h1>
-            <p class="excerpt">Vapor is the most popular server side Swift web application framework. This time we'll cover what's new in Vapor 4.</p>
-            <div class="meta">
-                <span class="tag">Vapor</span>
+        <nav>
+            <input type="checkbox" id="primary-menu-button" name="menu-button" class="menu-button">
+            <label for="primary-menu-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </label>
+            <div class="menu-items">
+                <a href="/page/1/">Posts</a>
+                <a href="/tags/">Tags</a>
+                <a href="/authors/">Authors</a>
+                <a href="/practical-server-side-swift/">My Book</a>
             </div>
-        </section>
-        <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.com/images/assets/whats-new-in-vapor-4/cover.jpg">
-        </section>
+        </nav>
     </header>
 
-    <div id="contents">
-        <section class="content-wrapper">
-            <h2>Swift 5.1</h2><p>Vapor 3 was built on top of some great new features of Swift 4.1, that's why it was only released shortly (2 months) after the new programming language arrived. This is the exact same situation with Vapor 4. <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0258-property-wrappers.md" target="_blank">Property wrappers</a> are heavily used in the latest version of the Vapor framework, this feature is only going to be finalized in Swift 5.1 during the fall, which means that we can expect <a href="https://medium.com/@codevapor/vapor-4-alpha-1-releases-begin-94a4bc79dd9a" target="_blank">Vapor 4 shortly after</a>. 🍁</p><h2>SwiftNIO v2 and HTTP2 support</h2><p>A HUGE step forward and a long awaited feature, because HTTP2 is amazing. Multiplexed streams, server push, header compression, binary data format instead of the good old textual one over a secure layer by default. These are just a few important changes that the new protocol brings to the table. The basic implementation is already there in Vapor 4 alpha 2, I tried to setup my own HTTP2 server, but I faced a constant crash, as soon as I can make it work, I'll write a tutorial about it. 🤞</p><h2>Fluent is amazing in Vapor 4!</h2><p>Controllers now have an associated database object, this means you can query directly on this database, instead of the incoming request object. Note that the Future alias is now gone, it's simply EventLoopFuture from SwiftNIO.</p><pre><code class="language-swift"><span class="comment">// Vapor 3</span>
+    <main id="page-container">
+    
+    <div class="article-with-toc">
+        <div>
+            <article class="post">
+                <div class="meta">
+                    <time datetime="2019/08/26">2019/08/26</time>
+                     &middot; <span class="reading-time">4 min read</span>
+                    
+                </div>
+                <h1>What&#39;s new in Vapor 4?</h1>
+                <hr>
+                <p>Vapor is the most popular server side Swift web application framework. This time we&#39;ll cover what&#39;s new in Vapor 4.</p>
+                <section>
+                
+                <h2 id="swift-5.1">Swift 5.1</h2><p>Vapor 3 was built on top of some great new features of Swift 4.1, that’s why it was only released shortly (2 months) after the new programming language arrived. This is the exact same situation with Vapor 4. <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0258-property-wrappers.md" target="_blank">Property wrappers</a> are heavily used in the latest version of the Vapor framework, this feature is only going to be finalized in Swift 5.1 during the fall, which means that we can expect <a href="https://medium.com/@codevapor/vapor-4-alpha-1-releases-begin-94a4bc79dd9a" target="_blank">Vapor 4 shortly after</a>. 🍁</p><h2 id="swiftnio-v2-and-http2-support">SwiftNIO v2 and HTTP2 support</h2><p>A HUGE step forward and a long awaited feature, because HTTP2 is amazing. Multiplexed streams, server push, header compression, binary data format instead of the good old textual one over a secure layer by default. These are just a few important changes that the new protocol brings to the table. The basic implementation is already there in Vapor 4 alpha 2, I tried to setup my own HTTP2 server, but I faced a constant crash, as soon as I can make it work, I’ll write a tutorial about it. 🤞</p><h2 id="fluent-is-amazing-in-vapor-4">Fluent is amazing in Vapor 4!</h2><p>Controllers now have an associated database object, this means you can query directly on this database, instead of the incoming request object. Note that the Future alias is now gone, it’s simply EventLoopFuture from SwiftNIO.</p><pre><code class="language-swift">// Vapor 3
 
-<span class="keyword">import</span> Vapor
+import Vapor
 
-<span class="comment">/// Controls basic CRUD operations on `Todo`s.</span>
-<span class="keyword">final class</span> TodoController {
-    <span class="comment">/// Returns a list of all `Todo`s.</span>
-    <span class="keyword">func</span> index(<span class="keyword">_</span> req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">Future</span>&lt;[<span class="type">Todo</span>]&gt; {
-        <span class="keyword">return</span> <span class="type">Todo</span>.<span class="call">query</span>(on: req).<span class="call">all</span>()
+/// Controls basic CRUD operations on `Todo`s.
+final class TodoController {
+    /// Returns a list of all `Todo`s.
+    func index(_ req: Request) throws -&gt; Future&lt;[Todo]&gt; {
+        return Todo.query(on: req).all()
     }
 
-    <span class="comment">/// Saves a decoded `Todo` to the database.</span>
-    <span class="keyword">func</span> create(<span class="keyword">_</span> req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">Future</span>&lt;<span class="type">Todo</span>&gt; {
-        <span class="keyword">return try</span> req.<span class="property">content</span>.<span class="call">decode</span>(<span class="type">Todo</span>.<span class="keyword">self</span>).<span class="call">flatMap</span> { todo <span class="keyword">in
-            return</span> todo.<span class="call">save</span>(on: req)
+    /// Saves a decoded `Todo` to the database.
+    func create(_ req: Request) throws -&gt; Future&lt;Todo&gt; {
+        return try req.content.decode(Todo.self).flatMap { todo in
+            return todo.save(on: req)
         }
     }
 
-    <span class="comment">/// Deletes a parameterized `Todo`.</span>
-    <span class="keyword">func</span> delete(<span class="keyword">_</span> req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">Future</span>&lt;<span class="type">HTTPStatus</span>&gt; {
-        <span class="keyword">return try</span> req.<span class="property">parameters</span>.<span class="call">next</span>(<span class="type">Todo</span>.<span class="keyword">self</span>).<span class="call">flatMap</span> { todo <span class="keyword">in
-            return</span> todo.<span class="call">delete</span>(on: req)
-        }.<span class="call">transform</span>(to: .<span class="dotAccess">ok</span>)
+    /// Deletes a parameterized `Todo`.
+    func delete(_ req: Request) throws -&gt; Future&lt;HTTPStatus&gt; {
+        return try req.parameters.next(Todo.self).flatMap { todo in
+            return todo.delete(on: req)
+        }.transform(to: .ok)
     }
 }
 
-<span class="comment">// Vapor 4</span>
+// Vapor 4
 
-<span class="keyword">import</span> Fluent
-<span class="keyword">import</span> Vapor
+import Fluent
+import Vapor
 
-<span class="keyword">final class</span> TodoController {
-    <span class="keyword">let</span> db: <span class="type">Database</span>
+final class TodoController {
+    let db: Database
 
-    <span class="keyword">init</span>(db: <span class="type">Database</span>) {
-        <span class="keyword">self</span>.<span class="property">db</span> = db
+    init(db: Database) {
+        self.db = db
     }
 
-    <span class="keyword">func</span> index(req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;[<span class="type">Todo</span>]&gt; {
-        <span class="keyword">return</span> <span class="type">Todo</span>.<span class="call">query</span>(on: <span class="keyword">self</span>.<span class="property">db</span>).<span class="call">all</span>()
+    func index(req: Request) throws -&gt; EventLoopFuture&lt;[Todo]&gt; {
+        return Todo.query(on: self.db).all()
     }
 
-    <span class="keyword">func</span> create(req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Todo</span>&gt; {
-        <span class="keyword">let</span> todo = <span class="keyword">try</span> req.<span class="property">content</span>.<span class="call">decode</span>(<span class="type">Todo</span>.<span class="keyword">self</span>)
-        <span class="keyword">return</span> todo.<span class="call">save</span>(on: <span class="keyword">self</span>.<span class="property">db</span>).<span class="call">map</span> { todo }
+    func create(req: Request) throws -&gt; EventLoopFuture&lt;Todo&gt; {
+        let todo = try req.content.decode(Todo.self)
+        return todo.save(on: self.db).map { todo }
     }
 
-    <span class="keyword">func</span> delete(req: <span class="type">Request</span>) <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">HTTPStatus</span>&gt; {
-        <span class="keyword">return</span> <span class="type">Todo</span>.<span class="call">find</span>(req.<span class="property">parameters</span>.<span class="call">get</span>(<span class="string">"todoID"</span>), on: <span class="keyword">self</span>.<span class="property">db</span>)
-            .<span class="call">unwrap</span>(or: <span class="type">Abort</span>(.<span class="dotAccess">notFound</span>))
-            .<span class="call">flatMap</span> { $0.<span class="call">delete</span>(on: <span class="keyword">self</span>.<span class="property">db</span>) }
-            .<span class="call">transform</span>(to: .<span class="dotAccess">ok</span>)
+    func delete(req: Request) throws -&gt; EventLoopFuture&lt;HTTPStatus&gt; {
+        return Todo.find(req.parameters.get("todoID"), on: self.db)
+            .unwrap(or: Abort(.notFound))
+            .flatMap { $0.delete(on: self.db) }
+            .transform(to: .ok)
     }
-}</code></pre><p>Fluent has dynamic models, also the entire database layer is more sophisticated. You can define your own keys, schemas and many more which I personally love it, because it reminds me of my really old PHP based web framework. It's really amazing that you don't have to deal the underlying database provider anymore. It's just Fluent so it really doesn't matter if it's pgsql or sqlite under the hood. ❤️</p><pre><code class="language-swift"><span class="comment">// Vapor 3</span>
+}
+</code></pre><p>Fluent has dynamic models, also the entire database layer is more sophisticated. You can define your own keys, schemas and many more which I personally love it, because it reminds me of my really old PHP based web framework. It’s really amazing that you don’t have to deal the underlying database provider anymore. It’s just Fluent so it really doesn’t matter if it’s pgsql or sqlite under the hood. ❤️</p><pre><code class="language-swift">// Vapor 3
 
-<span class="keyword">import</span> FluentSQLite
-<span class="keyword">import</span> Vapor
+import FluentSQLite
+import Vapor
 
-<span class="comment">/// A single entry of a Todo list.</span>
-<span class="keyword">final class</span> Todo: <span class="type">SQLiteModel</span> {
-    <span class="comment">/// The unique identifier for this `Todo`.</span>
-    <span class="keyword">var</span> id: <span class="type">Int</span>?
+/// A single entry of a Todo list.
+final class Todo: SQLiteModel {
+    /// The unique identifier for this `Todo`.
+    var id: Int?
 
-    <span class="comment">/// A title describing what this `Todo` entails.</span>
-    <span class="keyword">var</span> title: <span class="type">String</span>
+    /// A title describing what this `Todo` entails.
+    var title: String
 
-    <span class="comment">/// Creates a new `Todo`.</span>
-    <span class="keyword">init</span>(id: <span class="type">Int</span>? = <span class="keyword">nil</span>, title: <span class="type">String</span>) {
-        <span class="keyword">self</span>.<span class="property">id</span> = id
-        <span class="keyword">self</span>.<span class="property">title</span> = title
+    /// Creates a new `Todo`.
+    init(id: Int? = nil, title: String) {
+        self.id = id
+        self.title = title
     }
 }
 
-<span class="comment">/// Allows `Todo` to be used as a dynamic migration.</span>
-<span class="keyword">extension</span> <span class="type">Todo</span>: <span class="type">Migration</span> { }
+/// Allows `Todo` to be used as a dynamic migration.
+extension Todo: Migration { }
 
-<span class="comment">/// Allows `Todo` to be encoded to and decoded from HTTP messages.</span>
-<span class="keyword">extension</span> <span class="type">Todo</span>: <span class="type">Content</span> { }
+/// Allows `Todo` to be encoded to and decoded from HTTP messages.
+extension Todo: Content { }
 
-<span class="comment">/// Allows `Todo` to be used as a dynamic parameter in route definitions.</span>
-<span class="keyword">extension</span> <span class="type">Todo</span>: <span class="type">Parameter</span> { }
+/// Allows `Todo` to be used as a dynamic parameter in route definitions.
+extension Todo: Parameter { }
 
-<span class="comment">// Vapor 4</span>
+// Vapor 4
 
-<span class="keyword">import</span> Fluent
-<span class="keyword">import</span> Vapor
+import Fluent
+import Vapor
 
-<span class="keyword">final class</span> Todo: <span class="type">Model</span>, <span class="type">Content</span> {
-    <span class="keyword">static let</span> schema = <span class="string">"todos"</span>
+final class Todo: Model, Content {
+    static let schema = "todos"
 
-    <span class="keyword">@ID</span>(key: <span class="string">"id"</span>)
-    <span class="keyword">var</span> id: <span class="type">Int</span>?
+    @ID(key: "id")
+    var id: Int?
 
-    <span class="keyword">@Field</span>(key: <span class="string">"title"</span>)
-    <span class="keyword">var</span> title: <span class="type">String</span>
+    @Field(key: "title")
+    var title: String
 
-    <span class="keyword">init</span>() { }
+    init() { }
 
-    <span class="keyword">init</span>(id: <span class="type">Int</span>? = <span class="keyword">nil</span>, title: <span class="type">String</span>) {
-        <span class="keyword">self</span>.<span class="property">id</span> = id
-        <span class="keyword">self</span>.<span class="property">title</span> = title
+    init(id: Int? = nil, title: String) {
+        self.id = id
+        self.title = title
     }
-}</code></pre><p>There is a brand new migration layer with a ridiculously easy to learn API. 👍</p><pre><code class="language-swift"><span class="keyword">import</span> Fluent
+}
+</code></pre><p>There is a brand new migration layer with a ridiculously easy to learn API. 👍</p><pre><code class="language-swift">import Fluent
 
-<span class="keyword">struct</span> CreateTodo: <span class="type">Migration</span> {
-    <span class="keyword">func</span> prepare(on database: <span class="type">Database</span>) -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Void</span>&gt; {
-        <span class="keyword">return</span> database.<span class="call">schema</span>(<span class="string">"todos"</span>)
-            .<span class="call">field</span>(<span class="string">"id"</span>, .<span class="dotAccess">int</span>, .<span class="dotAccess">identifier</span>(auto: <span class="keyword">true</span>))
-            .<span class="call">field</span>(<span class="string">"title"</span>, .<span class="dotAccess">string</span>, .<span class="dotAccess">required</span>)
-            .<span class="call">create</span>()
+struct CreateTodo: Migration {
+    func prepare(on database: Database) -&gt; EventLoopFuture&lt;Void&gt; {
+        return database.schema("todos")
+            .field("id", .int, .identifier(auto: true))
+            .field("title", .string, .required)
+            .create()
     }
 
-    <span class="keyword">func</span> revert(on database: <span class="type">Database</span>) -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Void</span>&gt; {
-        <span class="keyword">return</span> database.<span class="call">schema</span>(<span class="string">"todos"</span>).<span class="call">delete</span>()
+    func revert(on database: Database) -&gt; EventLoopFuture&lt;Void&gt; {
+        return database.schema("todos").delete()
     }
-}</code></pre><h2>SwiftLog</h2><p>A <a href="https://github.com/apple/swift-log" target="_blank">native logger library</a> made by Apple is now the default logger in Vapor 4.</p><p>The entire logging system is bootstrapped during the boot process which I like quite a lot, because in the past I had some issues with the logger configuration in Vapor 3. 🤔</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
+}
+</code></pre><h2 id="swiftlog">SwiftLog</h2><p>A <a href="https://github.com/apple/swift-log" target="_blank">native logger library</a> made by Apple is now the default logger in Vapor 4.</p><p>The entire logging system is bootstrapped during the boot process which I like quite a lot, because in the past I had some issues with the logger configuration in Vapor 3. 🤔</p><pre><code class="language-swift">import Vapor
 
-<span class="keyword">func</span> boot(<span class="keyword">_</span> app: <span class="type">Application</span>) <span class="keyword">throws</span> {
-    <span class="keyword">try</span> <span class="type">LoggingSystem</span>.<span class="call">bootstrap</span>(from: &amp;app.<span class="property">environment</span>)
-    <span class="keyword">try</span> app.<span class="call">boot</span>()
-}</code></pre><h2>"Syntactic sugar"</h2><p>Some little changes were introduced in the latest version of the framework.</p><p>For example the input parameter names in the config and the routes file are just one letter long (you don't need to type that much). I personally don't like this, because we have auto-complete. I know, it's just a template and I can change it, but still... 🤐</p><p>Another small change is that the entire application launch / configuration process is way more simple than it was before, plus from now on you can shut down your app server gracefully. Overall it feels like all the API's in Vapor were polished just the right amount, I really like the changes so far. 😉</p><h2>... and many many more!</h2><p><a href="https://x.com/tanner0101" target="_blank">Tanner Nelson</a> posted quite a list on <a href="https://discord.gg/BnXmVGA" target="_blank">Vapor's discord server</a> (it's such an amazing community, you should join too). I'm going to shamelessly rip that off to show you most of the things that are going to be included in Vapor 4. Here is the list:</p><h3>Vapor</h3><ul><li>services on controllers</li><li>synchronous content decoding</li><li>upload / download streaming</li><li>backpressure</li><li>http/2</li><li>extensible route builder (for openapi)</li><li>apple logging</li><li>improved session syntax</li><li>dotenv support</li><li>validation included</li><li>authentication included</li><li>XCTVapor testing module</li><li>swift server http client</li><li>simplified websocket endpoints</li><li>graceful shutdown</li><li>nio 2</li></ul><h3>ConsoleKit</h3><ul><li>type safe signatures</li></ul><h3>RoutingKit</h3><ul><li>performance improvements</li><li>performance testing bot</li></ul><h3>Fluent</h3><ul><li>dynamic models</li><li>simplified driver requirements</li><li>eager loading: join + subquery</li><li>partial selects</li><li>dirty updates</li></ul><h3>LeafKit</h3><ul><li>improved body syntax</li><li>separate lexer + parser</li></ul><h3>Toolbox</h3><ul><li>dynamic project init</li></ul><h2>How to set up a Vapor 4 project (on macOS)?</h2><p>If you want to play around with Vapor 4, you can do it right now. You just have to install <a href="https://developer.apple.com/develop/" target="_blank">Xcode 11</a>, the <a href="https://docs.vapor.codes/3.0/getting-started/toolbox/" target="_blank">Vapor toolbox</a> and run the following command from Terminal:</p><pre><code>#optional: select Xcode 11
+func boot(_ app: Application) throws {
+    try LoggingSystem.bootstrap(from: &app.environment)
+    try app.boot()
+}
+</code></pre><h2 id="syntactic-sugar">“Syntactic sugar”</h2><p>Some little changes were introduced in the latest version of the framework.</p><p>For example the input parameter names in the config and the routes file are just one letter long (you don’t need to type that much). I personally don’t like this, because we have auto-complete. I know, it’s just a template and I can change it, but still… 🤐</p><p>Another small change is that the entire application launch / configuration process is way more simple than it was before, plus from now on you can shut down your app server gracefully. Overall it feels like all the API’s in Vapor were polished just the right amount, I really like the changes so far. 😉</p><h2 id="and-many-many-more">… and many many more!</h2><p><a href="https://x.com/tanner0101" target="_blank">Tanner Nelson</a> posted quite a list on <a href="https://discord.gg/BnXmVGA" target="_blank">Vapor’s discord server</a> (it’s such an amazing community, you should join too). I’m going to shamelessly rip that off to show you most of the things that are going to be included in Vapor 4. Here is the list:</p><h3 id="vapor">Vapor</h3><ul><li>services on controllers</li><li>synchronous content decoding</li><li>upload / download streaming</li><li>backpressure</li><li>http/2</li><li>extensible route builder (for openapi)</li><li>apple logging</li><li>improved session syntax</li><li>dotenv support</li><li>validation included</li><li>authentication included</li><li>XCTVapor testing module</li><li>swift server http client</li><li>simplified websocket endpoints</li><li>graceful shutdown</li><li>nio 2</li></ul><h3 id="consolekit">ConsoleKit</h3><ul><li>type safe signatures</li></ul><h3 id="routingkit">RoutingKit</h3><ul><li>performance improvements</li><li>performance testing bot</li></ul><h3 id="fluent">Fluent</h3><ul><li>dynamic models</li><li>simplified driver requirements</li><li>eager loading: join + subquery</li><li>partial selects</li><li>dirty updates</li></ul><h3 id="leafkit">LeafKit</h3><ul><li>improved body syntax</li><li>separate lexer + parser</li></ul><h3 id="toolbox">Toolbox</h3><ul><li>dynamic project init</li></ul><h2 id="how-to-set-up-a-vapor-4-project-on-macos">How to set up a Vapor 4 project (on macOS)?</h2><p>If you want to play around with Vapor 4, you can do it right now. You just have to install <a href="https://developer.apple.com/develop/" target="_blank">Xcode 11</a>, the <a href="https://docs.vapor.codes/3.0/getting-started/toolbox/" target="_blank">Vapor toolbox</a> and run the following command from Terminal:</p><pre><code>#optional: select Xcode 11
 sudo xcode-select --switch /Applications/Xcode-beta.app/Contents/Developer
 
 #create a brand new Vapor 4 project
 vapor new myproject --branch=4
 cd myproject
 vapor update -y
-</code></pre><p>Personally I really love these new changes in Vapor, especially the HTTP2 support and the new Fluent abstraction. Vapor 3 was quite a big hit, I believe that this trend will continue with Vapor 4, because it's going to be a really nice refinement update. 💧</p><p>I can't wait to see some new benchmarks, because of the underlying changes in vapor, plus all the optimizations in Swift 5.1 will have such a nice impact on the overall performance. Vapor 3 was already crazy fast, but <a href="https://forums.swift.org/t/whats-new-in-vapor-4/31832" target="_blank">Vapor 4 will be on fire</a>! 🔥</p>
-        </section>
-    </div>
-
-</article>
-
-<section id="share" class="content-wrapper">
-    <p>
-    <a
-        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/whats-new-in-vapor-4/"
-        target="_blank"
-    >
-        Share this article
-    </a>
-    <br> Thank you. 🙏</p>
-</section>
-
-<section  class="wrapper">
-    <div id="book">
-        <div class="column left">
-            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+</code></pre><p>Personally I really love these new changes in Vapor, especially the HTTP2 support and the new Fluent abstraction. Vapor 3 was quite a big hit, I believe that this trend will continue with Vapor 4, because it’s going to be a really nice refinement update. 💧</p><p>I can’t wait to see some new benchmarks, because of the underlying changes in vapor, plus all the optimizations in Swift 5.1 will have such a nice impact on the overall performance. Vapor 3 was already crazy fast, but <a href="https://forums.swift.org/t/whats-new-in-vapor-4/31832" target="_blank">Vapor 4 will be on fire</a>! 🔥</p>
+                    
+                </section>
+    
+                <footer>
+                    <br>
+                    <time datetime=""></time>
+    
+                    
+                    <div class="author-list">
+                        <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        </a>
+                    </div>
+                    <div class="tag-list">
+                        <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
+                    <a href="https://theswiftdev.com/tags/vapor/"><small>Vapor</small></a>
+                    </div>
+                    
+                    <p>
+                        <a href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/whats-new-in-vapor-4/" target="_blank">
+                            <strong>Share this article</strong>
+                        </a>
+                        <br>Thank you. 🙏
+                    </p>
+                </footer>
+                            
+                <section class="group">
+                    <h4>Related posts</h4>                
+                    <div class="grid grid-221">
+                        <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/07/15">2020/07/15</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/10-short-advices-that-will-make-you-a-better-vapor-developer-right-away/" target="">10 short advices that will make you a better Vapor developer right away</a></h2>
+                            <hr>
+                            <p>As a beginner server side Swift developer you&#39;ll face many obstackles. I&#39;ll show you how to avoid the most common ones.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/04/01">2020/04/01</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/a-generic-crud-solution-for-vapor-4/" target="">A generic CRUD solution for Vapor 4</a></h2>
+                            <hr>
+                            <p>Learn how to build a controller component that can serve models as JSON objects through a RESTful API written in Swift.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2019/10/08">2019/10/08</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/a-simple-http2-server-using-vapor-4/" target="">A simple HTTP/2 server using Vapor 4</a></h2>
+                            <hr>
+                            <p>Get started with server-side Swift using the Vapor 4 framework. Learn how to build a really simple HTTP/2 backend server.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/12/18">2020/12/18</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/ajax-calls-using-vapor-4/" target="">AJAX calls using Vapor 4</a></h2>
+                            <hr>
+                            <p>Learn how to implement Asynchronous JavaScript and XML (AJAX) calls using Leaf templates and Vapor 4 as a server.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    
+            </article>
         </div>
-        <div class="column right">
-            <h3>Get the Practical Server Side Swift book</h3>
-            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
-        </div>
-    </div>
-</section>
-
-<section id="author" class="content-wrapper">
-    <img 
-        id="author-image"
-        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
-        alt="Picture of Tibor Bödecs" 
-        title="Tibor Bödecs"
-    >
-    <h3>Tibor Bödecs</h3>
-    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
-    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
-
-    <div class="links">
-        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
-        <a href="https://github.com/tib" target="_blank">GitHub</a> 
-    </div>
-</section>
-
         
+        <div>
+            <div class="book">
+                <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">
+                    <img src="https://theswiftdev.com/book/practical-server-side-swift-cover.png" alt="Practical Server Side Swift cover image">
+                </a>
+                <h3>
+                    <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Get the Practical Server Side Swift book</a>
+                </h3>
+                <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+                <a class="cta" href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+            </div>
+            
+            
+            <aside id="toc">
+                <h4>On this page</h4>
+                <ul>
+                    <li class="first-level">
+                        <a href="#swift-5.1">Swift 5.1</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#swiftnio-v2-and-http2-support">SwiftNIO v2 and HTTP2 support</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#fluent-is-amazing-in-vapor-4">Fluent is amazing in Vapor 4!</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#swiftlog">SwiftLog</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#syntactic-sugar">“Syntactic sugar”</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#and-many-many-more">… and many many more!</a>
+                        <ul>
+                            <li><a href="#vapor">Vapor</a></li>
+                <li><a href="#consolekit">ConsoleKit</a></li>
+                <li><a href="#routingkit">RoutingKit</a></li>
+                <li><a href="#fluent">Fluent</a></li>
+                <li><a href="#leafkit">LeafKit</a></li>
+                <li><a href="#toolbox">Toolbox</a></li>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#how-to-set-up-a-vapor-4-project-on-macos">How to set up a Vapor 4 project (on macOS)?</a>
+                        <ul>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+            
+    
+        </div>
+    </div>
+    
     </main>
 
-    <footer>
-        <section class="content-wrapper">
-            <img 
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
-
-            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+    <footer id="site-footer">
+        <div class="grid grid-421">
+    
+            <picture>
+                <img
+                    id="logo-image"
+                    src="https://theswiftdev.com/images/logos/logo-large.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
             
-            <p> 
-                <a href="https://theswiftdev.com/">Home</a> ·
-                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
-            </p>
+            <div>
+                <span style="display: block; height: 32px;">&nbsp;</span>
+                <h4>The.Swift.Dev</h4>
+                <p><small><a href="https://theswiftdev.com/" target="_blank">theswiftdev.com</a></small></p>
+                <ul>
+                    <li><a href="https://github.com/theswiftdev/" target="_blank">GitHub</a></li>
+                    <li><a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a></li>
+                    <li><a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a></li>
+                </ul>
+            </div>
             
-            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+            <div>
+                
+            </div>
+            
+            <div>
+                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                </a>
+                <h4><a href="https://theswiftdev.com/authors/tibor-bodecs/">Tibor Bödecs</a></h4>
+                <p><small><a href="https://binarybirds.com/" target="_blank">Binary Birds Kft.</a></small></p>
+                <ul>
+                    <li><a href="mailto:mail.tib@gmail.com" target="_blank">Email</a></li>
+                    <li><a href="https://github.com/tib/" target="_blank">GitHub</a></li>
+                    <li><a href="https://x.com/tiborbodecs" target="_blank">X (Twitter)</a></li>
+                    <li><a href="https://mastodon.social/@tiborbodecs" target="_blank">Mastodon</a></li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <section class="grid grid-221">
+            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>
+
+    </div>
+
+    
 </body>
 </html>

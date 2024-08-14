@@ -1,641 +1,843 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
     <meta charset="utf-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="canonical" href="https://theswiftdev.com/get-started-with-the-fluent-orm-framework-in-vapor-4/">
     
+    
+
     <title>Get started with the Fluent ORM framework in Vapor 4 - The.Swift.Dev.</title>
-    
     <meta name="description" content="Learn how to use the Fluent ORM framework. Migrations, schemas, relations powered by PostgreSQL, written in Swift.">
-    
+
+    <meta property="og:url" content="https://theswiftdev.com/get-started-with-the-fluent-orm-framework-in-vapor-4/">
     <meta property="og:title" content="Get started with the Fluent ORM framework in Vapor 4 - The.Swift.Dev.">
     <meta property="og:description" content="Learn how to use the Fluent ORM framework. Migrations, schemas, relations powered by PostgreSQL, written in Swift.">
-    <meta property="og:url" content="https://theswiftdev.com/get-started-with-the-fluent-orm-framework-in-vapor-4/">
-    <meta property="og:image" content="https://theswiftdev.com/images/assets/get-started-with-the-fluent-orm-framework-in-vapor-4/cover.jpg">
+    
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@tiborbodecs">
-    <meta name="twitter:creator" content="@tiborbodecs">
     <meta name="twitter:title" content="Get started with the Fluent ORM framework in Vapor 4 - The.Swift.Dev.">
     <meta name="twitter:description" content="Learn how to use the Fluent ORM framework. Migrations, schemas, relations powered by PostgreSQL, written in Swift.">
-    <meta name="twitter:image" content="https://theswiftdev.com/images/assets/get-started-with-the-fluent-orm-framework-in-vapor-4/cover.jpg">
     
-    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
-    <link rel="stylesheet" href="https://theswiftdev.com/css/syntax.css">
-    
-    <link rel="mask-icon" sizes="any" href="https://theswiftdev.com/images/icons/icon.svg">
 
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://theswiftdev.com/images/icons/icon-320.png" type="image/png">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-normalize.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/modern-base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/variables.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/base.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/grid.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/navigation.css">
+    <link rel="stylesheet" href="https://theswiftdev.com/css/footer.css">
     
-    <link rel="apple-touch-icon" href="https://theswiftdev.com/images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/images/icons/apple-touch-icon-180x180.png">
+
     
+
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://theswiftdev.com/icons/icon-320.png" type="image/png">
+    
+    <link rel="apple-touch-icon" href="https://theswiftdev.com/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://theswiftdev.com/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://theswiftdev.com/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://theswiftdev.com/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://theswiftdev.com/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://theswiftdev.com/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://theswiftdev.com/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://theswiftdev.com/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://theswiftdev.com/icons/apple-touch-icon-180x180.png">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+        media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+        media="(prefers-color-scheme: dark)"
+    >
+    <link rel="stylesheet" href="https://theswiftdev.com/css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
 </head>
 
 <body>
-    <a href="https://theswiftdev.gumroad.com" class="ribbon">
-        📖
-    </a>
-    <header id="page-header">
-        <a href="https://theswiftdev.com/">
-            <img 
-                id="logo-image"
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
+    <div id="site-container">
+
+    <header id="navigation">
+        <a href="/">
+            <picture>
+                <img
+                    src="https://theswiftdev.com/images/logos/logo.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
         </a>
-    </header>
-    
-    <main>
-
-        <article>
-    <header>
-        <section id="post-header" class="content-wrapper">
-            <time datetime="2020/02/27">2020/02/27</time>
-            <h1 class="title">Get started with the Fluent ORM framework in Vapor 4</h1>
-            <p class="excerpt">Learn how to use the Fluent ORM framework. Migrations, schemas, relations powered by PostgreSQL, written in Swift.</p>
-            <div class="meta">
-                <span class="tag">Vapor</span>
-<span class="tag">Fluent</span>
+        <nav>
+            <input type="checkbox" id="primary-menu-button" name="menu-button" class="menu-button">
+            <label for="primary-menu-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </label>
+            <div class="menu-items">
+                <a href="/page/1/">Posts</a>
+                <a href="/tags/">Tags</a>
+                <a href="/authors/">Authors</a>
+                <a href="/practical-server-side-swift/">My Book</a>
             </div>
-        </section>
-        <section class="wrapper">
-            <img id="post-image" src="https://theswiftdev.com/images/assets/get-started-with-the-fluent-orm-framework-in-vapor-4/cover.jpg">
-        </section>
+        </nav>
     </header>
 
-    <div id="contents">
-        <section class="content-wrapper">
-            <p class="note">If you want to learn Fluent, but you don't have a working PostgreSQL installation, you should check my <a href="https://theswiftdev.com/how-to-set-up-pgsql-for-fluent-4/">tutorial about how to install and use pgSQL</a> before you start reading this one.</p><h2>Using the Fluent ORM framework</h2><p>The beauty of an <a href="https://en.wikipedia.org/wiki/Object-relational_mapping" target="_blank">ORM</a> framework is that it hides the complexity of the underlying database layer. <a href="https://docs.vapor.codes/4.0/fluent/config/" target="_blank">Fluent 4</a> comes with multiple database driver implementations, this means that you can easily replace the recommended PostgreSQL driver with <a href="https://sqlite.org/index.html" target="_blank">SQLite</a>, <a href="https://www.mysql.com/" target="_blank">MySQL</a> or <a href="https://www.mongodb.com/" target="_blank">MongoDB</a> if you want. <a href="https://mariadb.com/" target="_blank">MariaDB</a> is also supported through the MySQL driver.</p><p>If you are using the SQLite database driver you might have to install the corresponding package (<code>brew install sqlite</code>) if you run into the following error: "missing required module 'CSQLite'". 😊</p><p>In this tutorial we'll use PostgreSQL, since that's the new default driver in Vapor 4. First you have to create a database, next we can start a new Vapor project &amp; write some Swift code using Fluent. If you create a new project using the toolbox (<code>vapor new myProject</code>) you'll be asked which database driver to use. If you are creating a project from scratch you can alter the <code>Package.swift</code> file:</p><pre><code class="language-swift"><span class="comment">// swift-tools-version:5.2</span>
-<span class="keyword">import</span> PackageDescription
+    <main id="page-container">
+    
+    <div class="article-with-toc">
+        <div>
+            <article class="post">
+                <div class="meta">
+                    <time datetime="2020/02/27">2020/02/27</time>
+                     &middot; <span class="reading-time">15 min read</span>
+                    
+                </div>
+                <h1>Get started with the Fluent ORM framework in Vapor 4</h1>
+                <hr>
+                <p>Learn how to use the Fluent ORM framework. Migrations, schemas, relations powered by PostgreSQL, written in Swift.</p>
+                <section>
+                
+                <blockquote><p>NOTE: If you want to learn Fluent, but you don’t have a working PostgreSQL installation, you should check my <a href="https://theswiftdev.com/how-to-set-up-pgsql-for-fluent-4/">tutorial about how to install and use pgSQL</a> before you start reading this one.</p></blockquote><h2 id="using-the-fluent-orm-framework">Using the Fluent ORM framework</h2><p>The beauty of an <a href="https://en.wikipedia.org/wiki/Object-relational_mapping" target="_blank">ORM</a> framework is that it hides the complexity of the underlying database layer. <a href="https://docs.vapor.codes/4.0/fluent/config/" target="_blank">Fluent 4</a> comes with multiple database driver implementations, this means that you can easily replace the recommended PostgreSQL driver with <a href="https://sqlite.org/index.html" target="_blank">SQLite</a>, <a href="https://www.mysql.com/" target="_blank">MySQL</a> or <a href="https://www.mongodb.com/" target="_blank">MongoDB</a> if you want. <a href="https://mariadb.com/" target="_blank">MariaDB</a> is also supported through the MySQL driver.</p><p>If you are using the SQLite database driver you might have to install the corresponding package (<code>brew install sqlite</code>) if you run into the following error: “missing required module ‘CSQLite’”. 😊</p><p>In this tutorial we’ll use PostgreSQL, since that’s the new default driver in Vapor 4. First you have to create a database, next we can start a new Vapor project & write some Swift code using Fluent. If you create a new project using the toolbox (<code>vapor new myProject</code>) you’ll be asked which database driver to use. If you are creating a project from scratch you can alter the <code>Package.swift</code> file:</p><pre><code class="language-swift">// swift-tools-version:5.2
+import PackageDescription
 
-<span class="keyword">let</span> package = <span class="type">Package</span>(
-    name: <span class="string">"pgtut"</span>,
+let package = Package(
+    name: "pgtut",
     platforms: [
-       .<span class="call">macOS</span>(.<span class="dotAccess">v10_15</span>)
+       .macOS(.v10_15)
     ],
     dependencies: [
-        <span class="comment">// 💧 A server-side Swift web framework.</span>
-        .<span class="call">package</span>(url: <span class="string">"https://github.com/vapor/vapor.git"</span>, from: <span class="string">"4.3.0"</span>),
-        .<span class="call">package</span>(url: <span class="string">"https://github.com/vapor/fluent.git"</span>, from: <span class="string">"4.0.0-rc"</span>),
-        .<span class="call">package</span>(url: <span class="string">"https://github.com/vapor/fluent-postgres-driver.git"</span>, from: <span class="string">"2.0.0-rc"</span>)
+        // 💧 A server-side Swift web framework.
+        .package(url: "https://github.com/vapor/vapor.git", from: "4.3.0"),
+        .package(url: "https://github.com/vapor/fluent.git", from: "4.0.0-rc"),
+        .package(url: "https://github.com/vapor/fluent-postgres-driver.git", from: "2.0.0-rc")
     ],
     targets: [
-        .<span class="call">target</span>(name: <span class="string">"App"</span>, dependencies: [
-            .<span class="call">product</span>(name: <span class="string">"Fluent"</span>, package: <span class="string">"fluent"</span>),
-            .<span class="call">product</span>(name: <span class="string">"FluentPostgresDriver"</span>, package: <span class="string">"fluent-postgres-driver"</span>),
-            .<span class="call">product</span>(name: <span class="string">"Vapor"</span>, package: <span class="string">"vapor"</span>)
+        .target(name: "App", dependencies: [
+            .product(name: "Fluent", package: "fluent"),
+            .product(name: "FluentPostgresDriver", package: "fluent-postgres-driver"),
+            .product(name: "Vapor", package: "vapor")
         ]),
-        .<span class="call">target</span>(name: <span class="string">"Run"</span>, dependencies: [<span class="string">"App"</span>]),
-        .<span class="call">testTarget</span>(name: <span class="string">"AppTests"</span>, dependencies: [
-            .<span class="call">target</span>(name: <span class="string">"App"</span>),
-            .<span class="call">product</span>(name: <span class="string">"XCTVapor"</span>, package: <span class="string">"vapor"</span>),
+        .target(name: "Run", dependencies: ["App"]),
+        .testTarget(name: "AppTests", dependencies: [
+            .target(name: "App"),
+            .product(name: "XCTVapor", package: "vapor"),
         ])
     ]
-)</code></pre><p>Open the <code>Package.swift</code> file in Xcode, wait until all the dependencies are loaded.</p><p>Let's configure the psql database driver in the <code>configure.swift</code> file. We're going to use a database URL string to provide the connection details, loaded from the local environment.</p><pre><code class="language-swift"><span class="keyword">import</span> Vapor
-<span class="keyword">import</span> Fluent
-<span class="keyword">import</span> FluentPostgresDriver
+)
+</code></pre><p>Open the <code>Package.swift</code> file in Xcode, wait until all the dependencies are loaded.</p><p>Let’s configure the psql database driver in the <code>configure.swift</code> file. We’re going to use a database URL string to provide the connection details, loaded from the local environment.</p><pre><code class="language-swift">import Vapor
+import Fluent
+import FluentPostgresDriver
 
-<span class="keyword">extension</span> <span class="type">Application</span> {
-    <span class="keyword">static let</span> databaseUrl = <span class="type">URL</span>(string: <span class="type">Environment</span>.<span class="call">get</span>(<span class="string">"DB_URL"</span>)!)!
+extension Application {
+    static let databaseUrl = URL(string: Environment.get("DB_URL")!)!
 }
 
-<span class="keyword">public func</span> configure(<span class="keyword">_</span> app: <span class="type">Application</span>) <span class="keyword">throws</span> {
+public func configure(_ app: Application) throws {
     
-    <span class="keyword">try</span> app.<span class="property">databases</span>.<span class="call">use</span>(.<span class="call">postgres</span>(url: <span class="type">Application</span>.<span class="property">databaseUrl</span>), as: .<span class="dotAccess">psql</span>)
+    try app.databases.use(.postgres(url: Application.databaseUrl), as: .psql)
     
-    <span class="comment">//...</span>
-}</code></pre><p>Create a new <code>.env.development</code> file in the project directory with the following contents:</p><pre><code>DB_URL=postgres://myuser:mypass@localhost:5432/mydb
-</code></pre><p>You can also <a href="https://docs.vapor.codes/4.0/fluent/config/" target="_blank">configure</a> the driver using other methods, but I personally prefer this approach, since it's very easy and you can also put other specific environmental variables right next to the DB_URL.</p><p class="note">You can also use the <code>.env</code> file in production mode to set your environmental variables.</p><p>Run the application, but first make sure that the current working directory is set properly, read more about this in my previous tutorial about <a href="https://theswiftdev.com/how-to-create-your-first-website-using-vapor-4-and-leaf/">the leaf templating engine</a>.</p><p>Well done, you have a working project that connects to the pgSQL server using Fluent. 🚀</p><h2>Model definition</h2><p>The <a href="https://docs.vapor.codes/4.0/fluent/overview/" target="_blank">official documentation</a> pretty much covers all the important concepts, so it's definitely worth a read. In this section, I'm only going to focus on some of the "missing parts".</p><p>The API template sample code comes with a <code>Todo</code> model which is pretty much a good starting point for us.</p><h3>Field keys</h3><p>Field keys are available from the <a href="https://github.com/vapor/fluent-kit/releases/tag/1.0.0-beta.5" target="_blank">5th major beta</a> version of Fluent 4. Long story short, you don't have to repeat yourself anymore, but you can define a key for each and every database field. As a gratis you never have to do the same for id fields, since fluent has built-in support for identifiers.</p><pre><code class="language-swift"><span class="keyword">extension</span> <span class="type">FieldKey</span> {
-    <span class="keyword">static var</span> title: <span class="type">Self</span> { <span class="string">"title"</span> }
+    //...
+}
+</code></pre><p>Create a new <code>.env.development</code> file in the project directory with the following contents:</p><pre><code>DB_URL=postgres://myuser:mypass@localhost:5432/mydb
+</code></pre><p>You can also <a href="https://docs.vapor.codes/4.0/fluent/config/" target="_blank">configure</a> the driver using other methods, but I personally prefer this approach, since it’s very easy and you can also put other specific environmental variables right next to the DB_URL.</p><blockquote><p>NOTE: You can also use the <code>.env</code> file in production mode to set your environmental variables.</p></blockquote><p>Run the application, but first make sure that the current working directory is set properly, read more about this in my previous tutorial about <a href="https://theswiftdev.com/how-to-create-your-first-website-using-vapor-4-and-leaf/">the leaf templating engine</a>.</p><p>Well done, you have a working project that connects to the pgSQL server using Fluent. 🚀</p><h2 id="model-definition">Model definition</h2><p>The <a href="https://docs.vapor.codes/4.0/fluent/overview/" target="_blank">official documentation</a> pretty much covers all the important concepts, so it’s definitely worth a read. In this section, I’m only going to focus on some of the “missing parts”.</p><p>The API template sample code comes with a <code>Todo</code> model which is pretty much a good starting point for us.</p><h3 id="field-keys">Field keys</h3><p>Field keys are available from the <a href="https://github.com/vapor/fluent-kit/releases/tag/1.0.0-beta.5" target="_blank">5th major beta</a> version of Fluent 4. Long story short, you don’t have to repeat yourself anymore, but you can define a key for each and every database field. As a gratis you never have to do the same for id fields, since fluent has built-in support for identifiers.</p><pre><code class="language-swift">extension FieldKey {
+    static var title: Self { "title" }
 }
 
-<span class="comment">// model definition</span>
-<span class="keyword">@ID</span>() <span class="keyword">var</span> id: <span class="type">UUID</span>?
-<span class="keyword">@Field</span>(key: .<span class="dotAccess">title</span>) <span class="keyword">var</span> title: <span class="type">String</span>
+// model definition
+@ID() var id: UUID?
+@Field(key: .title) var title: String
 
-<span class="comment">// migration</span>
-.<span class="call">id</span>()
-.<span class="call">field</span>(.<span class="dotAccess">title</span>, .<span class="dotAccess">string</span>, .<span class="dotAccess">required</span>)</code></pre><h3>Identifiers are now UUID types by default</h3><p>Using the new <code>@ID</code> property wrapper and the <code>.id()</code> migration function will automatically require your models to have a <code>UUID</code> value by default. This is a great change, because I don't really like serial identifiers. If you want to go use integers as identifiers you can still do it. Also you can define <code>UUID</code> fields with the old-school syntax, but if you go so you can have some troubles with switching to the new MongoDB driver, so please don't do it. 🥺</p><pre><code class="language-swift"><span class="comment">// custom int identifier (won't work with MongoDB driver)</span>
-<span class="keyword">@ID</span>(custom: <span class="string">"todo_id"</span>)
-<span class="keyword">var</span> id: <span class="type">Int</span>?
+// migration
+.id()
+.field(.title, .string, .required)
+</code></pre><h3 id="identifiers-are-now-uuid-types-by-default">Identifiers are now UUID types by default</h3><p>Using the new <code>@ID</code> property wrapper and the <code>.id()</code> migration function will automatically require your models to have a <code>UUID</code> value by default. This is a great change, because I don’t really like serial identifiers. If you want to go use integers as identifiers you can still do it. Also you can define <code>UUID</code> fields with the old-school syntax, but if you go so you can have some troubles with switching to the new MongoDB driver, so please don’t do it. 🥺</p><pre><code class="language-swift">// custom int identifier (won't work with MongoDB driver)
+@ID(custom: "todo_id")
+var id: Int?
 
-<span class="comment">// custom id type &amp; field name (you have to generate it)</span>
-<span class="keyword">@ID</span>(custom: <span class="string">"todo_identifier"</span>, generatedBy: .<span class="dotAccess">user</span>)
-<span class="keyword">var</span> id: <span class="type">String</span>?
+// custom id type & field name (you have to generate it)
+@ID(custom: "todo_identifier", generatedBy: .user)
+var id: String?
 
-<span class="comment">// old-school uuid field migration</span>
-.<span class="call">field</span>(<span class="string">"id"</span>, .<span class="dotAccess">uuid</span>, .<span class="dotAccess">identifier</span>(auto: <span class="keyword">false</span>))</code></pre><h3>How to store native database enums?</h3><p>If you want to store enums using Fluent you have two options now. The first one is that you simply save your enums as native values (int, string, etc.), if you do so you just need an enum with a new field of the given type, plus you have to conform the enum to the Codable protocol.</p><pre><code class="language-swift"><span class="comment">// model definition</span>
-<span class="keyword">enum</span> Status: <span class="type">String</span>, <span class="type">Codable</span> {
-    <span class="keyword">case</span> pending
-    <span class="keyword">case</span> completed
+// old-school uuid field migration
+.field("id", .uuid, .identifier(auto: false))
+</code></pre><h3 id="how-to-store-native-database-enums">How to store native database enums?</h3><p>If you want to store enums using Fluent you have two options now. The first one is that you simply save your enums as native values (int, string, etc.), if you do so you just need an enum with a new field of the given type, plus you have to conform the enum to the Codable protocol.</p><pre><code class="language-swift">// model definition
+enum Status: String, Codable {
+    case pending
+    case completed
 }
 
-<span class="keyword">@Field</span>(key: <span class="string">"status"</span>) <span class="keyword">var</span> status: <span class="type">Status</span>
+@Field(key: "status") var status: Status
 
-<span class="comment">// migration (you can use the .int or .string type)</span>
-.<span class="call">field</span>(<span class="string">"status"</span>, .<span class="dotAccess">string</span>, .<span class="dotAccess">required</span>)</code></pre><p>The second option is to use the new <code>@Enum</code> field type and migrate everything using the enum builder. This method requires more setup, but I think it's going to worth it on the long term.</p><pre><code class="language-swift"><span class="comment">// model definition</span>
-<span class="keyword">extension</span> <span class="type">FieldKey</span> {
-    <span class="keyword">static var</span> status: <span class="type">Self</span> { <span class="string">"status"</span> }
+// migration (you can use the .int or .string type)
+.field("status", .string, .required)
+</code></pre><p>The second option is to use the new <code>@Enum</code> field type and migrate everything using the enum builder. This method requires more setup, but I think it’s going to worth it on the long term.</p><pre><code class="language-swift">// model definition
+extension FieldKey {
+    static var status: Self { "status" }
 }
 
-<span class="keyword">enum</span> Status: <span class="type">String</span>, <span class="type">Codable</span>, <span class="type">CaseIterable</span> {
-    <span class="keyword">static var</span> name: <span class="type">FieldKey</span> { .<span class="dotAccess">status</span> }
+enum Status: String, Codable, CaseIterable {
+    static var name: FieldKey { .status }
 
-    <span class="keyword">case</span> pending
-    <span class="keyword">case</span> completed
+    case pending
+    case completed
 }
 
-<span class="keyword">@Enum</span>(key: .<span class="dotAccess">status</span>) <span class="keyword">var</span> status: <span class="type">Status</span>
+@Enum(key: .status) var status: Status
 
-<span class="comment">// migration</span>
-<span class="keyword">struct</span> CreateTodo: <span class="type">Migration</span> {
-    <span class="keyword">func</span> prepare(on database: <span class="type">Database</span>) -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Void</span>&gt; {
-        <span class="keyword">var</span> enumBuilder = database.<span class="call">enum</span>(<span class="type">Todo</span>.<span class="type">Status</span>.<span class="property">name</span>.<span class="property">description</span>)
-        <span class="keyword">for</span> option <span class="keyword">in</span> <span class="type">Todo</span>.<span class="type">Status</span>.<span class="property">allCases</span> {
-            enumBuilder = enumBuilder.<span class="call">case</span>(option.<span class="property">rawValue</span>)
+// migration
+struct CreateTodo: Migration {
+    func prepare(on database: Database) -&gt; EventLoopFuture&lt;Void&gt; {
+        var enumBuilder = database.enum(Todo.Status.name.description)
+        for option in Todo.Status.allCases {
+            enumBuilder = enumBuilder.case(option.rawValue)
         }
-        <span class="keyword">return</span> enumBuilder.<span class="call">create</span>()
-        .<span class="call">flatMap</span> { enumType <span class="keyword">in</span>
-            database.<span class="call">schema</span>(<span class="type">Todo</span>.<span class="property">schema</span>)
-                .<span class="call">id</span>()
-                .<span class="call">field</span>(.<span class="dotAccess">title</span>, .<span class="dotAccess">string</span>, .<span class="dotAccess">required</span>)
-                .<span class="call">field</span>(.<span class="dotAccess">status</span>, enumType, .<span class="dotAccess">required</span>)
-                .<span class="call">create</span>()
+        return enumBuilder.create()
+        .flatMap { enumType in
+            database.schema(Todo.schema)
+                .id()
+                .field(.title, .string, .required)
+                .field(.status, enumType, .required)
+                .create()
         }
     }
 
-    <span class="keyword">func</span> revert(on database: <span class="type">Database</span>) -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Void</span>&gt; {
-        <span class="keyword">return</span> database.<span class="call">schema</span>(<span class="type">Todo</span>.<span class="property">schema</span>).<span class="call">delete</span>().<span class="call">flatMap</span> {
-            database.<span class="call">enum</span>(<span class="type">Todo</span>.<span class="type">Status</span>.<span class="property">name</span>.<span class="property">description</span>).<span class="call">delete</span>()
+    func revert(on database: Database) -&gt; EventLoopFuture&lt;Void&gt; {
+        return database.schema(Todo.schema).delete().flatMap {
+            database.enum(Todo.Status.name.description).delete()
         }
     }
-}</code></pre><p>The main advantage of this approach that Fluent can take advantage of the database driver's built-in enum type support. Also if you want to store native enums you have to migrate the fields if you introduce a new case. You can read more about this in the <a href="https://github.com/vapor/fluent-kit/releases/tag/1.0.0-beta.5" target="_blank">beta release notes</a>. I can't tell you which one is the best way, since this is a brand new feature, I have to run some tests. ✅</p><h3>Saving option sets in Fluent</h3><p>There is a great post written by <a href="https://x.com/BastianInuk/" target="_blank">Bastian Inuk</a> about <a href="https://www.inuk.blog/vapor-fluent-4-and-enums/" target="_blank">managing user roles using option sets</a> in Fluent. You should definitely take a look if you want to use an OptionSet as a Fluent property. Anyway, I'll show you how to create this type, so we'll be able to flag our todo items. 🔴🟣🟠🟡🟢🔵⚪️</p><pre><code class="language-swift"><span class="comment">// model definition</span>
-<span class="keyword">extension</span> <span class="type">FieldKey</span> {
-    <span class="keyword">static var</span> labels: <span class="type">Self</span> { <span class="string">"labels"</span> }
+}
+</code></pre><p>The main advantage of this approach that Fluent can take advantage of the database driver’s built-in enum type support. Also if you want to store native enums you have to migrate the fields if you introduce a new case. You can read more about this in the <a href="https://github.com/vapor/fluent-kit/releases/tag/1.0.0-beta.5" target="_blank">beta release notes</a>. I can’t tell you which one is the best way, since this is a brand new feature, I have to run some tests. ✅</p><h3 id="saving-option-sets-in-fluent">Saving option sets in Fluent</h3><p>There is a great post written by <a href="https://x.com/BastianInuk/" target="_blank">Bastian Inuk</a> about <a href="https://www.inuk.blog/vapor-fluent-4-and-enums/" target="_blank">managing user roles using option sets</a> in Fluent. You should definitely take a look if you want to use an OptionSet as a Fluent property. Anyway, I’ll show you how to create this type, so we’ll be able to flag our todo items. 🔴🟣🟠🟡🟢🔵⚪️</p><pre><code class="language-swift">// model definition
+extension FieldKey {
+    static var labels: Self { "labels" }
 }
 
-<span class="keyword">struct</span> Labels: <span class="type">OptionSet</span>, <span class="type">Codable</span> {
-    <span class="keyword">var</span> rawValue: <span class="type">Int</span>
+struct Labels: OptionSet, Codable {
+    var rawValue: Int
     
-    <span class="keyword">static let</span> red = <span class="type">Labels</span>(rawValue: <span class="number">1</span> &lt;&lt; <span class="number">0</span>)
-    <span class="keyword">static let</span> purple = <span class="type">Labels</span>(rawValue: <span class="number">1</span> &lt;&lt; <span class="number">1</span>)
-    <span class="keyword">static let</span> orange = <span class="type">Labels</span>(rawValue: <span class="number">1</span> &lt;&lt; <span class="number">2</span>)
-    <span class="keyword">static let</span> yellow = <span class="type">Labels</span>(rawValue: <span class="number">1</span> &lt;&lt; <span class="number">3</span>)
-    <span class="keyword">static let</span> green = <span class="type">Labels</span>(rawValue: <span class="number">1</span> &lt;&lt; <span class="number">4</span>)
-    <span class="keyword">static let</span> blue = <span class="type">Labels</span>(rawValue: <span class="number">1</span> &lt;&lt; <span class="number">5</span>)
-    <span class="keyword">static let</span> gray = <span class="type">Labels</span>(rawValue: <span class="number">1</span> &lt;&lt; <span class="number">6</span>)
+    static let red = Labels(rawValue: 1 &lt;&lt; 0)
+    static let purple = Labels(rawValue: 1 &lt;&lt; 1)
+    static let orange = Labels(rawValue: 1 &lt;&lt; 2)
+    static let yellow = Labels(rawValue: 1 &lt;&lt; 3)
+    static let green = Labels(rawValue: 1 &lt;&lt; 4)
+    static let blue = Labels(rawValue: 1 &lt;&lt; 5)
+    static let gray = Labels(rawValue: 1 &lt;&lt; 6)
     
-    <span class="keyword">static let</span> all: <span class="type">Labels</span> = [.<span class="dotAccess">red</span>, .<span class="dotAccess">purple</span>, .<span class="dotAccess">orange</span>, .<span class="dotAccess">yellow</span>, .<span class="dotAccess">green</span>, .<span class="dotAccess">blue</span>, .<span class="dotAccess">gray</span>]
+    static let all: Labels = [.red, .purple, .orange, .yellow, .green, .blue, .gray]
 }
 
-<span class="keyword">@Field</span>(key: .<span class="dotAccess">labels</span>) <span class="keyword">var</span> labels: <span class="type">Labels</span>
+@Field(key: .labels) var labels: Labels
 
-<span class="comment">// migration</span>
-.<span class="call">field</span>(.<span class="dotAccess">labels</span>, .<span class="dotAccess">int</span>, .<span class="dotAccess">required</span>)</code></pre><p class="note">There is a nice Option protocol <a href="https://nshipster.com/optionset/" target="_blank">OptionSet</a></p><h3>Storing dates</h3><p>Fluent can also store dates and times and convert them back-and-forth using the built-in <code>Date</code> object from Foundation. You just have to choose between the <code>.date</code> or <code>.datetime</code> storage types. You should go with the first one if you don't care about the hours, minutes or seconds. The second one is good if you simply want to save the day, month and year. 💾</p><p class="warning">You should always go with the exact same <code>TimeZone</code> when you save / fetch dates from the database. When you save a date object that is in UTC, next time if you want to filter those objects and you use a different time zone (e.g. PDT), you'll get back a bad set of results.</p><p>Here is the final example of our <code>Todo</code> model including the migration script:</p><pre><code class="language-swift"><span class="comment">// model definition</span>
-<span class="keyword">final class</span> Todo: <span class="type">Model</span>, <span class="type">Content</span> {
+// migration
+.field(.labels, .int, .required)
+</code></pre><blockquote><p>NOTE: There is a nice Option protocol <a href="https://nshipster.com/optionset/" target="_blank">OptionSet</a></p></blockquote><h3 id="storing-dates">Storing dates</h3><p>Fluent can also store dates and times and convert them back-and-forth using the built-in <code>Date</code> object from Foundation. You just have to choose between the <code>.date</code> or <code>.datetime</code> storage types. You should go with the first one if you don’t care about the hours, minutes or seconds. The second one is good if you simply want to save the day, month and year. 💾</p><blockquote><p>WARN: You should always go with the exact same <code>TimeZone</code> when you save / fetch dates from the database. When you save a date object that is in UTC, next time if you want to filter those objects and you use a different time zone (e.g. PDT), you’ll get back a bad set of results.</p></blockquote><p>Here is the final example of our <code>Todo</code> model including the migration script:</p><pre><code class="language-swift">// model definition
+final class Todo: Model, Content {
 
-    <span class="keyword">static let</span> schema = <span class="string">"todos"</span>
+    static let schema = "todos"
     
-    <span class="keyword">enum</span> Status: <span class="type">String</span>, <span class="type">Codable</span> {
-        <span class="keyword">case</span> pending
-        <span class="keyword">case</span> completed
+    enum Status: String, Codable {
+        case pending
+        case completed
     }
 
-    <span class="keyword">struct</span> Labels: <span class="type">OptionSet</span>, <span class="type">Codable</span> {
-        <span class="keyword">var</span> rawValue: <span class="type">Int</span>
+    struct Labels: OptionSet, Codable {
+        var rawValue: Int
         
-        <span class="keyword">static let</span> red = <span class="type">Labels</span>(rawValue: <span class="number">1</span> &lt;&lt; <span class="number">0</span>)
-        <span class="keyword">static let</span> purple = <span class="type">Labels</span>(rawValue: <span class="number">1</span> &lt;&lt; <span class="number">1</span>)
-        <span class="keyword">static let</span> orange = <span class="type">Labels</span>(rawValue: <span class="number">1</span> &lt;&lt; <span class="number">2</span>)
-        <span class="keyword">static let</span> yellow = <span class="type">Labels</span>(rawValue: <span class="number">1</span> &lt;&lt; <span class="number">3</span>)
-        <span class="keyword">static let</span> green = <span class="type">Labels</span>(rawValue: <span class="number">1</span> &lt;&lt; <span class="number">4</span>)
-        <span class="keyword">static let</span> blue = <span class="type">Labels</span>(rawValue: <span class="number">1</span> &lt;&lt; <span class="number">5</span>)
-        <span class="keyword">static let</span> gray = <span class="type">Labels</span>(rawValue: <span class="number">1</span> &lt;&lt; <span class="number">6</span>)
+        static let red = Labels(rawValue: 1 &lt;&lt; 0)
+        static let purple = Labels(rawValue: 1 &lt;&lt; 1)
+        static let orange = Labels(rawValue: 1 &lt;&lt; 2)
+        static let yellow = Labels(rawValue: 1 &lt;&lt; 3)
+        static let green = Labels(rawValue: 1 &lt;&lt; 4)
+        static let blue = Labels(rawValue: 1 &lt;&lt; 5)
+        static let gray = Labels(rawValue: 1 &lt;&lt; 6)
         
-        <span class="keyword">static let</span> all: <span class="type">Labels</span> = [
-            .<span class="dotAccess">red</span>,
-            .<span class="dotAccess">purple</span>,
-            .<span class="dotAccess">orange</span>,
-            .<span class="dotAccess">yellow</span>,
-            .<span class="dotAccess">green</span>,
-            .<span class="dotAccess">blue</span>,
-            .<span class="dotAccess">gray</span>
+        static let all: Labels = [
+            .red,
+            .purple,
+            .orange,
+            .yellow,
+            .green,
+            .blue,
+            .gray
         ]
     }
 
-    <span class="keyword">@ID</span>() <span class="keyword">var</span> id: <span class="type">UUID</span>?
-    <span class="keyword">@Field</span>(key: .<span class="dotAccess">title</span>) <span class="keyword">var</span> title: <span class="type">String</span>
-    <span class="keyword">@Field</span>(key: .<span class="dotAccess">status</span>) <span class="keyword">var</span> status: <span class="type">Status</span>
-    <span class="keyword">@Field</span>(key: .<span class="dotAccess">labels</span>) <span class="keyword">var</span> labels: <span class="type">Labels</span>
-    <span class="keyword">@Field</span>(key: .<span class="dotAccess">due</span>) <span class="keyword">var</span> due: <span class="type">Date</span>?
+    @ID() var id: UUID?
+    @Field(key: .title) var title: String
+    @Field(key: .status) var status: Status
+    @Field(key: .labels) var labels: Labels
+    @Field(key: .due) var due: Date?
 
-    <span class="keyword">init</span>() { }
+    init() { }
 
-    <span class="keyword">init</span>(id: <span class="type">UUID</span>? = <span class="keyword">nil</span>,
-         title: <span class="type">String</span>,
-         status: <span class="type">Status</span> = .<span class="dotAccess">pending</span>,
-         labels: <span class="type">Labels</span> = [],
-         due: <span class="type">Date</span>? = <span class="keyword">nil</span>)
+    init(id: UUID? = nil,
+         title: String,
+         status: Status = .pending,
+         labels: Labels = [],
+         due: Date? = nil)
     {
-        <span class="keyword">self</span>.<span class="property">id</span> = id
-        <span class="keyword">self</span>.<span class="property">title</span> = title
-        <span class="keyword">self</span>.<span class="property">status</span> = status
-        <span class="keyword">self</span>.<span class="property">labels</span> = labels
-        <span class="keyword">self</span>.<span class="property">due</span> = due
+        self.id = id
+        self.title = title
+        self.status = status
+        self.labels = labels
+        self.due = due
     }
 }
 
-<span class="comment">// migration</span>
-<span class="keyword">struct</span> CreateTodo: <span class="type">Migration</span> {
-    <span class="keyword">func</span> prepare(on database: <span class="type">Database</span>) -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Void</span>&gt; {
-        <span class="keyword">return</span> database.<span class="call">schema</span>(<span class="type">Todo</span>.<span class="property">schema</span>)
-            .<span class="call">id</span>()
-            .<span class="call">field</span>(.<span class="dotAccess">title</span>, .<span class="dotAccess">string</span>, .<span class="dotAccess">required</span>)
-            .<span class="call">field</span>(.<span class="dotAccess">status</span>, .<span class="dotAccess">string</span>, .<span class="dotAccess">required</span>)
-            .<span class="call">field</span>(.<span class="dotAccess">labels</span>, .<span class="dotAccess">int</span>, .<span class="dotAccess">required</span>)
-            .<span class="call">field</span>(.<span class="dotAccess">due</span>, .<span class="dotAccess">datetime</span>)
-            .<span class="call">create</span>()
+// migration
+struct CreateTodo: Migration {
+    func prepare(on database: Database) -&gt; EventLoopFuture&lt;Void&gt; {
+        return database.schema(Todo.schema)
+            .id()
+            .field(.title, .string, .required)
+            .field(.status, .string, .required)
+            .field(.labels, .int, .required)
+            .field(.due, .datetime)
+            .create()
     }
 
-    <span class="keyword">func</span> revert(on database: <span class="type">Database</span>) -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Void</span>&gt; {
-        <span class="keyword">return</span> database.<span class="call">schema</span>(<span class="type">Todo</span>.<span class="property">schema</span>).<span class="call">delete</span>()
+    func revert(on database: Database) -&gt; EventLoopFuture&lt;Void&gt; {
+        return database.schema(Todo.schema).delete()
     }
-}</code></pre><p>One more thing...</p><h3>Nested fields &amp; compound fields</h3><p>Sometimes you might need to save additional structured data, but you don't want to introduce a relation (e.g. attributes with different keys, values). This is when the <code>@NestedField</code> property wrapper comes extremely handy. I won't include here an example, since I had no time to try this feature yet, but you can read more about it <a href="https://github.com/vapor/fluent-kit/releases/tag/1.0.0-beta.5" target="_blank">here</a> with a working sample code.</p><p>The difference between a <code>@CompoundField</code> and a <code>@NestedField</code> is that a compound field is stored as a flat top level field in the database, but the other will be stored as a nested object.</p><p class="note">Sets are now compatible with the array database type, you can use them like this: <code>.field(.mySetField, .array(of: .string), .required)</code></p><p>I think we pretty much covered everything that you'll need in order to create DB entities. We'll have a quick detour here before we get into relations. 🚧</p><h2>Schemas &amp; migrations</h2><p>The <code>Todo</code> object is more or less ready to use, but this is just one part of the whole story. We still need to create the actual database table that can store our objects in PostgreSQL. In order to create the DB schema based on our Swift code, we have to run the migration command.</p><p>Migration is the process of creating, updating or deleting one or more database tables. In other words, everything that alters the database schema is a migration. You should know that you can register multiple migration scripts and Vapor will run them always in the order they were added.</p><p class="note">The name of your database table &amp; the fields are declared in your model. The schema is the name of the table, and the property wrappers are containing the name of each field.</p><p>Nowadays I prefer to use a semantic version suffix for all my migration objects, this is really handy because I don't have to think too much about the naming conventions, migration<em>v1</em>0_0 is always the create operation, everything comes after this version is just an altering the schema.</p><p>You can implement a <code>var name: String { "custom-migration-name" }</code> property inside the migration struct / class, so you don't have to put special characters into your object's name</p><p class="warning">You should be careful with relations! If you are trying to use a table with a field as a foreign key you have to make sure that the referenced object already exists, otherwise it'll fail.</p><p>During the first migration Fluent will create an internal lookup table named <code>_fluent_migrations</code>. The migration system is using this table to detect which migrations were already performed and what needs to be done next time you run the migrate command.</p><p>In order to perform a migration you can launch the Run target with the migrate argument. If you pass the <code>--auto-migrate</code> flag you don't have to confirm the migration process. Be careful. 😳</p><pre><code class="language-sh">swift run Run migrate
-</code></pre><p>You can revert the last batch of migrations by running the command with the --revert flag.</p><pre><code class="language-sh">swift run Run migrate --revert
-</code></pre><p>Here is a quick example how to run multiple schema updates by using flatten function. This migration simply removes the existing title field, and creates new unique name field.</p><pre><code class="language-swift"><span class="keyword">extension</span> <span class="type">FieldKey</span> {
-    <span class="keyword">static var</span> name: <span class="type">Self</span> { <span class="string">"name"</span> }
+}
+</code></pre><p>One more thing…</p><h3 id="nested-fields-compound-fields">Nested fields & compound fields</h3><p>Sometimes you might need to save additional structured data, but you don’t want to introduce a relation (e.g. attributes with different keys, values). This is when the <code>@NestedField</code> property wrapper comes extremely handy. I won’t include here an example, since I had no time to try this feature yet, but you can read more about it <a href="https://github.com/vapor/fluent-kit/releases/tag/1.0.0-beta.5" target="_blank">here</a> with a working sample code.</p><p>The difference between a <code>@CompoundField</code> and a <code>@NestedField</code> is that a compound field is stored as a flat top level field in the database, but the other will be stored as a nested object.</p><blockquote><p>NOTE: Sets are now compatible with the array database type, you can use them like this: <code>.field(.mySetField, .array(of: .string), .required)</code></p></blockquote><p>I think we pretty much covered everything that you’ll need in order to create DB entities. We’ll have a quick detour here before we get into relations. 🚧</p><h2 id="schemas-migrations">Schemas & migrations</h2><p>The <code>Todo</code> object is more or less ready to use, but this is just one part of the whole story. We still need to create the actual database table that can store our objects in PostgreSQL. In order to create the DB schema based on our Swift code, we have to run the migration command.</p><p>Migration is the process of creating, updating or deleting one or more database tables. In other words, everything that alters the database schema is a migration. You should know that you can register multiple migration scripts and Vapor will run them always in the order they were added.</p><blockquote><p>NOTE: The name of your database table & the fields are declared in your model. The schema is the name of the table, and the property wrappers are containing the name of each field.</p></blockquote><p>Nowadays I prefer to use a semantic version suffix for all my migration objects, this is really handy because I don’t have to think too much about the naming conventions, migration_v1_0_0 is always the create operation, everything comes after this version is just an altering the schema.</p><p>You can implement a <code>var name: String { "custom-migration-name" }</code> property inside the migration struct / class, so you don’t have to put special characters into your object’s name</p><blockquote><p>WARN: You should be careful with relations! If you are trying to use a table with a field as a foreign key you have to make sure that the referenced object already exists, otherwise it’ll fail.</p></blockquote><p>During the first migration Fluent will create an internal lookup table named <code>_fluent_migrations</code>. The migration system is using this table to detect which migrations were already performed and what needs to be done next time you run the migrate command.</p><p>In order to perform a migration you can launch the Run target with the migrate argument. If you pass the <code>--auto-migrate</code> flag you don’t have to confirm the migration process. Be careful. 😳</p><pre><code class="language-sh">swift run Run migrate
+</code></pre><p>You can revert the last batch of migrations by running the command with the –revert flag.</p><pre><code class="language-sh">swift run Run migrate --revert
+</code></pre><p>Here is a quick example how to run multiple schema updates by using flatten function. This migration simply removes the existing title field, and creates new unique name field.</p><pre><code class="language-swift">extension FieldKey {
+    static var name: Self { "name" }
 }
 
-<span class="keyword">struct</span> UpdateTodo: <span class="type">Migration</span> {
+struct UpdateTodo: Migration {
 
-    <span class="keyword">func</span> prepare(on database: <span class="type">Database</span>) -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Void</span>&gt; {
-        database.<span class="property">eventLoop</span>.<span class="call">flatten</span>([
-            database.<span class="call">schema</span>(<span class="type">Todo</span>.<span class="property">schema</span>)
-                .<span class="call">deleteField</span>(.<span class="dotAccess">title</span>)
-                .<span class="call">update</span>(),
-            database.<span class="call">schema</span>(<span class="type">Todo</span>.<span class="property">schema</span>)
-                .<span class="call">field</span>(.<span class="dotAccess">name</span>, .<span class="dotAccess">string</span>, .<span class="dotAccess">required</span>)
-                .<span class="call">unique</span>(on: .<span class="dotAccess">name</span>)
-                .<span class="call">update</span>(),
-            <span class="comment">// you can also create objects in migration scripts</span>
-            <span class="type">Todo</span>(name: <span class="string">"Hello world"</span>).<span class="call">save</span>(on: database),
+    func prepare(on database: Database) -&gt; EventLoopFuture&lt;Void&gt; {
+        database.eventLoop.flatten([
+            database.schema(Todo.schema)
+                .deleteField(.title)
+                .update(),
+            database.schema(Todo.schema)
+                .field(.name, .string, .required)
+                .unique(on: .name)
+                .update(),
+            // you can also create objects in migration scripts
+            Todo(name: "Hello world").save(on: database),
         ])
     }
     
-    <span class="keyword">func</span> revert(on database: <span class="type">Database</span>) -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Void</span>&gt; {
-        database.<span class="property">eventLoop</span>.<span class="call">flatten</span>([
-            database.<span class="call">schema</span>(<span class="type">Todo</span>.<span class="property">schema</span>)
-                .<span class="call">deleteField</span>(.<span class="dotAccess">name</span>)
-                .<span class="call">update</span>(),
-            database.<span class="call">schema</span>(<span class="type">Todo</span>.<span class="property">schema</span>)
-                .<span class="call">field</span>(.<span class="dotAccess">title</span>, .<span class="dotAccess">string</span>, .<span class="dotAccess">required</span>)
-                .<span class="call">update</span>(),
+    func revert(on database: Database) -&gt; EventLoopFuture&lt;Void&gt; {
+        database.eventLoop.flatten([
+            database.schema(Todo.schema)
+                .deleteField(.name)
+                .update(),
+            database.schema(Todo.schema)
+                .field(.title, .string, .required)
+                .update(),
         ])
     }
-}</code></pre><p>Feel free to go ahead, migrate the <code>Todo</code> scheme so we can write some queries.</p><h2>Querying</h2><p>Again I have to refer to the <a href="https://docs.vapor.codes/4.0/fluent/overview/#querying" target="_blank">official 4.0 Fluent docs</a>. Please go ahead read the querying section carefully, and come back to this article. The <code>TodoController</code> also provides a basic Swift sample code. IMHO a controller is an interactor, nowadays I'm using VIPER on the backend side as well (article coming soon). Here are a few CRUD practices. 😅</p><h3>Creating multiple records at once</h3><p>This one is simple, please note that the <code>save</code> method in Fluent behaves like an upsert command. If your model exists, it'll <code>update</code> otherwise it calls the <code>create</code> function. Anyway you can always call create on a bunch of models to perform a batch insert.</p><pre><code class="language-swift"><span class="keyword">let</span> todos = [
-    <span class="type">Todo</span>(title: <span class="string">"Publish new article tomorrow"</span>),
-    <span class="type">Todo</span>(title: <span class="string">"Finish Fluent tutorial"</span>),
-    <span class="type">Todo</span>(title: <span class="string">"Write more blog posts"</span>),
+}
+</code></pre><p>Feel free to go ahead, migrate the <code>Todo</code> scheme so we can write some queries.</p><h2 id="querying">Querying</h2><p>Again I have to refer to the <a href="https://docs.vapor.codes/4.0/fluent/overview/#querying" target="_blank">official 4.0 Fluent docs</a>. Please go ahead read the querying section carefully, and come back to this article. The <code>TodoController</code> also provides a basic Swift sample code. IMHO a controller is an interactor, nowadays I’m using VIPER on the backend side as well (article coming soon). Here are a few CRUD practices. 😅</p><h3 id="creating-multiple-records-at-once">Creating multiple records at once</h3><p>This one is simple, please note that the <code>save</code> method in Fluent behaves like an upsert command. If your model exists, it’ll <code>update</code> otherwise it calls the <code>create</code> function. Anyway you can always call create on a bunch of models to perform a batch insert.</p><pre><code class="language-swift">let todos = [
+    Todo(title: "Publish new article tomorrow"),
+    Todo(title: "Finish Fluent tutorial"),
+    Todo(title: "Write more blog posts"),
 ]
-todos.<span class="call">create</span>(on: req.<span class="property">db</span>)</code></pre><h3>Batch delete records</h3><p>You can query all the required records using filters and call the .delete() method on them.</p><pre><code class="language-swift"><span class="type">Todo</span>.<span class="call">query</span>(on: req.<span class="property">db</span>)
-        .<span class="call">filter</span>(\.<span class="property">$status</span> == .<span class="dotAccess">completed</span>)
-        .<span class="call">delete</span>()</code></pre><h3>How to update or delete a single record?</h3><p>If you know the object identifier it's pretty simple, the <code>Model</code> protocol has a find method for this purpose. Otherwise you can query the required object and request the first one.</p><p class="note">Fluent is asynchronous by default, this means that you have to work a lot with Futures and Promises. You can read my <a href="https://theswiftdev.com/promises-in-swift-for-beginners/">tutorial for beginners about promises in Swift</a>.</p><p>You can use the <code>.map</code> or <code>.flatMap</code> methods to perform the necessary actions &amp; return a proper response. The <code>.unwrap</code> function is quite handy, since you don't have to unwrap optionals by hand in the other blocks. Block based syntax = you have to deal with memory management. 💩</p><pre><code class="language-swift"><span class="comment">// update an existing record (find by uuid)</span>
-<span class="keyword">_</span> = <span class="type">Todo</span>.<span class="call">find</span>(uuid, on: req.<span class="property">db</span>)
-.<span class="call">unwrap</span>(or: <span class="type">Abort</span>(.<span class="dotAccess">notFound</span>))
-.<span class="call">flatMap</span> { todo -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Void</span>&gt; <span class="keyword">in</span>
-    todo.<span class="property">title</span> = <span class="string">""</span>
-    <span class="keyword">return</span> todo.<span class="call">save</span>(on: req.<span class="property">db</span>)
+todos.create(on: req.db)
+</code></pre><h3 id="batch-delete-records">Batch delete records</h3><p>You can query all the required records using filters and call the .delete() method on them.</p><pre><code class="language-swift">Todo.query(on: req.db)
+        .filter(\.$status == .completed)
+        .delete()
+</code></pre><h3 id="how-to-update-or-delete-a-single-record">How to update or delete a single record?</h3><p>If you know the object identifier it’s pretty simple, the <code>Model</code> protocol has a find method for this purpose. Otherwise you can query the required object and request the first one.</p><blockquote><p>NOTE: Fluent is asynchronous by default, this means that you have to work a lot with Futures and Promises. You can read my <a href="https://theswiftdev.com/promises-in-swift-for-beginners/">tutorial for beginners about promises in Swift</a>.</p></blockquote><p>You can use the <code>.map</code> or <code>.flatMap</code> methods to perform the necessary actions & return a proper response. The <code>.unwrap</code> function is quite handy, since you don’t have to unwrap optionals by hand in the other blocks. Block based syntax = you have to deal with memory management. 💩</p><pre><code class="language-swift">// update an existing record (find by uuid)
+_ = Todo.find(uuid, on: req.db)
+.unwrap(or: Abort(.notFound))
+.flatMap { todo -&gt; EventLoopFuture&lt;Void&gt; in
+    todo.title = ""
+    return todo.save(on: req.db)
 }
 
-<span class="comment">//delete an existing record (find first using filters)</span>
-<span class="keyword">_</span> = <span class="type">Todo</span>.<span class="call">query</span>(on: req.<span class="property">db</span>)
-    .<span class="call">filter</span>(\.<span class="property">$title</span> == <span class="string">"Hello world"</span>)
-    .<span class="call">first</span>()
-    .<span class="call">unwrap</span>(or: <span class="type">Abort</span>(.<span class="dotAccess">notFound</span>))
-    .<span class="call">flatMap</span> { $0.<span class="call">delete</span>(on: req.<span class="property">db</span>) }</code></pre><p>That's it about creating, requesting, updating and deleting entities.</p><h2>Relations</h2><p>Sometimes you want to store some additional information in a separate database. In our case for example we could make a dynamic tagging system for the todo items. These tags can be stored in a separate table and they can be connected to the todos by using a relation. A relation is nothing more than a foreign key somewhere in the other table or inside a pivot.</p><h3>One-to-one relations</h3><p>Fluent supports one-to-many <a href="https://docs.vapor.codes/4.0/fluent/overview/#relations" target="_blank">relations</a> out of the box. The documentation clearly explains everything about them, but I'd like to add a few notes, time to build a one-to-many relation.</p><p>If you want to model a one-to-one relation the foreign key should be unique for the related table. Let's add a detail table to our todo items with a separately stored description field.</p><pre><code class="language-swift"><span class="keyword">extension</span> <span class="type">FieldKey</span> {
-    <span class="keyword">static var</span> todoId: <span class="type">Self</span> { <span class="string">"todo_id"</span> }
-    <span class="keyword">static var</span> description: <span class="type">Self</span> { <span class="string">"description"</span> }
+//delete an existing record (find first using filters)
+_ = Todo.query(on: req.db)
+    .filter(\.$title == "Hello world")
+    .first()
+    .unwrap(or: Abort(.notFound))
+    .flatMap { $0.delete(on: req.db) }
+</code></pre><p>That’s it about creating, requesting, updating and deleting entities.</p><h2 id="relations">Relations</h2><p>Sometimes you want to store some additional information in a separate database. In our case for example we could make a dynamic tagging system for the todo items. These tags can be stored in a separate table and they can be connected to the todos by using a relation. A relation is nothing more than a foreign key somewhere in the other table or inside a pivot.</p><h3 id="one-to-one-relations">One-to-one relations</h3><p>Fluent supports one-to-many <a href="https://docs.vapor.codes/4.0/fluent/overview/#relations" target="_blank">relations</a> out of the box. The documentation clearly explains everything about them, but I’d like to add a few notes, time to build a one-to-many relation.</p><p>If you want to model a one-to-one relation the foreign key should be unique for the related table. Let’s add a detail table to our todo items with a separately stored description field.</p><pre><code class="language-swift">extension FieldKey {
+    static var todoId: Self { "todo_id" }
+    static var description: Self { "description" }
 }
 
-<span class="keyword">final class</span> Detail: <span class="type">Model</span>, <span class="type">Content</span> {
+final class Detail: Model, Content {
 
-    <span class="keyword">static let</span> schema = <span class="string">"details"</span>
+    static let schema = "details"
 
-    <span class="keyword">@ID</span>() <span class="keyword">var</span> id: <span class="type">UUID</span>?
-    <span class="keyword">@Parent</span>(key: .<span class="dotAccess">todoId</span>) <span class="keyword">var</span> todo: <span class="type">Todo</span>
-    <span class="keyword">@Field</span>(key: .<span class="dotAccess">description</span>) <span class="keyword">var</span> description: <span class="type">String</span>
+    @ID() var id: UUID?
+    @Parent(key: .todoId) var todo: Todo
+    @Field(key: .description) var description: String
 
-    <span class="keyword">init</span>() { }
+    init() { }
 
-    <span class="keyword">init</span>(id: <span class="type">UUID</span>? = <span class="keyword">nil</span>, description: <span class="type">String</span>, todoId: <span class="type">UUID</span>) {
-        <span class="keyword">self</span>.<span class="property">id</span> = id
-        <span class="keyword">self</span>.<span class="property">description</span> = description
-        <span class="keyword">self</span>.<span class="property">$todo</span>.<span class="property">id</span> = todoId
+    init(id: UUID? = nil, description: String, todoId: UUID) {
+        self.id = id
+        self.description = description
+        self.$todo.id = todoId
     }
-}</code></pre><p>The model above has a parent relation to a <code>Todo</code> object through a <code>todo_id</code> field. In other words, we simply store the original todo identifier in this table. Later on we'll be able to query the associated descriptions by using this foreign key. Let me show you the migration:</p><pre><code class="language-swift"><span class="keyword">struct</span> CreateTodo: <span class="type">Migration</span> {
+}
+</code></pre><p>The model above has a parent relation to a <code>Todo</code> object through a <code>todo_id</code> field. In other words, we simply store the original todo identifier in this table. Later on we’ll be able to query the associated descriptions by using this foreign key. Let me show you the migration:</p><pre><code class="language-swift">struct CreateTodo: Migration {
     
-    <span class="keyword">func</span> prepare(on database: <span class="type">Database</span>) -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Void</span>&gt; {
-        database.<span class="property">eventLoop</span>.<span class="call">flatten</span>([
-            database.<span class="call">schema</span>(<span class="type">Todo</span>.<span class="property">schema</span>)
-                .<span class="call">id</span>()
-                .<span class="call">field</span>(.<span class="dotAccess">title</span>, .<span class="dotAccess">string</span>, .<span class="dotAccess">required</span>)
-                .<span class="call">field</span>(.<span class="dotAccess">status</span>, .<span class="dotAccess">string</span>, .<span class="dotAccess">required</span>)
-                .<span class="call">field</span>(.<span class="dotAccess">labels</span>, .<span class="dotAccess">int</span>, .<span class="dotAccess">required</span>)
-                .<span class="call">field</span>(.<span class="dotAccess">due</span>, .<span class="dotAccess">datetime</span>)
-                .<span class="call">create</span>(),
-            database.<span class="call">schema</span>(<span class="type">Detail</span>.<span class="property">schema</span>)
-                .<span class="call">id</span>()
-                .<span class="call">field</span>(. <span class="dotAccess">todoId</span>, .<span class="dotAccess">uuid</span>, .<span class="dotAccess">required</span>)
-                .<span class="call">foreignKey</span>(.<span class="dotAccess">todoId</span>, references: <span class="type">Todo</span>.<span class="property">schema</span>, .<span class="dotAccess">id</span>, onDelete: .<span class="dotAccess">cascade</span>, onUpdate: .<span class="dotAccess">noAction</span>)
-                .<span class="call">field</span>(.<span class="dotAccess">description</span>, .<span class="dotAccess">string</span>, .<span class="dotAccess">required</span>)
-                .<span class="call">unique</span>(on: .<span class="dotAccess">todoId</span>)
-                .<span class="call">create</span>(),
+    func prepare(on database: Database) -&gt; EventLoopFuture&lt;Void&gt; {
+        database.eventLoop.flatten([
+            database.schema(Todo.schema)
+                .id()
+                .field(.title, .string, .required)
+                .field(.status, .string, .required)
+                .field(.labels, .int, .required)
+                .field(.due, .datetime)
+                .create(),
+            database.schema(Detail.schema)
+                .id()
+                .field(. todoId, .uuid, .required)
+                .foreignKey(.todoId, references: Todo.schema, .id, onDelete: .cascade, onUpdate: .noAction)
+                .field(.description, .string, .required)
+                .unique(on: .todoId)
+                .create(),
         ])
     }
 
-    <span class="keyword">func</span> revert(on database: <span class="type">Database</span>) -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Void</span>&gt; {
-        database.<span class="property">eventLoop</span>.<span class="call">flatten</span>([
-            database.<span class="call">schema</span>(<span class="type">Detail</span>.<span class="property">schema</span>).<span class="call">delete</span>(),
-            database.<span class="call">schema</span>(<span class="type">Todo</span>.<span class="property">schema</span>).<span class="call">delete</span>(),
+    func revert(on database: Database) -&gt; EventLoopFuture&lt;Void&gt; {
+        database.eventLoop.flatten([
+            database.schema(Detail.schema).delete(),
+            database.schema(Todo.schema).delete(),
         ])
     }
-}</code></pre><p>The final step here is to extend the <code>Todo</code> model with the child reference.</p><pre><code class="language-swift"><span class="keyword">@Children</span>(for: \.<span class="property">$todo</span>) <span class="keyword">var</span> details: [<span class="type">Detail</span>]</code></pre><p>Creating a relation only takes a few lines of Swift code</p><pre><code class="language-swift"><span class="keyword">let</span> todo = <span class="type">Todo</span>(title: <span class="string">"Finish the Fluent article already"</span>)
-todo.<span class="call">create</span>(on: app.<span class="property">db</span>)
-.<span class="call">flatMap</span> { <span class="keyword">_ in</span>
-    <span class="type">Detail</span>(description: <span class="string">"write some cool things about Fluent relations"</span>,
-           todoId: todo.<span class="property">id</span>!).<span class="call">create</span>(on: req.<span class="property">db</span>)
-}</code></pre><p>Now if you try to add multiple details to the same todo object the you won't be able to perform that DB query, since the <code>todo_id</code> has a unique constraint, so you must be extremely carful with these kind of operations. Apart from this limitation (that comes alongside with a one-to-one relation) you use both objects as usual (find by id, eager load the details from the todo object, etc.). 🤓</p><h3>One-to-many relations</h3><p>A one-to-many relation is just like a one-to-one, except that you can associate multiple objects with the parent. You can even use the same code from above, you just have to remove the unique constraint from the migration script. I'll add some grouping feature to this todo example.</p><pre><code class="language-swift"><span class="comment">// todo group model</span>
-<span class="keyword">final class</span> Group: <span class="type">Model</span>, <span class="type">Content</span> {
+}
+</code></pre><p>The final step here is to extend the <code>Todo</code> model with the child reference.</p><pre><code class="language-swift">@Children(for: \.$todo) var details: [Detail]
+</code></pre><p>Creating a relation only takes a few lines of Swift code</p><pre><code class="language-swift">let todo = Todo(title: "Finish the Fluent article already")
+todo.create(on: app.db)
+.flatMap { _ in
+    Detail(description: "write some cool things about Fluent relations",
+           todoId: todo.id!).create(on: req.db)
+}
+</code></pre><p>Now if you try to add multiple details to the same todo object the you won’t be able to perform that DB query, since the <code>todo_id</code> has a unique constraint, so you must be extremely carful with these kind of operations. Apart from this limitation (that comes alongside with a one-to-one relation) you use both objects as usual (find by id, eager load the details from the todo object, etc.). 🤓</p><h3 id="one-to-many-relations">One-to-many relations</h3><p>A one-to-many relation is just like a one-to-one, except that you can associate multiple objects with the parent. You can even use the same code from above, you just have to remove the unique constraint from the migration script. I’ll add some grouping feature to this todo example.</p><pre><code class="language-swift">// todo group model
+final class Group: Model, Content {
 
-    <span class="keyword">static let</span> schema = <span class="string">"groups"</span>
+    static let schema = "groups"
 
-    <span class="keyword">@ID</span>() <span class="keyword">var</span> id: <span class="type">UUID</span>?
-    <span class="keyword">@Field</span>(key: .<span class="dotAccess">name</span>) <span class="keyword">var</span> name: <span class="type">String</span>
-    <span class="keyword">@Children</span>(for: \.<span class="property">$group</span>) <span class="keyword">var</span> todos: [<span class="type">Todo</span>]
+    @ID() var id: UUID?
+    @Field(key: .name) var name: String
+    @Children(for: \.$group) var todos: [Todo]
 
-    <span class="keyword">init</span>() { }
+    init() { }
 
-    <span class="keyword">init</span>(id: <span class="type">UUID</span>? = <span class="keyword">nil</span>, name: <span class="type">String</span>) {
-        <span class="keyword">self</span>.<span class="property">id</span> = id
-        <span class="keyword">self</span>.<span class="property">name</span> = name
+    init(id: UUID? = nil, name: String) {
+        self.id = id
+        self.name = name
     }
 }
 
-<span class="comment">// extended todo model</span>
-<span class="keyword">final class</span> Todo: <span class="type">Model</span>, <span class="type">Content</span> {
-    <span class="comment">//...other fields</span>
-    <span class="keyword">@Parent</span>(key: .<span class="dotAccess">groupId</span>) <span class="keyword">var</span> group: <span class="type">Group</span>
-    <span class="keyword">@Children</span>(for: \.<span class="property">$todo</span>) <span class="keyword">var</span> details: [<span class="type">Detail</span>]
+// extended todo model
+final class Todo: Model, Content {
+    //...other fields
+    @Parent(key: .groupId) var group: Group
+    @Children(for: \.$todo) var details: [Detail]
 
-    <span class="keyword">init</span>() { }
+    init() { }
 
-    <span class="keyword">init</span>(id: <span class="type">UUID</span>? = <span class="keyword">nil</span>,
-         title: <span class="type">String</span>,
-         status: <span class="type">Status</span> = .<span class="dotAccess">pending</span>,
-         labels: <span class="type">Labels</span> = [],
-         due: <span class="type">Date</span>? = <span class="keyword">nil</span>,
-         groupId: <span class="type">UUID</span>)
+    init(id: UUID? = nil,
+         title: String,
+         status: Status = .pending,
+         labels: Labels = [],
+         due: Date? = nil,
+         groupId: UUID)
     {
-        <span class="keyword">self</span>.<span class="property">id</span> = id
-        <span class="keyword">self</span>.<span class="property">title</span> = title
-        <span class="keyword">self</span>.<span class="property">status</span> = status
-        <span class="keyword">self</span>.<span class="property">labels</span> = labels
-        <span class="keyword">self</span>.<span class="property">due</span> = due
-        <span class="keyword">self</span>.<span class="property">$group</span>.<span class="property">id</span> = groupId
+        self.id = id
+        self.title = title
+        self.status = status
+        self.labels = labels
+        self.due = due
+        self.$group.id = groupId
     }
 }
 
-<span class="comment">// migration</span>
-<span class="keyword">struct</span> CreateTodo: <span class="type">Migration</span> {
+// migration
+struct CreateTodo: Migration {
     
-    <span class="keyword">func</span> prepare(on database: <span class="type">Database</span>) -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Void</span>&gt; {
-        database.<span class="property">eventLoop</span>.<span class="call">flatten</span>([
-            database.<span class="call">schema</span>(<span class="type">Group</span>.<span class="property">schema</span>)
-                .<span class="call">id</span>()
-                .<span class="call">field</span>(.<span class="dotAccess">name</span>, .<span class="dotAccess">string</span>, .<span class="dotAccess">required</span>)
-                .<span class="call">create</span>(),
-            database.<span class="call">schema</span>(<span class="type">Todo</span>.<span class="property">schema</span>)
-                .<span class="call">id</span>()
-                .<span class="call">field</span>(.<span class="dotAccess">title</span>, .<span class="dotAccess">string</span>, .<span class="dotAccess">required</span>)
-                .<span class="call">field</span>(.<span class="dotAccess">status</span>, .<span class="dotAccess">string</span>, .<span class="dotAccess">required</span>)
-                .<span class="call">field</span>(.<span class="dotAccess">labels</span>, .<span class="dotAccess">int</span>, .<span class="dotAccess">required</span>)
-                .<span class="call">field</span>(.<span class="dotAccess">due</span>, .<span class="dotAccess">datetime</span>)
-                .<span class="call">field</span>(. <span class="dotAccess">groupId</span>, .<span class="dotAccess">uuid</span>, .<span class="dotAccess">required</span>)
-                .<span class="call">foreignKey</span>(.<span class="dotAccess">groupId</span>, references: <span class="type">Group</span>.<span class="property">schema</span>, .<span class="dotAccess">id</span>)
-                .<span class="call">create</span>(),
-            database.<span class="call">schema</span>(<span class="type">Detail</span>.<span class="property">schema</span>)
-                .<span class="call">id</span>()
-                .<span class="call">field</span>(. <span class="dotAccess">todoId</span>, .<span class="dotAccess">uuid</span>, .<span class="dotAccess">required</span>)
-                .<span class="call">foreignKey</span>(.<span class="dotAccess">todoId</span>, references: <span class="type">Todo</span>.<span class="property">schema</span>, .<span class="dotAccess">id</span>, onDelete: .<span class="dotAccess">cascade</span>, onUpdate: .<span class="dotAccess">noAction</span>)
-                .<span class="call">field</span>(.<span class="dotAccess">description</span>, .<span class="dotAccess">string</span>, .<span class="dotAccess">required</span>)
-                .<span class="call">unique</span>(on: .<span class="dotAccess">todoId</span>) <span class="comment">//enforce a one-to-one relation</span>
-                .<span class="call">create</span>(),
-            <span class="type">Group</span>(name: <span class="string">"Default"</span>).<span class="call">create</span>(on: database),
+    func prepare(on database: Database) -&gt; EventLoopFuture&lt;Void&gt; {
+        database.eventLoop.flatten([
+            database.schema(Group.schema)
+                .id()
+                .field(.name, .string, .required)
+                .create(),
+            database.schema(Todo.schema)
+                .id()
+                .field(.title, .string, .required)
+                .field(.status, .string, .required)
+                .field(.labels, .int, .required)
+                .field(.due, .datetime)
+                .field(. groupId, .uuid, .required)
+                .foreignKey(.groupId, references: Group.schema, .id)
+                .create(),
+            database.schema(Detail.schema)
+                .id()
+                .field(. todoId, .uuid, .required)
+                .foreignKey(.todoId, references: Todo.schema, .id, onDelete: .cascade, onUpdate: .noAction)
+                .field(.description, .string, .required)
+                .unique(on: .todoId) //enforce a one-to-one relation
+                .create(),
+            Group(name: "Default").create(on: database),
         ])
     }
 
-    <span class="keyword">func</span> revert(on database: <span class="type">Database</span>) -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Void</span>&gt; {
-        database.<span class="property">eventLoop</span>.<span class="call">flatten</span>([
-            database.<span class="call">schema</span>(<span class="type">Detail</span>.<span class="property">schema</span>).<span class="call">delete</span>(),
-            database.<span class="call">schema</span>(<span class="type">Todo</span>.<span class="property">schema</span>).<span class="call">delete</span>(),
-            database.<span class="call">schema</span>(<span class="type">Group</span>.<span class="property">shcema</span>).<span class="call">delete</span>(),
+    func revert(on database: Database) -&gt; EventLoopFuture&lt;Void&gt; {
+        database.eventLoop.flatten([
+            database.schema(Detail.schema).delete(),
+            database.schema(Todo.schema).delete(),
+            database.schema(Group.shcema).delete(),
         ])
     }
-}</code></pre><p>From now on, you'll have to insert the todos into a group. It's ok to create a default one in the migration script, so later on it's possible to get the id reference of the pre-existing group.</p><pre><code class="language-swift"><span class="comment">// fetch default group &amp; add a new todo</span>
-<span class="type">Group</span>.<span class="call">query</span>(on: req.<span class="property">db</span>)
-.<span class="call">first</span>()
-.<span class="call">flatMap</span> { group <span class="keyword">in</span>
-    <span class="type">Todo</span>(title: <span class="string">"This belongs to a group"</span>, groupId: group!.id!).<span class="call">create</span>(on: app.<span class="property">db</span>)
 }
-<span class="comment">// eager load todos in the group</span>
-<span class="type">Group</span>.<span class="call">query</span>(on: req.<span class="property">db</span>)
-    .<span class="call">with</span>(\.<span class="property">$todos</span>)
-    .<span class="call">all</span>()
-.<span class="call">whenSuccess</span> { groups <span class="keyword">in
-    for</span> group <span class="keyword">in</span> groups {
-        <span class="call">print</span>(group.<span class="property">name</span>)
-        <span class="call">print</span>(group.<span class="property">todos</span>.<span class="call">map</span> { <span class="string">"-</span> \($0.<span class="property">title</span>)<span class="string">"</span> }.<span class="call">joined</span>(separator: <span class="string">"\n"</span>))
-    }
-}</code></pre><p>If you want to change a parent, you can simply set the new identifier using the <code>.$id</code> syntax. Don't forget to call update or save on the object, since it's not enough just to update the relation in memory, but you have to persist everything back to the database. 💡</p><h3>Many-to-many relations</h3><p>You can create an association between two tables by using a third one that stores foreign keys from both of the original tables. Sounds fun? Welcome to the world of many-to-many relations. They are useful if you want to build a tagging system or a recipe book with ingredients.</p><p>Again, Bastian Inuk has a great post about <a href="https://www.inuk.blog/fluent-in-siblings/" target="_blank">how to use siblings in Fluent 4</a>. I just want to add one extra thing here: you can store additional information on the pivot table. I'm not going to show you this time how to associate ingredients with recipes &amp; amounts, but I'll put some tags on the todo items with an important flag option. Thanks buddy! 😜</p><pre><code class="language-swift"><span class="keyword">extension</span> <span class="type">FieldKey</span> {
-    <span class="keyword">static var</span> name: <span class="type">Self</span> { <span class="string">"name"</span> }
-    <span class="keyword">static var</span> todoId: <span class="type">Self</span> { <span class="string">"todo_id"</span> }
-    <span class="keyword">static var</span> tagId: <span class="type">Self</span> { <span class="string">"tag_id"</span> }
-    <span class="keyword">static var</span> important: <span class="type">Self</span> { <span class="string">"important"</span> }
+</code></pre><p>From now on, you’ll have to insert the todos into a group. It’s ok to create a default one in the migration script, so later on it’s possible to get the id reference of the pre-existing group.</p><pre><code class="language-swift">// fetch default group & add a new todo
+Group.query(on: req.db)
+.first()
+.flatMap { group in
+    Todo(title: "This belongs to a group", groupId: group!.id!).create(on: app.db)
 }
-
-<span class="comment">// Tag.swift</span>
-<span class="keyword">final class</span> Tag: <span class="type">Model</span>, <span class="type">Content</span> {
-
-    <span class="keyword">static let</span> schema = <span class="string">"tags"</span>
-
-    <span class="keyword">@ID</span>() <span class="keyword">var</span> id: <span class="type">UUID</span>?
-    <span class="keyword">@Field</span>(key: .<span class="dotAccess">name</span>) <span class="keyword">var</span> name: <span class="type">String</span>
-    <span class="keyword">@Siblings</span>(through: <span class="type">TodoTags</span>.<span class="keyword">self</span>, from: \.<span class="property">$tag</span>, to: \.<span class="property">$todo</span>) <span class="keyword">var</span> todos: [<span class="type">Todo</span>]
-    
-    <span class="keyword">init</span>() { }
-
-    <span class="keyword">init</span>(id: <span class="type">UUID</span>? = <span class="keyword">nil</span>, name: <span class="type">String</span>) {
-        <span class="keyword">self</span>.<span class="property">id</span> = id
-        <span class="keyword">self</span>.<span class="property">name</span> = name
+// eager load todos in the group
+Group.query(on: req.db)
+    .with(\.$todos)
+    .all()
+.whenSuccess { groups in
+    for group in groups {
+        print(group.name)
+        print(group.todos.map { "- \($0.title)" }.joined(separator: "\n"))
     }
 }
+</code></pre><p>If you want to change a parent, you can simply set the new identifier using the <code>.$id</code> syntax. Don’t forget to call update or save on the object, since it’s not enough just to update the relation in memory, but you have to persist everything back to the database. 💡</p><h3 id="many-to-many-relations">Many-to-many relations</h3><p>You can create an association between two tables by using a third one that stores foreign keys from both of the original tables. Sounds fun? Welcome to the world of many-to-many relations. They are useful if you want to build a tagging system or a recipe book with ingredients.</p><p>Again, Bastian Inuk has a great post about <a href="https://www.inuk.blog/fluent-in-siblings/" target="_blank">how to use siblings in Fluent 4</a>. I just want to add one extra thing here: you can store additional information on the pivot table. I’m not going to show you this time how to associate ingredients with recipes & amounts, but I’ll put some tags on the todo items with an important flag option. Thanks buddy! 😜</p><pre><code class="language-swift">extension FieldKey {
+    static var name: Self { "name" }
+    static var todoId: Self { "todo_id" }
+    static var tagId: Self { "tag_id" }
+    static var important: Self { "important" }
+}
 
-<span class="comment">// a cross table for the relation between the todos and the tags</span>
-<span class="keyword">final class</span> TodoTags: <span class="type">Model</span> {
+// Tag.swift
+final class Tag: Model, Content {
 
-    <span class="keyword">static let</span> schema = <span class="string">"todo_tags"</span>
+    static let schema = "tags"
+
+    @ID() var id: UUID?
+    @Field(key: .name) var name: String
+    @Siblings(through: TodoTags.self, from: \.$tag, to: \.$todo) var todos: [Todo]
     
-    <span class="keyword">@ID</span>() <span class="keyword">var</span> id: <span class="type">UUID</span>?
-    <span class="keyword">@Parent</span>(key: .<span class="dotAccess">todoId</span>) <span class="keyword">var</span> todo: <span class="type">Todo</span>
-    <span class="keyword">@Parent</span>(key: .<span class="dotAccess">tagId</span>) <span class="keyword">var</span> tag: <span class="type">Tag</span>
-    <span class="keyword">@Field</span>(key: .<span class="dotAccess">important</span>) <span class="keyword">var</span> important: <span class="type">Bool</span>
-    
-    <span class="keyword">init</span>() {}
-    
-    <span class="keyword">init</span>(todoId: <span class="type">UUID</span>, tagId: <span class="type">UUID</span>, important: <span class="type">Bool</span>) {
-        <span class="keyword">self</span>.<span class="property">$todo</span>.<span class="property">id</span> = todoId
-        <span class="keyword">self</span>.<span class="property">$tag</span>.<span class="property">id</span> = tagId
-        <span class="keyword">self</span>.<span class="property">important</span> = important
+    init() { }
+
+    init(id: UUID? = nil, name: String) {
+        self.id = id
+        self.name = name
     }
 }
 
-<span class="comment">// Todo.swift property extension
-//...</span>
-<span class="keyword">@Siblings</span>(through: <span class="type">TodoTags</span>.<span class="keyword">self</span>, from: \.<span class="property">$todo</span>, to: \.<span class="property">$tag</span>) <span class="keyword">var</span> tags: [<span class="type">Tag</span>]
-<span class="comment">//...
+// a cross table for the relation between the todos and the tags
+final class TodoTags: Model {
+
+    static let schema = "todo_tags"
+    
+    @ID() var id: UUID?
+    @Parent(key: .todoId) var todo: Todo
+    @Parent(key: .tagId) var tag: Tag
+    @Field(key: .important) var important: Bool
+    
+    init() {}
+    
+    init(todoId: UUID, tagId: UUID, important: Bool) {
+        self.$todo.id = todoId
+        self.$tag.id = tagId
+        self.important = important
+    }
+}
+
+// Todo.swift property extension
+//...
+@Siblings(through: TodoTags.self, from: \.$todo, to: \.$tag) var tags: [Tag]
+//...
 
 // the migration script extension
-//...</span>
-database.<span class="call">schema</span>(<span class="type">Tag</span>.<span class="property">schema</span>)
-    .<span class="call">id</span>()
-    .<span class="call">field</span>(.<span class="dotAccess">name</span>, .<span class="dotAccess">string</span>, .<span class="dotAccess">required</span>)
-    .<span class="call">create</span>(),
-database.<span class="call">schema</span>(<span class="type">TodoTags</span>.<span class="property">schema</span>)
-    .<span class="call">id</span>()
-    .<span class="call">field</span>(.<span class="dotAccess">todoId</span>, .<span class="dotAccess">uuid</span>, .<span class="dotAccess">required</span>)
-    .<span class="call">field</span>(.<span class="dotAccess">tagId</span>, .<span class="dotAccess">uuid</span>, .<span class="dotAccess">required</span>)
-    .<span class="call">field</span>(.<span class="dotAccess">important</span>, .<span class="dotAccess">bool</span>, .<span class="dotAccess">required</span>)
-    .<span class="call">create</span>(),
-<span class="comment">//...</span>
-database.<span class="call">schema</span>(<span class="type">Tag</span>.<span class="property">schema</span>).<span class="call">delete</span>(),
-database.<span class="call">schema</span>(<span class="type">TodoTags</span>.<span class="property">schema</span>).<span class="call">delete</span>(),
-<span class="comment">//...</span></code></pre><p>The only new thing here is the siblings property wrapper which defines the connection between the two tables. It's awesome that Fluent can handle these complex relations in such a nice way.</p><p class="warning">The code snippet below is for educational purposes only, you should never use the <code>.wait()</code> method in a real-world application, use futures &amp; promises instead.</p><p>Finally we're able to tag our todo items, plus we can mark some of them as important. 🎊</p><pre><code class="language-swift"><span class="keyword">let</span> defaultGroup = <span class="keyword">try</span> <span class="type">Group</span>.<span class="call">query</span>(on: app.<span class="property">db</span>).<span class="call">first</span>().<span class="call">wait</span>()!
+//...
+database.schema(Tag.schema)
+    .id()
+    .field(.name, .string, .required)
+    .create(),
+database.schema(TodoTags.schema)
+    .id()
+    .field(.todoId, .uuid, .required)
+    .field(.tagId, .uuid, .required)
+    .field(.important, .bool, .required)
+    .create(),
+//...
+database.schema(Tag.schema).delete(),
+database.schema(TodoTags.schema).delete(),
+//...
+</code></pre><p>The only new thing here is the siblings property wrapper which defines the connection between the two tables. It’s awesome that Fluent can handle these complex relations in such a nice way.</p><blockquote><p>WARN: The code snippet below is for educational purposes only, you should never use the <code>.wait()</code> method in a real-world application, use futures & promises instead.</p></blockquote><p>Finally we’re able to tag our todo items, plus we can mark some of them as important. 🎊</p><pre><code class="language-swift">let defaultGroup = try Group.query(on: app.db).first().wait()!
 
-<span class="keyword">let</span> shoplist = <span class="type">Group</span>(name: <span class="string">"Shoplist"</span>)
-<span class="keyword">let</span> project = <span class="type">Group</span>(name: <span class="string">"Awesome Fluent project"</span>)
-<span class="keyword">try</span> [shoplist, project].<span class="call">create</span>(on: app.<span class="property">db</span>).<span class="call">wait</span>()
+let shoplist = Group(name: "Shoplist")
+let project = Group(name: "Awesome Fluent project")
+try [shoplist, project].create(on: app.db).wait()
 
-<span class="keyword">let</span> family = <span class="type">Tag</span>(name: <span class="string">"family"</span>)
-<span class="keyword">let</span> work = <span class="type">Tag</span>(name: <span class="string">"family"</span>)
-<span class="keyword">try</span> [family, work].<span class="call">create</span>(on: app.<span class="property">db</span>).<span class="call">wait</span>()
+let family = Tag(name: "family")
+let work = Tag(name: "family")
+try [family, work].create(on: app.db).wait()
 
-<span class="keyword">let</span> smoothie = <span class="type">Todo</span>(title: <span class="string">"Make a smoothie"</span>,
-                    status: .<span class="dotAccess">pending</span>,
-                    labels: [.<span class="dotAccess">purple</span>],
-                    due: <span class="type">Date</span>(timeIntervalSinceNow: <span class="number">3600</span>),
-                    groupId: defaultGroup.<span class="property">id</span>!)
+let smoothie = Todo(title: "Make a smoothie",
+                    status: .pending,
+                    labels: [.purple],
+                    due: Date(timeIntervalSinceNow: 3600),
+                    groupId: defaultGroup.id!)
 
-<span class="keyword">let</span> apples = <span class="type">Todo</span>(title: <span class="string">"Apples"</span>, groupId: shoplist.<span class="property">id</span>!)
-<span class="keyword">let</span> bananas = <span class="type">Todo</span>(title: <span class="string">"Bananas"</span>, groupId: shoplist.<span class="property">id</span>!)
-<span class="keyword">let</span> mango = <span class="type">Todo</span>(title: <span class="string">"Mango"</span>, groupId: shoplist.<span class="property">id</span>!)
+let apples = Todo(title: "Apples", groupId: shoplist.id!)
+let bananas = Todo(title: "Bananas", groupId: shoplist.id!)
+let mango = Todo(title: "Mango", groupId: shoplist.id!)
 
-<span class="keyword">let</span> kickoff = <span class="type">Todo</span>(title: <span class="string">"Kickoff meeting"</span>,
-                   status: .<span class="dotAccess">completed</span>,
-                   groupId: project.<span class="property">id</span>!)
+let kickoff = Todo(title: "Kickoff meeting",
+                   status: .completed,
+                   groupId: project.id!)
 
-<span class="keyword">let</span> code = <span class="type">Todo</span>(title: <span class="string">"Code in Swift"</span>,
-                labels: [.<span class="dotAccess">green</span>],
-                groupId: project.<span class="property">id</span>!)
+let code = Todo(title: "Code in Swift",
+                labels: [.green],
+                groupId: project.id!)
 
-<span class="keyword">let</span> deadline = <span class="type">Todo</span>(title: <span class="string">"Project deadline"</span>,
-                    labels: [.<span class="dotAccess">red</span>],
-                    due: <span class="type">Date</span>(timeIntervalSinceNow: <span class="number">86400</span> * <span class="number">7</span>),
-                    groupId: project.<span class="property">id</span>!)
+let deadline = Todo(title: "Project deadline",
+                    labels: [.red],
+                    due: Date(timeIntervalSinceNow: 86400 * 7),
+                    groupId: project.id!)
 
-<span class="keyword">try</span> [smoothie, apples, bananas, mango, kickoff, code, deadline].<span class="call">create</span>(on: app.<span class="property">db</span>).<span class="call">wait</span>()
+try [smoothie, apples, bananas, mango, kickoff, code, deadline].create(on: app.db).wait()
 
-<span class="keyword">let</span> familySmoothie = <span class="type">TodoTags</span>(todoId: smoothie.<span class="property">id</span>!, tagId: family.<span class="property">id</span>!, important: <span class="keyword">true</span>)
-<span class="keyword">let</span> workDeadline = <span class="type">TodoTags</span>(todoId: deadline.<span class="property">id</span>!, tagId: work.<span class="property">id</span>!, important: <span class="keyword">false</span>)
+let familySmoothie = TodoTags(todoId: smoothie.id!, tagId: family.id!, important: true)
+let workDeadline = TodoTags(todoId: deadline.id!, tagId: work.id!, important: false)
 
-<span class="keyword">try</span> [familySmoothie, workDeadline].<span class="call">create</span>(on: app.<span class="property">db</span>).<span class="call">wait</span>()</code></pre><p>That's it, now we're ready with our awesome todo application. 😎</p><h3>Conclusion</h3><p>Fluent is a crazy powerful tool. You can easily make the switch between the available drivers. You don't even have to write SQL if you are using an ORM tool, but only Swift code, which is nice.</p><p>Server side Swift and all the related tools are evolving fast. The whole Vapor community is doing such a great job. I hope this article will help you to understand Fluent way better. 💧</p>
-        </section>
-    </div>
-
-</article>
-
-<section id="share" class="content-wrapper">
-    <p>
-    <a
-        href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/get-started-with-the-fluent-orm-framework-in-vapor-4/"
-        target="_blank"
-    >
-        Share this article
-    </a>
-    <br> Thank you. 🙏</p>
-</section>
-
-<section  class="wrapper">
-    <div id="book">
-        <div class="column left">
-            <img src="https://theswiftdev.com/images/practical-server-side-swift-cover.png">
+try [familySmoothie, workDeadline].create(on: app.db).wait()
+</code></pre><p>That’s it, now we’re ready with our awesome todo application. 😎</p><h3 id="conclusion">Conclusion</h3><p>Fluent is a crazy powerful tool. You can easily make the switch between the available drivers. You don’t even have to write SQL if you are using an ORM tool, but only Swift code, which is nice.</p><p>Server side Swift and all the related tools are evolving fast. The whole Vapor community is doing such a great job. I hope this article will help you to understand Fluent way better. 💧</p>
+                    
+                </section>
+    
+                <footer>
+                    <br>
+                    <time datetime=""></time>
+    
+                    
+                    <div class="author-list">
+                        <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        </a>
+                    </div>
+                    <div class="tag-list">
+                        <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
+                    <a href="https://theswiftdev.com/tags/vapor/"><small>Vapor</small></a>
+                    </div>
+                    
+                    <p>
+                        <a href="https://x.com/intent/tweet?via=tiborbodecs&amp;hashtags=SwiftLang&amp;url=https://theswiftdev.com/get-started-with-the-fluent-orm-framework-in-vapor-4/" target="_blank">
+                            <strong>Share this article</strong>
+                        </a>
+                        <br>Thank you. 🙏
+                    </p>
+                </footer>
+                            
+                <section class="group">
+                    <h4>Related posts</h4>                
+                    <div class="grid grid-221">
+                        <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/07/15">2020/07/15</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/10-short-advices-that-will-make-you-a-better-vapor-developer-right-away/" target="">10 short advices that will make you a better Vapor developer right away</a></h2>
+                            <hr>
+                            <p>As a beginner server side Swift developer you&#39;ll face many obstackles. I&#39;ll show you how to avoid the most common ones.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/04/01">2020/04/01</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/a-generic-crud-solution-for-vapor-4/" target="">A generic CRUD solution for Vapor 4</a></h2>
+                            <hr>
+                            <p>Learn how to build a controller component that can serve models as JSON objects through a RESTful API written in Swift.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2019/10/08">2019/10/08</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/a-simple-http2-server-using-vapor-4/" target="">A simple HTTP/2 server using Vapor 4</a></h2>
+                            <hr>
+                            <p>Get started with server-side Swift using the Vapor 4 framework. Learn how to build a really simple HTTP/2 backend server.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020/12/18">2020/12/18</time>
+                                
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/ajax-calls-using-vapor-4/" target="">AJAX calls using Vapor 4</a></h2>
+                            <hr>
+                            <p>Learn how to implement Asynchronous JavaScript and XML (AJAX) calls using Leaf templates and Vapor 4 as a server.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    
+            </article>
         </div>
-        <div class="column right">
-            <h3>Get the Practical Server Side Swift book</h3>
-            <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
-            <a class="button" href="https://gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
-        </div>
-    </div>
-</section>
-
-<section id="author" class="content-wrapper">
-    <img 
-        id="author-image"
-        src="https://theswiftdev.com/images/profiles/tiborbodecs.jpg"
-        alt="Picture of Tibor Bödecs" 
-        title="Tibor Bödecs"
-    >
-    <h3>Tibor Bödecs</h3>
-    <p class="title">CEO @ <a href="https://binarybirds.com/">Binary Birds</a></p>
-    <p class="bio">Server side Swift enthusiast, book author, content creator.</p>
-
-    <div class="links">
-        <a href="mailto:mail.tib@gmail.com?subject=theswiftdev.com" target="_blank">Email</a> · 
-        <a href="https://x.com/tiborbodecs" target="_blank">X</a> · 
-        <a href="https://github.com/tib" target="_blank">GitHub</a> 
-    </div>
-</section>
-
         
+        <div>
+            <div class="book">
+                <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">
+                    <img src="https://theswiftdev.com/book/practical-server-side-swift-cover.png" alt="Practical Server Side Swift cover image">
+                </a>
+                <h3>
+                    <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Get the Practical Server Side Swift book</a>
+                </h3>
+                <p>Swift on the server is an amazing new opportunity to build fast, safe and scalable backend apps. Write your very first web-based application by using your favorite programming language. Learn how to build a modular blog engine using the latest version of the Vapor 4 framework. This book will help you to design and create modern APIs that'll allow you to share code between the server side and iOS. Start becoming a full-stack Swift developer.</p>
+                <a class="cta" href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
+            </div>
+            
+            
+            <aside id="toc">
+                <h4>On this page</h4>
+                <ul>
+                    <li class="first-level">
+                        <a href="#using-the-fluent-orm-framework">Using the Fluent ORM framework</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#model-definition">Model definition</a>
+                        <ul>
+                            <li><a href="#field-keys">Field keys</a></li>
+                <li><a href="#identifiers-are-now-uuid-types-by-default">Identifiers are now UUID types by default</a></li>
+                <li><a href="#how-to-store-native-database-enums">How to store native database enums?</a></li>
+                <li><a href="#saving-option-sets-in-fluent">Saving option sets in Fluent</a></li>
+                <li><a href="#storing-dates">Storing dates</a></li>
+                <li><a href="#nested-fields-compound-fields">Nested fields &amp; compound fields</a></li>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#schemas-migrations">Schemas &amp; migrations</a>
+                        <ul>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#querying">Querying</a>
+                        <ul>
+                            <li><a href="#creating-multiple-records-at-once">Creating multiple records at once</a></li>
+                <li><a href="#batch-delete-records">Batch delete records</a></li>
+                <li><a href="#how-to-update-or-delete-a-single-record">How to update or delete a single record?</a></li>
+                        </ul>
+                    </li>
+        <li class="first-level">
+                        <a href="#relations">Relations</a>
+                        <ul>
+                            <li><a href="#one-to-one-relations">One-to-one relations</a></li>
+                <li><a href="#one-to-many-relations">One-to-many relations</a></li>
+                <li><a href="#many-to-many-relations">Many-to-many relations</a></li>
+                <li><a href="#conclusion">Conclusion</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+            
+    
+        </div>
+    </div>
+    
     </main>
 
-    <footer>
-        <section class="content-wrapper">
-            <img 
-                src="https://theswiftdev.com/images/icons/icon-320.png"
-                alt="Logo of The.Swift.Dev." 
-                title="The.Swift.Dev."
-            >
-
-            <p>This site was generated using the <a href="https://swift.org/" target="_blank">Swift</a> programming language.</p>
+    <footer id="site-footer">
+        <div class="grid grid-421">
+    
+            <picture>
+                <img
+                    id="logo-image"
+                    src="https://theswiftdev.com/images/logos/logo-large.png"
+                    alt="Logo of The.Swift.Dev."
+                    title="The.Swift.Dev."
+                >
+            </picture>
             
-            <p> 
-                <a href="https://theswiftdev.com/">Home</a> ·
-                <a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a> ·
-                <a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a>
-            </p>
+            <div>
+                <span style="display: block; height: 32px;">&nbsp;</span>
+                <h4>The.Swift.Dev</h4>
+                <p><small><a href="https://theswiftdev.com/" target="_blank">theswiftdev.com</a></small></p>
+                <ul>
+                    <li><a href="https://github.com/theswiftdev/" target="_blank">GitHub</a></li>
+                    <li><a href="https://theswiftdev.com/rss.xml" target="_blank">RSS</a></li>
+                    <li><a href="https://theswiftdev.com/sitemap.xml" target="_blank">Sitemap</a></li>
+                </ul>
+            </div>
             
-            <p class="small">Created by Tibor Bödecs &copy; 2015 - 2023.</p>
+            <div>
+                
+            </div>
+            
+            <div>
+                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                </a>
+                <h4><a href="https://theswiftdev.com/authors/tibor-bodecs/">Tibor Bödecs</a></h4>
+                <p><small><a href="https://binarybirds.com/" target="_blank">Binary Birds Kft.</a></small></p>
+                <ul>
+                    <li><a href="mailto:mail.tib@gmail.com" target="_blank">Email</a></li>
+                    <li><a href="https://github.com/tib/" target="_blank">GitHub</a></li>
+                    <li><a href="https://x.com/tiborbodecs" target="_blank">X (Twitter)</a></li>
+                    <li><a href="https://mastodon.social/@tiborbodecs" target="_blank">Mastodon</a></li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <section class="grid grid-221">
+            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>
+
+    </div>
+
+    
 </body>
 </html>

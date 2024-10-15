@@ -191,7 +191,7 @@ img.large {
 }
 
 
-.post .featured {
+.post span.featured {
     color: var(--link-color);
     text-transform: uppercase;
     font-weight: bold;

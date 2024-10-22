@@ -143,7 +143,7 @@ let cancellableTimerPublisher = timerPublisher.connect()
 
 // cancel subscription
 //cancellable?.cancel()
-</code></pre><p>You can start & stop the publisher any time you need by using the connect method.</p><blockquote><p>NOTE: Combine has built-in support for cancellation. Both the sink and the assign methods are returning an object that you can store for later and you can call the cancel method on that AnyCancellable object to stop execution.</p></blockquote><h3 id="notificationcenter">NotificationCenter</h3><p>You can also subscribe to notifications by using publishers.</p><pre><code class="language-swift">extension Notification.Name {
+</code></pre><p>You can start & stop the publisher any time you need by using the connect method.</p><blockquote class="note"><p>NOTE: Combine has built-in support for cancellation. Both the sink and the assign methods are returning an object that you can store for later and you can call the cancel method on that AnyCancellable object to stop execution.</p></blockquote><h3 id="notificationcenter">NotificationCenter</h3><p>You can also subscribe to notifications by using publishers.</p><pre><code class="language-swift">extension Notification.Name {
     static let example = Notification.Name("example")
 }
 
@@ -388,7 +388,7 @@ _ = Future&lt;String, Error&gt; { promise in
                             </div>
                             <div class="meta">
                                 <time datetime="2018/10/16">2018/10/16</time>
-                                 &middot; <span class="reading-time">4 min read</span>
+                                 &middot; <span class="reading-time">5 min read</span>
                             </div>
                             
                             <h2 class="title"><a href="https://theswiftdev.com/custom-uiview-subclass-from-a-xib-file/" target="">Custom UIView subclass from a xib file</a></h2>

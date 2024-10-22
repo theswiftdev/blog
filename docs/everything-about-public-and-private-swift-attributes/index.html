@@ -188,7 +188,7 @@ exampleSwift(10)
     print("c")
 }
 c()
-</code></pre><h3 id="effects">@effects</h3><p>The @effects attribute describes how a function affects “the state of the world”. More practically how the optimizer can modify the program based on information that is provided by the attribute.<br>You can find the corresponding docs here.</p><pre><code class="language-swift">@effects(readonly) func foo() { /*...*/ }
+</code></pre><p><code>@inlinable</code> is the future (@_inlineable) by Marcin Krzyzanowskim 👏</p><h3 id="effects">@effects</h3><p>The @effects attribute describes how a function affects “the state of the world”. More practically how the optimizer can modify the program based on information that is provided by the attribute.<br>You can find the corresponding docs here.</p><pre><code class="language-swift">@effects(readonly) func foo() { /*...*/ }
 </code></pre><h3 id="_transparent">@_transparent</h3><p>Basically you can force inlining with the @_transparent attribute, but please read the unofficial documentation for more info.</p><pre><code class="language-swift">@_transparent
 func example() {
     print("example")

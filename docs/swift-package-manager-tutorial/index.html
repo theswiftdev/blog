@@ -176,7 +176,7 @@ let main = command { (name:String) in
 main.run()
 </code></pre><p>Build the project with swift build and run the newly created app with one extra name parameter. Hopefully you’ll see something like this.</p><pre><code>swift run my-cmd guest
 # Hello, Guest!
-</code></pre><p>So we just made a brand new executable target, however if you’d like to expose your targets for other packages, you should define them as products as well. If you open the manifest file for the library, you’ll see that there is a product defined from the library target. This way the package manager can link the product dependencies based on the given product name.</p><blockquote><p>NOTE: You can define static or dynamic libraries, however it is recommended to use automatic so the SPM can decide appropriate linkage.</p></blockquote><pre><code class="language-swift">// swift-tools-version:5.2
+</code></pre><p>So we just made a brand new executable target, however if you’d like to expose your targets for other packages, you should define them as products as well. If you open the manifest file for the library, you’ll see that there is a product defined from the library target. This way the package manager can link the product dependencies based on the given product name.</p><blockquote class="note"><p>NOTE: You can define static or dynamic libraries, however it is recommended to use automatic so the SPM can decide appropriate linkage.</p></blockquote><pre><code class="language-swift">// swift-tools-version:5.2
 import PackageDescription
 
 let package = Package(

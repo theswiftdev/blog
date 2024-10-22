@@ -100,7 +100,7 @@
             <article class="post">
                 <div class="meta">
                     <time datetime="2021/03/08">2021/03/08</time>
-                     &middot; <span class="reading-time">7 min read</span>
+                     &middot; <span class="reading-time">8 min read</span>
                     
                 </div>
                 <h1>Memory layout in Swift</h1>
@@ -153,7 +153,7 @@ print(MemoryLayout&lt;Example&gt;.alignment) // 8
 ┌──────────────────┴───────────┴──────┬──────────────────┴───────────┴──────┐
 │       16 bytes size (1+7+8)         │       16 bytes size (1+7+8)         │
 └─────────────────────────────────────┴─────────────────────────────────────┘
-</code></pre><p>This is the main reason why the second example struct has a slightly increased size value. Feel free to create other types and practice by drawing the memory layout for them, you can always check if you were correct or not by printing the memory layout at runtime using Swift. 💡</p><blockquote><p>NOTE: This whole problem is real nicely explained on the <a href="https://swiftunboxed.com/internals/size-stride-alignment/" target="_blank">[swift unboxed]</a> blog. I would also like to recommend <a href="https://stevenpcurtis.medium.com/memorylayout-in-swift-c4e70bb32e3f" target="_blank">this article by Steven Curtis</a> and there is one more great post about <a href="https://medium.com/swlh/unsafe-swift-a-road-to-memory-15e7d7e701f9" target="_blank">Unsafe Swift: A road to memory</a>. These writings helped me a lot to understand memory layout in Swift. 🙏</p></blockquote><h2 id="reference-types-and-memory-layout-in-swift">Reference types and memory layout in Swift</h2><p>I mentioned earlier that classes behave quite different that’s because they are reference types. Let me change the Example type to a class and see what happens with the memory layout.</p><pre><code class="language-swift">class Example {
+</code></pre><p>This is the main reason why the second example struct has a slightly increased size value. Feel free to create other types and practice by drawing the memory layout for them, you can always check if you were correct or not by printing the memory layout at runtime using Swift. 💡</p><blockquote class="note"><p>NOTE: This whole problem is real nicely explained on the <a href="https://swiftunboxed.com/internals/size-stride-alignment/" target="_blank">[swift unboxed]</a> blog. I would also like to recommend <a href="https://stevenpcurtis.medium.com/memorylayout-in-swift-c4e70bb32e3f" target="_blank">this article by Steven Curtis</a> and there is one more great post about <a href="https://medium.com/swlh/unsafe-swift-a-road-to-memory-15e7d7e701f9" target="_blank">Unsafe Swift: A road to memory</a>. These writings helped me a lot to understand memory layout in Swift. 🙏</p></blockquote><h2 id="reference-types-and-memory-layout-in-swift">Reference types and memory layout in Swift</h2><p>I mentioned earlier that classes behave quite different that’s because they are reference types. Let me change the Example type to a class and see what happens with the memory layout.</p><pre><code class="language-swift">class Example {
     let bar: Bool = true // 1
     let foo: Int = 0 // 8
 }

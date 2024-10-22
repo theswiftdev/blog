@@ -108,7 +108,7 @@
                 <p>This is a tutorial for beginners about using PostgreSQL. I&#39;ll show you how to automatically backup and restore the database.</p>
                 <section>
                 
-                <blockquote><p>NOTE: If you are already familiar with PostgreSQL, but you don’t know much about how to use databases in Vapor, you should <a href="https://theswiftdev.com/a-tutorial-for-beginners-about-the-fluent-postgresql-driver-in-vapor-4/">read my other tutorial about Fluent for beginners</a>.</p></blockquote><h2 id="a-quick-intro-to-postgresql">A quick intro to PostgreSQL</h2><p><a href="https://www.postgresql.org/" target="_blank">PostgreSQL</a> is an open source database, it’s available for macOS, <a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-18-04" target="_blank">Linux</a> and some other operating systems. You can install it by using the de-facto package manager on every platform. 📦</p><pre><code class="language-sh"># Linux
+                <blockquote class="note"><p>NOTE: If you are already familiar with PostgreSQL, but you don’t know much about how to use databases in Vapor, you should <a href="https://theswiftdev.com/a-tutorial-for-beginners-about-the-fluent-postgresql-driver-in-vapor-4/">read my other tutorial about Fluent for beginners</a>.</p></blockquote><h2 id="a-quick-intro-to-postgresql">A quick intro to PostgreSQL</h2><p><a href="https://www.postgresql.org/" target="_blank">PostgreSQL</a> is an open source database, it’s available for macOS, <a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-18-04" target="_blank">Linux</a> and some other operating systems. You can install it by using the de-facto package manager on every platform. 📦</p><pre><code class="language-sh"># Linux
 sudo apt-get install postgresql postgresql-contrib
 sudo service postgresql start
 # check service status
@@ -156,7 +156,7 @@ psql -h localhost -U myuser mydb
 \dt
 # Describe table structure (will be useful later on)
 \d+ &lt;table&gt;
-</code></pre><p>You can learn more about SQL commands using this <a href="https://www.postgresqltutorial.com/" target="_blank">pgSQL tutorial</a> site.</p><blockquote><p>WARN: The command below can completely wipe your database, be extremely careful!</p></blockquote><p>Now you are ready to play around with Fluent, but before we start I’d like to show you some more tips & tricks. During development, things can go wrong and you might need a fresh start for your DB. Here’s how to drop & reinitiate everything. 😱</p><pre><code class="language-sh"># Reset database
+</code></pre><p>You can learn more about SQL commands using this <a href="https://www.postgresqltutorial.com/" target="_blank">pgSQL tutorial</a> site.</p><blockquote class="warning"><p>WARN: The command below can completely wipe your database, be extremely careful!</p></blockquote><p>Now you are ready to play around with Fluent, but before we start I’d like to show you some more tips & tricks. During development, things can go wrong and you might need a fresh start for your DB. Here’s how to drop & reinitiate everything. 😱</p><pre><code class="language-sh"># Reset database
 \c mydb
 drop schema public cascade;
 create schema public;

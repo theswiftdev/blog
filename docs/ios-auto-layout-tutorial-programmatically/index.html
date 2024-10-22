@@ -300,7 +300,7 @@
         square.backgroundColor = .yellow
     }
 }
-</code></pre><p>God forbid the engineer who invented this black magic. 😅</p><p>So as you can see we definitely have a problem with constraints. Creating all your constraints sucks, at least it’s going to cost many many lines of code. Of course you can use the magical interface builder, but where’s the fun if you just drag lines?</p><p>Creating constraints programmatically is no better than calculating frames, it will lead you to the same level of complexity or even worse, this is why so many 3rd party frameworks came alive and eventually Apple issued the problem as well.</p><blockquote><p>NOTE: I have an amazing article about <a href="https://theswiftdev.com/2018/06/14/mastering-ios-auto-layout-anchors-programmatically-from-swift/">mastering Auto Layout anchors</a>, I highly recommend reading it if you want to get familiar with anchors. 📖</p></blockquote><h3 id="anchors">Anchors</h3><p><a href="https://useyourloaf.com/blog/pain-free-constraints-with-layout-anchors" target="_blank">Anchors</a> were born because Auto Layout had some construction flaws.</p><blockquote><p>The NSLayoutAnchor class is a factory class for creating NSLayoutConstraint objects using a fluent API. Use these constraints to programmatically define your layout using Auto Layout.</p></blockquote><pre><code class="language-swift">class ViewController: UIViewController {
+</code></pre><p>God forbid the engineer who invented this black magic. 😅</p><p>So as you can see we definitely have a problem with constraints. Creating all your constraints sucks, at least it’s going to cost many many lines of code. Of course you can use the magical interface builder, but where’s the fun if you just drag lines?</p><p>Creating constraints programmatically is no better than calculating frames, it will lead you to the same level of complexity or even worse, this is why so many 3rd party frameworks came alive and eventually Apple issued the problem as well.</p><blockquote class="note"><p>NOTE: I have an amazing article about <a href="https://theswiftdev.com/2018/06/14/mastering-ios-auto-layout-anchors-programmatically-from-swift/">mastering Auto Layout anchors</a>, I highly recommend reading it if you want to get familiar with anchors. 📖</p></blockquote><h3 id="anchors">Anchors</h3><p><a href="https://useyourloaf.com/blog/pain-free-constraints-with-layout-anchors" target="_blank">Anchors</a> were born because Auto Layout had some construction flaws.</p><blockquote><p>The NSLayoutAnchor class is a factory class for creating NSLayoutConstraint objects using a fluent API. Use these constraints to programmatically define your layout using Auto Layout.</p></blockquote><pre><code class="language-swift">class ViewController: UIViewController {
 
     weak var square: UIView!
 
@@ -453,7 +453,7 @@ UIViewPropertyAnimator(duration: 2.5, curve: .easeInOut) {
                             </div>
                             <div class="meta">
                                 <time datetime="2018/10/16">2018/10/16</time>
-                                 &middot; <span class="reading-time">4 min read</span>
+                                 &middot; <span class="reading-time">5 min read</span>
                             </div>
                             
                             <h2 class="title"><a href="https://theswiftdev.com/custom-uiview-subclass-from-a-xib-file/" target="">Custom UIView subclass from a xib file</a></h2>

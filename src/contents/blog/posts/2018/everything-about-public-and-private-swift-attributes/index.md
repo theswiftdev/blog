@@ -223,7 +223,7 @@ With the @inline attribute you explicitly tell the compiler the function inlinin
 c()
 ```
 
-@inlinable is the future (@\_inlineable) by Marcin Krzyzanowskim 👏
+`@inlinable` is the future (@\_inlineable) by Marcin Krzyzanowskim 👏
 
 ### @effects
 

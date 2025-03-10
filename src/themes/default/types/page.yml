@@ -1,0 +1,12 @@
+type: page
+paths:
+    - home
+    - 404
+    - about
+    - practical-server-side-swift
+
+properties:
+    title:
+        type: string
+        required: true
+        default: null

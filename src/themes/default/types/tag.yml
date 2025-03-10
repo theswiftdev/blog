@@ -1,19 +1,22 @@
-id: tag
-template: blog.tag.default
+type: tag
+paths:
+    - blog/tags
 
-context:
-    site:
-        tags:
-            sort: title
-            order: asc
-            pagination:
-                limit: 10
-                
-    local:
-        posts:
-            references: post
-            foreignKey: tags
-            sort: publication
-            order: desc
+properties:
+    title:
+        type: string
+        required: true
 
+relations:
 
+queries:
+    posts:
+        contentType: post
+        scope: list
+        filter:
+            key: tags
+            operator: contains
+            value: "{{id}}"
+        orderBy:
+            - key: publication
+              direction: desc

@@ -1,7 +1,6 @@
 ---
-type: pagination
-home: page
-slug: page/{{number}}
+type: page
+slug: page/{{post.pagination}}
 title: Posts
 description: Browse all posts.  
 template: blog.posts

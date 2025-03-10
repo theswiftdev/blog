@@ -1,4 +1,5 @@
-baseUrl: https://theswiftdev.com/
+#baseUrl: https://theswiftdev.com/
+baseUrl: http://localhost:3000/
 language: en-US
 title: The.Swift.Dev.
 description: Articles about application development using the Swift programming language.

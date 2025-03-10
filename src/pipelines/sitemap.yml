@@ -1,0 +1,14 @@
+contentTypes: 
+    include:
+        - sitemap
+
+engine: 
+    id: mustache
+    options:
+        contentTypes: 
+            sitemap:
+                template: "sitemap"
+output:
+    path: ""
+    file: sitemap
+    ext: xml

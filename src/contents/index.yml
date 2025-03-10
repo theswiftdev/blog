@@ -3,7 +3,6 @@ baseUrl: http://localhost:3000/
 language: en-US
 title: The.Swift.Dev.
 description: Articles about application development using the Swift programming language.
-dateFormat: "yyyy/MM/dd"
 navigation:
     - label: "Posts"
       url: "/page/1/"

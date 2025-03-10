@@ -1,44 +1,42 @@
 scopes:
 
 queries: 
-    categories:
-        contentType: category
-        scope: detail
+    posts:
+        contentType: post
+        scope: list
+        limit: 12
         orderBy:
-            - key: order
+            - key: publication
+              direction: desc
+    featured:
+        contentType: post
+        scope: list
+        filter:
+            key: featured
+            operator: equals
+            value: true
+        orderBy:
+            - key: publication
+              direction: desc
+    authors:
+        contentType: author
+        scope: list
+        limit: 12
+        orderBy:
+            - key: title
               direction: asc
-
-
-#         posts:
-#             sort: publication
-#             order: desc
-#             limit: 12
-        
-#         featured:
-#             sort: publication
-#             order: desc
-#             limit: 12
-#             filter:
-#                 field: featured
-#                 method: equals
-#                 value: true
-#         authors:
-#             sort: title
-#             order: asc
-#             pagination:
-#                 limit: 10
-
-#         tags:
-#             sort: title
-#             order: asc
-#             pagination:
-#                 limit: 10
-
+    tags:
+        contentType: tag
+        scope: list
+        limit: 12
+        orderBy:
+            - key: title
+              direction: asc
 
 dataTypes:
     date:
         formats:
-            full: "y.m.d"
+            full: "yyyy/MM/dd"
 
 contentTypes: 
     include:
@@ -49,6 +47,7 @@ contentTypes:
     exclude:
         - rss
         - sitemap
+        - redirect
 
 iterators:
     post.pagination:

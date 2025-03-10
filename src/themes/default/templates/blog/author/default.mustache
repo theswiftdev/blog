@@ -6,7 +6,7 @@
         {{#page.imageUrl}}<img class="large rounded" src="{{page.imageUrl}}" alt="{{page.title}}">{{/page.imageUrl}}
         <h1>{{page.title}}</h1>
         <a href="{{userDefined.companyUrl}}">{{userDefined.companyName}}</a>
-        {{& page.contents}}
+        {{& page.contents.html}}
         <a class="cta" href="{{userDefined.ctaUrl}}">{{userDefined.ctaLabel}}</a>
     </header>
     

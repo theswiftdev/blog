@@ -1,8 +1,6 @@
-type: page
+type: not-found
 paths:
-    - home
-    - about
-    - practical-server-side-swift
+    - 404
 
 properties:
     title:

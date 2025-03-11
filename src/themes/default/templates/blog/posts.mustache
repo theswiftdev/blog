@@ -5,26 +5,26 @@
 
 <div id="posts" class="wrapper">
 
-    {{#empty(iterator.post.items)}}
+    {{#empty(iterator.items)}}
     Empty.
-    {{/empty(iterator.post.items)}}
-    {{^empty(iterator.post.items)}}
+    {{/empty(iterator.items)}}
+    {{^empty(iterator.items)}}
     <div class="grid grid-321">
-    {{#iterator.post.items}}
+    {{#iterator.items}}
         {{> partials.blog.post}}
-    {{/iterator.post.items}}
+    {{/iterator.items}}
     </div>
-    {{/empty(iterator.post.items)}}
+    {{/empty(iterator.items)}}
     
-    {{#empty(pagination.links.post)}}
-    {{/empty(pagination.links.post)}}
-    {{^empty(pagination.links.post)}}
+    {{#empty(iterator.links)}}
+    {{/empty(iterator.links)}}
+    {{^empty(iterator.links)}}
     <div class="pagination">
-    {{#pagination.links.post}}
+    {{#iterator.links}}
         {{> partials.pagination}}
-    {{/pagination.links.post}}
+    {{/iterator.links}}
     </div>
-    {{/empty(pagination.links.post)}}
+    {{/empty(iterator.links)}}
 
 </div>
 

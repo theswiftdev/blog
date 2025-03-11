@@ -5,7 +5,7 @@
     {{#page.noindex}}<meta name="robots" content="noindex">{{/page.noindex}}
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="canonical" href="{{page.canonical}}">
+    <link rel="canonical" href="{{page.permalink}}">
     {{#page.hreflang}}
     <link rel="alternate" hreflang="{{lang}}" href="{{url}}">
     {{/page.hreflang}}
@@ -55,6 +55,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     {{> partials.navigation}}

@@ -1,7 +1,8 @@
 ---
+slug: ""
 title: Articles about application development 
 description: Articles about application development using the Swift programming language.
-slug: ""
+template: blog.home
 ---
 
 # The.Swift.Dev.

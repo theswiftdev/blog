@@ -45,10 +45,6 @@ contentTypes:
         - author
         - tag
         - post
-    exclude:
-        - rss
-        - sitemap
-        - redirect
 
 iterators:
     post.pagination:

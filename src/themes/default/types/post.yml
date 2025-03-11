@@ -1,4 +1,4 @@
-type: post
+id: post
 paths:
     - blog/posts
 

@@ -1,4 +1,4 @@
-type: rss
+id: rss
 
 queries:
     posts:

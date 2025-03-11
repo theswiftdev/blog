@@ -1,4 +1,4 @@
-type: sitemap
+id: sitemap
 queries:
     pages:
         contentType: page

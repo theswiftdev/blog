@@ -1,3 +1,4 @@
+id: rss
 contentTypes: 
     include:
         - rss

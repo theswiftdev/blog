@@ -1,4 +1,4 @@
-type: author
+id: author
 paths:
     - blog/authors
 

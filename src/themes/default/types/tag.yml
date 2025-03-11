@@ -1,4 +1,4 @@
-type: tag
+id: tag
 paths:
     - blog/tags
 

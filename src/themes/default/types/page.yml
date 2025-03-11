@@ -1,8 +1,5 @@
-type: page
-paths:
-    - home
-    - about
-    - practical-server-side-swift
+id: page
+default: true
 
 properties:
     title:

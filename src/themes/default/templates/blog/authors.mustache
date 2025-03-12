@@ -5,16 +5,16 @@
 
 <div id="authors" class="wrapper">
 
-    {{#empty(authors)}}
+    {{#empty(context.authors)}}
     Empty.
-    {{/empty(authors)}}
-    {{^empty(authors)}}
+    {{/empty(context.authors)}}
+    {{^empty(context.authors)}}
     <div class="grid grid-221">
-    {{#authors}}
+    {{#context.authors}}
         {{> partials.blog.author}}
-    {{/authors}}
+    {{/context.authors}}
     </div>
-    {{/empty(authors)}}
+    {{/empty(context.authors)}}
     
 </div>
 

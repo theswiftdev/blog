@@ -5,17 +5,17 @@
 
 <div id="tags" class="wrapper">
 
-    {{#empty(tags)}}
+    {{#empty(context.tags)}}
     Empty.
-    {{/empty(tags)}}
-    {{^empty(tags)}}
+    {{/empty(context.tags)}}
+    {{^empty(context.tags)}}
     <div class="grid grid-321">
-    {{#tags}}
+    {{#context.tags}}
         {{> partials.blog.tag}}
-    {{/tags}}
+    {{/context.tags}}
     
     </div>
-    {{/empty(tags)}}
+    {{/empty(context.tags)}}
 </div>
 
 {{/main}}

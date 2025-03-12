@@ -4,9 +4,9 @@
 <div class="article-with-toc">
     <div>
         <article class="post">
-            <div class="meta">
-                <time datetime="{{page.publication.html}}">{{page.publication.html}}</time>
-                {{#page.readingTime}} &middot; <span class="reading-time">{{page.readingTime}} min read</span>{{/page.readingTime}}
+            <div class="meta">            
+                <time datetime="{{page.publication.formats.iso8601}}">{{page.publication.date.short}} {{page.publication.time.short}}</time>
+                {{#page.contents.readingTime}} &middot; <span class="reading-time">{{.}} min read</span>{{/page.contents.readingTime}}
                 {{#page.featured}} &middot; <span class="featured">featured</span>{{/page.featured}}
             </div>
             <h1>{{page.title}}</h1>
@@ -72,7 +72,7 @@
             <a class="cta" href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
         </div>
         
-        {{> partials.toc }}
+        {{> partials.outline }}
 
     </div>
 </div>

@@ -6,30 +6,17 @@
 
 <div id="blog" class="wrapper">
     
-    <h2>Featured posts</h2>
-    {{#empty(featured)}}
-    Empty.
-    {{/empty(featured)}}
-    {{^empty(featured)}}
-    <div class="grid grid-321">
-    {{#featured}}
-        {{> partials.blog.post}}
-    {{/featured}}
-    </div>
-    {{/empty(featured)}}
-    
-    
     <h2>Latest posts</h2>
-    {{#empty(posts)}}
+    {{#empty(context.posts)}}
     Empty.
-    {{/empty(posts)}}
-    {{^empty(posts)}}
+    {{/empty(context.posts)}}
+    {{^empty(context.posts)}}
     <div class="grid grid-321">
-    {{#posts}}
+    {{#context.posts}}
         {{> partials.blog.post}}
-    {{/posts}}
+    {{/context.posts}}
     </div>
-    {{/empty(posts)}}
+    {{/empty(context.posts)}}
 
 </div>
 {{/main}}

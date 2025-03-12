@@ -1,0 +1,16 @@
+
+    {{#empty(page.contents.outline)}}
+    {{/empty(page.contents.outline)}}
+    {{^empty(page.contents.outline)}}
+<aside id="toc">
+    <h4>On this page</h4>
+    <ul>
+        {{#page.contents.outline}}
+        <li class="level-{{level}}">
+            <a href="#{{fragment}}">{{text}}</a>
+        </li>
+        {{/page.contents.outline}}
+    </ul>
+</aside>
+    {{/empty(page.contents.outline)}}
+

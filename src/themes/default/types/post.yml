@@ -31,6 +31,7 @@ relations:
 queries:
     related:
         contentType: post
+        scope: detail
         limit: 4
         filter:
             key: tags

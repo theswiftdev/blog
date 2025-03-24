@@ -26,7 +26,7 @@
                 <div class="author-list">
                 {{#page.authors}}
                     <a href="{{permalink}}">
-                    {{#imageUrl}}<img class="small rounded" src="{{imageUrl}}" alt="{{title}}">{{/imageUrl}}
+                    {{#image}}<img class="small rounded" src="{{.}}" alt="{{title}}">{{/image}}
                     </a>
                 {{/page.authors}}
                 </div>

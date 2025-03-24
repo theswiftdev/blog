@@ -12,18 +12,18 @@
     {{#page.prev}}<link rel="prev" href="{{permalink}}">{{/page.prev}}
     {{#page.next}}<link rel="next" href="{{permalink}}">{{/page.next}}
 
-    <title>{{page.title}} - {{site.title}}</title>
+    <title>{{page.title}} - {{site.name}}</title>
     <meta name="description" content="{{page.description}}">
 
     <meta property="og:url" content="{{page.permalink}}">
-    <meta property="og:title" content="{{page.title}} - {{site.title}}">
+    <meta property="og:title" content="{{page.title}} - {{site.name}}">
     <meta property="og:description" content="{{page.description}}">
-    {{#page.imageUrl}}<meta property="og:image" content="{{.}}" />{{/page.imageUrl}}
+    {{#page.image}}<meta property="og:image" content="{{.}}" />{{/page.image}}
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{page.title}} - {{site.title}}">
+    <meta name="twitter:title" content="{{page.title}} - {{site.name}}">
     <meta name="twitter:description" content="{{page.description}}">
-    {{#page.imageUrl}}<meta name="twitter:image" content="{{.}}">{{/page.imageUrl}}
+    {{#page.image}}<meta name="twitter:image" content="{{.}}">{{/page.image}}
 
     <link rel="stylesheet" href="{{site.baseUrl}}/css/modern-normalize.css">
     <link rel="stylesheet" href="{{site.baseUrl}}/css/modern-base.css">

@@ -1,3 +1,7 @@
+::selection {
+    background: var(--selection-color);
+}
+   
 a:hover {
     text-decoration: none;
 }

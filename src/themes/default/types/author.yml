@@ -8,11 +8,12 @@ properties:
         required: true
 
 relations:
+    
 
 queries:
     posts:
         contentType: post
-        scope: list
+        scope: detail
         filter:
             key: authors
             operator: contains

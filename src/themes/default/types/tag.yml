@@ -12,7 +12,7 @@ relations:
 queries:
     posts:
         contentType: post
-        scope: list
+        scope: detail
         filter:
             key: tags
             operator: contains

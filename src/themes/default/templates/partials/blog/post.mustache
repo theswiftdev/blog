@@ -4,7 +4,7 @@
     <div class="author-list">
     {{#authors}}
         <a href="{{permalink}}">
-        {{#imageUrl}}<img class="small rounded" src="{{imageUrl}}" alt="{{title}}">{{/imageUrl}}
+        {{#image}}<img class="small rounded" src="{{.}}" alt="{{title}}">{{/image}}
         </a>
     {{/authors}}
     </div>

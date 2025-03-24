@@ -1,17 +1,16 @@
 id: html
-scopes:
 
 queries: 
     posts:
         contentType: post
-        scope: list
+        scope: detail
         limit: 12
         orderBy:
             - key: publication
               direction: desc
     featured:
         contentType: post
-        scope: list
+        scope: detail
         filter:
             key: featured
             operator: equals
@@ -21,23 +20,18 @@ queries:
               direction: desc
     authors:
         contentType: author
-        scope: list
+        scope: detail
         limit: 12
         orderBy:
             - key: title
               direction: asc
     tags:
         contentType: tag
-        scope: list
+        scope: detail
         limit: 12
         orderBy:
             - key: title
               direction: asc
-
-dataTypes:
-    date:
-        formats:
-            full: "yyyy/MM/dd"
 
 contentTypes: 
     include:
@@ -49,9 +43,11 @@ contentTypes:
 iterators:
     post.pagination:
         contentType: post
+        scope: detail
         limit: 24
-
-transformers:
+        orderBy:
+            - key: publication
+              direction: desc
 
 engine: 
     id: mustache

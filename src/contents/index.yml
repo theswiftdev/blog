@@ -1,6 +1,6 @@
 baseUrl: "https://theswiftdev.com/"
 language: "en-US"
-title: "The.Swift.Dev."
+name: "The.Swift.Dev."
 description: "Articles about application development using the Swift programming language."
 navigation:
     - label: "Posts"

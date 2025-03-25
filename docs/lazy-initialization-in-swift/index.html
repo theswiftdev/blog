@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2018/12/17">2018/12/17</time>
+                <div class="meta">            
+                    <time datetime="2018-12-17T15:20:00.000Z">12/17/18 3:20 PM</time>
                      &middot; <span class="reading-time">4 min read</span>
                     
                 </div>
@@ -184,7 +185,7 @@ sleeping beauty is ready!
         return label
     }()
 }
-</code></pre><p>This one is a nice practice if you’d like to declutter your init method. You can put all the object customization logic inside a closure. The closure executes itself on read (self-executing closure), so when you call <code>self.label</code> your block will be executed and voilá: your view will be ready to use.</p><blockquote><p>You can’t use self in stored properties, but you are allowed to do so with lazy blocks. Be careful: you should always use <code>[unowned self]</code>, if you don’t want to create reference cycles and memory leaks. ♻️</p></blockquote><h2 id="lazy-initialization-using-factories">Lazy initialization using factories</h2><p>I already have a couple of articles about <a href="https://theswiftdev.com/2018/06/06/comparing-factory-design-patterns/">factories in Swift</a>, so now i just want to show you how to use a factory method & a static factory combined with a lazy property.</p><h3 id="factory-method">Factory method</h3><p>If you don’t like self-executing closures, you can move out your code into a <a href="https://theswiftdev.com/2018/05/31/swift-factory-method-design-pattern/">factory method</a> and use that one with your <a href="https://medium.com/@abhimuralidharan/lazy-var-in-ios-swift-96c75cb8a13a" target="_blank">lazy variable</a>. It’s simple like this:</p><pre><code class="language-swift">class ViewController: UIViewController {
+</code></pre><p>This one is a nice practice if you’d like to declutter your init method. You can put all the object customization logic inside a closure. The closure executes itself on read (self-executing closure), so when you call <code>self.label</code> your block will be executed and voilá: your view will be ready to use.</p><blockquote><p>You can’t use self in stored properties, but you are allowed to do so with lazy blocks. Be careful: you should always use <code>[unowned self]</code>, if you don’t want to create reference cycles and memory leaks. ♻️</p></blockquote><h2 id="lazy-initialization-using-factories">Lazy initialization using factories</h2><p>I already have a couple of articles about <a href="https://theswiftdev.com/2018/06/06/comparing-factory-design-patterns/" target="_blank">factories in Swift</a>, so now i just want to show you how to use a factory method & a static factory combined with a lazy property.</p><h3 id="factory-method">Factory method</h3><p>If you don’t like self-executing closures, you can move out your code into a <a href="https://theswiftdev.com/2018/05/31/swift-factory-method-design-pattern/" target="_blank">factory method</a> and use that one with your <a href="https://medium.com/@abhimuralidharan/lazy-var-in-ios-swift-96c75cb8a13a" target="_blank">lazy variable</a>. It’s simple like this:</p><pre><code class="language-swift">class ViewController: UIViewController {
 
     lazy var label: UILabel = self.createCustomLabel()
 
@@ -197,7 +198,7 @@ sleeping beauty is ready!
         return label
     }
 }
-</code></pre><p>Now the factory method works like a private initializer for your lazy property. Let’s bring this one step further, so we can improve reusability a little bit…</p><h3 id="static-factory">Static factory</h3><p>Outsourcing your lazy initializer code into a <a href="https://theswiftdev.com/2018/05/29/swift-static-factory-design-pattern/">static factory</a> can be a good practice if you’d like to reuse that code in multiple parts of your application. For example this is a good fit for initializing custom views. Also creating a custom view is not really a view controller task, so the responsibilities in this example are more separated.</p><pre><code class="language-swift">class ViewController: UIViewController {
+</code></pre><p>Now the factory method works like a private initializer for your lazy property. Let’s bring this one step further, so we can improve reusability a little bit…</p><h3 id="static-factory">Static factory</h3><p>Outsourcing your lazy initializer code into a <a href="https://theswiftdev.com/2018/05/29/swift-static-factory-design-pattern/" target="_blank">static factory</a> can be a good practice if you’d like to reuse that code in multiple parts of your application. For example this is a good fit for initializing custom views. Also creating a custom view is not really a view controller task, so the responsibilities in this example are more separated.</p><pre><code class="language-swift">class ViewController: UIViewController {
 
     lazy var label: UILabel = UILabel.createCustomLabel()
 }
@@ -223,7 +224,7 @@ extension UILabel {
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -246,21 +247,22 @@ extension UILabel {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2020/11/27">2020/11/27</time>
-                                 &middot; <span class="reading-time">5 min read</span>
+                                <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/event-driven-generic-hooks-for-swift/" target="">Event-driven generic hooks for Swift</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/uikit-init-patterns/" target="">UIKit init patterns</a></h2>
                             <hr>
-                            <p>In this article I am going to show you how to implement a basic event processing system for your modular Swift application.</p>
+                            <p>Learn about the initialization process of the two well known classes in UIKit. Say hello to UIViewcontroller, and UIView init patterns.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/design-pattern/"><small>Design pattern</small></a>
-        <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -268,11 +270,11 @@ extension UILabel {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2018/08/19">2018/08/19</time>
+                                <time datetime="2018-08-19T14:20:00.000Z">8/19/18 2:20 PM</time>
                                  &middot; <span class="reading-time">4 min read</span>
                             </div>
                             
@@ -289,17 +291,17 @@ extension UILabel {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2022/08/12">2022/08/12</time>
-                                 &middot; <span class="reading-time">5 min read</span>
+                                <time datetime="2018-12-17T15:20:00.000Z">12/17/18 3:20 PM</time>
+                                 &middot; <span class="reading-time">4 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/lenses-and-prisms-in-swift/" target="">Lenses and prisms in Swift</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/lazy-initialization-in-swift/" target="">Lazy initialization in Swift</a></h2>
                             <hr>
-                            <p>Beginner&#39;s guide about optics in Swift. Learn how to use lenses and prisms to manipulate objects using a functional approach.</p>
+                            <p>Learn how to use lazy properties in Swift to improve performance, avoid optionals or just to make the init process more clean.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/design-pattern/"><small>Design pattern</small></a>
@@ -310,17 +312,17 @@ extension UILabel {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2020/04/16">2020/04/16</time>
-                                 &middot; <span class="reading-time">4 min read</span>
+                                <time datetime="2018-06-03T14:20:00.000Z">6/3/18 2:20 PM</time>
+                                 &middot; <span class="reading-time">1 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/modules-and-hooks-in-swift/" target="">Modules and hooks in Swift</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/swift-abstract-factory-design-pattern/" target="">Swift abstract factory design pattern</a></h2>
                             <hr>
-                            <p>Learn how to extend your application with new functionalities using a loosely coupled modular plugin system written in Swift.</p>
+                            <p>Let&#39;s combine factory method with simple factory voilá: here is the abstract factory design pattern written in Swift language!</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/design-pattern/"><small>Design pattern</small></a>
@@ -348,32 +350,26 @@ extension UILabel {
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#the-ultimate-guide-of-being-lazy">The ultimate guide of being lazy</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#avoiding-optionals-with-lazyness">Avoiding optionals with lazyness</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#using-a-lazy-closure">Using a lazy closure</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#lazy-initialization-using-factories">Lazy initialization using factories</a>
-                        <ul>
-                            <li><a href="#factory-method">Factory method</a></li>
-                <li><a href="#static-factory">Static factory</a></li>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-3">
+                        <a href="#factory-method">Factory method</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#static-factory">Static factory</a>
+                    </li>
+        <li class="level-2">
                         <a href="#conclusion">Conclusion</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -428,7 +424,7 @@ extension UILabel {
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

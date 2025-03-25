@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2019/01/30">2019/01/30</time>
+                <div class="meta">            
+                    <time datetime="2019-01-30T15:20:00.000Z">1/30/19 3:20 PM</time>
                      &middot; <span class="reading-time">5 min read</span>
                     
                 </div>
@@ -108,7 +109,7 @@
                 <p>Learn how to get an image from the photo library or directly from the camera by using the UIImagePickerController class in Swift 5.</p>
                 <section>
                 
-                <blockquote><p>Are you looking for a video picker as well? 🍿 Check out my another post about <a href="https://theswiftdev.com/2019/08/28/picking-and-playing-videos-in-swift/">picking & playing video files in iOS</a>.</p></blockquote><h2 id="a-reusable-image-picker-class-for-ios">A reusable image picker class for iOS</h2><p>So in this <a href="http://blogs.innovationm.com/image-picker-controller-tutorial-ios/" target="_blank">tutorial</a> we’re going to create a reusable class built on top of UIKit in order to make image selection more pleasant for your apps, everything written in Swift 5.</p><blockquote><p>This article was inspired by my previous attempt to solve the image picking issue in a <a href="https://medium.com/@ilkerbltc/protocol-oriented-approach-to-get-image-or-video-via-uiimagepickercontroller-on-ios-e3909090815d" target="_blank">protocol oriented way</a>, but that article is nowadays a little bit obsolated, plus I wouldn’t use that technique anymore.</p></blockquote><p>People always learn from the past, so instead of using a protocol oriented approach, this time I’ll simply go with an ImagePicker class. No singletons, no extra library, just a small helper class that can be instantiated in the appropriate place, to do it’s job. 🌄</p><blockquote class="note"><p>NOTE: I’m only going to focus on picking edited images, if you’d like to use live photos or movies, you can always customize the ImagePicker class, or create an abstract one and implement subclasses for each media type. I’d do so too. 😅</p></blockquote><p>So let’s dive in, here is my basic implementation, but you can download a complete example project with video picking as well from The.Swift.Dev. tutorials repository on <a href="https://github.com/theswiftdev/tutorials" target="_blank">GitHub</a>.</p><h2 id="privacy-first">Privacy first!</h2><p>Nowadays privacy matters a lot, so you have to add two important keys to your applications <code>Info.plist</code> file, otherwise you’ll end up with a horrible crash! ⚠️</p><p>Since you’d like to get some private data, you have to provide an explanation message for the user (and for Apple) why the app is requesting camera & photo library access. The <code>NSCameraUsageDescription</code> is for camera and <code>NSPhotoLibraryUsageDescription</code> key is for photo library access. Both values should be a straightforward string that’ll explain the user why you need his/her nude pictures. Privacy is important! 🔒</p><pre><code class="language-plist">&lt;key&gt;NSCameraUsageDescription&lt;/key&gt;
+                <blockquote><p>Are you looking for a video picker as well? 🍿 Check out my another post about <a href="https://theswiftdev.com/2019/08/28/picking-and-playing-videos-in-swift/" target="_blank">picking & playing video files in iOS</a>.</p></blockquote><h2 id="a-reusable-image-picker-class-for-ios">A reusable image picker class for iOS</h2><p>So in this <a href="http://blogs.innovationm.com/image-picker-controller-tutorial-ios/" target="_blank">tutorial</a> we’re going to create a reusable class built on top of UIKit in order to make image selection more pleasant for your apps, everything written in Swift 5.</p><blockquote><p>This article was inspired by my previous attempt to solve the image picking issue in a <a href="https://medium.com/@ilkerbltc/protocol-oriented-approach-to-get-image-or-video-via-uiimagepickercontroller-on-ios-e3909090815d" target="_blank">protocol oriented way</a>, but that article is nowadays a little bit obsolated, plus I wouldn’t use that technique anymore.</p></blockquote><p>People always learn from the past, so instead of using a protocol oriented approach, this time I’ll simply go with an ImagePicker class. No singletons, no extra library, just a small helper class that can be instantiated in the appropriate place, to do it’s job. 🌄</p><blockquote class="note"><p>I’m only going to focus on picking edited images, if you’d like to use live photos or movies, you can always customize the ImagePicker class, or create an abstract one and implement subclasses for each media type. I’d do so too. 😅</p></blockquote><p>So let’s dive in, here is my basic implementation, but you can download a complete example project with video picking as well from The.Swift.Dev. tutorials repository on <a href="https://github.com/theswiftdev/tutorials" target="_blank">GitHub</a>.</p><h2 id="privacy-first">Privacy first!</h2><p>Nowadays privacy matters a lot, so you have to add two important keys to your applications <code>Info.plist</code> file, otherwise you’ll end up with a horrible crash! ⚠️</p><p>Since you’d like to get some private data, you have to provide an explanation message for the user (and for Apple) why the app is requesting camera & photo library access. The <code>NSCameraUsageDescription</code> is for camera and <code>NSPhotoLibraryUsageDescription</code> key is for photo library access. Both values should be a straightforward string that’ll explain the user why you need his/her nude pictures. Privacy is important! 🔒</p><pre><code class="language-plist">&lt;key&gt;NSCameraUsageDescription&lt;/key&gt;
 &lt;string&gt;This app wants to take pictures.&lt;/string&gt;
 &lt;key&gt;NSPhotoLibraryUsageDescription&lt;/key&gt;
 &lt;string&gt;This app wants to use your photos.&lt;/string&gt;
@@ -206,7 +207,7 @@ extension ImagePicker: UIImagePickerControllerDelegate {
 extension ImagePicker: UINavigationControllerDelegate {
 
 }
-</code></pre><p>If you don’t need to select from a source type, things are pretty straightforward, you can simply present your picker view controller, handle everything in the delegate and you are done. However, if you need to choose from an input source, that involves a little bit more logic, especially on iPads. 📱</p><p>I’m using a <code>UIAlertController</code> in order to compose a source type selection dialog. I’m trying to add 3 actions (based on the picking source type), but only if the source type is available on that given device (e.g. <code>.camera</code> is not available in the simulator). You can check availability through: UIImagePickerController.isSourceTypeAvailable(type).</p><blockquote class="note"><p>NOTE: Alert controllers needs a few extra things on iPads, that’s why I’m setting up the <code>popoverPresentationController</code> properties in the present method. It’s usually enough to set the sourceView and the sourceRect properties, but you can also customize arrow directions. ⬅️➡️⬆️⬇️</p></blockquote><p>It’s always your task to check if the device is an iPad & set the proper source view & rect if it’s needed, otherwise your app will crash on iPads. Another thing is that you have to dismiss the UIPickerViewController after the picker did it’s job! ⚠️</p><h2 id="time-to-say-cheese">Time to say cheese! 🧀</h2><blockquote><p>How to use the image picker class?</p></blockquote><p>Well, now you are ready to take some pictures. I’ve made a simple view controller to show you a real quick example. You only need a <code>UIImageView</code> and a <code>UIButton</code>.</p><p>Now this is the code for the sample view controller. Nothing magical, I just pass the controller as a presentationController for the <code>ImagePicker</code> so it’ll be able to present the <code>UIImagePickerController</code> on top of that. I separated the delegate from the presentation controller, because sometimes it comes handy. 🤷‍♂️</p><pre><code class="language-swift">class ViewController: UIViewController {
+</code></pre><p>If you don’t need to select from a source type, things are pretty straightforward, you can simply present your picker view controller, handle everything in the delegate and you are done. However, if you need to choose from an input source, that involves a little bit more logic, especially on iPads. 📱</p><p>I’m using a <code>UIAlertController</code> in order to compose a source type selection dialog. I’m trying to add 3 actions (based on the picking source type), but only if the source type is available on that given device (e.g. <code>.camera</code> is not available in the simulator). You can check availability through: UIImagePickerController.isSourceTypeAvailable(type).</p><blockquote class="note"><p>Alert controllers needs a few extra things on iPads, that’s why I’m setting up the <code>popoverPresentationController</code> properties in the present method. It’s usually enough to set the sourceView and the sourceRect properties, but you can also customize arrow directions. ⬅️➡️⬆️⬇️</p></blockquote><p>It’s always your task to check if the device is an iPad & set the proper source view & rect if it’s needed, otherwise your app will crash on iPads. Another thing is that you have to dismiss the UIPickerViewController after the picker did it’s job! ⚠️</p><h2 id="time-to-say-cheese">Time to say cheese! 🧀</h2><blockquote><p>How to use the image picker class?</p></blockquote><p>Well, now you are ready to take some pictures. I’ve made a simple view controller to show you a real quick example. You only need a <code>UIImageView</code> and a <code>UIButton</code>.</p><p>Now this is the code for the sample view controller. Nothing magical, I just pass the controller as a presentationController for the <code>ImagePicker</code> so it’ll be able to present the <code>UIImagePickerController</code> on top of that. I separated the delegate from the presentation controller, because sometimes it comes handy. 🤷‍♂️</p><pre><code class="language-swift">class ViewController: UIViewController {
 
     @IBOutlet var imageView: UIImageView!
 
@@ -240,12 +241,12 @@ extension ViewController: ImagePickerDelegate {
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
-                        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
-                    <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                    <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                     </div>
                     
                     <p>
@@ -264,20 +265,21 @@ extension ViewController: ImagePickerDelegate {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2022/02/03">2022/02/03</time>
-                                 &middot; <span class="reading-time">8 min read</span>
+                                <time datetime="2017-10-31T15:20:00.000Z">10/31/17 3:20 PM</time>
+                                 &middot; <span class="reading-time">6 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/10-little-uikit-tips-you-should-know/" target="">10 little UIKit tips you should know</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/ios-auto-layout-tutorial-programmatically/" target="">iOS Auto Layout tutorial programmatically</a></h2>
                             <hr>
-                            <p>In this article I&#39;ve gathered my top 10 favorite modern UIKit tips that I&#39;d definitely want to know before I start my next project.</p>
+                            <p>In this great iOS Auto Layout tutorial I&#39;ll teach you how to support rotation, use constraints, work with layers, animate corner radius.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -285,20 +287,22 @@ extension ViewController: ImagePickerDelegate {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2019/05/23">2019/05/23</time>
-                                 &middot; <span class="reading-time">5 min read</span>
+                                <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/building-input-forms-for-ios-apps/" target="">Building input forms for iOS apps</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/uikit-init-patterns/" target="">UIKit init patterns</a></h2>
                             <hr>
-                            <p>Learn how to build complex forms with my updated collection view view-model framework without the struggle using Swift.</p>
+                            <p>Learn about the initialization process of the two well known classes in UIKit. Say hello to UIViewcontroller, and UIView init patterns.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                                <a href="https://theswiftdev.com/tags/design-pattern/"><small>Design pattern</small></a>
+        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -306,11 +310,11 @@ extension ViewController: ImagePickerDelegate {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2018/10/16">2018/10/16</time>
+                                <time datetime="2018-10-16T14:20:00.000Z">10/16/18 2:20 PM</time>
                                  &middot; <span class="reading-time">5 min read</span>
                             </div>
                             
@@ -319,8 +323,8 @@ extension ViewController: ImagePickerDelegate {
                             <p>Do you want to learn how to load a xib file to create a custom view object? Well, this UIKit tutorial is just for you written in Swift.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
-        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -328,20 +332,20 @@ extension ViewController: ImagePickerDelegate {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2019/10/21">2019/10/21</time>
-                                 &middot; <span class="reading-time">4 min read</span>
+                                <time datetime="2018-05-17T14:20:00.000Z">5/17/18 2:20 PM</time>
+                                 &middot; <span class="reading-time">3 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/custom-views-input-forms-and-mistakes/" target="">Custom views, input forms and mistakes</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/how-to-use-icloud-drive-documents/" target="">How to use iCloud drive documents?</a></h2>
                             <hr>
-                            <p>Just a little advice about creating custom view programmatically and the truth about why form building with collection views sucks.</p>
+                            <p>Learn how to sync files and data through a shared iCloud drive folder using the latest version of Swift programming language.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                                <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     </div>
@@ -366,25 +370,17 @@ extension ViewController: ImagePickerDelegate {
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#a-reusable-image-picker-class-for-ios">A reusable image picker class for iOS</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#privacy-first">Privacy first!</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#the-anatomy-of-uiimagepickercontroller">The anatomy of UIImagePickerController</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#time-to-say-cheese">Time to say cheese! 🧀</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -439,7 +435,7 @@ extension ViewController: ImagePickerDelegate {
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

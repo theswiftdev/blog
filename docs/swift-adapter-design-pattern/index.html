@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2018/07/29">2018/07/29</time>
+                <div class="meta">            
+                    <time datetime="2018-07-29T14:20:00.000Z">7/29/18 2:20 PM</time>
                      &middot; <span class="reading-time">2 min read</span>
                     
                 </div>
@@ -108,7 +109,7 @@
                 <p>Turn an incompatible object into a target interface or class by using a real world example and the adapter design pattern in Swift.</p>
                 <section>
                 
-                <p>Fist of all let me emphasize that, this is the real world representation of what we’re going to build in this little Swift adapter pattern tutorial:</p><p>    <img src="/assets/swift-adapter-design-pattern/usb-adapter.jpg" alt="Picture of a USB Adapter"></p><p><a href="https://en.wikipedia.org/wiki/Adapter_pattern" target="_blank">Adapter</a> is a structural design pattern that allows objects with incompatible interfaces to work together. In other words, it transforms the interface of an object to adapt it to a different object.</p><p>So adapter can transform one thing into another, sometimes it’s called wrapper, because it wraps the object and provides a new interface around it. It’s like a software dongle for specific interfaces or legacy classes. (Dongle haters: it’s time to leave the past behind!) 😂</p><h2 id="adapter-design-pattern-implementation">Adapter design pattern implementation</h2><p>Creating an <a href="https://medium.com/swiftworld/swift-world-design-patterns-adapter-3e09fc6fd100" target="_blank">adapter in Swift</a> is actually a super easy task to do. You just need to make a new object, “box” the old one into it and implement the required interface on your new class or struct. In other words, a wrapper object will be our adapter to implement the target interface by wrapping an other adaptee object. So again:</p><h3 id="adaptee">Adaptee</h3><p>The object we are adapting to a specific target (e.g. old-school USB-A port).</p><h3 id="adapter">Adapter</h3><p>An object that wraps the original one and produces the new requirements specified by some target interface (this does the actual work, aka. the little dongle above).</p><h3 id="target">Target</h3><p>It is the object we want to use adaptee with (our USB-C socket).</p><h2 id="how-to-use-the-adapter-pattern-in-swift">How to use the adapter pattern in Swift?</h2><p>You can use an adapter if you want to integrate a third-party library in your code, but it’s interface doesn’t match with your requirements. For example you can create a wrapper around an entire SDK or backend API endpoints in order to create a common denominator. 👽</p><p>In my example, I’m going to wrap an EKEvent object with an adapter class to implement a brand new protocol. 📆</p><pre><code class="language-swift">import Foundation
+                <p>Fist of all let me emphasize that, this is the real world representation of what we’re going to build in this little Swift adapter pattern tutorial:</p><p><img src="https://theswiftdev.com/assets/swift-adapter-design-pattern/usb-adapter.jpg" alt="Picture of a USB Adapter"></p><p><a href="https://en.wikipedia.org/wiki/Adapter_pattern" target="_blank">Adapter</a> is a structural design pattern that allows objects with incompatible interfaces to work together. In other words, it transforms the interface of an object to adapt it to a different object.</p><p>So adapter can transform one thing into another, sometimes it’s called wrapper, because it wraps the object and provides a new interface around it. It’s like a software dongle for specific interfaces or legacy classes. (Dongle haters: it’s time to leave the past behind!) 😂</p><h2 id="adapter-design-pattern-implementation">Adapter design pattern implementation</h2><p>Creating an <a href="https://medium.com/swiftworld/swift-world-design-patterns-adapter-3e09fc6fd100" target="_blank">adapter in Swift</a> is actually a super easy task to do. You just need to make a new object, “box” the old one into it and implement the required interface on your new class or struct. In other words, a wrapper object will be our adapter to implement the target interface by wrapping an other adaptee object. So again:</p><h3 id="adaptee">Adaptee</h3><p>The object we are adapting to a specific target (e.g. old-school USB-A port).</p><h3 id="adapter">Adapter</h3><p>An object that wraps the original one and produces the new requirements specified by some target interface (this does the actual work, aka. the little dongle above).</p><h3 id="target">Target</h3><p>It is the object we want to use adaptee with (our USB-C socket).</p><h2 id="how-to-use-the-adapter-pattern-in-swift">How to use the adapter pattern in Swift?</h2><p>You can use an adapter if you want to integrate a third-party library in your code, but it’s interface doesn’t match with your requirements. For example you can create a wrapper around an entire SDK or backend API endpoints in order to create a common denominator. 👽</p><p>In my example, I’m going to wrap an EKEvent object with an adapter class to implement a brand new protocol. 📆</p><pre><code class="language-swift">import Foundation
 import EventKit
 
 // our target protocol
@@ -173,7 +174,7 @@ let adapter = EventAdapter(event: calendarEvent)
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -196,21 +197,22 @@ let adapter = EventAdapter(event: calendarEvent)
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2020/11/27">2020/11/27</time>
-                                 &middot; <span class="reading-time">5 min read</span>
+                                <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/event-driven-generic-hooks-for-swift/" target="">Event-driven generic hooks for Swift</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/uikit-init-patterns/" target="">UIKit init patterns</a></h2>
                             <hr>
-                            <p>In this article I am going to show you how to implement a basic event processing system for your modular Swift application.</p>
+                            <p>Learn about the initialization process of the two well known classes in UIKit. Say hello to UIViewcontroller, and UIView init patterns.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/design-pattern/"><small>Design pattern</small></a>
-        <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -218,11 +220,11 @@ let adapter = EventAdapter(event: calendarEvent)
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2018/08/19">2018/08/19</time>
+                                <time datetime="2018-08-19T14:20:00.000Z">8/19/18 2:20 PM</time>
                                  &middot; <span class="reading-time">4 min read</span>
                             </div>
                             
@@ -239,11 +241,11 @@ let adapter = EventAdapter(event: calendarEvent)
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2018/12/17">2018/12/17</time>
+                                <time datetime="2018-12-17T15:20:00.000Z">12/17/18 3:20 PM</time>
                                  &middot; <span class="reading-time">4 min read</span>
                             </div>
                             
@@ -260,17 +262,17 @@ let adapter = EventAdapter(event: calendarEvent)
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2022/08/12">2022/08/12</time>
-                                 &middot; <span class="reading-time">5 min read</span>
+                                <time datetime="2018-06-03T14:20:00.000Z">6/3/18 2:20 PM</time>
+                                 &middot; <span class="reading-time">1 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/lenses-and-prisms-in-swift/" target="">Lenses and prisms in Swift</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/swift-abstract-factory-design-pattern/" target="">Swift abstract factory design pattern</a></h2>
                             <hr>
-                            <p>Beginner&#39;s guide about optics in Swift. Learn how to use lenses and prisms to manipulate objects using a functional approach.</p>
+                            <p>Let&#39;s combine factory method with simple factory voilá: here is the abstract factory design pattern written in Swift language!</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/design-pattern/"><small>Design pattern</small></a>
@@ -298,18 +300,20 @@ let adapter = EventAdapter(event: calendarEvent)
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#adapter-design-pattern-implementation">Adapter design pattern implementation</a>
-                        <ul>
-                            <li><a href="#adaptee">Adaptee</a></li>
-                <li><a href="#adapter">Adapter</a></li>
-                <li><a href="#target">Target</a></li>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-3">
+                        <a href="#adaptee">Adaptee</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#adapter">Adapter</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#target">Target</a>
+                    </li>
+        <li class="level-2">
                         <a href="#how-to-use-the-adapter-pattern-in-swift">How to use the adapter pattern in Swift?</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -364,7 +368,7 @@ let adapter = EventAdapter(event: calendarEvent)
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

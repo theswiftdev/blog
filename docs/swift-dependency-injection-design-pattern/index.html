@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2018/07/17">2018/07/17</time>
+                <div class="meta">            
+                    <time datetime="2018-07-17T14:20:00.000Z">7/17/18 2:20 PM</time>
                      &middot; <span class="reading-time">5 min read</span>
                     
                 </div>
@@ -172,7 +173,7 @@ post.encoder = JSONEncoder()
 if let data = try? post.encoded(), let encoded = String(data: data, encoding: .utf8) {
     print(encoded)
 }
-</code></pre><p>There are lots of property injection patterns in iOS frameworks, <a href="https://theswiftdev.com/2018/06/27/swift-delegate-design-pattern/">delegate patterns</a> are often implemented like this. Also another great benefit is that these properties can be mutable ones, so you can replace them on-the-fly. ✈️</p><h2 id="method-injection">Method injection</h2><p>If you need a dependency only once, you don’t really need to store it as an object variable. Instead of an initializer argument or an exposed mutable property, you can simply pass around your dependency as a method parameter, this technique is called method injection or some say parameter-based injection. 👍</p><pre><code class="language-swift">class Post: Encodable {
+</code></pre><p>There are lots of property injection patterns in iOS frameworks, <a href="https://theswiftdev.com/2018/06/27/swift-delegate-design-pattern/" target="_blank">delegate patterns</a> are often implemented like this. Also another great benefit is that these properties can be mutable ones, so you can replace them on-the-fly. ✈️</p><h2 id="method-injection">Method injection</h2><p>If you need a dependency only once, you don’t really need to store it as an object variable. Instead of an initializer argument or an exposed mutable property, you can simply pass around your dependency as a method parameter, this technique is called method injection or some say parameter-based injection. 👍</p><pre><code class="language-swift">class Post: Encodable {
 
     var title: String
     var content: String
@@ -235,7 +236,7 @@ if let data = try? post.encoded(), let encoded = String(data: data, encoding: .u
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -258,21 +259,22 @@ if let data = try? post.encoded(), let encoded = String(data: data, encoding: .u
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2020/11/27">2020/11/27</time>
-                                 &middot; <span class="reading-time">5 min read</span>
+                                <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/event-driven-generic-hooks-for-swift/" target="">Event-driven generic hooks for Swift</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/uikit-init-patterns/" target="">UIKit init patterns</a></h2>
                             <hr>
-                            <p>In this article I am going to show you how to implement a basic event processing system for your modular Swift application.</p>
+                            <p>Learn about the initialization process of the two well known classes in UIKit. Say hello to UIViewcontroller, and UIView init patterns.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/design-pattern/"><small>Design pattern</small></a>
-        <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -280,11 +282,11 @@ if let data = try? post.encoded(), let encoded = String(data: data, encoding: .u
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2018/08/19">2018/08/19</time>
+                                <time datetime="2018-08-19T14:20:00.000Z">8/19/18 2:20 PM</time>
                                  &middot; <span class="reading-time">4 min read</span>
                             </div>
                             
@@ -301,11 +303,11 @@ if let data = try? post.encoded(), let encoded = String(data: data, encoding: .u
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2018/12/17">2018/12/17</time>
+                                <time datetime="2018-12-17T15:20:00.000Z">12/17/18 3:20 PM</time>
                                  &middot; <span class="reading-time">4 min read</span>
                             </div>
                             
@@ -322,17 +324,17 @@ if let data = try? post.encoded(), let encoded = String(data: data, encoding: .u
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2022/08/12">2022/08/12</time>
-                                 &middot; <span class="reading-time">5 min read</span>
+                                <time datetime="2018-06-03T14:20:00.000Z">6/3/18 2:20 PM</time>
+                                 &middot; <span class="reading-time">1 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/lenses-and-prisms-in-swift/" target="">Lenses and prisms in Swift</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/swift-abstract-factory-design-pattern/" target="">Swift abstract factory design pattern</a></h2>
                             <hr>
-                            <p>Beginner&#39;s guide about optics in Swift. Learn how to use lenses and prisms to manipulate objects using a functional approach.</p>
+                            <p>Let&#39;s combine factory method with simple factory voilá: here is the abstract factory design pattern written in Swift language!</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/design-pattern/"><small>Design pattern</small></a>
@@ -360,35 +362,23 @@ if let data = try? post.encoded(), let encoded = String(data: data, encoding: .u
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#dependency-injection-basics">Dependency Injection basics</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#how-to-do-di-in-swift">How to do DI in Swift?</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#constructor-injection">Constructor injection</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#property-injection">Property injection</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#method-injection">Method injection</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#ambient-context">Ambient context</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -443,7 +433,7 @@ if let data = try? post.encoded(), let encoded = String(data: data, encoding: .u
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2022/02/09">2022/02/09</time>
+                <div class="meta">            
+                    <time datetime="2022-02-09T15:20:00.000Z">2/9/22 3:20 PM</time>
                      &middot; <span class="reading-time">5 min read</span>
                     
                 </div>
@@ -123,7 +124,7 @@ class ViewController: UIViewController {
         foo.text = "crash"
     }
 }
-</code></pre><p>Actually you can go wrong with unwrapped weak pointers, because if you remove your view from the view hiearchy at some point in time before the view controller deallocation then your weak pointer will be nil. In this case there won’t be any more strong references and your view will be deallocated right away, so if it’s an implicitly unwrapped optional, then we have a trouble. Your app will crash if you try to access the property, because it’s going to have a nil value.</p><p>So yes you can use implicitly unwrapped optional variables to store subviews, but only if you are sure that you are not going to remove it from the hiearchy. This also means that you don’t trust Apple’s view management system, which is fine, there can be bugs, but honestly this is quite a crucial feature and it has been around for a decade by now. 🙃</p><p>The other alternative is to use a regular weak optional variable, but in that case you’ll always have to check if it’s nil or not, which is going to be a pain in the ass, but at least you’re going to be safe for sure. Personal opinion: it won’t worth the effort at all and I never stored views like this.</p><h3 id="strong-subviews">Strong subviews</h3><p>My recommendation is to trust Apple and define your subviews as strong properties. Okay, this can also be problematic if you have other strong references to the same stuff, but in general if the view controller has the only reference to that given subview you should be totally fine.</p><p>Since it’s a strong property you also have to initialize the view, but that’s not a big deal. You can always initialize a view with a .zero frame and that’s it. Alternatively you can create a <a href="https://theswiftdev.com/styling-by-subclassing/">subclass</a> with a regular <code>init()</code> method, that’s even better, becuase you are going to <a href="https://theswiftdev.com/mastering-ios-auto-layout-anchors-programmatically-from-swift/">use auto layout</a> for sure and this way can set the <code>translatesAutoresizingMaskIntoConstraints</code> property in one go.</p><pre><code class="language-swift">import UIKit
+</code></pre><p>Actually you can go wrong with unwrapped weak pointers, because if you remove your view from the view hiearchy at some point in time before the view controller deallocation then your weak pointer will be nil. In this case there won’t be any more strong references and your view will be deallocated right away, so if it’s an implicitly unwrapped optional, then we have a trouble. Your app will crash if you try to access the property, because it’s going to have a nil value.</p><p>So yes you can use implicitly unwrapped optional variables to store subviews, but only if you are sure that you are not going to remove it from the hiearchy. This also means that you don’t trust Apple’s view management system, which is fine, there can be bugs, but honestly this is quite a crucial feature and it has been around for a decade by now. 🙃</p><p>The other alternative is to use a regular weak optional variable, but in that case you’ll always have to check if it’s nil or not, which is going to be a pain in the ass, but at least you’re going to be safe for sure. Personal opinion: it won’t worth the effort at all and I never stored views like this.</p><h3 id="strong-subviews">Strong subviews</h3><p>My recommendation is to trust Apple and define your subviews as strong properties. Okay, this can also be problematic if you have other strong references to the same stuff, but in general if the view controller has the only reference to that given subview you should be totally fine.</p><p>Since it’s a strong property you also have to initialize the view, but that’s not a big deal. You can always initialize a view with a .zero frame and that’s it. Alternatively you can create a <a href="https://theswiftdev.com/styling-by-subclassing/" target="_blank">subclass</a> with a regular <code>init()</code> method, that’s even better, becuase you are going to <a href="https://theswiftdev.com/mastering-ios-auto-layout-anchors-programmatically-from-swift/" target="_blank">use auto layout</a> for sure and this way can set the <code>translatesAutoresizingMaskIntoConstraints</code> property in one go.</p><pre><code class="language-swift">import UIKit
 
 class Label: UILabel {
     
@@ -189,7 +190,7 @@ class ViewController: UIViewController {
         ])
     }
 }
-</code></pre><p>This way I can be sure that every single view is ready by the time the <a href="https://developer.apple.com/documentation/uikit/uiviewcontroller/1621495-viewdidload" target="_blank">viewDidLoad</a> method is called. It is possible to configure views inside the loadView method too, but I prefer to keep the hierarchy setup there and I place everything else inside the viewDidLoad function. I mean controller related stuff only, like setting up navigation bar buttons and things like this.</p><p>As I mentioned this in my <a href="https://theswiftdev.com/10-little-uikit-tips-you-should-know/">previous article</a>, I prefer to use subclasses to configure my views, I also move layout constraints there (as a function that returns them based on some parameters) to keep the view controller clean. Inside the viewDidLoad method I can perform additional user interface related actions, but that’s it I don’t use it for adding or styling views anymore.</p><h2 id="conclusion">Conclusion</h2><p>Based on my current knowledge, here is what I recommend for modern UIKit developers:</p><ul><li>Define your subviews as <code>strong</code> properties</li><li>Always check for leaks, implement <code>deinit</code>, use breakpoints or instruments</li><li>Use <code>weak</code> / <code>unowned</code> references if you have to break retain cycles</li><li>Add views to the hierarchy in the <code>loadView</code> method</li><li>Use subclasses for styling views, make them reusable</li><li>Define layout constraint getters on the view subclass, activate them inside <code>loadView</code></li><li>Perform remaining UI related operations in the <code>viewDidLoad</code> function</li></ul><p>That’s it. I’m not saying this is the perfect approach, but for me it’s definitely the way to go forward with UIKit. I know for sure that many people are still working with the framework and it is here to stay for a long time. I hope these tips will help you to understand UIKit just a little bit better. ☺️</p>
+</code></pre><p>This way I can be sure that every single view is ready by the time the <a href="https://developer.apple.com/documentation/uikit/uiviewcontroller/1621495-viewdidload" target="_blank">viewDidLoad</a> method is called. It is possible to configure views inside the loadView method too, but I prefer to keep the hierarchy setup there and I place everything else inside the viewDidLoad function. I mean controller related stuff only, like setting up navigation bar buttons and things like this.</p><p>As I mentioned this in my <a href="https://theswiftdev.com/10-little-uikit-tips-you-should-know/" target="_blank">previous article</a>, I prefer to use subclasses to configure my views, I also move layout constraints there (as a function that returns them based on some parameters) to keep the view controller clean. Inside the viewDidLoad method I can perform additional user interface related actions, but that’s it I don’t use it for adding or styling views anymore.</p><h2 id="conclusion">Conclusion</h2><p>Based on my current knowledge, here is what I recommend for modern UIKit developers:</p><ul><li>Define your subviews as <code>strong</code> properties</li><li>Always check for leaks, implement <code>deinit</code>, use breakpoints or instruments</li><li>Use <code>weak</code> / <code>unowned</code> references if you have to break retain cycles</li><li>Add views to the hierarchy in the <code>loadView</code> method</li><li>Use subclasses for styling views, make them reusable</li><li>Define layout constraint getters on the view subclass, activate them inside <code>loadView</code></li><li>Perform remaining UI related operations in the <code>viewDidLoad</code> function</li></ul><p>That’s it. I’m not saying this is the perfect approach, but for me it’s definitely the way to go forward with UIKit. I know for sure that many people are still working with the framework and it is here to stay for a long time. I hope these tips will help you to understand UIKit just a little bit better. ☺️</p>
                     
                 </section>
     
@@ -200,7 +201,7 @@ class ViewController: UIViewController {
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -223,20 +224,21 @@ class ViewController: UIViewController {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2022/02/03">2022/02/03</time>
-                                 &middot; <span class="reading-time">8 min read</span>
+                                <time datetime="2017-10-31T15:20:00.000Z">10/31/17 3:20 PM</time>
+                                 &middot; <span class="reading-time">6 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/10-little-uikit-tips-you-should-know/" target="">10 little UIKit tips you should know</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/ios-auto-layout-tutorial-programmatically/" target="">iOS Auto Layout tutorial programmatically</a></h2>
                             <hr>
-                            <p>In this article I&#39;ve gathered my top 10 favorite modern UIKit tips that I&#39;d definitely want to know before I start my next project.</p>
+                            <p>In this great iOS Auto Layout tutorial I&#39;ll teach you how to support rotation, use constraints, work with layers, animate corner radius.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -244,20 +246,22 @@ class ViewController: UIViewController {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2019/05/23">2019/05/23</time>
-                                 &middot; <span class="reading-time">5 min read</span>
+                                <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/building-input-forms-for-ios-apps/" target="">Building input forms for iOS apps</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/uikit-init-patterns/" target="">UIKit init patterns</a></h2>
                             <hr>
-                            <p>Learn how to build complex forms with my updated collection view view-model framework without the struggle using Swift.</p>
+                            <p>Learn about the initialization process of the two well known classes in UIKit. Say hello to UIViewcontroller, and UIView init patterns.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                                <a href="https://theswiftdev.com/tags/design-pattern/"><small>Design pattern</small></a>
+        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -265,11 +269,11 @@ class ViewController: UIViewController {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2018/10/16">2018/10/16</time>
+                                <time datetime="2018-10-16T14:20:00.000Z">10/16/18 2:20 PM</time>
                                  &middot; <span class="reading-time">5 min read</span>
                             </div>
                             
@@ -278,8 +282,8 @@ class ViewController: UIViewController {
                             <p>Do you want to learn how to load a xib file to create a custom view object? Well, this UIKit tutorial is just for you written in Swift.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
-        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -287,20 +291,21 @@ class ViewController: UIViewController {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2019/10/21">2019/10/21</time>
-                                 &middot; <span class="reading-time">4 min read</span>
+                                <time datetime="2018-04-26T14:20:00.000Z">4/26/18 2:20 PM</time>
+                                 &middot; <span class="reading-time">5 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/custom-views-input-forms-and-mistakes/" target="">Custom views, input forms and mistakes</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/ios-custom-transition-tutorial-in-swift/" target="">iOS custom transition tutorial in Swift</a></h2>
                             <hr>
-                            <p>Just a little advice about creating custom view programmatically and the truth about why form building with collection views sucks.</p>
+                            <p>In this tutorial, you&#39;ll learn how to replace the push, pop and modal animations with custom transitions &amp; percent driven interactions.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     </div>
@@ -325,23 +330,23 @@ class ViewController: UIViewController {
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#weak-unowned-or-strong-subviews">Weak, unowned or strong subviews?</a>
-                        <ul>
-                            <li><a href="#weak-subviews">Weak subviews</a></li>
-                <li><a href="#strong-subviews">Strong subviews</a></li>
-                <li><a href="#unowned-subviews">Unowned subviews</a></li>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-3">
+                        <a href="#weak-subviews">Weak subviews</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#strong-subviews">Strong subviews</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#unowned-subviews">Unowned subviews</a>
+                    </li>
+        <li class="level-2">
                         <a href="#using-loadview-and-viewdidload">Using loadView and viewDidLoad</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#conclusion">Conclusion</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -396,7 +401,7 @@ class ViewController: UIViewController {
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2021/06/03">2021/06/03</time>
+                <div class="meta">            
+                    <time datetime="2021-06-03T14:20:00.000Z">6/3/21 2:20 PM</time>
                      &middot; <span class="reading-time">7 min read</span>
                     
                 </div>
@@ -134,7 +135,7 @@
             }
     }
 }
-</code></pre><p>What do you think? Is this code readable, easy to follow or does it look like a good foundation of a <a href="https://en.wikipedia.org/wiki/Pyramid_of_doom_(programming)" target="_blank">historical monumental building</a>? Well, I’d say it’s hard to reason about this piece of Swift code. 😅</p><p>I’m not here to scare you, but I suppose that you’ve seen similar (hopefully more simple or better) EventLoopFuture-based code if you’ve worked with Vapor. <a href="https://theswiftdev.com/promises-in-swift-for-beginners/">Futures and promises</a> are just fine, they’ve helped us a lot to deal with asynchronous code, but unfortunately they come with maps, flatMaps and other block related solutions that will eventually lead to quite a lot of trouble.</p><p>Completion handlers (callbacks) have many problems:</p><ul><li>Pyramid of doom</li><li>Memory management</li><li>Error handling</li><li>Conditional block execution</li></ul><p>We can say it’s easy to make mistakes if it comes to completion handlers, that’s why we have a shiny new feature in Swift 5.5 called <a href="https://github.com/apple/swift-evolution/blob/main/proposals/0296-async-await.md" target="_blank">async/await</a> and it aims to solve these problems I mentioned before. If you are looking for an <a href="https://theswiftdev.com/introduction-to-asyncawait-in-swift/">introduction to async/await</a> in Swift you should read my other tutorial first, to learn the basics of this new concept.</p><p>So Vapor is full of EventLoopFutures, these objects are coming from the <a href="https://github.com/apple/swift-nio" target="_blank">SwiftNIO</a> framework, they are the core building blocks of all the async APIs in both frameworks. By introducing the async/await support we can eliminate quite a lot of unnecessary code (especially completion blocks), this way our codebase will be more easy to follow and maintain. 🥲</p><p>Most of the Vapor developers were waiting for this to happen for quite a long time, because everyone felt that EventLoopFutures (ELFs) are just freakin’ hard to work with. If you search a bit you’ll find quite a lot of complains about them, also the 4th major version of Vapor dropped the old shorthand typealiases and <a href="https://docs.vapor.codes/4.0/upgrading/#nio" target="_blank">exposed NIO’s async API directly</a>. I think this was a good decision, but still the framework god many complaints about this. 👎</p><p>Vapor will greatly benefit from adapting to the new async/await feature. Let me show you how to convert an existing ELF-based Vapor project and take advantage of the new concurrency features.</p><h2 id="how-to-convert-a-vapor-project-to-async-await">How to convert a Vapor project to async/await?</h2><p>We’re going to use our previous Todo project as a base template. It has a type-safe RESTful API, so it’s happens to be just the perfect candidate for our async/await migration process. ✅</p><p>The new async/await API for Vapor & Fluent are only available yet as a feature branch, so we have to alter our Package.swift manifest file if we’d like to use these new features.</p><pre><code class="language-swift">// swift-tools-version:5.3
+</code></pre><p>What do you think? Is this code readable, easy to follow or does it look like a good foundation of a <a href="https://en.wikipedia.org/wiki/Pyramid_of_doom_(programming)" target="_blank">historical monumental building</a>? Well, I’d say it’s hard to reason about this piece of Swift code. 😅</p><p>I’m not here to scare you, but I suppose that you’ve seen similar (hopefully more simple or better) EventLoopFuture-based code if you’ve worked with Vapor. <a href="https://theswiftdev.com/promises-in-swift-for-beginners/" target="_blank">Futures and promises</a> are just fine, they’ve helped us a lot to deal with asynchronous code, but unfortunately they come with maps, flatMaps and other block related solutions that will eventually lead to quite a lot of trouble.</p><p>Completion handlers (callbacks) have many problems:</p><ul><li>Pyramid of doom</li><li>Memory management</li><li>Error handling</li><li>Conditional block execution</li></ul><p>We can say it’s easy to make mistakes if it comes to completion handlers, that’s why we have a shiny new feature in Swift 5.5 called <a href="https://github.com/apple/swift-evolution/blob/main/proposals/0296-async-await.md" target="_blank">async/await</a> and it aims to solve these problems I mentioned before. If you are looking for an <a href="https://theswiftdev.com/introduction-to-asyncawait-in-swift/" target="_blank">introduction to async/await</a> in Swift you should read my other tutorial first, to learn the basics of this new concept.</p><p>So Vapor is full of EventLoopFutures, these objects are coming from the <a href="https://github.com/apple/swift-nio" target="_blank">SwiftNIO</a> framework, they are the core building blocks of all the async APIs in both frameworks. By introducing the async/await support we can eliminate quite a lot of unnecessary code (especially completion blocks), this way our codebase will be more easy to follow and maintain. 🥲</p><p>Most of the Vapor developers were waiting for this to happen for quite a long time, because everyone felt that EventLoopFutures (ELFs) are just freakin’ hard to work with. If you search a bit you’ll find quite a lot of complains about them, also the 4th major version of Vapor dropped the old shorthand typealiases and <a href="https://docs.vapor.codes/4.0/upgrading/#nio" target="_blank">exposed NIO’s async API directly</a>. I think this was a good decision, but still the framework god many complaints about this. 👎</p><p>Vapor will greatly benefit from adapting to the new async/await feature. Let me show you how to convert an existing ELF-based Vapor project and take advantage of the new concurrency features.</p><h2 id="how-to-convert-a-vapor-project-to-async-await">How to convert a Vapor project to async/await?</h2><p>We’re going to use our previous Todo project as a base template. It has a type-safe RESTful API, so it’s happens to be just the perfect candidate for our async/await migration process. ✅</p><p>The new async/await API for Vapor & Fluent are only available yet as a feature branch, so we have to alter our Package.swift manifest file if we’d like to use these new features.</p><pre><code class="language-swift">// swift-tools-version:5.3
 import PackageDescription
 
 let package = Package(
@@ -222,7 +223,7 @@ struct TodoController {
             .map { .ok }
     }
 }
-</code></pre><p>The very first method that we’re going to convert is the <code>findTodoByIdParam</code>. Fortunately this version of FluentKit comes with a set of async functions to query and modify database models.</p><p>We just have to remove the <code>EventLoopFuture</code> type and write async before the throws keyword, this will indicate that our function is going to be executed asynchronously.</p><blockquote class="note"><p>NOTE: It is worth to mention that you can only call an async function from async functions. If you want to call an async function from a sync function you’ll have to use a special (deatch) method. You can call however sync functions inside async methods without any trouble. 🔀</p></blockquote><p>We can use the new async find method to fetch the TodoModel based on the UUID parameter. When you call an async function you have to await for the result. This will let you use the return type just like it it was a sync call, so there is no need for completion blocks anymore and we can simply guard the optional model result and throw a notFound error if needed. Async functions can throw as well, so you might have to write try await when you call them, note that the order of the keywords is fixed, so try always comes before await, and the signature is always async throws.</p><pre><code class="language-swift">func findTodoByIdParam(_ req: Request) async throws -&gt; TodoModel {
+</code></pre><p>The very first method that we’re going to convert is the <code>findTodoByIdParam</code>. Fortunately this version of FluentKit comes with a set of async functions to query and modify database models.</p><p>We just have to remove the <code>EventLoopFuture</code> type and write async before the throws keyword, this will indicate that our function is going to be executed asynchronously.</p><blockquote class="note"><p>It is worth to mention that you can only call an async function from async functions. If you want to call an async function from a sync function you’ll have to use a special (deatch) method. You can call however sync functions inside async methods without any trouble. 🔀</p></blockquote><p>We can use the new async find method to fetch the TodoModel based on the UUID parameter. When you call an async function you have to await for the result. This will let you use the return type just like it it was a sync call, so there is no need for completion blocks anymore and we can simply guard the optional model result and throw a notFound error if needed. Async functions can throw as well, so you might have to write try await when you call them, note that the order of the keywords is fixed, so try always comes before await, and the signature is always async throws.</p><pre><code class="language-swift">func findTodoByIdParam(_ req: Request) async throws -&gt; TodoModel {
     guard let model = try await TodoModel.find(try getTodoIdParam(req), on: req.db) else {
         throw Abort(.notFound)
     }
@@ -281,7 +282,7 @@ func delete(req: Request) async throws -&gt; HTTPStatus {
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -305,55 +306,11 @@ func delete(req: Request) async throws -&gt; HTTPStatus {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2020/07/15">2020/07/15</time>
-                                 &middot; <span class="reading-time">5 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/10-short-advices-that-will-make-you-a-better-vapor-developer-right-away/" target="">10 short advices that will make you a better Vapor developer right away</a></h2>
-                            <hr>
-                            <p>As a beginner server side Swift developer you&#39;ll face many obstackles. I&#39;ll show you how to avoid the most common ones.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
-        <a href="https://theswiftdev.com/tags/vapor/"><small>Vapor</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2020/04/01">2020/04/01</time>
-                                 &middot; <span class="reading-time">10 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/a-generic-crud-solution-for-vapor-4/" target="">A generic CRUD solution for Vapor 4</a></h2>
-                            <hr>
-                            <p>Learn how to build a controller component that can serve models as JSON objects through a RESTful API written in Swift.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
-        <a href="https://theswiftdev.com/tags/vapor/"><small>Vapor</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2019/10/08">2019/10/08</time>
+                                <time datetime="2019-10-08T14:20:00.000Z">10/8/19 2:20 PM</time>
                                  &middot; <span class="reading-time">4 min read</span>
                             </div>
                             
@@ -371,17 +328,61 @@ func delete(req: Request) async throws -&gt; HTTPStatus {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2020/12/18">2020/12/18</time>
+                                <time datetime="2019-08-26T14:20:00.000Z">8/26/19 2:20 PM</time>
+                                 &middot; <span class="reading-time">4 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/whats-new-in-vapor-4/" target="">What&#39;s new in Vapor 4?</a></h2>
+                            <hr>
+                            <p>Vapor is the most popular server side Swift web application framework. This time we&#39;ll cover what&#39;s new in Vapor 4.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
+        <a href="https://theswiftdev.com/tags/vapor/"><small>Vapor</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020-07-15T14:20:00.000Z">7/15/20 2:20 PM</time>
                                  &middot; <span class="reading-time">5 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/ajax-calls-using-vapor-4/" target="">AJAX calls using Vapor 4</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/10-short-advices-that-will-make-you-a-better-vapor-developer-right-away/" target="">10 short advices that will make you a better Vapor developer right away</a></h2>
                             <hr>
-                            <p>Learn how to implement Asynchronous JavaScript and XML (AJAX) calls using Leaf templates and Vapor 4 as a server.</p>
+                            <p>As a beginner server side Swift developer you&#39;ll face many obstackles. I&#39;ll show you how to avoid the most common ones.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
+        <a href="https://theswiftdev.com/tags/vapor/"><small>Vapor</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020-04-01T14:20:00.000Z">4/1/20 2:20 PM</time>
+                                 &middot; <span class="reading-time">10 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/a-generic-crud-solution-for-vapor-4/" target="">A generic CRUD solution for Vapor 4</a></h2>
+                            <hr>
+                            <p>Learn how to build a controller component that can serve models as JSON objects through a RESTful API written in Swift.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
@@ -410,15 +411,11 @@ func delete(req: Request) async throws -&gt; HTTPStatus {
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#is-async-await-going-to-improve-vapor">Is async/await going to improve Vapor?</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#how-to-convert-a-vapor-project-to-async-await">How to convert a Vapor project to async/await?</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -473,7 +470,7 @@ func delete(req: Request) async throws -&gt; HTTPStatus {
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2022/03/03">2022/03/03</time>
+                <div class="meta">            
+                    <time datetime="2022-03-03T15:20:00.000Z">3/3/22 3:20 PM</time>
                      &middot; <span class="reading-time">7 min read</span>
                     
                 </div>
@@ -108,7 +109,7 @@
                 <p>In this article I&#39;m going to talk about the repository design pattern and give you a few Fluent ORM tips for your Vapor 4 app.</p>
                 <section>
                 
-                <h2 id="fluent-is-essentially-broken">Fluent is essentially broken</h2><p>The more I use the <a href="https://docs.vapor.codes/4.0/fluent/overview/" target="_blank">Fluent ORM framework</a> the more I realize how hard it is to work with it. I’m talking about a particular design issue that I also mentioned in <a href="https://theswiftdev.com/the-future-of-server-side-swift/">the future of server side Swift article</a>. I really don’t like the idea of property wrappers and abstract database models.</p><p>What’s the problem with the current database model abstraction? First of all, the optional ID property is confusing. For example you don’t have to provide an identifier when you insert a record, it can be an nil value and the ORM system can create a unique identifier (under the hood using a generator) for you. So why do we have an id for create operations at all? Yes, you might say that it is possible to specify a custom identifier, but honestly how many times do we need that? If you want to identify a record that’s going to be something like a key, not an id field. 🙃</p><p>Also this optional property can cause some other issues, when using fluent you can require an id, which is a throwing operation, alternatively you can unwrap the optional property if you’re sure that the identifier already exists, but this is not a safe approach at all.</p><p>My other issue is related to initializers, if you define a custom model you always have to provide an empty <code>init() {}</code> method for it, otherwise the compiler will complain, because models have to be classes. BUT WHY? IMHO the reason relates to this issue: you can query the database models using the model itself. So the model acts like a repository that you can use to query the fields, and it also represents the the record itself. Isn’t this against the clean principles? 🤔</p><p>Okay, one last thing. Property wrappers, field keys and migrations. The core members at Vapor told us that this approach will provide a safe way to query my models and I can be sure that field keys won’t be messed up, but I’m actually struggling with versioning in this case. I had to introduce a v1, v2, vN structure both for the field keys and the migration, which actually feels a bit worse than using raw strings. It is over-complicated for sure, and it feels like the schema definition is mixed up with the actual query mechanism and the model layer as well.</p><p>Sorry folks, I really appreciate the effort that you’ve put into Fluent, but these issues are real and I know that you can fix them on the long term and make the developer experience a lot better.</p><h2 id="how-to-make-fluent-a-bit-better">How to make Fluent a bit better?</h2><p>On the short term I’m trying to fix these issues and fortunately there is a nice approach to separate the query mechanism from the model layer. It is called the <a href="https://docs.vapor.codes/4.0/upgrading/#repositories" target="_blank">repository pattern</a> and I’d like to give a huge credit to <a href="https://x.com/0xTim" target="_blank">0xTim</a> again, because he made a cool answer on <a href="https://stackoverflow.com/questions/63333118/understanding-how-to-initialize-a-vapor-4-repository" target="_blank">StackOverlow</a> about this topic.</p><p>Anyway, the main idea is that you wrap the <code>Request</code> object into a custom repository, it’s usually a struct, then you only call database related queries inside this specific object. If we take a look at at the default project template (you can generate one by using the <a href="https://docs.vapor.codes/4.0/install/linux/#install-toolbox" target="_blank">vapor toolbox</a>), we can easily create a new repository for the Todo models.</p><pre><code class="language-swift">import Vapor
+                <h2 id="fluent-is-essentially-broken">Fluent is essentially broken</h2><p>The more I use the <a href="https://docs.vapor.codes/4.0/fluent/overview/" target="_blank">Fluent ORM framework</a> the more I realize how hard it is to work with it. I’m talking about a particular design issue that I also mentioned in <a href="https://theswiftdev.com/the-future-of-server-side-swift/" target="_blank">the future of server side Swift article</a>. I really don’t like the idea of property wrappers and abstract database models.</p><p>What’s the problem with the current database model abstraction? First of all, the optional ID property is confusing. For example you don’t have to provide an identifier when you insert a record, it can be an nil value and the ORM system can create a unique identifier (under the hood using a generator) for you. So why do we have an id for create operations at all? Yes, you might say that it is possible to specify a custom identifier, but honestly how many times do we need that? If you want to identify a record that’s going to be something like a key, not an id field. 🙃</p><p>Also this optional property can cause some other issues, when using fluent you can require an id, which is a throwing operation, alternatively you can unwrap the optional property if you’re sure that the identifier already exists, but this is not a safe approach at all.</p><p>My other issue is related to initializers, if you define a custom model you always have to provide an empty <code>init() {}</code> method for it, otherwise the compiler will complain, because models have to be classes. BUT WHY? IMHO the reason relates to this issue: you can query the database models using the model itself. So the model acts like a repository that you can use to query the fields, and it also represents the the record itself. Isn’t this against the clean principles? 🤔</p><p>Okay, one last thing. Property wrappers, field keys and migrations. The core members at Vapor told us that this approach will provide a safe way to query my models and I can be sure that field keys won’t be messed up, but I’m actually struggling with versioning in this case. I had to introduce a v1, v2, vN structure both for the field keys and the migration, which actually feels a bit worse than using raw strings. It is over-complicated for sure, and it feels like the schema definition is mixed up with the actual query mechanism and the model layer as well.</p><p>Sorry folks, I really appreciate the effort that you’ve put into Fluent, but these issues are real and I know that you can fix them on the long term and make the developer experience a lot better.</p><h2 id="how-to-make-fluent-a-bit-better">How to make Fluent a bit better?</h2><p>On the short term I’m trying to fix these issues and fortunately there is a nice approach to separate the query mechanism from the model layer. It is called the <a href="https://docs.vapor.codes/4.0/upgrading/#repositories" target="_blank">repository pattern</a> and I’d like to give a huge credit to <a href="https://x.com/0xTim" target="_blank">0xTim</a> again, because he made a cool answer on <a href="https://stackoverflow.com/questions/63333118/understanding-how-to-initialize-a-vapor-4-repository" target="_blank">StackOverlow</a> about this topic.</p><p>Anyway, the main idea is that you wrap the <code>Request</code> object into a custom repository, it’s usually a struct, then you only call database related queries inside this specific object. If we take a look at at the default project template (you can generate one by using the <a href="https://docs.vapor.codes/4.0/install/linux/#install-toolbox" target="_blank">vapor toolbox</a>), we can easily create a new repository for the Todo models.</p><pre><code class="language-swift">import Vapor
 import Fluent
 
 struct TodoRepository {
@@ -367,7 +368,7 @@ struct TodoController: RouteCollection {
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -391,55 +392,11 @@ struct TodoController: RouteCollection {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2020/07/15">2020/07/15</time>
-                                 &middot; <span class="reading-time">5 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/10-short-advices-that-will-make-you-a-better-vapor-developer-right-away/" target="">10 short advices that will make you a better Vapor developer right away</a></h2>
-                            <hr>
-                            <p>As a beginner server side Swift developer you&#39;ll face many obstackles. I&#39;ll show you how to avoid the most common ones.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
-        <a href="https://theswiftdev.com/tags/vapor/"><small>Vapor</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2020/04/01">2020/04/01</time>
-                                 &middot; <span class="reading-time">10 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/a-generic-crud-solution-for-vapor-4/" target="">A generic CRUD solution for Vapor 4</a></h2>
-                            <hr>
-                            <p>Learn how to build a controller component that can serve models as JSON objects through a RESTful API written in Swift.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
-        <a href="https://theswiftdev.com/tags/vapor/"><small>Vapor</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2019/10/08">2019/10/08</time>
+                                <time datetime="2019-10-08T14:20:00.000Z">10/8/19 2:20 PM</time>
                                  &middot; <span class="reading-time">4 min read</span>
                             </div>
                             
@@ -457,17 +414,61 @@ struct TodoController: RouteCollection {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2020/12/18">2020/12/18</time>
+                                <time datetime="2019-08-26T14:20:00.000Z">8/26/19 2:20 PM</time>
+                                 &middot; <span class="reading-time">4 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/whats-new-in-vapor-4/" target="">What&#39;s new in Vapor 4?</a></h2>
+                            <hr>
+                            <p>Vapor is the most popular server side Swift web application framework. This time we&#39;ll cover what&#39;s new in Vapor 4.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
+        <a href="https://theswiftdev.com/tags/vapor/"><small>Vapor</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020-07-15T14:20:00.000Z">7/15/20 2:20 PM</time>
                                  &middot; <span class="reading-time">5 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/ajax-calls-using-vapor-4/" target="">AJAX calls using Vapor 4</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/10-short-advices-that-will-make-you-a-better-vapor-developer-right-away/" target="">10 short advices that will make you a better Vapor developer right away</a></h2>
                             <hr>
-                            <p>Learn how to implement Asynchronous JavaScript and XML (AJAX) calls using Leaf templates and Vapor 4 as a server.</p>
+                            <p>As a beginner server side Swift developer you&#39;ll face many obstackles. I&#39;ll show you how to avoid the most common ones.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
+        <a href="https://theswiftdev.com/tags/vapor/"><small>Vapor</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020-04-01T14:20:00.000Z">4/1/20 2:20 PM</time>
+                                 &middot; <span class="reading-time">10 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/a-generic-crud-solution-for-vapor-4/" target="">A generic CRUD solution for Vapor 4</a></h2>
+                            <hr>
+                            <p>Learn how to build a controller component that can serve models as JSON objects through a RESTful API written in Swift.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
@@ -496,15 +497,11 @@ struct TodoController: RouteCollection {
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#fluent-is-essentially-broken">Fluent is essentially broken</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#how-to-make-fluent-a-bit-better">How to make Fluent a bit better?</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -559,7 +556,7 @@ struct TodoController: RouteCollection {
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

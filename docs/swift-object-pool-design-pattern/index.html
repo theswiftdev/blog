@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2018/12/09">2018/12/09</time>
+                <div class="meta">            
+                    <time datetime="2018-12-09T15:20:00.000Z">12/9/18 3:20 PM</time>
                      &middot; <span class="reading-time">1 min read</span>
                     
                 </div>
@@ -108,7 +109,7 @@
                 <p>In this quick tutorial I&#39;ll explain &amp; show you how to implement the object pool design pattern using the Swift programming language.</p>
                 <section>
                 
-                <h2 id="a-generic-object-pool-in-swift">A generic object pool in Swift</h2><p>The <a href="https://en.wikipedia.org/wiki/Object_pool_pattern" target="_blank">object pool</a> pattern is a creational design pattern. The main idea behind it is that first you create a set of objects (a pool), then you acquire & release objects from the pool, instead of constantly creating and releasing them. 👍</p><p>Why? Performance improvements. For example the <a href="https://theswiftdev.com/2018/07/10/ultimate-grand-central-dispatch-tutorial-in-swift/">Dispatch framework</a> uses an <a href="http://audreyli.me/2015/07/14/a-design-pattern-story-in-swift-chapter-16-object-pool/" target="_blank">object pool</a> pattern to give pre-created queues for the developers, because creating a queue (with an associated thread) is an relatively expensive operation.</p><p>Another use case of the <a href="https://medium.com/@sawomirkowalski/design-patterns-object-pool-e8269fd45e10" target="_blank">object pool</a> pattern is workers. For example you have to download hundreds of images from the web, but you’d like to download only 5 simultaneously you can do it with a pool of 5 worker objects. Probably it’s going to be a lot cheaper to allocate a small number of workers (that’ll actually do the download task), than create a new one for every single image download request. 🖼</p><p>What about the downsides of this pattern? There are some. For example if you have workers in your pool, they might contain states or sensitive user data. You have to be very careful with them aka. reset everything. Also if you are running in a multi-threaded environment you have to make your pool <strong>thread-safe</strong>.</p><p>Here is a simple generic thread-safe <a href="https://github.com/reswifq/pool" target="_blank">object pool</a> class:</p><pre><code class="language-swift">import Foundation
+                <h2 id="a-generic-object-pool-in-swift">A generic object pool in Swift</h2><p>The <a href="https://en.wikipedia.org/wiki/Object_pool_pattern" target="_blank">object pool</a> pattern is a creational design pattern. The main idea behind it is that first you create a set of objects (a pool), then you acquire & release objects from the pool, instead of constantly creating and releasing them. 👍</p><p>Why? Performance improvements. For example the <a href="https://theswiftdev.com/2018/07/10/ultimate-grand-central-dispatch-tutorial-in-swift/" target="_blank">Dispatch framework</a> uses an <a href="http://audreyli.me/2015/07/14/a-design-pattern-story-in-swift-chapter-16-object-pool/" target="_blank">object pool</a> pattern to give pre-created queues for the developers, because creating a queue (with an associated thread) is an relatively expensive operation.</p><p>Another use case of the <a href="https://medium.com/@sawomirkowalski/design-patterns-object-pool-e8269fd45e10" target="_blank">object pool</a> pattern is workers. For example you have to download hundreds of images from the web, but you’d like to download only 5 simultaneously you can do it with a pool of 5 worker objects. Probably it’s going to be a lot cheaper to allocate a small number of workers (that’ll actually do the download task), than create a new one for every single image download request. 🖼</p><p>What about the downsides of this pattern? There are some. For example if you have workers in your pool, they might contain states or sensitive user data. You have to be very careful with them aka. reset everything. Also if you are running in a multi-threaded environment you have to make your pool <strong>thread-safe</strong>.</p><p>Here is a simple generic thread-safe <a href="https://github.com/reswifq/pool" target="_blank">object pool</a> class:</p><pre><code class="language-swift">import Foundation
 
 class Pool&lt;T&gt; {
 
@@ -169,7 +170,7 @@ print("\(x ?? "n/a") acquired again")
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -192,21 +193,22 @@ print("\(x ?? "n/a") acquired again")
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2020/11/27">2020/11/27</time>
-                                 &middot; <span class="reading-time">5 min read</span>
+                                <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/event-driven-generic-hooks-for-swift/" target="">Event-driven generic hooks for Swift</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/uikit-init-patterns/" target="">UIKit init patterns</a></h2>
                             <hr>
-                            <p>In this article I am going to show you how to implement a basic event processing system for your modular Swift application.</p>
+                            <p>Learn about the initialization process of the two well known classes in UIKit. Say hello to UIViewcontroller, and UIView init patterns.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/design-pattern/"><small>Design pattern</small></a>
-        <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -214,11 +216,11 @@ print("\(x ?? "n/a") acquired again")
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2018/08/19">2018/08/19</time>
+                                <time datetime="2018-08-19T14:20:00.000Z">8/19/18 2:20 PM</time>
                                  &middot; <span class="reading-time">4 min read</span>
                             </div>
                             
@@ -235,11 +237,11 @@ print("\(x ?? "n/a") acquired again")
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2018/12/17">2018/12/17</time>
+                                <time datetime="2018-12-17T15:20:00.000Z">12/17/18 3:20 PM</time>
                                  &middot; <span class="reading-time">4 min read</span>
                             </div>
                             
@@ -256,17 +258,17 @@ print("\(x ?? "n/a") acquired again")
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2022/08/12">2022/08/12</time>
-                                 &middot; <span class="reading-time">5 min read</span>
+                                <time datetime="2018-06-03T14:20:00.000Z">6/3/18 2:20 PM</time>
+                                 &middot; <span class="reading-time">1 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/lenses-and-prisms-in-swift/" target="">Lenses and prisms in Swift</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/swift-abstract-factory-design-pattern/" target="">Swift abstract factory design pattern</a></h2>
                             <hr>
-                            <p>Beginner&#39;s guide about optics in Swift. Learn how to use lenses and prisms to manipulate objects using a functional approach.</p>
+                            <p>Let&#39;s combine factory method with simple factory voilá: here is the abstract factory design pattern written in Swift language!</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/design-pattern/"><small>Design pattern</small></a>
@@ -294,10 +296,8 @@ print("\(x ?? "n/a") acquired again")
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#a-generic-object-pool-in-swift">A generic object pool in Swift</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -352,7 +352,7 @@ print("\(x ?? "n/a") acquired again")
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

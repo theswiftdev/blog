@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2020/10/26">2020/10/26</time>
+                <div class="meta">            
+                    <time datetime="2020-10-26T15:20:00.000Z">10/26/20 3:20 PM</time>
                      &middot; <span class="reading-time">5 min read</span>
                     
                 </div>
@@ -158,7 +159,7 @@ let task = URLSession.shared.dataTask(with: url) { data, response, error in
 task.resume()
 dispatchMain()
 </code></pre><p>If you call this example with a URL that can return a list of todos it’ll print a nice list of the items.</p><pre><code class="language-sh">./main.swift https://jsonplaceholder.typicode.com/todos
-</code></pre><p>Yes, you can say that this script is completely useless, but in my opinion it’s an amazing demo app, since it covers how to check command line arguments (<code>CommandLine.arguments</code>), it also shows you how to wait (<code>dispatchMain</code>) for an async task, such as a HTTP call through the network using the <a href="https://theswiftdev.com/urlsession-and-the-combine-framework/">URLSession API</a> to finish and exit using the right method when something fails (<code>fatalError</code>) or if you reach the end of execution (<code>exit(0)</code>). Just a few lines of code, but it contains so much info.</p><blockquote class="note"><p>NOTE: Have you noticed the new shebang? If you have multiple Swift versions installed on your system, you can use the <a href="https://unix.stackexchange.com/questions/29608/why-is-it-better-to-use-usr-bin-env-name-instead-of-path-to-name-as-my/29620#29620" target="_blank">env shebang</a> to go with the first one that’s available in your PATH.</p></blockquote><p>It’s not just Foundation, but you can import AppKit or even SwiftUI. Well, not under Linux of course, since those frameworks are only available for macOS plus you will need Xcode installed on your system, since some stuff in Swift the toolchain is still tied to the IDE, but why? 😢</p><p>Anyway, back to the topic, here’s the boilerplate code for a macOS application Swift script that can be started from the Terminal with one simple <code>./main.swift</code> command and nothing more.</p><pre><code class="language-swift">#!/usr/bin/env swift
+</code></pre><p>Yes, you can say that this script is completely useless, but in my opinion it’s an amazing demo app, since it covers how to check command line arguments (<code>CommandLine.arguments</code>), it also shows you how to wait (<code>dispatchMain</code>) for an async task, such as a HTTP call through the network using the <a href="https://theswiftdev.com/urlsession-and-the-combine-framework/" target="_blank">URLSession API</a> to finish and exit using the right method when something fails (<code>fatalError</code>) or if you reach the end of execution (<code>exit(0)</code>). Just a few lines of code, but it contains so much info.</p><blockquote class="note"><p>Have you noticed the new shebang? If you have multiple Swift versions installed on your system, you can use the <a href="https://unix.stackexchange.com/questions/29608/why-is-it-better-to-use-usr-bin-env-name-instead-of-path-to-name-as-my/29620#29620" target="_blank">env shebang</a> to go with the first one that’s available in your PATH.</p></blockquote><p>It’s not just Foundation, but you can import AppKit or even SwiftUI. Well, not under Linux of course, since those frameworks are only available for macOS plus you will need Xcode installed on your system, since some stuff in Swift the toolchain is still tied to the IDE, but why? 😢</p><p>Anyway, back to the topic, here’s the boilerplate code for a macOS application Swift script that can be started from the Terminal with one simple <code>./main.swift</code> command and nothing more.</p><pre><code class="language-swift">#!/usr/bin/env swift
 
 import AppKit
 import SwiftUI
@@ -217,7 +218,7 @@ app.run()
 </code></pre><p>Special thanks goes to <a href="https://github.com/karwa" target="_blank">karwa</a> for the <a href="https://gist.github.com/karwa/5207e232ac9ec53f0276252ab5e3ee07" target="_blank">original gist</a>. Also if you are into Storyboard-less macOS app development, you should definitely take a look at <a href="https://kicsipixel.github.io/2020/nostoryboard/" target="_blank">this article</a> by <a href="https://x.com/kicsipixel" target="_blank">@kicsipixel</a>. These resources helped me a lot to put together what I needed. I still had to extend the gist with a proper menu setup and the activation policy, but now this version acts like a real-world macOS application that works like a charm. There is only one issue here… the script file is getting crowded. 🙈</p><h2 id="swift-package-manager-and-macos-apps">Swift Package Manager and macOS apps</h2><p>So, if we follow the same logic, that means we can build an executable package that can invoke AppKit related stuff using the Swift Package Manager. Easy as a pie. 🥧</p><pre><code class="language-sh">mkdir MyApp
 cd MyApp 
 swift package init --type=executable
-</code></pre><p>Now we can separate the components into standalone files, we can also remove the availability checking, since we’re going to add a platform constraint using our <code>Package.swift</code> manifest file. If you don’t know much about how the Swift Package Manager works, please read <a href="https://theswiftdev.com/swift-package-manager-tutorial/">my SPM tutorial</a>, or if you are simply curious about the structure of a Package.swift file, you can read my article about the <a href="https://theswiftdev.com/the-swift-package-manifest-file/">Swift Package manifest file</a>. Let’s start with the manifest updates.</p><pre><code class="language-swift">// swift-tools-version:5.3
+</code></pre><p>Now we can separate the components into standalone files, we can also remove the availability checking, since we’re going to add a platform constraint using our <code>Package.swift</code> manifest file. If you don’t know much about how the Swift Package Manager works, please read <a href="https://theswiftdev.com/swift-package-manager-tutorial/" target="_blank">my SPM tutorial</a>, or if you are simply curious about the structure of a Package.swift file, you can read my article about the <a href="https://theswiftdev.com/the-swift-package-manifest-file/" target="_blank">Swift Package manifest file</a>. Let’s start with the manifest updates.</p><pre><code class="language-swift">// swift-tools-version:5.3
 import PackageDescription
 
 let package = Package(
@@ -297,7 +298,7 @@ app.run()
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -320,11 +321,11 @@ app.run()
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2017/10/27">2017/10/27</time>
+                                <time datetime="2017-10-27T14:20:00.000Z">10/27/17 2:20 PM</time>
                                  &middot; <span class="reading-time">2 min read</span>
                             </div>
                             
@@ -333,8 +334,8 @@ app.run()
                             <p>In this tutorial I&#39;ll show you how to launch a completely sandboxed macOS application on system startup written in Swift.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/macos/"><small>macOS</small></a>
-        <a href="https://theswiftdev.com/tags/tooling/"><small>Tooling</small></a>
+                                <a href="https://theswiftdev.com/tags/tooling/"><small>Tooling</small></a>
+        <a href="https://theswiftdev.com/tags/macos/"><small>macOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -342,11 +343,11 @@ app.run()
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2018/02/27">2018/02/27</time>
+                                <time datetime="2018-02-27T15:20:00.000Z">2/27/18 3:20 PM</time>
                                  &middot; <span class="reading-time">3 min read</span>
                             </div>
                             
@@ -361,6 +362,27 @@ app.run()
         <a href="https://theswiftdev.com/tags/tvos/"><small>tvOS</small></a>
         <a href="https://theswiftdev.com/tags/visionos/"><small>visionOS</small></a>
         <a href="https://theswiftdev.com/tags/watchos/"><small>watchOS</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020-10-26T15:20:00.000Z">10/26/20 3:20 PM</time>
+                                 &middot; <span class="reading-time">5 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/how-to-build-macos-apps-using-only-the-swift-package-manager/" target="">How to build macOS apps using only the Swift Package Manager?</a></h2>
+                            <hr>
+                            <p>In this article we&#39;re going to create a macOS application without ever touching an Xcode project file, but only working with SPM.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/macos/"><small>macOS</small></a>
                             </div>
                         </div>
                     </div>
@@ -385,15 +407,11 @@ app.run()
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#swift-scripts-and-macos-apps">Swift scripts and macOS apps</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#swift-package-manager-and-macos-apps">Swift Package Manager and macOS apps</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -448,7 +466,7 @@ app.run()
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

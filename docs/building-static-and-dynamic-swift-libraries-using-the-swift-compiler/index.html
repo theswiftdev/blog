@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2021/02/16">2021/02/16</time>
+                <div class="meta">            
+                    <time datetime="2021-02-16T15:20:00.000Z">2/16/21 3:20 PM</time>
                      &middot; <span class="reading-time">8 min read</span>
                     
                 </div>
@@ -108,7 +109,7 @@
                 <p>This tutorial is all about emitting various Swift binaries without the Swift package manager, but only using the Swift compiler.</p>
                 <section>
                 
-                <h2 id="what-the-heck-is-a-library">What the heck is a library?</h2><p>A <a href="https://en.wikipedia.org/wiki/Library_(computing)" target="_blank">library</a> is a collection of Swift components that other applications can use.</p><p>Imagine that you are creating a simple application to pluralize a string. It works great, you finish the app and you start working on your next one. In your next application, you face the exact same issue, you have to print countable items (e.g 2 bananas). What would you do? 🤔</p><p>The first thing that can cross your mind is to copy all the source code from the first application into the second one. Well, this could work of course, but what happens if you discover a bug in the pluralization component? Now you have to fix the issue at two places, since you’ve just duplicated the entire stuff. There must be a better way… 🧠</p><p>Fortunately computer programmers faced the exact same issue, so they invented shared libraries. A shared library is a special kind of binary component that you can use in your main application. This way you can outsource Swift code into a separate file (or bunch of files), throw in some access control to allow other apps to use public methods and call functions from your library and here we go, we just shared our common code between our applications.</p><p>Oh wait, there is a bug in the lib, how can I fix it? Well, this is where things get a bit complicated, but don’t worry too much, I’ll try to explain how it works. So, last time, you know, when we talked <a href="https://theswiftdev.com/the-swift-compiler-for-beginners/">about the Swift compiler and linker</a>, I mentioned, that they can resolve dependencies in your program. When you use a library you can choose between two approaches.</p><ul><li>static linking</li><li>dynamic linking</li></ul><p>Static linking means that the source code inside the library will be literally copy-pasted into your application binary. Dynamic linking on the other hand means that your library dependencies will be resolved at runtime. By the way, you have to decide this upfront, since you have to build either a static or a dynamic library. Huhh? Ok, let me try this again… 🙃</p><p>The static library approach is more simple. You can easily build a static library using the compiler (you’ll see how to make one later on), then you can import this library inside your application source (import MyLibrary). Now when you compile the main app, you have to tell the compiler the location of your static (binary) library, and the publicly accessible objects (headers or module map) that are available to use. This way when your app is composed the symbols from the lib (classes, methods, etc) can be copied to the main executable file). When you run the app, required objects will be there already inside the binary file, so you can run it as it is.</p><p>The main difference between a static and a dynamic library is that you don’t copy every required symbol to the executable application binary when you use a dylib file, but some of the “undefined” symbols will be resolved at runtime. First you have to build your library as a dynamic dependency using the Swift compiler, this will produce a dynamic (binary) library file and a module map (header files). When you make the final version of your app, the system will put references of the dynamic library to your executable instead of copying the contents of the dylib file. If you want to run your application you have to make sure that the referenced dynamic library is available to use. The operating system will try to load the generated dylib file so the application resolves the symbols based on the reference pointers. 👈</p><h2 id="should-i-choose-dynamic-or-static-linking">Should I choose dynamic or static linking?</h2><p>Well, it depends on the environment. For example the Swift Package Manager prefers to use static linking, but Xcode will try to build SPM packages as dynamic dependencies. You can also explicitly tell SPM to build a static or dynamic library, but in most of the cases you should stick with the automatic value, so the system can build the right module dependency for you.</p><pre><code class="language-swift">// swift-tools-version:5.3
+                <h2 id="what-the-heck-is-a-library">What the heck is a library?</h2><p>A <a href="https://en.wikipedia.org/wiki/Library_(computing)" target="_blank">library</a> is a collection of Swift components that other applications can use.</p><p>Imagine that you are creating a simple application to pluralize a string. It works great, you finish the app and you start working on your next one. In your next application, you face the exact same issue, you have to print countable items (e.g 2 bananas). What would you do? 🤔</p><p>The first thing that can cross your mind is to copy all the source code from the first application into the second one. Well, this could work of course, but what happens if you discover a bug in the pluralization component? Now you have to fix the issue at two places, since you’ve just duplicated the entire stuff. There must be a better way… 🧠</p><p>Fortunately computer programmers faced the exact same issue, so they invented shared libraries. A shared library is a special kind of binary component that you can use in your main application. This way you can outsource Swift code into a separate file (or bunch of files), throw in some access control to allow other apps to use public methods and call functions from your library and here we go, we just shared our common code between our applications.</p><p>Oh wait, there is a bug in the lib, how can I fix it? Well, this is where things get a bit complicated, but don’t worry too much, I’ll try to explain how it works. So, last time, you know, when we talked <a href="https://theswiftdev.com/the-swift-compiler-for-beginners/" target="_blank">about the Swift compiler and linker</a>, I mentioned, that they can resolve dependencies in your program. When you use a library you can choose between two approaches.</p><ul><li>static linking</li><li>dynamic linking</li></ul><p>Static linking means that the source code inside the library will be literally copy-pasted into your application binary. Dynamic linking on the other hand means that your library dependencies will be resolved at runtime. By the way, you have to decide this upfront, since you have to build either a static or a dynamic library. Huhh? Ok, let me try this again… 🙃</p><p>The static library approach is more simple. You can easily build a static library using the compiler (you’ll see how to make one later on), then you can import this library inside your application source (import MyLibrary). Now when you compile the main app, you have to tell the compiler the location of your static (binary) library, and the publicly accessible objects (headers or module map) that are available to use. This way when your app is composed the symbols from the lib (classes, methods, etc) can be copied to the main executable file). When you run the app, required objects will be there already inside the binary file, so you can run it as it is.</p><p>The main difference between a static and a dynamic library is that you don’t copy every required symbol to the executable application binary when you use a dylib file, but some of the “undefined” symbols will be resolved at runtime. First you have to build your library as a dynamic dependency using the Swift compiler, this will produce a dynamic (binary) library file and a module map (header files). When you make the final version of your app, the system will put references of the dynamic library to your executable instead of copying the contents of the dylib file. If you want to run your application you have to make sure that the referenced dynamic library is available to use. The operating system will try to load the generated dylib file so the application resolves the symbols based on the reference pointers. 👈</p><h2 id="should-i-choose-dynamic-or-static-linking">Should I choose dynamic or static linking?</h2><p>Well, it depends on the environment. For example the Swift Package Manager prefers to use static linking, but Xcode will try to build SPM packages as dynamic dependencies. You can also explicitly tell SPM to build a static or dynamic library, but in most of the cases you should stick with the automatic value, so the system can build the right module dependency for you.</p><pre><code class="language-swift">// swift-tools-version:5.3
 import PackageDescription
 
 let package = Package(
@@ -123,7 +124,7 @@ let package = Package(
         .target(name: "MyLibrary", dependencies: []),
     ]
 )
-</code></pre><p>By the way if you are confused enough, I have an article for beginners <a href="https://theswiftdev.com/deep-dive-into-swift-frameworks/">about Swift packages</a>, modules, frameworks and the tools that makes this whole dependency management possible. You should definitely take a look, it’s a some sort of a deep dive into FAT frameworks, but the first part of the article is full of useful definitions and introductions to various commands.</p><p>Back to the original question: static vs dynamic? Do you remember the bug in the library that we have to fix? If you use a static library you have to rebuild all the apps that are depending on it (they must be linked with the fixed library of course) in order to make the issue disappear. 🐛</p><p>Since a dynamic library is loaded at runtime and the symbols are not embedded into the application binary, you can simply build a new dylib file and replace the old one to fix the bug. This way all the apps that are referencing to this dependency will have the fix for free. There is no need to recompile everyting, except the faulty code in the framework itself. 💪</p><p>It is also worth to mention that the final app size is smaller when you use a dylib.</p><p>Ok, but why should I ever use static linking if dylibz are so cool? The truth is that sometimes you want to encapsulate everything into a single binary, instead of installing lots of other dylib files into the system. Also what happens if something deletes a dylib that your app would require to work flawlessly? That’d suck for sure, especially if it is a mission-critical script on a server… 😳</p><p>Hopefully, I over-explained things, so we can start building our very first static library.</p><h2 id="compiling-a-static-swift-library">Compiling a static Swift library</h2><p>Do you still have that little Point struct from the previous tutorial? Let’s build a static library from that file, but before we do so, we have to explicitly mark it as public, plus we need a public init method in order to be able to create a Point struct from our application. You know, in Swift, <a href="https://docs.swift.org/swift-book/LanguageGuide/AccessControl.html" target="_blank">access control</a> allows us, programmers, to hide specific parts of a library from other developers.</p><pre><code class="language-swift">public struct Point {
+</code></pre><p>By the way if you are confused enough, I have an article for beginners <a href="https://theswiftdev.com/deep-dive-into-swift-frameworks/" target="_blank">about Swift packages</a>, modules, frameworks and the tools that makes this whole dependency management possible. You should definitely take a look, it’s a some sort of a deep dive into FAT frameworks, but the first part of the article is full of useful definitions and introductions to various commands.</p><p>Back to the original question: static vs dynamic? Do you remember the bug in the library that we have to fix? If you use a static library you have to rebuild all the apps that are depending on it (they must be linked with the fixed library of course) in order to make the issue disappear. 🐛</p><p>Since a dynamic library is loaded at runtime and the symbols are not embedded into the application binary, you can simply build a new dylib file and replace the old one to fix the bug. This way all the apps that are referencing to this dependency will have the fix for free. There is no need to recompile everyting, except the faulty code in the framework itself. 💪</p><p>It is also worth to mention that the final app size is smaller when you use a dylib.</p><p>Ok, but why should I ever use static linking if dylibz are so cool? The truth is that sometimes you want to encapsulate everything into a single binary, instead of installing lots of other dylib files into the system. Also what happens if something deletes a dylib that your app would require to work flawlessly? That’d suck for sure, especially if it is a mission-critical script on a server… 😳</p><p>Hopefully, I over-explained things, so we can start building our very first static library.</p><h2 id="compiling-a-static-swift-library">Compiling a static Swift library</h2><p>Do you still have that little Point struct from the previous tutorial? Let’s build a static library from that file, but before we do so, we have to explicitly mark it as public, plus we need a public init method in order to be able to create a Point struct from our application. You know, in Swift, <a href="https://docs.swift.org/swift-book/LanguageGuide/AccessControl.html" target="_blank">access control</a> allows us, programmers, to hide specific parts of a library from other developers.</p><pre><code class="language-swift">public struct Point {
     public let x: Int
     public let y: Int
 
@@ -166,7 +167,7 @@ print("Hello library!", p.x, p.y)
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -189,80 +190,80 @@ print("Hello library!", p.x, p.y)
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2021/09/10">2021/09/10</time>
+                                <time datetime="2017-10-23T14:20:00.000Z">10/23/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/how-to-make-a-swift-framework/" target="">How to make a Swift framework?</a></h2>
+                            <hr>
+                            <p>Creating a Swift framework shouldn&#39;t be hard. This tutorial will help you making a universal framework for complex projects.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2017-10-11T14:20:00.000Z">10/11/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">1 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/swift-enum-all-values/" target="">Swift enum all values</a></h2>
+                            <hr>
+                            <p>In this quick tutorial I&#39;ll show you how to get all the possible values for a Swift enum type with a generic solution written in Swift.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018-01-25T15:20:00.000Z">1/25/18 3:20 PM</time>
+                                 &middot; <span class="reading-time">11 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/deep-dive-into-swift-frameworks/" target="">Deep dive into Swift frameworks</a></h2>
+                            <hr>
+                            <p>Learn everything about Swift modules, libraries, packages, closed source frameworks, command line tools and more.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
                                  &middot; <span class="reading-time">6 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/all-about-the-bool-type-in-swift/" target="">All about the Bool type in Swift</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/everything-about-public-and-private-swift-attributes/" target="">Everything about public and private Swift attributes</a></h2>
                             <hr>
-                            <p>Learn everything about logical types and the Boolean algebra using the Swift programming language and some basic math.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2022/03/18">2022/03/18</time>
-                                 &middot; <span class="reading-time">4 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/async-http-api-clients-in-swift/" target="">Async HTTP API clients in Swift</a></h2>
-                            <hr>
-                            <p>Learn how to communicate with API endpoints using the brand new SwiftHttp library, including async / await support.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2019/02/05">2019/02/05</time>
-                                 &middot; <span class="reading-time">9 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/beginners-guide-to-functional-swift/" target="">Beginners guide to functional Swift</a></h2>
-                            <hr>
-                            <p>The one and only tutorial that you&#39;ll ever need to learn higher order functions like: map, flatMap, compactMap, reduce, filter and more.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2022/06/28">2022/06/28</time>
-                                 &middot; <span class="reading-time">5 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/beginners-guide-to-modern-generic-programming-in-swift/" target="">Beginner&#39;s guide to modern generic programming in Swift</a></h2>
-                            <hr>
-                            <p>Learn the very basics about protocols, existentials, opaque types and how they are related to generic programming in Swift.</p>
+                            <p>Have you ever heard about Swift language attributes? In this article I&#39;m trying to gather all the @ annotations and their meanings.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
@@ -290,30 +291,20 @@ print("Hello library!", p.x, p.y)
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#what-the-heck-is-a-library">What the heck is a library?</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#should-i-choose-dynamic-or-static-linking">Should I choose dynamic or static linking?</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#compiling-a-static-swift-library">Compiling a static Swift library</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#compiling-a-dynamic-swift-library">Compiling a dynamic Swift library</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#summary">Summary</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -368,7 +359,7 @@ print("Hello library!", p.x, p.y)
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

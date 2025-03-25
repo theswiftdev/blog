@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2019/05/28">2019/05/28</time>
+                <div class="meta">            
+                    <time datetime="2019-05-28T14:20:00.000Z">5/28/19 2:20 PM</time>
                      &middot; <span class="reading-time">7 min read</span>
                     
                 </div>
@@ -108,7 +109,7 @@
                 <p>Everything you ever wanted to know about futures and promises. The beginner&#39;s guide about asynchronous programming in Swift.</p>
                 <section>
                 
-                <h2 id="sync-vs-async-execution">Sync vs async execution</h2><blockquote><p>Writing asynchronous code is one of the hardest part of building an app.</p></blockquote><p>What exactly is the difference between a synchronous and an asynchronous execution? Well, I already explained this in my <a href="https://theswiftdev.com/2018/07/10/ultimate-grand-central-dispatch-tutorial-in-swift/">Dispatch framework</a> tutorial, but here is a quick recap. A synchronous function usually blocks the current thread and returns some value later on. An asynchronous function will instantly return and passes the result value into a completion handler. You can use the GCD framework to perform tasks sync on async on a given queue. Let me show you a quick example:</p><pre><code class="language-swift">func aBlockingFunction() -&gt; String {
+                <h2 id="sync-vs-async-execution">Sync vs async execution</h2><blockquote><p>Writing asynchronous code is one of the hardest part of building an app.</p></blockquote><p>What exactly is the difference between a synchronous and an asynchronous execution? Well, I already explained this in my <a href="https://theswiftdev.com/2018/07/10/ultimate-grand-central-dispatch-tutorial-in-swift/" target="_blank">Dispatch framework</a> tutorial, but here is a quick recap. A synchronous function usually blocks the current thread and returns some value later on. An asynchronous function will instantly return and passes the result value into a completion handler. You can use the GCD framework to perform tasks sync on async on a given queue. Let me show you a quick example:</p><pre><code class="language-swift">func aBlockingFunction() -&gt; String {
     sleep(.random(in: 1...3))
     return "Hello world!"
 }
@@ -218,7 +219,7 @@ request(url) { data in
         fatalError("JSON decoder error: " + error.localizedDescription)
     }
 }
-</code></pre><p>See? My problem is that we’re slowly moving down the rabbit hole. Now what if we have a 3rd request? Hell no! You have to nest everything one level deeper again, plus you have to pass around the necessary variables eg. a weak or unowned view controller reference because at some point in time you have to update the entire UI based on the outcome. There must be a better way to fix this. 🤔</p><h2 id="results-vs-futures-vs-promises">Results vs futures vs promises?</h2><p>The <a href="https://theswiftdev.com/2019/01/28/how-to-use-the-result-type-to-handle-errors-in-swift/">result type</a> was introduced in Swift 5 and it’s extremely good for eliminating the optional factor from the equation. This means you don’t have to deal with an optional data, and an optional error type, but your result is either one of them.</p><p>Futures are basically representing a value in the future. The underlying value can be for example a result and it should have one of the following states:</p><ul><li>pending - no value yet, waiting for it…</li><li>fulfilled - success, now the result has a value</li><li>rejected - failed with an error</li></ul><p>By definition a futures shouldn’t be writeable by the end-user. This means that developers should not be able to create, fulfill or reject one. But if that’s the case and we follow the rules, how do we make futures?</p><p>We promise them. You have to create a promise, which is basically a wrapper around a future that can be written (fulfilled, rejected) or transformed as you want. You don’t write futures, you make promises. However some frameworks allows you to get back the future value of a promise, but you shouldn’t be able to write that future at all.</p><p>Enough theory, are you ready to fall in love with <a href="https://learnappmaking.com/promises-swift-how-to/" target="_blank">promises</a>? ❤️</p><h2 id="promises-101---a-beginner-s-guide">Promises 101 - a beginner’s guide</h2><p>Let’s refactor the previous example by using my promise framework!</p><pre><code class="language-swift">extension URLSession {
+</code></pre><p>See? My problem is that we’re slowly moving down the rabbit hole. Now what if we have a 3rd request? Hell no! You have to nest everything one level deeper again, plus you have to pass around the necessary variables eg. a weak or unowned view controller reference because at some point in time you have to update the entire UI based on the outcome. There must be a better way to fix this. 🤔</p><h2 id="results-vs-futures-vs-promises">Results vs futures vs promises?</h2><p>The <a href="https://theswiftdev.com/2019/01/28/how-to-use-the-result-type-to-handle-errors-in-swift/" target="_blank">result type</a> was introduced in Swift 5 and it’s extremely good for eliminating the optional factor from the equation. This means you don’t have to deal with an optional data, and an optional error type, but your result is either one of them.</p><p>Futures are basically representing a value in the future. The underlying value can be for example a result and it should have one of the following states:</p><ul><li>pending - no value yet, waiting for it…</li><li>fulfilled - success, now the result has a value</li><li>rejected - failed with an error</li></ul><p>By definition a futures shouldn’t be writeable by the end-user. This means that developers should not be able to create, fulfill or reject one. But if that’s the case and we follow the rules, how do we make futures?</p><p>We promise them. You have to create a promise, which is basically a wrapper around a future that can be written (fulfilled, rejected) or transformed as you want. You don’t write futures, you make promises. However some frameworks allows you to get back the future value of a promise, but you shouldn’t be able to write that future at all.</p><p>Enough theory, are you ready to fall in love with <a href="https://learnappmaking.com/promises-swift-how-to/" target="_blank">promises</a>? ❤️</p><h2 id="promises-101---a-beginner-s-guide">Promises 101 - a beginner’s guide</h2><p>Let’s refactor the previous example by using my promise framework!</p><pre><code class="language-swift">extension URLSession {
 
     enum HTTPError: LocalizedError {
         case invalidResponse
@@ -279,7 +280,7 @@ URLSession.shared.dataTask(url: url)
 .onFailure(queue: .main) { error in
     print(error.localizedDescription)
 }
-</code></pre><p>What just happened here? Well, I made sort of a promisified version of the data task method implemented on the URLSession object as an extension. Of course you can return the HTTP result or just the status code plus the data if you need further info from the network layer. You can use a new response data model or even a tuple. 🤷‍♂️</p><p>Anyway, the more interesting part is the bottom half of the source. As you can see I’m calling the brand new dataTask method which returns a <code>Promise<Data></code> object. As I mentioned this before a promise can be transformed. Or should I say: chained?</p><p>Chaining promises is the biggest advantage over callbacks. The source code is not looking like a pyramid anymore with crazy indentations and do-try-catch blocks, but more like a chain of actions. In every single step you can transform your previous result value into something else. If you are familiar with some <a href="https://theswiftdev.com/2019/02/05/beginners-guide-to-functional-swift/">functional paradigms</a>, it’s going to be really easy to understand the following:</p><ul><li>thenMap is a simple map on a Promise</li><li>then is basically flatMap on a Promise</li><li>onSuccess only gets called if everything was fine in the chain</li><li>onFailure only gets called if some error happened in the chain</li><li>always runs always regardless of the outcome</li></ul><p>If you want to get the main queue, you can simply pass it through a queue parameter, like I did it with the onFailure method, but it works for every single element in the chain. These functions above are just the tip of the iceberg. You can also tap into a chain, validate the result, put a timeout on it or recover from a failed promise.</p><p>There is also a Promises namespace for other useful methods, like zip, which is capable of zipping together 2, 3 or 4 different kind of promises. Just like the Promises.all method the zip function waits until every promise is being completed, then it gives you the result of all the promises in a single block.</p><pre><code class="language-swift">//executing same promises from the same kind, eg. [Promise&lt;Data&gt;]
+</code></pre><p>What just happened here? Well, I made sort of a promisified version of the data task method implemented on the URLSession object as an extension. Of course you can return the HTTP result or just the status code plus the data if you need further info from the network layer. You can use a new response data model or even a tuple. 🤷‍♂️</p><p>Anyway, the more interesting part is the bottom half of the source. As you can see I’m calling the brand new dataTask method which returns a <code>Promise<Data></code> object. As I mentioned this before a promise can be transformed. Or should I say: chained?</p><p>Chaining promises is the biggest advantage over callbacks. The source code is not looking like a pyramid anymore with crazy indentations and do-try-catch blocks, but more like a chain of actions. In every single step you can transform your previous result value into something else. If you are familiar with some <a href="https://theswiftdev.com/2019/02/05/beginners-guide-to-functional-swift/" target="_blank">functional paradigms</a>, it’s going to be really easy to understand the following:</p><ul><li>thenMap is a simple map on a Promise</li><li>then is basically flatMap on a Promise</li><li>onSuccess only gets called if everything was fine in the chain</li><li>onFailure only gets called if some error happened in the chain</li><li>always runs always regardless of the outcome</li></ul><p>If you want to get the main queue, you can simply pass it through a queue parameter, like I did it with the onFailure method, but it works for every single element in the chain. These functions above are just the tip of the iceberg. You can also tap into a chain, validate the result, put a timeout on it or recover from a failed promise.</p><p>There is also a Promises namespace for other useful methods, like zip, which is capable of zipping together 2, 3 or 4 different kind of promises. Just like the Promises.all method the zip function waits until every promise is being completed, then it gives you the result of all the promises in a single block.</p><pre><code class="language-swift">//executing same promises from the same kind, eg. [Promise&lt;Data&gt;]
 Promises.all(promises)
 .thenMap { arrayOfResults in
     // e.g. [Data]
@@ -300,7 +301,7 @@ Promises.zip(promise1, promise2)
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -323,80 +324,80 @@ Promises.zip(promise1, promise2)
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2021/09/10">2021/09/10</time>
+                                <time datetime="2017-10-23T14:20:00.000Z">10/23/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/how-to-make-a-swift-framework/" target="">How to make a Swift framework?</a></h2>
+                            <hr>
+                            <p>Creating a Swift framework shouldn&#39;t be hard. This tutorial will help you making a universal framework for complex projects.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2017-10-11T14:20:00.000Z">10/11/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">1 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/swift-enum-all-values/" target="">Swift enum all values</a></h2>
+                            <hr>
+                            <p>In this quick tutorial I&#39;ll show you how to get all the possible values for a Swift enum type with a generic solution written in Swift.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018-01-25T15:20:00.000Z">1/25/18 3:20 PM</time>
+                                 &middot; <span class="reading-time">11 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/deep-dive-into-swift-frameworks/" target="">Deep dive into Swift frameworks</a></h2>
+                            <hr>
+                            <p>Learn everything about Swift modules, libraries, packages, closed source frameworks, command line tools and more.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
                                  &middot; <span class="reading-time">6 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/all-about-the-bool-type-in-swift/" target="">All about the Bool type in Swift</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/everything-about-public-and-private-swift-attributes/" target="">Everything about public and private Swift attributes</a></h2>
                             <hr>
-                            <p>Learn everything about logical types and the Boolean algebra using the Swift programming language and some basic math.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2022/03/18">2022/03/18</time>
-                                 &middot; <span class="reading-time">4 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/async-http-api-clients-in-swift/" target="">Async HTTP API clients in Swift</a></h2>
-                            <hr>
-                            <p>Learn how to communicate with API endpoints using the brand new SwiftHttp library, including async / await support.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2019/02/05">2019/02/05</time>
-                                 &middot; <span class="reading-time">9 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/beginners-guide-to-functional-swift/" target="">Beginners guide to functional Swift</a></h2>
-                            <hr>
-                            <p>The one and only tutorial that you&#39;ll ever need to learn higher order functions like: map, flatMap, compactMap, reduce, filter and more.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2022/06/28">2022/06/28</time>
-                                 &middot; <span class="reading-time">5 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/beginners-guide-to-modern-generic-programming-in-swift/" target="">Beginner&#39;s guide to modern generic programming in Swift</a></h2>
-                            <hr>
-                            <p>Learn the very basics about protocols, existentials, opaque types and how they are related to generic programming in Swift.</p>
+                            <p>Have you ever heard about Swift language attributes? In this article I&#39;m trying to gather all the @ annotations and their meanings.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
@@ -424,35 +425,23 @@ Promises.zip(promise1, promise2)
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#sync-vs-async-execution">Sync vs async execution</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#callback-hell-and-the-pyramid-of-doom">Callback hell and the pyramid of doom</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#results-vs-futures-vs-promises">Results vs futures vs promises?</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#promises-101---a-beginner-s-guide">Promises 101 - a beginner’s guide</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#there-are-only-two-problems-with-promises">There are only two problems with promises</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#promise-libraries-worth-to-check">Promise libraries worth to check</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -507,7 +496,7 @@ Promises.zip(promise1, promise2)
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

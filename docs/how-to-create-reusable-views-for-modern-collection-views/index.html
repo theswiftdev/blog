@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2017/10/10">2017/10/10</time>
+                <div class="meta">            
+                    <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
                      &middot; <span class="reading-time">6 min read</span>
                     
                 </div>
@@ -108,7 +109,7 @@
                 <p>A quick intro to modern collection views using compositional layout, diffable data source and reusable view components.</p>
                 <section>
                 
-                <h2 id="reusable-views-inside-a-generic-cell">Reusable views inside a generic cell</h2><p>We all love to create <a href="https://theswiftdev.com/custom-views-input-forms-and-mistakes/">custom views</a> for building various user interface elements, right? We also love to use collection views to display data using a grid or a list layout. Collection view cells are custom views, but what if you’d like to use the exact same cell as a view?</p><p>Turns out that you can provide your own <a href="https://developer.apple.com/documentation/uikit/uicontentconfiguration" target="_blank">UIContentConfiguration</a>, just like the built-in ones that you can use to setup <a href="https://www.biteinteractive.com/collection-view-content-configuration-in-ios-14/" target="_blank">cells to look like list items</a>. If you take a look at the <a href="https://developer.apple.com/documentation/uikit/views_and_controls/collection_views/implementing_modern_collection_views" target="_blank">modern collection views sample code</a>, which I highly recommend, you’ll see how to implement custom content configurations in order to create your own cell types. There are a few things that I don’t like about this approach. 😕</p><p>First of all, your view has to conform to the <a href="https://developer.apple.com/documentation/uikit/uicontentview" target="_blank">UIContentView</a> protocol, so you have to handle additional config related stuff inside the view. I prefer the MVVM pattern, so this feels a bit strange. The second thing that you need is a custom cell subclass, where you also have to take care of the configuration updates. What if there was some other way?</p><p>Let’s start our setup by creating a new subclass for our future cell object, we’re simply going to provide the usual initialize method that I always use for my subclasses. Apple often calls this method configure in their samples, but they’re more or less the same. 😅</p><pre><code class="language-swift">import UIKit
+                <h2 id="reusable-views-inside-a-generic-cell">Reusable views inside a generic cell</h2><p>We all love to create <a href="https://theswiftdev.com/custom-views-input-forms-and-mistakes/" target="_blank">custom views</a> for building various user interface elements, right? We also love to use collection views to display data using a grid or a list layout. Collection view cells are custom views, but what if you’d like to use the exact same cell as a view?</p><p>Turns out that you can provide your own <a href="https://developer.apple.com/documentation/uikit/uicontentconfiguration" target="_blank">UIContentConfiguration</a>, just like the built-in ones that you can use to setup <a href="https://www.biteinteractive.com/collection-view-content-configuration-in-ios-14/" target="_blank">cells to look like list items</a>. If you take a look at the <a href="https://developer.apple.com/documentation/uikit/views_and_controls/collection_views/implementing_modern_collection_views" target="_blank">modern collection views sample code</a>, which I highly recommend, you’ll see how to implement custom content configurations in order to create your own cell types. There are a few things that I don’t like about this approach. 😕</p><p>First of all, your view has to conform to the <a href="https://developer.apple.com/documentation/uikit/uicontentview" target="_blank">UIContentView</a> protocol, so you have to handle additional config related stuff inside the view. I prefer the MVVM pattern, so this feels a bit strange. The second thing that you need is a custom cell subclass, where you also have to take care of the configuration updates. What if there was some other way?</p><p>Let’s start our setup by creating a new subclass for our future cell object, we’re simply going to provide the usual initialize method that I always use for my subclasses. Apple often calls this method configure in their samples, but they’re more or less the same. 😅</p><pre><code class="language-swift">import UIKit
 
 open class CollectionViewCell: UICollectionViewCell {
         
@@ -186,7 +187,7 @@ class CustomView: View {
         ])
     }
 }
-</code></pre><p>This custom view has a label, which we can pin to the superview with some extra padding. You can <a href="https://theswiftdev.com/uikit-loadview-vs-viewdidload/">store all your subviews as strong properties</a>, since Apple is going to take care of the deinit, even though the addSubview creates a strong reference, you don’t have to worry about it anymore.</p><p>If you want to create a cell that supports dynamic height, you should simply pin the edge layout constraints, but if you’d like to use a fixed height cell you can add your own height anchor constraint with a constant value. You have to set a custom priority for the height constraint this way the auto layout system won’t break and it’s going to be able to satisfy all the necessary constraints.</p><h2 id="compositional-layout-basics">Compositional layout basics</h2><p>The <a href="https://developer.apple.com/documentation/uikit/uicollectionviewcompositionallayout" target="_blank">UICollectionViewCompositionalLayout</a> class is a highly adaptive and flexible layout tool that you can use to build modern collection view layouts. It has three main components that you can configure to display your custom user interface elements in many different ways.</p><blockquote><p>You combine the components by building up from items into a group, from groups into a section, and finally into a full layout, like in this example of a basic list layout:</p></blockquote><p>There are plenty of great <a href="https://www.zealousweb.com/how-to-use-compositional-layout-in-collection-view/" target="_blank">resources</a> and <a href="https://www.raywenderlich.com/5436806-modern-collection-views-with-compositional-layouts" target="_blank">tutorials</a> about this topic, so I won’t get too much into the details now, but we’re going to create a simple layout that can display full width (<a href="https://developer.apple.com/documentation/uikit/nscollectionlayoutdimension" target="_blank">fractional layout dimension</a>) items in a full width group, by using and estimated height to support dynamic cell sizes. I suppose this is quite a common use-case for many of us. We can create an extension on the UICollectionViewLayout object to instantiate a new list layout. 🙉</p><pre><code class="language-swift">extension UICollectionViewLayout {
+</code></pre><p>This custom view has a label, which we can pin to the superview with some extra padding. You can <a href="https://theswiftdev.com/uikit-loadview-vs-viewdidload/" target="_blank">store all your subviews as strong properties</a>, since Apple is going to take care of the deinit, even though the addSubview creates a strong reference, you don’t have to worry about it anymore.</p><p>If you want to create a cell that supports dynamic height, you should simply pin the edge layout constraints, but if you’d like to use a fixed height cell you can add your own height anchor constraint with a constant value. You have to set a custom priority for the height constraint this way the auto layout system won’t break and it’s going to be able to satisfy all the necessary constraints.</p><h2 id="compositional-layout-basics">Compositional layout basics</h2><p>The <a href="https://developer.apple.com/documentation/uikit/uicollectionviewcompositionallayout" target="_blank">UICollectionViewCompositionalLayout</a> class is a highly adaptive and flexible layout tool that you can use to build modern collection view layouts. It has three main components that you can configure to display your custom user interface elements in many different ways.</p><blockquote><p>You combine the components by building up from items into a group, from groups into a section, and finally into a full layout, like in this example of a basic list layout:</p></blockquote><p>There are plenty of great <a href="https://www.zealousweb.com/how-to-use-compositional-layout-in-collection-view/" target="_blank">resources</a> and <a href="https://www.raywenderlich.com/5436806-modern-collection-views-with-compositional-layouts" target="_blank">tutorials</a> about this topic, so I won’t get too much into the details now, but we’re going to create a simple layout that can display full width (<a href="https://developer.apple.com/documentation/uikit/nscollectionlayoutdimension" target="_blank">fractional layout dimension</a>) items in a full width group, by using and estimated height to support dynamic cell sizes. I suppose this is quite a common use-case for many of us. We can create an extension on the UICollectionViewLayout object to instantiate a new list layout. 🙉</p><pre><code class="language-swift">extension UICollectionViewLayout {
     static func createListLayout() -&gt; UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(44))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -221,7 +222,7 @@ class CustomView: View {
 
     }
 }
-</code></pre><p>You can also create your own auto layout helper extensions, or use <a href="http://snapkit.io/" target="_blank">SnapKit</a> to quickly setup your layout constraints. It is relatively easy to work with anchors, you should read my other tutorial about <a href="https://theswiftdev.com/mastering-ios-auto-layout-anchors-programmatically-from-swift/">mastering auto layout anchors</a> if you don’t know much about them.</p><h2 id="cell-registration-and-diffable-data-source">Cell registration and diffable data source</h2><p>Apple has a <a href="https://developer.apple.com/documentation/uikit/uicollectionview/cellregistration" target="_blank">new set of APIs</a> to register and dequeue cells for modern collection views. It is worth to mention that almost everything we talk about this tutorials is only available on iOS14+ so if you are planning to support an older version you won’t be able to use these features.</p><p>If you want to learn more about the topic, I’d like to recommend an <a href="https://www.donnywals.com/configure-collection-view-cells-with-uicollectionview-cellregistration/" target="_blank">article</a> by Donny Wals and there is a great, but a bit longer <a href="https://www.swiftbysundell.com/articles/building-modern-collection-views-in-swift/" target="_blank">post</a> by John Sundell about modern collection views. I’m using the same helper extension to get a cell provider using a cell registration object, to make the process more simple, plus we’re going to need some random sentences, so let’s add a few helpers. 💡</p><pre><code class="language-swift">extension String {
+</code></pre><p>You can also create your own auto layout helper extensions, or use <a href="http://snapkit.io/" target="_blank">SnapKit</a> to quickly setup your layout constraints. It is relatively easy to work with anchors, you should read my other tutorial about <a href="https://theswiftdev.com/mastering-ios-auto-layout-anchors-programmatically-from-swift/" target="_blank">mastering auto layout anchors</a> if you don’t know much about them.</p><h2 id="cell-registration-and-diffable-data-source">Cell registration and diffable data source</h2><p>Apple has a <a href="https://developer.apple.com/documentation/uikit/uicollectionview/cellregistration" target="_blank">new set of APIs</a> to register and dequeue cells for modern collection views. It is worth to mention that almost everything we talk about this tutorials is only available on iOS14+ so if you are planning to support an older version you won’t be able to use these features.</p><p>If you want to learn more about the topic, I’d like to recommend an <a href="https://www.donnywals.com/configure-collection-view-cells-with-uicollectionview-cellregistration/" target="_blank">article</a> by Donny Wals and there is a great, but a bit longer <a href="https://www.swiftbysundell.com/articles/building-modern-collection-views-in-swift/" target="_blank">post</a> by John Sundell about modern collection views. I’m using the same helper extension to get a cell provider using a cell registration object, to make the process more simple, plus we’re going to need some random sentences, so let’s add a few helpers. 💡</p><pre><code class="language-swift">extension String {
     static func randomWord() -&gt; String {
         (0..&lt;Int.random(in: 1...10)).map { _ in String(format: "%c", Int.random(in: 97..&lt;123)) }.joined(separator: "")
     }
@@ -307,7 +308,7 @@ extension ViewController: UICollectionViewDelegate {
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -330,20 +331,21 @@ extension ViewController: UICollectionViewDelegate {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2022/02/03">2022/02/03</time>
-                                 &middot; <span class="reading-time">8 min read</span>
+                                <time datetime="2017-10-31T15:20:00.000Z">10/31/17 3:20 PM</time>
+                                 &middot; <span class="reading-time">6 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/10-little-uikit-tips-you-should-know/" target="">10 little UIKit tips you should know</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/ios-auto-layout-tutorial-programmatically/" target="">iOS Auto Layout tutorial programmatically</a></h2>
                             <hr>
-                            <p>In this article I&#39;ve gathered my top 10 favorite modern UIKit tips that I&#39;d definitely want to know before I start my next project.</p>
+                            <p>In this great iOS Auto Layout tutorial I&#39;ll teach you how to support rotation, use constraints, work with layers, animate corner radius.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -351,20 +353,22 @@ extension ViewController: UICollectionViewDelegate {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2019/05/23">2019/05/23</time>
-                                 &middot; <span class="reading-time">5 min read</span>
+                                <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/building-input-forms-for-ios-apps/" target="">Building input forms for iOS apps</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/uikit-init-patterns/" target="">UIKit init patterns</a></h2>
                             <hr>
-                            <p>Learn how to build complex forms with my updated collection view view-model framework without the struggle using Swift.</p>
+                            <p>Learn about the initialization process of the two well known classes in UIKit. Say hello to UIViewcontroller, and UIView init patterns.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                                <a href="https://theswiftdev.com/tags/design-pattern/"><small>Design pattern</small></a>
+        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -372,11 +376,11 @@ extension ViewController: UICollectionViewDelegate {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2018/10/16">2018/10/16</time>
+                                <time datetime="2018-10-16T14:20:00.000Z">10/16/18 2:20 PM</time>
                                  &middot; <span class="reading-time">5 min read</span>
                             </div>
                             
@@ -385,8 +389,8 @@ extension ViewController: UICollectionViewDelegate {
                             <p>Do you want to learn how to load a xib file to create a custom view object? Well, this UIKit tutorial is just for you written in Swift.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
-        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -394,20 +398,21 @@ extension ViewController: UICollectionViewDelegate {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2019/10/21">2019/10/21</time>
-                                 &middot; <span class="reading-time">4 min read</span>
+                                <time datetime="2018-04-26T14:20:00.000Z">4/26/18 2:20 PM</time>
+                                 &middot; <span class="reading-time">5 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/custom-views-input-forms-and-mistakes/" target="">Custom views, input forms and mistakes</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/ios-custom-transition-tutorial-in-swift/" target="">iOS custom transition tutorial in Swift</a></h2>
                             <hr>
-                            <p>Just a little advice about creating custom view programmatically and the truth about why form building with collection views sucks.</p>
+                            <p>In this tutorial, you&#39;ll learn how to replace the push, pop and modal animations with custom transitions &amp; percent driven interactions.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     </div>
@@ -432,20 +437,14 @@ extension ViewController: UICollectionViewDelegate {
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#reusable-views-inside-a-generic-cell">Reusable views inside a generic cell</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#compositional-layout-basics">Compositional layout basics</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#cell-registration-and-diffable-data-source">Cell registration and diffable data source</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -500,7 +499,7 @@ extension ViewController: UICollectionViewDelegate {
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

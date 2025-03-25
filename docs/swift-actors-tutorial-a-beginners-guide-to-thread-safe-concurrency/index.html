@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2021/06/17">2021/06/17</time>
+                <div class="meta">            
+                    <time datetime="2021-06-17T14:20:00.000Z">6/17/21 2:20 PM</time>
                      &middot; <span class="reading-time">9 min read</span>
                     
                 </div>
@@ -120,7 +121,7 @@ DispatchQueue.concurrentPerform(iterations: 100) { i in
     threads[i] = "\(Thread.current)"
 }
 print(threads)
-</code></pre><p>The snippet above will crash for sure, since we’re trying to modify the same dictionary from multiple threads. This is called a data-race. You can detect these kind of issues by enabling the Thread Sanitizer under the Scheme > Run > Diagnostics tab in Xcode. 🔨</p><p>Now that we know what’s a data race, let’s fix that by using a regular <a href="https://theswiftdev.com/ultimate-grand-central-dispatch-tutorial-in-swift/">Grand Central Dispatch</a> based approach. We’re going to create a new serial dispatch queue to prevent concurrent writes, this will syncronize all the write operations, but of course it has a hidden cost of switching the context each and every time we update the dictionary.</p><pre><code class="language-swift">var threads: [Int: String] = [:]
+</code></pre><p>The snippet above will crash for sure, since we’re trying to modify the same dictionary from multiple threads. This is called a data-race. You can detect these kind of issues by enabling the Thread Sanitizer under the Scheme > Run > Diagnostics tab in Xcode. 🔨</p><p>Now that we know what’s a data race, let’s fix that by using a regular <a href="https://theswiftdev.com/ultimate-grand-central-dispatch-tutorial-in-swift/" target="_blank">Grand Central Dispatch</a> based approach. We’re going to create a new serial dispatch queue to prevent concurrent writes, this will syncronize all the write operations, but of course it has a hidden cost of switching the context each and every time we update the dictionary.</p><pre><code class="language-swift">var threads: [Int: String] = [:]
 let lockQueue = DispatchQueue(label: "my.serial.lock.queue")
 DispatchQueue.concurrentPerform(iterations: 100) { i in
     lockQueue.sync {
@@ -234,7 +235,7 @@ Task {
     }
     print(await storage.allValues)
 }
-</code></pre><p>First of all, actors are reference types, just like classes. They can have methods, properties, they can implement protocols, but they don’t support inheritance.</p><blockquote class="note"><p>NOTE: Since actors are closely related to the newly introduced <a href="https://theswiftdev.com/introduction-to-asyncawait-in-swift/">async/await concurrency APIs</a> in Swift you should be familiar with that concept too if you want to understand how they work.</p></blockquote><p>The very first big difference is that we don’t need to provide a lock mechanism anymore in order to provide read or write access to our private storage property. This means that we can safely access actor properties within the actor using a synchronous way. Members are isolated by default, so there is a guarantee (by the compiler) that we can only access them using the same context.</p><p>What’s going on with the new Task API and all the await keywords? 🤔</p><p>Well, the Dispatch.concurrentPerform call is part of a parallelism API and Swift 5.5 introduced concurrency instead of parallelism, we have to move away from regular queues and use <a href="https://github.com/apple/swift-evolution/blob/main/proposals/0304-structured-concurrency.md" target="_blank">structured concurrency</a> to perform tasks in parallel. Also the concurrentPerform function is not an asynchronous operation, it’ll block the caller thread until all the work is done within the block.</p><p>Working with async/await means that the CPU can work on a different task when awaits for a given operation. Every await call is a potential <a href="https://github.com/apple/swift-evolution/blob/main/proposals/0296-async-await.md#suspension-points" target="_blank">suspension point</a>, where the function can give up the thread and the CPU can perform other tasks until the awaited function resumes & returns with the necessary value. The <a href="https://developer.apple.com/videos/play/wwdc2021/10254/" target="_blank">new Swift concurrency APIs</a> are built on top a cooperative thread pool, where each CPU core has just the right amount of threads and the suspension & continuation happens “virtually” with the help of the language runtime. This is far more efficient than actual context switching, and also means that when you interact with async functions and await for a function the CPU can work on other tasks instead of blocking the thread on the call side.</p><p>So back to the example code, since actors have to protect their internal states, they only allows us to access members asynchronously when you reference from async functions or outside the actor. This is very similar to the case when we had to use the lockQueue.sync to protect our read / write functions, but instead of giving the ability to the system to perform other tasks on the thread, we’ve entirely blocked it with the sync call. Now with await we can give up the thread and allow others to perform operations using it and when the time comes the function can resume.</p><p>Inside the task group we can perform our tasks asynchronously, but since we’re accessing the actor function (from an async context / outside the actor) we have to use the await keyword before the set call, even if the function is not marked with the async keyword.</p><p>The system knows that we’re referencing the actor’s property using a different context and we have to perform this operation always isolated to eliminate data races. By converting the function to an async call we give the system a chance to perform the operation on the actor’s executor. Later on we’ll be able to define <a href="https://forums.swift.org/t/support-custom-executors-in-swift-concurrency/44425" target="_blank">custom executors</a> for our actors, but this feature is not available yet.</p><p>Currently there is a global executor implementation (associated with each actor) that enqueues the tasks and runs them one-by-one, if a task is not running (no contention) it’ll be scheduled for execution (based on the priority) otherwise (if the task is already running / under contention) the system will just pick-up the message without blocking.</p><p>The funny thing is that this does not necessary means that the exact same thread… 😅</p><pre><code class="language-swift">import Foundation
+</code></pre><p>First of all, actors are reference types, just like classes. They can have methods, properties, they can implement protocols, but they don’t support inheritance.</p><blockquote class="note"><p>Since actors are closely related to the newly introduced <a href="https://theswiftdev.com/introduction-to-asyncawait-in-swift/" target="_blank">async/await concurrency APIs</a> in Swift you should be familiar with that concept too if you want to understand how they work.</p></blockquote><p>The very first big difference is that we don’t need to provide a lock mechanism anymore in order to provide read or write access to our private storage property. This means that we can safely access actor properties within the actor using a synchronous way. Members are isolated by default, so there is a guarantee (by the compiler) that we can only access them using the same context.</p><p>What’s going on with the new Task API and all the await keywords? 🤔</p><p>Well, the Dispatch.concurrentPerform call is part of a parallelism API and Swift 5.5 introduced concurrency instead of parallelism, we have to move away from regular queues and use <a href="https://github.com/apple/swift-evolution/blob/main/proposals/0304-structured-concurrency.md" target="_blank">structured concurrency</a> to perform tasks in parallel. Also the concurrentPerform function is not an asynchronous operation, it’ll block the caller thread until all the work is done within the block.</p><p>Working with async/await means that the CPU can work on a different task when awaits for a given operation. Every await call is a potential <a href="https://github.com/apple/swift-evolution/blob/main/proposals/0296-async-await.md#suspension-points" target="_blank">suspension point</a>, where the function can give up the thread and the CPU can perform other tasks until the awaited function resumes & returns with the necessary value. The <a href="https://developer.apple.com/videos/play/wwdc2021/10254/" target="_blank">new Swift concurrency APIs</a> are built on top a cooperative thread pool, where each CPU core has just the right amount of threads and the suspension & continuation happens “virtually” with the help of the language runtime. This is far more efficient than actual context switching, and also means that when you interact with async functions and await for a function the CPU can work on other tasks instead of blocking the thread on the call side.</p><p>So back to the example code, since actors have to protect their internal states, they only allows us to access members asynchronously when you reference from async functions or outside the actor. This is very similar to the case when we had to use the lockQueue.sync to protect our read / write functions, but instead of giving the ability to the system to perform other tasks on the thread, we’ve entirely blocked it with the sync call. Now with await we can give up the thread and allow others to perform operations using it and when the time comes the function can resume.</p><p>Inside the task group we can perform our tasks asynchronously, but since we’re accessing the actor function (from an async context / outside the actor) we have to use the await keyword before the set call, even if the function is not marked with the async keyword.</p><p>The system knows that we’re referencing the actor’s property using a different context and we have to perform this operation always isolated to eliminate data races. By converting the function to an async call we give the system a chance to perform the operation on the actor’s executor. Later on we’ll be able to define <a href="https://forums.swift.org/t/support-custom-executors-in-swift-concurrency/44425" target="_blank">custom executors</a> for our actors, but this feature is not available yet.</p><p>Currently there is a global executor implementation (associated with each actor) that enqueues the tasks and runs them one-by-one, if a task is not running (no contention) it’ll be scheduled for execution (based on the priority) otherwise (if the task is already running / under contention) the system will just pick-up the message without blocking.</p><p>The funny thing is that this does not necessary means that the exact same thread… 😅</p><pre><code class="language-swift">import Foundation
 
 extension Thread {
     var number: String {
@@ -290,7 +291,7 @@ Task {
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -313,80 +314,80 @@ Task {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2021/09/10">2021/09/10</time>
+                                <time datetime="2017-10-23T14:20:00.000Z">10/23/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/how-to-make-a-swift-framework/" target="">How to make a Swift framework?</a></h2>
+                            <hr>
+                            <p>Creating a Swift framework shouldn&#39;t be hard. This tutorial will help you making a universal framework for complex projects.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2017-10-11T14:20:00.000Z">10/11/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">1 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/swift-enum-all-values/" target="">Swift enum all values</a></h2>
+                            <hr>
+                            <p>In this quick tutorial I&#39;ll show you how to get all the possible values for a Swift enum type with a generic solution written in Swift.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018-01-25T15:20:00.000Z">1/25/18 3:20 PM</time>
+                                 &middot; <span class="reading-time">11 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/deep-dive-into-swift-frameworks/" target="">Deep dive into Swift frameworks</a></h2>
+                            <hr>
+                            <p>Learn everything about Swift modules, libraries, packages, closed source frameworks, command line tools and more.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
                                  &middot; <span class="reading-time">6 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/all-about-the-bool-type-in-swift/" target="">All about the Bool type in Swift</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/everything-about-public-and-private-swift-attributes/" target="">Everything about public and private Swift attributes</a></h2>
                             <hr>
-                            <p>Learn everything about logical types and the Boolean algebra using the Swift programming language and some basic math.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2022/03/18">2022/03/18</time>
-                                 &middot; <span class="reading-time">4 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/async-http-api-clients-in-swift/" target="">Async HTTP API clients in Swift</a></h2>
-                            <hr>
-                            <p>Learn how to communicate with API endpoints using the brand new SwiftHttp library, including async / await support.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2019/02/05">2019/02/05</time>
-                                 &middot; <span class="reading-time">9 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/beginners-guide-to-functional-swift/" target="">Beginners guide to functional Swift</a></h2>
-                            <hr>
-                            <p>The one and only tutorial that you&#39;ll ever need to learn higher order functions like: map, flatMap, compactMap, reduce, filter and more.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2022/06/28">2022/06/28</time>
-                                 &middot; <span class="reading-time">5 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/beginners-guide-to-modern-generic-programming-in-swift/" target="">Beginner&#39;s guide to modern generic programming in Swift</a></h2>
-                            <hr>
-                            <p>Learn the very basics about protocols, existentials, opaque types and how they are related to generic programming in Swift.</p>
+                            <p>Have you ever heard about Swift language attributes? In this article I&#39;m trying to gather all the @ annotations and their meanings.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
@@ -414,15 +415,11 @@ Task {
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#thread-safety-data-races">Thread safety &amp; data races</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#introducing-swift-actors">Introducing Swift actors</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -477,7 +474,7 @@ Task {
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

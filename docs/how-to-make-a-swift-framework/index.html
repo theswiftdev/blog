@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2017/10/23">2017/10/23</time>
+                <div class="meta">            
+                    <time datetime="2017-10-23T14:20:00.000Z">10/23/17 2:20 PM</time>
                      &middot; <span class="reading-time">2 min read</span>
                     
                 </div>
@@ -108,7 +109,7 @@
                 <p>Creating a Swift framework shouldn&#39;t be hard. This tutorial will help you making a universal framework for complex projects.</p>
                 <section>
                 
-                <h2 id="what-is-a-framework">What is a framework?</h2><p>A <a href="https://developer.apple.com/library/content/documentation/MacOSX/Conceptual/BPFrameworks/Concepts/WhatAreFrameworks.html" target="_blank">framework</a> is a hierarchical directory that encapsulates shared resources, such as a dynamic shared library, nib files, image files, localized strings, header files, and reference documentation in a single package.</p><blockquote><p>So in a nutshell, a framework is a highly reusable component for your apps.</p></blockquote><h2 id="how-to-make-it">How to make it?</h2><p>There is an article about <a href="https://theswiftdev.com/2016/07/06/conventions-for-xcode/">Xcode conventions</a> which will help you organize your projects, you should check that first, if you haven’t before.</p><h3 id="traditional-way">Traditional way</h3><p>There is a traditional way to <a href="https://www.raywenderlich.com/126365/ios-frameworks-tutorial" target="_blank">make a framework</a> in Xcode. I’m going to create a <a href="http://ilya.puchka.me/xcode-cross-platform-frameworks/" target="_blank">shared framework</a> for all the apple platforms (iOS, macOS, tvOS, watchOS), which is going to be capable of logging things to the standard console.</p><p>Let’s make the project:</p><ul><li>Create a new project using one of the framework targets</li><li>Follow the instructions fill & name all the fields</li><li>Add all the other platform framework targets</li><li>Rename all targets according to the platform names</li></ul><p>Now in Finder:</p><ul><li>Create a Sources folder and move all the Swift and header files there</li><li>Create an Assets folder with platforms subfolders</li><li>Move all the Info.plist files into the correct platfrom subdirectory</li><li>Create a Tests folder and move test files there</li></ul><p>Back to Xcode:</p><ul><li>Remove every group and add the new Folders from Finder</li><li>Check that every target has the correct files (framework & tests)</li><li>Inside the header file, replace UIKit depencency with Foundation</li></ul><p>The goal is to achieve a structure somewhat like this:</p><p>    <img src="/assets/how-to-make-a-swift-framework/xcode-project-framework-setup.png" alt="Xcode project framework setup"></p><p>Project settings:</p><ul><li>Select the correct plist files for the targets</li><li>Set your bundle identifiers (use my conventions)</li><li>Setup platform versions (advice: support 1 older version too)</li><li>Setup the plist files for the tests from the build settings pane</li><li>Set the product name (Console) in your framework build settings</li><li>Check your build phases and add the public header file.</li></ul><p>Scheme settings:</p><ul><li>Go to the scheme settings and setup shared schemes for the frameworks</li><li>Gather coverage data if you need it</li><li>Write your framework you can use Swift “macros” to detect platforms</li></ul><blockquote class="note"><p>NOTE: There is a flag in Xcode to allow app extension API only, if you are embedding your framework inside an application extension it should be enabled!</p></blockquote><p>Congratulations, now you have your brand new Swift framework made in the traditional way. Let’s continue with a neat trick.</p><h2 id="universal-cross-platform-framework">Universal cross platform framework</h2><p>It is possible to create a multiplatform single scheme Xcode project with cross platform support for every platform, but it’s not recommended because it’s a hack. However multiple open source libraries do the same way, so why shouldn’t we.</p><ul><li>Delete all the targets, schemes, except macOS!!!</li><li>Rename the remaining target, scheme (we don’t need platform names)</li><li>Use the project configuration file, set the xcconfig on the project</li><li>Delete Info.plist files, use one for the framework and one for the tests</li><li>Rename bundle identifier (we don’t need platform names there too)</li></ul><blockquote class="warning"><p>WARN: States can be mixed up if you are building for multiple platforms, however this is a nice clean way to support every platforms, without duplications.</p></blockquote><h2 id="how-to-use-a-swift-framework">How to use a Swift framework?</h2><p>Embedding your framework is the most straightforward thing to do. You can simply drag the framework project to another Xcode project, the only thing left to do is to the embedded the framework into the application. You can go to the embedded binaries section inside the general project info tab and add the framework as a dependency.</p><h3 id="swift-package-manager">Swift Package Manager</h3><p>With <a href="https://theswiftdev.com/2017/11/09/swift-package-manager-tutorial/">SPM</a>, you have to make a Package.swift file first, then you’ll be able to build your targets with the swift build command. Now that Xcode supports the Swift Package Manager, it’s really easy to integrate third party frameworks by using it.</p><p>You can download the final framework examples from <a href="https://github.com/theswiftdev/tutorials" target="_blank">GitHub</a>.</p><p>Make sure that you don’t miss out my <a href="https://theswiftdev.com/2018/01/25/deep-dive-into-swift-frameworks/">deep dive into swift frameworks</a> post.</p>
+                <h2 id="what-is-a-framework">What is a framework?</h2><p>A <a href="https://developer.apple.com/library/content/documentation/MacOSX/Conceptual/BPFrameworks/Concepts/WhatAreFrameworks.html" target="_blank">framework</a> is a hierarchical directory that encapsulates shared resources, such as a dynamic shared library, nib files, image files, localized strings, header files, and reference documentation in a single package.</p><blockquote><p>So in a nutshell, a framework is a highly reusable component for your apps.</p></blockquote><h2 id="how-to-make-it">How to make it?</h2><p>There is an article about <a href="https://theswiftdev.com/2016/07/06/conventions-for-xcode/" target="_blank">Xcode conventions</a> which will help you organize your projects, you should check that first, if you haven’t before.</p><h3 id="traditional-way">Traditional way</h3><p>There is a traditional way to <a href="https://www.raywenderlich.com/126365/ios-frameworks-tutorial" target="_blank">make a framework</a> in Xcode. I’m going to create a <a href="http://ilya.puchka.me/xcode-cross-platform-frameworks/" target="_blank">shared framework</a> for all the apple platforms (iOS, macOS, tvOS, watchOS), which is going to be capable of logging things to the standard console.</p><p>Let’s make the project:</p><ul><li>Create a new project using one of the framework targets</li><li>Follow the instructions fill & name all the fields</li><li>Add all the other platform framework targets</li><li>Rename all targets according to the platform names</li></ul><p>Now in Finder:</p><ul><li>Create a Sources folder and move all the Swift and header files there</li><li>Create an Assets folder with platforms subfolders</li><li>Move all the Info.plist files into the correct platfrom subdirectory</li><li>Create a Tests folder and move test files there</li></ul><p>Back to Xcode:</p><ul><li>Remove every group and add the new Folders from Finder</li><li>Check that every target has the correct files (framework & tests)</li><li>Inside the header file, replace UIKit depencency with Foundation</li></ul><p>The goal is to achieve a structure somewhat like this:</p><p><img src="https://theswiftdev.com/assets/how-to-make-a-swift-framework/xcode-project-framework-setup.png" alt="Xcode project framework setup"></p><p>Project settings:</p><ul><li>Select the correct plist files for the targets</li><li>Set your bundle identifiers (use my conventions)</li><li>Setup platform versions (advice: support 1 older version too)</li><li>Setup the plist files for the tests from the build settings pane</li><li>Set the product name (Console) in your framework build settings</li><li>Check your build phases and add the public header file.</li></ul><p>Scheme settings:</p><ul><li>Go to the scheme settings and setup shared schemes for the frameworks</li><li>Gather coverage data if you need it</li><li>Write your framework you can use Swift “macros” to detect platforms</li></ul><blockquote class="note"><p>There is a flag in Xcode to allow app extension API only, if you are embedding your framework inside an application extension it should be enabled!</p></blockquote><p>Congratulations, now you have your brand new Swift framework made in the traditional way. Let’s continue with a neat trick.</p><h2 id="universal-cross-platform-framework">Universal cross platform framework</h2><p>It is possible to create a multiplatform single scheme Xcode project with cross platform support for every platform, but it’s not recommended because it’s a hack. However multiple open source libraries do the same way, so why shouldn’t we.</p><ul><li>Delete all the targets, schemes, except macOS!!!</li><li>Rename the remaining target, scheme (we don’t need platform names)</li><li>Use the project configuration file, set the xcconfig on the project</li><li>Delete Info.plist files, use one for the framework and one for the tests</li><li>Rename bundle identifier (we don’t need platform names there too)</li></ul><blockquote class="warning"><p>States can be mixed up if you are building for multiple platforms, however this is a nice clean way to support every platforms, without duplications.</p></blockquote><h2 id="how-to-use-a-swift-framework">How to use a Swift framework?</h2><p>Embedding your framework is the most straightforward thing to do. You can simply drag the framework project to another Xcode project, the only thing left to do is to the embedded the framework into the application. You can go to the embedded binaries section inside the general project info tab and add the framework as a dependency.</p><h3 id="swift-package-manager">Swift Package Manager</h3><p>With <a href="https://theswiftdev.com/2017/11/09/swift-package-manager-tutorial/" target="_blank">SPM</a>, you have to make a Package.swift file first, then you’ll be able to build your targets with the swift build command. Now that Xcode supports the Swift Package Manager, it’s really easy to integrate third party frameworks by using it.</p><p>You can download the final framework examples from <a href="https://github.com/theswiftdev/tutorials" target="_blank">GitHub</a>.</p><p>Make sure that you don’t miss out my <a href="https://theswiftdev.com/2018/01/25/deep-dive-into-swift-frameworks/" target="_blank">deep dive into swift frameworks</a> post.</p>
                     
                 </section>
     
@@ -119,7 +120,7 @@
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -142,80 +143,80 @@
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2021/09/10">2021/09/10</time>
+                                <time datetime="2017-10-23T14:20:00.000Z">10/23/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/how-to-make-a-swift-framework/" target="">How to make a Swift framework?</a></h2>
+                            <hr>
+                            <p>Creating a Swift framework shouldn&#39;t be hard. This tutorial will help you making a universal framework for complex projects.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2017-10-11T14:20:00.000Z">10/11/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">1 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/swift-enum-all-values/" target="">Swift enum all values</a></h2>
+                            <hr>
+                            <p>In this quick tutorial I&#39;ll show you how to get all the possible values for a Swift enum type with a generic solution written in Swift.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018-01-25T15:20:00.000Z">1/25/18 3:20 PM</time>
+                                 &middot; <span class="reading-time">11 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/deep-dive-into-swift-frameworks/" target="">Deep dive into Swift frameworks</a></h2>
+                            <hr>
+                            <p>Learn everything about Swift modules, libraries, packages, closed source frameworks, command line tools and more.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
                                  &middot; <span class="reading-time">6 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/all-about-the-bool-type-in-swift/" target="">All about the Bool type in Swift</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/everything-about-public-and-private-swift-attributes/" target="">Everything about public and private Swift attributes</a></h2>
                             <hr>
-                            <p>Learn everything about logical types and the Boolean algebra using the Swift programming language and some basic math.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2022/03/18">2022/03/18</time>
-                                 &middot; <span class="reading-time">4 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/async-http-api-clients-in-swift/" target="">Async HTTP API clients in Swift</a></h2>
-                            <hr>
-                            <p>Learn how to communicate with API endpoints using the brand new SwiftHttp library, including async / await support.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2019/02/05">2019/02/05</time>
-                                 &middot; <span class="reading-time">9 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/beginners-guide-to-functional-swift/" target="">Beginners guide to functional Swift</a></h2>
-                            <hr>
-                            <p>The one and only tutorial that you&#39;ll ever need to learn higher order functions like: map, flatMap, compactMap, reduce, filter and more.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2022/06/28">2022/06/28</time>
-                                 &middot; <span class="reading-time">5 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/beginners-guide-to-modern-generic-programming-in-swift/" target="">Beginner&#39;s guide to modern generic programming in Swift</a></h2>
-                            <hr>
-                            <p>Learn the very basics about protocols, existentials, opaque types and how they are related to generic programming in Swift.</p>
+                            <p>Have you ever heard about Swift language attributes? In this article I&#39;m trying to gather all the @ annotations and their meanings.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
@@ -243,27 +244,23 @@
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#what-is-a-framework">What is a framework?</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#how-to-make-it">How to make it?</a>
-                        <ul>
-                            <li><a href="#traditional-way">Traditional way</a></li>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-3">
+                        <a href="#traditional-way">Traditional way</a>
+                    </li>
+        <li class="level-2">
                         <a href="#universal-cross-platform-framework">Universal cross platform framework</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#how-to-use-a-swift-framework">How to use a Swift framework?</a>
-                        <ul>
-                            <li><a href="#swift-package-manager">Swift Package Manager</a></li>
-                        </ul>
+                    </li>
+        <li class="level-3">
+                        <a href="#swift-package-manager">Swift Package Manager</a>
                     </li>
                 </ul>
             </aside>
@@ -318,7 +315,7 @@
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

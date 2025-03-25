@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2018/06/14">2018/06/14</time>
+                <div class="meta">            
+                    <time datetime="2018-06-14T14:20:00.000Z">6/14/18 2:20 PM</time>
                      &middot; <span class="reading-time">5 min read</span>
                     
                 </div>
@@ -108,7 +109,7 @@
                 <p>Looking for best practices of using layout anchors? Let&#39;s learn how to use the iOS autolayout system in the proper way using Swift.</p>
                 <section>
                 
-                <h2 id="creating-views-and-constraints-programmatically">Creating views and constraints programmatically</h2><p>First of all I’d like to recap the <code>UIViewController</code> life cycle methods, you are might familiar with some of them. They are being called in the following order:</p><ul><li>loadView</li><li>viewDidLoad</li><li>viewWillAppear</li><li>viewWillLayoutSubviews</li><li>viewDidLayoutSubviews</li><li>viewDidAppear</li></ul><p>In the pre-auto layout era, you had to do your layout calculations inside the <code>viewDidLayoutSubviews</code> method, but since this is a <a href="https://theswiftdev.com/2017/10/31/ios-auto-layout-tutorial-programmatically/">pro auto layout tutorial</a> we are only going to focus on the <code>loadView</code> & <code>viewDidLoad</code> methods. 🤓</p><p>These are the basic rules of creating view hierarchies using auto layout:</p><ul><li>Never calculate frames manually by yourself!</li><li>Initialize your views with <code>.zero</code> rect frame</li><li>Set <code>translatesAutoresizingMaskIntoConstraints</code> to false</li><li>Add your view to the view hierarchy using <code>addSubview</code></li><li>Create and activate your layout constraints <code>NSLayoutConstraint.activate</code></li><li>Use <code>loadView</code> instead of <code>viewDidLoad</code> for creating views with constraints</li><li>Take care of memory management by using weak properties</li><li>Set every other property like background color, etc. in <code>viewDidLoad</code></li></ul><p>Enough theory, here is a short example:</p><pre><code class="language-swift">class ViewController: UIViewController {
+                <h2 id="creating-views-and-constraints-programmatically">Creating views and constraints programmatically</h2><p>First of all I’d like to recap the <code>UIViewController</code> life cycle methods, you are might familiar with some of them. They are being called in the following order:</p><ul><li>loadView</li><li>viewDidLoad</li><li>viewWillAppear</li><li>viewWillLayoutSubviews</li><li>viewDidLayoutSubviews</li><li>viewDidAppear</li></ul><p>In the pre-auto layout era, you had to do your layout calculations inside the <code>viewDidLayoutSubviews</code> method, but since this is a <a href="https://theswiftdev.com/2017/10/31/ios-auto-layout-tutorial-programmatically/" target="_blank">pro auto layout tutorial</a> we are only going to focus on the <code>loadView</code> & <code>viewDidLoad</code> methods. 🤓</p><p>These are the basic rules of creating view hierarchies using auto layout:</p><ul><li>Never calculate frames manually by yourself!</li><li>Initialize your views with <code>.zero</code> rect frame</li><li>Set <code>translatesAutoresizingMaskIntoConstraints</code> to false</li><li>Add your view to the view hierarchy using <code>addSubview</code></li><li>Create and activate your layout constraints <code>NSLayoutConstraint.activate</code></li><li>Use <code>loadView</code> instead of <code>viewDidLoad</code> for creating views with constraints</li><li>Take care of memory management by using weak properties</li><li>Set every other property like background color, etc. in <code>viewDidLoad</code></li></ul><p>Enough theory, here is a short example:</p><pre><code class="language-swift">class ViewController: UIViewController {
 
     weak var testView: UIView!
 
@@ -213,7 +214,7 @@ testView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAn
         }
     }
 }
-</code></pre><p>It’s not that bad, next: <a href="https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/" target="_blank">adaptivity</a> and supporting multiple device screen sizes. 🤔</p><p>How to create adaptive layouts for iOS?<br>Even Apple is struggling with adaptive layouts in the built-in iOS applications. If you look at apps that are made with collection views - like photos - layouts are pretty okay on every device. However there are a few other ones, that - in my opinion - are horrible experiences on a bigger screen. 🤐</p><h3 id="rotation-support">Rotation support</h3><p>Your first step to adaptive layout is supporting multiple device orientations. You can check my previous article about <a href="https://theswiftdev.com/2017/10/31/ios-auto-layout-tutorial-programmatically/">iOS auto layout</a> there are lots of great stuff inside that article about rotation support, working with layers inside auto layout land, etc. 🌈</p><h3 id="trait-collections">Trait collections</h3><p>Second step is to adapt trait collections. <a href="https://developer.apple.com/documentation/uikit/uitraitcollection" target="_blank">UITraitCollection</a> is there for you to group all the environmental specific traits such as size classes, display scale, user interface idiom and many more. Most of the times you will have to check the vertical & horizontal size classes. There is a reference of device size classes and all the possible variations made by Apple, see the external sources section below. 😉</p><p>This little Swift code example below is demonstrating how to check size classes for setting different layouts for compact and regular screens.</p><pre><code class="language-swift">class ViewController: UIViewController {
+</code></pre><p>It’s not that bad, next: <a href="https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/" target="_blank">adaptivity</a> and supporting multiple device screen sizes. 🤔</p><p>How to create adaptive layouts for iOS?<br>Even Apple is struggling with adaptive layouts in the built-in iOS applications. If you look at apps that are made with collection views - like photos - layouts are pretty okay on every device. However there are a few other ones, that - in my opinion - are horrible experiences on a bigger screen. 🤐</p><h3 id="rotation-support">Rotation support</h3><p>Your first step to adaptive layout is supporting multiple device orientations. You can check my previous article about <a href="https://theswiftdev.com/2017/10/31/ios-auto-layout-tutorial-programmatically/" target="_blank">iOS auto layout</a> there are lots of great stuff inside that article about rotation support, working with layers inside auto layout land, etc. 🌈</p><h3 id="trait-collections">Trait collections</h3><p>Second step is to adapt trait collections. <a href="https://developer.apple.com/documentation/uikit/uitraitcollection" target="_blank">UITraitCollection</a> is there for you to group all the environmental specific traits such as size classes, display scale, user interface idiom and many more. Most of the times you will have to check the vertical & horizontal size classes. There is a reference of device size classes and all the possible variations made by Apple, see the external sources section below. 😉</p><p>This little Swift code example below is demonstrating how to check size classes for setting different layouts for compact and regular screens.</p><pre><code class="language-swift">class ViewController: UIViewController {
 
     weak var testView: UIView!
 
@@ -300,12 +301,12 @@ UIScreen.main.bounds         // 375x812
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
-                        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
-                    <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                    <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                     </div>
                     
                     <p>
@@ -324,20 +325,21 @@ UIScreen.main.bounds         // 375x812
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2022/02/03">2022/02/03</time>
-                                 &middot; <span class="reading-time">8 min read</span>
+                                <time datetime="2017-10-31T15:20:00.000Z">10/31/17 3:20 PM</time>
+                                 &middot; <span class="reading-time">6 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/10-little-uikit-tips-you-should-know/" target="">10 little UIKit tips you should know</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/ios-auto-layout-tutorial-programmatically/" target="">iOS Auto Layout tutorial programmatically</a></h2>
                             <hr>
-                            <p>In this article I&#39;ve gathered my top 10 favorite modern UIKit tips that I&#39;d definitely want to know before I start my next project.</p>
+                            <p>In this great iOS Auto Layout tutorial I&#39;ll teach you how to support rotation, use constraints, work with layers, animate corner radius.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -345,20 +347,22 @@ UIScreen.main.bounds         // 375x812
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2019/05/23">2019/05/23</time>
-                                 &middot; <span class="reading-time">5 min read</span>
+                                <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/building-input-forms-for-ios-apps/" target="">Building input forms for iOS apps</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/uikit-init-patterns/" target="">UIKit init patterns</a></h2>
                             <hr>
-                            <p>Learn how to build complex forms with my updated collection view view-model framework without the struggle using Swift.</p>
+                            <p>Learn about the initialization process of the two well known classes in UIKit. Say hello to UIViewcontroller, and UIView init patterns.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                                <a href="https://theswiftdev.com/tags/design-pattern/"><small>Design pattern</small></a>
+        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -366,11 +370,11 @@ UIScreen.main.bounds         // 375x812
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2018/10/16">2018/10/16</time>
+                                <time datetime="2018-10-16T14:20:00.000Z">10/16/18 2:20 PM</time>
                                  &middot; <span class="reading-time">5 min read</span>
                             </div>
                             
@@ -379,8 +383,8 @@ UIScreen.main.bounds         // 375x812
                             <p>Do you want to learn how to load a xib file to create a custom view object? Well, this UIKit tutorial is just for you written in Swift.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
-        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -388,20 +392,20 @@ UIScreen.main.bounds         // 375x812
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2019/10/21">2019/10/21</time>
-                                 &middot; <span class="reading-time">4 min read</span>
+                                <time datetime="2018-05-17T14:20:00.000Z">5/17/18 2:20 PM</time>
+                                 &middot; <span class="reading-time">3 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/custom-views-input-forms-and-mistakes/" target="">Custom views, input forms and mistakes</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/how-to-use-icloud-drive-documents/" target="">How to use iCloud drive documents?</a></h2>
                             <hr>
-                            <p>Just a little advice about creating custom view programmatically and the truth about why form building with collection views sucks.</p>
+                            <p>Learn how to sync files and data through a shared iCloud drive folder using the latest version of Swift programming language.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                                <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     </div>
@@ -426,30 +430,44 @@ UIScreen.main.bounds         // 375x812
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#creating-views-and-constraints-programmatically">Creating views and constraints programmatically</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#common-uikit-auto-layout-constraint-use-cases">Common UIKit auto layout constraint use cases</a>
-                        <ul>
-                            <li><a href="#set-fixed-with-or-height">Set fixed with or height</a></li>
-                <li><a href="#set-aspect-ratio">Set aspect ratio</a></li>
-                <li><a href="#center-horizontally-vertically">Center horizontally &amp; vertically</a></li>
-                <li><a href="#stretch-or-fill-inside-view-with-padding">Stretch or fill inside view with padding</a></li>
-                <li><a href="#proportional-width-or-height">Proportional width or height</a></li>
-                <li><a href="#using-safe-area-layout-guides">Using safe area layout guides</a></li>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-3">
+                        <a href="#set-fixed-with-or-height">Set fixed with or height</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#set-aspect-ratio">Set aspect ratio</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#center-horizontally-vertically">Center horizontally &amp; vertically</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#stretch-or-fill-inside-view-with-padding">Stretch or fill inside view with padding</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#proportional-width-or-height">Proportional width or height</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#using-safe-area-layout-guides">Using safe area layout guides</a>
+                    </li>
+        <li class="level-2">
                         <a href="#animating-layout-constraints">Animating layout constraints</a>
-                        <ul>
-                            <li><a href="#rotation-support">Rotation support</a></li>
-                <li><a href="#trait-collections">Trait collections</a></li>
-                <li><a href="#device-detection">Device detection</a></li>
-                <li><a href="#screen-size">Screen size</a></li>
-                        </ul>
+                    </li>
+        <li class="level-3">
+                        <a href="#rotation-support">Rotation support</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#trait-collections">Trait collections</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#device-detection">Device detection</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#screen-size">Screen size</a>
                     </li>
                 </ul>
             </aside>
@@ -504,7 +522,7 @@ UIScreen.main.bounds         // 375x812
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

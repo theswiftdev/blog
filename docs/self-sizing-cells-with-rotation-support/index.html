@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2018/01/23">2018/01/23</time>
+                <div class="meta">            
+                    <time datetime="2018-01-23T15:20:00.000Z">1/23/18 3:20 PM</time>
                      &middot; <span class="reading-time">4 min read</span>
                     
                 </div>
@@ -108,7 +109,7 @@
                 <p>How to make self sizing cells in Swift both for table &amp; collection views supporting orientation changes and dynamic font types.</p>
                 <section>
                 
-                <h2 id="uitableview">UITableView</h2><p>So let’s start with a standard single-view template for iOS. Name the project, and go straight to the <code>Main.storyboard</code> file. Select your view controller, delete it and create a new <code>UITableViewController</code> scene.</p><p>    <img src="/assets/self-sizing-cells-with-rotation-support/storyboard.jpg" alt="Main storyboard"></p><p>Set the table view controller scene as initial view controller and create a <code>TableViewController.swift</code> file with the corresponding class.</p><pre><code class="language-swift">import UIKit
+                <h2 id="uitableview">UITableView</h2><p>So let’s start with a standard single-view template for iOS. Name the project, and go straight to the <code>Main.storyboard</code> file. Select your view controller, delete it and create a new <code>UITableViewController</code> scene.</p><p><img src="https://theswiftdev.com/assets/self-sizing-cells-with-rotation-support/storyboard.jpg" alt="Main storyboard"></p><p>Set the table view controller scene as initial view controller and create a <code>TableViewController.swift</code> file with the corresponding class.</p><pre><code class="language-swift">import UIKit
 
 class TableViewController: UITableViewController {
 
@@ -150,7 +151,7 @@ extension TableViewController {
 
     @IBOutlet weak var dynamicLabel: UILabel!
 }
-</code></pre><p>First, create the class itself, then with interface builder select the table view controller scene and drag a label to the prototype cell. Set the class of the prototype cell to <code>TableViewCell</code>. The reusable identifier can be simply <code>"Cell"</code>. Connect the dynamicLabel outlet to the view. Give the label top, bottom, leading, trailing constraints to the superview with the default value of 8. Select the label, set the font to body style and the lines property to zero. That’s how simple it is. 😂</p><p>    <img src="/assets/self-sizing-cells-with-rotation-support/tableviewcell.jpg" alt="Table view cell"></p><p>Now you are almost ready. You just need to set the estimated row height on the table view. Inside the TableViewController class change the <code>viewDidLoad</code> method like this:</p><pre><code class="language-swift">override func viewDidLoad() {
+</code></pre><p>First, create the class itself, then with interface builder select the table view controller scene and drag a label to the prototype cell. Set the class of the prototype cell to <code>TableViewCell</code>. The reusable identifier can be simply <code>"Cell"</code>. Connect the dynamicLabel outlet to the view. Give the label top, bottom, leading, trailing constraints to the superview with the default value of 8. Select the label, set the font to body style and the lines property to zero. That’s how simple it is. 😂</p><p><img src="https://theswiftdev.com/assets/self-sizing-cells-with-rotation-support/tableviewcell.jpg" alt="Table view cell"></p><p>Now you are almost ready. You just need to set the estimated row height on the table view. Inside the TableViewController class change the <code>viewDidLoad</code> method like this:</p><pre><code class="language-swift">override func viewDidLoad() {
     super.viewDidLoad()
 
     tableView.estimatedRowHeight = 44
@@ -162,7 +163,7 @@ extension TableViewController {
     name: UIContentSizeCategory.didChangeNotification, 
     object: nil
 )
-</code></pre><h2 id="uicollectionview">UICollectionView</h2><p>So we’ve finished the easy part. Now let’s try to achieve the <a href="https://www.raywenderlich.com/129059/self-sizing-table-view-cells" target="_blank">same functionality</a> with a collection view. <code>UICollectionView</code> is a generic class, that is designed to create custom layouts, because of this generic behavior you will not be able to create self sizing cells from interface builder. You have to do it from code.</p><p>Before we start, we can still play with IB a little bit. Create a new collection view controller scene, and drag a push segue from the previous table view cell to this new controller. Finally embed the whole thing in a navigation controller.</p><p>    <img src="/assets/self-sizing-cells-with-rotation-support/collectionview.jpg" alt="Collection view"></p><p>The cell is going to be the exact same as we used for the table view, but it’s a subclass of <code>UICollectionViewCell</code>, and we are going to construct the layout directly from code.</p><pre><code class="language-swift">class CollectionViewCell: UICollectionViewCell {
+</code></pre><h2 id="uicollectionview">UICollectionView</h2><p>So we’ve finished the easy part. Now let’s try to achieve the <a href="https://www.raywenderlich.com/129059/self-sizing-table-view-cells" target="_blank">same functionality</a> with a collection view. <code>UICollectionView</code> is a generic class, that is designed to create custom layouts, because of this generic behavior you will not be able to create self sizing cells from interface builder. You have to do it from code.</p><p>Before we start, we can still play with IB a little bit. Create a new collection view controller scene, and drag a push segue from the previous table view cell to this new controller. Finally embed the whole thing in a navigation controller.</p><p><img src="https://theswiftdev.com/assets/self-sizing-cells-with-rotation-support/collectionview.jpg" alt="Collection view"></p><p>The cell is going to be the exact same as we used for the table view, but it’s a subclass of <code>UICollectionViewCell</code>, and we are going to construct the layout directly from code.</p><pre><code class="language-swift">class CollectionViewCell: UICollectionViewCell {
 
     weak var dynamicLabel: UILabel!
 
@@ -319,12 +320,12 @@ func estimateVisibleCellSizes(to size: CGSize) {
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
-                        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
-                    <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                    <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                     </div>
                     
                     <p>
@@ -343,20 +344,21 @@ func estimateVisibleCellSizes(to size: CGSize) {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2022/02/03">2022/02/03</time>
-                                 &middot; <span class="reading-time">8 min read</span>
+                                <time datetime="2017-10-31T15:20:00.000Z">10/31/17 3:20 PM</time>
+                                 &middot; <span class="reading-time">6 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/10-little-uikit-tips-you-should-know/" target="">10 little UIKit tips you should know</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/ios-auto-layout-tutorial-programmatically/" target="">iOS Auto Layout tutorial programmatically</a></h2>
                             <hr>
-                            <p>In this article I&#39;ve gathered my top 10 favorite modern UIKit tips that I&#39;d definitely want to know before I start my next project.</p>
+                            <p>In this great iOS Auto Layout tutorial I&#39;ll teach you how to support rotation, use constraints, work with layers, animate corner radius.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -364,20 +366,22 @@ func estimateVisibleCellSizes(to size: CGSize) {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2019/05/23">2019/05/23</time>
-                                 &middot; <span class="reading-time">5 min read</span>
+                                <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/building-input-forms-for-ios-apps/" target="">Building input forms for iOS apps</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/uikit-init-patterns/" target="">UIKit init patterns</a></h2>
                             <hr>
-                            <p>Learn how to build complex forms with my updated collection view view-model framework without the struggle using Swift.</p>
+                            <p>Learn about the initialization process of the two well known classes in UIKit. Say hello to UIViewcontroller, and UIView init patterns.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                                <a href="https://theswiftdev.com/tags/design-pattern/"><small>Design pattern</small></a>
+        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -385,11 +389,11 @@ func estimateVisibleCellSizes(to size: CGSize) {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2018/10/16">2018/10/16</time>
+                                <time datetime="2018-10-16T14:20:00.000Z">10/16/18 2:20 PM</time>
                                  &middot; <span class="reading-time">5 min read</span>
                             </div>
                             
@@ -398,8 +402,8 @@ func estimateVisibleCellSizes(to size: CGSize) {
                             <p>Do you want to learn how to load a xib file to create a custom view object? Well, this UIKit tutorial is just for you written in Swift.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
-        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -407,20 +411,20 @@ func estimateVisibleCellSizes(to size: CGSize) {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2019/10/21">2019/10/21</time>
-                                 &middot; <span class="reading-time">4 min read</span>
+                                <time datetime="2018-05-17T14:20:00.000Z">5/17/18 2:20 PM</time>
+                                 &middot; <span class="reading-time">3 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/custom-views-input-forms-and-mistakes/" target="">Custom views, input forms and mistakes</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/how-to-use-icloud-drive-documents/" target="">How to use iCloud drive documents?</a></h2>
                             <hr>
-                            <p>Just a little advice about creating custom view programmatically and the truth about why form building with collection views sucks.</p>
+                            <p>Learn how to sync files and data through a shared iCloud drive folder using the latest version of Swift programming language.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                                <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     </div>
@@ -445,15 +449,11 @@ func estimateVisibleCellSizes(to size: CGSize) {
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#uitableview">UITableView</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#uicollectionview">UICollectionView</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -508,7 +508,7 @@ func estimateVisibleCellSizes(to size: CGSize) {
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

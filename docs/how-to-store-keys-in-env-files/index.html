@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2020/06/30">2020/06/30</time>
+                <div class="meta">            
+                    <time datetime="2020-06-30T14:20:00.000Z">6/30/20 2:20 PM</time>
                      &middot; <span class="reading-time">2 min read</span>
                     
                 </div>
@@ -108,7 +109,7 @@
                 <p>In this tutorial I&#39;ll show you how to save and load secret keys as base64 encoded strings using dotenv files in Vapor 4.</p>
                 <section>
                 
-                <h2 id="using-the-environment-in-vapor-4">Using the Environment in Vapor 4</h2><p>Just like many popular server side frameworks, your Vapor based backend application can load a file called <code>.env</code>. It is possible to store key-value based (secret) configuration values inside this file. When you run the app, one of the following file will be loaded, based on the current environment:</p><ul><li>Production (<code>.env</code>)</li><li>Development (<code>.env.development</code>)</li><li>Testing (<code>.env.testing</code>)</li></ul><p>When you execute your tests the <code>.env.testing</code> file will be used. If you start the app using the <code>serve</code> Vapor <a href="https://theswiftdev.com/the-anatomy-of-vapor-commands/">command</a> you can also change the environment using the <code>--env</code> or <code>-e</code> flag. The available options are production and development, and the corresponding <code>.env</code> file will be loaded. It is possible to create a custom environment, you can read more about this in the <a href="https://docs.vapor.codes/4.0/environment/" target="_blank">official Vapor docs</a>. The .env file usually contains one key and value per line, now the problem starts when you want to store a multiline secret key in the file. So what can we do about this? 🤔</p><h2 id="base64-encoded-secret-keys">Base64 encoded secret keys</h2><p>Yes, we can encode the secret key using a base64 encoding. No, I don’t want to copy my secrets into an <a href="https://www.base64encode.org/" target="_blank">online base64 encoder</a>, because there is a pretty simple shell command that I can use.</p><pre><code class="language-sh">echo "&lt;my-secret-key&gt;" | base64
+                <h2 id="using-the-environment-in-vapor-4">Using the Environment in Vapor 4</h2><p>Just like many popular server side frameworks, your Vapor based backend application can load a file called <code>.env</code>. It is possible to store key-value based (secret) configuration values inside this file. When you run the app, one of the following file will be loaded, based on the current environment:</p><ul><li>Production (<code>.env</code>)</li><li>Development (<code>.env.development</code>)</li><li>Testing (<code>.env.testing</code>)</li></ul><p>When you execute your tests the <code>.env.testing</code> file will be used. If you start the app using the <code>serve</code> Vapor <a href="https://theswiftdev.com/the-anatomy-of-vapor-commands/" target="_blank">command</a> you can also change the environment using the <code>--env</code> or <code>-e</code> flag. The available options are production and development, and the corresponding <code>.env</code> file will be loaded. It is possible to create a custom environment, you can read more about this in the <a href="https://docs.vapor.codes/4.0/environment/" target="_blank">official Vapor docs</a>. The .env file usually contains one key and value per line, now the problem starts when you want to store a multiline secret key in the file. So what can we do about this? 🤔</p><h2 id="base64-encoded-secret-keys">Base64 encoded secret keys</h2><p>Yes, we can encode the secret key using a base64 encoding. No, I don’t want to copy my secrets into an <a href="https://www.base64encode.org/" target="_blank">online base64 encoder</a>, because there is a pretty simple shell command that I can use.</p><pre><code class="language-sh">echo "&lt;my-secret-key&gt;" | base64
 </code></pre><p>If you don’t like unix commands, we can always put together a little Swift script and use an extension on the String type to encode keys. Just save the snippet from below into a base64.swift file, put your key into the key section, give the file some executable permission & run it using the <code>chmod o+x && ./base64.swift</code> one-liner command and voilá…</p><pre><code class="language-swift">#! /usr/bin/swift
 
 import Foundation
@@ -144,7 +145,7 @@ extension Environment {
 
 // usage:
 Environment.secretKey
-</code></pre><p>I think this approach is very useful. Of course you should place the <code>.env.*</code> pattern into your <code>.gitignore</code> file, otherwise if you place some secrets into the dotenv file and you push that into the remote… well, everyone else will know your keys, passwords, etc. You don’t want that, right? ⚠️</p><p>Feel free to use this method when you have to implement a <a href="https://theswiftdev.com/sign-in-with-apple-using-vapor-4/">Sign in With Apple</a> workflow, or a Apple Push Notification service (APNs). In those cases you’ll definitely have to pass one ore more secret keys to your Vapor based backend application. That’s it for now, thanks for reading.</p>
+</code></pre><p>I think this approach is very useful. Of course you should place the <code>.env.*</code> pattern into your <code>.gitignore</code> file, otherwise if you place some secrets into the dotenv file and you push that into the remote… well, everyone else will know your keys, passwords, etc. You don’t want that, right? ⚠️</p><p>Feel free to use this method when you have to implement a <a href="https://theswiftdev.com/sign-in-with-apple-using-vapor-4/" target="_blank">Sign in With Apple</a> workflow, or a Apple Push Notification service (APNs). In those cases you’ll definitely have to pass one ore more secret keys to your Vapor based backend application. That’s it for now, thanks for reading.</p>
                     
                 </section>
     
@@ -155,7 +156,7 @@ Environment.secretKey
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -180,21 +181,21 @@ Environment.secretKey
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2020/07/15">2020/07/15</time>
-                                 &middot; <span class="reading-time">5 min read</span>
+                                <time datetime="2016-07-06T14:20:00.000Z">7/6/16 2:20 PM</time>
+                                 &middot; <span class="reading-time">4 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/10-short-advices-that-will-make-you-a-better-vapor-developer-right-away/" target="">10 short advices that will make you a better Vapor developer right away</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/conventions-for-xcode/" target="">Conventions for Xcode</a></h2>
                             <hr>
-                            <p>As a beginner server side Swift developer you&#39;ll face many obstackles. I&#39;ll show you how to avoid the most common ones.</p>
+                            <p>Learn how to organize your codebase. If you are struggling with Xcode project structure, files, naming conventions, read this.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
-        <a href="https://theswiftdev.com/tags/vapor/"><small>Vapor</small></a>
+                                <a href="https://theswiftdev.com/tags/tooling/"><small>Tooling</small></a>
+        <a href="https://theswiftdev.com/tags/xcode/"><small>Xcode</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -202,21 +203,21 @@ Environment.secretKey
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2020/04/01">2020/04/01</time>
-                                 &middot; <span class="reading-time">10 min read</span>
+                                <time datetime="2017-10-27T14:20:00.000Z">10/27/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/a-generic-crud-solution-for-vapor-4/" target="">A generic CRUD solution for Vapor 4</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/how-to-launch-a-macos-app-at-login/" target="">How to launch a macOS app at login?</a></h2>
                             <hr>
-                            <p>Learn how to build a controller component that can serve models as JSON objects through a RESTful API written in Swift.</p>
+                            <p>In this tutorial I&#39;ll show you how to launch a completely sandboxed macOS application on system startup written in Swift.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
-        <a href="https://theswiftdev.com/tags/vapor/"><small>Vapor</small></a>
+                                <a href="https://theswiftdev.com/tags/tooling/"><small>Tooling</small></a>
+        <a href="https://theswiftdev.com/tags/macos/"><small>macOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -224,39 +225,39 @@ Environment.secretKey
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2019/10/08">2019/10/08</time>
+                                <time datetime="2018-11-16T15:20:00.000Z">11/16/18 3:20 PM</time>
+                                 &middot; <span class="reading-time">3 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/swift-5-and-abi-stability/" target="">Swift 5 and ABI stability</a></h2>
+                            <hr>
+                            <p>Apple&#39;s Swift 5 language version will be a huge milestone for the developer community, let&#39;s see what are the possible benefits of it.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+        <a href="https://theswiftdev.com/tags/tooling/"><small>Tooling</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2019-10-08T14:20:00.000Z">10/8/19 2:20 PM</time>
                                  &middot; <span class="reading-time">4 min read</span>
                             </div>
                             
                             <h2 class="title"><a href="https://theswiftdev.com/a-simple-http2-server-using-vapor-4/" target="">A simple HTTP/2 server using Vapor 4</a></h2>
                             <hr>
                             <p>Get started with server-side Swift using the Vapor 4 framework. Learn how to build a really simple HTTP/2 backend server.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
-        <a href="https://theswiftdev.com/tags/vapor/"><small>Vapor</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2020/12/18">2020/12/18</time>
-                                 &middot; <span class="reading-time">5 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/ajax-calls-using-vapor-4/" target="">AJAX calls using Vapor 4</a></h2>
-                            <hr>
-                            <p>Learn how to implement Asynchronous JavaScript and XML (AJAX) calls using Leaf templates and Vapor 4 as a server.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
@@ -285,20 +286,14 @@ Environment.secretKey
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#using-the-environment-in-vapor-4">Using the Environment in Vapor 4</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#base64-encoded-secret-keys">Base64 encoded secret keys</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#decoding-the-secret-key">Decoding the secret key</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -353,7 +348,7 @@ Environment.secretKey
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

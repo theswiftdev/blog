@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2017/11/19">2017/11/19</time>
+                <div class="meta">            
+                    <time datetime="2017-11-19T15:20:00.000Z">11/19/17 3:20 PM</time>
                      &middot; <span class="reading-time">5 min read</span>
                     
                 </div>
@@ -176,7 +177,7 @@ let main = command { (name:String) in
 main.run()
 </code></pre><p>Build the project with swift build and run the newly created app with one extra name parameter. Hopefully you’ll see something like this.</p><pre><code>swift run my-cmd guest
 # Hello, Guest!
-</code></pre><p>So we just made a brand new executable target, however if you’d like to expose your targets for other packages, you should define them as products as well. If you open the manifest file for the library, you’ll see that there is a product defined from the library target. This way the package manager can link the product dependencies based on the given product name.</p><blockquote class="note"><p>NOTE: You can define static or dynamic libraries, however it is recommended to use automatic so the SPM can decide appropriate linkage.</p></blockquote><pre><code class="language-swift">// swift-tools-version:5.2
+</code></pre><p>So we just made a brand new executable target, however if you’d like to expose your targets for other packages, you should define them as products as well. If you open the manifest file for the library, you’ll see that there is a product defined from the library target. This way the package manager can link the product dependencies based on the given product name.</p><blockquote class="note"><p>You can define static or dynamic libraries, however it is recommended to use automatic so the SPM can decide appropriate linkage.</p></blockquote><pre><code class="language-swift">// swift-tools-version:5.2
 import PackageDescription
 
 let package = Package(
@@ -210,7 +211,7 @@ let package = Package(
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -233,11 +234,32 @@ let package = Package(
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2022/05/16">2022/05/16</time>
+                                <time datetime="2017-11-19T15:20:00.000Z">11/19/17 3:20 PM</time>
+                                 &middot; <span class="reading-time">5 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/swift-package-manager-tutorial/" target="">Swift Package Manager tutorial</a></h2>
+                            <hr>
+                            <p>Learn how to use the Swift Package Manager to handle external dependencies, create your library or app on macOS and Linux.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift-package-manager/"><small>Swift Package Manager</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2022-05-16T14:20:00.000Z">5/16/22 2:20 PM</time>
                                  &middot; <span class="reading-time">9 min read</span>
                             </div>
                             
@@ -254,11 +276,11 @@ let package = Package(
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2022/01/20">2022/01/20</time>
+                                <time datetime="2022-01-20T15:20:00.000Z">1/20/22 3:20 PM</time>
                                  &middot; <span class="reading-time">4 min read</span>
                             </div>
                             
@@ -275,11 +297,11 @@ let package = Package(
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2022/05/24">2022/05/24</time>
+                                <time datetime="2022-05-24T14:20:00.000Z">5/24/22 2:20 PM</time>
                                  &middot; <span class="reading-time">4 min read</span>
                             </div>
                             
@@ -313,21 +335,29 @@ let package = Package(
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#swift-package-manager-basics">Swift Package Manager basics</a>
-                        <ul>
-                            <li><a href="#creating-apps">Creating apps</a></li>
-                <li><a href="#making-a-library">Making a library</a></li>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-3">
+                        <a href="#creating-apps">Creating apps</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#making-a-library">Making a library</a>
+                    </li>
+        <li class="level-2">
                         <a href="#the-manifest-api---package.swift">The Manifest API - Package.swift</a>
-                        <ul>
-                            <li><a href="#tool-version">Tool version</a></li>
-                <li><a href="#dependencies">Dependencies</a></li>
-                <li><a href="#products-and-targets">Products and targets</a></li>
-                <li><a href="#deployment-target-other-build-flags">Deployment target, other build flags</a></li>
-                        </ul>
+                    </li>
+        <li class="level-3">
+                        <a href="#tool-version">Tool version</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#dependencies">Dependencies</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#products-and-targets">Products and targets</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#deployment-target-other-build-flags">Deployment target, other build flags</a>
                     </li>
                 </ul>
             </aside>
@@ -382,7 +412,7 @@ let package = Package(
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

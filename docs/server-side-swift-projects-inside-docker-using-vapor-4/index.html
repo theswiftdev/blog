@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2020/04/19">2020/04/19</time>
+                <div class="meta">            
+                    <time datetime="2020-04-19T14:20:00.000Z">4/19/20 2:20 PM</time>
                      &middot; <span class="reading-time">8 min read</span>
                     
                 </div>
@@ -108,7 +109,7 @@
                 <p>Learn how to setup Vapor 4 projects inside a Docker container. Are you completely new to Docker? This article is just for you.</p>
                 <section>
                 
-                <h2 id="what-the-heck-is-docker">What the heck is Docker?</h2><p>Operating-system-level virtualization is called containerization technology. It’s more lightweight than virtual machines, since all the containers are run by a single operating system kernel.</p><p><a href="https://www.docker.com/" target="_blank">Docker</a> used to run software packages in these self-contained isolated environments. These containers bundle their own tools, libraries and configuration files. They can communicate with each other through well-defined channels. Containers are being made from images that specify their precise contents. You can find plenty of Docker images on <a href="https://hub.docker.com/" target="_blank">DockerHub</a>.</p><p>Docker is extremely useful if you don’t want to spend hours to setup & configure your work environment. It helps the software deployment process, so patches, hotfixes and new code releases can be delivered more frequently. In other words it’s a <a href="https://en.wikipedia.org/wiki/DevOps" target="_blank">DevOps</a> tool.</p><blockquote class="note"><p>NOTE: Guess what: you can use Swift right ahead through a single Docker container, you don’t even need to install anything else on your computer, but Docker. 🐳</p></blockquote><h2 id="docker-architecture-in-a-nutshell">Docker architecture in a nutshell</h2><p>There is a nice get to know post about <a href="https://nickjanetakis.com/blog/get-to-know-dockers-ecosystem" target="_blank">the Docker ecosystem</a>, but if you want to get a detailed overview you should read the Docker <a href="https://docs.docker.com/glossary/" target="_blank">glossary</a>. In this tutorial I’m going to focus on images and containers. Maybe a little bit on the hub, engine & machines. 😅</p><h3 id="docker-engine">Docker engine</h3><p>Lightweight and powerful open source containerization technology combined with a work flow for building and containerizing your applications.</p><h3 id="docker-image">Docker image</h3><p>Docker <a href="http://www.projectatomic.io/blog/2015/07/what-are-docker-none-none-images/" target="_blank">images</a> are the basis (templates) of containers.</p><h3 id="docker-container">Docker container</h3><p>A container is a runtime instance of a docker image.</p><h3 id="docker-machine">Docker machine</h3><p>A tool that lets you install Docker Engine on virtual hosts, and manage the hosts with docker-machine commands.</p><h3 id="docker-hub">Docker hub</h3><p>A centralized resource for working with Docker and its components.</p><p>So just a little clarification: Docker images can be created through Dockerfiles, these are the templates for running containers. Imagine them like “pre-built install disks” for your container environments. If we approach this from an object-oriented programming perspective, then an image is a class definition and the container is the instance created from it. 💾</p><h2 id="how-to-run-swift-in-a-docker-container">How to run Swift in a Docker container?</h2><p>Let me show you how to run Swift under Linux inside a <a href="https://forums.swift.org/t/kickstarting-new-official-docker-support-for-swift/15487" target="_blank">Docker</a> container. First of all, install Docker (fastest way is <code>brew install docker</code>), start the app itself (give it some permissions), and pull the official Swift Docker image from the cloud by using the <code>docker pull swift</code> command. 😎</p><blockquote class="note"><p>NOTE: You can also use the official <a href="https://github.com/vapor/docker" target="_blank">Vapor Docker images</a> for server side Swift development.</p></blockquote><h3 id="packaging-swift-code-into-an-image">Packaging Swift code into an image</h3><p>The first thing I’d like to teach you is how to create a custom Docker image & pack all your Swift source code into it. Just create a new Swift project <code>swift package init --type=executable</code> inside a folder and also make a new <code>Dockerfile</code>:</p><pre><code>FROM swift
+                <h2 id="what-the-heck-is-docker">What the heck is Docker?</h2><p>Operating-system-level virtualization is called containerization technology. It’s more lightweight than virtual machines, since all the containers are run by a single operating system kernel.</p><p><a href="https://www.docker.com/" target="_blank">Docker</a> used to run software packages in these self-contained isolated environments. These containers bundle their own tools, libraries and configuration files. They can communicate with each other through well-defined channels. Containers are being made from images that specify their precise contents. You can find plenty of Docker images on <a href="https://hub.docker.com/" target="_blank">DockerHub</a>.</p><p>Docker is extremely useful if you don’t want to spend hours to setup & configure your work environment. It helps the software deployment process, so patches, hotfixes and new code releases can be delivered more frequently. In other words it’s a <a href="https://en.wikipedia.org/wiki/DevOps" target="_blank">DevOps</a> tool.</p><blockquote class="note"><p>Guess what: you can use Swift right ahead through a single Docker container, you don’t even need to install anything else on your computer, but Docker. 🐳</p></blockquote><h2 id="docker-architecture-in-a-nutshell">Docker architecture in a nutshell</h2><p>There is a nice get to know post about <a href="https://nickjanetakis.com/blog/get-to-know-dockers-ecosystem" target="_blank">the Docker ecosystem</a>, but if you want to get a detailed overview you should read the Docker <a href="https://docs.docker.com/glossary/" target="_blank">glossary</a>. In this tutorial I’m going to focus on images and containers. Maybe a little bit on the hub, engine & machines. 😅</p><h3 id="docker-engine">Docker engine</h3><p>Lightweight and powerful open source containerization technology combined with a work flow for building and containerizing your applications.</p><h3 id="docker-image">Docker image</h3><p>Docker <a href="http://www.projectatomic.io/blog/2015/07/what-are-docker-none-none-images/" target="_blank">images</a> are the basis (templates) of containers.</p><h3 id="docker-container">Docker container</h3><p>A container is a runtime instance of a docker image.</p><h3 id="docker-machine">Docker machine</h3><p>A tool that lets you install Docker Engine on virtual hosts, and manage the hosts with docker-machine commands.</p><h3 id="docker-hub">Docker hub</h3><p>A centralized resource for working with Docker and its components.</p><p>So just a little clarification: Docker images can be created through Dockerfiles, these are the templates for running containers. Imagine them like “pre-built install disks” for your container environments. If we approach this from an object-oriented programming perspective, then an image is a class definition and the container is the instance created from it. 💾</p><h2 id="how-to-run-swift-in-a-docker-container">How to run Swift in a Docker container?</h2><p>Let me show you how to run Swift under Linux inside a <a href="https://forums.swift.org/t/kickstarting-new-official-docker-support-for-swift/15487" target="_blank">Docker</a> container. First of all, install Docker (fastest way is <code>brew install docker</code>), start the app itself (give it some permissions), and pull the official Swift Docker image from the cloud by using the <code>docker pull swift</code> command. 😎</p><blockquote class="note"><p>You can also use the official <a href="https://github.com/vapor/docker" target="_blank">Vapor Docker images</a> for server side Swift development.</p></blockquote><h3 id="packaging-swift-code-into-an-image">Packaging Swift code into an image</h3><p>The first thing I’d like to teach you is how to create a custom Docker image & pack all your Swift source code into it. Just create a new Swift project <code>swift package init --type=executable</code> inside a folder and also make a new <code>Dockerfile</code>:</p><pre><code>FROM swift
 WORKDIR /app
 COPY . ./
 CMD swift package clean
@@ -213,7 +214,7 @@ docker-compose up migrate
 docker-compose down
 # Stop & wipe database
 docker-compose down -v
-</code></pre><p>You should always start with the database container, since the server requires a working database instance. Despite fact that the <code>docker-compose</code> command can <a href="https://docs.docker.com/compose/compose-file/#devices" target="_blank">manage dependencies</a>, still you won’t be able to automate the startup process completely, because the PostgreSQL database service needs just a little extra time to boot up. In a production environment you could solve this issue by using <a href="https://docs.docker.com/compose/startup-order/" target="_blank">health checks</a>. Honestly I’ve never tried this, feel free to tell me your story. 😜</p><p>Anyway, as you can see the <code>docker-compose.yaml</code> file contains all the necessary configuration. Under each key there is a specific <a href="https://theswiftdev.com/the-anatomy-of-vapor-commands/">Vapor command</a> that Docker will execute during the container initialization process. You can also see that there is a shared environment section for all the apps where you can change the configuration or introduce a new environmental variable according to your needs. Environment variables will be passed to the images (you can <a href="https://docs.docker.com/compose/networking/" target="_blank">reach out to other containers</a> by using the service names) and the API service will be exposed on port 8080. You can even add your own custom command by following the exact same pattern. 🌍</p><p>Ready? Just fire up a terminal window and enter <code>docker-compose up db</code> to <a href="https://theswiftdev.com/how-to-set-up-pgsql-for-fluent-4/">start the PostgreSQL database</a> container. Now you can run both the migration and the app container at once by executing the <code>docker-compose up migrate app</code> command in a new terminal tab or window.</p><p>If you visit <code>http://localhost:8080</code> after everything is up and running you’ll see that the server is listening on the given port and it is communicating with the database server inside another container. You can also “get into the containers” - if you want to run a special script - by executing <code>docker exec -it bash</code>. This is pretty cool, isn’t it? 🐳 +🐘 +💧 = ❤️</p><h2 id="docker-cheatsheet-for-beginners">Docker cheatsheet for beginners</h2><p>If you want to learn <a href="https://github.com/wsargent/docker-cheat-sheet" target="_blank">Docker commands</a>, but you don’t know where to start here is a nice list of cli commands that I use to manage containers, images and many more using Docker from terminal. Don’t worry you don’t have to remember any of these commands, you can simply bookmark this page and everything will be just a click away. Enjoy! 😉</p><h3 id="docker-machine-commands">Docker machine commands</h3><ul><li>Create new: <code>docker-machine create MACHINE</code></li><li>List all: <code>docker-machine ls</code></li><li>Show env: <code>docker-machine env default</code></li><li>Use: <code>eval "$(docker-machine env default)"</code></li><li>Unset: <code>docker-machine env -u</code></li><li>Unset: <code>eval $(docker-machine env -u)</code></li></ul><h3 id="docker-image-commands">Docker image commands</h3><ul><li>Download: <code>docker pull IMAGE[:TAG]</code></li><li>Build from local Dockerfile: <code>docker build -t TAG .</code></li><li>Build with user and tag: <code>docker build -t USER/IMAGE:TAG .</code></li><li>List: <code>docker image ls or docker images</code></li><li>List all: <code>docker image ls -a</code> or <code>docker images -a</code></li><li>Remove (image or tag): <code>docker image rm IMAGE or docker rmi IMAGE</code></li><li>Remove all <a href="http://www.projectatomic.io/blog/2015/07/what-are-docker-none-none-images/" target="_blank">dangling</a> (nameless): <code>docker image prune</code></li><li>Remove all unused: <code>docker image prune -a</code></li><li>Remove all: <code>docker rmi $(docker images -aq)</code></li><li>Tag: <code>docker tag IMAGE TAG</code></li><li>Save to file: <code>docker save IMAGE > FILE</code></li><li>Load from file: <code>docker load -i FILE</code></li></ul><h3 id="docker-container-commands">Docker container commands</h3><ul><li>Run from image: <code>docker run IMAGE</code></li><li>Run with name: <code>docker run --name NAME IMAGE</code></li><li>Map a port: <code>docker run -p HOST:CONTAINER IMAGE</code></li><li>Map all ports: <code>docker run -P IMAGE</code></li><li>Start in background: <code>docker run -d IMAGE</code></li><li>Set hostname: <code>docker run --hostname NAME IMAGE</code></li><li>Set domain: <code>docker run --add-host HOSTNAME:IP IMAGE</code></li><li>Map local directory: <code>docker run -v HOST:TARGET IMAGE</code></li><li>Change entrypoint: <code>docker run -it --entrypoint NAME IMAGE</code></li><li>List running: <code>docker ps</code> or <code>docker container ls</code></li><li>List all: <code>docker ps -a</code> or <code>docker container ls -a</code></li><li>Stop: docker stop ID or <code>docker container stop ID</code></li><li>Start: <code>docker start ID</code></li><li>Stop all: <code>docker stop $(docker ps -aq)</code></li><li>Kill (force stop): <code>docker kill ID</code> or <code>docker container kill ID</code></li><li>Remove: <code>docker rm ID</code> or <code>docker container rm ID</code></li><li>Remove running: <code>docker rm -f ID</code></li><li>Remove all stopped: <code>docker container prune</code></li><li>Remove all: <code>docker rm $(docker ps -aq)</code></li><li>Rename: <code>docker rename OLD NEW</code></li><li>Create image from container: <code>docker commit ID</code></li><li>Show modified files: <code>docker diff ID</code></li><li>Show mapped ports: <code>docker port ID</code></li><li>Copy from container: <code>docker cp ID:SOURCE TARGET</code></li><li>Copy to container: <code>docker cp TARGET ID:SOURCE</code></li><li>Show logs: <code>docker logs ID</code></li><li>Show processes: <code>docker top ID</code></li><li>Start shell: <code>docker exec -it ID bash</code></li></ul><h3 id="other-useful-docker-commands">Other useful Docker commands</h3><ul><li>Log in: <code>docker login</code></li><li>Run compose file: <code>docker-compose</code></li><li>Get info about image: <code>docker inspect IMAGE</code></li><li>Show stats of running containers: <code>docker stats</code></li><li>Show version: <code>docker version</code></li></ul>
+</code></pre><p>You should always start with the database container, since the server requires a working database instance. Despite fact that the <code>docker-compose</code> command can <a href="https://docs.docker.com/compose/compose-file/#devices" target="_blank">manage dependencies</a>, still you won’t be able to automate the startup process completely, because the PostgreSQL database service needs just a little extra time to boot up. In a production environment you could solve this issue by using <a href="https://docs.docker.com/compose/startup-order/" target="_blank">health checks</a>. Honestly I’ve never tried this, feel free to tell me your story. 😜</p><p>Anyway, as you can see the <code>docker-compose.yaml</code> file contains all the necessary configuration. Under each key there is a specific <a href="https://theswiftdev.com/the-anatomy-of-vapor-commands/" target="_blank">Vapor command</a> that Docker will execute during the container initialization process. You can also see that there is a shared environment section for all the apps where you can change the configuration or introduce a new environmental variable according to your needs. Environment variables will be passed to the images (you can <a href="https://docs.docker.com/compose/networking/" target="_blank">reach out to other containers</a> by using the service names) and the API service will be exposed on port 8080. You can even add your own custom command by following the exact same pattern. 🌍</p><p>Ready? Just fire up a terminal window and enter <code>docker-compose up db</code> to <a href="https://theswiftdev.com/how-to-set-up-pgsql-for-fluent-4/" target="_blank">start the PostgreSQL database</a> container. Now you can run both the migration and the app container at once by executing the <code>docker-compose up migrate app</code> command in a new terminal tab or window.</p><p>If you visit <code>http://localhost:8080</code> after everything is up and running you’ll see that the server is listening on the given port and it is communicating with the database server inside another container. You can also “get into the containers” - if you want to run a special script - by executing <code>docker exec -it bash</code>. This is pretty cool, isn’t it? 🐳 +🐘 +💧 = ❤️</p><h2 id="docker-cheatsheet-for-beginners">Docker cheatsheet for beginners</h2><p>If you want to learn <a href="https://github.com/wsargent/docker-cheat-sheet" target="_blank">Docker commands</a>, but you don’t know where to start here is a nice list of cli commands that I use to manage containers, images and many more using Docker from terminal. Don’t worry you don’t have to remember any of these commands, you can simply bookmark this page and everything will be just a click away. Enjoy! 😉</p><h3 id="docker-machine-commands">Docker machine commands</h3><ul><li>Create new: <code>docker-machine create MACHINE</code></li><li>List all: <code>docker-machine ls</code></li><li>Show env: <code>docker-machine env default</code></li><li>Use: <code>eval "$(docker-machine env default)"</code></li><li>Unset: <code>docker-machine env -u</code></li><li>Unset: <code>eval $(docker-machine env -u)</code></li></ul><h3 id="docker-image-commands">Docker image commands</h3><ul><li>Download: <code>docker pull IMAGE[:TAG]</code></li><li>Build from local Dockerfile: <code>docker build -t TAG .</code></li><li>Build with user and tag: <code>docker build -t USER/IMAGE:TAG .</code></li><li>List: <code>docker image ls or docker images</code></li><li>List all: <code>docker image ls -a</code> or <code>docker images -a</code></li><li>Remove (image or tag): <code>docker image rm IMAGE or docker rmi IMAGE</code></li><li>Remove all <a href="http://www.projectatomic.io/blog/2015/07/what-are-docker-none-none-images/" target="_blank">dangling</a> (nameless): <code>docker image prune</code></li><li>Remove all unused: <code>docker image prune -a</code></li><li>Remove all: <code>docker rmi $(docker images -aq)</code></li><li>Tag: <code>docker tag IMAGE TAG</code></li><li>Save to file: <code>docker save IMAGE > FILE</code></li><li>Load from file: <code>docker load -i FILE</code></li></ul><h3 id="docker-container-commands">Docker container commands</h3><ul><li>Run from image: <code>docker run IMAGE</code></li><li>Run with name: <code>docker run --name NAME IMAGE</code></li><li>Map a port: <code>docker run -p HOST:CONTAINER IMAGE</code></li><li>Map all ports: <code>docker run -P IMAGE</code></li><li>Start in background: <code>docker run -d IMAGE</code></li><li>Set hostname: <code>docker run --hostname NAME IMAGE</code></li><li>Set domain: <code>docker run --add-host HOSTNAME:IP IMAGE</code></li><li>Map local directory: <code>docker run -v HOST:TARGET IMAGE</code></li><li>Change entrypoint: <code>docker run -it --entrypoint NAME IMAGE</code></li><li>List running: <code>docker ps</code> or <code>docker container ls</code></li><li>List all: <code>docker ps -a</code> or <code>docker container ls -a</code></li><li>Stop: docker stop ID or <code>docker container stop ID</code></li><li>Start: <code>docker start ID</code></li><li>Stop all: <code>docker stop $(docker ps -aq)</code></li><li>Kill (force stop): <code>docker kill ID</code> or <code>docker container kill ID</code></li><li>Remove: <code>docker rm ID</code> or <code>docker container rm ID</code></li><li>Remove running: <code>docker rm -f ID</code></li><li>Remove all stopped: <code>docker container prune</code></li><li>Remove all: <code>docker rm $(docker ps -aq)</code></li><li>Rename: <code>docker rename OLD NEW</code></li><li>Create image from container: <code>docker commit ID</code></li><li>Show modified files: <code>docker diff ID</code></li><li>Show mapped ports: <code>docker port ID</code></li><li>Copy from container: <code>docker cp ID:SOURCE TARGET</code></li><li>Copy to container: <code>docker cp TARGET ID:SOURCE</code></li><li>Show logs: <code>docker logs ID</code></li><li>Show processes: <code>docker top ID</code></li><li>Start shell: <code>docker exec -it ID bash</code></li></ul><h3 id="other-useful-docker-commands">Other useful Docker commands</h3><ul><li>Log in: <code>docker login</code></li><li>Run compose file: <code>docker-compose</code></li><li>Get info about image: <code>docker inspect IMAGE</code></li><li>Show stats of running containers: <code>docker stats</code></li><li>Show version: <code>docker version</code></li></ul>
                     
                 </section>
     
@@ -224,7 +225,7 @@ docker-compose down -v
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -248,55 +249,11 @@ docker-compose down -v
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2020/07/15">2020/07/15</time>
-                                 &middot; <span class="reading-time">5 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/10-short-advices-that-will-make-you-a-better-vapor-developer-right-away/" target="">10 short advices that will make you a better Vapor developer right away</a></h2>
-                            <hr>
-                            <p>As a beginner server side Swift developer you&#39;ll face many obstackles. I&#39;ll show you how to avoid the most common ones.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
-        <a href="https://theswiftdev.com/tags/vapor/"><small>Vapor</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2020/04/01">2020/04/01</time>
-                                 &middot; <span class="reading-time">10 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/a-generic-crud-solution-for-vapor-4/" target="">A generic CRUD solution for Vapor 4</a></h2>
-                            <hr>
-                            <p>Learn how to build a controller component that can serve models as JSON objects through a RESTful API written in Swift.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
-        <a href="https://theswiftdev.com/tags/vapor/"><small>Vapor</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2019/10/08">2019/10/08</time>
+                                <time datetime="2019-10-08T14:20:00.000Z">10/8/19 2:20 PM</time>
                                  &middot; <span class="reading-time">4 min read</span>
                             </div>
                             
@@ -314,17 +271,61 @@ docker-compose down -v
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2020/12/18">2020/12/18</time>
+                                <time datetime="2019-08-26T14:20:00.000Z">8/26/19 2:20 PM</time>
+                                 &middot; <span class="reading-time">4 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/whats-new-in-vapor-4/" target="">What&#39;s new in Vapor 4?</a></h2>
+                            <hr>
+                            <p>Vapor is the most popular server side Swift web application framework. This time we&#39;ll cover what&#39;s new in Vapor 4.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
+        <a href="https://theswiftdev.com/tags/vapor/"><small>Vapor</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020-07-15T14:20:00.000Z">7/15/20 2:20 PM</time>
                                  &middot; <span class="reading-time">5 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/ajax-calls-using-vapor-4/" target="">AJAX calls using Vapor 4</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/10-short-advices-that-will-make-you-a-better-vapor-developer-right-away/" target="">10 short advices that will make you a better Vapor developer right away</a></h2>
                             <hr>
-                            <p>Learn how to implement Asynchronous JavaScript and XML (AJAX) calls using Leaf templates and Vapor 4 as a server.</p>
+                            <p>As a beginner server side Swift developer you&#39;ll face many obstackles. I&#39;ll show you how to avoid the most common ones.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
+        <a href="https://theswiftdev.com/tags/vapor/"><small>Vapor</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020-04-01T14:20:00.000Z">4/1/20 2:20 PM</time>
+                                 &middot; <span class="reading-time">10 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/a-generic-crud-solution-for-vapor-4/" target="">A generic CRUD solution for Vapor 4</a></h2>
+                            <hr>
+                            <p>Learn how to build a controller component that can serve models as JSON objects through a RESTful API written in Swift.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
@@ -353,50 +354,56 @@ docker-compose down -v
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#what-the-heck-is-docker">What the heck is Docker?</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#docker-architecture-in-a-nutshell">Docker architecture in a nutshell</a>
-                        <ul>
-                            <li><a href="#docker-engine">Docker engine</a></li>
-                <li><a href="#docker-image">Docker image</a></li>
-                <li><a href="#docker-container">Docker container</a></li>
-                <li><a href="#docker-machine">Docker machine</a></li>
-                <li><a href="#docker-hub">Docker hub</a></li>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-3">
+                        <a href="#docker-engine">Docker engine</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#docker-image">Docker image</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#docker-container">Docker container</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#docker-machine">Docker machine</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#docker-hub">Docker hub</a>
+                    </li>
+        <li class="level-2">
                         <a href="#how-to-run-swift-in-a-docker-container">How to run Swift in a Docker container?</a>
-                        <ul>
-                            <li><a href="#packaging-swift-code-into-an-image">Packaging Swift code into an image</a></li>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-3">
+                        <a href="#packaging-swift-code-into-an-image">Packaging Swift code into an image</a>
+                    </li>
+        <li class="level-2">
                         <a href="#editing-swift-code-inside-a-docker-container-on-the-fly">Editing Swift code inside a Docker container on-the-fly</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#how-to-run-a-vapor-4-project-using-docker">How to run a Vapor 4 project using Docker?</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#using-fluent-in-a-separate-docker-container">Using Fluent in a separate Docker container</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#docker-cheatsheet-for-beginners">Docker cheatsheet for beginners</a>
-                        <ul>
-                            <li><a href="#docker-machine-commands">Docker machine commands</a></li>
-                <li><a href="#docker-image-commands">Docker image commands</a></li>
-                <li><a href="#docker-container-commands">Docker container commands</a></li>
-                <li><a href="#other-useful-docker-commands">Other useful Docker commands</a></li>
-                        </ul>
+                    </li>
+        <li class="level-3">
+                        <a href="#docker-machine-commands">Docker machine commands</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#docker-image-commands">Docker image commands</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#docker-container-commands">Docker container commands</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#other-useful-docker-commands">Other useful Docker commands</a>
                     </li>
                 </ul>
             </aside>
@@ -451,7 +458,7 @@ docker-compose down -v
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

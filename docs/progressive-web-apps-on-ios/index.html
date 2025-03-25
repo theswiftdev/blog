@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2022/01/27">2022/01/27</time>
+                <div class="meta">            
+                    <time datetime="2022-01-27T15:20:00.000Z">1/27/22 3:20 PM</time>
                      &middot; <span class="reading-time">12 min read</span>
                     
                 </div>
@@ -128,7 +129,7 @@ let package = Package(
         .testTarget(name: "ExampleTests", dependencies: ["Example"]),
     ]
 )
-</code></pre><p>As you can see we’re going to use the vapor <a href="https://vapor.codes/" target="_blank">Vapor</a> library to serve our HTML site. If you don’t know much about Vapor let’s just say that it is a web application framework, which can be used to build server side Swift applications, it’s a pretty amazing tool I have a <a href="https://theswiftdev.com/beginners-guide-to-server-side-swift-using-vapor-4/">beginner’s guide</a> post about it.</p><p>Of course we’re going to need some components for rendering views using SwiftHtml, you can use the source snippets from <a href="https://theswiftdev.com/how-to-write-html-in-swift/">my previous article</a>, but here it is again how the SwiftHtml-based template engine should look like. You should read my other article if you want to know more about it. 🤓</p><pre><code class="language-swift">import Vapor
+</code></pre><p>As you can see we’re going to use the vapor <a href="https://vapor.codes/" target="_blank">Vapor</a> library to serve our HTML site. If you don’t know much about Vapor let’s just say that it is a web application framework, which can be used to build server side Swift applications, it’s a pretty amazing tool I have a <a href="https://theswiftdev.com/beginners-guide-to-server-side-swift-using-vapor-4/" target="_blank">beginner’s guide</a> post about it.</p><p>Of course we’re going to need some components for rendering views using SwiftHtml, you can use the source snippets from <a href="https://theswiftdev.com/how-to-write-html-in-swift/" target="_blank">my previous article</a>, but here it is again how the SwiftHtml-based template engine should look like. You should read my other article if you want to know more about it. 🤓</p><pre><code class="language-swift">import Vapor
 import SwiftSgml
 
 public protocol TemplateRepresentable {
@@ -330,7 +331,7 @@ app.get { req -&gt; Response in
 }
 
 try app.run()
-</code></pre><p>By adding the FileMiddleware to the app with the public directory path configuration your server app is able to serve static files from the Public directory. Feel free to create it and place the app icons under the Public/img/apple/icons folder. If you are running the server from the command line you’ll be fine, but if you are using Xcode you have to specify a <a href="https://theswiftdev.com/custom-working-directory-in-xcode/">custom working directory for Vapor</a>, this will allow the system to look up the public files from the right place.</p><blockquote class="note"><p>NOTE: Your custom icons <a href="https://developer.apple.com/forums/thread/92304" target="_blank">won’t show up</a> if you are using a self-signed certificate.</p></blockquote><p>Build and run the server and try to bookmark your page again using your phone. When you see the add bookmark page you should be able to validate that the app now uses the predefined Hello PWA name and the image preview should show the custom icon file instead of a screenshot of the page.</p><h3 id="proper-status-bar-color-for-ios-pwas">Proper status bar color for iOS PWAs</h3><p>Long story short, there is a great article on <a href="https://css-tricks.com/meta-theme-color-and-trickery/" target="_blank">CSS-Tricks</a> about the most recent version of Safari and how it handles various theme colors on different platforms. It’s a great article, you should definitely read it, but in most of the cases you won’t need this much info, but you simply want to support light and dark mode for your progressive web app. That’s what I’m going to show you here.</p><p>For light mode we’re going to use a white background color and for dark mode we use black. We’re also going to link a new style.css file so we can change the background of the site and the font color according to the current color scheme. First, the new meta tags to support theme colors both for light and dark mode.</p><pre><code class="language-swift">struct IndexTemplate: TemplateRepresentable {
+</code></pre><p>By adding the FileMiddleware to the app with the public directory path configuration your server app is able to serve static files from the Public directory. Feel free to create it and place the app icons under the Public/img/apple/icons folder. If you are running the server from the command line you’ll be fine, but if you are using Xcode you have to specify a <a href="https://theswiftdev.com/custom-working-directory-in-xcode/" target="_blank">custom working directory for Vapor</a>, this will allow the system to look up the public files from the right place.</p><blockquote class="note"><p>Your custom icons <a href="https://developer.apple.com/forums/thread/92304" target="_blank">won’t show up</a> if you are using a self-signed certificate.</p></blockquote><p>Build and run the server and try to bookmark your page again using your phone. When you see the add bookmark page you should be able to validate that the app now uses the predefined Hello PWA name and the image preview should show the custom icon file instead of a screenshot of the page.</p><h3 id="proper-status-bar-color-for-ios-pwas">Proper status bar color for iOS PWAs</h3><p>Long story short, there is a great article on <a href="https://css-tricks.com/meta-theme-color-and-trickery/" target="_blank">CSS-Tricks</a> about the most recent version of Safari and how it handles various theme colors on different platforms. It’s a great article, you should definitely read it, but in most of the cases you won’t need this much info, but you simply want to support light and dark mode for your progressive web app. That’s what I’m going to show you here.</p><p>For light mode we’re going to use a white background color and for dark mode we use black. We’re also going to link a new style.css file so we can change the background of the site and the font color according to the current color scheme. First, the new meta tags to support theme colors both for light and dark mode.</p><pre><code class="language-swift">struct IndexTemplate: TemplateRepresentable {
     
     let context: IndexContext
     
@@ -637,7 +638,7 @@ footer {
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -660,11 +661,56 @@ footer {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2018/10/16">2018/10/16</time>
+                                <time datetime="2017-10-31T15:20:00.000Z">10/31/17 3:20 PM</time>
+                                 &middot; <span class="reading-time">6 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/ios-auto-layout-tutorial-programmatically/" target="">iOS Auto Layout tutorial programmatically</a></h2>
+                            <hr>
+                            <p>In this great iOS Auto Layout tutorial I&#39;ll teach you how to support rotation, use constraints, work with layers, animate corner radius.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/uikit-init-patterns/" target="">UIKit init patterns</a></h2>
+                            <hr>
+                            <p>Learn about the initialization process of the two well known classes in UIKit. Say hello to UIViewcontroller, and UIView init patterns.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/design-pattern/"><small>Design pattern</small></a>
+        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018-10-16T14:20:00.000Z">10/16/18 2:20 PM</time>
                                  &middot; <span class="reading-time">5 min read</span>
                             </div>
                             
@@ -673,8 +719,8 @@ footer {
                             <p>Do you want to learn how to load a xib file to create a custom view object? Well, this UIKit tutorial is just for you written in Swift.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
-        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -682,11 +728,11 @@ footer {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2018/05/17">2018/05/17</time>
+                                <time datetime="2018-05-17T14:20:00.000Z">5/17/18 2:20 PM</time>
                                  &middot; <span class="reading-time">3 min read</span>
                             </div>
                             
@@ -696,50 +742,6 @@ footer {
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2017/10/31">2017/10/31</time>
-                                 &middot; <span class="reading-time">6 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/ios-auto-layout-tutorial-programmatically/" target="">iOS Auto Layout tutorial programmatically</a></h2>
-                            <hr>
-                            <p>In this great iOS Auto Layout tutorial I&#39;ll teach you how to support rotation, use constraints, work with layers, animate corner radius.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
-        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2018/04/26">2018/04/26</time>
-                                 &middot; <span class="reading-time">5 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/ios-custom-transition-tutorial-in-swift/" target="">iOS custom transition tutorial in Swift</a></h2>
-                            <hr>
-                            <p>In this tutorial, you&#39;ll learn how to replace the push, pop and modal animations with custom transitions &amp; percent driven interactions.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
-        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
                             </div>
                         </div>
                     </div>
@@ -764,34 +766,32 @@ footer {
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#how-to-make-a-pwa-for-ios">How to make a PWA for iOS?</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#turning-a-website-into-a-real-ios-pwa">Turning a website into a real iOS PWA</a>
-                        <ul>
-                            <li><a href="#meta-tags-vs-manifest.json">Meta tags vs manifest.json</a></li>
-                <li><a href="#enabling-standalone-app-mode">Enabling standalone app mode</a></li>
-                <li><a href="#custom-name-and-icon">Custom name and icon</a></li>
-                <li><a href="#proper-status-bar-color-for-ios-pwas">Proper status bar color for iOS PWAs</a></li>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-3">
+                        <a href="#meta-tags-vs-manifest.json">Meta tags vs manifest.json</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#enabling-standalone-app-mode">Enabling standalone app mode</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#custom-name-and-icon">Custom name and icon</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#proper-status-bar-color-for-ios-pwas">Proper status bar color for iOS PWAs</a>
+                    </li>
+        <li class="level-2">
                         <a href="#splash-screen-support">Splash screen support</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#safe-area-the-notch">Safe area &amp; the notch</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#detecting-standalone-mode">Detecting standalone mode</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -846,7 +846,7 @@ footer {
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2018/12/01">2018/12/01</time>
+                <div class="meta">            
+                    <time datetime="2018-12-01T15:20:00.000Z">12/1/18 3:20 PM</time>
                      &middot; <span class="reading-time">10 min read</span>
                     
                 </div>
@@ -127,7 +128,7 @@
         self.tableView = tableView
     }
 }
-</code></pre><p>Always use auto layout anchors to specify view constraints, if you don’t know how to use them, check my <a href="https://theswiftdev.com/2018/06/14/mastering-ios-auto-layout-anchors-programmatically-from-swift/">layout anchors tutorial</a>, it’s takes only about 15 minutes to learn this API, and you won’t regret it. It’s an extremely useful tool for any iOS developer! 😉</p><p>You might ask: should I use <a href="https://krakendev.io/blog/weak-and-unowned-references-in-swift" target="_blank">weak or strong</a> properties for view references? I’d say in most of the cases if you are not overriding self.view you should use weak! The view hierarchy will hold your custom view through a strong reference, so there is no need for stupid retain cycles & memory leaks. Trust me! 🤥</p><h2 id="uitableviewdatasource-basics">UITableViewDataSource basics</h2><p>Okay, we have an empty table view, let’s display some <a href="https://samwize.com/2016/02/24/everything-about-uitableview/" target="_blank">cells</a>! In order to fill our table view with real data, we have to conform to the UITableViewDataSource protocol. Through a simple <a href="https://theswiftdev.com/2018/06/27/swift-delegate-design-pattern/">delegate pattern</a>, we can provide various information for the UITableView class, so it’ll to know how much sections and rows will be needed, what kind of cells should be displayed for each row, and many more little details.</p><p>Another thing is that UITableView is a really efficient class. It’ll reuse all the cells that are currently not displayed on the screen, so it’ll consume way less memory than a UIScrollView, if you have to deal with hundreds or thousands of items. To support this behavior we have to register our cell class with a reuse identifier, so the underlying system will know what kind of cell is needed for a specific place. ⚙️</p><pre><code class="language-swift">class ViewController: UIViewController {
+</code></pre><p>Always use auto layout anchors to specify view constraints, if you don’t know how to use them, check my <a href="https://theswiftdev.com/2018/06/14/mastering-ios-auto-layout-anchors-programmatically-from-swift/" target="_blank">layout anchors tutorial</a>, it’s takes only about 15 minutes to learn this API, and you won’t regret it. It’s an extremely useful tool for any iOS developer! 😉</p><p>You might ask: should I use <a href="https://krakendev.io/blog/weak-and-unowned-references-in-swift" target="_blank">weak or strong</a> properties for view references? I’d say in most of the cases if you are not overriding self.view you should use weak! The view hierarchy will hold your custom view through a strong reference, so there is no need for stupid retain cycles & memory leaks. Trust me! 🤥</p><h2 id="uitableviewdatasource-basics">UITableViewDataSource basics</h2><p>Okay, we have an empty table view, let’s display some <a href="https://samwize.com/2016/02/24/everything-about-uitableview/" target="_blank">cells</a>! In order to fill our table view with real data, we have to conform to the UITableViewDataSource protocol. Through a simple <a href="https://theswiftdev.com/2018/06/27/swift-delegate-design-pattern/" target="_blank">delegate pattern</a>, we can provide various information for the UITableView class, so it’ll to know how much sections and rows will be needed, what kind of cells should be displayed for each row, and many more little details.</p><p>Another thing is that UITableView is a really efficient class. It’ll reuse all the cells that are currently not displayed on the screen, so it’ll consume way less memory than a UIScrollView, if you have to deal with hundreds or thousands of items. To support this behavior we have to register our cell class with a reuse identifier, so the underlying system will know what kind of cell is needed for a specific place. ⚙️</p><pre><code class="language-swift">class ViewController: UIViewController {
 
     var items: [String] = [
         "👽", "🐱", "🐔", "🐶", "🦊", "🐵", "🐼", "🐷", "💩", "🐰",
@@ -481,7 +482,7 @@ extension ViewController: UITableViewDelegate {
         return view
     }
 }
-</code></pre><blockquote><p>Footers works exactly the same as headers, you just have to implement the corresponding data source & delegate methods in order to support them.</p></blockquote><p>You can even have multiple cells in the same table view based on the row or section index or any specific business requirement. I’m not going to demo this here, because I have a way better solution for mixing and reusing cells inside the <a href="https://gitlab.com/corekit/CoreKit" target="_blank">CoreKit framework</a>. It’s already there for table views as well, plus I already covered this idea in my <a href="https://theswiftdev.com/2018/04/17/ultimate-uicollectionview-guide-with-ios-examples-written-in-swift/">ultimate collection view tutorial</a> post. You should check that too. 🤓</p><h2 id="section-titles-indexes">Section titles & indexes</h2><p>Ok, if your brain is not melted yet, I’ll show you two more little things that can be interesting for beginners. The first one is based on two additional data source methods and it’s a very pleasant addition for long lists. (I prefer search bars!) 🤯</p><pre><code class="language-swift">extension ViewController: UITableViewDataSource {
+</code></pre><blockquote><p>Footers works exactly the same as headers, you just have to implement the corresponding data source & delegate methods in order to support them.</p></blockquote><p>You can even have multiple cells in the same table view based on the row or section index or any specific business requirement. I’m not going to demo this here, because I have a way better solution for mixing and reusing cells inside the <a href="https://gitlab.com/corekit/CoreKit" target="_blank">CoreKit framework</a>. It’s already there for table views as well, plus I already covered this idea in my <a href="https://theswiftdev.com/2018/04/17/ultimate-uicollectionview-guide-with-ios-examples-written-in-swift/" target="_blank">ultimate collection view tutorial</a> post. You should check that too. 🤓</p><h2 id="section-titles-indexes">Section titles & indexes</h2><p>Ok, if your brain is not melted yet, I’ll show you two more little things that can be interesting for beginners. The first one is based on two additional data source methods and it’s a very pleasant addition for long lists. (I prefer search bars!) 🤯</p><pre><code class="language-swift">extension ViewController: UITableViewDataSource {
     /* ... */
 
     func sectionIndexTitles(for tableView: UITableView) -&gt; [String]? {
@@ -515,7 +516,7 @@ extension ViewController: UITableViewDelegate {
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -538,20 +539,21 @@ extension ViewController: UITableViewDelegate {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2022/02/03">2022/02/03</time>
-                                 &middot; <span class="reading-time">8 min read</span>
+                                <time datetime="2017-10-31T15:20:00.000Z">10/31/17 3:20 PM</time>
+                                 &middot; <span class="reading-time">6 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/10-little-uikit-tips-you-should-know/" target="">10 little UIKit tips you should know</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/ios-auto-layout-tutorial-programmatically/" target="">iOS Auto Layout tutorial programmatically</a></h2>
                             <hr>
-                            <p>In this article I&#39;ve gathered my top 10 favorite modern UIKit tips that I&#39;d definitely want to know before I start my next project.</p>
+                            <p>In this great iOS Auto Layout tutorial I&#39;ll teach you how to support rotation, use constraints, work with layers, animate corner radius.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -559,20 +561,22 @@ extension ViewController: UITableViewDelegate {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2019/05/23">2019/05/23</time>
-                                 &middot; <span class="reading-time">5 min read</span>
+                                <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/building-input-forms-for-ios-apps/" target="">Building input forms for iOS apps</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/uikit-init-patterns/" target="">UIKit init patterns</a></h2>
                             <hr>
-                            <p>Learn how to build complex forms with my updated collection view view-model framework without the struggle using Swift.</p>
+                            <p>Learn about the initialization process of the two well known classes in UIKit. Say hello to UIViewcontroller, and UIView init patterns.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                                <a href="https://theswiftdev.com/tags/design-pattern/"><small>Design pattern</small></a>
+        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -580,11 +584,11 @@ extension ViewController: UITableViewDelegate {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2018/10/16">2018/10/16</time>
+                                <time datetime="2018-10-16T14:20:00.000Z">10/16/18 2:20 PM</time>
                                  &middot; <span class="reading-time">5 min read</span>
                             </div>
                             
@@ -593,8 +597,8 @@ extension ViewController: UITableViewDelegate {
                             <p>Do you want to learn how to load a xib file to create a custom view object? Well, this UIKit tutorial is just for you written in Swift.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
-        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -602,20 +606,21 @@ extension ViewController: UITableViewDelegate {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2019/10/21">2019/10/21</time>
-                                 &middot; <span class="reading-time">4 min read</span>
+                                <time datetime="2018-04-26T14:20:00.000Z">4/26/18 2:20 PM</time>
+                                 &middot; <span class="reading-time">5 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/custom-views-input-forms-and-mistakes/" target="">Custom views, input forms and mistakes</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/ios-custom-transition-tutorial-in-swift/" target="">iOS custom transition tutorial in Swift</a></h2>
                             <hr>
-                            <p>Just a little advice about creating custom view programmatically and the truth about why form building with collection views sucks.</p>
+                            <p>In this tutorial, you&#39;ll learn how to replace the push, pop and modal animations with custom transitions &amp; percent driven interactions.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     </div>
@@ -640,40 +645,26 @@ extension ViewController: UITableViewDelegate {
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#how-to-create-a-table-view-programmatically">How to create a table view programmatically?</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#uitableviewdatasource-basics">UITableViewDataSource basics</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#customizing-table-view-cells">Customizing table view cells</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#basic-uitableviewdelegate-tutorial">Basic UITableViewDelegate tutorial</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#multiple-sections-with-headers-and-footers">Multiple sections with headers and footers</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#section-titles-indexes">Section titles &amp; indexes</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#selection-vs-highlight">Selection vs highlight</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -728,7 +719,7 @@ extension ViewController: UITableViewDelegate {
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

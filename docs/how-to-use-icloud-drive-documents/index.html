@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2018/05/17">2018/05/17</time>
+                <div class="meta">            
+                    <time datetime="2018-05-17T14:20:00.000Z">5/17/18 2:20 PM</time>
                      &middot; <span class="reading-time">3 min read</span>
                     
                 </div>
@@ -108,7 +109,7 @@
                 <p>Learn how to sync files and data through a shared iCloud drive folder using the latest version of Swift programming language.</p>
                 <section>
                 
-                <h2 id="icloud-drive-project-setup-tutorial">iCloud drive project setup tutorial</h2><p>Let’s start by creating a new project for iOS. You can select the single view application template, don’t worry too much about document based apps, because in this tutorial we’re not going to touch the <code>UIDocument</code> class at all. 🤷‍♂️</p><p>    <img src="/assets/how-to-use-icloud-drive-documents/capabilities.png" alt="Capabilities"></p><p>The first step is to enable iCloud capabilities, which will generate a new entitlements file for you. Also you’ll have to enable the iCloud application service for the app id on the <a href="https://developer.apple.com/account/ios/identifier/bundle" target="_blank">Apple developer</a> portal. You should also assign the iCloud container that’s going to be used to store data. Just a few clicks, but you have to do this manually. 💩</p><blockquote class="note"><p>NOTE: You need a valid Apple Developer Program membership in order to set <a href="https://developer.apple.com/support/app-capabilities/" target="_blank">advanced app capabilities</a> like iCloud support. So you have to pay $99/year. #greed 🤑</p></blockquote><p>    <img src="/assets/how-to-use-icloud-drive-documents/icloud.png" alt="iCloud"></p><p>So I believe that now you have a proper iOS app identifier with iCloud capabilities and application services enabled. One last step is ahead, you have to add these few lines to your <code>Info.plist</code> file in order to define the <a href="https://medium.com/ios-os-x-development/icloud-drive-documents-1a46b5706fe1" target="_blank">iCloud drive</a> container (folder name) that you’re going to use. Note that you can have multiple containers for one app.</p><pre><code class="language-xml">&lt;key&gt;NSUbiquitousContainers&lt;/key&gt;
+                <h2 id="icloud-drive-project-setup-tutorial">iCloud drive project setup tutorial</h2><p>Let’s start by creating a new project for iOS. You can select the single view application template, don’t worry too much about document based apps, because in this tutorial we’re not going to touch the <code>UIDocument</code> class at all. 🤷‍♂️</p><p><img src="https://theswiftdev.com/assets/how-to-use-icloud-drive-documents/capabilities.png" alt="Capabilities"></p><p>The first step is to enable iCloud capabilities, which will generate a new entitlements file for you. Also you’ll have to enable the iCloud application service for the app id on the <a href="https://developer.apple.com/account/ios/identifier/bundle" target="_blank">Apple developer</a> portal. You should also assign the iCloud container that’s going to be used to store data. Just a few clicks, but you have to do this manually. 💩</p><blockquote class="note"><p>You need a valid Apple Developer Program membership in order to set <a href="https://developer.apple.com/support/app-capabilities/" target="_blank">advanced app capabilities</a> like iCloud support. So you have to pay $99/year. #greed 🤑</p></blockquote><p><img src="https://theswiftdev.com/assets/how-to-use-icloud-drive-documents/icloud.png" alt="iCloud"></p><p>So I believe that now you have a proper iOS app identifier with iCloud capabilities and application services enabled. One last step is ahead, you have to add these few lines to your <code>Info.plist</code> file in order to define the <a href="https://medium.com/ios-os-x-development/icloud-drive-documents-1a46b5706fe1" target="_blank">iCloud drive</a> container (folder name) that you’re going to use. Note that you can have multiple containers for one app.</p><pre><code class="language-xml">&lt;key&gt;NSUbiquitousContainers&lt;/key&gt;
 &lt;dict&gt;
     &lt;key&gt;iCloud.com.tiborbodecs.teszt&lt;/key&gt;
     &lt;dict&gt;
@@ -185,7 +186,7 @@ ls -la
 # ls -la|grep tiborbodecs
 </code></pre><p>You can also monitor the activity of the CloudDocs daemon, by using this command:</p><pre><code class="language-sh"># man brctl
 brctl log --wait --shorten
-</code></pre><p>The output will tell you what’s actually happening during the sync.</p><p>    <img src="/assets/how-to-use-icloud-drive-documents/debug.png" alt="Debug"></p><p>I encourage you to check the manual entry for the <code>brctl</code> command, because there are a few more flags that can make troubleshooting more easy. 🤐</p><p>This article was heavily inspired by <a href="https://x.com/krzyzanowskim" target="_blank">Marcin Krzyzanowski</a>’s really old blog post. 🍺</p>
+</code></pre><p>The output will tell you what’s actually happening during the sync.</p><p><img src="https://theswiftdev.com/assets/how-to-use-icloud-drive-documents/debug.png" alt="Debug"></p><p>I encourage you to check the manual entry for the <code>brctl</code> command, because there are a few more flags that can make troubleshooting more easy. 🤐</p><p>This article was heavily inspired by <a href="https://x.com/krzyzanowskim" target="_blank">Marcin Krzyzanowski</a>’s really old blog post. 🍺</p>
                     
                 </section>
     
@@ -196,7 +197,7 @@ brctl log --wait --shorten
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -219,33 +220,11 @@ brctl log --wait --shorten
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2018/10/16">2018/10/16</time>
-                                 &middot; <span class="reading-time">5 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/custom-uiview-subclass-from-a-xib-file/" target="">Custom UIView subclass from a xib file</a></h2>
-                            <hr>
-                            <p>Do you want to learn how to load a xib file to create a custom view object? Well, this UIKit tutorial is just for you written in Swift.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
-        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2017/10/31">2017/10/31</time>
+                                <time datetime="2017-10-31T15:20:00.000Z">10/31/17 3:20 PM</time>
                                  &middot; <span class="reading-time">6 min read</span>
                             </div>
                             
@@ -254,8 +233,8 @@ brctl log --wait --shorten
                             <p>In this great iOS Auto Layout tutorial I&#39;ll teach you how to support rotation, use constraints, work with layers, animate corner radius.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
-        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -263,21 +242,22 @@ brctl log --wait --shorten
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2018/04/26">2018/04/26</time>
-                                 &middot; <span class="reading-time">5 min read</span>
+                                <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/ios-custom-transition-tutorial-in-swift/" target="">iOS custom transition tutorial in Swift</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/uikit-init-patterns/" target="">UIKit init patterns</a></h2>
                             <hr>
-                            <p>In this tutorial, you&#39;ll learn how to replace the push, pop and modal animations with custom transitions &amp; percent driven interactions.</p>
+                            <p>Learn about the initialization process of the two well known classes in UIKit. Say hello to UIViewcontroller, and UIView init patterns.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
+                                <a href="https://theswiftdev.com/tags/design-pattern/"><small>Design pattern</small></a>
         <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -285,21 +265,42 @@ brctl log --wait --shorten
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2018/06/14">2018/06/14</time>
+                                <time datetime="2018-10-16T14:20:00.000Z">10/16/18 2:20 PM</time>
                                  &middot; <span class="reading-time">5 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/mastering-ios-auto-layout-anchors-programmatically-from-swift/" target="">Mastering iOS auto layout anchors programmatically from Swift</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/custom-uiview-subclass-from-a-xib-file/" target="">Custom UIView subclass from a xib file</a></h2>
                             <hr>
-                            <p>Looking for best practices of using layout anchors? Let&#39;s learn how to use the iOS autolayout system in the proper way using Swift.</p>
+                            <p>Do you want to learn how to load a xib file to create a custom view object? Well, this UIKit tutorial is just for you written in Swift.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018-05-17T14:20:00.000Z">5/17/18 2:20 PM</time>
+                                 &middot; <span class="reading-time">3 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/how-to-use-icloud-drive-documents/" target="">How to use iCloud drive documents?</a></h2>
+                            <hr>
+                            <p>Learn how to sync files and data through a shared iCloud drive folder using the latest version of Swift programming language.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
-        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
                             </div>
                         </div>
                     </div>
@@ -324,20 +325,14 @@ brctl log --wait --shorten
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#icloud-drive-project-setup-tutorial">iCloud drive project setup tutorial</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#files-inside-icloud-drive-containers">Files inside iCloud drive containers</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#debugging">Debugging</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -392,7 +387,7 @@ brctl log --wait --shorten
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

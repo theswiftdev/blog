@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2020/02/13">2020/02/13</time>
+                <div class="meta">            
+                    <time datetime="2020-02-13T15:20:00.000Z">2/13/20 3:20 PM</time>
                      &middot; <span class="reading-time">9 min read</span>
                     
                 </div>
@@ -108,7 +109,7 @@
                 <p>Let&#39;s build a web page in Swift. Learn how to use the brand new template engine of the most popular server side Swift framework.</p>
                 <section>
                 
-                <h2 id="project-setup">Project setup</h2><p>Start a brand new project by using the Vapor toolbox. If you don’t know what’s the toolbox or how to install it, you should read my <a href="https://theswiftdev.com/beginners-guide-to-server-side-swift-using-vapor-4/">beginner’s guide about Vapor 4</a> first.</p><pre><code class="language-swift">// swift-tools-version:5.3
+                <h2 id="project-setup">Project setup</h2><p>Start a brand new project by using the Vapor toolbox. If you don’t know what’s the toolbox or how to install it, you should read my <a href="https://theswiftdev.com/beginners-guide-to-server-side-swift-using-vapor-4/" target="_blank">beginner’s guide about Vapor 4</a> first.</p><pre><code class="language-swift">// swift-tools-version:5.3
 import PackageDescription
 
 let package = Package(
@@ -214,7 +215,7 @@ struct CustomSource: LeafSource {
         return eventLoop.future(error: LeafError(.noTemplateExists(template)))
     }
 }
-</code></pre><p>Anyway, this is a more advanced topic, we’re good to go with a single source, also I highly recommend using a <code>.html</code> extension instead of leaf, so Xcode can give us partial syntax highlight for our Leaf files. Now we are going to make our very first Leaf template file. 🍃</p><blockquote class="note"><p>NOTE: You can enable basic syntax highlighting for .leaf files in Xcode by choosing the Editor ▸ Syntax Coloring ▸ HTML menu item. Unfortunately if you close Xcode you have to do this again and again for every single Leaf file.</p></blockquote><p>Create a new file under the <code>Resources/Views</code> directory called <code>index.html</code>.</p><pre><code class="language-html">&lt;!DOCTYPE html&gt;
+</code></pre><p>Anyway, this is a more advanced topic, we’re good to go with a single source, also I highly recommend using a <code>.html</code> extension instead of leaf, so Xcode can give us partial syntax highlight for our Leaf files. Now we are going to make our very first Leaf template file. 🍃</p><blockquote class="note"><p>You can enable basic syntax highlighting for .leaf files in Xcode by choosing the Editor ▸ Syntax Coloring ▸ HTML menu item. Unfortunately if you close Xcode you have to do this again and again for every single Leaf file.</p></blockquote><p>Create a new file under the <code>Resources/Views</code> directory called <code>index.html</code>.</p><pre><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;head&gt;
     &lt;meta charset="utf-8"&gt;
@@ -237,7 +238,7 @@ func routes(_ app: Application) throws {
         ])
     }
 }
-</code></pre><p>The snippet above goes to your routes.swift file. Routing is all about responding to HTTP requests. In this example using the .get you can respond to the / path. In other words if you run the app and enter <code>http://localhost:8080</code> into your browser, you should be able to see the rendered view as a response.</p><p>The first parameter of the render method is the name of the template file (without the file extension). As a second parameter you can pass anything that can represent a context variable. This is usually in a key-value format, and you can use almost every native Swift type including arrays and dictionaries. 🤓</p><p>When you run the app using Xcode, don’t forget to set a custom working directory, otherwise Leaf won’t find your templates. You can also run the server using the command line: <code>swift run Run</code>.</p><p>    <img src="/assets/how-to-create-your-first-website-using-vapor-4-and-leaf/xcode-custom-working-directory.png" alt="Xcode custom working directory"></p><p>Congratulations! You just made your very first webpage. 🎉</p><h2 id="inlining-evaluation-and-block-definitions">Inlining, evaluation and block definitions</h2><p>Leaf is a lightweight, but very powerful template engine. If you learn the basic principles, you’ll be able to completely separate the view layer from the business logic. If you are familiar with HTML, you’ll find that Leaf is easy to learn & use. I’ll show you some handy tips real quick.</p><p>Splitting up templates is going to be essential if you are planning to build a multi-page website. You can create reusable leaf templates as components that you can inline later on.</p><p>We are going to update our index template and give an opportunity for other templates to set a custom title & description variable and define a bodyBlock that we can evaluate (or call) inside the index template. Don’t worry, you’ll understand this entire thing when you look at the final code.</p><pre><code class="language-html">&lt;!DOCTYPE html&gt;
+</code></pre><p>The snippet above goes to your routes.swift file. Routing is all about responding to HTTP requests. In this example using the .get you can respond to the / path. In other words if you run the app and enter <code>http://localhost:8080</code> into your browser, you should be able to see the rendered view as a response.</p><p>The first parameter of the render method is the name of the template file (without the file extension). As a second parameter you can pass anything that can represent a context variable. This is usually in a key-value format, and you can use almost every native Swift type including arrays and dictionaries. 🤓</p><p>When you run the app using Xcode, don’t forget to set a custom working directory, otherwise Leaf won’t find your templates. You can also run the server using the command line: <code>swift run Run</code>.</p><p><img src="https://theswiftdev.com/assets/how-to-create-your-first-website-using-vapor-4-and-leaf/xcode-custom-working-directory.png" alt="Xcode custom working directory"></p><p>Congratulations! You just made your very first webpage. 🎉</p><h2 id="inlining-evaluation-and-block-definitions">Inlining, evaluation and block definitions</h2><p>Leaf is a lightweight, but very powerful template engine. If you learn the basic principles, you’ll be able to completely separate the view layer from the business logic. If you are familiar with HTML, you’ll find that Leaf is easy to learn & use. I’ll show you some handy tips real quick.</p><p>Splitting up templates is going to be essential if you are planning to build a multi-page website. You can create reusable leaf templates as components that you can inline later on.</p><p>We are going to update our index template and give an opportunity for other templates to set a custom title & description variable and define a bodyBlock that we can evaluate (or call) inside the index template. Don’t worry, you’ll understand this entire thing when you look at the final code.</p><pre><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;head&gt;
     &lt;meta charset="utf-8"&gt;
@@ -304,7 +305,7 @@ func routes(_ app: Application) throws {
     &lt;/main&gt;
   &lt;/body&gt;
 &lt;/html&gt;
-</code></pre><p>Now that’s not the most accurate representation of how the LeafRenderer works, but I hope that it’ll help you to understand this whole define / evaluate syntax thing.</p><blockquote class="note"><p>NOTE: You can also use the <code>#evaluate</code> tag instead of calling the block (<code>bodyBlock()</code> vs <code>#evaluate(bodyBlock)</code>, these two snippets are essentially the same).</p></blockquote><p>It’s time to render the <code>page</code> template. Again, we don’t have to deal with the bodyBlock, since it’s already defined in the home template, the description value also exists, because we created a new constant using the #let tag. We only have to pass around the <code>title</code>, <code>header</code> and <code>message</code> keys with proper values as context variables for the renderer.</p><pre><code class="language-swift">app.get { req in
+</code></pre><p>Now that’s not the most accurate representation of how the LeafRenderer works, but I hope that it’ll help you to understand this whole define / evaluate syntax thing.</p><blockquote class="note"><p>You can also use the <code>#evaluate</code> tag instead of calling the block (<code>bodyBlock()</code> vs <code>#evaluate(bodyBlock)</code>, these two snippets are essentially the same).</p></blockquote><p>It’s time to render the <code>page</code> template. Again, we don’t have to deal with the bodyBlock, since it’s already defined in the home template, the description value also exists, because we created a new constant using the #let tag. We only have to pass around the <code>title</code>, <code>header</code> and <code>message</code> keys with proper values as context variables for the renderer.</p><pre><code class="language-swift">app.get { req in
     req.leaf.render(template: "home", context: [
         "title": "My Page",
         "header": "This is my own page.",
@@ -367,7 +368,7 @@ extension Todo: LeafDataRepresentable {
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -403,30 +404,20 @@ extension Todo: LeafDataRepresentable {
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#project-setup">Project setup</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#getting-started-with-leaf-4">Getting started with Leaf 4</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#inlining-evaluation-and-block-definitions">Inlining, evaluation and block definitions</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#leafdata-loops-and-conditions">LeafData, loops and conditions</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#summary">Summary</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -481,7 +472,7 @@ extension Todo: LeafDataRepresentable {
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

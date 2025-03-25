@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2018/01/25">2018/01/25</time>
+                <div class="meta">            
+                    <time datetime="2018-01-25T15:20:00.000Z">1/25/18 3:20 PM</time>
                      &middot; <span class="reading-time">11 min read</span>
                     
                 </div>
@@ -108,10 +109,10 @@
                 <p>Learn everything about Swift modules, libraries, packages, closed source frameworks, command line tools and more.</p>
                 <section>
                 
-                <h2 id="basic-definitions">Basic definitions</h2><p>First of all you should have a clear understanding about the basic terms. If you already know what’s the difference between a module, package, <a href="http://www.knowstack.com/framework-vs-library-cocoa-ios/" target="_blank">library or framework</a> you can skip this section. However if you still have some mixed feelings about these things, please read ahead, you won’t regret it. 😉</p><h3 id="package">Package</h3><p>A package consists of Swift source files and a manifest file.</p><p>A package is a collection of Swift source files. If you are using Swift Package Manager you also have to provide a manifest file in order to make a real package. If you want to learn more about this tool, you should check my <a href="https://theswiftdev.com/2017/11/09/swift-package-manager-tutorial/">Swift Package Manager tutorial</a>.</p><p>Example: this is your package:</p><pre><code>Sources
+                <h2 id="basic-definitions">Basic definitions</h2><p>First of all you should have a clear understanding about the basic terms. If you already know what’s the difference between a module, package, <a href="http://www.knowstack.com/framework-vs-library-cocoa-ios/" target="_blank">library or framework</a> you can skip this section. However if you still have some mixed feelings about these things, please read ahead, you won’t regret it. 😉</p><h3 id="package">Package</h3><p>A package consists of Swift source files and a manifest file.</p><p>A package is a collection of Swift source files. If you are using Swift Package Manager you also have to provide a manifest file in order to make a real package. If you want to learn more about this tool, you should check my <a href="https://theswiftdev.com/2017/11/09/swift-package-manager-tutorial/" target="_blank">Swift Package Manager tutorial</a>.</p><p>Example: this is your package:</p><pre><code>Sources
     my-source-file.swift
 Package.swift
-</code></pre><p>You can also check out the open sourced <a href="https://github.com/apple/swift-corelibs-foundation" target="_blank">swift-corelibs-foundation</a> package by Apple, which is used to build the Foundation framework for Swift.</p><h3 id="library">Library</h3><p>Library is a packaged collection of <a href="http://nickdesaulniers.github.io/blog/2016/08/13/object-files-and-symbols/" target="_blank">object files</a> that program can <a href="http://dn.embarcadero.com/article/29930" target="_blank">link against</a>.</p><p>So a library is a bunch of compiled code. You can create <a href="https://pewpewthespells.com/blog/static_and_dynamic_libraries.html" target="_blank">two kinds of libraries</a>:</p><ul><li>static</li><li>dynamic</li></ul><p>From a really simple perspective the only difference between them is the method of “integrating” aka. linking them into your project. Before I tell you more about this process, first we should talk about <a href="https://www.mikeash.com/pyblog/friday-qa-2011-12-02-object-file-inspection-tools.html" target="_blank">object files</a>.</p><h3 id="mach-o-file-format">Mach-O file format</h3><p>To create programs, developers convert source code to object files. The object files are then packaged into executable code or static libraries.</p><p>When you’re compiling the source files you are basically making object files, using the <a href="https://lowlevelbits.org/parsing-mach-o-files/" target="_blank">Mach-O</a> (MachObject) file format. <a href="https://developer.apple.com/library/content/documentation/DeveloperTools/Conceptual/MachOTopics/1-Articles/building_files.html" target="_blank">These files</a> are the core building blocks of your applications, frameworks, and libraries (both dynamic and static).</p><h3 id="linking-libraries">Linking libraries</h3><p>Linking refers to the creation of a single executable file from multiple object files.</p><p>In other words:</p><p>After the compiler has created all the object files, another program is called to bundle them into an executable program file. That program is called a linker and the process of bundling them into the executable is called linking.</p><p>Linking is just combining all your object files into an executable and resolving all the externals, so the system will be able to call all the functions inside the binary.</p><h3 id="static-linking">Static linking</h3><p>The source code of the library is literally going to be copied into the application’s source. This will result in a big executable, it’ll take more time to load, so the binary will have a slower startup time. Oh, did I mention that if you are trying to link the same library more than once, the process will fail because of duplicated symbols?</p><p>    <img src="/assets/deep-dive-into-swift-frameworks/static-linking.png" alt="Static linking"></p><p>This method has advantages as well, for example the executable will always contain the correct version of the library, and only those parts will be copied into the main application that are really used, so you don’t have to load the whole stuff, but it seems like dynamic linking is going to be better in some cases.</p><h3 id="dynamic-linking">Dynamic linking</h3><p>Dynamic libraries are not embedded into the source of the binary, they are loaded at runtime. This means that apps can be smaller and startup time can significantly be faster because of the lightweight binary files. As a gratis dynamic libraries can be shared with multiple executables so they can have lower memory footprints. That’s why sometimes they’re being referred as shared libraries.</p><p>    <img src="/assets/deep-dive-into-swift-frameworks/dynamic-linking.png" alt="Dynamic linking"></p><p>Of course if the dynamic library is not available - or it’s available but their version is incompatible - your application won’t run or it’ll crash. On the other hand this can be an advantage, because the author of the dynamic library can ship fixes and your app can benefit from these, without recompilation.</p><blockquote><p>Fortunately system libraries like UIKit are always available, so you don’t have to worry too much about this issue…</p></blockquote><h3 id="framework">Framework</h3><p>A framework is a hierarchical directory that encapsulates shared resources, such as a dynamic shared library, nib files, image files, localized strings, header files, and reference documentation in a single package.</p><p>So let’s make this simple: frameworks are <a href="https://speakerdeck.com/marius/static-vs-dynamic-linking" target="_blank">static or dynamic</a> libraries packed into a bundle with some extra assets, meta description for versioning and more. UIKit is a framework which needs image assets to display some of the UI elements, also it has a version description, by the way the version of UIKit is the same as the version of iOS.</p><h3 id="module">Module</h3><p>Swift organizes code into <a href="https://gist.github.com/briancroom/5d0f1b966fa9ef0ae4950e97f9d76f77" target="_blank">modules</a>. Each module specifies a namespace and enforces access controls on which parts of that code can be used outside of the module.</p><p>With the <a href="https://stackoverflow.com/questions/18947516/import-vs-import-ios-7" target="_blank">import keyword</a> you are literally importing external modules into your sorce. In Swift you are always using frameworks as modules, but let’s go back in time for a while to understand why we needed modules at all.</p><pre><code class="language-swift">import UIKit
+</code></pre><p>You can also check out the open sourced <a href="https://github.com/apple/swift-corelibs-foundation" target="_blank">swift-corelibs-foundation</a> package by Apple, which is used to build the Foundation framework for Swift.</p><h3 id="library">Library</h3><p>Library is a packaged collection of <a href="http://nickdesaulniers.github.io/blog/2016/08/13/object-files-and-symbols/" target="_blank">object files</a> that program can <a href="http://dn.embarcadero.com/article/29930" target="_blank">link against</a>.</p><p>So a library is a bunch of compiled code. You can create <a href="https://pewpewthespells.com/blog/static_and_dynamic_libraries.html" target="_blank">two kinds of libraries</a>:</p><ul><li>static</li><li>dynamic</li></ul><p>From a really simple perspective the only difference between them is the method of “integrating” aka. linking them into your project. Before I tell you more about this process, first we should talk about <a href="https://www.mikeash.com/pyblog/friday-qa-2011-12-02-object-file-inspection-tools.html" target="_blank">object files</a>.</p><h3 id="mach-o-file-format">Mach-O file format</h3><p>To create programs, developers convert source code to object files. The object files are then packaged into executable code or static libraries.</p><p>When you’re compiling the source files you are basically making object files, using the <a href="https://lowlevelbits.org/parsing-mach-o-files/" target="_blank">Mach-O</a> (MachObject) file format. <a href="https://developer.apple.com/library/content/documentation/DeveloperTools/Conceptual/MachOTopics/1-Articles/building_files.html" target="_blank">These files</a> are the core building blocks of your applications, frameworks, and libraries (both dynamic and static).</p><h3 id="linking-libraries">Linking libraries</h3><p>Linking refers to the creation of a single executable file from multiple object files.</p><p>In other words:</p><p>After the compiler has created all the object files, another program is called to bundle them into an executable program file. That program is called a linker and the process of bundling them into the executable is called linking.</p><p>Linking is just combining all your object files into an executable and resolving all the externals, so the system will be able to call all the functions inside the binary.</p><h3 id="static-linking">Static linking</h3><p>The source code of the library is literally going to be copied into the application’s source. This will result in a big executable, it’ll take more time to load, so the binary will have a slower startup time. Oh, did I mention that if you are trying to link the same library more than once, the process will fail because of duplicated symbols?</p><p><img src="https://theswiftdev.com/assets/deep-dive-into-swift-frameworks/static-linking.png" alt="Static linking"></p><p>This method has advantages as well, for example the executable will always contain the correct version of the library, and only those parts will be copied into the main application that are really used, so you don’t have to load the whole stuff, but it seems like dynamic linking is going to be better in some cases.</p><h3 id="dynamic-linking">Dynamic linking</h3><p>Dynamic libraries are not embedded into the source of the binary, they are loaded at runtime. This means that apps can be smaller and startup time can significantly be faster because of the lightweight binary files. As a gratis dynamic libraries can be shared with multiple executables so they can have lower memory footprints. That’s why sometimes they’re being referred as shared libraries.</p><p><img src="https://theswiftdev.com/assets/deep-dive-into-swift-frameworks/dynamic-linking.png" alt="Dynamic linking"></p><p>Of course if the dynamic library is not available - or it’s available but their version is incompatible - your application won’t run or it’ll crash. On the other hand this can be an advantage, because the author of the dynamic library can ship fixes and your app can benefit from these, without recompilation.</p><blockquote><p>Fortunately system libraries like UIKit are always available, so you don’t have to worry too much about this issue…</p></blockquote><h3 id="framework">Framework</h3><p>A framework is a hierarchical directory that encapsulates shared resources, such as a dynamic shared library, nib files, image files, localized strings, header files, and reference documentation in a single package.</p><p>So let’s make this simple: frameworks are <a href="https://speakerdeck.com/marius/static-vs-dynamic-linking" target="_blank">static or dynamic</a> libraries packed into a bundle with some extra assets, meta description for versioning and more. UIKit is a framework which needs image assets to display some of the UI elements, also it has a version description, by the way the version of UIKit is the same as the version of iOS.</p><h3 id="module">Module</h3><p>Swift organizes code into <a href="https://gist.github.com/briancroom/5d0f1b966fa9ef0ae4950e97f9d76f77" target="_blank">modules</a>. Each module specifies a namespace and enforces access controls on which parts of that code can be used outside of the module.</p><p>With the <a href="https://stackoverflow.com/questions/18947516/import-vs-import-ios-7" target="_blank">import keyword</a> you are literally importing external modules into your sorce. In Swift you are always using frameworks as modules, but let’s go back in time for a while to understand why we needed modules at all.</p><pre><code class="language-swift">import UIKit
 import my-awesome-module
 </code></pre><p>Before modules you had to import framework headers directly into your code and you also had to link manually the framework’s binary within Xcode. The #import macro literally copy-pasted the whole resolved dependency structure into your code, and the compiler did the work on that huge source file.</p><p>It was a fragile system, things could go wrong with macro definitions, you could easily break other frameworks. That was the reason for defining prefixed uppercased very long macro names like: <code>NS_MYSUPERLONGMACRONAME</code>… 😒</p><p>There was an other issue: the copy-pasting resulted in non-scalable compile times. In order to solve this, <a href="https://useyourloaf.com/blog/modules-and-precompiled-headers/" target="_blank">precompiled header (PCH) files</a> were born, but that was only a partial solution, because they polluted the namespace (you know if you import UIKit in a PCH file it gets available in everywhere), and no-one really maintained them.</p><h3 id="modules-and-module-maps">Modules and module maps</h3><p>The holy grail was already there, with the help of module maps (defining what kind of headers are part of a module and what’s the binary that has the implementation) we’ve got encapsulated modular frameworks. 🎉 They are separately compiled once, the header files are defining the interface (API), and the (automatically) linked <code>dylib</code> file contains the implementation. Hurray, no need to parse framework headers during compilation time (scalability), so local macro definitions won’t break anything. Modules can contain submodules (inheritance), and you don’t have to link them explicitly inside your (Xcode) project, because the <code>.modulemap</code> file has all the information that the build system needs.</p><p>End of the story, now you know what happens under the hood, when you <code>import Foundation</code> or <code>import UIKit</code>.</p><h2 id="command-line-tools">Command line tools</h2><p>Now that you know the logic behind the whole dynamic modular framework system, we should start examining the tools that make this infrastructure possible.</p><blockquote><p>Always read the man pages, aka. <a href="https://en.wikipedia.org/wiki/RTFM" target="_blank">RTFM</a>! If you don’t like to read that much, you can download the example project from <a href="https://gitlab.com/theswiftdev/deep-dive-into-swift-frameworks" target="_blank">GitLab</a> and open the makefiles for the essence. There will be 3 main categories: C, Swift and Xcode project examples.</p></blockquote><h3 id="clang">clang</h3><blockquote><p>the Clang C, C++, and Objective-C compiler</p></blockquote><p><a href="http://clang.llvm.org/docs/Modules.html" target="_blank">Clang</a> is a compiler frontend for C languages (C, C++, Objective-C). If you have ever tried to compiled C code with <code>gcc</code> during your university years, you can imagine that clang is more or less the same as <code>gcc</code>, but nowadays it can do even more.</p><pre><code>clang -c main.c -o main.o #compiles a C source file
 </code></pre><p>LLVM: compiler backend system, which can compile and optimize the intermediate representation (IR) code generated by clang or the Swift compiler for example. It’s language independent, and it can do so many things that could fit into a book, but for now let’s say that <a href="https://llvm.org/" target="_blank">LLVM</a> is making the final machine code for your executable.</p><h3 id="swiftc">swiftc</h3><p>The Swift compiler, there is no manual entry for this thing, but don’t worry, just fire up <code>swiftc -h</code> and see what can offer to you.</p><pre><code>swiftc main.swift #compiles a Swift source file
@@ -180,7 +181,7 @@ if [ -d "${BUILD_PATH}" ]; then
 fi
 </code></pre><p>You can always examine the created framework with the <code>lipo</code> tool.</p><pre><code>lipo -info Console.framework/Console
 #Architectures in the fat file: Console.framework/Console are: x86_64 i386 armv7 armv7s arm64
-</code></pre><h3 id="usage">Usage</h3><p>You just have to embed your brand new framework into the project that you’d like to use and set some <a href="http://www.dribin.org/dave/blog/archives/2009/11/15/rpath/" target="_blank">paths</a>. That’s it. Almost…</p><p>    <img src="/assets/deep-dive-into-swift-frameworks/build-settings.png" alt="Build settings"></p><h3 id="shipping-to-the-app-store">Shipping to the App Store</h3><p>There is only one issue with fat architectures. They contain slices for the simulator as well. If you want to submit your app to the app store, you have to cut off the simulator related codebase from the framework. The reason behind this is that no actual real device requires this chunk of code, so why submit it, right?</p><pre><code>APP_PATH="${TARGET_BUILD_DIR}/${WRAPPER_NAME}"
+</code></pre><h3 id="usage">Usage</h3><p>You just have to embed your brand new framework into the project that you’d like to use and set some <a href="http://www.dribin.org/dave/blog/archives/2009/11/15/rpath/" target="_blank">paths</a>. That’s it. Almost…</p><p><img src="https://theswiftdev.com/assets/deep-dive-into-swift-frameworks/build-settings.png" alt="Build settings"></p><h3 id="shipping-to-the-app-store">Shipping to the App Store</h3><p>There is only one issue with fat architectures. They contain slices for the simulator as well. If you want to submit your app to the app store, you have to cut off the simulator related codebase from the framework. The reason behind this is that no actual real device requires this chunk of code, so why submit it, right?</p><pre><code>APP_PATH="${TARGET_BUILD_DIR}/${WRAPPER_NAME}"
 
 # remove unused architectures from embedded frameworks
 find "$APP_PATH" -name '*.framework' -type d | while read -r FRAMEWORK
@@ -207,7 +208,7 @@ do
     mv "$FRAMEWORK_EXECUTABLE_PATH-merged" "$FRAMEWORK_EXECUTABLE_PATH"
 
 done
-</code></pre><p>This little script will remove all the unnecessary slices from the framework, so you’ll be able to submit your app via iTunesConnect, without any issues. (ha-ha-ha. 😅)</p><blockquote class="note"><p>NOTE: You have to add this last script to your application’s build phases.</p></blockquote><p>If you want to get familiar with the tools behind the scenes, this article will help you with the basics. I couldn’t find something like this but I wanted to dig deeper into the topic, so I made one. I hope you enjoyed the article. 😉</p>
+</code></pre><p>This little script will remove all the unnecessary slices from the framework, so you’ll be able to submit your app via iTunesConnect, without any issues. (ha-ha-ha. 😅)</p><blockquote class="note"><p>You have to add this last script to your application’s build phases.</p></blockquote><p>If you want to get familiar with the tools behind the scenes, this article will help you with the basics. I couldn’t find something like this but I wanted to dig deeper into the topic, so I made one. I hope you enjoyed the article. 😉</p>
                     
                 </section>
     
@@ -218,7 +219,7 @@ done
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -241,80 +242,80 @@ done
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2021/09/10">2021/09/10</time>
+                                <time datetime="2017-10-23T14:20:00.000Z">10/23/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/how-to-make-a-swift-framework/" target="">How to make a Swift framework?</a></h2>
+                            <hr>
+                            <p>Creating a Swift framework shouldn&#39;t be hard. This tutorial will help you making a universal framework for complex projects.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2017-10-11T14:20:00.000Z">10/11/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">1 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/swift-enum-all-values/" target="">Swift enum all values</a></h2>
+                            <hr>
+                            <p>In this quick tutorial I&#39;ll show you how to get all the possible values for a Swift enum type with a generic solution written in Swift.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018-01-25T15:20:00.000Z">1/25/18 3:20 PM</time>
+                                 &middot; <span class="reading-time">11 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/deep-dive-into-swift-frameworks/" target="">Deep dive into Swift frameworks</a></h2>
+                            <hr>
+                            <p>Learn everything about Swift modules, libraries, packages, closed source frameworks, command line tools and more.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
                                  &middot; <span class="reading-time">6 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/all-about-the-bool-type-in-swift/" target="">All about the Bool type in Swift</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/everything-about-public-and-private-swift-attributes/" target="">Everything about public and private Swift attributes</a></h2>
                             <hr>
-                            <p>Learn everything about logical types and the Boolean algebra using the Swift programming language and some basic math.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2022/03/18">2022/03/18</time>
-                                 &middot; <span class="reading-time">4 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/async-http-api-clients-in-swift/" target="">Async HTTP API clients in Swift</a></h2>
-                            <hr>
-                            <p>Learn how to communicate with API endpoints using the brand new SwiftHttp library, including async / await support.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2019/02/05">2019/02/05</time>
-                                 &middot; <span class="reading-time">9 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/beginners-guide-to-functional-swift/" target="">Beginners guide to functional Swift</a></h2>
-                            <hr>
-                            <p>The one and only tutorial that you&#39;ll ever need to learn higher order functions like: map, flatMap, compactMap, reduce, filter and more.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2022/06/28">2022/06/28</time>
-                                 &middot; <span class="reading-time">5 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/beginners-guide-to-modern-generic-programming-in-swift/" target="">Beginner&#39;s guide to modern generic programming in Swift</a></h2>
-                            <hr>
-                            <p>Learn the very basics about protocols, existentials, opaque types and how they are related to generic programming in Swift.</p>
+                            <p>Have you ever heard about Swift language attributes? In this article I&#39;m trying to gather all the @ annotations and their meanings.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
@@ -342,51 +343,95 @@ done
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#basic-definitions">Basic definitions</a>
-                        <ul>
-                            <li><a href="#package">Package</a></li>
-                <li><a href="#library">Library</a></li>
-                <li><a href="#mach-o-file-format">Mach-O file format</a></li>
-                <li><a href="#linking-libraries">Linking libraries</a></li>
-                <li><a href="#static-linking">Static linking</a></li>
-                <li><a href="#dynamic-linking">Dynamic linking</a></li>
-                <li><a href="#framework">Framework</a></li>
-                <li><a href="#module">Module</a></li>
-                <li><a href="#modules-and-module-maps">Modules and module maps</a></li>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-3">
+                        <a href="#package">Package</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#library">Library</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#mach-o-file-format">Mach-O file format</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#linking-libraries">Linking libraries</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#static-linking">Static linking</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#dynamic-linking">Dynamic linking</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#framework">Framework</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#module">Module</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#modules-and-module-maps">Modules and module maps</a>
+                    </li>
+        <li class="level-2">
                         <a href="#command-line-tools">Command line tools</a>
-                        <ul>
-                            <li><a href="#clang">clang</a></li>
-                <li><a href="#swiftc">swiftc</a></li>
-                <li><a href="#ar">ar</a></li>
-                <li><a href="#ranlib">ranlib</a></li>
-                <li><a href="#libtool">libtool</a></li>
-                <li><a href="#ld">ld</a></li>
-                <li><a href="#nm">nm</a></li>
-                <li><a href="#otool">otool</a></li>
-                <li><a href="#lipo">lipo</a></li>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-3">
+                        <a href="#clang">clang</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#swiftc">swiftc</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#ar">ar</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#ranlib">ranlib</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#libtool">libtool</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#ld">ld</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#nm">nm</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#otool">otool</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#lipo">lipo</a>
+                    </li>
+        <li class="level-2">
                         <a href="#xcode-related-tools">Xcode related tools</a>
-                        <ul>
-                            <li><a href="#xcode-select">xcode-select</a></li>
-                <li><a href="#xcrun">xcrun</a></li>
-                <li><a href="#codesign">codesign</a></li>
-                <li><a href="#xcodebuild">xcodebuild</a></li>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-3">
+                        <a href="#xcode-select">xcode-select</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#xcrun">xcrun</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#codesign">codesign</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#xcodebuild">xcodebuild</a>
+                    </li>
+        <li class="level-2">
                         <a href="#fat-frameworks">FAT frameworks</a>
-                        <ul>
-                            <li><a href="#thin-vs.-fat-frameworks">Thin vs. FAT frameworks</a></li>
-                <li><a href="#building-a-fat-framework">Building a FAT framework</a></li>
-                <li><a href="#usage">Usage</a></li>
-                <li><a href="#shipping-to-the-app-store">Shipping to the App Store</a></li>
-                        </ul>
+                    </li>
+        <li class="level-3">
+                        <a href="#thin-vs.-fat-frameworks">Thin vs. FAT frameworks</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#building-a-fat-framework">Building a FAT framework</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#usage">Usage</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#shipping-to-the-app-store">Shipping to the App Store</a>
                     </li>
                 </ul>
             </aside>
@@ -441,7 +486,7 @@ done
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

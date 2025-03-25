@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2019/09/18">2019/09/18</time>
+                <div class="meta">            
+                    <time datetime="2019-09-18T14:20:00.000Z">9/18/19 2:20 PM</time>
                      &middot; <span class="reading-time">10 min read</span>
                     
                 </div>
@@ -108,7 +109,7 @@
                 <p>In this tutorial I&#39;ll show you how to combine SwiftUI with the VIPER architecture in a real world iOS application example.</p>
                 <section>
                 
-                <h2 id="swiftui---the-new-kid-on-the-block">SwiftUI - the new kid on the block</h2><p>There are literally hundreds of SwiftUI tutorials around the web, but I was only able to find just one or two that focuses on <a href="https://mecid.github.io/2019/06/05/swiftui-making-real-world-app/" target="_blank">real world</a> use cases instead of the smaller details like how to configure / make X in SwiftUI. Nice tutorials <a href="https://x.com/mecid" target="_blank">@mecid</a> keep it up!</p><p>I also had my own “struggle” with SwiftUI, because <a href="https://theswiftdev.com/2019/05/23/building-input-forms-for-ios-apps/">my collection view framework</a> is structured exactly the same way as you write SwiftUI code. After WWDC I was like, hell no! I’m doing the same method for months now, so why should I care? I started to believe that some Apple engineers are reading my blog. 😂</p><p>Anyway I knew at day zero that a crazy amount of new SwiftUI tutorials will arrive and everyone will be hyped about the new declarative UI framework, but honestly I already had my universal toolkit for this purpose. That’s why I don’t wanted to write about it. Honestly I still love Combine much more than SwiftUI. I’m also quite disappointed since CollectionView is completely missing from the framework.</p><p>Finally, just because what the heck lets try new things and I was curious about how SwiftUI can fit into my app building methodology I started to create a new VIPER template based on those kind of views. I also wanted to make a useful, scalable, modular real world application example using the new framework, which is up-to-date. A lot has changed in SwiftUI during the Xcode 11 beta period, so that’s why I’m only publishing this tutorial now. Enough chatter, shouldn’t we code already? 😛</p><h2 id="learn-a-modern-viper-architecture">Learn a modern VIPER architecture</h2><p>I’ve spent my last two years using the VIPER architecture. Some people say “it’s way too complex” or “it’s not a good fit for small teams”. I can only tell them one word:</p><blockquote><p>Bullshit!</p></blockquote><p>I believe that I’ve created a modern & relatively simple pattern that can be used for literally anything. Learning VIPER will definitely improve your code quality thanks to the clean architecture and the SOLID principles. You’ll have a better understanding of how smaller pieces can work together and communicate with each other.</p><p>Isolated smaller components can speed up development, because you just have to work on a little piece at once, plus you can create tests for that particular thing, which is a huge win for testability & code coverage (you don’t have to run your app all the time if you want to test something, you can work on the module you just need).</p><p>I’m usually working with a really simple code generator to fire up new modules, this way I can save a lot of time. If you have to work alone on a project the module generator and the predefined structure can even save you some more time. Also you really can’t mess up things or end up with massive files if you are following the basic VIPER rules. I’ll teach you my method in about 10 minutes. ⏰</p><h2 id="what-the-heck-is-viper-anyway">What the heck is VIPER anyway?</h2><p>If you never heard about VIPER before, the first thing you should know is that a VIPER module contains the following components:</p><ul><li>View = UIViewController subclass or SwiftUI View</li><li>Interactor = Provides the required data in the proper format</li><li>Presenter = UI independent business logic (what to do exactly)</li><li>Entity = Data objects (sometimes it’s missing from the module)</li><li>Router = Builds up the view controller hierarchy (show, present, dismiss, etc)</li></ul><p>I always have a module file next to these ones where I define a module builder which builds up the whole thing from the components above and in that file I also define the module specific protocols. I usually name these protocols as interfaces they make it possible that any of the components can be replaced using <a href="https://theswiftdev.com/2018/07/17/swift-dependency-injection-design-pattern/">dependency injection</a>. This way we can test anything by using mocked objects in our unit tests.</p><blockquote class="note"><p>NOTE: Some say that a VIPER module with a Builder is called VIPER/B. I think the module file is an ideal place to store your module builder object, the module interfaces and the module delegate if you need one.</p></blockquote><h2 id="protocol-oriented-viper-architecture">Protocol oriented VIPER architecture</h2><p>So the key is the 6 main protocol that connects View-Interactor-Presenter-Router. These protocols ensure that none of the VIPER components can see more than it’s required. If you go back to <a href="https://theswiftdev.com/2018/03/12/the-ultimate-viper-architecture-tutorial/">my first tutorial</a> you’ll see that I made a mistake there. The thing is that you can call a method on the router through the presenter from the view, which is bad. This new approach fixes that issue. 🐛</p><pre><code>View-to-Presenter
+                <h2 id="swiftui---the-new-kid-on-the-block">SwiftUI - the new kid on the block</h2><p>There are literally hundreds of SwiftUI tutorials around the web, but I was only able to find just one or two that focuses on <a href="https://mecid.github.io/2019/06/05/swiftui-making-real-world-app/" target="_blank">real world</a> use cases instead of the smaller details like how to configure / make X in SwiftUI. Nice tutorials <a href="https://x.com/mecid" target="_blank">@mecid</a> keep it up!</p><p>I also had my own “struggle” with SwiftUI, because <a href="https://theswiftdev.com/2019/05/23/building-input-forms-for-ios-apps/" target="_blank">my collection view framework</a> is structured exactly the same way as you write SwiftUI code. After WWDC I was like, hell no! I’m doing the same method for months now, so why should I care? I started to believe that some Apple engineers are reading my blog. 😂</p><p>Anyway I knew at day zero that a crazy amount of new SwiftUI tutorials will arrive and everyone will be hyped about the new declarative UI framework, but honestly I already had my universal toolkit for this purpose. That’s why I don’t wanted to write about it. Honestly I still love Combine much more than SwiftUI. I’m also quite disappointed since CollectionView is completely missing from the framework.</p><p>Finally, just because what the heck lets try new things and I was curious about how SwiftUI can fit into my app building methodology I started to create a new VIPER template based on those kind of views. I also wanted to make a useful, scalable, modular real world application example using the new framework, which is up-to-date. A lot has changed in SwiftUI during the Xcode 11 beta period, so that’s why I’m only publishing this tutorial now. Enough chatter, shouldn’t we code already? 😛</p><h2 id="learn-a-modern-viper-architecture">Learn a modern VIPER architecture</h2><p>I’ve spent my last two years using the VIPER architecture. Some people say “it’s way too complex” or “it’s not a good fit for small teams”. I can only tell them one word:</p><blockquote><p>Bullshit!</p></blockquote><p>I believe that I’ve created a modern & relatively simple pattern that can be used for literally anything. Learning VIPER will definitely improve your code quality thanks to the clean architecture and the SOLID principles. You’ll have a better understanding of how smaller pieces can work together and communicate with each other.</p><p>Isolated smaller components can speed up development, because you just have to work on a little piece at once, plus you can create tests for that particular thing, which is a huge win for testability & code coverage (you don’t have to run your app all the time if you want to test something, you can work on the module you just need).</p><p>I’m usually working with a really simple code generator to fire up new modules, this way I can save a lot of time. If you have to work alone on a project the module generator and the predefined structure can even save you some more time. Also you really can’t mess up things or end up with massive files if you are following the basic VIPER rules. I’ll teach you my method in about 10 minutes. ⏰</p><h2 id="what-the-heck-is-viper-anyway">What the heck is VIPER anyway?</h2><p>If you never heard about VIPER before, the first thing you should know is that a VIPER module contains the following components:</p><ul><li>View = UIViewController subclass or SwiftUI View</li><li>Interactor = Provides the required data in the proper format</li><li>Presenter = UI independent business logic (what to do exactly)</li><li>Entity = Data objects (sometimes it’s missing from the module)</li><li>Router = Builds up the view controller hierarchy (show, present, dismiss, etc)</li></ul><p>I always have a module file next to these ones where I define a module builder which builds up the whole thing from the components above and in that file I also define the module specific protocols. I usually name these protocols as interfaces they make it possible that any of the components can be replaced using <a href="https://theswiftdev.com/2018/07/17/swift-dependency-injection-design-pattern/" target="_blank">dependency injection</a>. This way we can test anything by using mocked objects in our unit tests.</p><blockquote class="note"><p>Some say that a VIPER module with a Builder is called VIPER/B. I think the module file is an ideal place to store your module builder object, the module interfaces and the module delegate if you need one.</p></blockquote><h2 id="protocol-oriented-viper-architecture">Protocol oriented VIPER architecture</h2><p>So the key is the 6 main protocol that connects View-Interactor-Presenter-Router. These protocols ensure that none of the VIPER components can see more than it’s required. If you go back to <a href="https://theswiftdev.com/2018/03/12/the-ultimate-viper-architecture-tutorial/" target="_blank">my first tutorial</a> you’ll see that I made a mistake there. The thing is that you can call a method on the router through the presenter from the view, which is bad. This new approach fixes that issue. 🐛</p><pre><code>View-to-Presenter
 Presenter-to-View
 
 Router-to-Presenter
@@ -444,7 +445,7 @@ final class TodoEnvironment: ObservableObject {
         return viewController
     }
 }
-</code></pre><p>Putting together the pieces from now is just a piece of cake. If you want, you can challenge yourself to build something without downloading the <a href="https://github.com/theswiftdev/tutorials/tree/master/VIPER/VIPERAndSwiftUI" target="_blank">final project</a>. 🍰</p><p>Well, if you’re not into challenges that’s fine too, feel free to grab the example code from The.Swift.Dev tutorials on <a href="https://github.com/theswiftdev/tutorials/" target="_blank">GitHub</a>. It contains a nice interactor with some cool networking stuff <a href="https://theswiftdev.com/2019/08/15/urlsession-and-the-combine-framework/">using URLSession and the Combine framework</a>. The final SwiftUI code is just a rough implementation, because as I told you in the beginning there are really good tutorials about SwiftUI with examples.</p>
+</code></pre><p>Putting together the pieces from now is just a piece of cake. If you want, you can challenge yourself to build something without downloading the <a href="https://github.com/theswiftdev/tutorials/tree/master/VIPER/VIPERAndSwiftUI" target="_blank">final project</a>. 🍰</p><p>Well, if you’re not into challenges that’s fine too, feel free to grab the example code from The.Swift.Dev tutorials on <a href="https://github.com/theswiftdev/tutorials/" target="_blank">GitHub</a>. It contains a nice interactor with some cool networking stuff <a href="https://theswiftdev.com/2019/08/15/urlsession-and-the-combine-framework/" target="_blank">using URLSession and the Combine framework</a>. The final SwiftUI code is just a rough implementation, because as I told you in the beginning there are really good tutorials about SwiftUI with examples.</p>
                     
                 </section>
     
@@ -455,7 +456,7 @@ final class TodoEnvironment: ObservableObject {
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -478,53 +479,11 @@ final class TodoEnvironment: ObservableObject {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2019/09/25">2019/09/25</time>
-                                 &middot; <span class="reading-time">7 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/how-to-write-services-for-viper/" target="">How to write services for VIPER?</a></h2>
-                            <hr>
-                            <p>Not everything is a VIPER module. In this article I&#39;ll show you how do I separate the service layer from the modules, using Swift.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/viper/"><small>VIPER</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2019/03/19">2019/03/19</time>
-                                 &middot; <span class="reading-time">4 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/mastering-the-viper-architecture/" target="">Mastering the VIPER architecture</a></h2>
-                            <hr>
-                            <p>Learn how to master the VIPER architectural design pattern, with some protocol oriented programming techniques using Swift.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/viper/"><small>VIPER</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2018/03/12">2018/03/12</time>
+                                <time datetime="2018-03-12T15:20:00.000Z">3/12/18 3:20 PM</time>
                                  &middot; <span class="reading-time">9 min read</span>
                             </div>
                             
@@ -541,17 +500,59 @@ final class TodoEnvironment: ObservableObject {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2019/03/11">2019/03/11</time>
-                                 &middot; <span class="reading-time">8 min read</span>
+                                <time datetime="2019-09-18T14:20:00.000Z">9/18/19 2:20 PM</time>
+                                 &middot; <span class="reading-time">10 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/viper-best-practices-for-ios-developers/" target="">VIPER best practices for iOS developers</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/how-to-build-swiftui-apps-using-viper/" target="">How to build SwiftUI apps using VIPER?</a></h2>
                             <hr>
-                            <p>In this tutorial I&#39;m going to show you a complete guide about how to build a VIPER based iOS application, written entirely in Swift.</p>
+                            <p>In this tutorial I&#39;ll show you how to combine SwiftUI with the VIPER architecture in a real world iOS application example.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/viper/"><small>VIPER</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2019-09-25T14:20:00.000Z">9/25/19 2:20 PM</time>
+                                 &middot; <span class="reading-time">7 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/how-to-write-services-for-viper/" target="">How to write services for VIPER?</a></h2>
+                            <hr>
+                            <p>Not everything is a VIPER module. In this article I&#39;ll show you how do I separate the service layer from the modules, using Swift.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/viper/"><small>VIPER</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2019-03-19T15:20:00.000Z">3/19/19 3:20 PM</time>
+                                 &middot; <span class="reading-time">4 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/mastering-the-viper-architecture/" target="">Mastering the VIPER architecture</a></h2>
+                            <hr>
+                            <p>Learn how to master the VIPER architectural design pattern, with some protocol oriented programming techniques using Swift.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/viper/"><small>VIPER</small></a>
@@ -579,40 +580,26 @@ final class TodoEnvironment: ObservableObject {
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#swiftui---the-new-kid-on-the-block">SwiftUI - the new kid on the block</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#learn-a-modern-viper-architecture">Learn a modern VIPER architecture</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#what-the-heck-is-viper-anyway">What the heck is VIPER anyway?</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#protocol-oriented-viper-architecture">Protocol oriented VIPER architecture</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#generic-viper-implementation-in-swift-5">Generic VIPER implementation in Swift 5</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#how-to-build-viper-interfaces">How to build VIPER interfaces?</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#how-to-design-a-viper-based-swiftui-application">How to design a VIPER based SwiftUI application?</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -667,7 +654,7 @@ final class TodoEnvironment: ObservableObject {
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

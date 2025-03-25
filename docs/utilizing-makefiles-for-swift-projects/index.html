@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2023/01/10">2023/01/10</time>
+                <div class="meta">            
+                    <time datetime="2023-01-10T15:20:00.000Z">1/10/23 3:20 PM</time>
                      &middot; <span class="reading-time">2 min read</span>
                     
                 </div>
@@ -108,7 +109,7 @@
                 <p>In this tutorial I&#39;ll show you how to use Makefiles for server-side Swift projects to help running utility tasks in a more simple way.</p>
                 <section>
                 
-                <p><a href="https://en.wikipedia.org/wiki/Make_(software)" target="_blank">Make</a> is a build automation software that you can use to automatically run various commands. If you want to run something, you have to specify your commands (more precisely: build targets) through Makefiles. In this quick tutorial I’ll show you some of my best practices for Swift projects. 😉</p><p>Usually I create a Makefile for my server-side Swift projects and place some of the most used <a href="https://theswiftdev.com/swift-package-manager-tutorial/">Swift Package Manager</a> commands there.</p><pre><code># My Makefile - for server side Swift projects
+                <p><a href="https://en.wikipedia.org/wiki/Make_(software)" target="_blank">Make</a> is a build automation software that you can use to automatically run various commands. If you want to run something, you have to specify your commands (more precisely: build targets) through Makefiles. In this quick tutorial I’ll show you some of my best practices for Swift projects. 😉</p><p>Usually I create a Makefile for my server-side Swift projects and place some of the most used <a href="https://theswiftdev.com/swift-package-manager-tutorial/" target="_blank">Swift Package Manager</a> commands there.</p><pre><code># My Makefile - for server side Swift projects
 
 build:
     swift build
@@ -139,7 +140,7 @@ restart: stop start
 
 reset: stop
     rm -f ./Resources/db.sqlite
-</code></pre><p>By using the & at the end of the start command the server will run in the background, and using the @ character before the lsof command will silence the output of the make command (By default the make command will echo out your commands as well).</p><p>Since everything should work under Linux as well I often use Docker to run the app in a container. I have <a href="https://theswiftdev.com/server-side-swift-projects-inside-docker-using-vapor-4/">a Docker cheat-sheet</a>, but I’m also a lazy developer, so I made a few helpers in the Makefile.</p><pre><code>#
+</code></pre><p>By using the & at the end of the start command the server will run in the background, and using the @ character before the lsof command will silence the output of the make command (By default the make command will echo out your commands as well).</p><p>Since everything should work under Linux as well I often use Docker to run the app in a container. I have <a href="https://theswiftdev.com/server-side-swift-projects-inside-docker-using-vapor-4/" target="_blank">a Docker cheat-sheet</a>, but I’m also a lazy developer, so I made a few helpers in the Makefile.</p><pre><code>#
 # Dockerfile:
 # ----
 #
@@ -160,7 +161,7 @@ docker-run:
         -e "PS1=\u@\w: " \
         -it my-app-image \
         --rm
-</code></pre><p>First you have to build the image for the Swift application, for this purpose you also have to create a Dockerfile next to the Makefile, but afterwards you can create a disposable docker instance from it by using the make docker-run command. 🐳</p><p>There are two more topics I’d like to talk about. The first one is related to <a href="https://theswiftdev.com/code-coverage-for-swift-package-manager-based-apps/">code coverage generation</a> for Swift package manager based apps. Here is what I have in my Makefile to support this:</p><pre><code>test-with-coverage:
+</code></pre><p>First you have to build the image for the Swift application, for this purpose you also have to create a Dockerfile next to the Makefile, but afterwards you can create a disposable docker instance from it by using the make docker-run command. 🐳</p><p>There are two more topics I’d like to talk about. The first one is related to <a href="https://theswiftdev.com/code-coverage-for-swift-package-manager-based-apps/" target="_blank">code coverage generation</a> for Swift package manager based apps. Here is what I have in my Makefile to support this:</p><pre><code>test-with-coverage:
     swift test --parallel --enable-code-coverage
 
 # 
@@ -190,7 +191,7 @@ docs-generate-static:
         --hosting-base-path "MyLibrary" \
         --target MyLibrary \
         --output-path ./docs
-</code></pre><p>Of course you can add more targets to your Makefile to automate your workflow as needed. These are just a few common practices that I’m currently using for my server-side Swift projects. iOS developers can also take advantage of Makefiles, there are some quite lenghty <a href="https://theswiftdev.com/deep-dive-into-swift-frameworks/">xcodebuild related commands</a> that you can simplify a lot by using a Makefile. 💪</p>
+</code></pre><p>Of course you can add more targets to your Makefile to automate your workflow as needed. These are just a few common practices that I’m currently using for my server-side Swift projects. iOS developers can also take advantage of Makefiles, there are some quite lenghty <a href="https://theswiftdev.com/deep-dive-into-swift-frameworks/" target="_blank">xcodebuild related commands</a> that you can simplify a lot by using a Makefile. 💪</p>
                     
                 </section>
     
@@ -201,7 +202,7 @@ docs-generate-static:
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -224,11 +225,11 @@ docs-generate-static:
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2016/07/06">2016/07/06</time>
+                                <time datetime="2016-07-06T14:20:00.000Z">7/6/16 2:20 PM</time>
                                  &middot; <span class="reading-time">4 min read</span>
                             </div>
                             
@@ -246,33 +247,11 @@ docs-generate-static:
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2021/01/07">2021/01/07</time>
-                                 &middot; <span class="reading-time">2 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/custom-working-directory-in-xcode/" target="">Custom working directory in Xcode</a></h2>
-                            <hr>
-                            <p>Learn how to set a custom working directory in Xcode to solve one of the most common beginner issue when using Vapor.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/tooling/"><small>Tooling</small></a>
-        <a href="https://theswiftdev.com/tags/xcode/"><small>Xcode</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2017/10/27">2017/10/27</time>
+                                <time datetime="2017-10-27T14:20:00.000Z">10/27/17 2:20 PM</time>
                                  &middot; <span class="reading-time">2 min read</span>
                             </div>
                             
@@ -281,7 +260,29 @@ docs-generate-static:
                             <p>In this tutorial I&#39;ll show you how to launch a completely sandboxed macOS application on system startup written in Swift.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/macos/"><small>macOS</small></a>
+                                <a href="https://theswiftdev.com/tags/tooling/"><small>Tooling</small></a>
+        <a href="https://theswiftdev.com/tags/macos/"><small>macOS</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018-11-16T15:20:00.000Z">11/16/18 3:20 PM</time>
+                                 &middot; <span class="reading-time">3 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/swift-5-and-abi-stability/" target="">Swift 5 and ABI stability</a></h2>
+                            <hr>
+                            <p>Apple&#39;s Swift 5 language version will be a huge milestone for the developer community, let&#39;s see what are the possible benefits of it.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
         <a href="https://theswiftdev.com/tags/tooling/"><small>Tooling</small></a>
                             </div>
                         </div>
@@ -290,11 +291,11 @@ docs-generate-static:
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2020/06/30">2020/06/30</time>
+                                <time datetime="2020-06-30T14:20:00.000Z">6/30/20 2:20 PM</time>
                                  &middot; <span class="reading-time">2 min read</span>
                             </div>
                             
@@ -378,7 +379,7 @@ docs-generate-static:
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

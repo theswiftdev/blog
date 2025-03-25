@@ -3,11 +3,9 @@
 <div id="author-page">
     
     <header>
-        {{#page.imageUrl}}<img class="large rounded" src="{{page.imageUrl}}" alt="{{page.title}}">{{/page.imageUrl}}
-        <h1>{{page.title}}</h1>
-        <a href="{{userDefined.companyUrl}}">{{userDefined.companyName}}</a>
-        {{& page.contents}}
-        <a class="cta" href="{{userDefined.ctaUrl}}">{{userDefined.ctaLabel}}</a>
+        {{#page.image}}<img class="large rounded" src="{{.}}" alt="{{page.title}}">{{/page.image}}
+        <h1>{{page.title}}</h1>        
+        {{& page.contents.html}}
     </header>
     
     <p><br>{{count(page.posts)}} posts</p>

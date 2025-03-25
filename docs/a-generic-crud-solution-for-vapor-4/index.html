@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2020/04/01">2020/04/01</time>
+                <div class="meta">            
+                    <time datetime="2020-04-01T14:20:00.000Z">4/1/20 2:20 PM</time>
                      &middot; <span class="reading-time">10 min read</span>
                     
                 </div>
@@ -108,7 +109,7 @@
                 <p>Learn how to build a controller component that can serve models as JSON objects through a RESTful API written in Swift.</p>
                 <section>
                 
-                <h2 id="crud-create-read-update-and-delete">CRUD ~ Create, Read, Update and Delete</h2><p>We should start by implementing the non-generic version of our code, so after we see the pattern we can turn it into a more generalized Swift code. If you start with the <a href="https://github.com/vapor/api-template" target="_blank">API template</a> project there is a pretty good example for almost everything using a Todo model.</p><blockquote class="note"><p>NOTE: Start a new project using the <a href="http://docs.vapor.codes/3.0/getting-started/toolbox/" target="_blank">toolbox</a>, just run <code>vapor new myProject</code></p></blockquote><p>Open the project by double clicking the <code>Package.swift</code> file, that’ll fire up Xcode (you should be on version 11.4 or later). If you open the <code>Sources/App/Controllers</code> folder you’ll find a sample controller file there called <code>TodoController.swift</code>. We’re going to work on this, but first…</p><blockquote><p>A controller is a collection of request handler functions around a specific model.</p></blockquote><h2 id="http-basics-request---response">HTTP basics: Request -> Response</h2><p><a href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol" target="_blank">HTTP</a> is a text transfer protocol that is widely used around the web. In the beginning it was only used to transfer HTML files, but nowadays you can use it to request almost anything. It’s mostly a stateless protocol, this means you request something, you get back a response and that’s it.</p><p>It’s like ordering a pizza from a place through phone. You need a number to call (URL), you pick up the phone, dial the place, the phone company initializes the connection between (you & the pizza place) the two participants (the network layer does the same thing when you request an URL from a server). The phone on the other side starts ringing. 📱</p><p>Someone picks up the phone. You both introduce yourselves, also exchange some basic info such as the delivery address (server checks HTTP headers & discovers what needs to be delivered to where). You tell the place what kind of pizza you’d like to have & you wait for it. The place cooks the pizza (the server gathers the necessary data for the response) & the pizza boy arrives with your order (the server sends back the actual response). 🍕</p><blockquote><p>Everything happens asynchronously, the place (server) can fulfill multiple requests. If there is only one person who is taking orders & cooking pizzas, sometimes the cooking process will be blocked by answering the phone. Anyways, using non-blocking i/o is important, that’s why Vapor uses Futures & Promises from <a href="https://github.com/apple/swift-nio" target="_blank">SwiftNIO</a> under the hood.</p></blockquote><p>In our case the request is a URL with some extra headers (key, value pairs) and a request body object (encoded data). The response is usually made of a HTTP status code, optional headers and response body. If we are talking about a RESTful API, the encoding of the body is usually JSON.</p><p>All right then, now you know the basics it’s time to look at some Swift code.</p><h2 id="contents-and-models-in-vapor">Contents and models in Vapor</h2><p>Defining a data structure in Swift is pretty easy, you just have to create a struct or a class. You can also convert them back and forth to JSON using the built-in <a href="https://theswiftdev.com/how-to-parse-json-in-swift-using-codable-protocol/">Codable protocol</a>. Vapor has an extension around this called Content. If you conform the the protocol (no need to implement any new functions, the object just needs to be Codable) the system can decode these objects from requests and encode them as responses.</p><p>Models on the other hand represent rows from your database. The <a href="https://theswiftdev.com/a-tutorial-for-beginners-about-the-fluent-postgresql-driver-in-vapor-4/">Fluent</a> ORM layer can take care of the low level abstractions, so you don’t have to mess around with SQL queries. This is a great thing to have, read my other article if you like to know more about Fluent. 💾</p><p>The problem starts when you have a model and it has different fields than the content. Imagine if this Todo model was a User model with a secret password field? Would you like to expose that to the public when you encode it as a response? Nope, I don’t think so. 🙉</p><p>I believe that in most of the Cases the Model and the Content should be separated. Taking this one step further, the content of the request (input) and the content of the response (output) is sometimes different. I’ll stop it now, let’s change our Todo model according to this.</p><pre><code class="language-swift">import Fluent
+                <h2 id="crud-create-read-update-and-delete">CRUD ~ Create, Read, Update and Delete</h2><p>We should start by implementing the non-generic version of our code, so after we see the pattern we can turn it into a more generalized Swift code. If you start with the <a href="https://github.com/vapor/api-template" target="_blank">API template</a> project there is a pretty good example for almost everything using a Todo model.</p><blockquote class="note"><p>Start a new project using the <a href="http://docs.vapor.codes/3.0/getting-started/toolbox/" target="_blank">toolbox</a>, just run <code>vapor new myProject</code></p></blockquote><p>Open the project by double clicking the <code>Package.swift</code> file, that’ll fire up Xcode (you should be on version 11.4 or later). If you open the <code>Sources/App/Controllers</code> folder you’ll find a sample controller file there called <code>TodoController.swift</code>. We’re going to work on this, but first…</p><blockquote><p>A controller is a collection of request handler functions around a specific model.</p></blockquote><h2 id="http-basics-request---response">HTTP basics: Request -> Response</h2><p><a href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol" target="_blank">HTTP</a> is a text transfer protocol that is widely used around the web. In the beginning it was only used to transfer HTML files, but nowadays you can use it to request almost anything. It’s mostly a stateless protocol, this means you request something, you get back a response and that’s it.</p><p>It’s like ordering a pizza from a place through phone. You need a number to call (URL), you pick up the phone, dial the place, the phone company initializes the connection between (you & the pizza place) the two participants (the network layer does the same thing when you request an URL from a server). The phone on the other side starts ringing. 📱</p><p>Someone picks up the phone. You both introduce yourselves, also exchange some basic info such as the delivery address (server checks HTTP headers & discovers what needs to be delivered to where). You tell the place what kind of pizza you’d like to have & you wait for it. The place cooks the pizza (the server gathers the necessary data for the response) & the pizza boy arrives with your order (the server sends back the actual response). 🍕</p><blockquote><p>Everything happens asynchronously, the place (server) can fulfill multiple requests. If there is only one person who is taking orders & cooking pizzas, sometimes the cooking process will be blocked by answering the phone. Anyways, using non-blocking i/o is important, that’s why Vapor uses Futures & Promises from <a href="https://github.com/apple/swift-nio" target="_blank">SwiftNIO</a> under the hood.</p></blockquote><p>In our case the request is a URL with some extra headers (key, value pairs) and a request body object (encoded data). The response is usually made of a HTTP status code, optional headers and response body. If we are talking about a RESTful API, the encoding of the body is usually JSON.</p><p>All right then, now you know the basics it’s time to look at some Swift code.</p><h2 id="contents-and-models-in-vapor">Contents and models in Vapor</h2><p>Defining a data structure in Swift is pretty easy, you just have to create a struct or a class. You can also convert them back and forth to JSON using the built-in <a href="https://theswiftdev.com/how-to-parse-json-in-swift-using-codable-protocol/" target="_blank">Codable protocol</a>. Vapor has an extension around this called Content. If you conform the the protocol (no need to implement any new functions, the object just needs to be Codable) the system can decode these objects from requests and encode them as responses.</p><p>Models on the other hand represent rows from your database. The <a href="https://theswiftdev.com/a-tutorial-for-beginners-about-the-fluent-postgresql-driver-in-vapor-4/" target="_blank">Fluent</a> ORM layer can take care of the low level abstractions, so you don’t have to mess around with SQL queries. This is a great thing to have, read my other article if you like to know more about Fluent. 💾</p><p>The problem starts when you have a model and it has different fields than the content. Imagine if this Todo model was a User model with a secret password field? Would you like to expose that to the public when you encode it as a response? Nope, I don’t think so. 🙉</p><p>I believe that in most of the Cases the Model and the Content should be separated. Taking this one step further, the content of the request (input) and the content of the response (output) is sometimes different. I’ll stop it now, let’s change our Todo model according to this.</p><pre><code class="language-swift">import Fluent
 import Vapor
 
 final class Todo: Model {
@@ -134,7 +135,7 @@ final class Todo: Model {
         self.title = title
     }
 }
-</code></pre><p>We expect to have a title when we insert a record (we can generate the id), but when we’re returning Todos we can expose the id property as well. Now back to the controller.</p><blockquote class="warning"><p>WARN: Don’t forget to run Fluent migrations first: <code>swift run Run migrate</code></p></blockquote><h3 id="create">Create</h3><p>The flow is pretty simple. Decode the Input type from the content of the request (it’s created from the HTTP body) and use it to construct a new Todo class. Next save the newly created item to the database using Fluent. Finally after the save operation is done (it returns nothing by default), map the future into a proper Output, so Vapor can encode this to JSON format.</p><pre><code class="language-swift">import Fluent
+</code></pre><p>We expect to have a title when we insert a record (we can generate the id), but when we’re returning Todos we can expose the id property as well. Now back to the controller.</p><blockquote class="warning"><p>Don’t forget to run Fluent migrations first: <code>swift run Run migrate</code></p></blockquote><h3 id="create">Create</h3><p>The flow is pretty simple. Decode the Input type from the content of the request (it’s created from the HTTP body) and use it to construct a new Todo class. Next save the newly created item to the database using Fluent. Finally after the save operation is done (it returns nothing by default), map the future into a proper Output, so Vapor can encode this to JSON format.</p><pre><code class="language-swift">import Fluent
 import Vapor
 
 struct TodoController {
@@ -208,7 +209,7 @@ struct TodoController {
 
     //...
 }
-</code></pre><p>You can get named parameters by key, I already mentioned this in my <a href="https://theswiftdev.com/beginners-guide-to-server-side-swift-using-vapor-4/">beginner’s guide article</a>. The new thing here is that you can <code>throw Abort(error)</code> anytime you want to break something. Same thing happens in the <code>unwrap</code> method, that just checks if the value wrapped inside the future object. If it is <code>nil</code> it’ll throws the given error, if the value is present the promise chain will continue.</p><h3 id="update">Update</h3><p>Update is pretty straightforward, it’s somewhat the combination of the read & create methods.</p><pre><code class="language-swift">struct TodoController {
+</code></pre><p>You can get named parameters by key, I already mentioned this in my <a href="https://theswiftdev.com/beginners-guide-to-server-side-swift-using-vapor-4/" target="_blank">beginner’s guide article</a>. The new thing here is that you can <code>throw Abort(error)</code> anytime you want to break something. Same thing happens in the <code>unwrap</code> method, that just checks if the value wrapped inside the future object. If it is <code>nil</code> it’ll throws the given error, if the value is present the promise chain will continue.</p><h3 id="update">Update</h3><p>Update is pretty straightforward, it’s somewhat the combination of the read & create methods.</p><pre><code class="language-swift">struct TodoController {
 
     /*
         curl -i -X POST "http://127.0.0.1:8080/todos/&lt;id&gt;" \
@@ -378,7 +379,7 @@ struct TodoController {
         .init(id: self.id!.uuidString, title: self.title)
     }
 }
-</code></pre><blockquote class="note"><p>NOTE: If the input is the same as the output, you just need one (<code>Context</code>?) struct instead of two.</p></blockquote><p>This is what’s left off the controller (not much, haha):</p><pre><code class="language-swift">struct TodoController: ApiController {
+</code></pre><blockquote class="note"><p>If the input is the same as the output, you just need one (<code>Context</code>?) struct instead of two.</p></blockquote><p>This is what’s left off the controller (not much, haha):</p><pre><code class="language-swift">struct TodoController: ApiController {
     typealias Model = Todo
 }
 </code></pre><p>The router object also shortened a bit:</p><pre><code class="language-swift">func routes(_ app: Application) throws {
@@ -396,7 +397,7 @@ struct TodoController {
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -420,33 +421,11 @@ struct TodoController {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2020/07/15">2020/07/15</time>
-                                 &middot; <span class="reading-time">5 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/10-short-advices-that-will-make-you-a-better-vapor-developer-right-away/" target="">10 short advices that will make you a better Vapor developer right away</a></h2>
-                            <hr>
-                            <p>As a beginner server side Swift developer you&#39;ll face many obstackles. I&#39;ll show you how to avoid the most common ones.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
-        <a href="https://theswiftdev.com/tags/vapor/"><small>Vapor</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2019/10/08">2019/10/08</time>
+                                <time datetime="2019-10-08T14:20:00.000Z">10/8/19 2:20 PM</time>
                                  &middot; <span class="reading-time">4 min read</span>
                             </div>
                             
@@ -464,17 +443,17 @@ struct TodoController {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2020/12/18">2020/12/18</time>
-                                 &middot; <span class="reading-time">5 min read</span>
+                                <time datetime="2019-08-26T14:20:00.000Z">8/26/19 2:20 PM</time>
+                                 &middot; <span class="reading-time">4 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/ajax-calls-using-vapor-4/" target="">AJAX calls using Vapor 4</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/whats-new-in-vapor-4/" target="">What&#39;s new in Vapor 4?</a></h2>
                             <hr>
-                            <p>Learn how to implement Asynchronous JavaScript and XML (AJAX) calls using Leaf templates and Vapor 4 as a server.</p>
+                            <p>Vapor is the most popular server side Swift web application framework. This time we&#39;ll cover what&#39;s new in Vapor 4.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
@@ -486,17 +465,39 @@ struct TodoController {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2020/04/07">2020/04/07</time>
-                                 &middot; <span class="reading-time">16 min read</span>
+                                <time datetime="2020-07-15T14:20:00.000Z">7/15/20 2:20 PM</time>
+                                 &middot; <span class="reading-time">5 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/all-about-authentication-in-vapor-4/" target="">All about authentication in Vapor 4</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/10-short-advices-that-will-make-you-a-better-vapor-developer-right-away/" target="">10 short advices that will make you a better Vapor developer right away</a></h2>
                             <hr>
-                            <p>Learn how to implement a user login mechanism with various auth methods using sessions, JWTs, written in Swift only.</p>
+                            <p>As a beginner server side Swift developer you&#39;ll face many obstackles. I&#39;ll show you how to avoid the most common ones.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
+        <a href="https://theswiftdev.com/tags/vapor/"><small>Vapor</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2020-04-01T14:20:00.000Z">4/1/20 2:20 PM</time>
+                                 &middot; <span class="reading-time">10 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/a-generic-crud-solution-for-vapor-4/" target="">A generic CRUD solution for Vapor 4</a></h2>
+                            <hr>
+                            <p>Learn how to build a controller component that can serve models as JSON objects through a RESTful API written in Swift.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
@@ -525,34 +526,32 @@ struct TodoController {
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#crud-create-read-update-and-delete">CRUD ~ Create, Read, Update and Delete</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#http-basics-request---response">HTTP basics: Request -&gt; Response</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#contents-and-models-in-vapor">Contents and models in Vapor</a>
-                        <ul>
-                            <li><a href="#create">Create</a></li>
-                <li><a href="#read">Read</a></li>
-                <li><a href="#update">Update</a></li>
-                <li><a href="#delete">Delete</a></li>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-3">
+                        <a href="#create">Create</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#read">Read</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#update">Update</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#delete">Delete</a>
+                    </li>
+        <li class="level-2">
                         <a href="#a-protocol-oriented-generic-crud">A protocol oriented generic CRUD</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#conclusion">Conclusion</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -607,7 +606,7 @@ struct TodoController {
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

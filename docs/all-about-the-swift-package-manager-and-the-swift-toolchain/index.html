@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2019/01/14">2019/01/14</time>
+                <div class="meta">            
+                    <time datetime="2019-01-14T15:20:00.000Z">1/14/19 3:20 PM</time>
                      &middot; <span class="reading-time">6 min read</span>
                     
                 </div>
@@ -108,7 +109,7 @@
                 <p>Learn everything about the SPM architecture. I&#39;ll also teach you how to integrate your binary executable into the Swift toolchain.</p>
                 <section>
                 
-                <p>If you don’t know too much about the Swift Package Manager, but you are looking for the basics please read my <a href="https://theswiftdev.com/2017/11/09/swift-package-manager-tutorial/">tutorial about SPM</a> that explains pretty much everything. The aim of this article is to go deep into the SPM architecture, also before you start reading this I’d recommend to also read my <a href="https://theswiftdev.com/2018/01/25/deep-dive-into-swift-frameworks/">article about frameworks and tools</a>. 📖</p><p>Ready? Go! I mean Swift! 😂</p><h2 id="swift-package-manager">Swift Package Manager</h2><p>Have you ever wondered about <a href="http://bhargavg.com/swift/2016/06/11/how-swiftpm-parses-manifest-file.html" target="_blank">how does SPM parse it’s manifest</a> file in order to <a href="http://log.zyxar.com/blog/2012/03/10/install-name-on-os-x/" target="_blank">install</a> your packages? Well, the Package.swift manifest is a strange beast. Let me show you an quick example of a regular package description file:</p><pre><code class="language-swift">// swift-tools-version:4.2
+                <p>If you don’t know too much about the Swift Package Manager, but you are looking for the basics please read my <a href="https://theswiftdev.com/2017/11/09/swift-package-manager-tutorial/" target="_blank">tutorial about SPM</a> that explains pretty much everything. The aim of this article is to go deep into the SPM architecture, also before you start reading this I’d recommend to also read my <a href="https://theswiftdev.com/2018/01/25/deep-dive-into-swift-frameworks/" target="_blank">article about frameworks and tools</a>. 📖</p><p>Ready? Go! I mean Swift! 😂</p><h2 id="swift-package-manager">Swift Package Manager</h2><p>Have you ever wondered about <a href="http://bhargavg.com/swift/2016/06/11/how-swiftpm-parses-manifest-file.html" target="_blank">how does SPM parse it’s manifest</a> file in order to <a href="http://log.zyxar.com/blog/2012/03/10/install-name-on-os-x/" target="_blank">install</a> your packages? Well, the Package.swift manifest is a strange beast. Let me show you an quick example of a regular package description file:</p><pre><code class="language-swift">// swift-tools-version:4.2
 import PackageDescription
 
 let package = Package(
@@ -143,7 +144,7 @@ let package = Package(
             dependencies: []),
     ]
 )
-</code></pre><p>The important files are going to be located inside the <code>.build/debug</code> folder. The <code>.swiftmodule</code> is basically the public header file, this contains all the available API for your library. The <code>.swiftdoc</code> file contains the documentation for the compiled <a href="https://railsware.com/blog/2014/06/26/creation-of-pure-swift-module/" target="_blank">module</a>, and depending on the type you’ll also get a <code>.dylib</code> or a <code>.a</code> file. Guess which one is which.</p><p>So I could load the <code>.dylib</code> file by using <code>dlopen</code> & dlsym (some <a href="https://theswiftdev.com/2018/03/29/everything-about-public-and-private-swift-attributes/">@_cdecl</a> magic involved to get constant names instead of the “fuzzy” ones), but I was constantly receiving the same <a href="https://bugs.swift.org/browse/SR-6091" target="_blank">warning</a> over and over again. The dynamic loading worked well, but I wanted to get rid of the warning, so I tried to remove the embedded the lib dependency from my executable target. (Hint: not really possible… afaik. anyone? 🙄)</p><p>I was messing around with <a href="https://wincent.com/wiki/%40executable_path%2C_%40load_path_and_%40rpath" target="_blank">rpaths</a> & the <code>install_name_tool</code> for like hours, but even after I succesfully removed my library from the executable, “libSwift*things” were still embedded into it. So that’s the sad state of an unstable ABI, I thought… anyway at least I’ve learned something very important during the way here:</p><h2 id="importing-swift-code-into-swift">Importing Swift code into Swift!</h2><p>Yes, you heard that. It’s possible to import compiled Swift libraries into Swift, but not a lot of people heard about this (I assume). It’s not a popular topic amongs iOS / UIKit developers, but SPM does this all the time behind the scenes. 😅</p><p>How the heck can we import the pre-built libraries? Well, it’s pretty simple.</p><pre><code class="language-sh">// using swiftc with compiler flags
+</code></pre><p>The important files are going to be located inside the <code>.build/debug</code> folder. The <code>.swiftmodule</code> is basically the public header file, this contains all the available API for your library. The <code>.swiftdoc</code> file contains the documentation for the compiled <a href="https://railsware.com/blog/2014/06/26/creation-of-pure-swift-module/" target="_blank">module</a>, and depending on the type you’ll also get a <code>.dylib</code> or a <code>.a</code> file. Guess which one is which.</p><p>So I could load the <code>.dylib</code> file by using <code>dlopen</code> & dlsym (some <a href="https://theswiftdev.com/2018/03/29/everything-about-public-and-private-swift-attributes/" target="_blank">@_cdecl</a> magic involved to get constant names instead of the “fuzzy” ones), but I was constantly receiving the same <a href="https://bugs.swift.org/browse/SR-6091" target="_blank">warning</a> over and over again. The dynamic loading worked well, but I wanted to get rid of the warning, so I tried to remove the embedded the lib dependency from my executable target. (Hint: not really possible… afaik. anyone? 🙄)</p><p>I was messing around with <a href="https://wincent.com/wiki/%40executable_path%2C_%40load_path_and_%40rpath" target="_blank">rpaths</a> & the <code>install_name_tool</code> for like hours, but even after I succesfully removed my library from the executable, “libSwift*things” were still embedded into it. So that’s the sad state of an unstable ABI, I thought… anyway at least I’ve learned something very important during the way here:</p><h2 id="importing-swift-code-into-swift">Importing Swift code into Swift!</h2><p>Yes, you heard that. It’s possible to import compiled Swift libraries into Swift, but not a lot of people heard about this (I assume). It’s not a popular topic amongs iOS / UIKit developers, but SPM does this all the time behind the scenes. 😅</p><p>How the heck can we import the pre-built libraries? Well, it’s pretty simple.</p><pre><code class="language-sh">// using swiftc with compiler flags
 
 swiftc dynamic_main.swift -I ./.build/debug -lmyDynamicLib -L ./.build/debug
 swiftc static_main.swift -I ./.build/debug -lmyStaticLib -L ./.build/debug
@@ -152,7 +153,7 @@ swiftc static_main.swift -I ./.build/debug -lmyStaticLib -L ./.build/debug
 
 swift build -Xswiftc -I -Xswiftc ./.build/debug -Xswiftc -L -Xswiftc ./.build/debug -Xswiftc -lmyStaticLib
 swift build -Xswiftc -I -Xswiftc ./.build/debug -Xswiftc -L -Xswiftc ./.build/debug -Xswiftc -lmyDynamicLib
-</code></pre><p>You just have to append a few compiler flags. The <code>-I</code> stands for the import search path, <code>-L</code> is the library search path, <code>-l</code> links the given library. Check <code>swiftc -h</code> for more details and flags you won’t regret it! Voilá now you can distribute closed source Swift packages. At least it was good to know how SPM does the “trick”. 🤓</p><blockquote class="warning"><p>WARN: Please note that until Swift 5 & ABI stability arrives you can use the precompiled libraries with the same Swift version only! So if you compile a lib with Swift 4.2, your executable also needs to be compiled with 4.2., but this will change pretty soon. 👏</p></blockquote><p>The Swift Package Manager method</p><p>After 2 days of research & learning I really wanted to solve this, so I’ve started to check the source code of SPM. The first thing I’ve tried was adding the <code>--verbose</code> flag after the <code>swift build</code> command. Here is the important thing:</p><pre><code class="language-sh">/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc \
+</code></pre><p>You just have to append a few compiler flags. The <code>-I</code> stands for the import search path, <code>-L</code> is the library search path, <code>-l</code> links the given library. Check <code>swiftc -h</code> for more details and flags you won’t regret it! Voilá now you can distribute closed source Swift packages. At least it was good to know how SPM does the “trick”. 🤓</p><blockquote class="warning"><p>Please note that until Swift 5 & ABI stability arrives you can use the precompiled libraries with the same Swift version only! So if you compile a lib with Swift 4.2, your executable also needs to be compiled with 4.2., but this will change pretty soon. 👏</p></blockquote><p>The Swift Package Manager method</p><p>After 2 days of research & learning I really wanted to solve this, so I’ve started to check the source code of SPM. The first thing I’ve tried was adding the <code>--verbose</code> flag after the <code>swift build</code> command. Here is the important thing:</p><pre><code class="language-sh">/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc \
 --driver-mode=swift \
 -L /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/pm/4_2 \
 -lPackageDescription \
@@ -167,7 +168,7 @@ swift build -Xswiftc -I -Xswiftc ./.build/debug -Xswiftc -L -Xswiftc ./.build/de
 error: unable to invoke subcommand:
 /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-lol
 (No such file or directory)
-</code></pre><p>Got ya! The <a href="https://blog.krzyzanowskim.com/2018/10/11/dealing-with-a-swift-toolchain/" target="_blank">toolchain</a> is the key to everything:</p><ol><li>Apple is compiling the PackageDescription library from the Swift Package Manager and puts the <code>.swiftmodule</code>, <code>.swiftdoc</code>, <code>.dylib</code> files into the proper places under Xcode’s default toolchain library path.</li><li>The swift build, run, test subcommands are just another Swift binary executables placed inside the toolchain’s binary path. (Named like: swift-package, swift-build, swift-run, swift-test)</li><li>The swift command tries to invoke the proper subcommand if there is any and it’s a valid (Swift) binary. (Tried with a shell script, it failed miserably…)</li><li>SPM uses the PackageDescription library from the toolchain in order to compile & turn the manifest file into JSON output.</li><li>The rest is history. 🤐</li></ol><blockquote class="note"><p>NOTE: Swift can resolve subcommands from anywhere “inside” the <code>PATH</code> variable. You just have to prefix your <a href="https://github.com/mxcl/swift-sh" target="_blank">Swift script</a> with <code>swift-</code> and you’re good to go.</p></blockquote><h2 id="swiftci---a-task-runner-for-swift">SwiftCI - a task runner for Swift</h2><p>I had this idea that it’d be nice to have a <a href="https://gruntjs.com/" target="_blank">grunt</a> / <a href="https://gulpjs.com/" target="_blank">gulp</a> like task runner also a continuous integration service on a long term by using this technique I explained above. So I’ve made a similar extension wired into the heart of the Swift toolchain: <a href="https://github.com/BinaryBirds/CI" target="_blank">SwiftCI</a>. ❤️</p><p>You can grab the proof-of-concept implementation of SwiftCI from <a href="https://github.com/BinaryBirds/CI" target="_blank">GitHub</a>. After <a href="https://www.mikeash.com/pyblog/friday-qa-2009-11-06-linking-and-install-names.html" target="_blank">installing</a> it you can create your own <code>CI.swift</code> files and run your workflows.</p><pre><code class="language-swift">import CI
+</code></pre><p>Got ya! The <a href="https://blog.krzyzanowskim.com/2018/10/11/dealing-with-a-swift-toolchain/" target="_blank">toolchain</a> is the key to everything:</p><ol><li>Apple is compiling the PackageDescription library from the Swift Package Manager and puts the <code>.swiftmodule</code>, <code>.swiftdoc</code>, <code>.dylib</code> files into the proper places under Xcode’s default toolchain library path.</li><li>The swift build, run, test subcommands are just another Swift binary executables placed inside the toolchain’s binary path. (Named like: swift-package, swift-build, swift-run, swift-test)</li><li>The swift command tries to invoke the proper subcommand if there is any and it’s a valid (Swift) binary. (Tried with a shell script, it failed miserably…)</li><li>SPM uses the PackageDescription library from the toolchain in order to compile & turn the manifest file into JSON output.</li><li>The rest is history. 🤐</li></ol><blockquote class="note"><p>Swift can resolve subcommands from anywhere “inside” the <code>PATH</code> variable. You just have to prefix your <a href="https://github.com/mxcl/swift-sh" target="_blank">Swift script</a> with <code>swift-</code> and you’re good to go.</p></blockquote><h2 id="swiftci---a-task-runner-for-swift">SwiftCI - a task runner for Swift</h2><p>I had this idea that it’d be nice to have a <a href="https://gruntjs.com/" target="_blank">grunt</a> / <a href="https://gulpjs.com/" target="_blank">gulp</a> like task runner also a continuous integration service on a long term by using this technique I explained above. So I’ve made a similar extension wired into the heart of the Swift toolchain: <a href="https://github.com/BinaryBirds/CI" target="_blank">SwiftCI</a>. ❤️</p><p>You can grab the proof-of-concept implementation of SwiftCI from <a href="https://github.com/BinaryBirds/CI" target="_blank">GitHub</a>. After <a href="https://www.mikeash.com/pyblog/friday-qa-2009-11-06-linking-and-install-names.html" target="_blank">installing</a> it you can create your own <code>CI.swift</code> files and run your workflows.</p><pre><code class="language-swift">import CI
 
 let buildWorkflow = Workflow(
     name: "default",
@@ -211,7 +212,7 @@ let project = Project(name: "Example",
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -226,6 +227,29 @@ let project = Project(name: "Example",
                 </footer>
                             
                 <section class="group">
+                    <h4>Related posts</h4>                
+                    <div class="grid grid-221">
+                        <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2019-01-14T15:20:00.000Z">1/14/19 3:20 PM</time>
+                                 &middot; <span class="reading-time">6 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/all-about-the-swift-package-manager-and-the-swift-toolchain/" target="">All about the Swift Package Manager and the Swift toolchain</a></h2>
+                            <hr>
+                            <p>Learn everything about the SPM architecture. I&#39;ll also teach you how to integrate your binary executable into the Swift toolchain.</p>
+                        
+                            <div class="tag-list">
+                            </div>
+                        </div>
+                    </div>
                 </section>
     
             </article>
@@ -247,30 +271,20 @@ let project = Project(name: "Example",
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#swift-package-manager">Swift Package Manager</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#dynamic-library-loading-approach">Dynamic library loading approach</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#importing-swift-code-into-swift">Importing Swift code into Swift!</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#swift-toolchain">Swift toolchain</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#swiftci---a-task-runner-for-swift">SwiftCI - a task runner for Swift</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -325,7 +339,7 @@ let project = Project(name: "Example",
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

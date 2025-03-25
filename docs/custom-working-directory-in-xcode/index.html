@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2021/01/07">2021/01/07</time>
+                <div class="meta">            
+                    <time datetime="2021-01-07T15:20:00.000Z">1/7/21 3:20 PM</time>
                      &middot; <span class="reading-time">2 min read</span>
                     
                 </div>
@@ -108,7 +109,7 @@
                 <p>Learn how to set a custom working directory in Xcode to solve one of the most common beginner issue when using Vapor.</p>
                 <section>
                 
-                <h2 id="what-is-a-custom-working-directory">What is a custom working directory?</h2><p>When you try to build and run your Vapor application using Xcode you might face the issue that there are some missing files, resources or Leaf templates. Don’t worry this is a very common rookie mistake, but what causes this problem exactly? 🤔</p><p>Vapor is using a place called working directory to set the current environment, locate common resources and publicly available files. This working directory usually contains a Resources folder where you can put your Leaf templates and a Public folder which is used by the <a href="https://docs.vapor.codes/4.0/middleware/#file-middleware" target="_blank">FileMiddleware</a>. The server is also trying to search for possible <a href="https://docs.vapor.codes/4.0/environment/" target="_blank">dotenv</a> files to configure environmental variables.</p><p>If you run your backend application without explicitly setting a custom working directory, you should see a warning message in Xcode’s console. If you are using <a href="https://github.com/feathercms/feather/" target="_blank">Feather CMS</a>, the app will crash without a custom working directory set, because it is required to provide a working environment. 🙃</p><p>    <img src="/assets/custom-working-directory-in-xcode/warning-no-custom-working-directory-set.png" alt="No custom working directory"></p><p>If you don’t specify this custom work dir, Xcode will try to look for the resources under a random, but uniquely created place somewhere under the <code>DerivedData</code> directory.</p><p>This is the internal build folder for the IDE, it usually creates lots of other “garbage” files into the <code>~/Library/Developer/Xcode/DerivedData</code> directory. In 99% of the cases you can safely delete its contents if you want to perform a 100% clean build. 👍</p><h2 id="how-to-set-a-custom-working-directory">How to set a custom working directory?</h2><p>First of all, open your project in Xcode by double clicking the Package.swift manifest file.</p><blockquote class="warning"><p>WARN: Do NOT use the <code>swift package generate-xcodeproj</code> command to generate a project file!!! This is a deprecated Swift Package Manager command, and it’s going to be removed soon.</p></blockquote><p>✅ I repeat: always open SPM projects through the <code>Package.swift</code> file.</p><p>    <img src="/assets/custom-working-directory-in-xcode/target.png" alt="Target"></p><p>Wait until the IDE loads the required Swift packages. After the dependencies are loaded, click on the target next to the stop button. The executable target is marked with a little terminal-like icon. 💡</p><p>    <img src="/assets/custom-working-directory-in-xcode/edit-scheme.png" alt="Edit scheme"></p><p>Select the “Edit Scheme…” option from the available menu items, this should open a new modal window on top of Xcode.</p><p>    <img src="/assets/custom-working-directory-in-xcode/custom-working-directory.png" alt="Custom working directory"></p><p>Make sure that the Run configuration is selected on the left side of the pane. Click on the “Options” tab, and then look for the “Working directory” settings. Check the “Use custom working directory:” toggle, this will enable the input field underneath, then finally click on the little folder icon on the top right side (of the input field) and look for your desired directory using the interface. 🔍</p><p>Press the “Choose” button when you are ready. You should see the path of your choice written inside the text field. Make sure that you’ve selected the right location. Now you can click the “Close” button on the bottom right corner, then you can try to start your server by clicking the run button (play icon or you can press the CMD+R shortcut to run the app). ▶️</p><p>If you did everything right, your Vapor server application should use the custom working directory, you can confirm this by checking the logs in Xcode. The previously mentioned warning should disappear and your backend should be able to load all the necessary resources without further issues. I hope this little guide will help you to avoid this common mistake when using Vapor. 🙏</p>
+                <h2 id="what-is-a-custom-working-directory">What is a custom working directory?</h2><p>When you try to build and run your Vapor application using Xcode you might face the issue that there are some missing files, resources or Leaf templates. Don’t worry this is a very common rookie mistake, but what causes this problem exactly? 🤔</p><p>Vapor is using a place called working directory to set the current environment, locate common resources and publicly available files. This working directory usually contains a Resources folder where you can put your Leaf templates and a Public folder which is used by the <a href="https://docs.vapor.codes/4.0/middleware/#file-middleware" target="_blank">FileMiddleware</a>. The server is also trying to search for possible <a href="https://docs.vapor.codes/4.0/environment/" target="_blank">dotenv</a> files to configure environmental variables.</p><p>If you run your backend application without explicitly setting a custom working directory, you should see a warning message in Xcode’s console. If you are using <a href="https://github.com/feathercms/feather/" target="_blank">Feather CMS</a>, the app will crash without a custom working directory set, because it is required to provide a working environment. 🙃</p><p><img src="https://theswiftdev.com/assets/custom-working-directory-in-xcode/warning-no-custom-working-directory-set.png" alt="No custom working directory"></p><p>If you don’t specify this custom work dir, Xcode will try to look for the resources under a random, but uniquely created place somewhere under the <code>DerivedData</code> directory.</p><p>This is the internal build folder for the IDE, it usually creates lots of other “garbage” files into the <code>~/Library/Developer/Xcode/DerivedData</code> directory. In 99% of the cases you can safely delete its contents if you want to perform a 100% clean build. 👍</p><h2 id="how-to-set-a-custom-working-directory">How to set a custom working directory?</h2><p>First of all, open your project in Xcode by double clicking the Package.swift manifest file.</p><blockquote class="warning"><p>Do NOT use the <code>swift package generate-xcodeproj</code> command to generate a project file!!! This is a deprecated Swift Package Manager command, and it’s going to be removed soon.</p></blockquote><p>✅ I repeat: always open SPM projects through the <code>Package.swift</code> file.</p><p><img src="https://theswiftdev.com/assets/custom-working-directory-in-xcode/target.png" alt="Target"></p><p>Wait until the IDE loads the required Swift packages. After the dependencies are loaded, click on the target next to the stop button. The executable target is marked with a little terminal-like icon. 💡</p><p><img src="https://theswiftdev.com/assets/custom-working-directory-in-xcode/edit-scheme.png" alt="Edit scheme"></p><p>Select the “Edit Scheme…” option from the available menu items, this should open a new modal window on top of Xcode.</p><p><img src="https://theswiftdev.com/assets/custom-working-directory-in-xcode/custom-working-directory.png" alt="Custom working directory"></p><p>Make sure that the Run configuration is selected on the left side of the pane. Click on the “Options” tab, and then look for the “Working directory” settings. Check the “Use custom working directory:” toggle, this will enable the input field underneath, then finally click on the little folder icon on the top right side (of the input field) and look for your desired directory using the interface. 🔍</p><p>Press the “Choose” button when you are ready. You should see the path of your choice written inside the text field. Make sure that you’ve selected the right location. Now you can click the “Close” button on the bottom right corner, then you can try to start your server by clicking the run button (play icon or you can press the CMD+R shortcut to run the app). ▶️</p><p>If you did everything right, your Vapor server application should use the custom working directory, you can confirm this by checking the logs in Xcode. The previously mentioned warning should disappear and your backend should be able to load all the necessary resources without further issues. I hope this little guide will help you to avoid this common mistake when using Vapor. 🙏</p>
                     
                 </section>
     
@@ -119,7 +120,7 @@
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -143,32 +144,11 @@
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2017/10/04">2017/10/04</time>
-                                 &middot; <span class="reading-time">1 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/awesome-native-xcode-extensions/" target="">Awesome native Xcode extensions</a></h2>
-                            <hr>
-                            <p>This is the biggest and the best collection of the currently available natively created source editor extensions for Xcode.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/xcode/"><small>Xcode</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2016/07/06">2016/07/06</time>
+                                <time datetime="2016-07-06T14:20:00.000Z">7/6/16 2:20 PM</time>
                                  &middot; <span class="reading-time">4 min read</span>
                             </div>
                             
@@ -186,11 +166,32 @@
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2017/10/27">2017/10/27</time>
+                                <time datetime="2017-10-04T14:20:00.000Z">10/4/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">1 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/awesome-native-xcode-extensions/" target="">Awesome native Xcode extensions</a></h2>
+                            <hr>
+                            <p>This is the biggest and the best collection of the currently available natively created source editor extensions for Xcode.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/xcode/"><small>Xcode</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2017-10-27T14:20:00.000Z">10/27/17 2:20 PM</time>
                                  &middot; <span class="reading-time">2 min read</span>
                             </div>
                             
@@ -199,8 +200,8 @@
                             <p>In this tutorial I&#39;ll show you how to launch a completely sandboxed macOS application on system startup written in Swift.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/macos/"><small>macOS</small></a>
-        <a href="https://theswiftdev.com/tags/tooling/"><small>Tooling</small></a>
+                                <a href="https://theswiftdev.com/tags/tooling/"><small>Tooling</small></a>
+        <a href="https://theswiftdev.com/tags/macos/"><small>macOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -208,22 +209,21 @@
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2020/06/30">2020/06/30</time>
-                                 &middot; <span class="reading-time">2 min read</span>
+                                <time datetime="2018-11-16T15:20:00.000Z">11/16/18 3:20 PM</time>
+                                 &middot; <span class="reading-time">3 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/how-to-store-keys-in-env-files/" target="">How to store keys in env files?</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/swift-5-and-abi-stability/" target="">Swift 5 and ABI stability</a></h2>
                             <hr>
-                            <p>In this tutorial I&#39;ll show you how to save and load secret keys as base64 encoded strings using dotenv files in Vapor 4.</p>
+                            <p>Apple&#39;s Swift 5 language version will be a huge milestone for the developer community, let&#39;s see what are the possible benefits of it.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/server/"><small>Server</small></a>
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
         <a href="https://theswiftdev.com/tags/tooling/"><small>Tooling</small></a>
-        <a href="https://theswiftdev.com/tags/vapor/"><small>Vapor</small></a>
                             </div>
                         </div>
                     </div>
@@ -248,15 +248,11 @@
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#what-is-a-custom-working-directory">What is a custom working directory?</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#how-to-set-a-custom-working-directory">How to set a custom working directory?</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -311,7 +307,7 @@
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

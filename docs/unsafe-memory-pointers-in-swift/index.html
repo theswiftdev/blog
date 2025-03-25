@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2021/03/18">2021/03/18</time>
+                <div class="meta">            
+                    <time datetime="2021-03-18T15:20:00.000Z">3/18/21 3:20 PM</time>
                      &middot; <span class="reading-time">8 min read</span>
                     
                 </div>
@@ -108,7 +109,7 @@
                 <p>Learn how to use raw pointer references, interact with unsafe pointers and manually manage memory addresses in Swift.</p>
                 <section>
                 
-                <h2 id="pointers-in-swift">Pointers in Swift</h2><p>What’s is a pointer? A pointer is a variable that stores the memory address of a referenced object. As I mentioned this in my previous article, <a href="https://theswiftdev.com/memory-layout-in-swift/">about the memory layout of various objects</a> in Swift, a memory address is just a hexadecimal representation of a data located somewhere in the memory. You use instances of various unsafe pointer types to access data of a specific type in memory.</p><p>Why do we want to use these kind of pointers at the first place? By default you don’t have to write unsafe Swift code, and in most of the cases you can live without unsafe memory pointers. These pointers come handy if you have to interoperate with other “unsafe” languages, such as C. There are other low level or legacy APIs that require the use of <a href="https://developer.apple.com/documentation/swift/swift_standard_library/manual_memory_management" target="_blank">manual memory management</a>, but you shouldn’t be afraid, once you get familiar with unsafe Swift pointer types you’ll know a lot more about how memory works and you’ll see how thin is the layer between C libraries and Swift. 😱</p><p>What kind of pointers are there? In order to understand pointer types better in Swift, let’s get back to C just for a second. Consider the following C code example:</p><pre><code class="language-c">#include &lt;stdio.h&gt;
+                <h2 id="pointers-in-swift">Pointers in Swift</h2><p>What’s is a pointer? A pointer is a variable that stores the memory address of a referenced object. As I mentioned this in my previous article, <a href="https://theswiftdev.com/memory-layout-in-swift/" target="_blank">about the memory layout of various objects</a> in Swift, a memory address is just a hexadecimal representation of a data located somewhere in the memory. You use instances of various unsafe pointer types to access data of a specific type in memory.</p><p>Why do we want to use these kind of pointers at the first place? By default you don’t have to write unsafe Swift code, and in most of the cases you can live without unsafe memory pointers. These pointers come handy if you have to interoperate with other “unsafe” languages, such as C. There are other low level or legacy APIs that require the use of <a href="https://developer.apple.com/documentation/swift/swift_standard_library/manual_memory_management" target="_blank">manual memory management</a>, but you shouldn’t be afraid, once you get familiar with unsafe Swift pointer types you’ll know a lot more about how memory works and you’ll see how thin is the layer between C libraries and Swift. 😱</p><p>What kind of pointers are there? In order to understand pointer types better in Swift, let’s get back to C just for a second. Consider the following C code example:</p><pre><code class="language-c">#include &lt;stdio.h&gt;
 
 int main () {
 
@@ -190,7 +191,7 @@ let bufferPointer = UnsafeMutableBufferPointer(start: pointer, count: numbers.co
 for (index, _) in bufferPointer.enumerated() {
     bufferPointer[index] = index + 1
 }
-</code></pre><p>After we have the allocated memory storage, we can set the appropriate <code>pointee</code> values, since we’ve allocated the pointer with a capacity of six integer values, we can store up to 6 numbers using this pointer. You can use the advanced(by:) method (pointer arithmetic <code>(pointer + 5).pointee = 42</code>) works as well) to move to the next address and set the <code>pointee</code> value of it.</p><p>The very last thing I’d like to let you know is that you can use a typed buffer pointer to iterate through these number references. You can think of buffer pointers as an array of pointer references. It is possible to enumerate through pointer values and indexes directly. You can update buffer pointer values by using the subscript syntax on a mutable buffer pointer. 💡</p><p>We already talked about the <code>UnsafePointer</code>, <code>UnsafeMutablePointer</code>, <code>UnsafeRawPointer</code>, <code>UnsafeBufferPointer</code> and <code>UnsafeMutableBufferPointer</code> type let’s dive in to raw pointers.</p><h2 id="memory-management-using-raw-pointers">Memory management using raw pointers</h2><p>Typed pointers provide some kind of safety if it comes to pointers, but how do we work with raw pointers? We’ve already seen how easy is to print out an address of a given value type using an <code>UnsafeRawPointer</code> reference, now it’s time to connect the dots and allocate some unsafe raw memory. If you need to know more about memory layout in Swift, please read my previous <a href="https://theswiftdev.com/memory-layout-in-swift/">article</a>.</p><p>First of all, we’ll need to know how much memory to allocate. We can use the MemoryLayout struct to get info about a value type. We can use the stride and the number of items to count how much byte is required to store our data type using a raw memory storage.</p><pre><code class="language-swift">let numbers = [4, 8, 15, 16, 23, 42]
+</code></pre><p>After we have the allocated memory storage, we can set the appropriate <code>pointee</code> values, since we’ve allocated the pointer with a capacity of six integer values, we can store up to 6 numbers using this pointer. You can use the advanced(by:) method (pointer arithmetic <code>(pointer + 5).pointee = 42</code>) works as well) to move to the next address and set the <code>pointee</code> value of it.</p><p>The very last thing I’d like to let you know is that you can use a typed buffer pointer to iterate through these number references. You can think of buffer pointers as an array of pointer references. It is possible to enumerate through pointer values and indexes directly. You can update buffer pointer values by using the subscript syntax on a mutable buffer pointer. 💡</p><p>We already talked about the <code>UnsafePointer</code>, <code>UnsafeMutablePointer</code>, <code>UnsafeRawPointer</code>, <code>UnsafeBufferPointer</code> and <code>UnsafeMutableBufferPointer</code> type let’s dive in to raw pointers.</p><h2 id="memory-management-using-raw-pointers">Memory management using raw pointers</h2><p>Typed pointers provide some kind of safety if it comes to pointers, but how do we work with raw pointers? We’ve already seen how easy is to print out an address of a given value type using an <code>UnsafeRawPointer</code> reference, now it’s time to connect the dots and allocate some unsafe raw memory. If you need to know more about memory layout in Swift, please read my previous <a href="https://theswiftdev.com/memory-layout-in-swift/" target="_blank">article</a>.</p><p>First of all, we’ll need to know how much memory to allocate. We can use the MemoryLayout struct to get info about a value type. We can use the stride and the number of items to count how much byte is required to store our data type using a raw memory storage.</p><pre><code class="language-swift">let numbers = [4, 8, 15, 16, 23, 42]
 
 let stride = MemoryLayout&lt;Int&gt;.stride
 let alignment = MemoryLayout&lt;Int&gt;.alignment
@@ -286,7 +287,7 @@ Unmanaged&lt;MyPoint&gt;.fromOpaque(opaque).release()
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -309,80 +310,80 @@ Unmanaged&lt;MyPoint&gt;.fromOpaque(opaque).release()
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2021/09/10">2021/09/10</time>
+                                <time datetime="2017-10-23T14:20:00.000Z">10/23/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/how-to-make-a-swift-framework/" target="">How to make a Swift framework?</a></h2>
+                            <hr>
+                            <p>Creating a Swift framework shouldn&#39;t be hard. This tutorial will help you making a universal framework for complex projects.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2017-10-11T14:20:00.000Z">10/11/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">1 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/swift-enum-all-values/" target="">Swift enum all values</a></h2>
+                            <hr>
+                            <p>In this quick tutorial I&#39;ll show you how to get all the possible values for a Swift enum type with a generic solution written in Swift.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018-01-25T15:20:00.000Z">1/25/18 3:20 PM</time>
+                                 &middot; <span class="reading-time">11 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/deep-dive-into-swift-frameworks/" target="">Deep dive into Swift frameworks</a></h2>
+                            <hr>
+                            <p>Learn everything about Swift modules, libraries, packages, closed source frameworks, command line tools and more.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
                                  &middot; <span class="reading-time">6 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/all-about-the-bool-type-in-swift/" target="">All about the Bool type in Swift</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/everything-about-public-and-private-swift-attributes/" target="">Everything about public and private Swift attributes</a></h2>
                             <hr>
-                            <p>Learn everything about logical types and the Boolean algebra using the Swift programming language and some basic math.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2022/03/18">2022/03/18</time>
-                                 &middot; <span class="reading-time">4 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/async-http-api-clients-in-swift/" target="">Async HTTP API clients in Swift</a></h2>
-                            <hr>
-                            <p>Learn how to communicate with API endpoints using the brand new SwiftHttp library, including async / await support.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2019/02/05">2019/02/05</time>
-                                 &middot; <span class="reading-time">9 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/beginners-guide-to-functional-swift/" target="">Beginners guide to functional Swift</a></h2>
-                            <hr>
-                            <p>The one and only tutorial that you&#39;ll ever need to learn higher order functions like: map, flatMap, compactMap, reduce, filter and more.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2022/06/28">2022/06/28</time>
-                                 &middot; <span class="reading-time">5 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/beginners-guide-to-modern-generic-programming-in-swift/" target="">Beginner&#39;s guide to modern generic programming in Swift</a></h2>
-                            <hr>
-                            <p>Learn the very basics about protocols, existentials, opaque types and how they are related to generic programming in Swift.</p>
+                            <p>Have you ever heard about Swift language attributes? In this article I&#39;m trying to gather all the @ annotations and their meanings.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
@@ -410,30 +411,20 @@ Unmanaged&lt;MyPoint&gt;.fromOpaque(opaque).release()
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#pointers-in-swift">Pointers in Swift</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#working-with-typed-pointers-in-swift">Working with typed pointers in Swift</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#memory-management-using-raw-pointers">Memory management using raw pointers</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#memory-binding-can-be-dangerous">Memory binding can be dangerous</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#opaque-and-managed-swift-pointers">Opaque and managed Swift pointers</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -488,7 +479,7 @@ Unmanaged&lt;MyPoint&gt;.fromOpaque(opaque).release()
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

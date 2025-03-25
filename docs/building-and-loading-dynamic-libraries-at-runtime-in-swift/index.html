@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2020/05/20">2020/05/20</time>
+                <div class="meta">            
+                    <time datetime="2020-05-20T14:20:00.000Z">5/20/20 2:20 PM</time>
                      &middot; <span class="reading-time">4 min read</span>
                     
                 </div>
@@ -108,7 +109,7 @@
                 <p>Learn how to create a plugin system using dynamic libraries and the power of Swift, aka. modular frameworks on the server-side.</p>
                 <section>
                 
-                <h2 id="why-should-we-make-a-plugin-system">Why should we make a plugin system?</h2><p>In the <a href="https://theswiftdev.com/modules-and-hooks-in-swift/">modules and hooks article</a> I was writing about how modules (plugins) can work together by using various invocation points and hooks. The only problem with that approach is that you can’t really turn on or off modules on-the-fly, since we usually build our apps in a static way.</p><p>A good plugin system should let us alter the behavior of our code at runtime. Wordpress plugins are extremely successful, because you can add extra functionality to the CMS without recompiling or altering the core. Outside the Apple ecosystem, there is a huge world that could take advantage of this concept. Yes, I am talking about Swift on the server and backend applications.</p><p>My idea here is to build an open-source modular CMS that can be fast, safe and extensible through plugins. Fortunately now we have this amazing type-safe programming language that we can use. Swift is fast and reliable, it is the perfect choice for building backend apps on the long term. ✅</p><p>In this article I would like to show you a how to build a dynamic plugin system. The whole concept is based on <a href="https://github.com/Lopdo" target="_blank">Lopdo</a>’s GitHub repositories, he did quite an amazing job implementing it. Thank you very much for showing me how to use <code>dlopen</code> and other similar functions. 🙏</p><h2 id="the-magic-of-dynamic-linking">The magic of dynamic linking</h2><p>Handmade <a href="https://theswiftdev.com/how-to-make-a-swift-framework/">iOS frameworks</a> are usually bundled with the application itself, you can learn pretty much <a href="https://theswiftdev.com/deep-dive-into-swift-frameworks/">everything about a framework</a> if you know some command line tools. This time we are only going to focus on static and dynamic linking. By default <a href="https://theswiftdev.com/the-swift-package-manifest-file/">Swift package dependencies</a> are linked statically into your application, but you can change this if you define a dynamic library product.</p><p>First we are going to create a shared plugin interface containing the plugin API as a protocol.</p><pre><code class="language-swift">// swift-tools-version:5.2
+                <h2 id="why-should-we-make-a-plugin-system">Why should we make a plugin system?</h2><p>In the <a href="https://theswiftdev.com/modules-and-hooks-in-swift/" target="_blank">modules and hooks article</a> I was writing about how modules (plugins) can work together by using various invocation points and hooks. The only problem with that approach is that you can’t really turn on or off modules on-the-fly, since we usually build our apps in a static way.</p><p>A good plugin system should let us alter the behavior of our code at runtime. Wordpress plugins are extremely successful, because you can add extra functionality to the CMS without recompiling or altering the core. Outside the Apple ecosystem, there is a huge world that could take advantage of this concept. Yes, I am talking about Swift on the server and backend applications.</p><p>My idea here is to build an open-source modular CMS that can be fast, safe and extensible through plugins. Fortunately now we have this amazing type-safe programming language that we can use. Swift is fast and reliable, it is the perfect choice for building backend apps on the long term. ✅</p><p>In this article I would like to show you a how to build a dynamic plugin system. The whole concept is based on <a href="https://github.com/Lopdo" target="_blank">Lopdo</a>’s GitHub repositories, he did quite an amazing job implementing it. Thank you very much for showing me how to use <code>dlopen</code> and other similar functions. 🙏</p><h2 id="the-magic-of-dynamic-linking">The magic of dynamic linking</h2><p>Handmade <a href="https://theswiftdev.com/how-to-make-a-swift-framework/" target="_blank">iOS frameworks</a> are usually bundled with the application itself, you can learn pretty much <a href="https://theswiftdev.com/deep-dive-into-swift-frameworks/" target="_blank">everything about a framework</a> if you know some command line tools. This time we are only going to focus on static and dynamic linking. By default <a href="https://theswiftdev.com/the-swift-package-manifest-file/" target="_blank">Swift package dependencies</a> are linked statically into your application, but you can change this if you define a dynamic library product.</p><p>First we are going to create a shared plugin interface containing the plugin API as a protocol.</p><pre><code class="language-swift">// swift-tools-version:5.2
 import PackageDescription
 
 let package = Package(
@@ -157,7 +158,7 @@ struct PluginA: PluginInterface {
         return "A"
     }
 }
-</code></pre><p>We have to subclass the <code>PluginBuilder</code> class and return our plugin implementation. We are going to use the <code>@_cdecl</code> attributed create function to access our plugin builder from the core app. This <a href="https://theswiftdev.com/everything-about-public-and-private-swift-attributes/">Swift attribute</a> tells the compiler to save our function under the “createPlugin” symbol name.</p><pre><code class="language-swift">import PluginInterface
+</code></pre><p>We have to subclass the <code>PluginBuilder</code> class and return our plugin implementation. We are going to use the <code>@_cdecl</code> attributed create function to access our plugin builder from the core app. This <a href="https://theswiftdev.com/everything-about-public-and-private-swift-attributes/" target="_blank">Swift attribute</a> tells the compiler to save our function under the “createPlugin” symbol name.</p><pre><code class="language-swift">import PluginInterface
 
 @_cdecl("createPlugin")
 public func createPlugin() -&gt; UnsafeMutableRawPointer {
@@ -222,7 +223,7 @@ func plugin(at path: String) -&gt; PluginInterface {
 let myPlugin = plugin(at: "path/to/my/plugin/libPluginA.dylib")
 let a = myPlugin.foo()
 print(a)
-</code></pre><p>We can use the <code>dlopen</code> function to open the dynamic library file, then we are trying to get the createPlugin symbol using the <code>dlsym</code> method. If we have a pointer we still need to cast that into a valid <code>PluginBuilder</code> object, then we can call the build method and return the plugin interface.</p><h2 id="running-the-app">Running the app</h2><p>Now if you try to run this application using Xcode you’ll get a warning like this:</p><blockquote class="warning"><p>WARN: Class _TtC15PluginInterface13PluginBuilder is implemented in both… One of the two will be used. Which one is undefined.</p></blockquote><p>This is related to an old bug, but fortunately that is already resolved. This time Xcode is the bad guy, since it is trying to link everything as a static dependency. Now if you build the application through the command line (swift build) and place the following files in the same folder:</p><ul><li>CoreApp</li><li>libPluginA.dylib</li><li>libPluginInterface.dylib</li></ul><p>You can run the application <code>./CoreApp</code> without further issues. The app will print out <code>A</code> without the warning message, since the Swift package manager is recognizing that you would like to link the libPluginInterface framework as a dynamic framework, so it won’t be embedded into the application binary. Of course you have to set up the right plugin path in the core application.</p>
+</code></pre><p>We can use the <code>dlopen</code> function to open the dynamic library file, then we are trying to get the createPlugin symbol using the <code>dlsym</code> method. If we have a pointer we still need to cast that into a valid <code>PluginBuilder</code> object, then we can call the build method and return the plugin interface.</p><h2 id="running-the-app">Running the app</h2><p>Now if you try to run this application using Xcode you’ll get a warning like this:</p><blockquote class="warning"><p>Class _TtC15PluginInterface13PluginBuilder is implemented in both… One of the two will be used. Which one is undefined.</p></blockquote><p>This is related to an old bug, but fortunately that is already resolved. This time Xcode is the bad guy, since it is trying to link everything as a static dependency. Now if you build the application through the command line (swift build) and place the following files in the same folder:</p><ul><li>CoreApp</li><li>libPluginA.dylib</li><li>libPluginInterface.dylib</li></ul><p>You can run the application <code>./CoreApp</code> without further issues. The app will print out <code>A</code> without the warning message, since the Swift package manager is recognizing that you would like to link the libPluginInterface framework as a dynamic framework, so it won’t be embedded into the application binary. Of course you have to set up the right plugin path in the core application.</p>
                     
                 </section>
     
@@ -233,7 +234,7 @@ print(a)
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -256,80 +257,80 @@ print(a)
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2021/09/10">2021/09/10</time>
+                                <time datetime="2017-10-23T14:20:00.000Z">10/23/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/how-to-make-a-swift-framework/" target="">How to make a Swift framework?</a></h2>
+                            <hr>
+                            <p>Creating a Swift framework shouldn&#39;t be hard. This tutorial will help you making a universal framework for complex projects.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2017-10-11T14:20:00.000Z">10/11/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">1 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/swift-enum-all-values/" target="">Swift enum all values</a></h2>
+                            <hr>
+                            <p>In this quick tutorial I&#39;ll show you how to get all the possible values for a Swift enum type with a generic solution written in Swift.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018-01-25T15:20:00.000Z">1/25/18 3:20 PM</time>
+                                 &middot; <span class="reading-time">11 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/deep-dive-into-swift-frameworks/" target="">Deep dive into Swift frameworks</a></h2>
+                            <hr>
+                            <p>Learn everything about Swift modules, libraries, packages, closed source frameworks, command line tools and more.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
                                  &middot; <span class="reading-time">6 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/all-about-the-bool-type-in-swift/" target="">All about the Bool type in Swift</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/everything-about-public-and-private-swift-attributes/" target="">Everything about public and private Swift attributes</a></h2>
                             <hr>
-                            <p>Learn everything about logical types and the Boolean algebra using the Swift programming language and some basic math.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2022/03/18">2022/03/18</time>
-                                 &middot; <span class="reading-time">4 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/async-http-api-clients-in-swift/" target="">Async HTTP API clients in Swift</a></h2>
-                            <hr>
-                            <p>Learn how to communicate with API endpoints using the brand new SwiftHttp library, including async / await support.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2019/02/05">2019/02/05</time>
-                                 &middot; <span class="reading-time">9 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/beginners-guide-to-functional-swift/" target="">Beginners guide to functional Swift</a></h2>
-                            <hr>
-                            <p>The one and only tutorial that you&#39;ll ever need to learn higher order functions like: map, flatMap, compactMap, reduce, filter and more.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2022/06/28">2022/06/28</time>
-                                 &middot; <span class="reading-time">5 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/beginners-guide-to-modern-generic-programming-in-swift/" target="">Beginner&#39;s guide to modern generic programming in Swift</a></h2>
-                            <hr>
-                            <p>Learn the very basics about protocols, existentials, opaque types and how they are related to generic programming in Swift.</p>
+                            <p>Have you ever heard about Swift language attributes? In this article I&#39;m trying to gather all the @ annotations and their meanings.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
@@ -357,30 +358,20 @@ print(a)
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#why-should-we-make-a-plugin-system">Why should we make a plugin system?</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#the-magic-of-dynamic-linking">The magic of dynamic linking</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#building-a-dynamic-plugin">Building a dynamic plugin</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#loading-the-plugin-at-runtime">Loading the plugin at runtime</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#running-the-app">Running the app</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -435,7 +426,7 @@ print(a)
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

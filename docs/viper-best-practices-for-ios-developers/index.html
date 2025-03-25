@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2019/03/11">2019/03/11</time>
+                <div class="meta">            
+                    <time datetime="2019-03-11T15:20:00.000Z">3/11/19 3:20 PM</time>
                      &middot; <span class="reading-time">8 min read</span>
                     
                 </div>
@@ -108,7 +109,7 @@
                 <p>In this tutorial I&#39;m going to show you a complete guide about how to build a VIPER based iOS application, written entirely in Swift.</p>
                 <section>
                 
-                <h2 id="getting-started-with-viper">Getting started with VIPER</h2><p>First of all, you should read my previous (more theoretical) article <a href="https://theswiftdev.com/2018/03/12/the-ultimate-viper-architecture-tutorial/">about the VIPER architecture</a> itself. It’s a pretty decent writing explaining all the VIPER components and memory management. I’ve also polished it a little bit, last week. ⭐️</p><p>The problem with that article however was that I haven’t show you the real deal, aka. the Swift code for implementing VIPER. Now after a full year of projects using this architecture I can finally share all my best practices with you.</p><p>So, let’s start by creating a brand new Xcode project, use the single view app template, name the project (VIPER best practices), use Swift and now you’re ready to take the next step of making an awesome “enterprise grade” iOS app.</p><h2 id="generating-viper-modules">Generating VIPER modules</h2><p>Lesson 1: never create a module by hand, always use a code generator, because it’s a repetative task, it’s fuckin’ boring plus you should focus on more important things than making boilerplate code. You can use my lightweight module generator called:</p><blockquote class="warning"><p>WARN: This section is outdated, you should use the swift template repository.</p></blockquote><p>Just download or clone the repository from <a href="https://github.com/binarybirds/swift-template" target="_blank">GitHub</a>. You can install the binary tool by running swift run install –with-templates. This will install the vipera app under /usr/local/bin/ and the basic templates under the ~/.vipera directory. You can use your own templates too, but for now I’ll work with the default one. 🔨</p><p>I usually start with a module called Main that’s the root view of the application. You can generate it by calling vipera Main in the project directory, so the generator can use the proper project name for the header comments inside the template files.</p><p>Clean up the project structure a little bit, by applying my <a href="https://theswiftdev.com/2016/07/06/conventions-for-xcode/">conventions for Xcode</a>, this means that resources goes to an Assets folder, and all the Swift files into the Sources directory. Nowadays I also change the AppDelegate.swift file, and I make a separate extension for the UIApplicationDelegate protocol.</p><p>Create a Modules group (with a physical folder too) under the Sources directory and move the newly generated Main module under that group. Now fix the project issues, by selecting the Info.plist file from the Assets folder for the current target. Also do remove the Main Interface, and after that you can safely delete the Main.storyboard and the ViewController.swift files, because we’re not going to need them at all.</p><p>Inside the AppDelegate.swift file, you have to set the Main module’s view controller as the root view controller, so it should look somewhat like this:</p><pre><code class="language-swift">import UIKit
+                <h2 id="getting-started-with-viper">Getting started with VIPER</h2><p>First of all, you should read my previous (more theoretical) article <a href="https://theswiftdev.com/2018/03/12/the-ultimate-viper-architecture-tutorial/" target="_blank">about the VIPER architecture</a> itself. It’s a pretty decent writing explaining all the VIPER components and memory management. I’ve also polished it a little bit, last week. ⭐️</p><p>The problem with that article however was that I haven’t show you the real deal, aka. the Swift code for implementing VIPER. Now after a full year of projects using this architecture I can finally share all my best practices with you.</p><p>So, let’s start by creating a brand new Xcode project, use the single view app template, name the project (VIPER best practices), use Swift and now you’re ready to take the next step of making an awesome “enterprise grade” iOS app.</p><h2 id="generating-viper-modules">Generating VIPER modules</h2><p>Lesson 1: never create a module by hand, always use a code generator, because it’s a repetative task, it’s fuckin’ boring plus you should focus on more important things than making boilerplate code. You can use my lightweight module generator called:</p><blockquote class="warning"><p>This section is outdated, you should use the swift template repository.</p></blockquote><p>Just download or clone the repository from <a href="https://github.com/binarybirds/swift-template" target="_blank">GitHub</a>. You can install the binary tool by running swift run install –with-templates. This will install the vipera app under /usr/local/bin/ and the basic templates under the ~/.vipera directory. You can use your own templates too, but for now I’ll work with the default one. 🔨</p><p>I usually start with a module called Main that’s the root view of the application. You can generate it by calling vipera Main in the project directory, so the generator can use the proper project name for the header comments inside the template files.</p><p>Clean up the project structure a little bit, by applying my <a href="https://theswiftdev.com/2016/07/06/conventions-for-xcode/" target="_blank">conventions for Xcode</a>, this means that resources goes to an Assets folder, and all the Swift files into the Sources directory. Nowadays I also change the AppDelegate.swift file, and I make a separate extension for the UIApplicationDelegate protocol.</p><p>Create a Modules group (with a physical folder too) under the Sources directory and move the newly generated Main module under that group. Now fix the project issues, by selecting the Info.plist file from the Assets folder for the current target. Also do remove the Main Interface, and after that you can safely delete the Main.storyboard and the ViewController.swift files, because we’re not going to need them at all.</p><p>Inside the AppDelegate.swift file, you have to set the Main module’s view controller as the root view controller, so it should look somewhat like this:</p><pre><code class="language-swift">import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder {
@@ -196,7 +197,7 @@ class HomeModule {
         return view
     }
 }
-</code></pre><p>There is one additional line inside the Home module builder function that triggers the presenter to setup proper view controllers. That’s just because the UITabBarController viewDidLoad method gets called before the init process finishes. This behaviour is quite undocumented but I assume it’s an UIKit hack in order to maintain the view references (or just a simple bug… is anyone from Apple here?). 😊</p><p>Anyway, now you have a proper tab bar inside the project integrated as a VIPER module. It’s time to get some data from the server and here comes another important lesson: not everything is a VIPER module.</p><p>Services and entities<br>As you might noticed there is no such thing as an Entity inside my modules. I usually wrap APIs, CoreData and many more data providers as a service. This way, all the related entities can be abstracted away, so the service can be easily replaced (with a mock for example) and all my interactors can use the service through the protocol definition without knowing the underlying implementation.</p><p>Another thing is that I always use <a href="https://github.com/corekit/promises" target="_blank">my promise library</a> if I have to deal with async code. The reason behind it is pretty simple: it’s way more elegant than using callbacks and optional <a href="https://theswiftdev.com/2019/01/28/how-to-use-the-result-type-to-handle-errors-in-swift/">result</a> elements. You should learn promises too. So here is some part of my service implementation around the JSONPlaceholder API:</p><pre><code class="language-swift">protocol Api {
+</code></pre><p>There is one additional line inside the Home module builder function that triggers the presenter to setup proper view controllers. That’s just because the UITabBarController viewDidLoad method gets called before the init process finishes. This behaviour is quite undocumented but I assume it’s an UIKit hack in order to maintain the view references (or just a simple bug… is anyone from Apple here?). 😊</p><p>Anyway, now you have a proper tab bar inside the project integrated as a VIPER module. It’s time to get some data from the server and here comes another important lesson: not everything is a VIPER module.</p><p>Services and entities<br>As you might noticed there is no such thing as an Entity inside my modules. I usually wrap APIs, CoreData and many more data providers as a service. This way, all the related entities can be abstracted away, so the service can be easily replaced (with a mock for example) and all my interactors can use the service through the protocol definition without knowing the underlying implementation.</p><p>Another thing is that I always use <a href="https://github.com/corekit/promises" target="_blank">my promise library</a> if I have to deal with async code. The reason behind it is pretty simple: it’s way more elegant than using callbacks and optional <a href="https://theswiftdev.com/2019/01/28/how-to-use-the-result-type-to-handle-errors-in-swift/" target="_blank">result</a> elements. You should learn promises too. So here is some part of my service implementation around the JSONPlaceholder API:</p><pre><code class="language-swift">protocol Api {
 
     func posts() -&gt; Promise&lt;[Post]&gt;
     func comments(for post: Post) -&gt; Promise&lt;[Comment]&gt;
@@ -262,7 +263,7 @@ extension JSONPlaceholderService: Api {
 
     /* ... */
 }
-</code></pre><p>Usually I have a mock service implementation next to this one, so I can easily test out everything I want. How do I switch between these services? Well, there is a shared (<a href="https://theswiftdev.com/2018/05/23/swift-singleton-design-pattern/">singleton</a> - don’t hate me it’s completely fine 🤪) App class that I use mostly for <a href="https://theswiftdev.com/2019/02/19/styling-by-subclassing/">styling purposes</a>, but I also put the dependency injection (<a href="https://theswiftdev.com/2018/07/17/swift-dependency-injection-design-pattern/">DI</a>) related code there too. This way I can pass around proper service objects for the VIPER modules.</p><pre><code class="language-swift">class App {
+</code></pre><p>Usually I have a mock service implementation next to this one, so I can easily test out everything I want. How do I switch between these services? Well, there is a shared (<a href="https://theswiftdev.com/2018/05/23/swift-singleton-design-pattern/" target="_blank">singleton</a> - don’t hate me it’s completely fine 🤪) App class that I use mostly for <a href="https://theswiftdev.com/2019/02/19/styling-by-subclassing/" target="_blank">styling purposes</a>, but I also put the dependency injection (<a href="https://theswiftdev.com/2018/07/17/swift-dependency-injection-design-pattern/" target="_blank">DI</a>) related code there too. This way I can pass around proper service objects for the VIPER modules.</p><pre><code class="language-swift">class App {
 
     static let shared = App()
 
@@ -381,7 +382,7 @@ class PostViewModel: CollectionViewViewModel&lt;PostCell, Post&gt; {
         return CGSize(width: width, height: 64)
     }
 }
-</code></pre><p>Nothing special, if you’d like to know more about this collection view architecture, you should read my other <a href="https://theswiftdev.com/2018/04/17/ultimate-uicollectionview-guide-with-ios-examples-written-in-swift/">tutorial about mastering collection views</a>.</p><h2 id="module-communication">Module communication</h2><p>Another important lesson is to learn how to communicate between two VIPER modules. Normally I go with simple variables - and delegates if I have to send back some sort of info to the original module - that I pass around inside the build methods. I’m going to show you a really simple example for this too.</p><pre><code class="language-swift">class PostsDefaultRouter {
+</code></pre><p>Nothing special, if you’d like to know more about this collection view architecture, you should read my other <a href="https://theswiftdev.com/2018/04/17/ultimate-uicollectionview-guide-with-ios-examples-written-in-swift/" target="_blank">tutorial about mastering collection views</a>.</p><h2 id="module-communication">Module communication</h2><p>Another important lesson is to learn how to communicate between two VIPER modules. Normally I go with simple variables - and delegates if I have to send back some sort of info to the original module - that I pass around inside the build methods. I’m going to show you a really simple example for this too.</p><pre><code class="language-swift">class PostsDefaultRouter {
 
     weak var presenter: PostsPresenter?
     weak var viewController: UIViewController?
@@ -482,7 +483,7 @@ extension PostDetailsDefaultPresenter: PostDetailsPresenter {
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -505,11 +506,32 @@ extension PostDetailsDefaultPresenter: PostDetailsPresenter {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2019/09/18">2019/09/18</time>
+                                <time datetime="2018-03-12T15:20:00.000Z">3/12/18 3:20 PM</time>
+                                 &middot; <span class="reading-time">9 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/the-ultimate-viper-architecture-tutorial/" target="">The ultimate VIPER architecture tutorial</a></h2>
+                            <hr>
+                            <p>Learn how to write scalable iOS code using the VIPER architecture with some MVVM and MVC tricks and coordinators in mind.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/viper/"><small>VIPER</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2019-09-18T14:20:00.000Z">9/18/19 2:20 PM</time>
                                  &middot; <span class="reading-time">10 min read</span>
                             </div>
                             
@@ -526,11 +548,11 @@ extension PostDetailsDefaultPresenter: PostDetailsPresenter {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2019/09/25">2019/09/25</time>
+                                <time datetime="2019-09-25T14:20:00.000Z">9/25/19 2:20 PM</time>
                                  &middot; <span class="reading-time">7 min read</span>
                             </div>
                             
@@ -547,38 +569,17 @@ extension PostDetailsDefaultPresenter: PostDetailsPresenter {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2019/03/19">2019/03/19</time>
+                                <time datetime="2019-03-19T15:20:00.000Z">3/19/19 3:20 PM</time>
                                  &middot; <span class="reading-time">4 min read</span>
                             </div>
                             
                             <h2 class="title"><a href="https://theswiftdev.com/mastering-the-viper-architecture/" target="">Mastering the VIPER architecture</a></h2>
                             <hr>
                             <p>Learn how to master the VIPER architectural design pattern, with some protocol oriented programming techniques using Swift.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/viper/"><small>VIPER</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2018/03/12">2018/03/12</time>
-                                 &middot; <span class="reading-time">9 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/the-ultimate-viper-architecture-tutorial/" target="">The ultimate VIPER architecture tutorial</a></h2>
-                            <hr>
-                            <p>Learn how to write scalable iOS code using the VIPER architecture with some MVVM and MVC tricks and coordinators in mind.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/viper/"><small>VIPER</small></a>
@@ -606,35 +607,23 @@ extension PostDetailsDefaultPresenter: PostDetailsPresenter {
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#getting-started-with-viper">Getting started with VIPER</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#generating-viper-modules">Generating VIPER modules</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#uitabbarcontroller-viper">UITabBarController &amp; VIPER</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#making-promises">Making promises</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#module-communication">Module communication</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#summary">Summary</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -689,7 +678,7 @@ extension PostDetailsDefaultPresenter: PostDetailsPresenter {
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

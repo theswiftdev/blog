@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2018/04/26">2018/04/26</time>
+                <div class="meta">            
+                    <time datetime="2018-04-26T14:20:00.000Z">4/26/18 2:20 PM</time>
                      &middot; <span class="reading-time">5 min read</span>
                     
                 </div>
@@ -108,7 +109,7 @@
                 <p>In this tutorial, you&#39;ll learn how to replace the push, pop and modal animations with custom transitions &amp; percent driven interactions.</p>
                 <section>
                 
-                <h2 id="uikit-custom-transition-api---a-theoretical-lesson">UIKit custom transition API - a theoretical lesson</h2><p>There are many classes and delegates involved during the process of making a <a href="https://developer.apple.com/videos/play/wwdc2013/218/" target="_blank">custom transition</a>, let’s walk through these items real quick, and do some coding afterwards.</p><h3 id="uiviewcontrollertransitioningdelegate">UIViewControllerTransitioningDelegate</h3><p>Every view controller can have a transition delegate, in that delegate implementation you can provide the custom animation and interaction controllers. Those objects will be responsible for the actual animation process, and this delegate is the place where you can “inject your code” to the UIKit framework. 💉</p><h3 id="uinavigationcontrollerdelegate">UINavigationControllerDelegate</h3><p>The navigation controller delegate also has two methods that are responsible for custom push and pop <a href="https://stackoverflow.com/questions/26569488/navigation-controller-custom-transition-animation" target="_blank">animations</a>. It’s almost the same as the transitioning delegate for the view controllers, but you’ll see this in action later on. 💥</p><h3 id="uinavigationcontroller.operation">UINavigationController.Operation</h3><p>The navigation controller operation is just an <code>enum</code> which contains the “direction” of the navigation animation. Usually push or pop.</p><blockquote class="note"><p>NOTE: Presenting and dismissing something modally is not exactly the same thing as pushing & popping view controllers inside a navigation stack. More on this later.</p></blockquote><h3 id="uiviewcontrolleranimatedtransitioning">UIViewControllerAnimatedTransitioning</h3><p>These objects are returned by the transition delegate, so basically this is the place where you implement the fancy custom view animations. 😉</p><h3 id="uiviewcontrollercontexttransitioning">UIViewControllerContextTransitioning</h3><p>This context encapsulates all the info about the transitioning, you can get the participating views, controllers and many more from this object. The transitioning context is available for you to use it during the animation.</p><h3 id="uipercentdriveninteractivetransition">UIPercentDrivenInteractiveTransition</h3><p>An object that drives an interactive animation between one view controller and another.</p><p>In a nutshell, this is the thing that gives you the magical ability to swipe a navigation controller interactively back (and forth if you changed your mind) with your fingers from the edge of the screen. 📱</p><h2 id="custom-transition-animations-programmatically">Custom transition animations programmatically</h2><p>Let’s do some real coding! I’ll show you how to make a basic fade <a href="https://www.raywenderlich.com/170144/custom-uiviewcontroller-transitions-getting-started" target="_blank">animation between view controllers</a> inside a navigation stack. First we’ll start with the push animation.</p><pre><code class="language-swift">open class FadePushAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+                <h2 id="uikit-custom-transition-api---a-theoretical-lesson">UIKit custom transition API - a theoretical lesson</h2><p>There are many classes and delegates involved during the process of making a <a href="https://developer.apple.com/videos/play/wwdc2013/218/" target="_blank">custom transition</a>, let’s walk through these items real quick, and do some coding afterwards.</p><h3 id="uiviewcontrollertransitioningdelegate">UIViewControllerTransitioningDelegate</h3><p>Every view controller can have a transition delegate, in that delegate implementation you can provide the custom animation and interaction controllers. Those objects will be responsible for the actual animation process, and this delegate is the place where you can “inject your code” to the UIKit framework. 💉</p><h3 id="uinavigationcontrollerdelegate">UINavigationControllerDelegate</h3><p>The navigation controller delegate also has two methods that are responsible for custom push and pop <a href="https://stackoverflow.com/questions/26569488/navigation-controller-custom-transition-animation" target="_blank">animations</a>. It’s almost the same as the transitioning delegate for the view controllers, but you’ll see this in action later on. 💥</p><h3 id="uinavigationcontroller.operation">UINavigationController.Operation</h3><p>The navigation controller operation is just an <code>enum</code> which contains the “direction” of the navigation animation. Usually push or pop.</p><blockquote class="note"><p>Presenting and dismissing something modally is not exactly the same thing as pushing & popping view controllers inside a navigation stack. More on this later.</p></blockquote><h3 id="uiviewcontrolleranimatedtransitioning">UIViewControllerAnimatedTransitioning</h3><p>These objects are returned by the transition delegate, so basically this is the place where you implement the fancy custom view animations. 😉</p><h3 id="uiviewcontrollercontexttransitioning">UIViewControllerContextTransitioning</h3><p>This context encapsulates all the info about the transitioning, you can get the participating views, controllers and many more from this object. The transitioning context is available for you to use it during the animation.</p><h3 id="uipercentdriveninteractivetransition">UIPercentDrivenInteractiveTransition</h3><p>An object that drives an interactive animation between one view controller and another.</p><p>In a nutshell, this is the thing that gives you the magical ability to swipe a navigation controller interactively back (and forth if you changed your mind) with your fingers from the edge of the screen. 📱</p><h2 id="custom-transition-animations-programmatically">Custom transition animations programmatically</h2><p>Let’s do some real coding! I’ll show you how to make a basic fade <a href="https://www.raywenderlich.com/170144/custom-uiviewcontroller-transitions-getting-started" target="_blank">animation between view controllers</a> inside a navigation stack. First we’ll start with the push animation.</p><pre><code class="language-swift">open class FadePushAnimator: NSObject, UIViewControllerAnimatedTransitioning {
 
     open func transitionDuration(
         using transitionContext: UIViewControllerContextTransitioning?
@@ -326,12 +327,12 @@ extension DetailViewController: UIViewControllerTransitioningDelegate {
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
-                        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
-                    <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                    <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                     </div>
                     
                     <p>
@@ -350,20 +351,21 @@ extension DetailViewController: UIViewControllerTransitioningDelegate {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2022/02/03">2022/02/03</time>
-                                 &middot; <span class="reading-time">8 min read</span>
+                                <time datetime="2017-10-31T15:20:00.000Z">10/31/17 3:20 PM</time>
+                                 &middot; <span class="reading-time">6 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/10-little-uikit-tips-you-should-know/" target="">10 little UIKit tips you should know</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/ios-auto-layout-tutorial-programmatically/" target="">iOS Auto Layout tutorial programmatically</a></h2>
                             <hr>
-                            <p>In this article I&#39;ve gathered my top 10 favorite modern UIKit tips that I&#39;d definitely want to know before I start my next project.</p>
+                            <p>In this great iOS Auto Layout tutorial I&#39;ll teach you how to support rotation, use constraints, work with layers, animate corner radius.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -371,20 +373,22 @@ extension DetailViewController: UIViewControllerTransitioningDelegate {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2019/05/23">2019/05/23</time>
-                                 &middot; <span class="reading-time">5 min read</span>
+                                <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/building-input-forms-for-ios-apps/" target="">Building input forms for iOS apps</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/uikit-init-patterns/" target="">UIKit init patterns</a></h2>
                             <hr>
-                            <p>Learn how to build complex forms with my updated collection view view-model framework without the struggle using Swift.</p>
+                            <p>Learn about the initialization process of the two well known classes in UIKit. Say hello to UIViewcontroller, and UIView init patterns.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                                <a href="https://theswiftdev.com/tags/design-pattern/"><small>Design pattern</small></a>
+        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -392,11 +396,11 @@ extension DetailViewController: UIViewControllerTransitioningDelegate {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2018/10/16">2018/10/16</time>
+                                <time datetime="2018-10-16T14:20:00.000Z">10/16/18 2:20 PM</time>
                                  &middot; <span class="reading-time">5 min read</span>
                             </div>
                             
@@ -405,8 +409,8 @@ extension DetailViewController: UIViewControllerTransitioningDelegate {
                             <p>Do you want to learn how to load a xib file to create a custom view object? Well, this UIKit tutorial is just for you written in Swift.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
-        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -414,20 +418,20 @@ extension DetailViewController: UIViewControllerTransitioningDelegate {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2019/10/21">2019/10/21</time>
-                                 &middot; <span class="reading-time">4 min read</span>
+                                <time datetime="2018-05-17T14:20:00.000Z">5/17/18 2:20 PM</time>
+                                 &middot; <span class="reading-time">3 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/custom-views-input-forms-and-mistakes/" target="">Custom views, input forms and mistakes</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/how-to-use-icloud-drive-documents/" target="">How to use iCloud drive documents?</a></h2>
                             <hr>
-                            <p>Just a little advice about creating custom view programmatically and the truth about why form building with collection views sucks.</p>
+                            <p>Learn how to sync files and data through a shared iCloud drive folder using the latest version of Swift programming language.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                                <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     </div>
@@ -452,26 +456,32 @@ extension DetailViewController: UIViewControllerTransitioningDelegate {
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#uikit-custom-transition-api---a-theoretical-lesson">UIKit custom transition API - a theoretical lesson</a>
-                        <ul>
-                            <li><a href="#uiviewcontrollertransitioningdelegate">UIViewControllerTransitioningDelegate</a></li>
-                <li><a href="#uinavigationcontrollerdelegate">UINavigationControllerDelegate</a></li>
-                <li><a href="#uinavigationcontroller.operation">UINavigationController.Operation</a></li>
-                <li><a href="#uiviewcontrolleranimatedtransitioning">UIViewControllerAnimatedTransitioning</a></li>
-                <li><a href="#uiviewcontrollercontexttransitioning">UIViewControllerContextTransitioning</a></li>
-                <li><a href="#uipercentdriveninteractivetransition">UIPercentDrivenInteractiveTransition</a></li>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-3">
+                        <a href="#uiviewcontrollertransitioningdelegate">UIViewControllerTransitioningDelegate</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#uinavigationcontrollerdelegate">UINavigationControllerDelegate</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#uinavigationcontroller.operation">UINavigationController.Operation</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#uiviewcontrolleranimatedtransitioning">UIViewControllerAnimatedTransitioning</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#uiviewcontrollercontexttransitioning">UIViewControllerContextTransitioning</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#uipercentdriveninteractivetransition">UIPercentDrivenInteractiveTransition</a>
+                    </li>
+        <li class="level-2">
                         <a href="#custom-transition-animations-programmatically">Custom transition animations programmatically</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#navigation-vs-modal-presentation">Navigation vs modal presentation</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -526,7 +536,7 @@ extension DetailViewController: UIViewControllerTransitioningDelegate {
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

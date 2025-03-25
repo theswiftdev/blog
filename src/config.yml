@@ -1,0 +1,5 @@
+# 2016-04-28 16:20:00
+dateFormats:
+    input: "yyyy-MM-dd HH:mm:ss"
+    output:
+        year: y

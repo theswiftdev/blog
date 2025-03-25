@@ -1,20 +1,23 @@
 id: author
-template: blog.author.default
+paths:
+    - blog/authors
 
-context:
-    site:
-        authors:
-            sort: title
-            order: asc
-            pagination:
-                limit: 10
-        
-    local:
-        posts:
-            references: post
-            foreignKey: authors
-            sort: publication
-            order: desc
+properties:
+    title:
+        type: string
+        required: true
 
+relations:
+    
 
-
+queries:
+    posts:
+        contentType: post
+        scope: detail
+        filter:
+            key: authors
+            operator: contains
+            value: "{{id}}"
+        orderBy:
+            - key: publication
+              direction: desc

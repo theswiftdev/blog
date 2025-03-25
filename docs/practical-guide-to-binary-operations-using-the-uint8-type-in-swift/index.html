@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2021/09/16">2021/09/16</time>
+                <div class="meta">            
+                    <time datetime="2021-09-16T14:20:00.000Z">9/16/21 2:20 PM</time>
                      &middot; <span class="reading-time">9 min read</span>
                     
                 </div>
@@ -133,7 +134,7 @@ print(Int32.min)    //           -2147483648
 print(Int32.max)    //            2147483647
 print(Int64.min)    //  -9223372036854775808
 print(Int64.max)    //   9223372036854775807
-</code></pre><p>So there is a minimum and maximum value for each integer type that we can store in a given variable. For example, we can’t store the value 69420 inside a UInt8 type, because there are simply not enough <a href="https://en.wikipedia.org/wiki/Bit" target="_blank">bits</a> to represent this huge number. 🤓</p><p>Let’s examine our 8 bit long unsigned integer type. 8 bit means that we have literally 8 places to store <a href="https://theswiftdev.com/all-about-the-bool-type-in-swift/">boolean</a> values (ones and zeros) using the <a href="https://en.wikipedia.org/wiki/Binary_number" target="_blank">binary number</a> representation. 0101 0110 in binary is 86 using the “regular” decimal number format. This binary number is a base-2 numerical system (a positional notation) with a radix of 2. The number 86 can be interpreted as:</p><pre><code>0*28+1*27+0*26+1*25+0*24 + 1*23+1*22+0*21+0*20
+</code></pre><p>So there is a minimum and maximum value for each integer type that we can store in a given variable. For example, we can’t store the value 69420 inside a UInt8 type, because there are simply not enough <a href="https://en.wikipedia.org/wiki/Bit" target="_blank">bits</a> to represent this huge number. 🤓</p><p>Let’s examine our 8 bit long unsigned integer type. 8 bit means that we have literally 8 places to store <a href="https://theswiftdev.com/all-about-the-bool-type-in-swift/" target="_blank">boolean</a> values (ones and zeros) using the <a href="https://en.wikipedia.org/wiki/Binary_number" target="_blank">binary number</a> representation. 0101 0110 in binary is 86 using the “regular” decimal number format. This binary number is a base-2 numerical system (a positional notation) with a radix of 2. The number 86 can be interpreted as:</p><pre><code>0*28+1*27+0*26+1*25+0*24 + 1*23+1*22+0*21+0*20
 0*128+1*64+0*32+1*16 + 0*8+1*4+1*2+0*1
 64+16+4+2
 86
@@ -141,7 +142,7 @@ print(Int64.max)    //   9223372036854775807
 print(UInt.isSigned)    // false
 print(Int.bitWidth)     // 64
 print(UInt8.bitWidth)   // 8
-</code></pre><p>Based on this logic, now it’s quite straightforward that an 8 bit long unsigned type can only store 255 as the maximum value (1111 1111), since that’s 128+64+32+16+8+4+2+1.</p><p>What about signed types? Well, the trick is that 1 bit from the 8 is reserved for the positive / negative symbol. Usually the first bit represents the sign and the remaining 7 bits can store the actual numeric values. For example the Int8 type can store numbers from -128 til 127, since the maximum positive value is represented as 0111 1111, 64+32+16+8+4+2+1, where the leading zero indicates that we’re talking about a positive number and the remaining 7 bits are all ones.</p><p>So how the hack can we represent -128? Isn’t -127 (1111 1111) the minimum negative value? 😅</p><p>Nope, that’s not how negative binary numbers work. In order to understand negative integer representation using binary numbers, first we have to introduce a new term called <a href="https://en.wikipedia.org/wiki/Two%27s_complement" target="_blank">two’s complement</a>, which is a simple method of signed number representation.</p><h2 id="basic-signed-number-maths">Basic signed number maths</h2><p>It is relatively easy to add two binary numbers, you just add the bits in order with a carry, just like you’d do addition using decimal numbers. Subtraction on the other hand is a bit harder, but fortunately it can be replaced with an addition operation if we store negative numbers in a special way and this is where two’s complement comes in.</p><p>Let’s imagine that we’d like to add two numbers:</p><ul><li><code>0010 1010</code> (+42)</li><li><code>0100 0101</code> +(+69)</li><li><code>0110 1111</code> =(+111)</li></ul><p>Now let’s add a positive and a negative number stored using two’s complement, first we need to express -6 using a signed 8 bit binary number format:</p><ul><li><code>0000 0110</code> (+6)</li><li><code>1111 1001</code> (<a href="https://en.wikipedia.org/wiki/Ones%27_complement" target="_blank">one’s complement</a> = inverted bits)</li><li><code>1111 1010</code> (two’s complement = add +1 (<code>0000 0001</code>) to one’s complement)</li></ul><p>Now we can simply perform an addition operation on the positive and negative numbers.</p><ul><li><code>0010 1010</code> (+42)</li><li><code>1111 1010</code> +(-6)</li><li><code>(1) 0010 0100</code> =(+36)</li></ul><p>So, you might think, what’s the deal with the extra 1 in the beginning of the 8 bit result? Well, that’s called a carry bit, and in our case it won’t affect our final result, since we’ve performed a subtraction instead of an addition. As you can see the remaining 8 bit represents the positive number 36 and 42-6 is exactly 36, we can simply ignore the extra flag for now. 😅</p><h2 id="binary-operators-in-swift">Binary operators in Swift</h2><p>Enough from the theory, let’s dive in with some real world examples using the UInt8 type. First of all, we should talk <a href="https://docs.swift.org/swift-book/LanguageGuide/AdvancedOperators.html" target="_blank">about bitwise operators</a> in Swift. In my previous article we’ve talked about <a href="https://theswiftdev.com/all-about-the-bool-type-in-swift/">Bool operators</a> (AND, OR, NOT) and the Boolean algebra, now we can say that those functions operate using a single bit. This time we’re going to see how bitwise operators can perform various transformations using multiple bits. In our sample cases it’s always going to be 8 bit. 🤓</p><h3 id="bitwise-not-operator">Bitwise NOT operator</h3><p>This operator (<code>~</code>) inverts all bits in a number. We can use it to create one’s complement values.</p><pre><code class="language-swift">// one's complement
+</code></pre><p>Based on this logic, now it’s quite straightforward that an 8 bit long unsigned type can only store 255 as the maximum value (1111 1111), since that’s 128+64+32+16+8+4+2+1.</p><p>What about signed types? Well, the trick is that 1 bit from the 8 is reserved for the positive / negative symbol. Usually the first bit represents the sign and the remaining 7 bits can store the actual numeric values. For example the Int8 type can store numbers from -128 til 127, since the maximum positive value is represented as 0111 1111, 64+32+16+8+4+2+1, where the leading zero indicates that we’re talking about a positive number and the remaining 7 bits are all ones.</p><p>So how the hack can we represent -128? Isn’t -127 (1111 1111) the minimum negative value? 😅</p><p>Nope, that’s not how negative binary numbers work. In order to understand negative integer representation using binary numbers, first we have to introduce a new term called <a href="https://en.wikipedia.org/wiki/Two%27s_complement" target="_blank">two’s complement</a>, which is a simple method of signed number representation.</p><h2 id="basic-signed-number-maths">Basic signed number maths</h2><p>It is relatively easy to add two binary numbers, you just add the bits in order with a carry, just like you’d do addition using decimal numbers. Subtraction on the other hand is a bit harder, but fortunately it can be replaced with an addition operation if we store negative numbers in a special way and this is where two’s complement comes in.</p><p>Let’s imagine that we’d like to add two numbers:</p><ul><li><code>0010 1010</code> (+42)</li><li><code>0100 0101</code> +(+69)</li><li><code>0110 1111</code> =(+111)</li></ul><p>Now let’s add a positive and a negative number stored using two’s complement, first we need to express -6 using a signed 8 bit binary number format:</p><ul><li><code>0000 0110</code> (+6)</li><li><code>1111 1001</code> (<a href="https://en.wikipedia.org/wiki/Ones%27_complement" target="_blank">one’s complement</a> = inverted bits)</li><li><code>1111 1010</code> (two’s complement = add +1 (<code>0000 0001</code>) to one’s complement)</li></ul><p>Now we can simply perform an addition operation on the positive and negative numbers.</p><ul><li><code>0010 1010</code> (+42)</li><li><code>1111 1010</code> +(-6)</li><li><code>(1) 0010 0100</code> =(+36)</li></ul><p>So, you might think, what’s the deal with the extra 1 in the beginning of the 8 bit result? Well, that’s called a carry bit, and in our case it won’t affect our final result, since we’ve performed a subtraction instead of an addition. As you can see the remaining 8 bit represents the positive number 36 and 42-6 is exactly 36, we can simply ignore the extra flag for now. 😅</p><h2 id="binary-operators-in-swift">Binary operators in Swift</h2><p>Enough from the theory, let’s dive in with some real world examples using the UInt8 type. First of all, we should talk <a href="https://docs.swift.org/swift-book/LanguageGuide/AdvancedOperators.html" target="_blank">about bitwise operators</a> in Swift. In my previous article we’ve talked about <a href="https://theswiftdev.com/all-about-the-bool-type-in-swift/" target="_blank">Bool operators</a> (AND, OR, NOT) and the Boolean algebra, now we can say that those functions operate using a single bit. This time we’re going to see how bitwise operators can perform various transformations using multiple bits. In our sample cases it’s always going to be 8 bit. 🤓</p><h3 id="bitwise-not-operator">Bitwise NOT operator</h3><p>This operator (<code>~</code>) inverts all bits in a number. We can use it to create one’s complement values.</p><pre><code class="language-swift">// one's complement
 let x: UInt8 = 0b00000110    // 6 using binary format
 let res = ~x                 // bitwise NOT
 print(res)                   // 249, but why?
@@ -259,7 +260,7 @@ print(statusFlags.bin)
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -282,80 +283,80 @@ print(statusFlags.bin)
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2021/09/10">2021/09/10</time>
+                                <time datetime="2017-10-23T14:20:00.000Z">10/23/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/how-to-make-a-swift-framework/" target="">How to make a Swift framework?</a></h2>
+                            <hr>
+                            <p>Creating a Swift framework shouldn&#39;t be hard. This tutorial will help you making a universal framework for complex projects.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2017-10-11T14:20:00.000Z">10/11/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">1 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/swift-enum-all-values/" target="">Swift enum all values</a></h2>
+                            <hr>
+                            <p>In this quick tutorial I&#39;ll show you how to get all the possible values for a Swift enum type with a generic solution written in Swift.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018-01-25T15:20:00.000Z">1/25/18 3:20 PM</time>
+                                 &middot; <span class="reading-time">11 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/deep-dive-into-swift-frameworks/" target="">Deep dive into Swift frameworks</a></h2>
+                            <hr>
+                            <p>Learn everything about Swift modules, libraries, packages, closed source frameworks, command line tools and more.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
                                  &middot; <span class="reading-time">6 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/all-about-the-bool-type-in-swift/" target="">All about the Bool type in Swift</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/everything-about-public-and-private-swift-attributes/" target="">Everything about public and private Swift attributes</a></h2>
                             <hr>
-                            <p>Learn everything about logical types and the Boolean algebra using the Swift programming language and some basic math.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2022/03/18">2022/03/18</time>
-                                 &middot; <span class="reading-time">4 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/async-http-api-clients-in-swift/" target="">Async HTTP API clients in Swift</a></h2>
-                            <hr>
-                            <p>Learn how to communicate with API endpoints using the brand new SwiftHttp library, including async / await support.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2019/02/05">2019/02/05</time>
-                                 &middot; <span class="reading-time">9 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/beginners-guide-to-functional-swift/" target="">Beginners guide to functional Swift</a></h2>
-                            <hr>
-                            <p>The one and only tutorial that you&#39;ll ever need to learn higher order functions like: map, flatMap, compactMap, reduce, filter and more.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2022/06/28">2022/06/28</time>
-                                 &middot; <span class="reading-time">5 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/beginners-guide-to-modern-generic-programming-in-swift/" target="">Beginner&#39;s guide to modern generic programming in Swift</a></h2>
-                            <hr>
-                            <p>Learn the very basics about protocols, existentials, opaque types and how they are related to generic programming in Swift.</p>
+                            <p>Have you ever heard about Swift language attributes? In this article I&#39;m trying to gather all the @ annotations and their meanings.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
@@ -383,28 +384,26 @@ print(statusFlags.bin)
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#integer-types-in-swift">Integer types in Swift</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#representing-numbers-as-integers">Representing numbers as integers</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#basic-signed-number-maths">Basic signed number maths</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#binary-operators-in-swift">Binary operators in Swift</a>
-                        <ul>
-                            <li><a href="#bitwise-not-operator">Bitwise NOT operator</a></li>
-                <li><a href="#bitwise-and-or-xor-operators">Bitwise AND, OR, XOR operators</a></li>
-                <li><a href="#bitwise-left-right-shift-operators">Bitwise left &amp; right shift operators</a></li>
-                        </ul>
+                    </li>
+        <li class="level-3">
+                        <a href="#bitwise-not-operator">Bitwise NOT operator</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#bitwise-and-or-xor-operators">Bitwise AND, OR, XOR operators</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#bitwise-left-right-shift-operators">Bitwise left &amp; right shift operators</a>
                     </li>
                 </ul>
             </aside>
@@ -459,7 +458,7 @@ print(statusFlags.bin)
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

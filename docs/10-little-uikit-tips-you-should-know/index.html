@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2022/02/03">2022/02/03</time>
+                <div class="meta">            
+                    <time datetime="2022-02-03T15:20:00.000Z">2/3/22 3:20 PM</time>
                      &middot; <span class="reading-time">8 min read</span>
                     
                 </div>
@@ -424,7 +425,7 @@ class MyCollectionViewController: ViewController {
         collection.register(MyCell.self,
                             forCellWithReuseIdentifier: MyCell.identifier)
     }
-</code></pre><p>Anyway, I’d go with a custom subclass for the collection view here as well and maybe define a configure method then call that one instead of placing everything directly to the controller. The decision is always up-to-you, I’m just trying to show you the some possible solutions. 😉</p><h2 id="stack-views-auto-layout-anchors">Stack views & auto-layout anchors</h2><p>Take advantage of stack views and auto layout anchors as much as possible. If you are going to create user interfaces programmatically in Swift with the help of UIKit, then it’s going to be an essential skill to master these techniques otherwise you’re going to struggle a lot.</p><p>I already have a tutorial about <a href="https://theswiftdev.com/ios-auto-layout-tutorial-programmatically/">using auto layout programmatically</a> and another one about <a href="https://theswiftdev.com/mastering-ios-auto-layout-anchors-programmatically-from-swift/">mastering auto-layout anchors</a>, they were published a few years ago, but the concepts are still valid and the code still works. I also have one more article that you should read if you want to learn <a href="https://theswiftdev.com/custom-views-input-forms-and-mistakes/">about building forms using stack views</a>. Learning these kind of things helped me a lot to create complex screens hassle-free. I’m also using one more <a href="https://theswiftdev.com/ultimate-uicollectionview-guide-with-ios-examples-written-in-swift/">“best practice” to create collection views</a>.</p><p>When SwiftUI came out I had the feeling that eventually I’d do the same with UIKit, but of course Apple had the necessary tooling to support the framework with view builders and property wrappers. Now that we have SwiftUI I’m still not using it because I feel like it lacks quite a lot of features even in 2022. I know it’s great and I’ve created several prototypes for screens using it, but if it comes to a complex application my gut tells me that I should still go with UIKit. 🤐</p><h2 id="create-a-reusable-components-library">Create a reusable components library</h2><p>My final advice in this tutorial is that you should build a custom Swift package and move all your components there. Maybe for the first time it’s going to consume quite a lot of time but if you are working on multiple projects it will speed up development process for your second, third, etc. app.</p><p>You can move all your custom base classes into a separate library and create specific ones for your application. You just have to mark them open, you can use the availability API to manage what can be used and what should be marked as unavailable.</p><p>I have quite a lot of tutorials about the <a href="https://theswiftdev.com/swift-package-manager-tutorial/">Swift Package Manager</a> on my blog, this is a great way to get familiar with it and you can start building your own library step-by-step. 😊</p>
+</code></pre><p>Anyway, I’d go with a custom subclass for the collection view here as well and maybe define a configure method then call that one instead of placing everything directly to the controller. The decision is always up-to-you, I’m just trying to show you the some possible solutions. 😉</p><h2 id="stack-views-auto-layout-anchors">Stack views & auto-layout anchors</h2><p>Take advantage of stack views and auto layout anchors as much as possible. If you are going to create user interfaces programmatically in Swift with the help of UIKit, then it’s going to be an essential skill to master these techniques otherwise you’re going to struggle a lot.</p><p>I already have a tutorial about <a href="https://theswiftdev.com/ios-auto-layout-tutorial-programmatically/" target="_blank">using auto layout programmatically</a> and another one about <a href="https://theswiftdev.com/mastering-ios-auto-layout-anchors-programmatically-from-swift/" target="_blank">mastering auto-layout anchors</a>, they were published a few years ago, but the concepts are still valid and the code still works. I also have one more article that you should read if you want to learn <a href="https://theswiftdev.com/custom-views-input-forms-and-mistakes/" target="_blank">about building forms using stack views</a>. Learning these kind of things helped me a lot to create complex screens hassle-free. I’m also using one more <a href="https://theswiftdev.com/ultimate-uicollectionview-guide-with-ios-examples-written-in-swift/" target="_blank">“best practice” to create collection views</a>.</p><p>When SwiftUI came out I had the feeling that eventually I’d do the same with UIKit, but of course Apple had the necessary tooling to support the framework with view builders and property wrappers. Now that we have SwiftUI I’m still not using it because I feel like it lacks quite a lot of features even in 2022. I know it’s great and I’ve created several prototypes for screens using it, but if it comes to a complex application my gut tells me that I should still go with UIKit. 🤐</p><h2 id="create-a-reusable-components-library">Create a reusable components library</h2><p>My final advice in this tutorial is that you should build a custom Swift package and move all your components there. Maybe for the first time it’s going to consume quite a lot of time but if you are working on multiple projects it will speed up development process for your second, third, etc. app.</p><p>You can move all your custom base classes into a separate library and create specific ones for your application. You just have to mark them open, you can use the availability API to manage what can be used and what should be marked as unavailable.</p><p>I have quite a lot of tutorials about the <a href="https://theswiftdev.com/swift-package-manager-tutorial/" target="_blank">Swift Package Manager</a> on my blog, this is a great way to get familiar with it and you can start building your own library step-by-step. 😊</p>
                     
                 </section>
     
@@ -435,7 +436,7 @@ class MyCollectionViewController: ViewController {
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -458,20 +459,21 @@ class MyCollectionViewController: ViewController {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2019/05/23">2019/05/23</time>
-                                 &middot; <span class="reading-time">5 min read</span>
+                                <time datetime="2017-10-31T15:20:00.000Z">10/31/17 3:20 PM</time>
+                                 &middot; <span class="reading-time">6 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/building-input-forms-for-ios-apps/" target="">Building input forms for iOS apps</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/ios-auto-layout-tutorial-programmatically/" target="">iOS Auto Layout tutorial programmatically</a></h2>
                             <hr>
-                            <p>Learn how to build complex forms with my updated collection view view-model framework without the struggle using Swift.</p>
+                            <p>In this great iOS Auto Layout tutorial I&#39;ll teach you how to support rotation, use constraints, work with layers, animate corner radius.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -479,11 +481,34 @@ class MyCollectionViewController: ViewController {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2018/10/16">2018/10/16</time>
+                                <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/uikit-init-patterns/" target="">UIKit init patterns</a></h2>
+                            <hr>
+                            <p>Learn about the initialization process of the two well known classes in UIKit. Say hello to UIViewcontroller, and UIView init patterns.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/design-pattern/"><small>Design pattern</small></a>
+        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018-10-16T14:20:00.000Z">10/16/18 2:20 PM</time>
                                  &middot; <span class="reading-time">5 min read</span>
                             </div>
                             
@@ -492,8 +517,8 @@ class MyCollectionViewController: ViewController {
                             <p>Do you want to learn how to load a xib file to create a custom view object? Well, this UIKit tutorial is just for you written in Swift.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
-        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -501,41 +526,21 @@ class MyCollectionViewController: ViewController {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2019/10/21">2019/10/21</time>
-                                 &middot; <span class="reading-time">4 min read</span>
+                                <time datetime="2018-04-26T14:20:00.000Z">4/26/18 2:20 PM</time>
+                                 &middot; <span class="reading-time">5 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/custom-views-input-forms-and-mistakes/" target="">Custom views, input forms and mistakes</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/ios-custom-transition-tutorial-in-swift/" target="">iOS custom transition tutorial in Swift</a></h2>
                             <hr>
-                            <p>Just a little advice about creating custom view programmatically and the truth about why form building with collection views sucks.</p>
+                            <p>In this tutorial, you&#39;ll learn how to replace the push, pop and modal animations with custom transitions &amp; percent driven interactions.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2017/10/10">2017/10/10</time>
-                                 &middot; <span class="reading-time">6 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/how-to-create-reusable-views-for-modern-collection-views/" target="">How to create reusable views for modern collection views?</a></h2>
-                            <hr>
-                            <p>A quick intro to modern collection views using compositional layout, diffable data source and reusable view components.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     </div>
@@ -560,55 +565,35 @@ class MyCollectionViewController: ViewController {
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#custom-uicolor-with-dark-mode-support">Custom UIColor with dark mode support</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#observing-trait-collection-changes">Observing trait collection changes</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#uibutton-with-context-menus">UIButton with context menus</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#don-t-be-afraid-of-subclassing-views">Don’t be afraid of subclassing views</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#always-large-navigation-title">Always large navigation title</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#custom-separators-for-navigation-and-tab-bars">Custom separators for navigation and tab bars</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#custom-tab-bar-items">Custom tab bar items</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#loadview-vs-viewdidload">loadView vs viewDidLoad</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#stack-views-auto-layout-anchors">Stack views &amp; auto-layout anchors</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#create-a-reusable-components-library">Create a reusable components library</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -663,7 +648,7 @@ class MyCollectionViewController: ViewController {
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

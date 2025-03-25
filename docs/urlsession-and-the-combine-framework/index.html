@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2019/08/15">2019/08/15</time>
+                <div class="meta">            
+                    <time datetime="2019-08-15T14:20:00.000Z">8/15/19 2:20 PM</time>
                      &middot; <span class="reading-time">4 min read</span>
                     
                 </div>
@@ -128,7 +129,7 @@ struct Todo: Codable {
     let completed: Bool
     let userId: Int
 }
-</code></pre><p>Nothing special so far, just some basic Codable elements, and a simple error, because hell yeah, we want to show some error if something fails. ❌</p><h2 id="the-traditional-way">The traditional way</h2><p>Doing an HTTP request in Swift is pretty easy, you can use the built-in shared <a href="https://developer.apple.com/documentation/foundation/urlsession" target="_blank">URLSession</a> with a simple data task, and voilá there’s your response. Of course you might want to check for valid status code and if everything is fine, you can <a href="https://theswiftdev.com/2018/01/29/how-to-parse-json-in-swift-using-codable-protocol/">parse your response JSON</a> by using the <a href="https://developer.apple.com/documentation/foundation/jsondecoder" target="_blank">JSONDecoder</a> object from Foundation.</p><pre><code class="language-swift">//somewhere in viewDidLoad
+</code></pre><p>Nothing special so far, just some basic Codable elements, and a simple error, because hell yeah, we want to show some error if something fails. ❌</p><h2 id="the-traditional-way">The traditional way</h2><p>Doing an HTTP request in Swift is pretty easy, you can use the built-in shared <a href="https://developer.apple.com/documentation/foundation/urlsession" target="_blank">URLSession</a> with a simple data task, and voilá there’s your response. Of course you might want to check for valid status code and if everything is fine, you can <a href="https://theswiftdev.com/2018/01/29/how-to-parse-json-in-swift-using-codable-protocol/" target="_blank">parse your response JSON</a> by using the <a href="https://developer.apple.com/documentation/foundation/jsondecoder" target="_blank">JSONDecoder</a> object from Foundation.</p><pre><code class="language-swift">//somewhere in viewDidLoad
 let url = URL(string: "https://jsonplaceholder.typicode.com/posts")!
 
 let task = URLSession.shared.dataTask(with: url) { data, response, error in
@@ -262,7 +263,7 @@ func details(for id: Int) -&gt; AnyPublisher&lt;Post, Error&gt; {
         .decode(type: Post.self, decoder: JSONDecoder())
         .eraseToAnyPublisher()
 }
-</code></pre><p>The trick here is that you can flatMap a publisher into another.</p><h2 id="conclusion">Conclusion</h2><p>Combine is an amazing framework, it can do a lot, but it definitely has some learning curve. Sadly you can only use it if you are targeting iOS13 or above (this means that you have one whole year to learn every single bit of the framework) so think twice before adopting this new technology.</p><p>You should also note that currently there is no <a href="https://theswiftdev.com/2020/01/28/how-to-download-files-with-urlsession-using-combine-publishers-and-subscribers/">upload and download task publisher</a>, but you can make your very own solution until Apple officially releases something. Fingers crossed. 🤞</p><p>I really love how Apple implemented some concepts of reactive programming, I can’t wait for Combine to arrive as an open source package with Linux support as well. ❤️</p>
+</code></pre><p>The trick here is that you can flatMap a publisher into another.</p><h2 id="conclusion">Conclusion</h2><p>Combine is an amazing framework, it can do a lot, but it definitely has some learning curve. Sadly you can only use it if you are targeting iOS13 or above (this means that you have one whole year to learn every single bit of the framework) so think twice before adopting this new technology.</p><p>You should also note that currently there is no <a href="https://theswiftdev.com/2020/01/28/how-to-download-files-with-urlsession-using-combine-publishers-and-subscribers/" target="_blank">upload and download task publisher</a>, but you can make your very own solution until Apple officially releases something. Fingers crossed. 🤞</p><p>I really love how Apple implemented some concepts of reactive programming, I can’t wait for Combine to arrive as an open source package with Linux support as well. ❤️</p>
                     
                 </section>
     
@@ -273,7 +274,7 @@ func details(for id: Int) -&gt; AnyPublisher&lt;Post, Error&gt; {
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -296,11 +297,56 @@ func details(for id: Int) -&gt; AnyPublisher&lt;Post, Error&gt; {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2018/10/16">2018/10/16</time>
+                                <time datetime="2017-10-31T15:20:00.000Z">10/31/17 3:20 PM</time>
+                                 &middot; <span class="reading-time">6 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/ios-auto-layout-tutorial-programmatically/" target="">iOS Auto Layout tutorial programmatically</a></h2>
+                            <hr>
+                            <p>In this great iOS Auto Layout tutorial I&#39;ll teach you how to support rotation, use constraints, work with layers, animate corner radius.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/uikit-init-patterns/" target="">UIKit init patterns</a></h2>
+                            <hr>
+                            <p>Learn about the initialization process of the two well known classes in UIKit. Say hello to UIViewcontroller, and UIView init patterns.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/design-pattern/"><small>Design pattern</small></a>
+        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018-10-16T14:20:00.000Z">10/16/18 2:20 PM</time>
                                  &middot; <span class="reading-time">5 min read</span>
                             </div>
                             
@@ -309,8 +355,8 @@ func details(for id: Int) -&gt; AnyPublisher&lt;Post, Error&gt; {
                             <p>Do you want to learn how to load a xib file to create a custom view object? Well, this UIKit tutorial is just for you written in Swift.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
-        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -318,11 +364,11 @@ func details(for id: Int) -&gt; AnyPublisher&lt;Post, Error&gt; {
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2018/05/17">2018/05/17</time>
+                                <time datetime="2018-05-17T14:20:00.000Z">5/17/18 2:20 PM</time>
                                  &middot; <span class="reading-time">3 min read</span>
                             </div>
                             
@@ -332,50 +378,6 @@ func details(for id: Int) -&gt; AnyPublisher&lt;Post, Error&gt; {
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2017/10/31">2017/10/31</time>
-                                 &middot; <span class="reading-time">6 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/ios-auto-layout-tutorial-programmatically/" target="">iOS Auto Layout tutorial programmatically</a></h2>
-                            <hr>
-                            <p>In this great iOS Auto Layout tutorial I&#39;ll teach you how to support rotation, use constraints, work with layers, animate corner radius.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
-        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2018/04/26">2018/04/26</time>
-                                 &middot; <span class="reading-time">5 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/ios-custom-transition-tutorial-in-swift/" target="">iOS custom transition tutorial in Swift</a></h2>
-                            <hr>
-                            <p>In this tutorial, you&#39;ll learn how to replace the push, pop and modal animations with custom transitions &amp; percent driven interactions.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
-        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
                             </div>
                         </div>
                     </div>
@@ -400,50 +402,32 @@ func details(for id: Int) -&gt; AnyPublisher&lt;Post, Error&gt; {
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#api-data-structure">API &amp; data structure</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#the-traditional-way">The traditional way</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#data-tasks-and-the-combine-framework">Data tasks and the Combine framework</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#data-task-with-combine">Data task with Combine</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#error-handling">Error handling</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#assign-result-to-property">Assign result to property</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#group-multiple-requests">Group multiple requests</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#request-dependency">Request dependency</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#conclusion">Conclusion</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -498,7 +482,7 @@ func details(for id: Int) -&gt; AnyPublisher&lt;Post, Error&gt; {
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

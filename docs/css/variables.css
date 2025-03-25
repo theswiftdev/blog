@@ -28,6 +28,8 @@
     --yellow-color: #ffc500;
     --brown-color: #987953;
     --gray-color: #838388;
+
+    --selection-color: #e0e0e0;
 }
 @media (prefers-color-scheme: dark) {
     :root {
@@ -62,5 +64,7 @@
         --yellow-color: #ffd00d;
         --brown-color: #a2835d;
         --gray-color: #8d8d92;
+
+        --selection-color: #333333;
     }
 }

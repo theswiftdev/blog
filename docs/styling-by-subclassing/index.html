@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2019/02/19">2019/02/19</time>
+                <div class="meta">            
+                    <time datetime="2019-02-19T15:20:00.000Z">2/19/19 3:20 PM</time>
                      &middot; <span class="reading-time">5 min read</span>
                     
                 </div>
@@ -135,7 +136,7 @@
 App.Fonts.title
 App.Colors.background
 App.Icons.back
-</code></pre><p>This way I get a pretty simple syntax, which is nice, although this won’t let me do dynamic styling, so I can not switch between light / dark <a href="https://medium.com/@martinho_t/how-i-use-uiappearance-to-manage-my-app-theme-part-1-2-1c4313e90b3a" target="_blank">theme</a>, but I really don’t mind that, because in most of the cases it’s not a requirement. 😅</p><h2 id="structs-vs-enums">Structs vs enums:</h2><p>I could use enums instead of structs with static properties, but in this case I like the simplicity of this approach. I don’t want to mess around with raw values or extensions that accepts enums. It’s just a personal preference.</p><p>What if you have to support <a href="http://basememara.com/protocol-oriented-themes-for-ios-apps/" target="_blank">multiple themes</a>?</p><p>That’s not a big issue, you can define a protocol for your needs, and implement the required theme protocol as you want. The real problem is when you have to switch between your themes, because you have to refresh / reload your entire UI. ♻️</p><p>There are some best practices, for example you can use the NSNotificationCenter class in order to notify every view / controller in your app to refresh if a theme change occurs. Another solution is to simply <a href="https://theswiftdev.com/2017/10/10/swift-4-init-patterns/">reinitialize</a> the whole UI of the application, so this means you basically start from scratch with a brand new rootViewController. 😱</p><p>Anyway, check the links below if you need something like this, but if you just want to support dark mode in your app, I’d suggest to wait until the first iOS 13 beta comes out. Maybe Apple will give some shiny new API to make things easy.</p><h2 id="custom-views-as-style-elements">Custom views as style elements</h2><p>I promised <a href="https://felginep.github.io/2019-02-19/uiview-styling-with-functions" target="_blank">styling</a> by subclassing, so let’s dive into the topic. Now that we have a good solution to define fonts, colors and other basic building blocks, it’s time to apply those styles to actual UI elements. Of course you can use the <a href="https://www.raywenderlich.com/652-uiappearance-tutorial-getting-started" target="_blank">UIAppearance</a> API, but for example you can’t simply set custom <a href="https://pspdfkit.com/blog/2018/improving-dynamic-type-support/" target="_blank">fonts</a> through the appearance proxy. 😢</p><p>Another thing is that I love consistency in design. So if a title is a blue, 32pt bold system font somewhere in my application I also expect that element to follow the same guideline everywhere else. I solve this problem by creating subclasses for every single view element that has a custom style applied to it. So for example:</p><ul><li>TitleLabel (blue color, 32pt system font)</li><li>HeadingLabel (blue color, 24pt system font)</li><li>StandardButton (blue background)</li><li>DestructiveButton (red background)</li></ul><p>Another good thing if you have subclasses and you’re working with autolayout constraints from code, that you can put all your constraint creation logic directly into the subclass itself. Let me show you an example:</p><pre><code class="language-swift">import UIKit
+</code></pre><p>This way I get a pretty simple syntax, which is nice, although this won’t let me do dynamic styling, so I can not switch between light / dark <a href="https://medium.com/@martinho_t/how-i-use-uiappearance-to-manage-my-app-theme-part-1-2-1c4313e90b3a" target="_blank">theme</a>, but I really don’t mind that, because in most of the cases it’s not a requirement. 😅</p><h2 id="structs-vs-enums">Structs vs enums:</h2><p>I could use enums instead of structs with static properties, but in this case I like the simplicity of this approach. I don’t want to mess around with raw values or extensions that accepts enums. It’s just a personal preference.</p><p>What if you have to support <a href="http://basememara.com/protocol-oriented-themes-for-ios-apps/" target="_blank">multiple themes</a>?</p><p>That’s not a big issue, you can define a protocol for your needs, and implement the required theme protocol as you want. The real problem is when you have to switch between your themes, because you have to refresh / reload your entire UI. ♻️</p><p>There are some best practices, for example you can use the NSNotificationCenter class in order to notify every view / controller in your app to refresh if a theme change occurs. Another solution is to simply <a href="https://theswiftdev.com/2017/10/10/swift-4-init-patterns/" target="_blank">reinitialize</a> the whole UI of the application, so this means you basically start from scratch with a brand new rootViewController. 😱</p><p>Anyway, check the links below if you need something like this, but if you just want to support dark mode in your app, I’d suggest to wait until the first iOS 13 beta comes out. Maybe Apple will give some shiny new API to make things easy.</p><h2 id="custom-views-as-style-elements">Custom views as style elements</h2><p>I promised <a href="https://felginep.github.io/2019-02-19/uiview-styling-with-functions" target="_blank">styling</a> by subclassing, so let’s dive into the topic. Now that we have a good solution to define fonts, colors and other basic building blocks, it’s time to apply those styles to actual UI elements. Of course you can use the <a href="https://www.raywenderlich.com/652-uiappearance-tutorial-getting-started" target="_blank">UIAppearance</a> API, but for example you can’t simply set custom <a href="https://pspdfkit.com/blog/2018/improving-dynamic-type-support/" target="_blank">fonts</a> through the appearance proxy. 😢</p><p>Another thing is that I love consistency in design. So if a title is a blue, 32pt bold system font somewhere in my application I also expect that element to follow the same guideline everywhere else. I solve this problem by creating subclasses for every single view element that has a custom style applied to it. So for example:</p><ul><li>TitleLabel (blue color, 32pt system font)</li><li>HeadingLabel (blue color, 24pt system font)</li><li>StandardButton (blue background)</li><li>DestructiveButton (red background)</li></ul><p>Another good thing if you have subclasses and you’re working with autolayout constraints from code, that you can put all your constraint creation logic directly into the subclass itself. Let me show you an example:</p><pre><code class="language-swift">import UIKit
 
 class TitleLabel: UILabel {
 
@@ -171,7 +172,7 @@ class TitleLabel: UILabel {
         ]
     }
 }
-</code></pre><p>As you can see I only have to set the font & textColor attributes once, so after the <a href="https://theswiftdev.com/2017/10/11/uikit-init-patterns/">view initialization</a> is done, I can be sure that every single instance of TitleLabel will look exactly the same. The usage is pretty simple too, you just have to set the class name in interface builder, or you can simply create the view like this:</p><pre><code class="language-swift">// loadView method in a view controller...
+</code></pre><p>As you can see I only have to set the font & textColor attributes once, so after the <a href="https://theswiftdev.com/2017/10/11/uikit-init-patterns/" target="_blank">view initialization</a> is done, I can be sure that every single instance of TitleLabel will look exactly the same. The usage is pretty simple too, you just have to set the class name in interface builder, or you can simply create the view like this:</p><pre><code class="language-swift">// loadView method in a view controller...
 let titleLabel = TitleLabel()
 self.view.addSubview(titleLabel)
 NSLayoutConstraint.activate(titleLabel.constraints(in: self.view))
@@ -219,12 +220,12 @@ NSLayoutConstraint.activate(titleLabel.constraints(in: self.view))
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
-                        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
-                    <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                    <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                     </div>
                     
                     <p>
@@ -243,20 +244,21 @@ NSLayoutConstraint.activate(titleLabel.constraints(in: self.view))
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2022/02/03">2022/02/03</time>
-                                 &middot; <span class="reading-time">8 min read</span>
+                                <time datetime="2017-10-31T15:20:00.000Z">10/31/17 3:20 PM</time>
+                                 &middot; <span class="reading-time">6 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/10-little-uikit-tips-you-should-know/" target="">10 little UIKit tips you should know</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/ios-auto-layout-tutorial-programmatically/" target="">iOS Auto Layout tutorial programmatically</a></h2>
                             <hr>
-                            <p>In this article I&#39;ve gathered my top 10 favorite modern UIKit tips that I&#39;d definitely want to know before I start my next project.</p>
+                            <p>In this great iOS Auto Layout tutorial I&#39;ll teach you how to support rotation, use constraints, work with layers, animate corner radius.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -264,20 +266,22 @@ NSLayoutConstraint.activate(titleLabel.constraints(in: self.view))
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2019/05/23">2019/05/23</time>
-                                 &middot; <span class="reading-time">5 min read</span>
+                                <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/building-input-forms-for-ios-apps/" target="">Building input forms for iOS apps</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/uikit-init-patterns/" target="">UIKit init patterns</a></h2>
                             <hr>
-                            <p>Learn how to build complex forms with my updated collection view view-model framework without the struggle using Swift.</p>
+                            <p>Learn about the initialization process of the two well known classes in UIKit. Say hello to UIViewcontroller, and UIView init patterns.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                                <a href="https://theswiftdev.com/tags/design-pattern/"><small>Design pattern</small></a>
+        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -285,11 +289,11 @@ NSLayoutConstraint.activate(titleLabel.constraints(in: self.view))
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2018/10/16">2018/10/16</time>
+                                <time datetime="2018-10-16T14:20:00.000Z">10/16/18 2:20 PM</time>
                                  &middot; <span class="reading-time">5 min read</span>
                             </div>
                             
@@ -298,8 +302,8 @@ NSLayoutConstraint.activate(titleLabel.constraints(in: self.view))
                             <p>Do you want to learn how to load a xib file to create a custom view object? Well, this UIKit tutorial is just for you written in Swift.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
-        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -307,20 +311,20 @@ NSLayoutConstraint.activate(titleLabel.constraints(in: self.view))
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2019/10/21">2019/10/21</time>
-                                 &middot; <span class="reading-time">4 min read</span>
+                                <time datetime="2018-05-17T14:20:00.000Z">5/17/18 2:20 PM</time>
+                                 &middot; <span class="reading-time">3 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/custom-views-input-forms-and-mistakes/" target="">Custom views, input forms and mistakes</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/how-to-use-icloud-drive-documents/" target="">How to use iCloud drive documents?</a></h2>
                             <hr>
-                            <p>Just a little advice about creating custom view programmatically and the truth about why form building with collection views sucks.</p>
+                            <p>Learn how to sync files and data through a shared iCloud drive folder using the latest version of Swift programming language.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                                <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     </div>
@@ -345,30 +349,20 @@ NSLayoutConstraint.activate(titleLabel.constraints(in: self.view))
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#the-problem-ui-ux-design">The problem: UI, UX, design</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#appearance-themes-and-styles">Appearance, themes and styles</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#structs-vs-enums">Structs vs enums:</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#custom-views-as-style-elements">Custom views as style elements</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#view-initialization-is-hard">View initialization is hard</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -423,7 +417,7 @@ NSLayoutConstraint.activate(titleLabel.constraints(in: self.view))
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

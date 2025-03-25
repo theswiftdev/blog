@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,9 +99,9 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2020/11/27">2020/11/27</time>
-                     &middot; <span class="reading-time">5 min read</span>
+                <div class="meta">            
+                    <time datetime="2020-11-27T15:20:00.000Z">11/27/20 3:20 PM</time>
+                     &middot; <span class="reading-time">6 min read</span>
                     
                 </div>
                 <h1>Event-driven generic hooks for Swift</h1>
@@ -147,7 +148,7 @@ struct App {
 let provider = MyNameProvider()
 let app = App(provider: provider)
 app.run()
-</code></pre><p>Oh no, this just made our entire codebase a bit harder to understand, also didn’t really solved anything, because we still can’t compile our application without the MyNameProvider dependency. That class must be part of the package no matter how many protocols we create. Of course we could move the NameProvider protocol into a standalone <a href="https://theswiftdev.com/swift-package-manager-tutorial/">Swift package</a>, then we could create another package for the protocol implementation that relies on that one, then use both as a dependency when we build our application, but hey isn’t this getting a little bit complicated? 🤔</p><p>What did we gain here? First of all we overcomplicated a really simple thing. On the other hand, we eliminated an actual dependency from the App struct itself. That’s a great thing, because now we could create a mock name provider and test our application instance with that, we can <a href="https://theswiftdev.com/swift-dependency-injection-design-pattern/">inject any kind of Swift object</a> into the app that conforms to the NameProvider protocol.</p><p>Can we change the provider at runtime? Well, yes, that’s also possible we could define the provider as a variable and alter its value later on, but there’s one thing that we can’t solve with this approach.</p><p><strong>We can’t move out the provider reference from the application itself.</strong> 😳</p><h2 id="event-driven-architecture">Event-driven architecture</h2><p>The EDA design pattern allows us to create loosely coupled software components and services without forming an actual dependency between the participants. Consider the following alternative:</p><pre><code class="language-swift">struct MyNameProvider {
+</code></pre><p>Oh no, this just made our entire codebase a bit harder to understand, also didn’t really solved anything, because we still can’t compile our application without the MyNameProvider dependency. That class must be part of the package no matter how many protocols we create. Of course we could move the NameProvider protocol into a standalone <a href="https://theswiftdev.com/swift-package-manager-tutorial/" target="_blank">Swift package</a>, then we could create another package for the protocol implementation that relies on that one, then use both as a dependency when we build our application, but hey isn’t this getting a little bit complicated? 🤔</p><p>What did we gain here? First of all we overcomplicated a really simple thing. On the other hand, we eliminated an actual dependency from the App struct itself. That’s a great thing, because now we could create a mock name provider and test our application instance with that, we can <a href="https://theswiftdev.com/swift-dependency-injection-design-pattern/" target="_blank">inject any kind of Swift object</a> into the app that conforms to the NameProvider protocol.</p><p>Can we change the provider at runtime? Well, yes, that’s also possible we could define the provider as a variable and alter its value later on, but there’s one thing that we can’t solve with this approach.</p><p><strong>We can’t move out the provider reference from the application itself.</strong> 😳</p><h2 id="event-driven-architecture">Event-driven architecture</h2><p>The EDA design pattern allows us to create loosely coupled software components and services without forming an actual dependency between the participants. Consider the following alternative:</p><pre><code class="language-swift">struct MyNameProvider {
     func getName(_: HookArguments) -&gt; String { "John Doe" }
 }
 
@@ -230,7 +231,7 @@ public typealias HookFunctionSignature&lt;T&gt; = (HookArguments) -&gt; T
     }
 }
 </code></pre><p>I know, this seems like quite complicated at first sight, but when you start playing around with these methods it’ll all make sense. I’m still not sure about the naming conventions, for example the HookStorage is also a global event storage so maybe it’d be better to call it something related to the event term. If you have a better idea, feel free to <a href="https://x.com/tiborbodecs" target="_blank">tweet me</a>.</p><p>Oh, I almost forgot that I wanted to show you how to register an anonymous hook function. 😅</p><pre><code class="language-swift">hooks.register("name-event") { _ in "John Doe" }
-</code></pre><p>That’s it you don’t event have to write the return type, the Swift compiler this time is smart enough to figure out the final function signature. This magic only works with one-liners I suppose… ✨</p><p>This article was a follow-up on <a href="https://theswiftdev.com/modules-and-hooks-in-swift/">the modules and hooks in Swift</a>, also heavily inspired by the my old Entropy framework, Drupal and the <a href="https://www.sitepoint.com/wordpress-hook-system/" target="_blank">Wordpress</a> hook systems. The code implementation idea comes from the <a href="https://github.com/vapor/vapor/tree/master/Sources/Vapor/Routing" target="_blank">Vapor’s routing abstraction</a>, but it’s slightly changed to match my needs.</p><p>The event-driven design approach is a very nice architecture and I really hope that we’ll see the long term benefit of using this pattern inside <a href="https://github.com/binarybirds/feather/" target="_blank">Feather</a>. I can’t wait to tell you more about it… 🪶</p>
+</code></pre><p>That’s it you don’t event have to write the return type, the Swift compiler this time is smart enough to figure out the final function signature. This magic only works with one-liners I suppose… ✨</p><p>This article was a follow-up on <a href="https://theswiftdev.com/modules-and-hooks-in-swift/" target="_blank">the modules and hooks in Swift</a>, also heavily inspired by the my old Entropy framework, Drupal and the <a href="https://www.sitepoint.com/wordpress-hook-system/" target="_blank">Wordpress</a> hook systems. The code implementation idea comes from the <a href="https://github.com/vapor/vapor/tree/master/Sources/Vapor/Routing" target="_blank">Vapor’s routing abstraction</a>, but it’s slightly changed to match my needs.</p><p>The event-driven design approach is a very nice architecture and I really hope that we’ll see the long term benefit of using this pattern inside <a href="https://github.com/binarybirds/feather/" target="_blank">Feather</a>. I can’t wait to tell you more about it… 🪶</p>
                     
                 </section>
     
@@ -241,7 +242,7 @@ public typealias HookFunctionSignature&lt;T&gt; = (HookArguments) -&gt; T
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -265,17 +266,17 @@ public typealias HookFunctionSignature&lt;T&gt; = (HookArguments) -&gt; T
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2021/09/10">2021/09/10</time>
-                                 &middot; <span class="reading-time">6 min read</span>
+                                <time datetime="2017-10-23T14:20:00.000Z">10/23/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/all-about-the-bool-type-in-swift/" target="">All about the Bool type in Swift</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/how-to-make-a-swift-framework/" target="">How to make a Swift framework?</a></h2>
                             <hr>
-                            <p>Learn everything about logical types and the Boolean algebra using the Swift programming language and some basic math.</p>
+                            <p>Creating a Swift framework shouldn&#39;t be hard. This tutorial will help you making a universal framework for complex projects.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
@@ -286,17 +287,17 @@ public typealias HookFunctionSignature&lt;T&gt; = (HookArguments) -&gt; T
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2022/03/18">2022/03/18</time>
-                                 &middot; <span class="reading-time">4 min read</span>
+                                <time datetime="2017-10-11T14:20:00.000Z">10/11/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">1 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/async-http-api-clients-in-swift/" target="">Async HTTP API clients in Swift</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/swift-enum-all-values/" target="">Swift enum all values</a></h2>
                             <hr>
-                            <p>Learn how to communicate with API endpoints using the brand new SwiftHttp library, including async / await support.</p>
+                            <p>In this quick tutorial I&#39;ll show you how to get all the possible values for a Swift enum type with a generic solution written in Swift.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
@@ -307,20 +308,22 @@ public typealias HookFunctionSignature&lt;T&gt; = (HookArguments) -&gt; T
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2019/02/05">2019/02/05</time>
-                                 &middot; <span class="reading-time">9 min read</span>
+                                <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/beginners-guide-to-functional-swift/" target="">Beginners guide to functional Swift</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/uikit-init-patterns/" target="">UIKit init patterns</a></h2>
                             <hr>
-                            <p>The one and only tutorial that you&#39;ll ever need to learn higher order functions like: map, flatMap, compactMap, reduce, filter and more.</p>
+                            <p>Learn about the initialization process of the two well known classes in UIKit. Say hello to UIViewcontroller, and UIView init patterns.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                                <a href="https://theswiftdev.com/tags/design-pattern/"><small>Design pattern</small></a>
+        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -328,17 +331,17 @@ public typealias HookFunctionSignature&lt;T&gt; = (HookArguments) -&gt; T
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2022/06/28">2022/06/28</time>
-                                 &middot; <span class="reading-time">5 min read</span>
+                                <time datetime="2018-01-25T15:20:00.000Z">1/25/18 3:20 PM</time>
+                                 &middot; <span class="reading-time">11 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/beginners-guide-to-modern-generic-programming-in-swift/" target="">Beginner&#39;s guide to modern generic programming in Swift</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/deep-dive-into-swift-frameworks/" target="">Deep dive into Swift frameworks</a></h2>
                             <hr>
-                            <p>Learn the very basics about protocols, existentials, opaque types and how they are related to generic programming in Swift.</p>
+                            <p>Learn everything about Swift modules, libraries, packages, closed source frameworks, command line tools and more.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
@@ -366,15 +369,11 @@ public typealias HookFunctionSignature&lt;T&gt; = (HookArguments) -&gt; T
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#dependencies-protocols-and-types">Dependencies, protocols and types</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#event-driven-architecture">Event-driven architecture</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -429,7 +428,7 @@ public typealias HookFunctionSignature&lt;T&gt; = (HookArguments) -&gt; T
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

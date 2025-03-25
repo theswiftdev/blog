@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2020/04/24">2020/04/24</time>
+                <div class="meta">            
+                    <time datetime="2020-04-24T14:20:00.000Z">4/24/20 2:20 PM</time>
                      &middot; <span class="reading-time">7 min read</span>
                     
                 </div>
@@ -108,7 +109,7 @@
                 <p>This article is a complete Swift Package Manager cheatsheet for the package manifest file, using the latest Swift 5.2 tools version.</p>
                 <section>
                 
-                <blockquote class="note"><p>NOTE: If you want to learn <a href="https://theswiftdev.com/swift-package-manager-tutorial/">how to use the Swift Package Manager</a> you should read my other article, because that is more like an introduction for those who have never worked with SPM yet.</p></blockquote><h2 id="package-types">Package types</h2><p>There are multiple package types that you can create with the <code>swift package init</code> command. You can specify the <code>--type</code> flag with the following values: empty, library, executable, system-module, manifest. You can also define a custom package name through the <code>--name</code> flag.</p><ul><li>The empty package will create the default file structure without the sample code files.</li><li>The library type will create a reusable library product template.</li><li>The executable type will create a Swift application with an executable product definition in the package and a <code>main.swift</code> file as a starting point.</li><li>The system-module type will create a wrapper around a system provided package, such as libxml, we’ll talk about this later on.</li><li>The manifest type will only create a <code>Package.swift</code> file without anything else.</li></ul><h2 id="the-package-manifest-file">The Package manifest file</h2><p>Every single SPM project has this special file inside of it called <code>Package.swift</code>. I already wrote a post about <a href="https://theswiftdev.com/all-about-the-swift-package-manager-and-the-swift-toolchain/">how the package manager and the Swift toolchain works</a> behind the scenes, this time we’re going to focus only on the manifest file itself. Let’s get started. 📦</p><p>Every single Package.swift file begins with a special comment line where you have to define the version of the used Swift tools. The latest version is quite different from the older ones.</p><pre><code class="language-swift">// swift-tools-version:5.2
+                <blockquote class="note"><p>If you want to learn <a href="https://theswiftdev.com/swift-package-manager-tutorial/" target="_blank">how to use the Swift Package Manager</a> you should read my other article, because that is more like an introduction for those who have never worked with SPM yet.</p></blockquote><h2 id="package-types">Package types</h2><p>There are multiple package types that you can create with the <code>swift package init</code> command. You can specify the <code>--type</code> flag with the following values: empty, library, executable, system-module, manifest. You can also define a custom package name through the <code>--name</code> flag.</p><ul><li>The empty package will create the default file structure without the sample code files.</li><li>The library type will create a reusable library product template.</li><li>The executable type will create a Swift application with an executable product definition in the package and a <code>main.swift</code> file as a starting point.</li><li>The system-module type will create a wrapper around a system provided package, such as libxml, we’ll talk about this later on.</li><li>The manifest type will only create a <code>Package.swift</code> file without anything else.</li></ul><h2 id="the-package-manifest-file">The Package manifest file</h2><p>Every single SPM project has this special file inside of it called <code>Package.swift</code>. I already wrote a post about <a href="https://theswiftdev.com/all-about-the-swift-package-manager-and-the-swift-toolchain/" target="_blank">how the package manager and the Swift toolchain works</a> behind the scenes, this time we’re going to focus only on the manifest file itself. Let’s get started. 📦</p><p>Every single Package.swift file begins with a special comment line where you have to define the version of the used Swift tools. The latest version is quite different from the older ones.</p><pre><code class="language-swift">// swift-tools-version:5.2
 </code></pre><p>Next you have to import the PackageDescription framework in order to define your Swift package. This framework contains the package manifest structure as Swift objects.</p><pre><code class="language-swift">import PackageDescription
 </code></pre><p>That’s it now you are ready to describe the package itself. Oh by the way you can change the version of the used tools, you can read more about this in the Package Manager <a href="https://github.com/apple/swift-package-manager/blob/master/Documentation/Usage.md" target="_blank">usage</a> docs.</p><h2 id="package">Package</h2><p>A package is just a bunch of Swift (or other) files. The manifest file is the description of what and how to build from those sources. Every single package should have a name, but this is not enough to actually generate something from it. You can only have exactly one package definition inside the file. This is the shortest and most useless one that you can create. 🙈</p><pre><code class="language-swift">let package = Package(name: "myPackage")
 </code></pre><p>The package name is going to be used when you are importing packages as dependencies, so name your pacages carefully. If you choose a reserved name by a system framework there can be issues with linking. If there’s a conflict you have to use static linking instead of dynamic. If you generate a project via the <code>swift package generate-xcodeproj</code> command that project will try to link everything dynamically, but if you open the <code>Package.swift</code> file using Xcode 11, the dependencies will be linked statically if this was not set explicitly in the product definition section.</p><h2 id="platform">Platform</h2><p>A platform is basically an operating system with a given version that you can support.</p><pre><code class="language-swift">let package = Package(
@@ -180,7 +181,7 @@ let package = Package(name: "myPackage", products: [
             .unsafeFlags(["-L example"]),
             .unsafeFlags(["-L example"], .when(platforms: [.linux], configuration: .release)),
         ]),
-</code></pre><p>As you can see you can define preprocessor macros for every single language. You can use the safe cases for basic stuff, but there is an unsafeFlags case for the reckless ones. The nice thing is that you can support a platform condition filter including build configuration to every single settings as the last param.</p><p>Available platforms are:</p><ul><li><code>.iOS</code></li><li><code>.macOS</code></li><li><code>.watchOS</code></li><li><code>.tvOS</code></li><li><code>.android</code></li><li><code>.linux</code></li><li><code>.windows </code></li></ul><p>The build configuration can be <code>.debug</code> or <code>.release</code></p><h2 id="test-targets">Test targets</h2><p>Test targets are used to define test suites. They can be used to <a href="https://theswiftdev.com/the-ultimate-guide-to-unit-and-ui-testing-for-beginners-in-swift/">unit test</a> other targets using the <a href="https://github.com/apple/swift-corelibs-xctest" target="_blank">XCTest</a> framework. They look like exactly the same as regular targets.</p><pre><code class="language-swift">.testTarget(name: String,
+</code></pre><p>As you can see you can define preprocessor macros for every single language. You can use the safe cases for basic stuff, but there is an unsafeFlags case for the reckless ones. The nice thing is that you can support a platform condition filter including build configuration to every single settings as the last param.</p><p>Available platforms are:</p><ul><li><code>.iOS</code></li><li><code>.macOS</code></li><li><code>.watchOS</code></li><li><code>.tvOS</code></li><li><code>.android</code></li><li><code>.linux</code></li><li><code>.windows </code></li></ul><p>The build configuration can be <code>.debug</code> or <code>.release</code></p><h2 id="test-targets">Test targets</h2><p>Test targets are used to define test suites. They can be used to <a href="https://theswiftdev.com/the-ultimate-guide-to-unit-and-ui-testing-for-beginners-in-swift/" target="_blank">unit test</a> other targets using the <a href="https://github.com/apple/swift-corelibs-xctest" target="_blank">XCTest</a> framework. They look like exactly the same as regular targets.</p><pre><code class="language-swift">.testTarget(name: String,
     dependencies: [Target.Dependency],
     path: String?,
     exclude: [String],
@@ -251,7 +252,7 @@ cxxLanguageStandard: .gnucxx11)
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -274,80 +275,80 @@ cxxLanguageStandard: .gnucxx11)
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2021/09/10">2021/09/10</time>
+                                <time datetime="2017-10-23T14:20:00.000Z">10/23/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/how-to-make-a-swift-framework/" target="">How to make a Swift framework?</a></h2>
+                            <hr>
+                            <p>Creating a Swift framework shouldn&#39;t be hard. This tutorial will help you making a universal framework for complex projects.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2017-10-11T14:20:00.000Z">10/11/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">1 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/swift-enum-all-values/" target="">Swift enum all values</a></h2>
+                            <hr>
+                            <p>In this quick tutorial I&#39;ll show you how to get all the possible values for a Swift enum type with a generic solution written in Swift.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018-01-25T15:20:00.000Z">1/25/18 3:20 PM</time>
+                                 &middot; <span class="reading-time">11 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/deep-dive-into-swift-frameworks/" target="">Deep dive into Swift frameworks</a></h2>
+                            <hr>
+                            <p>Learn everything about Swift modules, libraries, packages, closed source frameworks, command line tools and more.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
                                  &middot; <span class="reading-time">6 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/all-about-the-bool-type-in-swift/" target="">All about the Bool type in Swift</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/everything-about-public-and-private-swift-attributes/" target="">Everything about public and private Swift attributes</a></h2>
                             <hr>
-                            <p>Learn everything about logical types and the Boolean algebra using the Swift programming language and some basic math.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2022/03/18">2022/03/18</time>
-                                 &middot; <span class="reading-time">4 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/async-http-api-clients-in-swift/" target="">Async HTTP API clients in Swift</a></h2>
-                            <hr>
-                            <p>Learn how to communicate with API endpoints using the brand new SwiftHttp library, including async / await support.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2019/02/05">2019/02/05</time>
-                                 &middot; <span class="reading-time">9 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/beginners-guide-to-functional-swift/" target="">Beginners guide to functional Swift</a></h2>
-                            <hr>
-                            <p>The one and only tutorial that you&#39;ll ever need to learn higher order functions like: map, flatMap, compactMap, reduce, filter and more.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2022/06/28">2022/06/28</time>
-                                 &middot; <span class="reading-time">5 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/beginners-guide-to-modern-generic-programming-in-swift/" target="">Beginner&#39;s guide to modern generic programming in Swift</a></h2>
-                            <hr>
-                            <p>Learn the very basics about protocols, existentials, opaque types and how they are related to generic programming in Swift.</p>
+                            <p>Have you ever heard about Swift language attributes? In this article I&#39;m trying to gather all the @ annotations and their meanings.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
@@ -375,65 +376,41 @@ cxxLanguageStandard: .gnucxx11)
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#package-types">Package types</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#the-package-manifest-file">The Package manifest file</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#package">Package</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#platform">Platform</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#product">Product</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#dependency">Dependency</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#target">Target</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#settings">Settings</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#test-targets">Test targets</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#package-configs-and-system-libraries">Package configs and system libraries</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#language-settings">Language settings</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#summary">Summary</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -488,7 +465,7 @@ cxxLanguageStandard: .gnucxx11)
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

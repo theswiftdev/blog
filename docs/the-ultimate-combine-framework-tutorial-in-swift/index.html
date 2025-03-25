@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2017/10/10">2017/10/10</time>
+                <div class="meta">            
+                    <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
                      &middot; <span class="reading-time">7 min read</span>
                     
                 </div>
@@ -108,7 +109,7 @@
                 <p>Get started with the brand new declarative Combine framework in practice using Swift. I&#39;ll teach you all the goodies from zero to hero.</p>
                 <section>
                 
-                <h2 id="what-is-combine">What is Combine?</h2><blockquote><p>Customize handling of asynchronous events by combining event-processing operators. - <a href="https://developer.apple.com/documentation/combine/" target="_blank">Apple’s Combine Framework</a></p></blockquote><p>In other words, it allows you to write functional reactive code in a declarative way using Swift. Functional reactive programming (<a href="https://en.wikipedia.org/wiki/Functional_reactive_programming" target="_blank">FRP</a>) is a special paradigm used to deal with asynchronous code. It’s a special kind of <a href="https://theswiftdev.com/2019/02/05/beginners-guide-to-functional-swift/">functional programming</a>, where you are working with async streams of values. So basically you can process and transform values over time using functional methods like <code>map</code>, <code>flatMap</code>, etc. <a href="https://www.vadimbulavin.com/swift-combine-framework-tutorial-getting-started/" target="_blank">Combine</a> is the “native” Swift implementation of this programming paradigm, made by Apple.</p><h2 id="publishers-operators-subscribers">Publishers, Operators, Subscribers</h2><p>I already made <a href="https://theswiftdev.com/2019/08/15/urlsession-and-the-combine-framework/">a brief networking example of using Combine</a>, which is good if you’re just looking for a simple code snippet to simplify your URLSession requests. Allow me to grab one example and paste it here again, I’ll show you why… 🤔</p><pre><code class="language-swift">private var cancellable: AnyCancellable?
+                <h2 id="what-is-combine">What is Combine?</h2><blockquote><p>Customize handling of asynchronous events by combining event-processing operators. - <a href="https://developer.apple.com/documentation/combine/" target="_blank">Apple’s Combine Framework</a></p></blockquote><p>In other words, it allows you to write functional reactive code in a declarative way using Swift. Functional reactive programming (<a href="https://en.wikipedia.org/wiki/Functional_reactive_programming" target="_blank">FRP</a>) is a special paradigm used to deal with asynchronous code. It’s a special kind of <a href="https://theswiftdev.com/2019/02/05/beginners-guide-to-functional-swift/" target="_blank">functional programming</a>, where you are working with async streams of values. So basically you can process and transform values over time using functional methods like <code>map</code>, <code>flatMap</code>, etc. <a href="https://www.vadimbulavin.com/swift-combine-framework-tutorial-getting-started/" target="_blank">Combine</a> is the “native” Swift implementation of this programming paradigm, made by Apple.</p><h2 id="publishers-operators-subscribers">Publishers, Operators, Subscribers</h2><p>I already made <a href="https://theswiftdev.com/2019/08/15/urlsession-and-the-combine-framework/" target="_blank">a brief networking example of using Combine</a>, which is good if you’re just looking for a simple code snippet to simplify your URLSession requests. Allow me to grab one example and paste it here again, I’ll show you why… 🤔</p><pre><code class="language-swift">private var cancellable: AnyCancellable?
 //...
 self.cancellable = URLSession.shared.dataTaskPublisher(for: url)
 .map { $0.data }
@@ -120,7 +121,7 @@ self.cancellable = URLSession.shared.dataTaskPublisher(for: url)
 })
 //...
 self.cancellable?.cancel()
-</code></pre><p>The most important thing here is the new dataTaskPublisher method. It creates Publisher that can send (aka. publish) sequences of values over time.</p><p>Moving forward to the next few lines we can see examples of various Operator functions (<code>map</code>, <code>decode</code>, <code>replaceError</code>, <code>ereaseToAnyPublisher</code>). They are special functional methods and they always return a Publisher. By using operators you can chain a bunch of publishers together, this gives us that nice declarative syntax that I mentioned before. Functional programming is awesome! 😎</p><p>The final member of the Combine family is the Subscriber. Since we can publish all sort of things, we can assume that on the other end of the publisher chain, there will be some sort of object that’s going to use our final result. Staying with our current example, the sink method is a built-in function that can connect a publisher to a subscriber. You’ll learn the other one later on… hint: assign.</p><h2 id="benefits-of-using-the-combine-framework">Benefits of using the Combine framework</h2><p>I believe that <a href="https://engineering.q42.nl/swift-combine-framework/" target="_blank">Combine</a> is a huge leap forward and everyone should learn it. My only concern is that you can only use it if you are targeting iOS 13 or above, but this will fade away (in a blink) with time, just like it was with collection and stack views.</p><blockquote><p>Do you remember iOS 6? Yeah, next up: iOS 14!!!</p></blockquote><p>Anyway, there are a bunch of goodies that Combine will bring you:</p><ul><li>Simplified asynchronous code - no more callback hells</li><li>Declarative syntax - easier to read and maintain code</li><li>Composable components - composition over inheritance & reusability</li><li>Multi-platform - except on Linux, we’re good with <a href="https://github.com/apple/swift-nio" target="_blank">SwiftNIO</a>’s approach</li><li>Cancellation support - it was always an issue with <a href="https://theswiftdev.com/2019/05/28/promises-in-swift-for-beginners/">Promises</a></li><li>Multithreading - you don’t have to worry about it (that much)</li><li>Built-in memory management - no more bags to carry on</li></ul><p>This is the future of aysnc programming on Apple plaftorms, and it’s brighter than it was ever before. This is one of the biggest updates since the completely revamped <a href="https://theswiftdev.com/2018/07/10/ultimate-grand-central-dispatch-tutorial-in-swift/">GCD framework API in Swift</a>. Oh, by the way you might ask the question…</p><h2 id="gcd-vs-combine-vs-rx-vs-promises">GCD vs Combine vs Rx vs Promises</h2><p>My advice is to stay with your current favorite solution for about one year (but only if you are happy with it). Learn Combine and be prepared to flip the switch, if the time comes, but if you are just starting a new project and you can go with iOS13+ then I suggest to go with Combine only. You will see how amazing it is to work with this framework, so I if you are still not convinced, it’s time to…</p><h2 id="learn-combine-by-example">Learn Combine by example</h2><p>Since there are some great articles & books about <a href="https://heckj.github.io/swiftui-notes/" target="_blank">using Combine</a>, I decided to gather only those practical examples and patterns here that I use on a regular basis.</p><h3 id="built-in-publishers">Built-in publishers</h3><p>There are just a few built-in publishers in the Foundation framework, but I think the number will grow rapidly. These are the ones that I used mostly to simplify my code:</p><h3 id="timer">Timer</h3><p>You can use Combine to get periodic time updates through a publisher:</p><pre><code class="language-swift">var cancellable: AnyCancellable?
+</code></pre><p>The most important thing here is the new dataTaskPublisher method. It creates Publisher that can send (aka. publish) sequences of values over time.</p><p>Moving forward to the next few lines we can see examples of various Operator functions (<code>map</code>, <code>decode</code>, <code>replaceError</code>, <code>ereaseToAnyPublisher</code>). They are special functional methods and they always return a Publisher. By using operators you can chain a bunch of publishers together, this gives us that nice declarative syntax that I mentioned before. Functional programming is awesome! 😎</p><p>The final member of the Combine family is the Subscriber. Since we can publish all sort of things, we can assume that on the other end of the publisher chain, there will be some sort of object that’s going to use our final result. Staying with our current example, the sink method is a built-in function that can connect a publisher to a subscriber. You’ll learn the other one later on… hint: assign.</p><h2 id="benefits-of-using-the-combine-framework">Benefits of using the Combine framework</h2><p>I believe that <a href="https://engineering.q42.nl/swift-combine-framework/" target="_blank">Combine</a> is a huge leap forward and everyone should learn it. My only concern is that you can only use it if you are targeting iOS 13 or above, but this will fade away (in a blink) with time, just like it was with collection and stack views.</p><blockquote><p>Do you remember iOS 6? Yeah, next up: iOS 14!!!</p></blockquote><p>Anyway, there are a bunch of goodies that Combine will bring you:</p><ul><li>Simplified asynchronous code - no more callback hells</li><li>Declarative syntax - easier to read and maintain code</li><li>Composable components - composition over inheritance & reusability</li><li>Multi-platform - except on Linux, we’re good with <a href="https://github.com/apple/swift-nio" target="_blank">SwiftNIO</a>’s approach</li><li>Cancellation support - it was always an issue with <a href="https://theswiftdev.com/2019/05/28/promises-in-swift-for-beginners/" target="_blank">Promises</a></li><li>Multithreading - you don’t have to worry about it (that much)</li><li>Built-in memory management - no more bags to carry on</li></ul><p>This is the future of aysnc programming on Apple plaftorms, and it’s brighter than it was ever before. This is one of the biggest updates since the completely revamped <a href="https://theswiftdev.com/2018/07/10/ultimate-grand-central-dispatch-tutorial-in-swift/" target="_blank">GCD framework API in Swift</a>. Oh, by the way you might ask the question…</p><h2 id="gcd-vs-combine-vs-rx-vs-promises">GCD vs Combine vs Rx vs Promises</h2><p>My advice is to stay with your current favorite solution for about one year (but only if you are happy with it). Learn Combine and be prepared to flip the switch, if the time comes, but if you are just starting a new project and you can go with iOS13+ then I suggest to go with Combine only. You will see how amazing it is to work with this framework, so I if you are still not convinced, it’s time to…</p><h2 id="learn-combine-by-example">Learn Combine by example</h2><p>Since there are some great articles & books about <a href="https://heckj.github.io/swiftui-notes/" target="_blank">using Combine</a>, I decided to gather only those practical examples and patterns here that I use on a regular basis.</p><h3 id="built-in-publishers">Built-in publishers</h3><p>There are just a few built-in publishers in the Foundation framework, but I think the number will grow rapidly. These are the ones that I used mostly to simplify my code:</p><h3 id="timer">Timer</h3><p>You can use Combine to get periodic time updates through a publisher:</p><pre><code class="language-swift">var cancellable: AnyCancellable?
 
 // start automatically
 cancellable = Timer.publish(every: 1, on: .main, in: .default)
@@ -143,7 +144,7 @@ let cancellableTimerPublisher = timerPublisher.connect()
 
 // cancel subscription
 //cancellable?.cancel()
-</code></pre><p>You can start & stop the publisher any time you need by using the connect method.</p><blockquote class="note"><p>NOTE: Combine has built-in support for cancellation. Both the sink and the assign methods are returning an object that you can store for later and you can call the cancel method on that AnyCancellable object to stop execution.</p></blockquote><h3 id="notificationcenter">NotificationCenter</h3><p>You can also subscribe to notifications by using publishers.</p><pre><code class="language-swift">extension Notification.Name {
+</code></pre><p>You can start & stop the publisher any time you need by using the connect method.</p><blockquote class="note"><p>Combine has built-in support for cancellation. Both the sink and the assign methods are returning an object that you can store for later and you can call the cancel method on that AnyCancellable object to stop execution.</p></blockquote><h3 id="notificationcenter">NotificationCenter</h3><p>You can also subscribe to notifications by using publishers.</p><pre><code class="language-swift">extension Notification.Name {
     static let example = Notification.Name("example")
 }
 
@@ -163,7 +164,7 @@ class ViewController: UIViewController {
         NotificationCenter.default.post(name: .example, object: nil)
     }
 }
-</code></pre><p>If you save the cancellable object as a stored property you can retain the subscription until you call the cancel method. Make sure you don’t make extra retain cycles, so if you need self inside the sink block, always use aweak or unowned reference.</p><h3 id="urlsession">URLSession</h3><p>I’m not going to repeat myself here again, because I already made a complete tutorial about <a href="https://theswiftdev.com/2019/08/15/urlsession-and-the-combine-framework/">how to use URLSession with the Combine framework</a>, so please click the link if you want to learn more about it.</p><p>That’s it about built-in publishers, let’s take a look at…</p><h3 id="published-variables">Published variables</h3><p><a href="https://nshipster.com/propertywrapper/" target="_blank">Property Wrappers</a> are a brand new feature available from Swift 5.1. Combine comes with one new wrapper called <code>@Published</code>, which can be used to attach a Publisher to a single property. If you mark the property as <code>@Published</code>, you can subscribe to value changes and you can also use these variables as bindings.</p><pre><code class="language-swift">import UIKit
+</code></pre><p>If you save the cancellable object as a stored property you can retain the subscription until you call the cancel method. Make sure you don’t make extra retain cycles, so if you need self inside the sink block, always use aweak or unowned reference.</p><h3 id="urlsession">URLSession</h3><p>I’m not going to repeat myself here again, because I already made a complete tutorial about <a href="https://theswiftdev.com/2019/08/15/urlsession-and-the-combine-framework/" target="_blank">how to use URLSession with the Combine framework</a>, so please click the link if you want to learn more about it.</p><p>That’s it about built-in publishers, let’s take a look at…</p><h3 id="published-variables">Published variables</h3><p><a href="https://nshipster.com/propertywrapper/" target="_blank">Property Wrappers</a> are a brand new feature available from Swift 5.1. Combine comes with one new wrapper called <code>@Published</code>, which can be used to attach a Publisher to a single property. If you mark the property as <code>@Published</code>, you can subscribe to value changes and you can also use these variables as bindings.</p><pre><code class="language-swift">import UIKit
 import Combine
 
 class ViewController: UIViewController {
@@ -227,7 +228,7 @@ extension LocationPublisher: CLLocationManagerDelegate {
         self.subject.send(completion: .failure(error))
     }
 }
-</code></pre><h3 id="futures-and-promises">Futures and promises</h3><p>I already have <a href="https://theswiftdev.com/2019/05/28/promises-in-swift-for-beginners/">a tutorial for beginners about promises in Swift</a>, if you need to understand the reasoning behind these types, please read that article first.</p><p>Combine has it’s own future / promise implementation, which is surprisingly well-made. I use them very often if I have an async callback block, I usually transform that function into a promisified version (returning a publisher), by using a future.</p><pre><code class="language-swift">func asyncMethod(completion: ((String) -&gt; Void)) {
+</code></pre><h3 id="futures-and-promises">Futures and promises</h3><p>I already have <a href="https://theswiftdev.com/2019/05/28/promises-in-swift-for-beginners/" target="_blank">a tutorial for beginners about promises in Swift</a>, if you need to understand the reasoning behind these types, please read that article first.</p><p>Combine has it’s own future / promise implementation, which is surprisingly well-made. I use them very often if I have an async callback block, I usually transform that function into a promisified version (returning a publisher), by using a future.</p><pre><code class="language-swift">func asyncMethod(completion: ((String) -&gt; Void)) {
     //...
 }
 
@@ -239,7 +240,7 @@ func promisifiedAsyncMethod() -&gt; AnyPublisher&lt;String, Never&gt; {
     }
     .eraseToAnyPublisher()
 }
-</code></pre><h3 id="just">Just</h3><p><code>Just</code> is made from a generic <a href="https://theswiftdev.com/2019/01/28/how-to-use-the-result-type-to-handle-errors-in-swift/">result type</a> and a <code>Never</code> failure type. It just provides you a single value, then it will terminate. It’s quite useful if you want to fallback to a default value, or you just want to return a value.</p><pre><code class="language-swift">let just = Just&lt;String&gt;("just a value")
+</code></pre><h3 id="just">Just</h3><p><code>Just</code> is made from a generic <a href="https://theswiftdev.com/2019/01/28/how-to-use-the-result-type-to-handle-errors-in-swift/" target="_blank">result type</a> and a <code>Never</code> failure type. It just provides you a single value, then it will terminate. It’s quite useful if you want to fallback to a default value, or you just want to return a value.</p><pre><code class="language-swift">let just = Just&lt;String&gt;("just a value")
 
 just.sink(receiveCompletion: { _ in
 
@@ -306,7 +307,7 @@ _ = Future&lt;String, Error&gt; { promise in
 })
 
 .breakpointOnError()
-</code></pre><h3 id="groups-and-dependencies">Groups and dependencies</h3><p>I have examples for both cases in my other <a href="https://theswiftdev.com/2019/08/15/urlsession-and-the-combine-framework/">article about Combine & URLSession</a>, so please go and read that if you’d like to learn how to zip together two publishers.</p><h2 id="conclusion">Conclusion</h2><p>Combine is a really nice framework, you should definitively learn it eventually. It’s also a good opportunity to refactor your legacy / callback-based code into a nice modern declarative one. You can simply transform all your old-school delegates into publishers by using subjects. Futures and promises can help you to move away from callback blocks and prefer publishers instead. There are plenty of <a href="https://heckj.github.io/swiftui-notes/" target="_blank">good resources about Combine</a> around the web, also the official documentation is real good. 📖</p>
+</code></pre><h3 id="groups-and-dependencies">Groups and dependencies</h3><p>I have examples for both cases in my other <a href="https://theswiftdev.com/2019/08/15/urlsession-and-the-combine-framework/" target="_blank">article about Combine & URLSession</a>, so please go and read that if you’d like to learn how to zip together two publishers.</p><h2 id="conclusion">Conclusion</h2><p>Combine is a really nice framework, you should definitively learn it eventually. It’s also a good opportunity to refactor your legacy / callback-based code into a nice modern declarative one. You can simply transform all your old-school delegates into publishers by using subjects. Futures and promises can help you to move away from callback blocks and prefer publishers instead. There are plenty of <a href="https://heckj.github.io/swiftui-notes/" target="_blank">good resources about Combine</a> around the web, also the official documentation is real good. 📖</p>
                     
                 </section>
     
@@ -317,12 +318,12 @@ _ = Future&lt;String, Error&gt; { promise in
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
-                        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
-                    <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                    <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                     </div>
                     
                     <p>
@@ -341,20 +342,21 @@ _ = Future&lt;String, Error&gt; { promise in
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2022/02/03">2022/02/03</time>
-                                 &middot; <span class="reading-time">8 min read</span>
+                                <time datetime="2017-10-31T15:20:00.000Z">10/31/17 3:20 PM</time>
+                                 &middot; <span class="reading-time">6 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/10-little-uikit-tips-you-should-know/" target="">10 little UIKit tips you should know</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/ios-auto-layout-tutorial-programmatically/" target="">iOS Auto Layout tutorial programmatically</a></h2>
                             <hr>
-                            <p>In this article I&#39;ve gathered my top 10 favorite modern UIKit tips that I&#39;d definitely want to know before I start my next project.</p>
+                            <p>In this great iOS Auto Layout tutorial I&#39;ll teach you how to support rotation, use constraints, work with layers, animate corner radius.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -362,20 +364,22 @@ _ = Future&lt;String, Error&gt; { promise in
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2019/05/23">2019/05/23</time>
-                                 &middot; <span class="reading-time">5 min read</span>
+                                <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/building-input-forms-for-ios-apps/" target="">Building input forms for iOS apps</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/uikit-init-patterns/" target="">UIKit init patterns</a></h2>
                             <hr>
-                            <p>Learn how to build complex forms with my updated collection view view-model framework without the struggle using Swift.</p>
+                            <p>Learn about the initialization process of the two well known classes in UIKit. Say hello to UIViewcontroller, and UIView init patterns.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                                <a href="https://theswiftdev.com/tags/design-pattern/"><small>Design pattern</small></a>
+        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -383,11 +387,11 @@ _ = Future&lt;String, Error&gt; { promise in
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2018/10/16">2018/10/16</time>
+                                <time datetime="2018-10-16T14:20:00.000Z">10/16/18 2:20 PM</time>
                                  &middot; <span class="reading-time">5 min read</span>
                             </div>
                             
@@ -396,8 +400,8 @@ _ = Future&lt;String, Error&gt; { promise in
                             <p>Do you want to learn how to load a xib file to create a custom view object? Well, this UIKit tutorial is just for you written in Swift.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
-        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -405,20 +409,20 @@ _ = Future&lt;String, Error&gt; { promise in
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2019/10/21">2019/10/21</time>
-                                 &middot; <span class="reading-time">4 min read</span>
+                                <time datetime="2018-05-17T14:20:00.000Z">5/17/18 2:20 PM</time>
+                                 &middot; <span class="reading-time">3 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/custom-views-input-forms-and-mistakes/" target="">Custom views, input forms and mistakes</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/how-to-use-icloud-drive-documents/" target="">How to use iCloud drive documents?</a></h2>
                             <hr>
-                            <p>Just a little advice about creating custom view programmatically and the truth about why form building with collection views sucks.</p>
+                            <p>Learn how to sync files and data through a shared iCloud drive folder using the latest version of Swift programming language.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                                <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     </div>
@@ -443,48 +447,62 @@ _ = Future&lt;String, Error&gt; { promise in
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#what-is-combine">What is Combine?</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#publishers-operators-subscribers">Publishers, Operators, Subscribers</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#benefits-of-using-the-combine-framework">Benefits of using the Combine framework</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#gcd-vs-combine-vs-rx-vs-promises">GCD vs Combine vs Rx vs Promises</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#learn-combine-by-example">Learn Combine by example</a>
-                        <ul>
-                            <li><a href="#built-in-publishers">Built-in publishers</a></li>
-                <li><a href="#timer">Timer</a></li>
-                <li><a href="#notificationcenter">NotificationCenter</a></li>
-                <li><a href="#urlsession">URLSession</a></li>
-                <li><a href="#published-variables">Published variables</a></li>
-                <li><a href="#custom-publishers">Custom publishers</a></li>
-                <li><a href="#subjects">Subjects</a></li>
-                <li><a href="#futures-and-promises">Futures and promises</a></li>
-                <li><a href="#just">Just</a></li>
-                <li><a href="#schedulers">Schedulers</a></li>
-                <li><a href="#error-handling">Error handling</a></li>
-                <li><a href="#debugging">Debugging</a></li>
-                <li><a href="#groups-and-dependencies">Groups and dependencies</a></li>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-3">
+                        <a href="#built-in-publishers">Built-in publishers</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#timer">Timer</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#notificationcenter">NotificationCenter</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#urlsession">URLSession</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#published-variables">Published variables</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#custom-publishers">Custom publishers</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#subjects">Subjects</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#futures-and-promises">Futures and promises</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#just">Just</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#schedulers">Schedulers</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#error-handling">Error handling</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#debugging">Debugging</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#groups-and-dependencies">Groups and dependencies</a>
+                    </li>
+        <li class="level-2">
                         <a href="#conclusion">Conclusion</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -539,7 +557,7 @@ _ = Future&lt;String, Error&gt; { promise in
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

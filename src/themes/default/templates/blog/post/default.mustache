@@ -4,9 +4,9 @@
 <div class="article-with-toc">
     <div>
         <article class="post">
-            <div class="meta">
-                <time datetime="{{page.publication.html}}">{{page.publication.html}}</time>
-                {{#page.readingTime}} &middot; <span class="reading-time">{{page.readingTime}} min read</span>{{/page.readingTime}}
+            <div class="meta">            
+                <time datetime="{{page.publication.formats.iso8601}}">{{page.publication.date.short}} {{page.publication.time.short}}</time>
+                {{#page.contents.readingTime}} &middot; <span class="reading-time">{{.}} min read</span>{{/page.contents.readingTime}}
                 {{#page.featured}} &middot; <span class="featured">featured</span>{{/page.featured}}
             </div>
             <h1>{{page.title}}</h1>
@@ -14,7 +14,7 @@
             <p>{{page.description}}</p>
             <section>
             
-            {{& page.contents}}
+            {{& page.contents.html}}
                 
             </section>
 
@@ -26,7 +26,7 @@
                 <div class="author-list">
                 {{#page.authors}}
                     <a href="{{permalink}}">
-                    {{#imageUrl}}<img class="small rounded" src="{{imageUrl}}" alt="{{title}}">{{/imageUrl}}
+                    {{#image}}<img class="small rounded" src="{{.}}" alt="{{title}}">{{/image}}
                     </a>
                 {{/page.authors}}
                 </div>
@@ -63,7 +63,7 @@
     <div>
         <div class="book">
             <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">
-                <img src="{{site.baseUrl}}book/practical-server-side-swift-cover.png" alt="Practical Server Side Swift cover image">
+                <img src="{{site.baseUrl}}/book/practical-server-side-swift-cover.png" alt="Practical Server Side Swift cover image">
             </a>
             <h3>
                 <a href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Get the Practical Server Side Swift book</a>
@@ -72,7 +72,7 @@
             <a class="cta" href="https://theswiftdev.gumroad.com/l/practical-server-side-swift" target="_blank">Available on Gumroad</a>
         </div>
         
-        {{> partials.toc }}
+        {{> partials.outline }}
 
     </div>
 </div>

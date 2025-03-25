@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2018/04/17">2018/04/17</time>
+                <div class="meta">            
+                    <time datetime="2018-04-17T14:20:00.000Z">4/17/18 2:20 PM</time>
                      &middot; <span class="reading-time">12 min read</span>
                     
                 </div>
@@ -108,7 +109,7 @@
                 <p>Learn how to use UICollectionView, with highly reusable UIKit components and some MVVM pattern without the going nuts with index path calculations.</p>
                 <section>
                 
-                <h2 id="anatomy-of-the-uicollectionview-class">Anatomy of the UICollectionView class</h2><p>If you’re not familiar with <a href="https://developer.apple.com/documentation/uikit/uicollectionview" target="_blank">UICollectionView</a>, I’d suggest to get familiar with this class immediately. They’re the basic building blocks for many apps provided by Apple and other third party developers. It’s like UITableView on steroids. Here is a quick intro about how to work with them through IB and Swift code. 💻</p><p>    <img src="/assets/ultimate-uicollectionview-guide-with-ios-examples-written-in-swift/layout.png" alt="Layout"></p><p>You might have noticed that I have a love for metal music. In this tutorial we’re going to build an Apple Music catalog like look from ground zero using only the mighty <code>UICollectionView</code> class. Headers, horizontal and vertical scrolling, circular images, so basically almost everything that you’ll ever need to build great user interfaces. 🤘🏻</p><h2 id="how-to-make-a-uicollectionview-using-interface-builder-ib-in-xcode">How to make a UICollectionView using Interface Builder (IB) in Xcode?</h2><blockquote><p>The short & honest answer: you shouldn’t use IB!</p></blockquote><p>If you still want to use IB, here is a real quick tutorial for absolutely beginners:</p><p>    <img src="/assets/ultimate-uicollectionview-guide-with-ios-examples-written-in-swift/section.png" alt="Section"></p><p>The main steps of creating your first UICollectionView based screen are these:</p><ul><li>Drag a UICollectionView object to your view controller</li><li>Set proper constraints on the collection view</li><li>Set dataSource & delegate of the collection view</li><li>Prototype your cell layout inside the controller</li><li>Add constraints to your views inside the cell</li><li>Set prototype cell class & reuse identifier</li><li>Do a little coding:</li></ul><pre><code class="language-swift">import UIKit
+                <h2 id="anatomy-of-the-uicollectionview-class">Anatomy of the UICollectionView class</h2><p>If you’re not familiar with <a href="https://developer.apple.com/documentation/uikit/uicollectionview" target="_blank">UICollectionView</a>, I’d suggest to get familiar with this class immediately. They’re the basic building blocks for many apps provided by Apple and other third party developers. It’s like UITableView on steroids. Here is a quick intro about how to work with them through IB and Swift code. 💻</p><p><img src="https://theswiftdev.com/assets/ultimate-uicollectionview-guide-with-ios-examples-written-in-swift/layout.png" alt="Layout"></p><p>You might have noticed that I have a love for metal music. In this tutorial we’re going to build an Apple Music catalog like look from ground zero using only the mighty <code>UICollectionView</code> class. Headers, horizontal and vertical scrolling, circular images, so basically almost everything that you’ll ever need to build great user interfaces. 🤘🏻</p><h2 id="how-to-make-a-uicollectionview-using-interface-builder-ib-in-xcode">How to make a UICollectionView using Interface Builder (IB) in Xcode?</h2><blockquote><p>The short & honest answer: you shouldn’t use IB!</p></blockquote><p>If you still want to use IB, here is a real quick tutorial for absolutely beginners:</p><p><img src="https://theswiftdev.com/assets/ultimate-uicollectionview-guide-with-ios-examples-written-in-swift/section.png" alt="Section"></p><p>The main steps of creating your first UICollectionView based screen are these:</p><ul><li>Drag a UICollectionView object to your view controller</li><li>Set proper constraints on the collection view</li><li>Set dataSource & delegate of the collection view</li><li>Prototype your cell layout inside the controller</li><li>Add constraints to your views inside the cell</li><li>Set prototype cell class & reuse identifier</li><li>Do a little coding:</li></ul><pre><code class="language-swift">import UIKit
 
 class MyCell: UICollectionViewCell {
     @IBOutlet weak var textLabel: UILabel!
@@ -218,7 +219,7 @@ class MyCell: UICollectionViewCell {
         textLabel.text = nil
     }
 }
-</code></pre><p>Next we have to implement the view controller which is responsible for managing the collection view, we’re not using IB so we have to create it manually by <a href="https://theswiftdev.com/2018/06/14/mastering-ios-auto-layout-anchors-programmatically-from-swift/">using Auto Layout anchors</a> - like for the <code>textLabel</code> in the cell - inside the <code>loadView</code> method. After the view hierarchy is ready to rock, we also set the data source and delegate plus register our cell class for further reuse. Note that this is done automatically by the system if you are using IB, but if you prefer code you have to do it by calling the proper registration method. You can register both nibs and classes.</p><pre><code class="language-swift">import UIKit
+</code></pre><p>Next we have to implement the view controller which is responsible for managing the collection view, we’re not using IB so we have to create it manually by <a href="https://theswiftdev.com/2018/06/14/mastering-ios-auto-layout-anchors-programmatically-from-swift/" target="_blank">using Auto Layout anchors</a> - like for the <code>textLabel</code> in the cell - inside the <code>loadView</code> method. After the view hierarchy is ready to rock, we also set the data source and delegate plus register our cell class for further reuse. Note that this is done automatically by the system if you are using IB, but if you prefer code you have to do it by calling the proper registration method. You can register both nibs and classes.</p><pre><code class="language-swift">import UIKit
 
 class ViewController: UIViewController {
 
@@ -338,7 +339,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
         .init(top: 8, left: 8, bottom: 8, right: 8)
     }
 }
-</code></pre><p>This time you should pay some attention on the flow layout delegate methods. You can use these methods to provide metrics for the layout system. The flow layout will display all the cells based on these numbers and sizes. sizeForItemAt is responsible for the cell size, <code>minimumInteritemSpacingForSectionAt</code> is the horizontal padding, <code>minimumLineSpacingForSectionAt</code> is the vertical padding, and <code>insetForSectionAt</code> is for the margin of the collection view section.</p><h2 id="using-supplementary-elements-section-headers-and-footers">Using supplementary elements (section headers and footers)</h2><p>So in this section I’m going to both use storyboards, nibs and some Swift code. This is my usual approach for a few reasons. Although I love making constraints from code, most people prefer visual editors, so all the cells are created inside nibs. Why nibs? Because if you have multiple collection views this is “almost” the only nice way to share cells between them.</p><p>You can create section footers exactly the same way as you do headers, so that’s why this time I’m only going to focus on headers, because literally you only have to change one word in order to use footers. ⚽️</p><p>    <img src="/assets/ultimate-uicollectionview-guide-with-ios-examples-written-in-swift/cell.png" alt="Cell"></p><p>You just have to create two xib files, one for the cell and one for the header. Please note that you could use the exact same collection view cell to display content in the section header, but this is a demo so let’s just go with two distinct items. You don’t even have to set the reuse identifier from IB, because we have to register our reusable views inside the source code, so just set the cell class and connect your outlets.</p><p>Cell and supplementary element registration is slightly different for nibs.</p><pre><code class="language-swift">let cellNib = UINib(nibName: "Cell", bundle: nil)
+</code></pre><p>This time you should pay some attention on the flow layout delegate methods. You can use these methods to provide metrics for the layout system. The flow layout will display all the cells based on these numbers and sizes. sizeForItemAt is responsible for the cell size, <code>minimumInteritemSpacingForSectionAt</code> is the horizontal padding, <code>minimumLineSpacingForSectionAt</code> is the vertical padding, and <code>insetForSectionAt</code> is for the margin of the collection view section.</p><h2 id="using-supplementary-elements-section-headers-and-footers">Using supplementary elements (section headers and footers)</h2><p>So in this section I’m going to both use storyboards, nibs and some Swift code. This is my usual approach for a few reasons. Although I love making constraints from code, most people prefer visual editors, so all the cells are created inside nibs. Why nibs? Because if you have multiple collection views this is “almost” the only nice way to share cells between them.</p><p>You can create section footers exactly the same way as you do headers, so that’s why this time I’m only going to focus on headers, because literally you only have to change one word in order to use footers. ⚽️</p><p><img src="https://theswiftdev.com/assets/ultimate-uicollectionview-guide-with-ios-examples-written-in-swift/cell.png" alt="Cell"></p><p>You just have to create two xib files, one for the cell and one for the header. Please note that you could use the exact same collection view cell to display content in the section header, but this is a demo so let’s just go with two distinct items. You don’t even have to set the reuse identifier from IB, because we have to register our reusable views inside the source code, so just set the cell class and connect your outlets.</p><p>Cell and supplementary element registration is slightly different for nibs.</p><pre><code class="language-swift">let cellNib = UINib(nibName: "Cell", bundle: nil)
 self.collectionView.register(
     cellNib, 
     forCellWithReuseIdentifier: "Cell"
@@ -459,7 +460,7 @@ self.collectionView.source = .init(grid: grid, [
     ],
 ])
 self.collectionView.reloadData()
-</code></pre><h3 id="step-5.">Step 5. 🍺🤘🏻🎸</h3><p>Congratulations you’re done with your first collection view. With just a few lines of code you have a ROCK SOLID code that will help you out in most of the situations! 😎</p><blockquote><p>This is just the tip of the iceberg! 🚢</p></blockquote><h2 id="horizontal-scrolling-inside-vertical-scrolling">Horizontal scrolling inside vertical scrolling</h2><p>What if we make a cell that contains a collection view and we use the same method like above? A collection view containing a collection view… UICollectionViewception!!! 😂</p><p>It’s completely possible, and really easy to do, the data that feeds the view model will be a collection view source object, and you’re done. Effortless, magical and super nice to implement, also included in the example app.</p><h3 id="sections-with-artists-circular-images">Sections with artists & circular images</h3><p>Multiple sections? No problem, circular images? That’s also a piece of cake, if you had read my previous <a href="https://theswiftdev.com/2018/01/24/uicollectionview-cells-with-circular-images-plus-rotation-support/">tutorial about circular collection view cells</a>, you’ll know how to do it, but please check out the source code from GitLab and see it for yourself in action.</p><h3 id="callbacks-and-actions">Callbacks and actions</h3><p>User events can be handled very easy, because view models can have delegates or callback blocks, it only depends on you which one you prefer. The example contains an onSelect handler, which is super nice and built-in to the framework. 😎</p><h3 id="dynamic-cell-sizing-re-imagined">Dynamic cell sizing re-imagined</h3><p>I also had a <a href="https://theswiftdev.com/2018/01/23/self-sizing-cells-with-rotation-support/">tutorial about collection view self sizing cell support</a>, but to be honest I’m not a big fan of Apple’s official method. After I’ve made the grid system and started using view models, it was more easy to calculate cell heights by myself, with about 2 lines of extra code. I believe that’s worth it, because self sizing cells are a little buggy if it comes to auto rotation.</p><h3 id="rotation-support-adaptivity">Rotation support, adaptivity</h3><p>Don’t worry about that too much, you can simply change the grid or check trait collections inside the view model if you want. I’d say almost everything can be done right out of the box. My collection view micro framework is just a lightweight wrapper around the official collection view APIs. That’s the beauty of it, feel free to do whatever you want and use it in a way that YOU personally prefer. 📦</p><p>Now go, grab the <a href="https://github.com/theswiftdev/tutorials" target="_blank">sample code</a> and listen to some metal! 🤘🏻</p><h2 id="what-if-i-told-you-one-more-thing-swiftui">What if I told you… one more thing: SwiftUI</h2><p>These are some original quotes of mine back from April, 2018:</p><blockquote><p>If you like this method that’s cool, but what if I told you that there is more? Do you want to use the same pattern everywhere? I mean on iOS, tvOS, macOS and even watchOS. Done deal! I’ve created everything inside the CoreKit framework. UITableViews, WKInterfaceTables are supported as well.</p></blockquote><p>Well, I’m a visionary, but SwiftUI was late 1 year, it arrived in 2019:</p><blockquote><p>I really believe that Apple this year will approach the next generation UIKit / AppKit / UXKit frameworks (written in Swift of course) somewhat like this. I’m not talking about the view model pattern, but about the same API on every platform thinking. Anyway, who knows this for sue, we’ll see… #wwdc18 🤔</p></blockquote><p>If someone from Apple reads this, please explain me why the hell is SwiftUI still an abstraction layer above UIKit/ AppKit instead of a refactored AppleKit UI framework that finally unifies every single API? For real, why? Still don’t get it. 🤷‍♂️</p><p>Anyway, we’re going in to the same direction guys, year-by-year I delete more and more self-written “3rd-party” code, so you’re doing great progress there! 🍎</p>
+</code></pre><h3 id="step-5.">Step 5. 🍺🤘🏻🎸</h3><p>Congratulations you’re done with your first collection view. With just a few lines of code you have a ROCK SOLID code that will help you out in most of the situations! 😎</p><blockquote><p>This is just the tip of the iceberg! 🚢</p></blockquote><h2 id="horizontal-scrolling-inside-vertical-scrolling">Horizontal scrolling inside vertical scrolling</h2><p>What if we make a cell that contains a collection view and we use the same method like above? A collection view containing a collection view… UICollectionViewception!!! 😂</p><p>It’s completely possible, and really easy to do, the data that feeds the view model will be a collection view source object, and you’re done. Effortless, magical and super nice to implement, also included in the example app.</p><h3 id="sections-with-artists-circular-images">Sections with artists & circular images</h3><p>Multiple sections? No problem, circular images? That’s also a piece of cake, if you had read my previous <a href="https://theswiftdev.com/2018/01/24/uicollectionview-cells-with-circular-images-plus-rotation-support/" target="_blank">tutorial about circular collection view cells</a>, you’ll know how to do it, but please check out the source code from GitLab and see it for yourself in action.</p><h3 id="callbacks-and-actions">Callbacks and actions</h3><p>User events can be handled very easy, because view models can have delegates or callback blocks, it only depends on you which one you prefer. The example contains an onSelect handler, which is super nice and built-in to the framework. 😎</p><h3 id="dynamic-cell-sizing-re-imagined">Dynamic cell sizing re-imagined</h3><p>I also had a <a href="https://theswiftdev.com/2018/01/23/self-sizing-cells-with-rotation-support/" target="_blank">tutorial about collection view self sizing cell support</a>, but to be honest I’m not a big fan of Apple’s official method. After I’ve made the grid system and started using view models, it was more easy to calculate cell heights by myself, with about 2 lines of extra code. I believe that’s worth it, because self sizing cells are a little buggy if it comes to auto rotation.</p><h3 id="rotation-support-adaptivity">Rotation support, adaptivity</h3><p>Don’t worry about that too much, you can simply change the grid or check trait collections inside the view model if you want. I’d say almost everything can be done right out of the box. My collection view micro framework is just a lightweight wrapper around the official collection view APIs. That’s the beauty of it, feel free to do whatever you want and use it in a way that YOU personally prefer. 📦</p><p>Now go, grab the <a href="https://github.com/theswiftdev/tutorials" target="_blank">sample code</a> and listen to some metal! 🤘🏻</p><h2 id="what-if-i-told-you-one-more-thing-swiftui">What if I told you… one more thing: SwiftUI</h2><p>These are some original quotes of mine back from April, 2018:</p><blockquote><p>If you like this method that’s cool, but what if I told you that there is more? Do you want to use the same pattern everywhere? I mean on iOS, tvOS, macOS and even watchOS. Done deal! I’ve created everything inside the CoreKit framework. UITableViews, WKInterfaceTables are supported as well.</p></blockquote><p>Well, I’m a visionary, but SwiftUI was late 1 year, it arrived in 2019:</p><blockquote><p>I really believe that Apple this year will approach the next generation UIKit / AppKit / UXKit frameworks (written in Swift of course) somewhat like this. I’m not talking about the view model pattern, but about the same API on every platform thinking. Anyway, who knows this for sue, we’ll see… #wwdc18 🤔</p></blockquote><p>If someone from Apple reads this, please explain me why the hell is SwiftUI still an abstraction layer above UIKit/ AppKit instead of a refactored AppleKit UI framework that finally unifies every single API? For real, why? Still don’t get it. 🤷‍♂️</p><p>Anyway, we’re going in to the same direction guys, year-by-year I delete more and more self-written “3rd-party” code, so you’re doing great progress there! 🍎</p>
                     
                 </section>
     
@@ -470,7 +471,7 @@ self.collectionView.reloadData()
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -493,20 +494,21 @@ self.collectionView.reloadData()
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2022/02/03">2022/02/03</time>
-                                 &middot; <span class="reading-time">8 min read</span>
+                                <time datetime="2017-10-31T15:20:00.000Z">10/31/17 3:20 PM</time>
+                                 &middot; <span class="reading-time">6 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/10-little-uikit-tips-you-should-know/" target="">10 little UIKit tips you should know</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/ios-auto-layout-tutorial-programmatically/" target="">iOS Auto Layout tutorial programmatically</a></h2>
                             <hr>
-                            <p>In this article I&#39;ve gathered my top 10 favorite modern UIKit tips that I&#39;d definitely want to know before I start my next project.</p>
+                            <p>In this great iOS Auto Layout tutorial I&#39;ll teach you how to support rotation, use constraints, work with layers, animate corner radius.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -514,20 +516,22 @@ self.collectionView.reloadData()
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2019/05/23">2019/05/23</time>
-                                 &middot; <span class="reading-time">5 min read</span>
+                                <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/building-input-forms-for-ios-apps/" target="">Building input forms for iOS apps</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/uikit-init-patterns/" target="">UIKit init patterns</a></h2>
                             <hr>
-                            <p>Learn how to build complex forms with my updated collection view view-model framework without the struggle using Swift.</p>
+                            <p>Learn about the initialization process of the two well known classes in UIKit. Say hello to UIViewcontroller, and UIView init patterns.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                                <a href="https://theswiftdev.com/tags/design-pattern/"><small>Design pattern</small></a>
+        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -535,11 +539,11 @@ self.collectionView.reloadData()
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2018/10/16">2018/10/16</time>
+                                <time datetime="2018-10-16T14:20:00.000Z">10/16/18 2:20 PM</time>
                                  &middot; <span class="reading-time">5 min read</span>
                             </div>
                             
@@ -548,8 +552,8 @@ self.collectionView.reloadData()
                             <p>Do you want to learn how to load a xib file to create a custom view object? Well, this UIKit tutorial is just for you written in Swift.</p>
                         
                             <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
-        <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+                                <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     <div class="card">
@@ -557,20 +561,21 @@ self.collectionView.reloadData()
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2019/10/21">2019/10/21</time>
-                                 &middot; <span class="reading-time">4 min read</span>
+                                <time datetime="2018-04-26T14:20:00.000Z">4/26/18 2:20 PM</time>
+                                 &middot; <span class="reading-time">5 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/custom-views-input-forms-and-mistakes/" target="">Custom views, input forms and mistakes</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/ios-custom-transition-tutorial-in-swift/" target="">iOS custom transition tutorial in Swift</a></h2>
                             <hr>
-                            <p>Just a little advice about creating custom view programmatically and the truth about why form building with collection views sucks.</p>
+                            <p>In this tutorial, you&#39;ll learn how to replace the push, pop and modal animations with custom transitions &amp; percent driven interactions.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/uikit/"><small>UIKit</small></a>
+        <a href="https://theswiftdev.com/tags/ios/"><small>iOS</small></a>
                             </div>
                         </div>
                     </div>
@@ -595,59 +600,71 @@ self.collectionView.reloadData()
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#anatomy-of-the-uicollectionview-class">Anatomy of the UICollectionView class</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#how-to-make-a-uicollectionview-using-interface-builder-ib-in-xcode">How to make a UICollectionView using Interface Builder (IB) in Xcode?</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#how-to-setup-a-uicollectionview-based-screen-programmatically">How to setup a UICollectionView based screen programmatically?</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#using-supplementary-elements-section-headers-and-footers">Using supplementary elements (section headers and footers)</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#my-collectionview-based-ui-framework">My CollectionView based UI framework</a>
-                        <ul>
-                            <li><a href="#grid-system">Grid system</a></li>
-                <li><a href="#cell-reuse">Cell reuse</a></li>
-                <li><a href="#view-model">View model</a></li>
-                <li><a href="#section">Section</a></li>
-                <li><a href="#source">Source</a></li>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-3">
+                        <a href="#grid-system">Grid system</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#cell-reuse">Cell reuse</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#view-model">View model</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#section">Section</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#source">Source</a>
+                    </li>
+        <li class="level-2">
                         <a href="#collectionview-framework-example-application">CollectionView framework example application</a>
-                        <ul>
-                            <li><a href="#step-1.-make-the-cell.">Step 1. Make the cell.</a></li>
-                <li><a href="#step-2.-make-a-model">Step 2. Make a model</a></li>
-                <li><a href="#step-3.-make-the-view-model.">Step 3. Make the view model.</a></li>
-                <li><a href="#step-4.-setup-your-data-source.">Step 4. Setup your data source.</a></li>
-                <li><a href="#step-5.">Step 5. 🍺🤘🏻🎸</a></li>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-3">
+                        <a href="#step-1.-make-the-cell.">Step 1. Make the cell.</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#step-2.-make-a-model">Step 2. Make a model</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#step-3.-make-the-view-model.">Step 3. Make the view model.</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#step-4.-setup-your-data-source.">Step 4. Setup your data source.</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#step-5.">Step 5. 🍺🤘🏻🎸</a>
+                    </li>
+        <li class="level-2">
                         <a href="#horizontal-scrolling-inside-vertical-scrolling">Horizontal scrolling inside vertical scrolling</a>
-                        <ul>
-                            <li><a href="#sections-with-artists-circular-images">Sections with artists &amp; circular images</a></li>
-                <li><a href="#callbacks-and-actions">Callbacks and actions</a></li>
-                <li><a href="#dynamic-cell-sizing-re-imagined">Dynamic cell sizing re-imagined</a></li>
-                <li><a href="#rotation-support-adaptivity">Rotation support, adaptivity</a></li>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-3">
+                        <a href="#sections-with-artists-circular-images">Sections with artists &amp; circular images</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#callbacks-and-actions">Callbacks and actions</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#dynamic-cell-sizing-re-imagined">Dynamic cell sizing re-imagined</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#rotation-support-adaptivity">Rotation support, adaptivity</a>
+                    </li>
+        <li class="level-2">
                         <a href="#what-if-i-told-you-one-more-thing-swiftui">What if I told you… one more thing: SwiftUI</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -702,7 +719,7 @@ self.collectionView.reloadData()
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

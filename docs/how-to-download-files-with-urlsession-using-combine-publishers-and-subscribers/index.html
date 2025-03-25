@@ -63,6 +63,7 @@
 </head>
 
 <body>
+
     <div id="site-container">
 
     <header id="navigation">
@@ -98,8 +99,8 @@
     <div class="article-with-toc">
         <div>
             <article class="post">
-                <div class="meta">
-                    <time datetime="2020/01/28">2020/01/28</time>
+                <div class="meta">            
+                    <time datetime="2020-01-28T15:20:00.000Z">1/28/20 3:20 PM</time>
                      &middot; <span class="reading-time">12 min read</span>
                     
                 </div>
@@ -108,7 +109,7 @@
                 <p>Learn how to load a remote image into an UIImageView asynchronously using URLSessionDownloadTask and the Combine framework in Swift.</p>
                 <section>
                 
-                <h2 id="a-simple-image-downloader">A simple image downloader</h2><p>Downloading a resource from an URL seems like a trivial task, but is it really that easy? Well, it depends. If you have to <a href="https://theswiftdev.com/2018/01/29/how-to-parse-json-in-swift-using-codable-protocol/">download and parse a JSON file</a> which is just a few KB, then you can go with the classical way or you can use the new <code>dataTaskPublisher</code> method on the <a href="https://theswiftdev.com/2019/08/15/urlsession-and-the-combine-framework/">URLSession object from the Combine framework</a>.</p><h3 id="bad-practices">Bad practices ⚠️</h3><p>There are some quick & dirty approaches that you can use to get some smaller data from the internet. The problem with these methods is that you have to deal a lot with threads and queues. Fortunately <a href="https://theswiftdev.com/2018/07/10/ultimate-grand-central-dispatch-tutorial-in-swift/">using the Dispatch framework</a> helps a lot, so you can turn your blocking functions into non-blocking ones. 🚧</p><pre><code class="language-swift">let url = URL(string: "https://jsonplaceholder.typicode.com/todos/1")!
+                <h2 id="a-simple-image-downloader">A simple image downloader</h2><p>Downloading a resource from an URL seems like a trivial task, but is it really that easy? Well, it depends. If you have to <a href="https://theswiftdev.com/2018/01/29/how-to-parse-json-in-swift-using-codable-protocol/" target="_blank">download and parse a JSON file</a> which is just a few KB, then you can go with the classical way or you can use the new <code>dataTaskPublisher</code> method on the <a href="https://theswiftdev.com/2019/08/15/urlsession-and-the-combine-framework/" target="_blank">URLSession object from the Combine framework</a>.</p><h3 id="bad-practices">Bad practices ⚠️</h3><p>There are some quick & dirty approaches that you can use to get some smaller data from the internet. The problem with these methods is that you have to deal a lot with threads and queues. Fortunately <a href="https://theswiftdev.com/2018/07/10/ultimate-grand-central-dispatch-tutorial-in-swift/" target="_blank">using the Dispatch framework</a> helps a lot, so you can turn your blocking functions into non-blocking ones. 🚧</p><pre><code class="language-swift">let url = URL(string: "https://jsonplaceholder.typicode.com/todos/1")!
 
 // Synchronous download using Data & String
 do {
@@ -145,7 +146,7 @@ URLSession.shared.dataTask(with: url) { data, response, error in
         // do something on the main queue
     }
 }.resume()
-</code></pre><p>It’s also worth to mention if you need to use a different HTTP method (other than GET), send special headers (credentials, accept policies, etc.) or provide extra data in the body, you need to construct an <code>URLRequest</code> object first. You can only send these custom requests using the <code>URLSession</code> APIs.</p><blockquote class="note"><p>NOTE: On Apple platforms you are not allowed to use the insecure HTTP protocol anymore. If you want to reach a URL without the secure layer (HTTPS) you have to disable <a href="https://developer.apple.com/security/" target="_blank">App Transport Security</a>.</p></blockquote><h2 id="the-problem-with-data-tasks">The problem with data tasks</h2><p>What about big files, such as images? Let me show you a few tutorials before we dive in:</p><ul><li><a href="https://stackoverflow.com/questions/47030822/uiimageview-load-uiimage-from-remote-url" target="_blank">UIImageView, Load UIImage from remote URL</a></li><li><a href="https://stackoverflow.com/questions/9786018/loading-an-image-into-uiimage-asynchronously" target="_blank">Loading an image into UIImage asynchronously</a></li><li><a href="https://www.hackingwithswift.com/example-code/uikit/how-to-load-a-remote-image-url-into-uiimageview" target="_blank">How to load a remote image URL into UIImageView</a></li><li><a href="https://iosdevcenters.blogspot.com/2018/06/how-to-downloading-image-from-server.html" target="_blank">How To Downloading Image from server URL on Swift 4?</a></li><li><a href="https://stackoverflow.com/questions/46199203/downloading-uiimage-via-alamofireimage" target="_blank">Downloading UIImage via AlamofireImage?</a></li><li><a href="https://medium.com/swlh/loading-images-from-url-in-swift-2bf8b9db266" target="_blank">Loading images from URL in Swift</a></li><li><a href="https://www.tutorialspoint.com/how-do-i-load-an-image-by-url-on-ios-device-using-swift" target="_blank">How do I load an image by URL on iOS device using Swift?</a></li><li><a href="http://swiftdeveloperblog.com/code-examples/uiimageview-and-uiimage-load-image-from-remote-url/" target="_blank">UIImageView and UIImage. Load Image From Remote URL.</a></li><li><a href="https://www.youtube.com/watch?v=DnZvlanmpNE" target="_blank">Asynchronously Loading Images in SwiftUI</a></li><li><a href="https://onmyway133.github.io/blog/How-to-load-remote-image-in-SwiftUI/" target="_blank">How to load remote image in SwiftUI</a></li><li><a href="https://stackoverflow.com/questions/24231680/loading-downloading-image-from-url-on-swift" target="_blank">Loading/Downloading image from URL on Swift</a></li></ul><p>With all due respect, I think all of these links above are really bad examples of loading remote images. Sure they do the job, they’re also very easy to implement, but maybe we should cover the whole story… 🤐</p><blockquote><p>For small interactions with remote servers, you can use the URLSessionDataTask class to receive response data into memory (as opposed to using the URLSessionDownloadTask class, which stores the data directly to the file system). A data task is ideal for uses like calling a web service endpoint.</p></blockquote><p>What is difference between <code>URLSessionDataTask</code> vs <code>URLSessionDownloadTask</code>?</p><p>If we <a href="https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory#overview" target="_blank">read the docs carefully</a>, it becomes clear that data task is NOT the right candidate for downloading big assets. That class is designed to request only smaller objects, since the underlying data is going to be loaded into memory. On the other hand the download task saves the content of the response on the disk (instead of memory) and you will receive a local file URL instead of a Data object. Turns out that moving from data tasks to download tasks will have a HUGE impact on your memory consumption. I have some numbers. 📈</p><p>I downloaded the <a href="https://images.unsplash.com/photo-1554773228-1f38662139db" target="_blank">following image file</a> (6000x4000px 💾 13,1MB) using both methods. I made a brand new storyboard based Swift 5.1 project. The basic RAM usage was ~52MB, when I fetched the image using the <code>URLSessionDataTask</code> class, the memory usage jumped to ~82MB. Turning the data task into a download task only increased the base memory size by ~4MB (to a total ~56MB), which is a significant improvement.</p><pre><code class="language-swift">let url = URL(string: "https://images.unsplash.com/photo-1554773228-1f38662139db")!
+</code></pre><p>It’s also worth to mention if you need to use a different HTTP method (other than GET), send special headers (credentials, accept policies, etc.) or provide extra data in the body, you need to construct an <code>URLRequest</code> object first. You can only send these custom requests using the <code>URLSession</code> APIs.</p><blockquote class="note"><p>On Apple platforms you are not allowed to use the insecure HTTP protocol anymore. If you want to reach a URL without the secure layer (HTTPS) you have to disable <a href="https://developer.apple.com/security/" target="_blank">App Transport Security</a>.</p></blockquote><h2 id="the-problem-with-data-tasks">The problem with data tasks</h2><p>What about big files, such as images? Let me show you a few tutorials before we dive in:</p><ul><li><a href="https://stackoverflow.com/questions/47030822/uiimageview-load-uiimage-from-remote-url" target="_blank">UIImageView, Load UIImage from remote URL</a></li><li><a href="https://stackoverflow.com/questions/9786018/loading-an-image-into-uiimage-asynchronously" target="_blank">Loading an image into UIImage asynchronously</a></li><li><a href="https://www.hackingwithswift.com/example-code/uikit/how-to-load-a-remote-image-url-into-uiimageview" target="_blank">How to load a remote image URL into UIImageView</a></li><li><a href="https://iosdevcenters.blogspot.com/2018/06/how-to-downloading-image-from-server.html" target="_blank">How To Downloading Image from server URL on Swift 4?</a></li><li><a href="https://stackoverflow.com/questions/46199203/downloading-uiimage-via-alamofireimage" target="_blank">Downloading UIImage via AlamofireImage?</a></li><li><a href="https://medium.com/swlh/loading-images-from-url-in-swift-2bf8b9db266" target="_blank">Loading images from URL in Swift</a></li><li><a href="https://www.tutorialspoint.com/how-do-i-load-an-image-by-url-on-ios-device-using-swift" target="_blank">How do I load an image by URL on iOS device using Swift?</a></li><li><a href="http://swiftdeveloperblog.com/code-examples/uiimageview-and-uiimage-load-image-from-remote-url/" target="_blank">UIImageView and UIImage. Load Image From Remote URL.</a></li><li><a href="https://www.youtube.com/watch?v=DnZvlanmpNE" target="_blank">Asynchronously Loading Images in SwiftUI</a></li><li><a href="https://onmyway133.github.io/blog/How-to-load-remote-image-in-SwiftUI/" target="_blank">How to load remote image in SwiftUI</a></li><li><a href="https://stackoverflow.com/questions/24231680/loading-downloading-image-from-url-on-swift" target="_blank">Loading/Downloading image from URL on Swift</a></li></ul><p>With all due respect, I think all of these links above are really bad examples of loading remote images. Sure they do the job, they’re also very easy to implement, but maybe we should cover the whole story… 🤐</p><blockquote><p>For small interactions with remote servers, you can use the URLSessionDataTask class to receive response data into memory (as opposed to using the URLSessionDownloadTask class, which stores the data directly to the file system). A data task is ideal for uses like calling a web service endpoint.</p></blockquote><p>What is difference between <code>URLSessionDataTask</code> vs <code>URLSessionDownloadTask</code>?</p><p>If we <a href="https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory#overview" target="_blank">read the docs carefully</a>, it becomes clear that data task is NOT the right candidate for downloading big assets. That class is designed to request only smaller objects, since the underlying data is going to be loaded into memory. On the other hand the download task saves the content of the response on the disk (instead of memory) and you will receive a local file URL instead of a Data object. Turns out that moving from data tasks to download tasks will have a HUGE impact on your memory consumption. I have some numbers. 📈</p><p>I downloaded the <a href="https://images.unsplash.com/photo-1554773228-1f38662139db" target="_blank">following image file</a> (6000x4000px 💾 13,1MB) using both methods. I made a brand new storyboard based Swift 5.1 project. The basic RAM usage was ~52MB, when I fetched the image using the <code>URLSessionDataTask</code> class, the memory usage jumped to ~82MB. Turning the data task into a download task only increased the base memory size by ~4MB (to a total ~56MB), which is a significant improvement.</p><pre><code class="language-swift">let url = URL(string: "https://images.unsplash.com/photo-1554773228-1f38662139db")!
 
 // data task
 URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
@@ -179,7 +180,7 @@ URLSession.shared.downloadTask(with: url) { [weak self] url, response, error in
         print(error.localizedDescription)
     }
 }.resume()
-</code></pre><p>When I rendered the image using an <code>UIImageView</code> the memory footprint was ~118MB (total: ~170MB) for the data task, and ~93MB (total: ~145MB) for the download task. Here’s a quick summary:</p><ul><li>Data task: ~30MB</li><li>Data task with rendering: ~118MB</li><li>Download task: ~4MB</li><li>Download task with rendering: ~93MB</li></ul><p>I hope you get my point. Please don’t forget that the Foundation networking layer comes with four types of session tasks. You should always use the right one that fits the job. We can say that the <a href="https://stackoverflow.com/questions/20604910/what-is-difference-between-nsurlsessiondatatask-vs-nsurlsessiondownloadtask" target="_blank">difference between URLSessionDataTask vs URLSessionDownloadTask</a> is: a lot of memory (in this case about 25MB of RAM).</p><blockquote><p>You can use <a href="https://github.com/onevcat/Kingfisher" target="_blank">Kingfisher</a> or <a href="https://github.com/SDWebImage/SDWebImage" target="_blank">SDWebImage</a> to download & manipulate remote images..</p></blockquote><p>You might say that this is an edge case since most of the images (even HD ones) are maximum a few hundred kilobytes. Still, my takeaway here is that we can do better, and we should always do so if possible. 🤓</p><h2 id="downloading-images-using-combine">Downloading images using Combine</h2><p>WWDC19, Apple announced the Combine framework, which brings us a few new extensions for some Foundation objects. Modern times require modern APIs, right? If you are already familiar with the new SDK that’s good, but if you don’t know what the heck is this declarative functional reactive madness, you should read my <a href="https://theswiftdev.com/2019/10/31/the-ultimate-combine-framework-tutorial-in-swift/">comprehensive tutorial about the Combine framework</a>.</p><p>The first version of Combine shipped with a nice <code>dataTaskPublisher</code> extension method for the <code>URLSession</code> class. Wait, where are the others? No download task publisher? What should we do now? 🤔</p><h3 id="how-to-write-a-custom-publisher">How to write a custom Publisher?</h3><p><a href="https://x.com/twannl" target="_blank">SwiftLee</a> has a nice <a href="https://www.avanderlee.com/swift/custom-combine-publisher/" target="_blank">tutorial</a> about Combine that can help you a lot with UIControl events. Another great read (even better than the first one) by <a href="https://x.com/donnywals" target="_blank">Donny Wals</a> is about <a href="https://www.donnywals.com/understanding-combines-publishers-and-subscribers/" target="_blank">understanding Publishers and Subscribers</a>. It’s a really well-written article, you should definitely check this one, I highly recommend it. 🤘🏻</p><p>Now let’s start creating our own <code>DownloadTaskPublisher</code>. If you command + click on the <code>dataTaskPublisher</code> method in Xcode, you can see the corresponding interface. There is also a <code>DataTaskPublisher</code> struct, right below. Based on that template we can create our own extension. There are two variants of the same data task method, we’ll replicate this behavior. The other thing we need is a <code>DownloadTaskPublisher</code> struct, I’ll show you the Swift code first, then we’ll discuss the implementation details.</p><pre><code class="language-swift">extension URLSession {
+</code></pre><p>When I rendered the image using an <code>UIImageView</code> the memory footprint was ~118MB (total: ~170MB) for the data task, and ~93MB (total: ~145MB) for the download task. Here’s a quick summary:</p><ul><li>Data task: ~30MB</li><li>Data task with rendering: ~118MB</li><li>Download task: ~4MB</li><li>Download task with rendering: ~93MB</li></ul><p>I hope you get my point. Please don’t forget that the Foundation networking layer comes with four types of session tasks. You should always use the right one that fits the job. We can say that the <a href="https://stackoverflow.com/questions/20604910/what-is-difference-between-nsurlsessiondatatask-vs-nsurlsessiondownloadtask" target="_blank">difference between URLSessionDataTask vs URLSessionDownloadTask</a> is: a lot of memory (in this case about 25MB of RAM).</p><blockquote><p>You can use <a href="https://github.com/onevcat/Kingfisher" target="_blank">Kingfisher</a> or <a href="https://github.com/SDWebImage/SDWebImage" target="_blank">SDWebImage</a> to download & manipulate remote images..</p></blockquote><p>You might say that this is an edge case since most of the images (even HD ones) are maximum a few hundred kilobytes. Still, my takeaway here is that we can do better, and we should always do so if possible. 🤓</p><h2 id="downloading-images-using-combine">Downloading images using Combine</h2><p>WWDC19, Apple announced the Combine framework, which brings us a few new extensions for some Foundation objects. Modern times require modern APIs, right? If you are already familiar with the new SDK that’s good, but if you don’t know what the heck is this declarative functional reactive madness, you should read my <a href="https://theswiftdev.com/2019/10/31/the-ultimate-combine-framework-tutorial-in-swift/" target="_blank">comprehensive tutorial about the Combine framework</a>.</p><p>The first version of Combine shipped with a nice <code>dataTaskPublisher</code> extension method for the <code>URLSession</code> class. Wait, where are the others? No download task publisher? What should we do now? 🤔</p><h3 id="how-to-write-a-custom-publisher">How to write a custom Publisher?</h3><p><a href="https://x.com/twannl" target="_blank">SwiftLee</a> has a nice <a href="https://www.avanderlee.com/swift/custom-combine-publisher/" target="_blank">tutorial</a> about Combine that can help you a lot with UIControl events. Another great read (even better than the first one) by <a href="https://x.com/donnywals" target="_blank">Donny Wals</a> is about <a href="https://www.donnywals.com/understanding-combines-publishers-and-subscribers/" target="_blank">understanding Publishers and Subscribers</a>. It’s a really well-written article, you should definitely check this one, I highly recommend it. 🤘🏻</p><p>Now let’s start creating our own <code>DownloadTaskPublisher</code>. If you command + click on the <code>dataTaskPublisher</code> method in Xcode, you can see the corresponding interface. There is also a <code>DataTaskPublisher</code> struct, right below. Based on that template we can create our own extension. There are two variants of the same data task method, we’ll replicate this behavior. The other thing we need is a <code>DownloadTaskPublisher</code> struct, I’ll show you the Swift code first, then we’ll discuss the implementation details.</p><pre><code class="language-swift">extension URLSession {
 
     public func downloadTaskPublisher(for url: URL) -&gt; URLSession.DownloadTaskPublisher {
         self.downloadTaskPublisher(for: .init(url: url))
@@ -358,7 +359,7 @@ URLSession.shared.downloadTask(with: url) { [weak self] url, response, error in
             .subscribe(DownloadTaskSubscriber())
     }
 }
-</code></pre><p>This is really nice. We can download a file using our custom Combine based URLSession extension.</p><blockquote class="note"><p>NOTE: Don’t forget to store the AnyCancellable pointer otherwise the entire Combine operation will be deallocated way before you could receive anything from the chain / stream.</p></blockquote><h2 id="putting-everything-together">Putting everything together</h2><p>I promised a working image downloader, so let me explain the whole flow. We have a custom download task publisher that’ll save our remove image file locally and returns a tuple with the file URL and the response. ✅</p><p>Next I’m going to simply assume that there was a valid image behind the URL, and the server returned a valid response, so I’m going to map the publisher’s output to an <code>UIImage</code> object. I’m also going to replace any kind of error with a fallback image value. In a real-world application, you should always do some extra checkings on the <code>URLResponse</code> object, but for the sake of simplicity I’ll skip that for now.</p><p>The last thing is to update our image view with the returned image. Since this is a UI task it should happen on the main thread, so we have to use the <code>receive(on:)</code> operation to switch context. If you want to learn more about <a href="https://www.vadimbulavin.com/understanding-schedulers-in-swift-combine-framework/" target="_blank">schedulers in the Combine framework</a> you should read <a href="https://x.com/v8tr" target="_blank">Vadim Bulavin’s article</a>. It’s a gem. 💎</p><blockquote class="warning"><p>WARN: If you are not receiving values on certain appleOS versions, that’s might because there was a change in Combine around December, 2019. You should check these links: <a href="https://forums.swift.org/t/combine-receive-on-runloop-main-loses-sent-value-how-can-i-make-it-work/28631/47" target="_blank">link1</a>, <a href="https://heckj.github.io/swiftui-notes/#coreconcepts-lifecycle" target="_blank">link2</a></p></blockquote><p>Anyway, here’s the final Swift code for a possible image download operation, simple & declarative. 👍</p><pre><code class="language-swift">class ViewController: UIViewController {
+</code></pre><p>This is really nice. We can download a file using our custom Combine based URLSession extension.</p><blockquote class="note"><p>Don’t forget to store the AnyCancellable pointer otherwise the entire Combine operation will be deallocated way before you could receive anything from the chain / stream.</p></blockquote><h2 id="putting-everything-together">Putting everything together</h2><p>I promised a working image downloader, so let me explain the whole flow. We have a custom download task publisher that’ll save our remove image file locally and returns a tuple with the file URL and the response. ✅</p><p>Next I’m going to simply assume that there was a valid image behind the URL, and the server returned a valid response, so I’m going to map the publisher’s output to an <code>UIImage</code> object. I’m also going to replace any kind of error with a fallback image value. In a real-world application, you should always do some extra checkings on the <code>URLResponse</code> object, but for the sake of simplicity I’ll skip that for now.</p><p>The last thing is to update our image view with the returned image. Since this is a UI task it should happen on the main thread, so we have to use the <code>receive(on:)</code> operation to switch context. If you want to learn more about <a href="https://www.vadimbulavin.com/understanding-schedulers-in-swift-combine-framework/" target="_blank">schedulers in the Combine framework</a> you should read <a href="https://x.com/v8tr" target="_blank">Vadim Bulavin’s article</a>. It’s a gem. 💎</p><blockquote class="warning"><p>If you are not receiving values on certain appleOS versions, that’s might because there was a change in Combine around December, 2019. You should check these links: <a href="https://forums.swift.org/t/combine-receive-on-runloop-main-loses-sent-value-how-can-i-make-it-work/28631/47" target="_blank">link1</a>, <a href="https://heckj.github.io/swiftui-notes/#coreconcepts-lifecycle" target="_blank">link2</a></p></blockquote><p>Anyway, here’s the final Swift code for a possible image download operation, simple & declarative. 👍</p><pre><code class="language-swift">class ViewController: UIViewController {
 
     @IBOutlet weak var imageView: UIImageView!
 
@@ -388,7 +389,7 @@ URLSession.shared.downloadTask(with: url) { [weak self] url, response, error in
                     
                     <div class="author-list">
                         <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                        <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                        <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                         </a>
                     </div>
                     <div class="tag-list">
@@ -411,80 +412,80 @@ URLSession.shared.downloadTask(with: url) { [weak self] url, response, error in
                             
                             <div class="author-list">
                                 <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
                                 </a>
                             </div>
                             <div class="meta">
-                                <time datetime="2021/09/10">2021/09/10</time>
+                                <time datetime="2017-10-23T14:20:00.000Z">10/23/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">2 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/how-to-make-a-swift-framework/" target="">How to make a Swift framework?</a></h2>
+                            <hr>
+                            <p>Creating a Swift framework shouldn&#39;t be hard. This tutorial will help you making a universal framework for complex projects.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2017-10-11T14:20:00.000Z">10/11/17 2:20 PM</time>
+                                 &middot; <span class="reading-time">1 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/swift-enum-all-values/" target="">Swift enum all values</a></h2>
+                            <hr>
+                            <p>In this quick tutorial I&#39;ll show you how to get all the possible values for a Swift enum type with a generic solution written in Swift.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2018-01-25T15:20:00.000Z">1/25/18 3:20 PM</time>
+                                 &middot; <span class="reading-time">11 min read</span>
+                            </div>
+                            
+                            <h2 class="title"><a href="https://theswiftdev.com/deep-dive-into-swift-frameworks/" target="">Deep dive into Swift frameworks</a></h2>
+                            <hr>
+                            <p>Learn everything about Swift modules, libraries, packages, closed source frameworks, command line tools and more.</p>
+                        
+                            <div class="tag-list">
+                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
+                            </div>
+                        </div>
+                    <div class="card">
+                            
+                            
+                            <div class="author-list">
+                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
+                                <img class="small rounded" src="https://theswiftdev.com/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
+                                </a>
+                            </div>
+                            <div class="meta">
+                                <time datetime="2017-10-10T14:20:00.000Z">10/10/17 2:20 PM</time>
                                  &middot; <span class="reading-time">6 min read</span>
                             </div>
                             
-                            <h2 class="title"><a href="https://theswiftdev.com/all-about-the-bool-type-in-swift/" target="">All about the Bool type in Swift</a></h2>
+                            <h2 class="title"><a href="https://theswiftdev.com/everything-about-public-and-private-swift-attributes/" target="">Everything about public and private Swift attributes</a></h2>
                             <hr>
-                            <p>Learn everything about logical types and the Boolean algebra using the Swift programming language and some basic math.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2022/03/18">2022/03/18</time>
-                                 &middot; <span class="reading-time">4 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/async-http-api-clients-in-swift/" target="">Async HTTP API clients in Swift</a></h2>
-                            <hr>
-                            <p>Learn how to communicate with API endpoints using the brand new SwiftHttp library, including async / await support.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2019/02/05">2019/02/05</time>
-                                 &middot; <span class="reading-time">9 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/beginners-guide-to-functional-swift/" target="">Beginners guide to functional Swift</a></h2>
-                            <hr>
-                            <p>The one and only tutorial that you&#39;ll ever need to learn higher order functions like: map, flatMap, compactMap, reduce, filter and more.</p>
-                        
-                            <div class="tag-list">
-                                <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
-                            </div>
-                        </div>
-                    <div class="card">
-                            
-                            
-                            <div class="author-list">
-                                <a href="https://theswiftdev.com/authors/tibor-bodecs/">
-                                <img class="small rounded" src="/assets/authors/tibor-bodecs/tibor-bodecs.jpeg" alt="Tibor Bödecs">
-                                </a>
-                            </div>
-                            <div class="meta">
-                                <time datetime="2022/06/28">2022/06/28</time>
-                                 &middot; <span class="reading-time">5 min read</span>
-                            </div>
-                            
-                            <h2 class="title"><a href="https://theswiftdev.com/beginners-guide-to-modern-generic-programming-in-swift/" target="">Beginner&#39;s guide to modern generic programming in Swift</a></h2>
-                            <hr>
-                            <p>Learn the very basics about protocols, existentials, opaque types and how they are related to generic programming in Swift.</p>
+                            <p>Have you ever heard about Swift language attributes? In this article I&#39;m trying to gather all the @ annotations and their meanings.</p>
                         
                             <div class="tag-list">
                                 <a href="https://theswiftdev.com/tags/swift/"><small>Swift</small></a>
@@ -512,29 +513,29 @@ URLSession.shared.downloadTask(with: url) { [weak self] url, response, error in
             <aside id="toc">
                 <h4>On this page</h4>
                 <ul>
-                    <li class="first-level">
+                    <li class="level-2">
                         <a href="#a-simple-image-downloader">A simple image downloader</a>
-                        <ul>
-                            <li><a href="#bad-practices">Bad practices ⚠️</a></li>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-3">
+                        <a href="#bad-practices">Bad practices ⚠️</a>
+                    </li>
+        <li class="level-2">
                         <a href="#the-problem-with-data-tasks">The problem with data tasks</a>
-                        <ul>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-2">
                         <a href="#downloading-images-using-combine">Downloading images using Combine</a>
-                        <ul>
-                            <li><a href="#how-to-write-a-custom-publisher">How to write a custom Publisher?</a></li>
-                <li><a href="#how-to-make-a-custom-subscription">How to make a custom Subscription?</a></li>
-                <li><a href="#how-to-create-a-custom-subscriber">How to create a custom Subscriber?</a></li>
-                        </ul>
                     </li>
-        <li class="first-level">
+        <li class="level-3">
+                        <a href="#how-to-write-a-custom-publisher">How to write a custom Publisher?</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#how-to-make-a-custom-subscription">How to make a custom Subscription?</a>
+                    </li>
+        <li class="level-3">
+                        <a href="#how-to-create-a-custom-subscriber">How to create a custom Subscriber?</a>
+                    </li>
+        <li class="level-2">
                         <a href="#putting-everything-together">Putting everything together</a>
-                        <ul>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -589,7 +590,7 @@ URLSession.shared.downloadTask(with: url) { [weak self] url, response, error in
         </div>
         
         <section class="grid grid-221">
-            <small>Tibor Bödecs &copy; 2015 - 2024</small>
+            <small>Tibor Bödecs &copy; 2015 - 2025</small>
             <small>This site was generated using <a href="https://swift.org/" target="_blank">Swift</a> & <a href="https://github.com/binarybirds/toucan" target="_blank">Toucan</a>.</small>
         </section>
     </footer>

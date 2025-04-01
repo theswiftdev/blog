@@ -1,5 +1,7 @@
 baseUrl: "https://theswiftdev.com/"
-language: "en-US"
+locale: "en-US"
+timeZone: "Europe/Budapest"
+
 name: "The.Swift.Dev."
 description: "Articles about application development using the Swift programming language."
 navigation:

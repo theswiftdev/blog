@@ -1,7 +1,8 @@
 # 2016-04-28 16:20:00
 dateFormats:
-    input: 
+    input:
         format: "yyyy-MM-dd HH:mm:ss"
+        timeZone: "Europe/Budapest"
     output:
         year: 
             format: y

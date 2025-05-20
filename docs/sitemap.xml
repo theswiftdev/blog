@@ -1,11 +1,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
 
+        <loc>https://theswiftdev.com/</loc>
+        <lastmod>2025-05-16</lastmod>
         <loc>https://theswiftdev.com/about/</loc>
         <lastmod>2025-05-16</lastmod>
         <loc>https://theswiftdev.com/authors/</loc>
-        <lastmod>2025-05-16</lastmod>
-        <loc>https://theswiftdev.com/</loc>
         <lastmod>2025-05-16</lastmod>
         <loc>https://theswiftdev.com/practical-server-side-swift/</loc>
         <lastmod>2025-05-16</lastmod>

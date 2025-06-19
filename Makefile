@@ -1,8 +1,8 @@
 build:
-	toucan generate ./src ./docs
+	toucan generate ./src ./
 
 watch:
-	toucan watch ./src ./docs --base-url /
+	toucan watch ./src ./ --base-url /
 
 serve:
 	LOG_LEVEL=notice toucan serve

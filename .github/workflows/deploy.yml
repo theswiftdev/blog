@@ -5,8 +5,10 @@ on:
     branches: [main]
 
 jobs:
-  build-with-toucan:
-    uses: toucansites/github-workflows/.github/workflows/deploy.yml@main
+  deploy-page:
+    uses: toucansites/github-workflows/.github/workflows/deploy.yml@feature/version-parameter
+    with:
+      version : "latest"
     permissions:
       contents: read
       pages: write

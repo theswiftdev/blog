@@ -8,7 +8,7 @@ jobs:
   deploy-page:
     uses: toucansites/github-workflows/.github/workflows/deploy.yml@feature/version-parameter
     with:
-      version : "latest"
+      version : "1.0.0-beta.4"
     permissions:
       contents: read
       pages: write

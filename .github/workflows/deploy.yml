@@ -2,16 +2,16 @@ name: Build and Deploy with Toucan
 
 on:
   push:
-    branches: [main]
+    tags:
+      - 'v*'
+      - '[0-9]*'
 
 jobs:
   deploy-page:
-    uses: toucansites/github-workflows/.github/workflows/deploy.yml@feature/target-param
+    uses: toucansites/github-workflows/.github/workflows/deploy.yml@main
     with:
-      version : "1.0.0-beta.4"
+      target: "live"
     permissions:
       contents: read
       pages: write
       id-token: write
-
-

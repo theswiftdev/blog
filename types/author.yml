@@ -1,0 +1,26 @@
+id: author
+paths:
+    - blog/authors
+
+properties:
+    title:
+        type: string
+        required: true
+    image:
+        type: asset
+        required: false
+
+relations:
+    
+
+queries:
+    posts:
+        contentType: post
+        scope: detail
+        filter:
+            key: authors
+            operator: contains
+            value: "{{id}}"
+        orderBy:
+            - key: publication
+              direction: desc

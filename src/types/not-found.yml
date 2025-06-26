@@ -1,9 +1,0 @@
-id: not-found
-paths:
-    - 404
-
-properties:
-    title:
-        type: string
-        required: true
-        default: null

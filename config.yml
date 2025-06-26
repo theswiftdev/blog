@@ -1,0 +1,5 @@
+dataTypes:
+    date:
+        input:
+            format: "yyyy-MM-dd HH:mm:ss"
+            timeZone: "Europe/Budapest"

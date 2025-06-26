@@ -1,0 +1,34 @@
+id: rss
+definesType: true
+
+queries:
+    posts:
+        contentType: post
+        scope: list
+        orderBy:
+            - key: lastUpdate
+              direction: desc
+
+contentTypes: 
+    include:
+        - rss
+    lastUpdate:
+        - post
+
+dataTypes:
+    date: 
+        formats:
+            rss:
+                format: "EEE, dd MMM yyyy HH:mm:ss Z"
+
+engine: 
+    id: mustache
+    options:
+        contentTypes: 
+            rss:
+                view: "rss"
+
+output:
+    path: ""
+    file: rss
+    ext: xml

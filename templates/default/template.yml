@@ -1,0 +1,17 @@
+name: "theswiftdev.com website"
+description: "Public website of theswiftdev.com"
+url: "https://github.com/theswiftdev/blog"
+version: "1.0.0-beta.5"
+generatorVersions:
+    - "1.0.0-beta.5"
+
+demo:
+    url: "https://theswiftdev.com/"
+
+license:
+    name: "MIT license"
+    url: "https://github.com/theswiftdev/blog?tab=MIT-1-ov-file"
+
+tags:
+    - "theswiftdev"
+    - "site"

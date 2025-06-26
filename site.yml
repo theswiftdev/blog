@@ -1,0 +1,12 @@
+name: "The.Swift.Dev."
+language: "en-US"
+description: "Articles about application development using the Swift programming language."
+navigation:
+    - label: "Posts"
+      url: "/page/1/"
+    - label: "Tags"
+      url: "/tags/"
+    - label: "Authors"
+      url: "/authors/"
+    - label: "My Book"
+      url: "/practical-server-side-swift/"

@@ -149,7 +149,7 @@ img.large {
 }
 .book {
     text-align: center;
-    border: 3px solid var(--link-color);
+    border: 3px solid #ffaa00;
     margin: 32px 0;
     padding: 32px;
 }
@@ -158,11 +158,12 @@ img.large {
 }
 .cta {
     padding: 8px 16px;
-    color: var(--white-color) !important;
-    background: var(--link-color);
+    color: #000 !important;
+    background: #ffaa00;
+    font-weight: bold;
 }
 .cta:hover {
-    background: var(--link-color-hover);
+    background: #ffaa00;
 }
 
 @media screen and (min-width: 900px) {

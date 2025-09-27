@@ -1,19 +1,13 @@
 .promo-box {
-    border: 3px solid #ffaa00;
-    color: #000;
+    border: 3px dashed #EF8A34;
+    font-weight: bold;
     padding: 16px;
     margin-bottom: 32px;
     text-align: center;
 }
+.promo-box a, .promo-box a:link, .promo-box a:visited {
+    color: var(--text-color);
+}
 .promo-box a, .promo-box a:hover {
-    color: #000 !important;
-}
-
-@media (prefers-color-scheme: dark) {
-    .promo-box {
-        color: #fff;
-    }
-    .promo-box a, .promo-box a:hover {
-        color: #fff !important;
-}
+    color: var(--link-color);
 }
